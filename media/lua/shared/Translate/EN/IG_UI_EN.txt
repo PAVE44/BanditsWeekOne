@@ -1,0 +1,29 @@
+IGUI_EN = {
+    IGUI_Bandits_Speech_ZSCorpse_Male_1_1 = "What happened here?",
+    IGUI_Bandits_Speech_ZSCorpse_Male_1_2 = "Oh my God!",
+    IGUI_Bandits_Speech_ZSCorpse_Male_1_3 = "Poor fella!",
+    IGUI_Bandits_Speech_ZSCorpse_Male_1_4 = "Do you know how it happened?",
+    IGUI_Bandits_Speech_ZSCorpse_Male_1_5 = "I think he was murdered!",
+    IGUI_Bandits_Speech_ZSCorpse_Male_1_6 = "Is he alive?",
+
+    IGUI_Bandits_Speech_ZSCorpse_Male_2_1 = "My Lord!",
+    IGUI_Bandits_Speech_ZSCorpse_Male_2_2 = "Please, someone help here!",
+    IGUI_Bandits_Speech_ZSCorpse_Male_2_3 = "What's going on in this town?",
+    IGUI_Bandits_Speech_ZSCorpse_Male_2_4 = "So much blood...",
+    IGUI_Bandits_Speech_ZSCorpse_Male_2_5 = "This is terrible!",
+    IGUI_Bandits_Speech_ZSCorpse_Male_2_6 = "How did this happen?",
+
+    IGUI_Bandits_Speech_ZSCorpse_Male_3_1 = "He's dead...",
+    IGUI_Bandits_Speech_ZSCorpse_Male_3_2 = "Jesus!",
+    IGUI_Bandits_Speech_ZSCorpse_Male_3_3 = "He was such a nice guy!",
+    IGUI_Bandits_Speech_ZSCorpse_Male_3_4 = "I feel sick...",
+    IGUI_Bandits_Speech_ZSCorpse_Male_3_5 = "What's going on in here?",
+    IGUI_Bandits_Speech_ZSCorpse_Male_3_6 = "OMG!",
+     
+    IGUI_Bandits_Speech_ZSCorpse_Female_3_1 = "I can see his guts...",
+    IGUI_Bandits_Speech_ZSCorpse_Female_3_2 = "How the hell did this happen?",
+    IGUI_Bandits_Speech_ZSCorpse_Female_3_3 = "Oh my!",
+    IGUI_Bandits_Speech_ZSCorpse_Female_3_4 = "This is horrible!",
+    IGUI_Bandits_Speech_ZSCorpse_Female_3_5 = "I've heard that there are more cases like this.",
+    IGUI_Bandits_Speech_ZSCorpse_Female_3_6 = "I hope they find the killer!",
+}

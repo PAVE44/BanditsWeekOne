@@ -1,0 +1,46 @@
+BWOServer = {}
+BWOServer.Commands = {}
+
+BWOServer.Commands.DeadBodyAdd = function(player, args)
+    local gmd = GetBWOModData()
+    if not (args.x and args.y and args.z) then return end
+
+    local id = math.floor(args.x + 0.5) .. "-" .. math.floor(args.y + 0.5) .. "-" ..args.z
+    gmd.DeadBodies[id] = args
+end
+
+BWOServer.Commands.DeadBodyRemove = function(player, args)
+    local gmd = GetBWOModData()
+    if not (args.x and args.y and args.z) then return end
+
+    local id = math.floor(args.x + 0.5) .. "-" .. math.floor(args.y + 0.5) .. "-" .. args.z
+    gmd.DeadBodies[id] = nil
+end
+
+BWOServer.Commands.DeadBodyFlush = function(player, args)
+    local gmd = GetBWOModData()
+    gmd.DeadBodies = {}
+    print ("[INFO] All deadbodies info removed!!!")
+end
+
+BWOServer.Commands.AddEffect = function(player, args)
+    sendServerCommand('BWOEffects', 'Add', args)
+end
+
+-- main
+local onClientCommand = function(module, command, player, args)
+    if BWOServer[module] and BWOServer[module][command] then
+        local argStr = ""
+        for k, v in pairs(args) do
+            argStr = argStr .. " " .. k .. "=" .. tostring(v)
+        end
+        -- print ("received " .. module .. "." .. command .. " "  .. argStr)
+        BWOServer[module][command](player, args)
+
+        if module == "Commands" then
+            TransmitBWOModData()
+        end
+    end
+end
+
+Events.OnClientCommand.Add(onClientCommand)
