@@ -1,0 +1,5 @@
+name=Bandits Week One
+poster=poster.png
+id=BanditsWeekOne
+description=Simulates the first week of the apocalypse
+require=Bandits
