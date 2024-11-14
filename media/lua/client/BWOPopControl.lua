@@ -445,50 +445,51 @@ end
 BWOPopControl.CheckHostility = function(bandit, attacker)
 
     if not attacker then return end
+
+    -- attacking zombies is ok!
     if not bandit:getVariableBoolean("Bandit") then return end
 
     -- to weak to respond
-    local infection = Bandit.GetInfection(bandit)
-    if infection > 0 then return end
-
-    -- local isBandit = attacker:getVariableBoolean("Bandit")
-    -- if not attacker:getVariableBoolean("Bandit") then return end
+    -- local infection = Bandit.GetInfection(bandit)
+    -- if infection > 0 then return end
 
     -- who saw this changes program
-    local witnesses = BanditZombie.GetAllB()
-    for id, witness in pairs(witnesses) do
-        if witness.brain.program.name == "Inhabitant" or witness.brain.program.name == "Walker" or witness.brain.program.name == "Runner" then
+    local witnessList = BanditZombie.GetAllB()
+    for id, witness in pairs(witnessList) do
+        if not witness.brain.hostile then
             local dist = math.sqrt(math.pow(bandit:getX() - witness.x, 2) + math.pow(bandit:getY() - witness.y, 2))
             if dist < 12 then
                 local actor = BanditZombie.GetInstanceById(witness.id)
                 if actor:CanSee(bandit) then
 
-                    if instanceof(attacker, "IsoPlayer") and not Bandit.IsHostile(actor) and attacker:getDisplayName() == getPlayer():getDisplayName() then
-                        Bandit.SetHostile(actor, true)
+                    -- attacking by player retaliation is handled by main Bandits mod, here we just want to call hostile cops additionally
+                    if instanceof(attacker, "IsoPlayer") and attacker:getDisplayName() == getPlayer():getDisplayName() then
                         local outfit = bandit:getOutfitName()
                         if outfit == "Police" then
                             if BWOPopControl.SWAT.On then
-                                BWOScheduler.Add("CallSWATHostile", 1000)
+                                BWOScheduler.Add("CallSWATHostile", 1500)
                             end
                         else
                             if BWOPopControl.Police.On then
-                                BWOScheduler.Add("CallCopsHostile", 1000)
+                                BWOScheduler.Add("CallCopsHostile", 1100)
                             end
                         end
                     else
+                        -- attack by non-player results in program change for civilian witnesses
+                        if witness.brain.program.name == "Inhabitant" or witness.brain.program.name == "Walker" or witness.brain.program.name == "Runner" then
+                            Bandit.SetProgram(actor, "Active", {})
+                            local brain = BanditBrain.Get(actor)
+                            local syncData = {}
+                            syncData.id = brain.id
+                            syncData.hostile = brain.hostile
+                            syncData.program = brain.program
+                            Bandit.ForceSyncPart(actor, syncData)
+                        end
+
+                        -- call friendly police
                         if BWOPopControl.Police.On then
                             BWOScheduler.Add("CallCops", 1000)
                         end
-                    end
-                    Bandit.SetProgram(actor, "Active", {})
-                    
-                    local brain = BanditBrain.Get(actor)
-                    if brain then
-                        local syncData = {}
-                        syncData.id = brain.id
-                        syncData.hostile = brain.hostile
-                        syncData.program = brain.program
-                        Bandit.ForceSyncPart(actor, syncData)
                     end
                 end
             end

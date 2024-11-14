@@ -6,7 +6,17 @@ ZombieActions.SitInChair.onStart = function(zombie, task)
 end
 
 ZombieActions.SitInChair.onWorking = function(zombie, task)
-    zombie:setBumpType(task.anim)
+    local anim = "SitInChair"
+    local aox = 0
+    local aoy = 0
+    local r = ZombRand(2)
+    if r == 1 then
+        anim = "SitInChairDrink"
+        aoy = 0.5
+        aox = 0.5
+    end
+
+    zombie:setBumpType(anim)
 
     if task.x and task.y and task.z then
         local dx = 0
@@ -16,11 +26,11 @@ ZombieActions.SitInChair.onWorking = function(zombie, task)
         if task.facing then
             if task.facing == "S" then
                 dx = 0.4
-                dy = 0.8
+                dy = 0.8 
                 fy = 20
             elseif task.facing == "N" then
                 dx = 0.5
-                dy = 0.2
+                dy = 0.2 + aoy
                 fy = -20
             elseif task.facing == "E" then
                 dx = 0.8

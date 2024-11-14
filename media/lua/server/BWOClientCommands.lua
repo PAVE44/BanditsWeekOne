@@ -5,7 +5,7 @@ BWOServer.Commands.DeadBodyAdd = function(player, args)
     local gmd = GetBWOModData()
     if not (args.x and args.y and args.z) then return end
 
-    local id = math.floor(args.x + 0.5) .. "-" .. math.floor(args.y + 0.5) .. "-" ..args.z
+    local id = math.floor(args.x) .. "-" .. math.floor(args.y) .. "-" ..args.z
     gmd.DeadBodies[id] = args
 end
 
@@ -13,7 +13,7 @@ BWOServer.Commands.DeadBodyRemove = function(player, args)
     local gmd = GetBWOModData()
     if not (args.x and args.y and args.z) then return end
 
-    local id = math.floor(args.x + 0.5) .. "-" .. math.floor(args.y + 0.5) .. "-" .. args.z
+    local id = math.floor(args.x) .. "-" .. math.floor(args.y) .. "-" .. args.z
     gmd.DeadBodies[id] = nil
 end
 

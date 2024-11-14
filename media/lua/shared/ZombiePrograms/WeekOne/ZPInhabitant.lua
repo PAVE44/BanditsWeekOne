@@ -52,10 +52,16 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
     local room = square:getRoom()
 
     -- if outside building then remove
+    -- if outside  building change program
     if bandit:isOutside() then
-        bandit:removeFromSquare()
-        bandit:removeFromWorld()
-        return {status=true, next="Main", tasks=tasks}
+        Bandit.ClearTasks(bandit)
+        Bandit.SetProgram(bandit, "Walker", {})
+
+        local brain = BanditBrain.Get(bandit)
+        local syncData = {}
+        syncData.id = brain.id
+        syncData.program = brain.program
+        Bandit.ForceSyncPart(bandit, syncData)
     end
     
     if room then

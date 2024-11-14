@@ -44,8 +44,12 @@ ZombiePrograms.Active.Prepare = function(bandit)
         table.insert(tasks, task1)
     end
 
-    local task2 = {action="Equip", itemPrimary=primary, itemSecondary=secondary}
+    local anim = BanditUtils.Choice({"Spooked1", "Spooked2"})
+    local task2 = {action="Time", anim=anim, time=100}
     table.insert(tasks, task2)
+    
+    local task3 = {action="Equip", itemPrimary=primary, itemSecondary=secondary}
+    table.insert(tasks, task3)
 
     return {status=true, next="Main", tasks=tasks}
 end
@@ -136,7 +140,11 @@ ZombiePrograms.Active.Main = function(bandit)
 
     -- no targets, relax
     if target.dist > 30 then
-        Bandit.SetProgram(bandit, "Walker", {})
+        if bandit:isOutside() then
+            Bandit.SetProgram(bandit, "Walker", {})
+        else
+            Bandit.SetProgram(bandit, "Inhabitant", {})
+        end
 
         local brain = BanditBrain.Get(bandit)
         local syncData = {}
@@ -250,7 +258,11 @@ ZombiePrograms.Active.Escape = function(bandit)
     local closestPlayer = BanditUtils.GetClosestPlayerLocation(bandit)
 
     if closestPlayer.dist > 30 then
-        Bandit.SetProgram(bandit, "Walker", {})
+        if bandit:isOutside() then
+            Bandit.SetProgram(bandit, "Walker", {})
+        else
+            Bandit.SetProgram(bandit, "Inhabitant", {})
+        end
 
         local brain = BanditBrain.Get(bandit)
         local syncData = {}
@@ -258,10 +270,6 @@ ZombiePrograms.Active.Escape = function(bandit)
         syncData.program = brain.program
         Bandit.ForceSyncPart(bandit, syncData)
         return {status=true, next="Main", tasks=tasks}
-    elseif closestPlayer.dist > 10 then
-        local anim = BanditUtils.Choice({"Spooked1", "Spooked2"})
-        local task = {action="Time", anim=anim, time=100}
-        table.insert(tasks, task)
     end
 
     if closestPlayer.x and closestPlayer.y and closestPlayer.z then

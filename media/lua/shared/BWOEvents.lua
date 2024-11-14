@@ -40,19 +40,22 @@ local findVehicleSpot2 = function(player)
                     if zoneType == "Nav" then
                         local square = getCell():getGridSquare(x, y, 0)
                         if square then
-                            local allFree = true
-                            for dx=x-3, x+3 do
-                                for dy=y-3, y+3 do
-                                    local dsquare = getCell():getGridSquare(dx, dy, 0)
-                                    if dsquare then
-                                        if not square:isFree(false) then
-                                            allFree = false
+                            local gt == BanditUtils.GetGroundType(square)
+                            if gt == "street" then
+                                local allFree = true
+                                for dx=x-4, x+4 do
+                                    for dy=y-4, y+4 do
+                                        local dsquare = getCell():getGridSquare(dx, dy, 0)
+                                        if dsquare then
+                                            if not square:isFree(false) then
+                                                allFree = false
+                                            end
                                         end
                                     end
                                 end
-                            end
-                            if allFree then
-                                return x, y
+                                if allFree then
+                                    return x, y
+                                end
                             end
                         end
                     end
