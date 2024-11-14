@@ -6,6 +6,7 @@ ZombieActions.Heal.onStart = function(zombie, task)
 end
 
 ZombieActions.Heal.onWorking = function(zombie, task)
+    zombie:faceLocationF(task.x, task.y)
     if task.time <= 0 then
         return true
     else
@@ -18,6 +19,7 @@ ZombieActions.Heal.onWorking = function(zombie, task)
             end
         end
     end
+    return false
 end
 
 ZombieActions.Heal.onComplete = function(zombie, task)
@@ -25,18 +27,19 @@ ZombieActions.Heal.onComplete = function(zombie, task)
     if square then
         local corpse = square:getDeadBody()
         if corpse then
-            local result = ZombRand(10)
+            local result = ZombRand(2)
             if result == 0 then
-                corpse:reanimateNow()
-                square:removeCorpse(corpse, true)
-                square:AddWorldInventoryItem(corpse:getItem(), 0.5, 0.5, 0)
-                ISInventoryPage.dirtyUI()
-            else
-                local itemName = "Bandits.Corpse"
-                square:removeCorpse(corpse, true)
-                square:AddWorldInventoryItem(itemName, ZombRandFloat(0.3, 0.7), ZombRandFloat(0.3, 0.7), 0)
-                ISInventoryPage.dirtyUI()
+                Bandit.Say(zombie, "CPRFAILED")
+                -- corpse:reanimateNow()
+                -- square:removeCorpse(corpse, true)
+                -- square:AddWorldInventoryItem(corpse:getItem(), 0.5, 0.5, 0)
+                -- ISInventoryPage.dirtyUI()
+                
+                -- unregister dead body
+                local args = {x=zombie:getX(), y=zombie:getY(), z=zombie:getZ()}
+                sendClientCommand(getPlayer(), 'Commands', 'DeadBodyRemove', args)
             end
         end
     end
+    return true
 end

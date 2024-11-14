@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <animNode>
-	<m_Name>ZSSitInChair</m_Name>
+	<m_Name>ZSSitInChair1</m_Name>
 	<m_AnimName>Bob_SittingChair</m_AnimName>
 	<m_Looped>false</m_Looped>
 	<m_UpperOnly>false</m_UpperOnly>
@@ -12,7 +12,7 @@
 	<m_Conditions>
 		<m_Name>BumpType</m_Name>
 		<m_Type>STRING</m_Type>
-		<m_StringValue>SitInChair</m_StringValue>
+		<m_StringValue>SitInChair1</m_StringValue>
 	</m_Conditions>
 	<m_Events>
 		<m_EventName>SetVariable</m_EventName>

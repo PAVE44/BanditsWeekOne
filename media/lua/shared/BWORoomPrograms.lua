@@ -294,6 +294,7 @@ BWORoomPrograms.pizzakitchen = BWORoomPrograms.restaurantkitchen
 BWORoomPrograms.jayschicken_kitchen = BWORoomPrograms.restaurantkitchen
 BWORoomPrograms.gigamartkitchen = BWORoomPrograms.restaurantkitchen
 BWORoomPrograms.cafeteriakitchen = BWORoomPrograms.restaurantkitchen
+BWORoomPrograms.dinerkitchen = BWORoomPrograms.restaurantkitchen
 
 BWORoomPrograms.church = function(bandit, def)
     local tasks = {}

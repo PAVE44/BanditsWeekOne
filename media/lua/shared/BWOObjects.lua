@@ -39,6 +39,45 @@ BWOObjects.Find = function (bandit, def, objName)
     return foundObj
 end
 
+BWOObjects.FindBarricadable = function (bandit, def)
+    local cell = getCell()
+    local bid = BanditUtils.GetCharacterID(bandit)
+    local bx = bandit:getX()
+    local by = bandit:getY()
+    local bz = bandit:getZ()
+    local foundDist = math.huge
+    local foundObj
+    for x=def:getX(), def:getX2() do
+        for y=def:getY(), def:getY2() do
+            local square = cell:getGridSquare(x, y, def:getZ())
+            if square then
+                local zombie = square:getZombie()
+                if not zombie or BanditUtils.GetCharacterID(zombie) == bid then
+                    local objects = square:getObjects()
+                    for i=0, objects:size()-1 do
+                        local object = objects:get(i)
+                        if instanceof(object, "IsoWindow") or (instanceof(object, "IsoDoor") and object:getOppositeSquare():isOutside) then
+                            local barricade = object:getBarricadeOnSameSquare()
+                            local numPlanks = 0
+                            if barricade then
+                                numPlanks = barricade:getNumPlanks()
+                            end
+                            if numPlanks < 4 then
+                                local dist = math.sqrt(math.pow(x - bx, 2) + math.pow(y - by, 2))
+                                if dist < foundDist then
+                                    foundObj = object
+                                    foundDist = dist
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    return foundObj
+end
+
 BWOObjects.FindLightSwitch = function (bandit, def)
     local cell = getCell()
     local bid = BanditUtils.GetCharacterID(bandit)

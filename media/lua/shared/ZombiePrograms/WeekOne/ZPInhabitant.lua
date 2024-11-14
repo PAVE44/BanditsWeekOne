@@ -138,6 +138,22 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
             end
         end
 
+        -- barricade
+        local barricadable = BWOObjects.FindBarricadable(bandit, def)
+        if barricadable then
+            local dist = math.sqrt(math.pow(bandit:getX() - (barricadable:getX() + 0.5), 2) + math.pow(bandit:getY() - (barricadable:getY() + 0.5), 2))
+            if dist > 0.70 then
+                table.insert(tasks, BanditUtils.GetMoveTask(0, barricadable:getX(), barricadable:getY(), barricadable:getZ(), "Walk", dist, false))
+                return {status=true, next="Main", tasks=tasks}
+            else
+                local task1 = {action="Equip", itemPrimary="Base.Hammer"}
+                table.insert(tasks, task1)
+
+                local task2 = {action="Barricade", anim="Hammer", time=500, x=barricadable:getX(), y=barricadable:getY(), z=barricadable:getZ()}
+                table.insert(tasks, task2)
+                return {status=true, next="Main", tasks=tasks}
+            end
+        end
 
         -- actions specific to room type
         if BWORoomPrograms[roomName] then
@@ -149,143 +165,6 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                 return {status=true, next="Main", tasks=tasks}
             end
         end
-
-        --[[
-        if roomName == "livingroom" then
-            
-            
-
-        elseif roomName == "bathroom" then
-
-        elseif roomName == "bedroom" or roomName == "motelroom" then
-
-        elseif roomName == "kitchen" then
-
-            
-        elseif roomName == "laundry" then
-            -- isoClothingDryer
-
-        elseif roomName == "hall" then
-
-        elseif roomName == "office" then -- also a room in house
-            -- obj: Chair
-
-        elseif roomName == "daycare" then --kindergarden
-
-        elseif roomName == "janitor" then 
-
-        elseif roomName == "storage" then 
-
-        elseif roomName == "church" then 
-            -- sit many
-        elseif roomName == "meetingroom" then 
-            -- sit many
-
-        elseif roomName == "meeting" then 
-            -- sit many
-
-        elseif roomName == "medclinic" then 
-
-        elseif roomName == "medical" then 
-
-        elseif roomName == "grocery" then 
-
-        elseif roomName == "conveniencestore" or roomName == "liquorstore" then 
-            -- obj: Shelves
-            -- obj: register, check facing
-
-        elseif roomName == "furnitureshop" then
-
-        elseif roomName == "generalstore" then 
-            -- obj: Shelves
-            -- obj: register, check facing
-
-        elseif roomName == "grocerystorage" then 
-            -- obj: Shelves
-            -- obj: register, check facing
-
-        elseif roomName == "gasstore" then 
-            -- obj: Shelves
-            -- obj: register, check facing
-
-        elseif roomName == "gasstorage" then 
-            -- obj: register, check facing
-
-        elseif roomName == "bakery" or roomName == "restaurant" or roomName == "pizzawhirled" or roomName == "cafeteria" or roomName == "cafe" or roomName == "spiffo_dining" or roomName == "jayschicken_dining" then 
-            -- sit at tables
-            -- obj: Seat
-            -- obj: Picknic Table
-            -- obj: Chair
-
-        elseif roomName == "dinerkitchen" or roomName == "restaurantkitchen" or roomName == "pizzakitchen" or roomName == "cafeteriakitchen" or roomName == "cafekitchen"  or roomName == "spiffoskitchen" or roomName == "jayschicken_kitchen" or roomName == "kitchen_crepe" then
-            -- same as kitchen
-
-        elseif roomName == "movierental" then
-            -- obj: Shelves
-            -- obj: register, check facing
-
-        elseif roomName == "pharmacy" then
-            -- obj: Shelves
-            -- obj: register, check facing
-
-        elseif roomName == "clothingstore" then
-            -- obj: Rack
-            -- obj: register, check facing
-
-        elseif roomName == "clothesstore" then
-            -- obj: Rack
-            -- obj: Wardrobe
-            -- obj: Shelves
-            -- obj: register, check facing
-
-        elseif roomName == "dressingrooms" then
-            -- naked!
-
-        elseif roomName == "bookstore" then
-            --reed book
-
-        elseif roomName == "bar" then
-
-        elseif roomName == "barkitchen" then
-            -- obj: Bar
-            -- obj: Antique (bartap)
-
-        elseif roomName == "warehouse" then
-            -- obj: Shelves
-            -- obj: Crate
-
-        elseif roomName == "storageunit" then
-            -- obj: Shelves
-            -- obj: Crate
-
-        elseif roomName == "storagehall" then
-            -- obj: Shelves
-            -- obj: Crate
-
-        elseif roomName == "classroom" then
-            -- obj: Shelves
-            -- obj: Crate
-
-        elseif roomName == "bank" then
-
-        elseif roomName == "security" then
-
-        elseif roomName == "mechanic" then
-            -- obj: Shelves
-
-        elseif roomName == "gunstore" then
-            -- obj: Shelves
-
-        elseif roomName == "gunstorestorage" then
-
-
-        elseif roomName == "policestorage" then
-
-        elseif roomName == "firestorage" then
-
-        elseif roomName == "cell" then
-        ]]
-
     end
     
     -- fallback

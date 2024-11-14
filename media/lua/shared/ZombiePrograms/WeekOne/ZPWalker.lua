@@ -104,6 +104,7 @@ ZombiePrograms.Walker.Main = function(bandit)
         local neighbor = BanditUtils.GetClosestBanditLocation(bandit)
         if neighbor.dist < 3 and ZombRand(2) == 1 then
             if not bandit:getSquare():isSomethingTo(getCell():getGridSquare(neighbor.x, neighbor.y, neighbor.z)) then
+                Bandit.Say(bandit, "STREETCHAT")
                 local anim = BanditUtils.Choice({"WaveHi", "Yes", "No"})
                 local task = {action="FaceLocation", anim=anim, x=neighbor.x, y=neighbor.y, z=neighbor.z, time=100}
                 table.insert(tasks, task)
