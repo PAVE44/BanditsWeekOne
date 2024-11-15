@@ -41,7 +41,8 @@ ZombiePrograms.Runner.Main = function(bandit)
     local by = bandit:getY()
     local bz = bandit:getZ()
     local walkType = "Run"
-    local endurance = 0
+    local endurance = 0 -- runners are fit!
+    local cell = bandit:getCell()
 
     if BWOScheduler.SymptomLevel > 2 then
         Bandit.ClearTasks(bandit)
@@ -54,8 +55,30 @@ ZombiePrograms.Runner.Main = function(bandit)
         Bandit.ForceSyncPart(bandit, syncData)
     end
 
-    local rnd = math.abs(id % 4)
+    -- follow the street / road
+    local direction = bandit:getForwardDirection()
+    local angle = direction:getDirection()
+    direction:setLength(2)
 
+    local step = 0.785398163 -- 45 deg
+    for i = 0, 7 do
+        local newangle = angle + (i * step)
+        if newangle > 6.283185304 then newangle = newangle - 6.283185304 end
+        direction:setDirectio(newangle)
+
+        local vx = direction:getX()
+        local vy = direction:getY()
+        local vz = bandit:getZ()
+        local square = cell:getGridSquare(vx, vy, vz)
+        local groundType = BanditUtils.GetGroundType(square)
+        if groundType == "street" then
+            table.insert(tasks, BanditUtils.GetMoveTask(endurance, vx, vy, vz, walkType, 2, false))
+            return {status=true, next="Main", tasks=tasks}
+        end
+    end
+
+    -- fallback if no road is found
+    local rnd = math.abs(id % 4)
     local dx = 0
     local dy = 0
     if rnd == 0 then
@@ -74,18 +97,8 @@ ZombiePrograms.Runner.Main = function(bandit)
         dx = -dx
         dy = -dy
     end
-
-    local target = {}
-    target.x = bx + dx
-    target.y = by + dy
-    target.z = 0
     
-    table.insert(tasks, BanditUtils.GetMoveTask(endurance, target.x, target.y, target.z, walkType, 10, false))
+    table.insert(tasks, BanditUtils.GetMoveTask(endurance, bx + dx, by + dy, 0, walkType, 10, false))
     
-    return {status=true, next="Main", tasks=tasks}
-end
-
-ZombiePrograms.Runner.Run = function(bandit)
-    local tasks = {}
     return {status=true, next="Main", tasks=tasks}
 end

@@ -40,7 +40,7 @@ function BWOScheduler.MasterControl()
         -- church
         if hour >=6 and hour < 19 then
             if minute == 0 then
-                local church = BTWOBuildings.FindBuildingType("church")
+                local church = BWOBuildings.FindBuildingType("church")
                 if church then
                     local def = church:getDef()
                     local emitter = getWorld():getFreeEmitter((def:getX() + def:getX2()) / 2, (def:getY() + def:getY2()) / 2, 0)
@@ -53,7 +53,7 @@ function BWOScheduler.MasterControl()
         -- school
         if hour >=8 and hour < 17 then
             if minute == 10 or minute == 45 then
-                local school = BTWOBuildings.FindBuildingType("education")
+                local school = BWOBuildings.FindBuildingType("education")
                 if school then
                     local def = school:getDef()
                     local emitter = getWorld():getFreeEmitter((def:getX() + def:getX2()) / 2, (def:getY() + def:getY2()) / 2, 0)

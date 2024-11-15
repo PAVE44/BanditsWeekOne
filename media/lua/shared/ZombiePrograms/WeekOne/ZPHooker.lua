@@ -1,12 +1,12 @@
 ZombiePrograms = ZombiePrograms or {}
 
-ZombiePrograms.Walker = {}
-ZombiePrograms.Walker.Stages = {}
+ZombiePrograms.Hooker = {}
+ZombiePrograms.Hooker.Stages = {}
 
-ZombiePrograms.Walker.Init = function(bandit)
+ZombiePrograms.Hooker.Init = function(bandit)
 end
 
-ZombiePrograms.Walker.GetCapabilities = function()
+ZombiePrograms.Hooker.GetCapabilities = function()
     -- capabilities are program decided
     local capabilities = {}
     capabilities.melee = false
@@ -21,7 +21,7 @@ ZombiePrograms.Walker.GetCapabilities = function()
     return capabilities
 end
 
-ZombiePrograms.Walker.Prepare = function(bandit)
+ZombiePrograms.Hooker.Prepare = function(bandit)
     local tasks = {}
     local world = getWorld()
     local cell = getCell()
@@ -33,7 +33,7 @@ ZombiePrograms.Walker.Prepare = function(bandit)
     return {status=true, next="Main", tasks=tasks}
 end
 
-ZombiePrograms.Walker.Main = function(bandit)
+ZombiePrograms.Hooker.Main = function(bandit)
     local tasks = {}
 
     local cell = bandit:getCell()
@@ -73,30 +73,6 @@ ZombiePrograms.Walker.Main = function(bandit)
         end
     else
         if BWOScheduler.SymptomLevel >= 4 then walkType = "Run" end
-    end
-    
-    -- watch deadbody
-    if BWOScheduler.SymptomLevel < 3 then
-        local target = BWOObjects.FindDeadBody(bandit)
-        if target.x and target.y and target.z then
-            if target.dist >= 3 and target.dist < 20 then
-                walkType = "Run"
-                table.insert(tasks, BanditUtils.GetMoveTask(endurance, target.x, target.y, target.z, walkType, target.dist, false))
-                return {status=true, next="Main", tasks=tasks}
-            elseif target.dist < 3 then
-                local square = cell:getGridSquare(target.x, target.y, target.z)
-                if square then
-                    deadbody = square:getDeadBody()
-                    if deadbody then
-                        Bandit.Say(bandit, "CORPSE")
-                        local anim = BanditUtils.Choice({"SmellBad", "SmellGag", "PainHead", "ChewNails", "No", "No", "WipeBrow"})
-                        local task = {action="FaceLocation", anim=anim, time=100, x=deadbody:getX(), y=deadbody:getY(), z=deadbody:getZ()}
-                        table.insert(tasks, task)
-                        return {status=true, next="Main", tasks=tasks}
-                    end
-                end
-            end
-        end
     end
 
     -- chat with players and others
@@ -149,5 +125,10 @@ ZombiePrograms.Walker.Main = function(bandit)
     
     table.insert(tasks, BanditUtils.GetMoveTask(endurance, target.x, target.y, target.z, walkType, 10, false))
     
+    return {status=true, next="Main", tasks=tasks}
+end
+
+ZombiePrograms.Hooker.Walk = function(bandit)
+    local tasks = {}
     return {status=true, next="Main", tasks=tasks}
 end

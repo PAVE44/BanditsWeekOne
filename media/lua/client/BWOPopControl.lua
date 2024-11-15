@@ -187,9 +187,9 @@ BWOPopControl.InhabitantsSpawn = function(cnt)
                 local roomName = room:getName()
 
                 if ZombRand(3) > 0 then
-                    local pop = BTWOBuildings.GetRoomPop(room)
-                    local multiplier = BTWOBuildings.GetPopMultiplier(building)
-                    local btype = BTWOBuildings.GetType(building)
+                    local pop = BWOBuildings.GetRoomPop(room)
+                    local multiplier = BWOBuildings.GetPopMultiplier(building)
+                    local btype = BWOBuildings.GetType(building)
                     pop = math.floor(pop * multiplier)
 
                     if btype ~= "residential" and roomName == "bathroom" then
@@ -209,6 +209,9 @@ BWOPopControl.InhabitantsSpawn = function(cnt)
                                 table.insert(event.bandits, bandit)
                                 sendClientCommand(player, 'Commands', 'SpawnGroup', event)
                                 s = s + pop
+
+                                BWOBuildings.AdaptRoom(room)
+
                                 if s > cnt then return end
                             end
                         end

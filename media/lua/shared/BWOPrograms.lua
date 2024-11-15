@@ -1,5 +1,7 @@
 BanditPrograms = BanditPrograms or {}
 
+-- this is a collection of universal subprograms that are shared by main npc programs.
+
 BanditPrograms.Symptoms = function(bandit)
     local tasks = {}
 

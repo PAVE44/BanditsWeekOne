@@ -98,7 +98,7 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                     
                     if building then
                         local roomName = room:getName()
-                        if (BTWOBuildings.GetType(building) == "residential" or roomName == "security") and bandit:CanSee(player) and not player:isOutside() then
+                        if (BWOBuildings.GetType(building) == "residential" or roomName == "security") and bandit:CanSee(player) and not player:isOutside() then
                             Bandit.Say(bandit, "DEFENDER_SPOTTED")
                             BWOScheduler.Add("CallCopsHostile", 1000)
                         end
@@ -111,6 +111,7 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
         if world:isHydroPowerOn() then
             local ls = BWOObjects.FindLightSwitch(bandit, def)
             if ls then
+
                 local active = true
                 --if (hour >= 6 and hour <= 8) or (hour >= 18 and hour <= 22) then
                 if (hour < 6 or hour > 22) and roomName == "bedroom" then
@@ -141,9 +142,14 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
         -- barricade
         local barricadable = BWOObjects.FindBarricadable(bandit, def)
         if barricadable then
-            local dist = math.sqrt(math.pow(bandit:getX() - (barricadable:getX() + 0.5), 2) + math.pow(bandit:getY() - (barricadable:getY() + 0.5), 2))
+            local standSquare = barricadable:getIndoorSquare()
+            --if standSquare:isOutside() then
+            --    standSquare = barricadable:getOppositeSquare()
+            --end
+
+            local dist = math.sqrt(math.pow(bandit:getX() - (standSquare:getX() + 0.5), 2) + math.pow(bandit:getY() - (standSquare:getY() + 0.5), 2))
             if dist > 0.70 then
-                table.insert(tasks, BanditUtils.GetMoveTask(0, barricadable:getX(), barricadable:getY(), barricadable:getZ(), "Walk", dist, false))
+                table.insert(tasks, BanditUtils.GetMoveTask(0, standSquare:getX(), standSquare:getY(), standSquare:getZ(), "Walk", dist, false))
                 return {status=true, next="Main", tasks=tasks}
             else
                 local task1 = {action="Equip", itemPrimary="Base.Hammer"}

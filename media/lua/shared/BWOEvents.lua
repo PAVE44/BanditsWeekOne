@@ -2,6 +2,8 @@ BWOEvents = BWOEvents or {}
 
 BWOEvents.tab = {}
 
+-- these is a set of various event functions that are triggered by time based on a schedule
+
 local findVehicleSpot = function(player)
     for x=player:getX()-40, player:getX()+40 do
         for y=player:getY()-40, player:getY()+40 do
@@ -64,7 +66,6 @@ local findVehicleSpot2 = function(player)
         end
     end
 end
-
 
 local callCops = function(hostile)
 
@@ -502,7 +503,7 @@ end
 
 BWOEvents.Arson = function(player)
 
-    local building = BTWOBuildings.FindBuildingDist(35, 50)
+    local building = BWOBuildings.FindBuildingDist(35, 50)
     if building then
 
         local room = building:getRandomRoom()

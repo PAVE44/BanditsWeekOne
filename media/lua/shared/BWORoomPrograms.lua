@@ -1,5 +1,7 @@
 BWORoomPrograms = BWORoomPrograms or {}
 
+-- this is a collection of subprograms that crerates tasks for npcs based on the room they are currently in.
+
 BWORoomPrograms.livingroom = function(bandit, def)
     local tasks = {}
     local gameTime = getGameTime()

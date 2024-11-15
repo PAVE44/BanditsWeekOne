@@ -1,5 +1,8 @@
 BWOObjects = BWOObjects or {}
 
+-- this is a collection of functions resonsible for finding a particular map object that is required
+-- by various npc programs
+
 BWOObjects.Find = function (bandit, def, objName)
     local cell = getCell()
     local bid = BanditUtils.GetCharacterID(bandit)
@@ -47,8 +50,8 @@ BWOObjects.FindBarricadable = function (bandit, def)
     local bz = bandit:getZ()
     local foundDist = math.huge
     local foundObj
-    for x=def:getX(), def:getX2() do
-        for y=def:getY(), def:getY2() do
+    for x=def:getX(), def:getX2() + 1 do
+        for y=def:getY(), def:getY2() + 1 do
             local square = cell:getGridSquare(x, y, def:getZ())
             if square then
                 local zombie = square:getZombie()
@@ -56,7 +59,7 @@ BWOObjects.FindBarricadable = function (bandit, def)
                     local objects = square:getObjects()
                     for i=0, objects:size()-1 do
                         local object = objects:get(i)
-                        if instanceof(object, "IsoWindow") or (instanceof(object, "IsoDoor") and object:getOppositeSquare():isOutside) then
+                        if instanceof(object, "IsoWindow") or (instanceof(object, "IsoDoor") and object:getSquare():isOutside() ~= object:getOppositeSquare():isOutside()) then
                             local barricade = object:getBarricadeOnSameSquare()
                             local numPlanks = 0
                             if barricade then
