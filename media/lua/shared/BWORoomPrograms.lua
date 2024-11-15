@@ -321,7 +321,7 @@ BWORoomPrograms.church = function(bandit, def)
                     table.insert(tasks, BanditUtils.GetMoveTask(0, square:getX(), square:getY(), square:getZ(), "Walk", dist, false))
                     return tasks
                 else
-                    local task = {action="FaceLocation", anim="Yes", x=altar:getX(), y=altar:getY(), z=altar:getZ(), facing=facing, time=100}
+                    local task = {action="FaceLocation", anim="Preach", x=altar:getX(), y=altar:getY(), z=altar:getZ(), facing=facing, time=100}
                     table.insert(tasks, task)
                     return tasks
                 end
@@ -409,7 +409,7 @@ BWORoomPrograms.bookstore = function(bandit, def)
                     table.insert(tasks, BanditUtils.GetMoveTask(0, square:getX(), square:getY(), square:getZ(), "Walk", dist, false))
                     return tasks
                 else
-                    local task = {action="FaceLocation", anim="Yes", x=register:getX(), y=register:getY(), z=register:getZ(), facing=facing, time=100}
+                    local task = {action="FaceLocation", anim="Cashier", x=register:getX(), y=register:getY(), z=register:getZ(), facing=facing, time=100}
                     table.insert(tasks, task)
                     return tasks
                 end
@@ -470,7 +470,7 @@ BWORoomPrograms.zippeestore = function(bandit, def)
                     table.insert(tasks, BanditUtils.GetMoveTask(0, square:getX(), square:getY(), square:getZ(), "Walk", dist, false))
                     return tasks
                 else
-                    local task = {action="FaceLocation", anim="Yes", x=register:getX(), y=register:getY(), z=register:getZ(), facing=facing, time=100}
+                    local task = {action="FaceLocation", anim="Cashier", x=register:getX(), y=register:getY(), z=register:getZ(), facing=facing, time=100}
                     table.insert(tasks, task)
                     return tasks
                 end
@@ -582,7 +582,7 @@ BWORoomPrograms.restaurant = function(bandit, def)
                     table.insert(tasks, BanditUtils.GetMoveTask(0, square:getX(), square:getY(), square:getZ(), "Walk", dist, false))
                     return tasks
                 else
-                    local task = {action="FaceLocation", anim="Yes", x=register:getX(), y=register:getY(), z=register:getZ(), facing=facing, time=100}
+                    local task = {action="FaceLocation", anim="Cashier", x=register:getX(), y=register:getY(), z=register:getZ(), facing=facing, time=100}
                     table.insert(tasks, task)
                     return tasks
                 end
