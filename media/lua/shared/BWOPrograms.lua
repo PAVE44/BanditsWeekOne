@@ -124,3 +124,115 @@ BanditPrograms.Symptoms = function(bandit)
     end
     return tasks
 end
+
+BanditPrograms.CrimeScene = function(bandit)
+    local tasks = {}
+    local cell = bandit:getCell()
+
+    local target = BWOObjects.FindDeadBody(bandit)
+    if target.x and target.y and target.z then
+        if target.dist >= 3 and target.dist < 20 then
+            local walkType = "Run"
+            table.insert(tasks, BanditUtils.GetMoveTask(0, target.x, target.y, target.z, walkType, target.dist, false))
+            return tasks
+        elseif target.dist < 3 then
+            local square = cell:getGridSquare(target.x, target.y, target.z)
+            if square then
+                deadbody = square:getDeadBody()
+                if deadbody then
+                    Bandit.Say(bandit, "CORPSE")
+                    local anim = BanditUtils.Choice({"SmellBad", "SmellGag", "PainHead", "ChewNails", "No", "No", "WipeBrow"})
+                    local task = {action="FaceLocation", anim=anim, time=100, x=deadbody:getX(), y=deadbody:getY(), z=deadbody:getZ()}
+                    table.insert(tasks, task)
+                    return tasks
+                end
+            end
+        end
+    end
+end
+
+BanditPrograms.Talk = function(bandit)
+    local tasks = {}
+    local neighborBandit = BanditUtils.GetClosestBanditLocation(bandit)
+    local neighborPlayer = BanditUtils.GetClosestPlayerLocation(bandit, true)
+
+    local neighbor = neighborBandit
+    if neighborPlayer.dist < neighborBandit.dist then
+        neighbor = neighborPlayer
+    end
+
+    if neighbor.dist < 3 and ZombRand(2) == 1 then
+        if not bandit:getSquare():isSomethingTo(getCell():getGridSquare(neighbor.x, neighbor.y, neighbor.z)) then
+            Bandit.Say(bandit, "STREETCHAT")
+            local anim = BanditUtils.Choice({"WaveHi", "Yes", "No", "Talk1", "Talk2", "Talk3", "Talk4", "Talk5"})
+            local task = {action="FaceLocation", anim=anim, x=neighbor.x, y=neighbor.y, z=neighbor.z, time=100}
+            table.insert(tasks, task)
+            return tasks
+        end
+    end
+    return tasks
+end
+
+BanditPrograms.FollowRoad = function(bandit, walkType)
+    local tasks = {}
+    local cell = bandit:getCell()
+    local bx = bandit:getX()
+    local by = bandit:getY()
+    local bz = bandit:getZ()
+    local direction = bandit:getForwardDirection()
+    local angle = direction:getDirection()
+    direction:setLength(8)
+
+    local step = 0.785398163 / 2 -- 22.5 deg
+    for i = 0, 14 do
+        for j=-1, 1, 2 do
+            local newangle = angle + (i * j * step)
+            if newangle > 6.283185304 then newangle = newangle - 6.283185304 end
+            direction:setDirection(newangle)
+
+            local vx = bx + direction:getX()
+            local vy = by + direction:getY()
+            local vz = bz
+            local square = cell:getGridSquare(vx, vy, vz)
+            if square then
+                local groundType = BanditUtils.GetGroundType(square)
+                if groundType == "street" then
+                    table.insert(tasks, BanditUtils.GetMoveTask(0, vx, vy, vz, walkType, 2, false))
+                    return tasks
+                end
+            end
+        end
+    end
+    return tasks
+end
+
+BanditPrograms.GoSomewhere = function(bandit, walkType)
+    local tasks = {}
+    local bx = bandit:getX()
+    local by = bandit:getY()
+    local bz = bandit:getZ()
+    local id = BanditUtils.GetCharacterID(bandit)
+
+    local rnd = math.abs(id % 4)
+    local dx = 0
+    local dy = 0
+    if rnd == 0 then
+        dx = 10
+    elseif rnd == 1 then
+        dy = 10
+    elseif rnd == 2 then
+        dx = -10
+    elseif rnd == 3 then
+        dy = -10
+    end
+
+    local gameTime = getGameTime()
+    local hour = gameTime:getHour()
+    if hour % 2 == 0 then
+        dx = -dx
+        dy = -dy
+    end
+    
+    table.insert(tasks, BanditUtils.GetMoveTask(0, bx + dx, by + dy, 0, walkType, 10, false))
+    return tasks
+end

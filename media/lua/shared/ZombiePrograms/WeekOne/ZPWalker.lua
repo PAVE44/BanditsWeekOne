@@ -60,6 +60,20 @@ ZombiePrograms.Walker.Main = function(bandit)
         Bandit.ForceSyncPart(bandit, syncData)
         return {status=true, next="Main", tasks=tasks}
     end
+
+    -- if has a specifit outfit change program
+    local outfit = bandit:getOutfitName()
+    if outfit == "Postal" then
+        Bandit.ClearTasks(bandit)
+        Bandit.SetProgram(bandit, "Postal", {})
+
+        local brain = BanditBrain.Get(bandit)
+        local syncData = {}
+        syncData.id = brain.id
+        syncData.program = brain.program
+        Bandit.ForceSyncPart(bandit, syncData)
+        return {status=true, next="Main", tasks=tasks}
+    end
     
     -- symptoms
     if math.abs(id) % 4 > 0 then
@@ -80,27 +94,14 @@ ZombiePrograms.Walker.Main = function(bandit)
         if BWOScheduler.SymptomLevel >= 4 then walkType = "Run" end
     end
     
-    -- watch deadbody
+    -- attracted to crime scene
     if BWOScheduler.SymptomLevel < 3 then
-        local target = BWOObjects.FindDeadBody(bandit)
-        if target.x and target.y and target.z then
-            if target.dist >= 3 and target.dist < 20 then
-                walkType = "Run"
-                table.insert(tasks, BanditUtils.GetMoveTask(endurance, target.x, target.y, target.z, walkType, target.dist, false))
-                return {status=true, next="Main", tasks=tasks}
-            elseif target.dist < 3 then
-                local square = cell:getGridSquare(target.x, target.y, target.z)
-                if square then
-                    deadbody = square:getDeadBody()
-                    if deadbody then
-                        Bandit.Say(bandit, "CORPSE")
-                        local anim = BanditUtils.Choice({"SmellBad", "SmellGag", "PainHead", "ChewNails", "No", "No", "WipeBrow"})
-                        local task = {action="FaceLocation", anim=anim, time=100, x=deadbody:getX(), y=deadbody:getY(), z=deadbody:getZ()}
-                        table.insert(tasks, task)
-                        return {status=true, next="Main", tasks=tasks}
-                    end
-                end
+        local subTasks = BanditPrograms.CrimeScene(bandit)
+        if #subTasks > 0 then
+            for _, subTask in pairs(subTasks) do
+                table.insert(tasks, subTask)
             end
+            return {status=true, next="Main", tasks=tasks}
         end
     end
 
@@ -165,55 +166,36 @@ ZombiePrograms.Walker.Main = function(bandit)
     end
 
 
-    -- chat with players and others
+    -- interact with players and other npcs
     if BWOScheduler.SymptomLevel < 3 then
-        local neighborBandit = BanditUtils.GetClosestBanditLocation(bandit)
-        local neighborPlayer = BanditUtils.GetClosestPlayerLocation(bandit, true)
-
-        local neighbor = neighborBandit
-        if neighborPlayer.dist < neighborBandit.dist then
-            neighbor = neighborPlayer
-        end
-
-        if neighbor.dist < 3 and ZombRand(2) == 1 then
-            if not bandit:getSquare():isSomethingTo(getCell():getGridSquare(neighbor.x, neighbor.y, neighbor.z)) then
-                Bandit.Say(bandit, "STREETCHAT")
-                local anim = BanditUtils.Choice({"WaveHi", "Yes", "No"}) -- "Talk6", "Talk6", "Talk6", "Talk6", "Talk6"
-                local task = {action="FaceLocation", anim=anim, x=neighbor.x, y=neighbor.y, z=neighbor.z, time=100}
-                table.insert(tasks, task)
+        local subTasks = BanditPrograms.Talk(bandit)
+        if #subTasks > 0 then
+            for _, subTask in pairs(subTasks) do
+                table.insert(tasks, subTask)
             end
-            -- return {status=true, next="Walk", tasks=tasks}
+            return {status=true, next="Main", tasks=tasks}
         end
     end
 
-    -- go somewhere
-    local rnd = math.abs(id % 4)
-
-    local dx = 0
-    local dy = 0
-    if rnd == 0 then
-        dx = 10
-    elseif rnd == 1 then
-        dy = 10
-    elseif rnd == 2 then
-        dx = -10
-    elseif rnd == 3 then
-        dy = -10
+     -- most pedestrian will follow the street / road, some will just "gosomwhere" for variability
+     if id % 3 > 0 then
+        local subTasks = BanditPrograms.FollowRoad(bandit, walkType)
+        if #subTasks > 0 then
+            for _, subTask in pairs(subTasks) do
+                table.insert(tasks, subTask)
+            end
+            return {status=true, next="Main", tasks=tasks}
+        end
     end
 
-    local gameTime = getGameTime()
-    local hour = gameTime:getHour()
-    if hour % 2 == 0 then
-        dx = -dx
-        dy = -dy
+    -- fallback if no road is found
+    local subTasks = BanditPrograms.GoSomewhere(bandit, walkType)
+    if #subTasks > 0 then
+        for _, subTask in pairs(subTasks) do
+            table.insert(tasks, subTask)
+        end
+        return {status=true, next="Main", tasks=tasks}
     end
-
-    local target = {}
-    target.x = bx + dx
-    target.y = by + dy
-    target.z = 0
-    
-    table.insert(tasks, BanditUtils.GetMoveTask(endurance, target.x, target.y, target.z, walkType, 10, false))
     
     return {status=true, next="Main", tasks=tasks}
 end

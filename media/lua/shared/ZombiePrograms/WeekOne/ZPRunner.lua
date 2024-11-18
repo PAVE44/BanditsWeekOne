@@ -57,54 +57,34 @@ ZombiePrograms.Runner.Main = function(bandit)
         return {status=true, next="Main", tasks=tasks}
     end
 
-    -- follow the street / road
-    local direction = bandit:getForwardDirection()
-    local angle = direction:getDirection()
-    direction:setLength(8)
-
-    local step = 0.785398163 / 2 -- 22.5 deg
-    for i = 0, 14 do
-        for j=-1, 1, 2 do
-            local newangle = angle + (i * j * step)
-            if newangle > 6.283185304 then newangle = newangle - 6.283185304 end
-            direction:setDirection(newangle)
-
-            local vx = bx + direction:getX()
-            local vy = by + direction:getY()
-            local vz = bz
-            local square = cell:getGridSquare(vx, vy, vz)
-            if square then
-                local groundType = BanditUtils.GetGroundType(square)
-                if groundType == "street" then
-                    table.insert(tasks, BanditUtils.GetMoveTask(endurance, vx, vy, vz, walkType, 2, false))
-                    return {status=true, next="Main", tasks=tasks}
-                end
+    -- attracted to crime scene
+    if BWOScheduler.SymptomLevel < 3 then
+        local subTasks = BanditPrograms.CrimeScene(bandit)
+        if #subTasks > 0 then
+            for _, subTask in pairs(subTasks) do
+                table.insert(tasks, subTask)
             end
+            return {status=true, next="Main", tasks=tasks}
         end
     end
 
-    -- fallback if no road is found
-    local rnd = math.abs(id % 4)
-    local dx = 0
-    local dy = 0
-    if rnd == 0 then
-        dx = 10
-    elseif rnd == 1 then
-        dy = 10
-    elseif rnd == 2 then
-        dx = -10
-    elseif rnd == 3 then
-        dy = -10
+    -- follow the street / road
+    local subTasks = BanditPrograms.FollowRoad(bandit, walkType)
+    if #subTasks > 0 then
+        for _, subTask in pairs(subTasks) do
+            table.insert(tasks, subTask)
+        end
+        return {status=true, next="Main", tasks=tasks}
     end
 
-    local gameTime = getGameTime()
-    local hour = gameTime:getHour()
-    if hour % 2 == 0 then
-        dx = -dx
-        dy = -dy
+    -- fallback if no road is found
+    local subTasks = BanditPrograms.GoSomewhere(bandit, walkType)
+    if #subTasks > 0 then
+        for _, subTask in pairs(subTasks) do
+            table.insert(tasks, subTask)
+        end
+        return {status=true, next="Main", tasks=tasks}
     end
-    
-    table.insert(tasks, BanditUtils.GetMoveTask(endurance, bx + dx, by + dy, 0, walkType, 10, false))
     
     return {status=true, next="Main", tasks=tasks}
 end

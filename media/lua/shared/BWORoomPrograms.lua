@@ -15,7 +15,7 @@ BWORoomPrograms.livingroom = function(bandit, def)
             local square = tv:getSquare()
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
-                local dist = math.sqrt(math.pow(bandit:getX() - (asquare:getX() + 0.5), 2) + math.pow(bandit:getY() - (asquare:getY() + 0.5), 2))
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
                 if dist > 0.70 then
                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                     return tasks
@@ -37,7 +37,7 @@ BWORoomPrograms.livingroom = function(bandit, def)
         local square = sittable:getSquare()
         local asquare = AdjacentFreeTileFinder.Find(square, bandit)
         if asquare then
-            local dist = math.sqrt(math.pow(bandit:getX() - (square:getX() + 0.5), 2) + math.pow(bandit:getY() - (square:getY() + 0.5), 2))
+            local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
             if dist > 1.20 then
                 table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                 return tasks
@@ -75,7 +75,7 @@ BWORoomPrograms.bathroom = function(bandit, def)
         local square = sink:getSquare()
         local asquare = AdjacentFreeTileFinder.Find(square, bandit)
         if asquare then
-            local dist = math.sqrt(math.pow(bandit:getX() - (asquare:getX() + 0.5), 2) + math.pow(bandit:getY() - (asquare:getY() + 0.5), 2))
+            local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
             if dist > 0.70 then
                 table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                 return tasks
@@ -102,7 +102,7 @@ BWORoomPrograms.bedroom = function(bandit, def)
         local square = bed:getSquare()
         local asquare = AdjacentFreeTileFinder.Find(square, bandit)
         if asquare then
-            local dist = math.sqrt(math.pow(bandit:getX() - (square:getX() + 0.5), 2) + math.pow(bandit:getY() - (square:getY() + 0.5), 2))
+            local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
             if dist > 2.20 then
                 table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                 return tasks
@@ -140,7 +140,7 @@ BWORoomPrograms.kitchen = function(bandit, def)
             local square = fridge:getSquare()
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
-                local dist = math.sqrt(math.pow(bandit:getX() - (asquare:getX() + 0.5), 2) + math.pow(bandit:getY() - (asquare:getY() + 0.5), 2))
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
                 if dist > 0.70 then
                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                     return tasks
@@ -157,7 +157,7 @@ BWORoomPrograms.kitchen = function(bandit, def)
             local square = sink:getSquare()
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
-                local dist = math.sqrt(math.pow(bandit:getX() - (asquare:getX() + 0.5), 2) + math.pow(bandit:getY() - (asquare:getY() + 0.5), 2))
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
                 if dist > 0.70 then
                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                     return tasks
@@ -174,7 +174,7 @@ BWORoomPrograms.kitchen = function(bandit, def)
             local square = counter:getSquare()
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
-                local dist = math.sqrt(math.pow(bandit:getX() - (asquare:getX() + 0.5), 2) + math.pow(bandit:getY() - (asquare:getY() + 0.5), 2))
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
                 if dist > 0.70 then
                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                     return tasks
@@ -193,7 +193,7 @@ BWORoomPrograms.kitchen = function(bandit, def)
                 local square = oven:getSquare()
                 local asquare = AdjacentFreeTileFinder.Find(square, bandit)
                 if asquare then
-                    local dist = math.sqrt(math.pow(bandit:getX() - (asquare:getX() + 0.5), 2) + math.pow(bandit:getY() - (asquare:getY() + 0.5), 2))
+                    local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
                     if dist > 0.70 then
                         table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                         return tasks
@@ -225,7 +225,7 @@ BWORoomPrograms.restaurantkitchen = function(bandit, def)
             local square = fridge:getSquare()
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
-                local dist = math.sqrt(math.pow(bandit:getX() - (asquare:getX() + 0.5), 2) + math.pow(bandit:getY() - (asquare:getY() + 0.5), 2))
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
                 if dist > 0.70 then
                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                     return tasks
@@ -242,7 +242,7 @@ BWORoomPrograms.restaurantkitchen = function(bandit, def)
             local square = sink:getSquare()
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
-                local dist = math.sqrt(math.pow(bandit:getX() - (asquare:getX() + 0.5), 2) + math.pow(bandit:getY() - (asquare:getY() + 0.5), 2))
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
                 if dist > 0.70 then
                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                     return tasks
@@ -259,7 +259,7 @@ BWORoomPrograms.restaurantkitchen = function(bandit, def)
             local square = counter:getSquare()
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
-                local dist = math.sqrt(math.pow(bandit:getX() - (asquare:getX() + 0.5), 2) + math.pow(bandit:getY() - (asquare:getY() + 0.5), 2))
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
                 if dist > 0.70 then
                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                     return tasks
@@ -277,7 +277,7 @@ BWORoomPrograms.restaurantkitchen = function(bandit, def)
             local square = oven:getSquare()
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
-                local dist = math.sqrt(math.pow(bandit:getX() - (asquare:getX() + 0.5), 2) + math.pow(bandit:getY() - (asquare:getY() + 0.5), 2))
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
                 if dist > 0.70 then
                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                     return tasks
@@ -318,7 +318,7 @@ BWORoomPrograms.church = function(bandit, def)
             if facing == "E" then square = altar:getSquare():getW() end
             if facing == "W" then square = altar:getSquare():getE() end
             if square then
-                local dist = math.sqrt(math.pow(bandit:getX() - (square:getX() + 0.5), 2) + math.pow(bandit:getY() - (square:getY() + 0.5), 2))
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
                 if dist > 0.60 then
                     table.insert(tasks, BanditUtils.GetMoveTask(0, square:getX(), square:getY(), square:getZ(), "Walk", dist, false))
                     return tasks
@@ -337,13 +337,13 @@ BWORoomPrograms.church = function(bandit, def)
             local square = sittable:getSquare()
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
-                local dist = math.sqrt(math.pow(bandit:getX() - (square:getX() + 0.5), 2) + math.pow(bandit:getY() - (square:getY() + 0.5), 2))
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
                 if dist > 1.20 then
                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                     return tasks
                 else
                     local facing = sittable:getSprite():getProperties():Val("Facing")
-                    local anim = BanditUtils.Choice({"SitInChair", "SitInChairDrink"})
+                    local anim = BanditUtils.Choice({"SitInChair"})
                     local task = {action="SitInChair", anim=anim, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=100}
                     table.insert(tasks, task)
                     return tasks
@@ -369,7 +369,7 @@ BWORoomPrograms.office = function(bandit, def)
         local square = sittable:getSquare()
         local asquare = AdjacentFreeTileFinder.Find(square, bandit)
         if asquare then
-            local dist = math.sqrt(math.pow(bandit:getX() - (square:getX() + 0.5), 2) + math.pow(bandit:getY() - (square:getY() + 0.5), 2))
+            local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
             if dist > 1.20 then
                 table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                 return tasks
@@ -406,7 +406,7 @@ BWORoomPrograms.bookstore = function(bandit, def)
             if facing == "E" then square = register:getSquare():getE() end
             if facing == "W" then square = register:getSquare():getW() end
             if square then
-                local dist = math.sqrt(math.pow(bandit:getX() - (square:getX() + 0.5), 2) + math.pow(bandit:getY() - (square:getY() + 0.5), 2))
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
                 if dist > 0.60 then
                     table.insert(tasks, BanditUtils.GetMoveTask(0, square:getX(), square:getY(), square:getZ(), "Walk", dist, false))
                     return tasks
@@ -426,7 +426,7 @@ BWORoomPrograms.bookstore = function(bandit, def)
                 local square = shelves:getSquare()
                 local asquare = AdjacentFreeTileFinder.Find(square, bandit)
                 if asquare then
-                    local dist = math.sqrt(math.pow(bandit:getX() - (asquare:getX() + 0.5), 2) + math.pow(bandit:getY() - (asquare:getY() + 0.5), 2))
+                    local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
                     if dist > 0.50 then
                         table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                         return tasks
@@ -467,7 +467,7 @@ BWORoomPrograms.zippeestore = function(bandit, def)
             if facing == "E" then square = register:getSquare():getE() end
             if facing == "W" then square = register:getSquare():getW() end
             if square then
-                local dist = math.sqrt(math.pow(bandit:getX() - (square:getX() + 0.5), 2) + math.pow(bandit:getY() - (square:getY() + 0.5), 2))
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
                 if dist > 0.60 then
                     table.insert(tasks, BanditUtils.GetMoveTask(0, square:getX(), square:getY(), square:getZ(), "Walk", dist, false))
                     return tasks
@@ -495,7 +495,7 @@ BWORoomPrograms.zippeestore = function(bandit, def)
             local square = rack:getSquare()
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
-                local dist = math.sqrt(math.pow(bandit:getX() - (asquare:getX() + 0.5), 2) + math.pow(bandit:getY() - (asquare:getY() + 0.5), 2))
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
                 if dist > 0.70 then
                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                     return tasks
@@ -542,7 +542,7 @@ BWORoomPrograms.medical = function(bandit, def)
         local square = sittable:getSquare()
         local asquare = AdjacentFreeTileFinder.Find(square, bandit)
         if asquare then
-            local dist = math.sqrt(math.pow(bandit:getX() - (square:getX() + 0.5), 2) + math.pow(bandit:getY() - (square:getY() + 0.5), 2))
+            local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
             if dist > 1.20 then
                 table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                 return tasks
@@ -580,7 +580,7 @@ BWORoomPrograms.restaurant = function(bandit, def)
             if facing == "E" then square = register:getSquare():getE() end
             if facing == "W" then square = register:getSquare():getW() end
             if square then
-                local dist = math.sqrt(math.pow(bandit:getX() - (square:getX() + 0.5), 2) + math.pow(bandit:getY() - (square:getY() + 0.5), 2))
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
                 if dist > 0.60 then
                     table.insert(tasks, BanditUtils.GetMoveTask(0, square:getX(), square:getY(), square:getZ(), "Walk", dist, false))
                     return tasks
@@ -613,7 +613,7 @@ BWORoomPrograms.restaurant = function(bandit, def)
             local square = sittable:getSquare()
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
-                local dist = math.sqrt(math.pow(bandit:getX() - (square:getX() + 0.5), 2) + math.pow(bandit:getY() - (square:getY() + 0.5), 2))
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
                 if dist > 1.20 then
                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                     return tasks
@@ -661,7 +661,7 @@ BWORoomPrograms.bar = function(bandit, def)
             if facing == "E" then square = register:getSquare():getE() end
             if facing == "W" then square = register:getSquare():getW() end
             if square then
-                local dist = math.sqrt(math.pow(bandit:getX() - (square:getX() + 0.5), 2) + math.pow(bandit:getY() - (square:getY() + 0.5), 2))
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
                 if dist > 0.60 then
                     table.insert(tasks, BanditUtils.GetMoveTask(0, square:getX(), square:getY(), square:getZ(), "Walk", dist, false))
                     return tasks
@@ -705,7 +705,7 @@ BWORoomPrograms.bar = function(bandit, def)
             local square = sittable:getSquare()
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
-                local dist = math.sqrt(math.pow(bandit:getX() - (square:getX() + 0.5), 2) + math.pow(bandit:getY() - (square:getY() + 0.5), 2))
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
                 if dist > 1.20 then
                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                     return tasks
@@ -738,7 +738,7 @@ BWORoomPrograms.mechanic = function(bandit, def)
         local square = shelves:getSquare()
         local asquare = AdjacentFreeTileFinder.Find(square, bandit)
         if asquare then
-            local dist = math.sqrt(math.pow(bandit:getX() - (asquare:getX() + 0.5), 2) + math.pow(bandit:getY() - (asquare:getY() + 0.5), 2))
+            local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
             if dist > 0.50 then
                 table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                 return tasks
@@ -805,7 +805,7 @@ BWORoomPrograms.aesthetic = function(bandit, def)
             local square = sittable:getSquare()
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
-                local dist = math.sqrt(math.pow(bandit:getX() - (square:getX() + 0.5), 2) + math.pow(bandit:getY() - (square:getY() + 0.5), 2))
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
                 if dist > 1.20 then
                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                     return tasks

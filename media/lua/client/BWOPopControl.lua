@@ -1,5 +1,6 @@
 BWOPopControl = BWOPopControl or {}
 
+-- population control
 BWOPopControl.ZombieMax = 0
 BWOPopControl.ZombieCnt = 0
 
@@ -15,6 +16,7 @@ BWOPopControl.StreetsCnt = 0
 BWOPopControl.StreetsNominal = 40
 BWOPopControl.StreetsMax = 40
 
+-- emergency services control
 BWOPopControl.Police = {} 
 BWOPopControl.Police.Cooldown = 0
 BWOPopControl.Police.On = true
@@ -105,9 +107,14 @@ BWOPopControl.StreetsSpawn = function(cnt)
                 if groundType == "street" then
                     event.x = square:getX()
                     event.y = square:getY()
-                    if ZombRand(10) == 1 then
+                    local rnd = ZombRand(100)
+                    if rnd < 8 then
                         bandit.outfit = BanditUtils.Choice({"StreetSports"})
                         event.program.name = "Runner"
+                        event.program.stage = "Prepare"
+                    elseif rnd < 10 then 
+                        bandit.outfit = BanditUtils.Choice({"Postal"})
+                        event.program.name = "Postal"
                         event.program.stage = "Prepare"
                     else
                         bandit.outfit = BanditUtils.Choice({"Generic02", "Generic01"})
@@ -132,7 +139,7 @@ BWOPopControl.StreetsDespawn = function(cnt)
 
     local i = 0
     for id, bandit in pairs(banditList) do
-        if bandit.brain.program.name == "Walker" or bandit.brain.program.name == "Runner" then
+        if bandit.brain.program.name == "Walker" or bandit.brain.program.name == "Runner" or bandit.brain.program.name == "Postal" then
             local dist = BanditUtils.DistTo(px, py, bandit.x, bandit.y)
             if dist > 50 then
                 local zombie = BanditZombie.GetInstanceById(id)
@@ -328,6 +335,7 @@ BWOPopControl.UpdateCivs = function()
     tab.Inhabitant = 0
     tab.Walker = 0
     tab.Runner = 0
+    tab.Postal = 0
     tab.Active = 0
     tab.Looter = 0
     tab.Bandit = 0
@@ -370,7 +378,7 @@ BWOPopControl.UpdateCivs = function()
     -- ADJUST: people on the streets
 
     -- count currently active civs
-    BWOPopControl.StreetsCnt = tab.Walker + tab.Runner
+    BWOPopControl.StreetsCnt = tab.Walker + tab.Runner + tab.Postal
 
     -- count desired population of civs
     local nominal = BWOPopControl.StreetsNominal
@@ -482,7 +490,7 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
                         end
                     else
                         -- witnessing civilians need to change peaceful behavior to active
-                        if witness.brain.program.name == "Inhabitant" or witness.brain.program.name == "Walker" or witness.brain.program.name == "Runner" then
+                        if witness.brain.program.name == "Inhabitant" or witness.brain.program.name == "Walker" or witness.brain.program.name == "Runner" or witness.brain.program.name == "Postal" then
                             Bandit.SetProgram(actor, "Active", {})
                             local brain = BanditBrain.Get(actor)
                             if brain then

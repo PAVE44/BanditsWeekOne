@@ -90,27 +90,14 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
             end
         end
 
-        -- watch deadbody
+        -- crime scene
         if BWOScheduler.SymptomLevel < 3 then
-            local target = BWOObjects.FindDeadBody(bandit)
-            if target.x and target.y and target.z then
-                if target.dist >= 3 and target.dist < 20 then
-                    walkType = "Run"
-                    table.insert(tasks, BanditUtils.GetMoveTask(endurance, target.x, target.y, target.z, walkType, target.dist, false))
-                    return {status=true, next="Main", tasks=tasks}
-                elseif target.dist < 3 then
-                    local square = cell:getGridSquare(target.x, target.y, target.z)
-                    if square then
-                        deadbody = square:getDeadBody()
-                        if deadbody then
-                            Bandit.Say(bandit, "CORPSE")
-                            local anim = BanditUtils.Choice({"SmellBad", "SmellGag", "PainHead", "ChewNails", "No", "No", "WipeBrow"})
-                            local task = {action="FaceLocation", anim=anim, time=100, x=deadbody:getX(), y=deadbody:getY(), z=deadbody:getZ()}
-                            table.insert(tasks, task)
-                            return {status=true, next="Main", tasks=tasks}
-                        end
-                    end
+            local subTasks = BanditPrograms.CrimeScene(bandit)
+            if #subTasks > 0 then
+                for _, subTask in pairs(subTasks) do
+                    table.insert(tasks, subTask)
                 end
+                return {status=true, next="Main", tasks=tasks}
             end
         end
 

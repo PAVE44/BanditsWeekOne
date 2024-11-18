@@ -239,7 +239,7 @@ ZombiePrograms.Active.Escape = function(bandit)
     end
 
     -- symptoms
-    if math.abs(id) % 10 > 0 then
+    if math.abs(id) % 4 > 0 then
         if BWOScheduler.SymptomLevel == 3 then
             walkType = "Limp"
         elseif BWOScheduler.SymptomLevel >= 4 then
@@ -253,6 +253,8 @@ ZombiePrograms.Active.Escape = function(bandit)
             end
             return {status=true, next="Main", tasks=tasks}
         end
+    else
+        if BWOScheduler.SymptomLevel >= 4 then walkType = "Run" end
     end
 
     local closestPlayer = BanditUtils.GetClosestPlayerLocation(bandit)

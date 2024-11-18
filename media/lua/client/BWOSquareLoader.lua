@@ -290,6 +290,8 @@ BWOSquareLoader.OnLoad = function(square)
         spriteMap["location_business_bank_01_65"] = "atm"
         spriteMap["location_business_bank_01_66"] = "atm"
         spriteMap["location_business_bank_01_67"] = "atm"
+        spriteMap["FIXME"] = "mailbox"
+        spriteMap["FIXME"] = "mailbox"
 
         local objects = square:getObjects()
         for i=0, objects:size()-1 do
