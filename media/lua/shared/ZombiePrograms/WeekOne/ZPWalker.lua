@@ -47,6 +47,16 @@ ZombiePrograms.Walker.Main = function(bandit)
 
     local walkType = "Walk"
     local endurance = 0
+    if BWOScheduler.WorldAge > 57 then 
+        walkType = "Run"
+        endurance = -0.06
+    end
+    
+    local health = bandit:getHealth()
+    if health < 0.8 then
+        walkType = "Limp"
+        endurance = 0
+    end 
 
     -- if inside building change program
     if not bandit:isOutside() then
@@ -66,6 +76,16 @@ ZombiePrograms.Walker.Main = function(bandit)
     if outfit == "Postal" then
         Bandit.ClearTasks(bandit)
         Bandit.SetProgram(bandit, "Postal", {})
+
+        local brain = BanditBrain.Get(bandit)
+        local syncData = {}
+        syncData.id = brain.id
+        syncData.program = brain.program
+        Bandit.ForceSyncPart(bandit, syncData)
+        return {status=true, next="Main", tasks=tasks}
+    elseif outfit == "Farmer" then
+        Bandit.ClearTasks(bandit)
+        Bandit.SetProgram(bandit, "Gardener", {})
 
         local brain = BanditBrain.Get(bandit)
         local syncData = {}
@@ -95,14 +115,21 @@ ZombiePrograms.Walker.Main = function(bandit)
     end
     
     -- attracted to crime scene
-    if BWOScheduler.SymptomLevel < 3 then
-        local subTasks = BanditPrograms.CrimeScene(bandit)
-        if #subTasks > 0 then
-            for _, subTask in pairs(subTasks) do
-                table.insert(tasks, subTask)
-            end
-            return {status=true, next="Main", tasks=tasks}
+    local subTasks = BanditPrograms.CrimeScene(bandit)
+    if #subTasks > 0 then
+        for _, subTask in pairs(subTasks) do
+            table.insert(tasks, subTask)
         end
+        return {status=true, next="Main", tasks=tasks}
+    end
+
+    -- atm
+    local subTasks = BanditPrograms.ATM(bandit)
+    if #subTasks > 0 then
+        for _, subTask in pairs(subTasks) do
+            table.insert(tasks, subTask)
+        end
+        return {status=true, next="Main", tasks=tasks}
     end
 
     -- grill time
@@ -165,16 +192,13 @@ ZombiePrograms.Walker.Main = function(bandit)
         end
     end
 
-
     -- interact with players and other npcs
-    if BWOScheduler.SymptomLevel < 3 then
-        local subTasks = BanditPrograms.Talk(bandit)
-        if #subTasks > 0 then
-            for _, subTask in pairs(subTasks) do
-                table.insert(tasks, subTask)
-            end
-            return {status=true, next="Main", tasks=tasks}
+    local subTasks = BanditPrograms.Talk(bandit)
+    if #subTasks > 0 then
+        for _, subTask in pairs(subTasks) do
+            table.insert(tasks, subTask)
         end
+        return {status=true, next="Main", tasks=tasks}
     end
 
      -- most pedestrian will follow the street / road, some will just "gosomwhere" for variability

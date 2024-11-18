@@ -53,6 +53,12 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
 
     local walkType = "Walk"
     local endurance = 0
+    
+    local health = bandit:getHealth()
+    if health < 0.8 then
+        walkType = "Limp"
+        endurance = 0
+    end 
 
     -- if outside building change program
     if bandit:isOutside() then
@@ -91,24 +97,31 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
         end
 
         -- crime scene
-        if BWOScheduler.SymptomLevel < 3 then
-            local subTasks = BanditPrograms.CrimeScene(bandit)
-            if #subTasks > 0 then
-                for _, subTask in pairs(subTasks) do
-                    table.insert(tasks, subTask)
-                end
-                return {status=true, next="Main", tasks=tasks}
+        local subTasks = BanditPrograms.CrimeScene(bandit)
+        if #subTasks > 0 then
+            for _, subTask in pairs(subTasks) do
+                table.insert(tasks, subTask)
             end
+            return {status=true, next="Main", tasks=tasks}
+        end
+
+        -- atm
+        local subTasks = BanditPrograms.ATM(bandit)
+        if #subTasks > 0 then
+            for _, subTask in pairs(subTasks) do
+                table.insert(tasks, subTask)
+            end
+            return {status=true, next="Main", tasks=tasks}
         end
 
         -- house event actions
-        if BWOScheduler.SymptomLevel < 2 then
+        if BWOScheduler.SymptomLevel < 3 then
             if BWOBuildings.IsEventBuilding(building, "party") then
 
                 local boombox = BWOObjects.Find(bandit, def, "Boombox")
                 if boombox then
 
-                    local partyOn = -- false
+                    local partyOn = false -- false
                     if hour >= 19 or hour < 5 then 
                         partyOn = true
                     end

@@ -58,14 +58,12 @@ ZombiePrograms.Runner.Main = function(bandit)
     end
 
     -- attracted to crime scene
-    if BWOScheduler.SymptomLevel < 3 then
-        local subTasks = BanditPrograms.CrimeScene(bandit)
-        if #subTasks > 0 then
-            for _, subTask in pairs(subTasks) do
-                table.insert(tasks, subTask)
-            end
-            return {status=true, next="Main", tasks=tasks}
+    local subTasks = BanditPrograms.CrimeScene(bandit)
+    if #subTasks > 0 then
+        for _, subTask in pairs(subTasks) do
+            table.insert(tasks, subTask)
         end
+        return {status=true, next="Main", tasks=tasks}
     end
 
     -- follow the street / road

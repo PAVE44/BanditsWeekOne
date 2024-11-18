@@ -129,6 +129,8 @@ BanditPrograms.CrimeScene = function(bandit)
     local tasks = {}
     local cell = bandit:getCell()
 
+    if BWOScheduler.WorldAge > 64 then return tasks end
+
     local target = BWOObjects.FindDeadBody(bandit)
     if target.x and target.y and target.z then
         if target.dist >= 3 and target.dist < 20 then
@@ -149,10 +151,71 @@ BanditPrograms.CrimeScene = function(bandit)
             end
         end
     end
+    return tasks
+end
+
+BanditPrograms.ATM = function(bandit)
+    local tasks = {}
+    local cell = bandit:getCell()
+
+    if BWOScheduler.WorldAge < 69 or BWOScheduler.WorldAge > 82 then return tasks end
+
+    local target = BWOObjects.FindGMD(bandit, "atm")      
+    if target.x and target.y and target.z and target.dist < 25 then
+        local square = cell:getGridSquare(target.x, target.y, target.z)
+        if square then
+            local objects = square:getObjects()
+            local atm
+            local standSquare
+            local fx = 0
+            local fy = 0
+            for i=0, objects:size()-1 do
+                local object = objects:get(i)
+                local sprite = object:getSprite()
+                if sprite then
+                    local spriteName = sprite:getName()
+                    if spriteName == "location_business_bank_01_67" then
+                        atm = object
+                        standSquare = square
+                        fy = -1.5
+                    elseif spriteName == "location_business_bank_01_66" then
+                        atm = object
+                        standSquare = square
+                        fx = -1.5
+                    elseif spriteName == "location_business_bank_01_65" then
+                        atm = object
+                        standSquare = square:getS()
+                        fx = -1.5
+                    elseif spriteName == "location_business_bank_01_64" then
+                        atm = object
+                        standSquare = square:getE()
+                        fx = -1.5
+                    end
+                end
+            end
+
+            if atm then
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), standSquare:getX() + 0.5, standSquare:getY() + 0.5)
+                if dist > 0.4 then
+                    table.insert(tasks, BanditUtils.GetMoveTask(0, standSquare:getX(), standSquare:getY(), standSquare:getZ(), "Walk", dist, false))
+                    return tasks
+                else
+                    Bandit.Say(bandit, "ATMFAIL")
+                    local task = {action="FaceLocation", anim="Loot", sound="ZSObjectATMFail", x=target.x+fx, y=target.y+fy, z=target.z, time=300}
+                    table.insert(tasks, task)
+                    return tasks
+                end
+            end
+        end
+    end
+    return tasks
 end
 
 BanditPrograms.Talk = function(bandit)
     local tasks = {}
+
+    if BWOScheduler.WorldAge < 57 then return tasks end
+
     local neighborBandit = BanditUtils.GetClosestBanditLocation(bandit)
     local neighborPlayer = BanditUtils.GetClosestPlayerLocation(bandit, true)
 

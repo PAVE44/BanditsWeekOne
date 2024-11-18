@@ -240,6 +240,18 @@ sound DOAmbientGuns {
         } 
     }
 
+    sound ZSObjectATMFail {
+        category = Object, 
+        loop = false
+        is3D = true,
+        clip { 
+            file = media/sound/atm_fail.wav, 
+            distanceMin = 1, 
+            distanceMax = 3, 
+            reverbFactor = 0.2, volume = 0.3, 
+        } 
+    }
+
     sound ZSPoliceCar1 {
         category = Object, 
         loop = false

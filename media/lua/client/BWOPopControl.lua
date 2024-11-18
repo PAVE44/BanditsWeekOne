@@ -116,6 +116,10 @@ BWOPopControl.StreetsSpawn = function(cnt)
                         bandit.outfit = BanditUtils.Choice({"Postal"})
                         event.program.name = "Postal"
                         event.program.stage = "Prepare"
+                    elseif rnd < 14 then 
+                        bandit.outfit = BanditUtils.Choice({"Farmer"})
+                        event.program.name = "Gardener"
+                        event.program.stage = "Prepare"
                     else
                         bandit.outfit = BanditUtils.Choice({"Generic02", "Generic01"})
                         event.program.name = "Walker"

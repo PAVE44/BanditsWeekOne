@@ -290,8 +290,13 @@ BWOSquareLoader.OnLoad = function(square)
         spriteMap["location_business_bank_01_65"] = "atm"
         spriteMap["location_business_bank_01_66"] = "atm"
         spriteMap["location_business_bank_01_67"] = "atm"
-        spriteMap["FIXME"] = "mailbox"
-        spriteMap["FIXME"] = "mailbox"
+        spriteMap["street_decoration_01_18"] = "mailbox"
+        spriteMap["street_decoration_01_19"] = "mailbox"
+        spriteMap["street_decoration_01_20"] = "mailbox"
+        spriteMap["street_decoration_01_21"] = "mailbox"
+
+        local customNameMap = {}
+        customNameMap["Flowerbed"] = "flowerbed"
 
         local objects = square:getObjects()
         for i=0, objects:size()-1 do
@@ -310,7 +315,19 @@ BWOSquareLoader.OnLoad = function(square)
                     sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
                     break
                 end
+
+                local props = sprite:getProperties()
+                if props:Is("CustomName") then
+                    local customName = props:Val("CustomName")
+                    if customNameMap[customName] then 
+                        local args = {x=x, y=y, z=z, otype=customNameMap[customName]}
+                        sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
+                        break
+                    end
+                end
             end
+
+
         end
     end
 

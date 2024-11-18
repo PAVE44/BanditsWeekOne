@@ -1,9 +1,12 @@
 BWOScheduler = BWOScheduler or {}
- 
+
+-- queue of event tasks to be processed
 BWOScheduler.Schedule = {}
 
+-- general symptoms level 0 - 4
 BWOScheduler.SymptomLevel = 0
 
+-- how old is the world
 BWOScheduler.WorldAge = 0
 
 function BWOScheduler.MasterControl()
@@ -34,7 +37,7 @@ function BWOScheduler.MasterControl()
     local worldAge = (day * 24 + hour) - (startDay * 24 + startHour)
     BWOScheduler.WorldAge = worldAge
 
-    -- building emmiters (churchbells, school)
+    -- building emmiters
     if worldAge < 72 then
 
         -- church
@@ -66,7 +69,7 @@ function BWOScheduler.MasterControl()
         end
     end
 
-    -- general pop control
+    -- general control - adjusting world parameters and firing events based on world age
 
     -- assume day starts at 9.00
     -- D1 09:00 - D2 19:00
@@ -155,6 +158,9 @@ function BWOScheduler.MasterControl()
             end
         elseif worldAge == 59 then
             BWOPopControl.ZombieMax = 1
+            if minute == 44 or minute == 55 then
+                BWOScheduler.Add("EventBuildingParty", 100)
+            end
         end
     end
 

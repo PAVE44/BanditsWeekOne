@@ -29,8 +29,8 @@ BWOMenu.Spawn = function(player, square)
                 event.program.name = "Runner"
                 event.program.stage = "Prepare"
             else
-                bandit.outfit = BanditUtils.Choice({"Generic02", "Generic01"})
-                event.program.name = "Walker"
+                bandit.outfit = BanditUtils.Choice({"Farmer"})
+                event.program.name = "Gardener"
                 event.program.stage = "Prepare"
             end
         end

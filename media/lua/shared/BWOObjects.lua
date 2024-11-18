@@ -169,7 +169,6 @@ BWOObjects.FindDeadBody = function (bandit)
     for id, deadBody in pairs(gmd.DeadBodies) do
         local dist = BanditUtils.DistTo(bx, by, deadBody.x, deadBody.y)
         if dist < result.dist then
-            distBest = dist
             result.dist = dist
             result.x = deadBody.x
             result.y = deadBody.y
@@ -194,7 +193,6 @@ BWOObjects.FindGMD = function (bandit, otype)
         if object.otype == otype then
             local dist = BanditUtils.DistTo(bx, by, object.x, object.y)
             if dist < result.dist then
-                distBest = dist
                 result.dist = dist
                 result.x = object.x
                 result.y = object.y

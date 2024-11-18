@@ -1,12 +1,12 @@
 ZombiePrograms = ZombiePrograms or {}
 
-ZombiePrograms.Postal = {}
-ZombiePrograms.Postal.Stages = {}
+ZombiePrograms.Gardener = {}
+ZombiePrograms.Gardener.Stages = {}
 
-ZombiePrograms.Postal.Init = function(bandit)
+ZombiePrograms.Gardener.Init = function(bandit)
 end
 
-ZombiePrograms.Postal.GetCapabilities = function()
+ZombiePrograms.Gardener.GetCapabilities = function()
     -- capabilities are program decided
     local capabilities = {}
     capabilities.melee = false
@@ -21,7 +21,7 @@ ZombiePrograms.Postal.GetCapabilities = function()
     return capabilities
 end
 
-ZombiePrograms.Postal.Prepare = function(bandit)
+ZombiePrograms.Gardener.Prepare = function(bandit)
     local tasks = {}
     local world = getWorld()
     local cell = getCell()
@@ -33,10 +33,10 @@ ZombiePrograms.Postal.Prepare = function(bandit)
     return {status=true, next="Main", tasks=tasks}
 end
 
-ZombiePrograms.Postal.Main = function(bandit)
+ZombiePrograms.Gardener.Main = function(bandit)
 
-    local function predicateNewspaper(item)
-        return item:getType() == "Newspaper"
+    local function predicateWateringCan(item)
+        return item:getType() == "WateringCan"
     end
 
     local tasks = {}
@@ -76,16 +76,14 @@ ZombiePrograms.Postal.Main = function(bandit)
         return {status=true, next="Main", tasks=tasks}
     end
 
-    -- ensure has newspapers
+    -- ensure has watering can
     local npiList = ArrayList.new()
     local inventory = bandit:getInventory()
-    inventory:getAllEvalRecurse(predicateNewspaper, npiList)
+    inventory:getAllEvalRecurse(predicateWateringCan, npiList)
     local npiCnt = npiList:size()
     if npiCnt == 0 then
-        for i=0, 20 do
-            local item = InventoryItemFactory.CreateItem("Base.Newspaper")
-            inventory:AddItem(item)
-        end
+        local item = InventoryItemFactory.CreateItem("Bandits.WateringCan")
+        inventory:AddItem(item)
         Bandit.UpdateItemsToSpawnAtDeath(bandit)
     end
     
@@ -118,39 +116,28 @@ ZombiePrograms.Postal.Main = function(bandit)
     end
 
     -- interact with players and other npcs
-    --[[
-    if BWOScheduler.SymptomLevel < 3 then
-        local subTasks = BanditPrograms.Talk(bandit)
-        if #subTasks > 0 then
-            for _, subTask in pairs(subTasks) do
-                table.insert(tasks, subTask)
-            end
-            return {status=true, next="Main", tasks=tasks}
+    local subTasks = BanditPrograms.Talk(bandit)
+    if #subTasks > 0 then
+        for _, subTask in pairs(subTasks) do
+            table.insert(tasks, subTask)
         end
+        return {status=true, next="Main", tasks=tasks}
     end
-    ]]
 
-    -- put newspapers to mailbox
-    if BWOScheduler.SymptomLevel < 3 then
-        local target = BWOObjects.FindGMD(bandit, "mailbox")      
-        if target.x and target.y and target.z and target.dist < 80 then
+    -- water the flowers
+    if BWOScheduler.SymptomLevel < 3 and minute % 5 < 2 then
+        local target = BWOObjects.FindGMD(bandit, "flowerbed")      
+        if target.x and target.y and target.z and target.dist < 50 then
             local square = cell:getGridSquare(target.x, target.y, target.z)
             if square then
-                local objects = square:getObjects()
-                for i=0, objects:size()-1 do
-                    local object = objects:get(i)
-                    local container = object:getContainer()
-                    if container and container:isEmpty() then
-                        local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
-                        if dist > 0.8 then
-                            table.insert(tasks, BanditUtils.GetMoveTask(0, square:getX(), square:getY(), square:getZ(), "Walk", dist, false))
-                            return {status=true, next="Main", tasks=tasks}
-                        else
-                            local task = {action="PutInContainer", itemType="Base.Newspaper", anim="Loot", x=object:getX(), y=object:getY(), z=object:getZ()}
-                            table.insert(tasks, task)
-                            return {status=true, next="Main", tasks=tasks}
-                        end
-                    end
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
+                if dist > 0.4 then
+                    table.insert(tasks, BanditUtils.GetMoveTask(0, square:getX(), square:getY(), square:getZ(), "Walk", dist, false))
+                    return {status=true, next="Main", tasks=tasks}
+                else
+                    local task = {action="TimeItem", item="Bandits.WateringCan", left=true, anim="PourWateringCan", sound="WaterCrops", x=target.x, y=target.y, z=target.z, time=200}
+                    table.insert(tasks, task)
+                    return {status=true, next="Main", tasks=tasks}
                 end
             end
         end
@@ -162,13 +149,13 @@ ZombiePrograms.Postal.Main = function(bandit)
     local dx = 0
     local dy = 0
     if rnd == 0 then
-        dx = 10
+        dx = 5
     elseif rnd == 1 then
-        dy = 10
+        dy = 5
     elseif rnd == 2 then
-        dx = -10
+        dx = -5
     elseif rnd == 3 then
-        dy = -10
+        dy = -5
     end
 
     local gameTime = getGameTime()

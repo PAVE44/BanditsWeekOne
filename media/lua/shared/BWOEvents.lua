@@ -638,8 +638,8 @@ BWOEvents.EventBuildingParty = function(player)
     if not counter then return end
 
     -- add boombox
+    local square = counter:getSquare()
     if not boombox  then
-        local square = counter:getSquare()
         -- local radioItem = InventoryItemFactory.CreateItem("Tsarcraft.TCBoombox")
 
         local surfaceOffset = GetSurfaceOffset(square:getX(), square:getY(), square:getZ())
