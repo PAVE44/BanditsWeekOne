@@ -16,7 +16,7 @@ BanditPrograms.Symptoms = function(bandit)
 
     if BWOScheduler.SymptomLevel == 1 or BWOScheduler.SymptomLevel == 2 then
 
-        if pseudoRandom < 8 then
+        if pseudoRandom < 5 then
             local rn = ZombRand(2)
             if rn == 0 then
                 local sound

@@ -44,6 +44,7 @@ ZombiePrograms.Runner.Main = function(bandit)
     local endurance = 0 -- runners are fit!
     local cell = bandit:getCell()
 
+    -- too sick to run
     if BWOScheduler.SymptomLevel > 2 then
         Bandit.ClearTasks(bandit)
         Bandit.SetProgram(bandit, "Walker", {})
@@ -53,27 +54,32 @@ ZombiePrograms.Runner.Main = function(bandit)
         syncData.id = brain.id
         syncData.program = brain.program
         Bandit.ForceSyncPart(bandit, syncData)
+        return {status=true, next="Main", tasks=tasks}
     end
 
     -- follow the street / road
     local direction = bandit:getForwardDirection()
     local angle = direction:getDirection()
-    direction:setLength(2)
+    direction:setLength(8)
 
-    local step = 0.785398163 -- 45 deg
-    for i = 0, 7 do
-        local newangle = angle + (i * step)
-        if newangle > 6.283185304 then newangle = newangle - 6.283185304 end
-        direction:setDirectio(newangle)
+    local step = 0.785398163 / 2 -- 22.5 deg
+    for i = 0, 14 do
+        for j=-1, 1, 2 do
+            local newangle = angle + (i * j * step)
+            if newangle > 6.283185304 then newangle = newangle - 6.283185304 end
+            direction:setDirection(newangle)
 
-        local vx = direction:getX()
-        local vy = direction:getY()
-        local vz = bandit:getZ()
-        local square = cell:getGridSquare(vx, vy, vz)
-        local groundType = BanditUtils.GetGroundType(square)
-        if groundType == "street" then
-            table.insert(tasks, BanditUtils.GetMoveTask(endurance, vx, vy, vz, walkType, 2, false))
-            return {status=true, next="Main", tasks=tasks}
+            local vx = bx + direction:getX()
+            local vy = by + direction:getY()
+            local vz = bz
+            local square = cell:getGridSquare(vx, vy, vz)
+            if square then
+                local groundType = BanditUtils.GetGroundType(square)
+                if groundType == "street" then
+                    table.insert(tasks, BanditUtils.GetMoveTask(endurance, vx, vy, vz, walkType, 2, false))
+                    return {status=true, next="Main", tasks=tasks}
+                end
+            end
         end
     end
 

@@ -252,29 +252,66 @@ BWOSquareLoader.OnLoad = function(square)
         BWOSquareLoader.map[id] = nil
     end
 
-    if BWOScheduler.WorldAge < 24 then
+    if BWOScheduler.WorldAge < 48 then
         local vehicle = square:getVehicleContainer()
         if vehicle then
             local scriptName = vehicle:getScriptName()
             if scriptName:embodies("Burnt") or scriptName:embodies("Smashed") then
-                vehicle:removeFromWorld()
+                if isClient() then
+                    sendClientCommand(getPlayer(), "vehicle", "remove", { vehicle = vehicle:getId() })
+                else
+                    vehicle:permanentlyRemove()
+                end
             else
                 vehicle:repair()
             end
         end
     end
 
-    if BWOScheduler.WorldAge < 24 then
+    if BWOScheduler.WorldAge < 48 then
         local corpse = square:getDeadBody()
         local gmd = GetBWOModData()
         local id = x .. "-" .. y .. "-" .. z
         if corpse and not gmd.DeadBodies[id] then
-            -- local args = {x=z, y=y, z=z}
+            -- local args = {x=x, y=y, z=z}
             -- sendClientCommand(getPlayer(), 'Commands', 'DeadBodyAdd', args)
             square:removeCorpse(corpse, true)
             -- sq:AddWorldInventoryItem(corpse:getItem(), 0.5, 0.5, 0)
         end
+
+        if square:haveBlood() then
+            square:removeBlood(false, false)
+        end
     end
+
+    if BWOScheduler.WorldAge < 72 then
+        local spriteMap = {}
+        spriteMap["location_business_bank_01_64"] = "atm"
+        spriteMap["location_business_bank_01_65"] = "atm"
+        spriteMap["location_business_bank_01_66"] = "atm"
+        spriteMap["location_business_bank_01_67"] = "atm"
+
+        local objects = square:getObjects()
+        for i=0, objects:size()-1 do
+            local object = objects:get(i)
+            if instanceof(object, "IsoBarbecue") then
+                local args = {x=x, y=y, z=z, otype="barbecue"}
+                sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
+                break
+            end
+
+            local sprite = object:getSprite()
+            if sprite then
+                local spriteName = sprite:getName()
+                if spriteMap[spriteName] then 
+                    local args = {x=x, y=y, z=z, otype=spriteMap[spriteName]}
+                    sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
+                    break
+                end
+            end
+        end
+    end
+
 end
 
 Events.LoadGridsquare.Add(BWOSquareLoader.OnLoad)

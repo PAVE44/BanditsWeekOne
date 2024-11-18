@@ -45,7 +45,7 @@ ZombiePrograms.Medic.Main = function(bandit)
     local endurance = 0
 
     -- symptoms
-    if math.abs(id) % 10 > 0 then
+    if math.abs(id) % 2 > 0 then
         if BWOScheduler.SymptomLevel == 3 then
             walkType = "Limp"
         elseif BWOScheduler.SymptomLevel >= 4 then
@@ -75,7 +75,7 @@ ZombiePrograms.Medic.Main = function(bandit)
             if square then
                 deadbody = square:getDeadBody()
                 if deadbody then
-                    local task = {action="Heal", anim="CPR", time=1000, itemType=itemType, x=deadbody:getX(), y=deadbody:getY(), z=deadbody:getZ()}
+                    local task = {action="Heal", anim="LootLow", time=1000, itemType=itemType, x=deadbody:getX(), y=deadbody:getY(), z=deadbody:getZ()}
                     table.insert(tasks, task)
                     return {status=true, next="Main", tasks=tasks}
                 end
@@ -84,7 +84,7 @@ ZombiePrograms.Medic.Main = function(bandit)
     end
     
     -- fallback
-    local task1 = {action="TimeItem", anim="Smoke", item="Bandits.Cigarette", left=true, time=500}
+    local task1 = {action="Smoke", anim="Smoke", item="Bandits.Cigarette", left=true, time=100}
     table.insert(tasks, task1)
     
     local anim2 = BanditUtils.Choice({"WipeBrow", "WipeHead"})

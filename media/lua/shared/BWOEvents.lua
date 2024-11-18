@@ -26,13 +26,11 @@ local function isInCircle(x, y, cx, cy, r)
     return d2 <= r ^ 2
 end
 
-local findVehicleSpot2 = function(player)
-    local px = player:getX()
-    local py = player:getY()
+local findVehicleSpot2 = function(px, py)
     local metaGrid = getWorld():getMetaGrid()
     local rmin = 35
     local rmax = 65
-    local cell = player:getCell()
+    local cell = getCell()
     for x=px-rmax, px+rmax, 5 do
         for y=py-rmax, py+rmax, 5 do
             if isInCircle(x, y, px, py, rmax) and not isInCircle(x, y, px, py, rmin) then
@@ -72,7 +70,8 @@ local callCops = function(hostile)
     if BWOPopControl.Police.Cooldown > 0 then return end
 
     local player = getPlayer()
-    local x, y = findVehicleSpot2(player)
+    local px, py = player:getX(), player:getY()
+    local x, y = findVehicleSpot2(px, py)
 
     if not x or not y then return end
 
@@ -126,7 +125,7 @@ local callCops = function(hostile)
             
     sendClientCommand(player, 'Commands', 'SpawnGroup', event)
 
-    BWOPopControl.Police.Cooldown = 40
+    BWOPopControl.Police.Cooldown = 90
 end
 
 local callSWAT = function(hostile)
@@ -134,7 +133,8 @@ local callSWAT = function(hostile)
     if BWOPopControl.SWAT.Cooldown > 0 then return end
 
     local player = getPlayer()
-    local x, y = findVehicleSpot2(player)
+    local px, py = player:getX(), player:getY()
+    local x, y = findVehicleSpot2(px, py)
 
     if not x or not y then return end
 
@@ -193,7 +193,7 @@ local callSWAT = function(hostile)
             
     sendClientCommand(player, 'Commands', 'SpawnGroup', event)
 
-    BWOPopControl.SWAT.Cooldown = 120
+    BWOPopControl.SWAT.Cooldown = 240
 end
 
 local callMedics = function()
@@ -201,7 +201,8 @@ local callMedics = function()
     if BWOPopControl.Medics.Cooldown > 0 then return end
 
     local player = getPlayer()
-    local x, y = findVehicleSpot2(player)
+    local px, py = player:getX(), player:getY()
+    local x, y = findVehicleSpot2(px, py)
 
     if not x or not y then return end
 
@@ -254,7 +255,7 @@ local callMedics = function()
             
     sendClientCommand(player, 'Commands', 'SpawnGroup', event)
 
-    BWOPopControl.Medics.Cooldown = 35
+    BWOPopControl.Medics.Cooldown = 60
 end
 
 local callHazmats = function()
@@ -262,7 +263,8 @@ local callHazmats = function()
     if BWOPopControl.Hazmats.Cooldown > 0 then return end
 
     local player = getPlayer()
-    local x, y = findVehicleSpot2(player)
+    local px, py = player:getX(), player:getY()
+    local x, y = findVehicleSpot2(px, py)
 
     if not x or not y then return end
 
@@ -316,7 +318,7 @@ local callHazmats = function()
             
     sendClientCommand(player, 'Commands', 'SpawnGroup', event)
 
-    BWOPopControl.Hazmats.Cooldown = 40
+    BWOPopControl.Hazmats.Cooldown = 50
 end
 
 local explode = function(x, y)
@@ -456,6 +458,13 @@ BWOEvents.CallHazmats = function()
     BWOScheduler.Add("VehiclesLightBar", 500)
 end
 
+BWOEvents.Siren = function(player)
+    local emitter = getWorld():getFreeEmitter(player:getX()+10, player:getY()-20, 0)
+    emitter:playAmbientSound("DOSiren2")
+    emitter:setVolumeAll(0.9)
+    addSound(player, player:getX(), player:getY(), player:getZ(), 150, 100)
+end
+
 BWOEvents.ChopperAlert = function(player)
     --getCell():getGridSquare(player:getX()-10, player:getY()-10, 0):playSound("DOChopper")
     BanditPlayer.WakeEveryone()
@@ -516,9 +525,263 @@ BWOEvents.Arson = function(player)
                 local color = {r=1, g=0.5, b=0} -- orange
                 BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, square:getX(), square:getY(), color)
             end
+
+            local sx, sy = square:getX(), square:getY()
+            local x, y = findVehicleSpot2(sx, sy)
+            if x and y then
+                local args = {type="Base.PickUpTruckLightsFire", x=x, y=y, engine=true, lights=true, lightbar=true}
+                sendClientCommand(player, 'Commands', 'VehicleSpawn', args)
+            end
+        end
+    end
+end
+
+BWOEvents.RegisterBase = function(player)
+    local building = player:getBuilding()
+    if building then
+        local buildingDef = building:getDef()
+        local x = buildingDef:getX()
+        local y = buildingDef:getY()
+        local x2 = buildingDef:getX2()
+        local y2 = buildingDef:getY2()
+
+        local args = {x=x, y=y, x2=x2, y2=y2}
+        sendClientCommand(player, 'Commands', 'BaseUpdate', args)
+
+        if SandboxVars.Bandits.General_ArrivalIcon then
+            local icon = "media/ui/defend.png"
+            local color = {r=0.5, g=1, b=0.5} -- GREEN
+            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, (x + x2) / 2, (y + y2) / 2, color)
+        end
+    end
+end
+
+BWOEvents.EventBuildingParty = function(player)
+
+    local function GetSurfaceOffset (x, y, z)
+
+        local cell = getCell()
+        local square = cell:getGridSquare(x, y, z)
+        local tileObjects = square:getLuaTileObjectList()
+        local squareSurfaceOffset = 0
+    
+        -- get the object with the highest offset
+        for k, object in pairs(tileObjects) do
+            local surfaceOffsetNoTable = object:getSurfaceOffsetNoTable()
+            if surfaceOffsetNoTable > squareSurfaceOffset then
+                squareSurfaceOffset = surfaceOffsetNoTable
+            end
+    
+            local surfaceOffset = object:getSurfaceOffset()
+            if surfaceOffset > squareSurfaceOffset then
+                squareSurfaceOffset = surfaceOffset
+            end
+        end
+    
+        return squareSurfaceOffset / 96
+    end
+
+    local house = BWOBuildings.FindBuildingType("residential")
+    if not house then return end
+
+    local cell = player:getCell()
+    local def = house:getDef()
+    local id = def:getKeyId()
+
+    -- replace light and find what we need
+    local boombox
+    local counter
+    local bx = def:getX()
+    local bx2 = def:getX2()
+    local by = def:getY()
+    local by2 = def:getY2()
+    for x=bx, bx2 do
+        for y=by, by2 do
+            local square = cell:getGridSquare(x, y, 0)
+            if square then
+                local objects = square:getObjects()
+                for i=0, objects:size()-1 do
+                    local object = objects:get(i)
+                    if instanceof(object, "IsoLightSwitch") then
+                        local lightList = object:getLights()
+                        if lightList:size() > 0 then
+                            object:setBulbItemRaw("Base.LightBulbRed")
+                            object:setPrimaryR(1)
+                            object:setPrimaryG(0)
+                            object:setPrimaryB(0)
+                            object:setActive(true)
+                        end
+                    end
+                    local sprite = object:getSprite()
+                    if sprite then
+                        local props = sprite:getProperties()
+                        if props:Is("CustomName") then
+                            local name = props:Val("CustomName")
+                            if name == "Boombox" then
+                                boombox = object
+                            elseif name == "Low Table" then
+                                counter = object
+                            elseif name == "Counter" then
+                                counter = object
+                            elseif name == "Oak Round Table" then
+                                counter = object
+                            elseif name == "Light Round Table" then
+                                counter = object
+                            end
+                        end
+                    end
+                end
+            end
         end
     end
 
+    if not counter then return end
+
+    -- add boombox
+    if not boombox  then
+        local square = counter:getSquare()
+        -- local radioItem = InventoryItemFactory.CreateItem("Tsarcraft.TCBoombox")
+
+        local surfaceOffset = GetSurfaceOffset(square:getX(), square:getY(), square:getZ())
+        local radioItem = square:AddWorldInventoryItem("Tsarcraft.TCBoombox", 0.5, 0.5, surfaceOffset)
+
+        local radio = IsoRadio.new(cell, square, getSprite(TCMusic.WorldMusicPlayer[radioItem:getFullType()]))
+        square:AddTileObject(radio)
+        radio:getModData().tcmusic = {}
+        radio:getModData().tcmusic.itemid = square:getX() .. square:getY() .. square:getZ()
+        radio:getModData().tcmusic.deviceType = "IsoObject"
+        radio:getModData().tcmusic.isPlaying = false
+        radio:getModData().RadioItemID = radioItem:getID() .. "tm"
+        radio:getDeviceData():setIsTurnedOn(false)
+        radio:getDeviceData():setPower(radioItem:getDeviceData():getPower())
+        radio:getDeviceData():setDeviceVolume(radioItem:getDeviceData():getDeviceVolume())
+        if radioItem:getDeviceData():getIsBatteryPowered() and radioItem:getDeviceData():getHasBattery() then
+            radio:getDeviceData():setPower(radioItem:getDeviceData():getPower())
+        else
+            radio:getDeviceData():setHasBattery(false)
+        end
+
+        local cassetteItem = InventoryItemFactory.CreateItem("Tsarcraft.CassetteDepecheModePersonalJesus(1989)")
+        radio:getModData().tcmusic.mediaItem = cassetteItem:getType()
+        radio:transmitModData()
+
+        if isClient() then 
+            radio:transmitCompleteItemToServer(); 
+        end
+    end
+
+    local args = {id=id, event="party"}
+    sendClientCommand(player, 'Commands', 'EventBuildingAdd', args)
+
+    -- inhabitants
+    local event = {}
+    event.hostile = false
+    event.occured = false
+    event.program = {}
+    event.program.name = "Inhabitant"
+    event.program.stage = "Prepare"
+    local room = square:getRoom()
+    local roomDef = room:getRoomDef()
+    local pop = 8
+    for i=1, pop do
+        local spawnSquare = roomDef:getFreeSquare()
+        if spawnSquare then
+            event.x = spawnSquare:getX()
+            event.y = spawnSquare:getY()
+            event.z = spawnSquare:getZ()
+            event.bandits = {}
+            local bandit = BanditCreator.MakeFromRoom(room)
+
+            if ZombRand(2) == 0 then
+                bandit.outfit = BanditUtils.Choice({"StripperBlack", "StripperNaked", "StripperPink", "DressShort", "Naked", "Party"})
+                bandit.femaleChance = 100
+            else
+                bandit.outfit = BanditUtils.Choice({"Thug", "Party", "Young", "Stripper", "PoliceStripper", "Naked"})
+                bandit.femaleChance = 0
+            end
+
+            if bandit then
+                table.insert(event.bandits, bandit)
+                sendClientCommand(player, 'Commands', 'SpawnGroup', event)
+            end
+        end
+    end
+
+    -- marker
+    if SandboxVars.Bandits.General_ArrivalIcon then
+        local icon = "media/ui/defend.png"
+        local color = {r=1, g=0.7, b=0.8} -- PINK
+        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, (bx + bx2) / 2, (by + by2) / 2, color)
+    end
+end
+
+BWOEvents.FixVehicles = function(player)
+    local cell = player:getCell()
+    local vehicleList = cell:getVehicles()
+    for i=0, vehicleList:size()-1 do
+        local vehicle = vehicleList:get(i)
+        local scriptName = vehicle:getScriptName()
+        if scriptName:embodies("Burnt") or scriptName:embodies("Smashed") then
+            if isClient() then
+                sendClientCommand(player, "vehicle", "remove", { vehicle = vehicle:getId() })
+            else
+                vehicle:permanentlyRemove()
+            end
+        else
+            vehicle:repair()
+        end
+    end
+end
+
+BWOEvents.Defenders = function(player)
+    BanditScheduler.SpawnDefenders(player, 50, 70)
+end
+
+--spawn groups
+
+BWOEvents.Thieves = function(player)
+    local base = BanditPlayerBase.GetBase(player)
+    if not base then return end
+
+    config = {}
+    config.clanId = 13
+    config.hasRifleChance = 0
+    config.hasPistolChance = 70
+    config.rifleMagCount = 0
+    config.pistolMagCount = 2
+
+    local event = {}
+    event.hostile = false
+    event.occured = false
+    event.program = {}
+    event.program.name = "Thief"
+    event.program.stage = "Prepare"
+
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(40,45))
+    if spawnPoint then
+        event.x = spawnPoint.x
+        event.y = spawnPoint.y
+        event.bandits = {}
+        
+        local bandit = BanditCreator.MakeFromWave(config)
+        local intensity = 3
+        if intensity > 0 then
+            for i=1, intensity do
+                table.insert(event.bandits, bandit)
+            end
+            sendClientCommand(player, 'Commands', 'SpawnGroup', event)
+        end
+
+        if SandboxVars.Bandits.General_ArrivalIcon then
+            local icon = "media/ui/thief.png"
+            local color = {r=1, g=1, b=0.5} -- yellow
+            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+        end
+
+        if SandboxVars.Bandits.General_ArrivalWakeUp then
+            BanditPlayer.WakeEveryone()
+        end
+    end
 end
 
 BWOEvents.PoliceRiot = function(player)
@@ -530,7 +793,7 @@ BWOEvents.PoliceRiot = function(player)
     config.pistolMagCount = 4
 
     local event = {}
-    event.hostile = true
+    event.hostile = false
     event.occured = false
     event.program = {}
     event.program.name = "Looter"
@@ -560,10 +823,6 @@ BWOEvents.PoliceRiot = function(player)
             BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
         end
     end
-end
-
-BWOEvents.Defenders = function(player)
-    BanditScheduler.SpawnDefenders(player, 50, 70)
 end
 
 BWOEvents.Criminals = function(player)
@@ -642,7 +901,7 @@ BWOEvents.Bandits = function(player)
     end
 end
 
-BWOEvents.Bandits = function(player)
+BWOEvents.Bikers = function(player)
     config = {}
     config.clanId = 9
     config.hasRifleChance = 0
@@ -665,6 +924,82 @@ BWOEvents.Bandits = function(player)
         
         local bandit = BanditCreator.MakeFromWave(config)
         local intensity = 7
+        if intensity > 0 then
+            for i=1, intensity do
+                table.insert(event.bandits, bandit)
+            end
+            sendClientCommand(player, 'Commands', 'SpawnGroup', event)
+        end
+
+        if SandboxVars.Bandits.General_ArrivalIcon then
+            local icon = "media/ui/loot.png"
+            local color = {r=1, g=0.5, b=0} -- orange
+            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+        end
+    end
+end
+
+BWOEvents.Inmates = function(player)
+    config = {}
+    config.clanId = 5
+    config.hasRifleChance = 10
+    config.hasPistolChance = 50
+    config.rifleMagCount = 2
+    config.pistolMagCount = 2
+
+    local event = {}
+    event.hostile = true
+    event.occured = false
+    event.program = {}
+    event.program.name = "Looter"
+    event.program.stage = "Prepare"
+
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(40,45))
+    if spawnPoint then
+        event.x = spawnPoint.x
+        event.y = spawnPoint.y
+        event.bandits = {}
+        
+        local bandit = BanditCreator.MakeFromWave(config)
+        local intensity = 14
+        if intensity > 0 then
+            for i=1, intensity do
+                table.insert(event.bandits, bandit)
+            end
+            sendClientCommand(player, 'Commands', 'SpawnGroup', event)
+        end
+
+        if SandboxVars.Bandits.General_ArrivalIcon then
+            local icon = "media/ui/loot.png"
+            local color = {r=1, g=0.5, b=0} -- orange
+            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+        end
+    end
+end
+
+BWOEvents.Asylum = function(player)
+    config = {}
+    config.clanId = 2
+    config.hasRifleChance = 0
+    config.hasPistolChance = 0
+    config.rifleMagCount = 0
+    config.pistolMagCount = 0
+
+    local event = {}
+    event.hostile = true
+    event.occured = false
+    event.program = {}
+    event.program.name = "Looter"
+    event.program.stage = "Prepare"
+
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(40,45))
+    if spawnPoint then
+        event.x = spawnPoint.x
+        event.y = spawnPoint.y
+        event.bandits = {}
+        
+        local bandit = BanditCreator.MakeFromWave(config)
+        local intensity = 16
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)

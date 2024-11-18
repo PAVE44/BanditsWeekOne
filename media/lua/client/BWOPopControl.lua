@@ -210,8 +210,6 @@ BWOPopControl.InhabitantsSpawn = function(cnt)
                                 sendClientCommand(player, 'Commands', 'SpawnGroup', event)
                                 s = s + pop
 
-                                BWOBuildings.AdaptRoom(room)
-
                                 if s > cnt then return end
                             end
                         end
@@ -452,6 +450,10 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
     -- attacking zombies is ok!
     if not bandit:getVariableBoolean("Bandit") then return end
 
+    -- killing bandits is ok!
+    local brain = BanditBrain.Get(bandit)
+    if brain.hostile == true then return end
+
     -- to weak to respond
     -- local infection = Bandit.GetInfection(bandit)
     -- if infection > 0 then return end
@@ -466,32 +468,35 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
                 if actor:CanSee(bandit) then
 
                     -- attacking by player retaliation is handled by main Bandits mod, here we just want to call hostile cops additionally
-                    if instanceof(attacker, "IsoPlayer") and attacker:getDisplayName() == getPlayer():getDisplayName() then
+                    -- theifs are exception, they spawn technically as friendy so attacking them here should not trigger enemy, but friendly cops
+                    if instanceof(attacker, "IsoPlayer") and attacker:getDisplayName() == getPlayer():getDisplayName() and brain.program.name ~= "Thief" then
                         local outfit = bandit:getOutfitName()
                         if outfit == "Police" then
                             if BWOPopControl.SWAT.On then
-                                BWOScheduler.Add("CallSWATHostile", 1500)
+                                BWOScheduler.Add("CallSWATHostile", 3500)
                             end
                         else
                             if BWOPopControl.Police.On then
-                                BWOScheduler.Add("CallCopsHostile", 1100)
+                                BWOScheduler.Add("CallCopsHostile", 3100)
                             end
                         end
                     else
-                        -- attack by non-player results in program change for civilian witnesses
+                        -- witnessing civilians need to change peaceful behavior to active
                         if witness.brain.program.name == "Inhabitant" or witness.brain.program.name == "Walker" or witness.brain.program.name == "Runner" then
                             Bandit.SetProgram(actor, "Active", {})
                             local brain = BanditBrain.Get(actor)
-                            local syncData = {}
-                            syncData.id = brain.id
-                            syncData.hostile = brain.hostile
-                            syncData.program = brain.program
-                            Bandit.ForceSyncPart(actor, syncData)
+                            if brain then
+                                local syncData = {}
+                                syncData.id = brain.id
+                                syncData.hostile = brain.hostile
+                                syncData.program = brain.program
+                                Bandit.ForceSyncPart(actor, syncData)
+                            end
                         end
 
                         -- call friendly police
                         if BWOPopControl.Police.On then
-                            BWOScheduler.Add("CallCops", 1000)
+                            BWOScheduler.Add("CallCops", 3000)
                         end
                     end
                 end
@@ -513,9 +518,9 @@ BWOPopControl.OnZombieDead = function(zombie)
     sendClientCommand(getPlayer(), 'Commands', 'DeadBodyAdd', args)
 
     if BWOPopControl.Medics.On then
-        BWOScheduler.Add("CallMedics", 6000)
+        BWOScheduler.Add("CallMedics", 9000)
     elseif BWOPopControl.Hazmats.On then
-        BWOScheduler.Add("CallHazmats", 6500)
+        BWOScheduler.Add("CallHazmats", 9500)
     end
 end
 

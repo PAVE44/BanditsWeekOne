@@ -16,6 +16,55 @@ BWOBuildings.RoomPop = {church=17,
                          medclinic=3, medical=3,
                          breakroom=2}
 
+-- OpenHours defines opening hours for a given type of a building
+BWOBuildings.OpenHours = {}
+
+BWOBuildings.OpenHours.unknown = {}
+BWOBuildings.OpenHours.unknown.open = 0
+BWOBuildings.OpenHours.unknown.close = 0
+
+BWOBuildings.OpenHours.commercial = {}
+BWOBuildings.OpenHours.commercial.open = 8
+BWOBuildings.OpenHours.commercial.close = 18
+
+BWOBuildings.OpenHours.bank = BWOBuildings.OpenHours.commercial
+BWOBuildings.OpenHours.mechanic = BWOBuildings.OpenHours.commercial
+BWOBuildings.OpenHours.industrial = BWOBuildings.OpenHours.commercial
+BWOBuildings.OpenHours.gunstore = BWOBuildings.OpenHours.commercial
+
+BWOBuildings.OpenHours.residential = {}
+BWOBuildings.OpenHours.residential.open = 0
+BWOBuildings.OpenHours.residential.close = 0
+BWOBuildings.OpenHours.prison = BWOBuildings.OpenHours.residential
+
+BWOBuildings.OpenHours.motel = {}
+BWOBuildings.OpenHours.motel.open = 0
+BWOBuildings.OpenHours.motel.close = 24
+
+BWOBuildings.OpenHours.dining = {}
+BWOBuildings.OpenHours.dining.open = 11
+BWOBuildings.OpenHours.dining.close = 24
+
+BWOBuildings.OpenHours.education = {}
+BWOBuildings.OpenHours.education.open = 0
+BWOBuildings.OpenHours.education.close = 24
+
+BWOBuildings.OpenHours.church = {}
+BWOBuildings.OpenHours.church.open = 6
+BWOBuildings.OpenHours.church.close = 20
+
+BWOBuildings.OpenHours.police = {}
+BWOBuildings.OpenHours.police.open = 0
+BWOBuildings.OpenHours.police.close = 24
+
+BWOBuildings.OpenHours.firestation = BWOBuildings.OpenHours.police
+BWOBuildings.OpenHours.medical = BWOBuildings.OpenHours.police
+BWOBuildings.OpenHours.gasstation = BWOBuildings.OpenHours.police
+
+BWOBuildings.OpenHours.church = {}
+BWOBuildings.OpenHours.church.open = 0
+BWOBuildings.OpenHours.church.close = 24
+
 -- Hmap defines buidling population intensity modifier based on the game hour
 BWOBuildings.Hmap = {}
 
@@ -103,8 +152,8 @@ BWOBuildings.Hmap.residential[23] = 1.5
 BWOBuildings.Hmap.motel = BWOBuildings.Hmap.residential
 
 BWOBuildings.Hmap.dining = {}
-BWOBuildings.Hmap.dining[0] = 0.3
-BWOBuildings.Hmap.dining[1] = 0.1
+BWOBuildings.Hmap.dining[0] = 0
+BWOBuildings.Hmap.dining[1] = 0
 BWOBuildings.Hmap.dining[2] = 0
 BWOBuildings.Hmap.dining[3] = 0
 BWOBuildings.Hmap.dining[4] = 0
@@ -327,53 +376,59 @@ BWOBuildings.GetRoomPop = function(room)
     return pop
 end
 
-BWOBuildings.IsParty = function(building, room)
+BWOBuildings.IsEventBuilding = function(building, event)
+    local gmd = GetBWOModData()
     local buildingDef = building:getDef()
-    local roomName = room:getName()
-    local key = buildingDef:getKeyId()
-    local role = key % 7
-    if role > 0 then return false end
-    
-    local isRoomOk = false
-    local roomList = {"livingroom", "restaurant", "dining", "spiffo_dining", "pizzawhirled", "jayschicken_dining", "diningroom", "cafeteria"}
-    for _, rn in pairs(roomList) do
-        if roomName == rn then
-            isRoomOk = true
-            break
+    local id = buildingDef:getKeyId()
+    if gmd.EventBuildings[id] then
+        if gmd.EventBuildings[id].event == event then
+            return true
         end
     end
-    if not isRoomOk then return false end
-
-    return true
+    return false
 end
 
-BWOBuildings.AdaptRoom = function(room)
-    local roomDef = room:getDef()
-    local building = room:getBuilding()
-    local gameTime = getGameTime()
-    local hour = gameTime:getHour()
+BWOBuildings.IsIntrusion = function(building, room)
+    local player = getPlayer()
+    local profession = player:getDescriptor():getProfession()
+    local btype = BWOBuildings.GetType(building)
+    local roomName = room:getName()
 
-    if BWOBuildings.IsParty(building, room) then 
-        local ls = BWOObjects.FindLightSwitch(bandit, roomDef)
-        if not ls then return end
-        
-        local lightList = object:getLights()
-        if lightList:size() == 0 then return end
+    -- available professions types: 
+    -- unemployed, fireofficer, policeofficer, parkranger, constructionworker, securityguard, carpenter, burglar, chef, farmer, fisherman
+    -- doctor, veteran, nurse, lumberjack, fitnessinstructor, burgerflipper, electrician, metalworker, mechanics
 
-        if hour > 5 and hour < 21 then 
-            ls:setBulbItemRaw("Base.LightBulb")
-            ls:setPrimaryR(1)
-            ls:setPrimaryG(1)
-            ls:setPrimaryB(1)
-            ls:setActive(false)
-        else
-            ls:setBulbItemRaw("Base.LightBulbRed")
-            ls:setPrimaryR(1)
-            ls:setPrimaryG(0)
-            ls:setPrimaryB(0)
-            ls:setActive(true)
-        end
+    if btype == "residential" then return true end
+
+    if roomName == "armystorage" and profession ~= "veteran" then return true end
+    if roomName == "gunstorestorage" and profession ~= "veteran" then return true end
+    if roomName == "policestorage" and profession ~= "policeofficer" then return true end
+    if roomName == "security" and (profession ~= "policeofficer" and profession ~= "securityguard") then return true end
+    
+    if roomName == "firestorage" and profession ~= "fireofficer" then return true end
+    if roomName == "farmstorage" and profession ~= "farmer" then return true end
+    if roomName == "potatostorage" and profession ~= "farmer" then return true end
+    if roomName == "producestorage" and profession ~= "farmer" then return true end
+    if roomName == "electronicsstorage" and profession ~= "electrician" then return true end
+    if roomName == "radiostorage" and profession ~= "electrician" then return true end
+    if roomName == "dentiststorage" and (profession ~= "doctor" and profession ~= "nurse") then return true end
+    if roomName == "hospitalstorage" and (profession ~= "doctor" and profession ~= "nurse") then return true end
+    if roomName == "medicalstorage" and (profession ~= "doctor" and profession ~= "nurse") then return true end
+    if roomName == "pharmacystorage" and (profession ~= "doctor" and profession ~= "nurse") then return true end
+    if roomName == "burgerstorage" and (profession ~= "chef" and profession ~= "burgerflipper") then return true end
+    if roomName == "fishingstorage" and (profession ~= "chef" and profession ~= "fisherman") then return true end
+
+    local otherStorage = {"aestheticstorage", "batstorage", "barstorage", "batterystorage", "brewerystorage", "campingstorage", "candystorage", "clothingstorage", 
+                          "cornerstorestorage", "departmentstorage", "dogfoodstorage", "donut_kitchenstorage", "factorystorage", "furniturestorage", 
+                          "gasstorage", "generalstorestorage", "giftstorage", "grocerystorage", "jewelrystorage", "newspaperstorage", "pawnshopstorage", 
+                          "poststorage", "schoolstorage", "sewingstorage", "spiffosstorage", "sportstorage", "theatrestorage", "toolstorestorage",
+                          "toystorestorage", "zippeestorage"}
+
+    for _, storage in pairs(otherStorage) do
+        if roomName == storage then return true end
     end
+
+    return false
 end
 
 BWOBuildings.GetPopMultiplier = function(building)
@@ -420,6 +475,12 @@ BWOBuildings.FindBuildingType = function(bsearch)
         end
     end
 
+    -- shuffle (Fisher-Yates)
+    for i = #buildings, 2, -1 do
+        local j = ZombRand(i) + 1
+        buildings[i], buildings[j] = buildings[j], buildings[i]
+    end
+    
     for key, building in pairs(buildings) do
         local btype = BWOBuildings.GetType(building)
         if bsearch == btype then
@@ -446,6 +507,12 @@ BWOBuildings.FindBuildingDist = function(min, max)
                 buildings[key] = building
             end
         end
+    end
+
+    -- shuffle (Fisher-Yates)
+    for i = #buildings, 2, -1 do
+        local j = ZombRand(i) + 1
+        buildings[i], buildings[j] = buildings[j], buildings[i]
     end
 
     for key, building in pairs(buildings) do

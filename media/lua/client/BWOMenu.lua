@@ -147,10 +147,32 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
     -- local test3 = zone:getType()
     -- local test4 = zone:getZombieDensity()
 
+    -- local profs = ProfessionFactory.getProfessions()
+    -- for i=0, profs:size()-1 do
+    --    local p = profs:get(i)
+    --    print (p:getType())
+    -- end
+
+    --[[
+    local vehicle = square:getVehicleContainer()
+    if vehicle then
+        local scriptName = vehicle:getScriptName()
+        if scriptName:embodies("Burnt") or scriptName:embodies("Smashed") then
+            if isClient() then
+                sendClientCommand(getPlayer(), "vehicle", "remove", { vehicle = vehicle:getId() })
+            else
+                vehicle:permanentlyRemove()
+            end
+        else
+             vehicle:repair()
+        end
+    end]]
+
     context:addOption("[DGB] BWO: Event: Arson", player, BWOMenu.EventArson)
     context:addOption("[DGB] BWO: Deadbodies: Flush", player, BWOMenu.FlushDeadbodies)
 
     local player = getSpecificPlayer(playerID)
+    print (player:getDescriptor():getProfession())
     if isDebugEnabled() or isAdmin() then
         context:addOption("[DGB] BWO: Spawn By Location", player, BWOMenu.Spawn, square)
         context:addOption("[DGB] BWO: Spawn Pedestrian", player, BWOMenu.SpawnPedestrian, square)

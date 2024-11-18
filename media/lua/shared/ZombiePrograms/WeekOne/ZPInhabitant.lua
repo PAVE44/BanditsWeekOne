@@ -40,19 +40,21 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
     local bx = bandit:getX()
     local by = bandit:getY()
     local bz = bandit:getZ()
-    local walkType = "Walk"
-    local endurance = 0
     local world = getWorld()
+    local cell = getCell()
     local cm = world:getClimateManager()
     local dls = cm:getDayLightStrength()
+    local square = bandit:getSquare()
+    local room = square:getRoom()
+    local building = square:getBuilding()
     local gameTime = getGameTime()
     local hour = gameTime:getHour()
     local minute = gameTime:getMinutes()
-    local square = bandit:getSquare()
-    local room = square:getRoom()
 
-    -- if outside building then remove
-    -- if outside  building change program
+    local walkType = "Walk"
+    local endurance = 0
+
+    -- if outside building change program
     if bandit:isOutside() then
         Bandit.ClearTasks(bandit)
         Bandit.SetProgram(bandit, "Walker", {})
@@ -62,6 +64,7 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
         syncData.id = brain.id
         syncData.program = brain.program
         Bandit.ForceSyncPart(bandit, syncData)
+        return {status=true, next="Main", tasks=tasks}
     end
     
     if room then
@@ -71,7 +74,7 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
         -- global actions independent of room type
         
         -- symptoms
-        if math.abs(id) % 10 > 0 then
+        if math.abs(id) % 4 > 0 then
             if BWOScheduler.SymptomLevel == 3 then
                 walkType = "Limp"
             elseif BWOScheduler.SymptomLevel >= 4 then
@@ -87,20 +90,95 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
             end
         end
 
-        -- intrustion
+        -- watch deadbody
+        if BWOScheduler.SymptomLevel < 3 then
+            local target = BWOObjects.FindDeadBody(bandit)
+            if target.x and target.y and target.z then
+                if target.dist >= 3 and target.dist < 20 then
+                    walkType = "Run"
+                    table.insert(tasks, BanditUtils.GetMoveTask(endurance, target.x, target.y, target.z, walkType, target.dist, false))
+                    return {status=true, next="Main", tasks=tasks}
+                elseif target.dist < 3 then
+                    local square = cell:getGridSquare(target.x, target.y, target.z)
+                    if square then
+                        deadbody = square:getDeadBody()
+                        if deadbody then
+                            Bandit.Say(bandit, "CORPSE")
+                            local anim = BanditUtils.Choice({"SmellBad", "SmellGag", "PainHead", "ChewNails", "No", "No", "WipeBrow"})
+                            local task = {action="FaceLocation", anim=anim, time=100, x=deadbody:getX(), y=deadbody:getY(), z=deadbody:getZ()}
+                            table.insert(tasks, task)
+                            return {status=true, next="Main", tasks=tasks}
+                        end
+                    end
+                end
+            end
+        end
+
+        -- house event actions
         if BWOScheduler.SymptomLevel < 2 then
-            local playerList = BanditPlayer.GetPlayers()
-            for i=0, playerList:size()-1 do
-                local player = playerList:get(i)
-                if player and not BanditPlayer.IsGhost(player) then
-                    local building = player:getBuilding()
-                    local room = player:getSquare():getRoom()
-                    
-                    if building then
-                        local roomName = room:getName()
-                        if (BWOBuildings.GetType(building) == "residential" or roomName == "security") and bandit:CanSee(player) and not player:isOutside() then
-                            Bandit.Say(bandit, "DEFENDER_SPOTTED")
-                            BWOScheduler.Add("CallCopsHostile", 1000)
+            if BWOBuildings.IsEventBuilding(building, "party") then
+
+                local boombox = BWOObjects.Find(bandit, def, "Boombox")
+                if boombox then
+
+                    local partyOn = -- false
+                    if hour >= 19 or hour < 5 then 
+                        partyOn = true
+                    end
+
+                    if partyOn then
+                        local dd = boombox:getDeviceData()
+                        if not dd:getIsTurnedOn() or not boombox:getModData().tcmusic.isPlaying then
+                            local square = boombox:getSquare()
+                            local asquare = AdjacentFreeTileFinder.Find(square, bandit)
+                            if asquare then
+                                local dist = math.sqrt(math.pow(bandit:getX() - (asquare:getX() + 0.5), 2) + math.pow(bandit:getY() - (asquare:getY() + 0.5), 2))
+                                if dist > 0.70 then
+                                    table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
+                                    return {status=true, next="Main", tasks=tasks}
+                                else
+                                    local task = {action="BoomboxToggle", on=true, anim="Loot", x=square:getX(), y=square:getY(), z=square:getZ(), time=100}
+                                    table.insert(tasks, task)
+                                    return {status=true, next="Main", tasks=tasks}
+                                end
+                            end
+                        end
+
+                        local rnd = ZombRand(5)
+                        if rnd == 0 then
+                            local task = {action="Smoke", anim="Smoke", item="Bandits.Cigarette", left=true, time=100}
+                            table.insert(tasks, task)
+                            return {status=true, next="Main", tasks=tasks}
+                        elseif rnd == 1 then
+                            local task = {action="TimeItem", anim="Drink", sound="DrinkingFromBottle", item="Bandits.BeerBottle", left=true, time=100}
+                            table.insert(tasks, task)
+                            return {status=true, next="Main", tasks=tasks}
+                        else
+                            local anim = BanditUtils.Choice({"DanceHipHop3", "DanceLocking", "DanceShuffling", "DanceArmsHipHop", "DanceGandy", "DanceHouseDancing", "DanceRaiseTheRoof", "DanceRobotOne", "DanceRobotTwo", "DanceSnake"})
+                            local task = {action="Time", anim=anim, time=500}
+                            table.insert(tasks, task)
+                            return {status=true, next="Main", tasks=tasks}
+                        end
+                    end
+                end
+            else
+
+                local playerList = BanditPlayer.GetPlayers()
+                for i=0, playerList:size()-1 do
+                    local player = playerList:get(i)
+                    if player and not BanditPlayer.IsGhost(player) then
+                        local building = player:getBuilding()
+                        local room = player:getSquare():getRoom()
+                        
+                        if building then
+                            local base = BanditPlayerBase.GetBase(player)
+                            if not base then
+                                local roomName = room:getName()
+                                if BWOBuildings.IsIntrusion(building, room) and bandit:CanSee(player) and not player:isOutside() then
+                                    Bandit.Say(bandit, "DEFENDER_SPOTTED")
+                                    BWOScheduler.Add("CallCopsHostile", 1000)
+                                end
+                            end
                         end
                     end
                 end
@@ -139,25 +217,67 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
             end
         end
 
-        -- barricade
-        local barricadable = BWOObjects.FindBarricadable(bandit, def)
-        if barricadable then
-            local standSquare = barricadable:getIndoorSquare()
-            --if standSquare:isOutside() then
-            --    standSquare = barricadable:getOppositeSquare()
-            --end
+        local door = BWOObjects.FindExteriorDoor(bandit, def)
+        if door then
 
-            local dist = math.sqrt(math.pow(bandit:getX() - (standSquare:getX() + 0.5), 2) + math.pow(bandit:getY() - (standSquare:getY() + 0.5), 2))
-            if dist > 0.70 then
-                table.insert(tasks, BanditUtils.GetMoveTask(0, standSquare:getX(), standSquare:getY(), standSquare:getZ(), "Walk", dist, false))
-                return {status=true, next="Main", tasks=tasks}
+            local unlock
+            if BWOPopControl.ZombieMax > 0 then
+                unlock = false
             else
-                local task1 = {action="Equip", itemPrimary="Base.Hammer"}
-                table.insert(tasks, task1)
+                local buildingType = BWOBuildings.GetType(building)
+                local hours = BWOBuildings.OpenHours[buildingType]
+            
+                if door:IsOpen() or not door:isLockedByKey() then
+                    if hour < hours.open or hour >= hours.close then
+                        unlock = false -- lock doors
+                    end
+                elseif door:isLockedByKey() or door:isLocked() then
+                    if hour >= hours.open and hour < hours.close then
+                        unlock = true -- unlock doors
+                    end
+                end
+            end
 
-                local task2 = {action="Barricade", anim="Hammer", time=500, x=barricadable:getX(), y=barricadable:getY(), z=barricadable:getZ()}
-                table.insert(tasks, task2)
-                return {status=true, next="Main", tasks=tasks}
+            if unlock ~= nil then
+                local standSquare = door:getSquare()
+                if standSquare:isOutside() then
+                    standSquare = door:getOppositeSquare()
+                end
+
+                local dist = math.sqrt(math.pow(bandit:getX() - (standSquare:getX() + 0.5), 2) + math.pow(bandit:getY() - (standSquare:getY() + 0.5), 2))
+                if dist > 0.70 then
+                    table.insert(tasks, BanditUtils.GetMoveTask(0, standSquare:getX(), standSquare:getY(), standSquare:getZ(), "Walk", dist, false))
+                    return {status=true, next="Main", tasks=tasks}
+                else
+                    local task = {action="DoorLock", time=80, unlock=unlock, x=door:getX(), y=door:getY(), z=door:getZ()}
+                    table.insert(tasks, task)
+                    return {status=true, next="Main", tasks=tasks}
+                end
+            end
+        end
+
+        -- barricade
+        if BWOPopControl.ZombieMax >= 2 then
+            local barricadable = BWOObjects.FindBarricadable(bandit, def)
+            if barricadable then
+                --local standSquare = barricadable:getIndoorSquare()
+                local standSquare = barricadable:getSquare()
+                if standSquare:isOutside() then
+                    standSquare = barricadable:getOppositeSquare()
+                end
+
+                local dist = math.sqrt(math.pow(bandit:getX() - (standSquare:getX() + 0.5), 2) + math.pow(bandit:getY() - (standSquare:getY() + 0.5), 2))
+                if dist > 0.70 then
+                    table.insert(tasks, BanditUtils.GetMoveTask(0, standSquare:getX(), standSquare:getY(), standSquare:getZ(), "Walk", dist, false))
+                    return {status=true, next="Main", tasks=tasks}
+                else
+                    local task1 = {action="Equip", itemPrimary="Base.Hammer"}
+                    table.insert(tasks, task1)
+
+                    local task2 = {action="Barricade", anim="Hammer", time=500, x=barricadable:getX(), y=barricadable:getY(), z=barricadable:getZ()}
+                    table.insert(tasks, task2)
+                    return {status=true, next="Main", tasks=tasks}
+                end
             end
         end
 

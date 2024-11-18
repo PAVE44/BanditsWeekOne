@@ -1,5 +1,5 @@
 name=Bandits Week One
 poster=poster.png
 id=BanditsWeekOne
-description=Simulates the first week of the apocalypse
-require=Bandits
+description=Immerses you in the first week before the apocalypse
+require=Bandits,TrueMusicJukebox,truemusic,tsarslib,TsarcraftCache2,TrueActionsDancing,TrueActions4Talking

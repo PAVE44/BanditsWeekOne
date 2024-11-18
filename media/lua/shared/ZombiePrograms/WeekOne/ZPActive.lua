@@ -13,9 +13,9 @@ ZombiePrograms.Active.GetCapabilities = function()
     capabilities.shoot = true
     capabilities.smashWindow = true
     capabilities.openDoor = true
-    capabilities.breakDoor = true
-    capabilities.breakObjects = true
-    capabilities.unbarricade = true
+    capabilities.breakDoor = false
+    capabilities.breakObjects = false
+    capabilities.unbarricade = false
     capabilities.disableGenerators = false
     capabilities.sabotageCars = false
     return capabilities
@@ -78,7 +78,7 @@ ZombiePrograms.Active.Main = function(bandit)
     end
 
     -- symptoms
-    if math.abs(id) % 10 > 0 then
+    if math.abs(id) % 4 > 0 then
         if BWOScheduler.SymptomLevel == 3 then
             walkType = "Limp"
         elseif BWOScheduler.SymptomLevel >= 4 then
