@@ -137,21 +137,28 @@ end
 BWOPopControl.StreetsDespawn = function(cnt)
     local player = getPlayer()
     local cell = player:getCell()
-    local px, py = player:getX(), player:getY()
+    local px = player:getX()
+    local py = player:getY()
 
-    local banditList = BanditZombie.GetAllB()
+    local zombieList = cell:getZombieList()
 
-    local i = 0
-    for id, bandit in pairs(banditList) do
-        if bandit.brain.program.name == "Walker" or bandit.brain.program.name == "Runner" or bandit.brain.program.name == "Postal" then
-            local dist = BanditUtils.DistTo(px, py, bandit.x, bandit.y)
-            if dist > 50 then
-                local zombie = BanditZombie.GetInstanceById(id)
-                if zombie then
+    for i = 0, zombieList:size() - 1 do
+        local zombie = zombieList:get(i)
+
+        if zombie:getVariableBoolean("Bandit") then
+            local brain = BanditBrain.Get(zombie)
+            local prg = brain.program.name
+            
+            if prg == "Walker" or prg == "Runner" or prg == "Postal" then
+                local zx = zombie:getX()
+                local zy = zombie:getY()
+                local dist = BanditUtils.DistTo(px, py, zx, zy)
+                
+                if dist > 50 then
                     zombie:removeFromSquare()
                     zombie:removeFromWorld()
                     args = {}
-                    args.id = id
+                    args.id = brain.id
                     sendClientCommand(player, 'Commands', 'BanditRemove', args)
                     i = i + 1
                     if i >= cnt then return end
@@ -234,21 +241,28 @@ end
 BWOPopControl.InhabitantsDespawn = function(cnt)
     local player = getPlayer()
     local cell = player:getCell()
-    local px, py = player:getX(), player:getY()
+    local px = player:getX()
+    local py = player:getY()
 
-    local banditList = BanditZombie.GetAllB()
+    local zombieList = cell:getZombieList()
 
-    local i = 0
-    for id, bandit in pairs(banditList) do
-        if bandit.brain.program.name == "Inhabitant" then
-            local dist = BanditUtils.DistTo(px, py, bandit.x, bandit.y)
-            if dist > 55 then
-                local zombie = BanditZombie.GetInstanceById(id)
-                if zombie then
+    for i = 0, zombieList:size() - 1 do
+        local zombie = zombieList:get(i)
+
+        if zombie:getVariableBoolean("Bandit") then
+            local brain = BanditBrain.Get(zombie)
+            local prg = brain.program.name
+            
+            if prg == "Inhabitant" then
+                local zx = zombie:getX()
+                local zy = zombie:getY()
+                local dist = BanditUtils.DistTo(px, py, zx, zy)
+                
+                if dist > 55 then
                     zombie:removeFromSquare()
                     zombie:removeFromWorld()
                     args = {}
-                    args.id = id
+                    args.id = brain.id
                     sendClientCommand(player, 'Commands', 'BanditRemove', args)
                     i = i + 1
                     if i >= cnt then return end
@@ -327,9 +341,13 @@ BWOPopControl.UpdateCivs = function()
     end
 
     local player = getPlayer()
-    local px, py = player:getX(), player:getY()
+    local px = player:getX()
+    local py = player:getY()
 
-    local zombieList = BanditZombie.GetAll()
+    -- gather civ stats
+    local cell = getCell()
+    local zombieList = cell:getZombieList()
+
     local totalb = 0 -- all civs
     local totalbc = 0 -- all civs close to player
     local totalz = 0 -- all zeds
@@ -343,27 +361,31 @@ BWOPopControl.UpdateCivs = function()
     tab.Active = 0
     tab.Looter = 0
     tab.Bandit = 0
-    for k, z in pairs(zombieList) do
-        local dist = math.sqrt(math.pow(z.x - px, 2) + math.pow(z.y - py, 2))
-        if dist < 80 then
-            if z.isBandit then
-                local prg = z.brain.program.name
-                if tab[prg] then
-                    tab[prg] = tab[prg] + 1
-                else
-                    tab[prg] = 1
-                end
-                if dist < 50 then
-                    totalbc = totalbc + 1
-                end
-                totalb = totalb + 1
+
+    for i = 0, zombieList:size() - 1 do
+        local zombie = zombieList:get(i)
+        local zx = zombie:getX()
+        local zy = zombie:getY()
+        local dist = BanditUtils.DistTo(px, py, zx, zy)
+        if zombie:getVariableBoolean("Bandit") then
+            local brain = BanditBrain.Get(zombie)
+            local prg = brain.program.name
+            if tab[prg] then
+                tab[prg] = tab[prg] + 1
             else
-                if dist < 50 then
-                    totalzc = totalzc + 1
-                end
-                totalz = totalz + 1
+                tab[prg] = 1
             end
+            if dist < 50 then
+                totalbc = totalbc + 1
+            end
+            totalb = totalb + 1
+        else
+            if dist < 50 then
+                totalzc = totalzc + 1
+            end
+            totalz = totalz + 1
         end
+
     end
 
     -- ADJUST cooldowns 
@@ -379,6 +401,7 @@ BWOPopControl.UpdateCivs = function()
     if BWOPopControl.Medics.Cooldown > 0 then
         BWOPopControl.Medics.Cooldown = BWOPopControl.Medics.Cooldown - 1
     end
+
     -- ADJUST: people on the streets
 
     -- count currently active civs
@@ -492,7 +515,7 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
                                 BWOScheduler.Add("CallCopsHostile", 3100)
                             end
                         end
-                    else
+
                         -- witnessing civilians need to change peaceful behavior to active
                         if witness.brain.program.name == "Inhabitant" or witness.brain.program.name == "Walker" or witness.brain.program.name == "Runner" or witness.brain.program.name == "Postal" then
                             Bandit.SetProgram(actor, "Active", {})
@@ -505,7 +528,7 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
                                 Bandit.ForceSyncPart(actor, syncData)
                             end
                         end
-
+                    else
                         -- call friendly police
                         if BWOPopControl.Police.On then
                             BWOScheduler.Add("CallCops", 3000)
@@ -538,7 +561,6 @@ end
 
 Events.OnHitZombie.Add(BWOPopControl.OnHitZombie)
 Events.OnZombieDead.Add(BWOPopControl.OnZombieDead)
-
 Events.EveryOneMinute.Add(BWOPopControl.UpdateCivs)
 Events.OnTick.Add(BWOPopControl.UpdateZombie)
 

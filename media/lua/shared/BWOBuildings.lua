@@ -388,6 +388,16 @@ BWOBuildings.IsEventBuilding = function(building, event)
     return false
 end
 
+BWOBuildings.IsGuest = function(building)
+    local gmd = GetBWOModData()
+    local buildingDef = building:getDef()
+    local id = buildingDef:getKeyId()
+    if gmd.EventBuildings[id] then
+        return true
+    end
+    return false
+end
+
 BWOBuildings.IsIntrusion = function(building, room)
     local player = getPlayer()
     local profession = player:getDescriptor():getProfession()
