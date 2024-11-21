@@ -128,6 +128,32 @@ BWOMenu.SpawnRunner = function(player, square)
     sendClientCommand(player, 'Commands', 'SpawnGroup', event)
 end
 
+BWOMenu.SpawnMusician = function(player, square)
+    config = {}
+    config.clanId = 1
+    config.hasRifleChance = 0
+    config.hasPistolChance = 0
+    config.rifleMagCount = 0
+    config.pistolMagCount = 0
+
+    local event = {}
+    event.hostile = false
+    event.occured = false
+    event.program = {}
+    event.program.name = "Musician"
+    event.program.stage = "Prepare"
+    event.x = square:getX()
+    event.y = square:getY()
+    event.bandits = {}
+   
+    local bandit = BanditCreator.MakeFromWave(config)
+    bandit.outfit = BanditUtils.Choice({"Rocker"})
+    bandit.weapons.melee = "Base.GuitarElectricRed"
+    table.insert(event.bandits, bandit)
+
+    sendClientCommand(player, 'Commands', 'SpawnGroup', event)
+end
+
 BWOMenu.FlushDeadbodies = function(player)
     local args = {a=1}
     sendClientCommand(getPlayer(), 'Commands', 'DeadBodyFlush', args)
@@ -177,6 +203,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         context:addOption("[DGB] BWO: Spawn By Location", player, BWOMenu.Spawn, square)
         context:addOption("[DGB] BWO: Spawn Pedestrian", player, BWOMenu.SpawnPedestrian, square)
         context:addOption("[DGB] BWO: Spawn Runner", player, BWOMenu.SpawnRunner, square)
+        context:addOption("[DGB] BWO: Spawn Musician", player, BWOMenu.SpawnMusician, square)
         
         local room = square:getRoom()
         if room then
