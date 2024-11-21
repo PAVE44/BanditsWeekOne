@@ -60,6 +60,12 @@ ZombiePrograms.Musician.Main = function(bandit)
         endurance = 0
     end 
 
+    -- ideas : soda machine, trashman
+    -- bench sitters
+    -- workshop hammering
+    -- road block on roads instead of around the city, protest at the blockade with army and cars and a car crushing into it. 
+
+
     local outfit = bandit:getOutfitName()
     if outfit == "Student" then
         local task = {action="TimeItem", item="Base.Violin", left=true, anim="InstrumentViolin", sound="BWOInstrumentViolinPaganini", time=200}
