@@ -214,7 +214,7 @@ end
 BanditPrograms.Talk = function(bandit)
     local tasks = {}
 
-    if BWOScheduler.WorldAge < 57 then return tasks end
+    if BWOScheduler.WorldAge > 57 then return tasks end
 
     local neighborBandit = BanditUtils.GetClosestBanditLocation(bandit)
     local neighborPlayer = BanditUtils.GetClosestPlayerLocation(bandit, true)
@@ -224,13 +224,34 @@ BanditPrograms.Talk = function(bandit)
         neighbor = neighborPlayer
     end
 
-    if neighbor.dist < 3 and ZombRand(2) == 1 then
+    if neighbor.dist < 15 then
         if not bandit:getSquare():isSomethingTo(getCell():getGridSquare(neighbor.x, neighbor.y, neighbor.z)) then
-            Bandit.Say(bandit, "STREETCHAT")
-            local anim = BanditUtils.Choice({"WaveHi", "Yes", "No", "Talk1", "Talk2", "Talk3", "Talk4", "Talk5"})
-            local task = {action="FaceLocation", anim=anim, x=neighbor.x, y=neighbor.y, z=neighbor.z, time=100}
-            table.insert(tasks, task)
-            return tasks
+            local other = BanditZombie.GetInstanceById(neighbor.id)
+            if other then
+                local otherBrain = BanditBrain.Get(other)
+                local prg = otherBrain.program.name
+
+                if prg == "Musician" then
+                    if neighbor.dist >= 5  then
+                        local walkType = "Walk"
+                        table.insert(tasks, BanditUtils.GetMoveTask(0, neighbor.x, neighbor.y, neighbor.z, walkType, neighbor.dist, false))
+                        return tasks
+                    else
+                        local anim = BanditUtils.Choice({"Yes"})
+                        local task = {action="FaceLocation", anim=anim, x=neighbor.x, y=neighbor.y, z=neighbor.z, time=100}
+                        table.insert(tasks, task)
+                        return tasks
+                    end
+                else
+                    if neighbor.dist < 3 and ZombRand(3) == 0 then
+                        Bandit.Say(bandit, "STREETCHAT")
+                        local anim = BanditUtils.Choice({"WaveHi", "Yes", "No", "Talk1", "Talk2", "Talk3", "Talk4", "Talk5"})
+                        local task = {action="FaceLocation", anim=anim, x=neighbor.x, y=neighbor.y, z=neighbor.z, time=100}
+                        table.insert(tasks, task)
+                        return tasks
+                    end
+                end
+            end
         end
     end
     return tasks

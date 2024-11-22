@@ -1,0 +1,27 @@
+module Tsarcraft
+{
+    imports
+    {
+        Base
+    }
+
+    item CassetteBanditParty01
+    {
+        Type             = Normal,
+        DisplayCategory  = Entertainment,
+        Weight           = 0.02,
+        Icon             = TCTape1,
+        DisplayName      = Cassette Bandit Party 01,
+        WorldStaticModel = Tsarcraft.TCTape1,
+    }
+
+    item CassetteBanditParty02
+    {
+        Type             = Normal,
+        DisplayCategory  = Entertainment,
+        Weight           = 0.02,
+        Icon             = TCTape2,
+        DisplayName      = Cassette Bandit Party 02,
+        WorldStaticModel = Tsarcraft.TCTape2,
+    }
+}

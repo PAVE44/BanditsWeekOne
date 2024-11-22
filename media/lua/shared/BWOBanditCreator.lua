@@ -54,7 +54,7 @@ function BanditCreator.MakeFromRoom(room)
             bandit.outfit = "Priest"
             bandit.femaleChance = 0
         else
-            bandit.outfit = "Classy"
+            bandit.outfit = BanditUtils.Choice({"Classy", "AuthenticElderly", "AuthenticFuneralFormal", "AuthenticFuneralCoat"})
         end
         bandit.weapons.melee = "Base.BareHands"
     elseif building:containsRoom("medclinic") or building:containsRoom("medical")  then
@@ -74,7 +74,7 @@ function BanditCreator.MakeFromRoom(room)
                 bandit.weapons.melee = "Base.BareHands"
 
             elseif roomName == "livingroom" then
-                bandit.outfit = BanditUtils.Choice({"Generic01", "Generic02", "Generic03", "Generic04"})
+                bandit.outfit = BanditUtils.Choice({"Generic01", "Generic02", "Generic03", "Generic04", "AuthenticFat02", "AuthenticFat03"})
                 bandit.weapons.melee = "Base.SmashedBottle"
 
             elseif roomName == "bedroom" or roomName == "motelroom" or roomName == "motelroomoccupied" then
@@ -87,9 +87,9 @@ function BanditCreator.MakeFromRoom(room)
                 bandit.weapons.melee = "Base.BareHands"
 
             elseif roomName == "kitchen" then
-                bandit.outfit = BanditUtils.Choice({"Generic01", "Generic02", "Waiter_PileOCrepe", "Generic05"}) 
+                bandit.outfit = BanditUtils.Choice({"Generic01", "Generic02", "Waiter_PileOCrepe", "Generic05", "AuthenticMaid"}) 
                 bandit.weapons.melee = BanditUtils.Choice({"Base.BareHands", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"})
-                bandit.femaleChance = 70
+                bandit.femaleChance = 100
 
             elseif roomName == "office" then -- also a room in house
                 if ZombRand(2) == 1 then

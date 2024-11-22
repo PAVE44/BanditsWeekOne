@@ -556,10 +556,59 @@ BWOEvents.RegisterBase = function(player)
     end
 end
 
+BWOEvents.EventMusician = function(player)
+    
+    config = {}
+    config.clanId = 1
+    config.hasRifleChance = 0
+    config.hasPistolChance = 0
+    config.rifleMagCount = 0
+    config.pistolMagCount = 0
+
+    local event = {}
+    event.hostile = false
+    event.occured = false
+    event.program = {}
+    event.program.name = "Musician"
+    event.program.stage = "Prepare"
+
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(40,45))
+    if spawnPoint then
+        event.x = spawnPoint.x
+        event.y = spawnPoint.y
+        event.bandits = {}
+        
+        local bandit = BanditCreator.MakeFromWave(config)
+
+        local rnd = ZombRand(6)
+        if rnd == 0 then
+            bandit.outfit = "AuthenticBiker"
+            bandit.weapons.melee = "Base.GuitarElectricRed"
+        elseif rnd == 1 then
+            bandit.outfit = "Dean"
+            bandit.weapons.melee = "Base.GuitarElectricBassBlack"
+        elseif rnd == 2 then
+            bandit.outfit = "Rocker"
+            bandit.weapons.melee = "Base.GuitarAcoustic"
+        elseif rnd == 3 then
+            bandit.outfit = "Joan"
+            bandit.weapons.melee = "Base.Violin"
+        elseif rnd == 4 then
+            bandit.outfit = "John"
+            bandit.weapons.melee = "Base.Saxophone"
+        elseif rnd == 5 then
+            bandit.outfit = "Duke"
+            bandit.weapons.melee = "Base.Flute"
+        end
+
+        table.insert(event.bandits, bandit)
+        sendClientCommand(player, 'Commands', 'SpawnGroup', event)
+    end
+end
+
 BWOEvents.EventBuildingParty = function(player)
 
     local function GetSurfaceOffset (x, y, z)
-
         local cell = getCell()
         local square = cell:getGridSquare(x, y, z)
         local tileObjects = square:getLuaTileObjectList()
@@ -661,7 +710,8 @@ BWOEvents.EventBuildingParty = function(player)
             radio:getDeviceData():setHasBattery(false)
         end
 
-        local cassetteItem = InventoryItemFactory.CreateItem("Tsarcraft.CassetteDepecheModePersonalJesus(1989)")
+        -- local cassetteItem = InventoryItemFactory.CreateItem("Tsarcraft.CassetteDepecheModePersonalJesus(1989)")
+        local cassetteItem = InventoryItemFactory.CreateItem(BanditUtils.Choice({"Tsarcraft.CassetteBanditParty01", "Tsarcraft.CassetteBanditParty02"}))
         radio:getModData().tcmusic.mediaItem = cassetteItem:getType()
         radio:transmitModData()
 
@@ -693,10 +743,10 @@ BWOEvents.EventBuildingParty = function(player)
             local bandit = BanditCreator.MakeFromRoom(room)
 
             if ZombRand(2) == 0 then
-                bandit.outfit = BanditUtils.Choice({"StripperBlack", "StripperNaked", "StripperPink", "DressShort", "Naked", "Party"})
+                bandit.outfit = BanditUtils.Choice({"StripperBlack", "StripperNaked", "StripperPink", "AuthenticSexyBunny", "AuthenticSexyNurse", "DressShort", "Naked", "Party", "AuthenticRaveGirl", "AuthenticNightClub"})
                 bandit.femaleChance = 100
             else
-                bandit.outfit = BanditUtils.Choice({"Thug", "Party", "Young", "Stripper", "PoliceStripper", "Naked"})
+                bandit.outfit = BanditUtils.Choice({"Thug", "Party", "Young", "Stripper", "PoliceStripper", "FiremanStripper", "Naked", "AuthenticNightClub"})
                 bandit.femaleChance = 0
             end
 

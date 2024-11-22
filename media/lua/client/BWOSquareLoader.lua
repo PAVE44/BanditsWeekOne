@@ -297,6 +297,7 @@ BWOSquareLoader.OnLoad = function(square)
 
         local customNameMap = {}
         customNameMap["Flowerbed"] = "flowerbed"
+        customNameMap["Trash"] = "trash"
 
         local objects = square:getObjects()
         for i=0, objects:size()-1 do

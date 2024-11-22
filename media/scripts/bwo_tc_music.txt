@@ -1,0 +1,24 @@
+module Tsarcraft
+{
+	sound CassetteBanditParty01
+	{
+		category = True Music,
+		master = Ambient,
+		clip
+		{
+			file = media/sound/TCBoombox/music_party_1.ogg,
+			distanceMax = 75,
+		}
+	}
+
+	sound CassetteBanditParty02
+	{
+		category = True Music,
+		master = Ambient,
+		clip
+		{
+			file = media/sound/TCBoombox/music_party_2.ogg,
+			distanceMax = 75,
+		}
+	}
+}

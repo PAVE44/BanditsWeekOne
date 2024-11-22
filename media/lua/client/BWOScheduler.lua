@@ -86,6 +86,18 @@ function BWOScheduler.MasterControl()
             elseif minute == 2 then 
                 BWOScheduler.Add("FixVehicles", 100)
             end
+        elseif worldAge == 4 then
+            if minute == 15 then
+                BWOScheduler.Add("EventMusician", 100)
+            end
+        elseif worldAge == 6 then
+            if minute == 35 then
+                BWOScheduler.Add("EventMusician", 100)
+            end
+        elseif worldAge == 7 then
+            if minute == 15 then
+                BWOScheduler.Add("EventMusician", 100)
+            end
         elseif worldAge == 11 then
             if minute == 12  then
                 BWOScheduler.Add("EventBuildingParty", 100)
@@ -97,6 +109,26 @@ function BWOScheduler.MasterControl()
         elseif worldAge == 13 then
             if minute == 5 or minute == 25 then
                 BWOScheduler.Add("EventBuildingParty", 100)
+            end
+        elseif worldAge == 15 then
+            if minute == 5 or minute == 25 then
+                BWOScheduler.Add("EventBuildingParty", 100)
+            end
+        elseif worldAge == 16 then
+            if minute == 58 then
+                BWOScheduler.Add("EventBuildingParty", 100)
+            end
+        elseif worldAge == 24 then
+            if minute == 15 then
+                BWOScheduler.Add("EventMusician", 100)
+            end
+        elseif worldAge == 26 then
+            if minute == 15 then
+                BWOScheduler.Add("EventMusician", 100)
+            end
+        elseif worldAge == 28 then
+            if minute == 33 then
+                BWOScheduler.Add("EventMusician", 100)
             end
         end
     end

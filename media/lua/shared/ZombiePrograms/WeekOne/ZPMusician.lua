@@ -64,17 +64,27 @@ ZombiePrograms.Musician.Main = function(bandit)
     -- bench sitters
     -- workshop hammering
     -- road block on roads instead of around the city, protest at the blockade with army and cars and a car crushing into it. 
+    -- cheerloaders
+    -- mime / clown on street
+    -- breakdance on street
 
+    if minute % 3 > 0 then
+        local playTab = {}
+        -- playTab.AuthenticBiker = {item="Base.GuitarElectricRed",       anim="InstrumentGuitarElectric", sound=nil}
+        -- playTab.Dean           = {item="Base.GuitarElectricBassBlack", anim="InstrumentGuitarBass",     sound=nil}
+        -- playTab.Rocker         = {item="Base.GuitarAcoustic",          anim="InstrumentGuitarAcoustic", sound=nil}
+        playTab.Joan           = {item="Base.Violin",                  anim="InstrumentViolin",         sound="BWOInstrumentViolinPaganini"}
+        playTab.John           = {item="Base.Saxophone",               anim="InstrumentSaxophone",      sound="BWOInstrumentSax" .. tostring((id % 3) + 1)}
+        -- playTab.Duke           = {item="Base.Flute",                   anim="InstrumentFlute",          sound=nil}
 
-    local outfit = bandit:getOutfitName()
-    if outfit == "Student" then
-        local task = {action="TimeItem", item="Base.Violin", left=true, anim="InstrumentViolin", sound="BWOInstrumentViolinPaganini", time=200}
-        table.insert(tasks, task)
-        return {status=true, next="Main", tasks=tasks}
-    elseif outfit == "Rocker" then
-        local task = {action="TimeItem", item="Base.GuitarElectricRed", left=true, anim="InstrumentGuitarElectric", sound="BWOInstrumentViolinPaganini", time=200}
-        table.insert(tasks, task)
-        return {status=true, next="Main", tasks=tasks}
+        local outfit = bandit:getOutfitName()
+        for o, tab in pairs(playTab) do
+            if o == outfit then
+                local task = {action="TimeItem", item=tab.item, left=true, anim=tab.anim, sound=tab.sound, time=300}
+                table.insert(tasks, task)
+                return {status=true, next="Main", tasks=tasks}
+            end
+        end
     end
     
     -- fallback

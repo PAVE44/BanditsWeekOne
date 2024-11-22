@@ -477,10 +477,13 @@ BWOBuildings.FindBuildingType = function(bsearch)
         local building = room:getBuilding()
         if building then
             local def = building:getDef()
-            local key = def:getKeyId()
+            if math.abs(def:getX() - player:getX()) < 100 and math.abs(def:getX2() - player:getX()) < 100 and 
+               math.abs(def:getY() - player:getY()) < 100 and math.abs(def:getY2() - player:getY()) < 100 then
+                local key = def:getKeyId()
 
-            if not buildings[key] then
-                buildings[key] = building
+                if not buildings[key] then
+                    buildings[key] = building
+                end
             end
         end
     end

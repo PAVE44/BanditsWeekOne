@@ -1,0 +1,5 @@
+GameSound_EN = {
+ 	GameSound_CassetteBanditParty01 = "Bandit Party 01 (cassette)",
+	GameSound_CassetteBanditParty02 = "Bandit Party 02 (cassette)",
+}
+

@@ -428,7 +428,7 @@ module Bandits{
         clip { 
             file = media/sound/instrument_violin_paganini.ogg,
             distanceMin = 1, 
-            distanceMax = 10,
+            distanceMax = 14,
             reverbFactor = 0.1, 
             volume = 0.7, 
         } 
@@ -441,7 +441,7 @@ module Bandits{
         clip { 
             file = media/sound/instrument_sax_1.ogg,
             distanceMin = 1, 
-            distanceMax = 10,
+            distanceMax = 15,
             reverbFactor = 0.1, 
             volume = 0.7, 
         } 
@@ -454,7 +454,7 @@ module Bandits{
         clip { 
             file = media/sound/instrument_sax_2.ogg,
             distanceMin = 1, 
-            distanceMax = 10,
+            distanceMax = 15,
             reverbFactor = 0.1, 
             volume = 0.7, 
         } 
@@ -467,7 +467,7 @@ module Bandits{
         clip { 
             file = media/sound/instrument_sax_3.ogg,
             distanceMin = 1, 
-            distanceMax = 10,
+            distanceMax = 15,
             reverbFactor = 0.1, 
             volume = 0.7, 
         } 

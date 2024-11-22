@@ -29,8 +29,9 @@ BWOMenu.Spawn = function(player, square)
                 event.program.name = "Runner"
                 event.program.stage = "Prepare"
             else
-                bandit.outfit = BanditUtils.Choice({"Farmer"})
-                event.program.name = "Gardener"
+                bandit.outfit = BanditUtils.Choice({"AuthenticHomeless"})
+                bandit.weapons.melee = "Base.Broom"
+                event.program.name = "Janitor"
                 event.program.stage = "Prepare"
             end
         end
@@ -129,29 +130,7 @@ BWOMenu.SpawnRunner = function(player, square)
 end
 
 BWOMenu.SpawnMusician = function(player, square)
-    config = {}
-    config.clanId = 1
-    config.hasRifleChance = 0
-    config.hasPistolChance = 0
-    config.rifleMagCount = 0
-    config.pistolMagCount = 0
-
-    local event = {}
-    event.hostile = false
-    event.occured = false
-    event.program = {}
-    event.program.name = "Musician"
-    event.program.stage = "Prepare"
-    event.x = square:getX()
-    event.y = square:getY()
-    event.bandits = {}
-   
-    local bandit = BanditCreator.MakeFromWave(config)
-    bandit.outfit = BanditUtils.Choice({"Rocker"})
-    bandit.weapons.melee = "Base.GuitarElectricRed"
-    table.insert(event.bandits, bandit)
-
-    sendClientCommand(player, 'Commands', 'SpawnGroup', event)
+    BWOScheduler.Add("EventMusician", 100)
 end
 
 BWOMenu.FlushDeadbodies = function(player)

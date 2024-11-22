@@ -109,7 +109,7 @@ BWOPopControl.StreetsSpawn = function(cnt)
                     event.y = square:getY()
                     local rnd = ZombRand(100)
                     if rnd < 8 then
-                        bandit.outfit = BanditUtils.Choice({"StreetSports"})
+                        bandit.outfit = BanditUtils.Choice({"StreetSports", "AuthenticJogger", "AuthenticFitnessInstructor"})
                         event.program.name = "Runner"
                         event.program.stage = "Prepare"
                     elseif rnd < 10 then 
@@ -119,6 +119,11 @@ BWOPopControl.StreetsSpawn = function(cnt)
                     elseif rnd < 14 then 
                         bandit.outfit = BanditUtils.Choice({"Farmer"})
                         event.program.name = "Gardener"
+                        event.program.stage = "Prepare"
+                    elseif rnd < 18 then 
+                        bandit.outfit = BanditUtils.Choice({"AuthenticHomeless"})
+                        bandit.weapons.melee = "Base.Broom"
+                        event.program.name = "Janitor"
                         event.program.stage = "Prepare"
                     else
                         bandit.outfit = BanditUtils.Choice({"Generic02", "Generic01"})
