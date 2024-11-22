@@ -145,8 +145,9 @@ BWOPopControl.StreetsDespawn = function(cnt)
     local px = player:getX()
     local py = player:getY()
 
+    local removePrg = {"Walker", "Runner", "Postal", "Musician", "Janitor", "Medic", "Gardener"}
     local zombieList = cell:getZombieList()
-
+    
     for i = 0, zombieList:size() - 1 do
         local zombie = zombieList:get(i)
 
@@ -154,19 +155,21 @@ BWOPopControl.StreetsDespawn = function(cnt)
             local brain = BanditBrain.Get(zombie)
             local prg = brain.program.name
             
-            if prg == "Walker" or prg == "Runner" or prg == "Postal" then
-                local zx = zombie:getX()
-                local zy = zombie:getY()
-                local dist = BanditUtils.DistTo(px, py, zx, zy)
-                
-                if dist > 50 then
-                    zombie:removeFromSquare()
-                    zombie:removeFromWorld()
-                    args = {}
-                    args.id = brain.id
-                    sendClientCommand(player, 'Commands', 'BanditRemove', args)
-                    i = i + 1
-                    if i >= cnt then return end
+            for _, prg in pairs(removePrg) do
+                if prg == brain.program.name then
+                    local zx = zombie:getX()
+                    local zy = zombie:getY()
+                    local dist = BanditUtils.DistTo(px, py, zx, zy)
+                    
+                    if dist > 45 then
+                        zombie:removeFromSquare()
+                        zombie:removeFromWorld()
+                        args = {}
+                        args.id = brain.id
+                        sendClientCommand(player, 'Commands', 'BanditRemove', args)
+                        i = i + 1
+                        if i >= cnt then return end
+                    end
                 end
             end
         end
@@ -249,6 +252,7 @@ BWOPopControl.InhabitantsDespawn = function(cnt)
     local px = player:getX()
     local py = player:getY()
 
+    local removePrg = {"Inhabitant", "Medic", "Janitor", "Musician"}
     local zombieList = cell:getZombieList()
 
     for i = 0, zombieList:size() - 1 do
@@ -256,21 +260,22 @@ BWOPopControl.InhabitantsDespawn = function(cnt)
 
         if zombie:getVariableBoolean("Bandit") then
             local brain = BanditBrain.Get(zombie)
-            local prg = brain.program.name
             
-            if prg == "Inhabitant" then
-                local zx = zombie:getX()
-                local zy = zombie:getY()
-                local dist = BanditUtils.DistTo(px, py, zx, zy)
-                
-                if dist > 55 then
-                    zombie:removeFromSquare()
-                    zombie:removeFromWorld()
-                    args = {}
-                    args.id = brain.id
-                    sendClientCommand(player, 'Commands', 'BanditRemove', args)
-                    i = i + 1
-                    if i >= cnt then return end
+            for _, prg in pairs(removePrg) do
+                if prg == brain.program.name then
+                    local zx = zombie:getX()
+                    local zy = zombie:getY()
+                    local dist = BanditUtils.DistTo(px, py, zx, zy)
+                    
+                    if dist > 55 then
+                        zombie:removeFromSquare()
+                        zombie:removeFromWorld()
+                        args = {}
+                        args.id = brain.id
+                        sendClientCommand(player, 'Commands', 'BanditRemove', args)
+                        i = i + 1
+                        if i >= cnt then return end
+                    end
                 end
             end
         end
@@ -359,10 +364,15 @@ BWOPopControl.UpdateCivs = function()
     local totalzc = 0 -- all zeds close to player
 
     local tab = {}
+    tab.Active = 0
+    tab.Gardener = 0
     tab.Inhabitant = 0
-    tab.Walker = 0
-    tab.Runner = 0
+    tab.Janitor = 0
+    tab.Medic = 0
+    tab.Musician = 0
     tab.Postal = 0
+    tab.Runner = 0
+    tab.Walker = 0
     tab.Active = 0
     tab.Looter = 0
     tab.Bandit = 0
@@ -410,7 +420,7 @@ BWOPopControl.UpdateCivs = function()
     -- ADJUST: people on the streets
 
     -- count currently active civs
-    BWOPopControl.StreetsCnt = tab.Walker + tab.Runner + tab.Postal
+    BWOPopControl.StreetsCnt = tab.Walker + tab.Runner + tab.Postal + tab.Gardener +  + tab.Janitor
 
     -- count desired population of civs
     local nominal = BWOPopControl.StreetsNominal

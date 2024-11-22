@@ -711,7 +711,7 @@ BWOEvents.EventBuildingParty = function(player)
         end
 
         -- local cassetteItem = InventoryItemFactory.CreateItem("Tsarcraft.CassetteDepecheModePersonalJesus(1989)")
-        local cassetteItem = InventoryItemFactory.CreateItem(BanditUtils.Choice({"Tsarcraft.CassetteBanditParty01", "Tsarcraft.CassetteBanditParty02"}))
+        local cassetteItem = InventoryItemFactory.CreateItem(BanditUtils.Choice({"Tsarcraft.CassetteBanditParty01", "Tsarcraft.CassetteBanditParty02", , "Tsarcraft.CassetteBanditParty03"}))
         radio:getModData().tcmusic.mediaItem = cassetteItem:getType()
         radio:transmitModData()
 

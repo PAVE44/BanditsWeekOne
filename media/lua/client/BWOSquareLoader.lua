@@ -27,53 +27,50 @@ BWOSquareLoader.map = {}
 -- x:10583, y:10679
 -- x:10583, y:9332
 
--- mulgraugh west
-for y=10678, 9300, -1 do
-    local x
-    local z = 0
-    local id 
-    local sprite
-    
-    x = 10584
-    id = x .. "-" .. y .. "-" .. z
-    if y % 2 == 0 then
-        sprite = "fencing_01_90"
-    else
-        sprite = "fencing_01_91"
-    end
-    BWOSquareLoader.map[id] = {}
-    table.insert(BWOSquareLoader.map[id], sprite)
+-- muldraugh barricades
+-- south
 
-    x = 10583
-    id = x .. "-" .. y .. "-" .. z
-    if y % 3 == 0 then
-        sprite = "fencing_01_96"
-    else
-        sprite = "carpentry_02_12"
-    end
-    BWOSquareLoader.map[id] = {}
-    table.insert(BWOSquareLoader.map[id], sprite)
-end
-
--- muldraugh south
-for x=10584, 11018 do
-    local y
-    local z = 0
-    local id 
-    local sprite1
-    local sprite2
-    
-    if x >= 10588 and x <= 10595 then
-    elseif x >= 10786 and x <= 10793 then
-    else
-        y = 10679
+local addBarricadeNorth = function(x1, x2, y)
+    for x=x1, x2 do
+        local z = 0
+        local id 
+        local sprite1
+        local sprite2
+        
         id = x .. "-" .. y .. "-" .. z
         if x % 2 == 0 then
             sprite1 = "fencing_01_88"
         else
             sprite1 = "fencing_01_89"
         end
+        BWOSquareLoader.map[id] = {}
+        table.insert(BWOSquareLoader.map[id], sprite1)
 
+        id = x .. "-" .. (y - 1) .. "-" .. z
+        if x % 3 == 0 then
+            sprite2 = "fencing_01_96"
+        else
+            sprite2 = "carpentry_02_13"
+        end
+        BWOSquareLoader.map[id] = {}
+        table.insert(BWOSquareLoader.map[id], sprite2)
+    end
+end
+
+local addBarricadeSouth = function(x1, x2, y)
+    for x=x1, x2 do
+        local z = 0
+        local id 
+        local sprite1
+        local sprite2
+    
+        id = x .. "-" .. y .. "-" .. z
+        if x % 2 == 0 then
+            sprite1 = "fencing_01_88"
+        else
+            sprite1 = "fencing_01_89"
+        end
+    
         if x % 3 == 0 then
             sprite2 = "fencing_01_96"
         else
@@ -85,23 +82,39 @@ for x=10584, 11018 do
     end
 end
 
--- muldraugh east
-for y=10678, 9332, -1 do
-    local x
-    local z = 0
-    local id 
-    local sprite1
-    local sprite2
-    
-    if y >= 10327 and y <= 10330 then
-    elseif y >= 9565 and y <= 9570 then
-    elseif y >= 9398 and y <= 9401 then
-    else
-        if y >= 9428 then
-            x = 11019
+local addBarricadeWest = function(y1, y2, x)
+    for y=y1, y2 do
+        local z = 0
+        local id 
+        local sprite
+        
+        id = x .. "-" .. y .. "-" .. z
+        if y % 2 == 0 then
+            sprite = "fencing_01_90"
         else
-            x = 11013
+            sprite = "fencing_01_91"
         end
+        BWOSquareLoader.map[id] = {}
+        table.insert(BWOSquareLoader.map[id], sprite)
+    
+        id = (x - 1) .. "-" .. y .. "-" .. z
+        if y % 3 == 0 then
+            sprite = "fencing_01_96"
+        else
+            sprite = "carpentry_02_12"
+        end
+        BWOSquareLoader.map[id] = {}
+        table.insert(BWOSquareLoader.map[id], sprite)
+    end
+end
+
+local addBarricadeEast = function(y1, y2, x)
+    for y=y1, y2 do
+        local z = 0
+        local id 
+        local sprite1
+        local sprite2
+    
         id = x .. "-" .. y .. "-" .. z
         if y % 2 == 0 then
             sprite1 = "fencing_01_90"
@@ -120,67 +133,33 @@ for y=10678, 9332, -1 do
     end
 end
 
--- ...
-for x=11018, 11013, -1 do
-    local y
-    local z = 0
-    local id 
-    local sprite1
-    local sprite2
-    
-    y = 9429
-    id = x .. "-" .. y .. "-" .. z
-    if x % 2 == 0 then
-        sprite1 = "fencing_01_88"
-    else
-        sprite1 = "fencing_01_89"
-    end
-    BWOSquareLoader.map[id] = {}
-    table.insert(BWOSquareLoader.map[id], sprite1)
+-- muldrough road blocks
+addBarricadeSouth(10576, 10602, 10679)
+addBarricadeSouth(10775, 10805, 10715)
+addBarricadeWest(9306, 9329, 11097)
+addBarricadeNorth(10950, 10970, 8928)
+addBarricadeNorth(10570, 10608, 9148)
+addBarricadeEast(9726, 9744, 10576)
 
-    y = 9328
-    id = x .. "-" .. y .. "-" .. z
-    if x % 3 == 0 then
-        sprite2 = "fencing_01_96"
-    else
-        sprite2 = "carpentry_02_13"
-    end
-    BWOSquareLoader.map[id] = {}
-    table.insert(BWOSquareLoader.map[id], sprite2)
-end
+-- march ridge road blocks
+addBarricadeNorth(10345, 10380, 12414)
 
--- muldraugh north
-for x=10584, 11018 do
-    local y
-    local z = 0
-    local id 
-    local sprite1
-    local sprite2
-    
-    if x >= 10588 and x <= 10595 then
-    elseif x >= 11044 and x <= 11050 then
-    else
-        y = 9332
-        id = x .. "-" .. y .. "-" .. z
-        if x % 2 == 0 then
-            sprite1 = "fencing_01_88"
-        else
-            sprite1 = "fencing_01_89"
-        end
-        BWOSquareLoader.map[id] = {}
-        table.insert(BWOSquareLoader.map[id], sprite1)
+-- dixie
+addBarricadeWest(8740, 8780, 11400)
+addBarricadeNorth(11620, 11660, 8690)
 
-        y = 9331
-        id = x .. "-" .. y .. "-" .. z
-        if x % 3 == 0 then
-            sprite2 = "fencing_01_96"
-        else
-            sprite2 = "carpentry_02_13"
-        end
-        BWOSquareLoader.map[id] = {}
-        table.insert(BWOSquareLoader.map[id], sprite2)
-    end
-end
+-- westpoint
+addBarricadeSouth(11680, 11750, 7157)
+addBarricadeWest(7157, 7200, 11750)
+addBarricadeWest(6890, 6925, 11090)
+addBarricadeEast(7159, 7205, 12172)
+addBarricadeEast(6890, 6908, 12172)
+
+-- riverside
+addBarricadeEast(5440, 5500, 7000)
+addBarricadeSouth(6515, 6540, 5615)
+addBarricadeSouth(5870, 5888, 5460)
+addBarricadeSouth(5385, 5393, 5710)
 
 BWOSquareLoader.Clear = function(square)
     local objects = square:getObjects()
