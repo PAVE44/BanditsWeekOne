@@ -312,10 +312,12 @@ BWOSquareLoader.OnLoad = function(square)
                 end
 
                 if object:getType() == IsoObjectType.wall then
-                    if props:Is(IsoFlagType.canPathN) then
-                        props:UnSet(IsoFlagType.canPathN)
-                    elseif props:Is(IsoFlagType.canPathW) then
-                        props:UnSet(IsoFlagType.canPathW)
+                    if square:getWindow() then
+                        if props:Is(IsoFlagType.canPathN) then
+                            props:UnSet(IsoFlagType.canPathN)
+                        elseif props:Is(IsoFlagType.canPathW) then
+                            props:UnSet(IsoFlagType.canPathW)
+                        end
                     end
                 end
             end

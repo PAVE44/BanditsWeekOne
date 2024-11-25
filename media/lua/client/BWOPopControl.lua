@@ -574,12 +574,12 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
                         if outfit == "Police" then
                             if BWOPopControl.SWAT.On then
                                 params.hostile = true
-                                BWOScheduler.Add("CallSWAT", params, 3500)
+                                BWOScheduler.Add("CallSWAT", params, 19500)
                             end
                         else
                             if BWOPopControl.Police.On then
                                 params.hostile = true
-                                BWOScheduler.Add("CallCops", params, 3100)
+                                BWOScheduler.Add("CallCops", params, 12000)
                             end
                         end
 
@@ -602,7 +602,7 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
                         -- call friendly police
                         if BWOPopControl.Police.On then
                             params.hostile = false
-                            BWOScheduler.Add("CallCops", params, 3000)
+                            BWOScheduler.Add("CallCops", params, 12000)
                         end
                     end
                 end
@@ -630,9 +630,9 @@ BWOPopControl.OnZombieDead = function(zombie)
     params.hostile = false
 
     if BWOPopControl.Medics.On then
-        BWOScheduler.Add("CallMedics", params, 9000)
+        BWOScheduler.Add("CallMedics", params, 15000)
     elseif BWOPopControl.Hazmats.On then
-        BWOScheduler.Add("CallHazmats", params, 9500)
+        BWOScheduler.Add("CallHazmats", params, 15500)
     end
 end
 
@@ -642,7 +642,7 @@ BWOPopControl.OnNewFire = function(fire)
     params.y = fire:getY()
     params.z = fire:getZ()
     params.hostile = true
-    BWOScheduler.Add("CallFireman", params, 3100)
+    BWOScheduler.Add("CallFireman", params, 4800)
 end
 
 Events.EveryOneMinute.Add(BWOPopControl.UpdateCivs)

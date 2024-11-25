@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RadioData>
+  <RootInfo>
+    <SourceFile>Radio</SourceFile>
+    <FileGUID>023a6b79-7269-4b41-a95a-5beacfc4a037</FileGUID>
+    <Version>1</Version>
+  </RootInfo>
+  <Voices>
+    <VoiceEntry ID="6838e924-5dab-4a7c-9525-78e57198214b">
+      <FinalColor r="0" g="128" b="192" />
+    </VoiceEntry>
+    <VoiceEntry ID="331dfe05-c969-4221-8282-554201d694b2">
+      <FinalColor r="255" g="0" b="0" />
+    </VoiceEntry>
+    <VoiceEntry ID="419c3935-38b3-43da-9c19-f5b27941d41c">
+      <FinalColor r="0" g="0" b="128" />
+    </VoiceEntry>
+    <VoiceEntry ID="3c748f78-eef9-45d9-883d-5a1f59920e51">
+      <FinalColor r="0" g="255" b="255" />
+    </VoiceEntry>
+    <VoiceEntry ID="181492f9-e8ad-4f8c-9f0a-acc0170e58b4">
+      <FinalColor r="0" g="0" b="0" />
+    </VoiceEntry>
+    <VoiceEntry ID="33031259-fedb-420b-8811-8494f233b018">
+      <FinalColor r="151" g="23" b="255" />
+    </VoiceEntry>
+  </Voices>
+  <Adverts />
+  <Channels>
+    <ChannelEntry ID="9d2489a0-a0bb-417d-9336-370979c0b4b0" name="BWO News" cat="Radio" freq="98400" startscript="test">
+      <ScriptEntry ID="86549bbd-9e5c-4547-a444-b3126c4aec25" name="test" startdelay="0" timestampmode="Static" loopmin="1" loopmax="12">
+        <ExitOptions />
+        <BroadcastEntry ID="0b102036-4c8f-45ff-bb16-04d93b3225f5" timestamp="0" endstamp="1440" type="ActivateBroadcast" day="0" advertCat="none" isSegment="true">
+          <LineEntry ID="8704055b-f4d7-4e85-95fc-597644093f57" r="0" g="128" b="192" codes="GUID:8704055b-f4d7-4e85-95fc-597644093f57">${t:5.40}[img=music]</LineEntry>
+          <LineEntry ID="2588c127-be58-4cf9-91ce-97f1d826c01d" r="0" g="128" b="192" codes="GUID:2588c127-be58-4cf9-91ce-97f1d826c01d">${t:1.81}We interrupt your program</LineEntry>
+          <LineEntry ID="6d88a332-f2fd-4914-a42c-9d2d073d71c3" r="0" g="128" b="192" codes="GUID:6d88a332-f2fd-4914-a42c-9d2d073d71c3">${t:1.38}to serve you the lastest develop...</LineEntry>
+          <LineEntry ID="317d4d95-cd0a-466d-b664-d97ffb0845dd" r="0" g="128" b="192" codes="GUID:317d4d95-cd0a-466d-b664-d97ffb0845dd">${t:1.14}...ing situation.</LineEntry>
+        </BroadcastEntry>
+      </ScriptEntry>
+    </ChannelEntry>
+  </Channels>
+</RadioData>

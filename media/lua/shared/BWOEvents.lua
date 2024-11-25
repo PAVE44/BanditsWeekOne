@@ -279,7 +279,7 @@ BWOEvents.CallCops = function(params)
     vparams.lightbar = true
     BWOScheduler.Add("VehiclesUpdate", vparams, 500)
 
-    BWOPopControl.Police.Cooldown = 90
+    BWOPopControl.Police.Cooldown = 100
 end
 
 BWOEvents.CallSWAT = function(params)
@@ -328,7 +328,7 @@ BWOEvents.CallSWAT = function(params)
     vparams.lightbar = true
     BWOScheduler.Add("VehiclesUpdate", vparams, 500)
 
-    BWOPopControl.SWAT.Cooldown = 240
+    BWOPopControl.SWAT.Cooldown = 300
 end
 
 BWOEvents.CallMedics = function(params)
@@ -371,7 +371,7 @@ BWOEvents.CallMedics = function(params)
     vparams.lightbar = true
     BWOScheduler.Add("VehiclesUpdate", vparams, 500)
 
-    BWOPopControl.Medics.Cooldown = 60
+    BWOPopControl.Medics.Cooldown = 80
 end
 
 BWOEvents.CallHazmats = function(params)
@@ -416,7 +416,7 @@ BWOEvents.CallHazmats = function(params)
     vparams.lightbar = true
     BWOScheduler.Add("VehiclesUpdate", vparams, 500)
 
-    BWOPopControl.Hazmats.Cooldown = 50
+    BWOPopControl.Hazmats.Cooldown = 100
 end
 
 BWOEvents.CallFireman = function(params)
@@ -464,7 +464,7 @@ BWOEvents.CallFireman = function(params)
         BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, x, y, color)
     end
 
-    BWOPopControl.Fireman.Cooldown = 50
+    BWOPopControl.Fireman.Cooldown = 80
 end
 
 BWOEvents.Siren = function(params)
@@ -522,17 +522,19 @@ BWOEvents.Arson = function(params)
     if building then
 
         local room = building:getRandomRoom()
-        local square = room:getRandomSquare()
-        if square then
-            explode(square:getX(), square:getY())
-            local vparams = {}
-            vparams.alarm = true
-            BWOScheduler.Add("VehiclesUpdate", vparams, 500)
+        if room then
+            local square = room:getRandomSquare()
+            if square then
+                explode(square:getX(), square:getY())
+                local vparams = {}
+                vparams.alarm = true
+                BWOScheduler.Add("VehiclesUpdate", vparams, 500)
 
-            if SandboxVars.Bandits.General_ArrivalIcon then
-                local icon = "media/ui/loot.png"
-                local color = {r=1, g=0.5, b=0} -- orange
-                BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, square:getX(), square:getY(), color)
+                if SandboxVars.Bandits.General_ArrivalIcon then
+                    local icon = "media/ui/loot.png"
+                    local color = {r=1, g=0.5, b=0} -- orange
+                    BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, square:getX(), square:getY(), color)
+                end
             end
         end
     end
@@ -702,7 +704,7 @@ BWOEvents.EventBuildingParty = function(params)
     -- add boombox
     local square = counter:getSquare()
     if not boombox then
-        local cassette = BanditUtils.Choice({"Tsarcraft.CassetteBanditParty01", "Tsarcraft.CassetteBanditParty02", "Tsarcraft.CassetteBanditParty03"})
+        local cassette = BanditUtils.Choice({"Tsarcraft.CassetteBanditParty01", "Tsarcraft.CassetteBanditParty02", "Tsarcraft.CassetteBanditParty03", "Tsarcraft.CassetteBanditParty04", "Tsarcraft.CassetteBanditParty05"})
         addBoomBox(square:getX(), square:getY(), square:getZ(), cassette)
     end
 

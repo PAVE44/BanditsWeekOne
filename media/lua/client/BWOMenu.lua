@@ -151,6 +151,7 @@ BWOMenu.EventArson = function(player)
 end
 
 function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
+    local player = getPlayer()
     local square = clickedSquare
     -- print (square:getBuilding():isResidential())
     -- local zone = getWorld():getMetaGrid():getZoneAt(square:getX(), square:getY(), square:getZ())

@@ -135,10 +135,10 @@ ZombiePrograms.Walker.Main = function(bandit)
     -- grill time
     if BWOScheduler.SymptomLevel < 3 and ((hour >= 12 and hour < 15) or (hour >= 18 and hour < 23)) then
         local target = BWOObjects.FindGMD(bandit, "barbecue")
-        
+        local test = LosUtil.lineClear(cell, bx, by, bz, target.x, target.y, target.z, false)
         if target.x and target.y and target.z and target.dist < 20 then
             local square = cell:getGridSquare(target.x, target.y, target.z)
-            if square then
+            if square and BanditUtils.LineClear(bandit, square) then
                 local objects = square:getObjects()
                 for i=0, objects:size()-1 do
                     local object = objects:get(i)
@@ -193,6 +193,7 @@ ZombiePrograms.Walker.Main = function(bandit)
     end
 
     -- chair/bench rest
+
     local subTasks = BanditPrograms.Bench(bandit)
     if #subTasks > 0 then
         for _, subTask in pairs(subTasks) do
@@ -211,7 +212,8 @@ ZombiePrograms.Walker.Main = function(bandit)
     end
 
      -- most pedestrian will follow the street / road, some will just "gosomwhere" for variability
-     if id % 4 > 0 then
+     --
+    if id % 4 > 0 then
         local subTasks = BanditPrograms.FollowRoad(bandit, walkType)
         if #subTasks > 0 then
             for _, subTask in pairs(subTasks) do

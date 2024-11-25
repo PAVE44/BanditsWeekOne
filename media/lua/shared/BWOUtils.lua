@@ -41,3 +41,10 @@ function BanditUtils.GetClosestBanditLocationProgram(character, program)
 
     return result
 end
+
+function BanditUtils.LineClear(obj1, obj2)
+    local cell = obj1:getCell()
+    local x1, y1, z1 = obj1:getX(), obj1:getY(), obj1:getZ()
+    local x2, y2, z2 = obj2:getX(), obj2:getY(), obj2:getZ()
+    return tostring(LosUtil.lineClear(cell, x1, y1, z1, x2, y2, z2, false)) ~= "Blocked"
+end
