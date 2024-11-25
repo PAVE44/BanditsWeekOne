@@ -42,7 +42,7 @@ BWOBuildings.OpenHours.motel.open = 0
 BWOBuildings.OpenHours.motel.close = 24
 
 BWOBuildings.OpenHours.dining = {}
-BWOBuildings.OpenHours.dining.open = 11
+BWOBuildings.OpenHours.dining.open = 9
 BWOBuildings.OpenHours.dining.close = 24
 
 BWOBuildings.OpenHours.education = {}
@@ -334,7 +334,7 @@ BWOBuildings.GetType = function(building)
         btype = "bank"
     elseif building:containsRoom("gasstore") or building:containsRoom("gasstorage") then
         btype = "gasstation"
-    elseif building:containsRoom("grocery") or building:containsRoom("liquorstore") or building:containsRoom("clothingstore") or building:containsRoom("clothesstore") or building:containsRoom("grocery") or building:containsRoom("gigamart") or building:containsRoom("zippeestore") or building:containsRoom("movierental") or building:containsRoom("bookstore") or building:containsRoom("aesthetic") then
+    elseif building:containsRoom("bakery") or building:containsRoom("grocery") or building:containsRoom("liquorstore") or building:containsRoom("clothingstore") or building:containsRoom("clothesstore") or building:containsRoom("grocery") or building:containsRoom("gigamart") or building:containsRoom("zippeestore") or building:containsRoom("movierental") or building:containsRoom("bookstore") or building:containsRoom("aesthetic") then
         btype = "commercial"
     elseif building:containsRoom("bar") or building:containsRoom("restaurant") or building:containsRoom("pizzawhirled") or building:containsRoom("spiffo_dining")  or building:containsRoom("jayschicken_dining") then
         btype = "dining"
@@ -342,7 +342,7 @@ BWOBuildings.GetType = function(building)
         btype = "motel"
     elseif building:containsRoom("warehouse") then
         btype = "industrial"
-    elseif building:containsRoom("bedroom") and building:containsRoom("kitchen") and building:containsRoom("bathroom") then
+    elseif building:containsRoom("bedroom") and building:containsRoom("bathroom") then -- and building:containsRoom("kitchen")
         btype = "residential"
     end
     return btype

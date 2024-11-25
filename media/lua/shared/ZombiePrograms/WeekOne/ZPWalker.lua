@@ -114,8 +114,8 @@ ZombiePrograms.Walker.Main = function(bandit)
         if BWOScheduler.SymptomLevel >= 4 then walkType = "Run" end
     end
     
-    -- attracted to crime scene
-    local subTasks = BanditPrograms.CrimeScene(bandit)
+    -- react to events
+    local subTasks = BanditPrograms.Events(bandit)
     if #subTasks > 0 then
         for _, subTask in pairs(subTasks) do
             table.insert(tasks, subTask)
@@ -192,6 +192,15 @@ ZombiePrograms.Walker.Main = function(bandit)
         end
     end
 
+    -- chair/bench rest
+    local subTasks = BanditPrograms.Bench(bandit)
+    if #subTasks > 0 then
+        for _, subTask in pairs(subTasks) do
+            table.insert(tasks, subTask)
+        end
+        return {status=true, next="Main", tasks=tasks}
+    end
+
     -- interact with players and other npcs
     local subTasks = BanditPrograms.Talk(bandit)
     if #subTasks > 0 then
@@ -202,7 +211,7 @@ ZombiePrograms.Walker.Main = function(bandit)
     end
 
      -- most pedestrian will follow the street / road, some will just "gosomwhere" for variability
-     if id % 3 > 0 then
+     if id % 4 > 0 then
         local subTasks = BanditPrograms.FollowRoad(bandit, walkType)
         if #subTasks > 0 then
             for _, subTask in pairs(subTasks) do
@@ -212,7 +221,7 @@ ZombiePrograms.Walker.Main = function(bandit)
         end
     end
 
-    -- fallback if no road is found
+    -- go somewhere if no road is found
     local subTasks = BanditPrograms.GoSomewhere(bandit, walkType)
     if #subTasks > 0 then
         for _, subTask in pairs(subTasks) do
@@ -221,5 +230,14 @@ ZombiePrograms.Walker.Main = function(bandit)
         return {status=true, next="Main", tasks=tasks}
     end
     
+    -- fallback if going somewhere results in interior square
+    local subTasks = BanditPrograms.Fallback(bandit)
+    if #subTasks > 0 then
+        for _, subTask in pairs(subTasks) do
+            table.insert(tasks, subTask)
+        end
+        return {status=true, next="Main", tasks=tasks}
+    end
+
     return {status=true, next="Main", tasks=tasks}
 end

@@ -71,6 +71,11 @@ function BWOScheduler.MasterControl()
 
     -- general control - adjusting world parameters and firing events based on world age
 
+    local params ={}
+    params.x = player:getX()
+    params.y = player:getY()
+    params.z = player:getZ()
+
     -- assume day starts at 9.00
     -- D1 09:00 - D2 19:00
     if worldAge < 34 then
@@ -82,53 +87,60 @@ function BWOScheduler.MasterControl()
 
         if worldAge == 0  then
             if minute == 1 or minute == 4 then
-                BWOScheduler.Add("RegisterBase", 100)
+                params.icon = true
+                BWOScheduler.Add("RegisterBase", params, 100)
             elseif minute == 2 then 
-                BWOScheduler.Add("FixVehicles", 100)
+                BWOScheduler.Add("FixVehicles", params, 100)
             end
         elseif worldAge == 4 then
             if minute == 15 then
-                BWOScheduler.Add("EventMusician", 100)
+                BWOScheduler.Add("EventEntertainer", params, 100)
             end
         elseif worldAge == 6 then
             if minute == 35 then
-                BWOScheduler.Add("EventMusician", 100)
+                BWOScheduler.Add("EventEntertainer", params, 100)
             end
         elseif worldAge == 7 then
             if minute == 15 then
-                BWOScheduler.Add("EventMusician", 100)
+                BWOScheduler.Add("EventEntertainer", params, 100)
             end
         elseif worldAge == 11 then
             if minute == 12  then
-                BWOScheduler.Add("EventBuildingParty", 100)
+                BWOScheduler.Add("EventBuildingParty", params, 100)
             end
         elseif worldAge == 12 then
             if minute == 30  then
-                BWOScheduler.Add("EventBuildingParty", 100)
+                BWOScheduler.Add("EventBuildingParty", params, 100)
             end
         elseif worldAge == 13 then
             if minute == 5 or minute == 25 then
-                BWOScheduler.Add("EventBuildingParty", 100)
+                BWOScheduler.Add("EventBuildingParty", params, 100)
             end
         elseif worldAge == 15 then
             if minute == 5 or minute == 25 then
-                BWOScheduler.Add("EventBuildingParty", 100)
+                BWOScheduler.Add("EventBuildingParty", params, 100)
             end
         elseif worldAge == 16 then
             if minute == 58 then
-                BWOScheduler.Add("EventBuildingParty", 100)
+                BWOScheduler.Add("EventBuildingParty", params, 100)
+            end
+        elseif worldAge == 19 then
+            if minute == 43 then
+                params.intensity = 3
+                BWOScheduler.Add("RegisterBase", params, 100)
+                BWOScheduler.Add("Thieves", params, 1500)
             end
         elseif worldAge == 24 then
             if minute == 15 then
-                BWOScheduler.Add("EventMusician", 100)
+                BWOScheduler.Add("EventEntertainer", params, 100)
             end
         elseif worldAge == 26 then
             if minute == 15 then
-                BWOScheduler.Add("EventMusician", 100)
+                BWOScheduler.Add("EventEntertainer", params, 100)
             end
         elseif worldAge == 28 then
             if minute == 33 then
-                BWOScheduler.Add("EventMusician", 100)
+                BWOScheduler.Add("EventEntertainer", params, 100)
             end
         end
     end
@@ -143,24 +155,26 @@ function BWOScheduler.MasterControl()
 
         if worldAge == 35 then
             if minute == 20  then
-                BWOScheduler.Add("EventBuildingParty", 100)
+                BWOScheduler.Add("EventBuildingParty", params, 100)
             end
         elseif worldAge == 36 then
             if minute == 10 or minute == 60  then
-                BWOScheduler.Add("EventBuildingParty", 100)
+                BWOScheduler.Add("EventBuildingParty", params, 100)
             end
         elseif worldAge == 37 then
             if minute == 5 or minute == 25 then
-                BWOScheduler.Add("EventBuildingParty", 100)
+                BWOScheduler.Add("EventBuildingParty", params, 100)
             end
         elseif worldAge == 39 then
             if minute == 2 then
-                BWOScheduler.Add("EventBuildingParty", 100)
+                BWOScheduler.Add("EventBuildingParty", params, 100)
             end
         elseif worldAge == 42  then
             if minute == 7 then
-                BWOScheduler.Add("RegisterBase", 100)
-                BWOScheduler.Add("Thieves", 1500)
+                BWOScheduler.Add("RegisterBase", params, 100)
+
+                params.intensity = 3
+                BWOScheduler.Add("Thieves", params, 1500)
             end
         end
 
@@ -181,17 +195,19 @@ function BWOScheduler.MasterControl()
             BWOPopControl.ZombieMax = 1
         elseif worldAge == 55 then
             if minute == 11 then
-                BWOScheduler.Add("Criminals", 100)
+                params.intensity = 2
+                BWOScheduler.Add("Criminals", params, 100)
             end
         elseif worldAge == 58 then
             BWOPopControl.ZombieMax = 1
             if minute == 33 then
-                BWOScheduler.Add("Criminals", 100)
+                params.intensity = 3
+                BWOScheduler.Add("Criminals", params, 100)
             end
         elseif worldAge == 59 then
             BWOPopControl.ZombieMax = 1
             if minute == 44 or minute == 55 then
-                BWOScheduler.Add("EventBuildingParty", 100)
+                BWOScheduler.Add("EventBuildingParty", params, 100)
             end
         end
     end
@@ -202,19 +218,21 @@ function BWOScheduler.MasterControl()
         BWOScheduler.SymptomLevel = 3
         BWOPopControl.StreetsNominal = 35
         BWOPopControl.InhabitantsNominal = 55
-        BWOPopControl.SurvivorsNominal = 1
+        BWOPopControl.SurvivorsNominal = 0
         BWOPopControl.ZombieMax = 0
 
         if worldAge == 63 then
             if minute == 30 then
-                BWOScheduler.Add("Criminals", 100)
+                params.intensity = 4
+                BWOScheduler.Add("Criminals", params, 100)
             end
         elseif worldAge == 65 then
             BWOPopControl.ZombieMax = 1
         elseif worldAge == 66 then
             BWOPopControl.ZombieMax = 1
             if minute == 39 or minute == 41 then
-                BWOScheduler.Add("Criminals", 100)
+                params.intensity = 3
+                BWOScheduler.Add("Criminals", params, 100)
             end
         end
     end
@@ -230,21 +248,21 @@ function BWOScheduler.MasterControl()
         if worldAge == 69 then
             BWOPopControl.ZombieMax = 1
             if minute == 14 then
-                BWOScheduler.Add("Defenders", 100)
+                BWOScheduler.Add("Defenders", params, 100)
             end
         end
 
         if worldAge == 71 then
             BWOPopControl.ZombieMax = 3
             if minute == 21 then
-                BWOScheduler.Add("Defenders", 100)
+                BWOScheduler.Add("Defenders", params, 100)
             end
         end
 
         if worldAge == 74 then
             BWOPopControl.ZombieMax = 3
             if minute == 2 then
-                BWOScheduler.Add("Defenders", 100)
+                BWOScheduler.Add("Defenders", params, 100)
             end
         end
 
@@ -261,55 +279,62 @@ function BWOScheduler.MasterControl()
         if worldAge == 77 then
             BWOPopControl.ZombieMax = 1
             if minute == 7 or minute == 57 then
-                BWOScheduler.Add("Defenders", 100)
+                BWOScheduler.Add("Defenders", params, 100)
             elseif minute == 10 or minute == 30 then
-                BWOScheduler.Add("ChopperAlert", 100)
+                BWOScheduler.Add("ChopperAlert", params, 100)
             end
         elseif worldAge == 80 then
             BWOPopControl.ZombieMax = 1
             if minute == 41 then
-                BWOScheduler.Add("Defenders", 100)
+                BWOScheduler.Add("Defenders", params, 100)
             end
         elseif worldAge == 83 then
             BWOPopControl.ZombieMax = 3
             if minute == 35 then
-                BWOScheduler.Add("RegisterBase", 100)
+                BWOScheduler.Add("RegisterBase", params, 100)
+
+                params.intensity = 4
                 BWOScheduler.Add("Thieves", 1500)
             elseif minute == 2 or minute == 33 then
-                BWOScheduler.Add("ChopperAlert", 100)
+                BWOScheduler.Add("ChopperAlert", params, 100)
             end
         elseif worldAge == 87 then
             BWOPopControl.ZombieMax = 3
             if minute == 27 then
-                BWOScheduler.Add("Arson", 100)
+                BWOScheduler.Add("Arson", params, 100)
             elseif minute == 33 or minute == 50 then
-                BWOScheduler.Add("Criminals", 100)
+                params.intensity = 4
+                BWOScheduler.Add("Criminals", params, 100)
             end
         elseif worldAge == 88 then
             BWOPopControl.ZombieMax = 3
             if minute == 44 or minute == 46 or minute == 47 then
-                BWOScheduler.Add("Criminals", 100)
+                params.intensity = 3
+                BWOScheduler.Add("Criminals", params, 100)
             end
         elseif worldAge == 89 then
             if minute == 35 then
-                BWOScheduler.Add("Defenders", 100)
+                BWOScheduler.Add("Defenders", params, 100)
             elseif minute == 52 then
-                BWOScheduler.Add("Arson", 100)
+                BWOScheduler.Add("Arson", params, 100)
             elseif minute == 58 then
-                BWOScheduler.Add("RegisterBase", 100)
-                BWOScheduler.Add("Thieves", 1500)
+                BWOScheduler.Add("RegisterBase", params, 100)
+
+                params.intensity = 5
+                BWOScheduler.Add("Thieves", params, 1500)
             end
         elseif worldAge == 90 then
             BWOPopControl.ZombieMax = 1
             if minute == 6 then
-                BWOScheduler.Add("Defenders", 100)
+                BWOScheduler.Add("Defenders", params, 100)
             end
         elseif worldAge == 91 then
             BWOPopControl.ZombieMax = 5
             if minute == 4 then
-                BWOScheduler.Add("Arson", 100)
+                BWOScheduler.Add("Arson", params, 100)
             elseif minute == 23 then
-                BWOScheduler.Add("Bandits", 100)
+                params.intensity = 4
+                BWOScheduler.Add("Bandits", params, 100)
             end
         elseif worldAge == 92 then
             BWOPopControl.ZombieMax = 25
@@ -326,36 +351,44 @@ function BWOScheduler.MasterControl()
 
         if worldAge == 93 then
             if minute == 0 then 
-                BWOScheduler.Add("Siren", 100)
+                BWOScheduler.Add("Siren", params, 100)
             elseif minute == 11 then
-                BWOScheduler.Add("PoliceRiot", 100)
+                params.intensity = 6
+                BWOScheduler.Add("PoliceRiot", params, 100)
             elseif minute == 12 or minute == 44 then
-                BWOScheduler.Add("ChopperAlert", 100)
+                BWOScheduler.Add("ChopperAlert", params, 100)
             end
         elseif worldAge == 94 then
             if minute == 31 then
-                BWOScheduler.Add("Defenders", 100)
+                BWOScheduler.Add("Defenders", params, 100)
             elseif minute == 33 or minute == 37 then
-                BWOScheduler.Add("Criminals", 100)
+                params.intensity = 5
+                BWOScheduler.Add("Criminals", params, 100)
             end
         elseif worldAge == 95 then
             if minute == 22 then
-                BWOScheduler.Add("Bandits", 100)
+                params.intensity = 5
+                BWOScheduler.Add("Bandits", params, 100)
             elseif minute == 24 then
-                BWOScheduler.Add("PoliceRiot", 100)
+                params.intensity = 7
+                BWOScheduler.Add("PoliceRiot", params, 100)
             elseif minute == 33 or minute == 37 then
-                BWOScheduler.Add("Criminals", 100)
+                params.intensity = 6
+                BWOScheduler.Add("Criminals", params, 100)
             end
         elseif worldAge == 96 then
             if minute == 2 then
-                BWOScheduler.Add("Defenders", 100)
-                BWOScheduler.Add("Bikers", 100)
+                BWOScheduler.Add("Defenders", params, 100)
+
+                params.instensity = 12
+                BWOScheduler.Add("Bikers", params, 100)
             elseif minute == 11 then
-                BWOScheduler.Add("PoliceRiot", 100)
+                params.intensity = 8
+                BWOScheduler.Add("PoliceRiot", params, 100)
             end
         elseif worldAge == 99 then
             if minute == 2 then
-                BWOScheduler.Add("Defenders", 100)
+                BWOScheduler.Add("Defenders", params, 100)
             end
         end
     end
@@ -369,37 +402,47 @@ function BWOScheduler.MasterControl()
         BWOPopControl.ZombieMax = 1000
         if worldAge == 105 then
             if minute == 52 then
-                BWOScheduler.Add("Defenders", 100)
+                BWOScheduler.Add("Defenders", params, 100)
             end
         elseif worldAge == 112 then
             if minute == 0 then 
-                BWOScheduler.Add("Arson", 100)
+                BWOScheduler.Add("Arson", params, 100)
             elseif minute == 11 or minute == 44 then
-                BWOScheduler.Add("Arson", 100)
-                BWOScheduler.Add("Bandits", 300)
+                BWOScheduler.Add("Arson", params, 100)
+
+                params.intensity = 6
+                BWOScheduler.Add("Bandits", params, 300)
             elseif minute == 55 then
-                BWOScheduler.Add("Defenders", 100)
-                BWOScheduler.Add("Bikers", 100)
-                BWOScheduler.Add("Bikers", 200)
-                BWOScheduler.Add("Bikers", 300)
+                BWOScheduler.Add("Defenders", params, 100)
+
+                params.instensity = 3
+                BWOScheduler.Add("Bikers", params, 100)
+                BWOScheduler.Add("Bikers", params, 200)
+                BWOScheduler.Add("Bikers", params, 300)
             end
         elseif worldAge == 113 then
             if minute == 31 then
-                BWOScheduler.Add("Defenders", 100)
+                BWOScheduler.Add("Defenders", params, 100)
             elseif minut == 22 then
-                BWOScheduler.Add("Arson", 200)
+                BWOScheduler.Add("Arson", params, 200)
             elseif minute == 33 or minute == 35 or minute == 36 then
-                BWOScheduler.Add("Criminals", 100)
-                BWOScheduler.Add("Bandits", 500)
+                params.intensity = 5
+                BWOScheduler.Add("Criminals", params, 100)
+
+                params.intensity = 4
+                BWOScheduler.Add("Bandits", params, 500)
             end
         elseif worldAge == 116 then
             if minute == 15 then
-                BWOScheduler.Add("Defenders", 100)
-                BWOScheduler.Add("Thieves", 100)
+                BWOScheduler.Add("Defenders", params, 100)
+
+                params.intensity = 6
+                BWOScheduler.Add("Thieves", params, 100)
             end
         elseif worldAge == 117 then
             if minute == 15 then
-                BWOScheduler.Add("Thieves", 100)
+                params.intensity = 6
+                BWOScheduler.Add("Thieves", params, 100)
             end
         end
     end
@@ -413,11 +456,11 @@ function BWOScheduler.MasterControl()
 
         if worldAge == 125 then
             if minute == 2 then
-                BWOScheduler.Add("Asylum", 100)
+                BWOScheduler.Add("Asylum", params, 100)
             end
         elseif worldAge == 128 then
             if minute == 14 then
-                BWOScheduler.Add("Inmates", 100)
+                BWOScheduler.Add("Inmates", params, 100)
             end
         end
     end
@@ -428,6 +471,7 @@ function BWOScheduler.MasterControl()
     BWOPopControl.Security.On = false
     BWOPopControl.Medics.On = false
     BWOPopControl.Hazmats.On = false
+    BWOPopControl.Fireman.On = false
 
     if worldAge < 40 then
         BWOPopControl.Medics.On = true
@@ -437,31 +481,30 @@ function BWOScheduler.MasterControl()
         BWOPopControl.Hazmats.On = true
     end
 
-    if worldAge < 86 then
+    if worldAge < 90 then
         BWOPopControl.Police.On = true
         BWOPopControl.SWAT.On = true
         BWOPopControl.Security.On = true
+        BWOPopControl.Fireman.On = true
     end
-
-
-
 end
 
-function BWOScheduler.Add(eventName, delay)
+function BWOScheduler.Add(eventName, params, delay)
     event = {}
-    event.start = BWOUtils.GetTime() + delay
+    event.start = BanditUtils.GetTime() + delay
     event.phase = eventName
+    event.params = params
     table.insert(BWOScheduler.Schedule, event)
 end
 
 -- processes schedule phases
 function BWOScheduler.CheckSchedule()
     local player = getPlayer()
-    local ct = BWOUtils.GetTime()
+    local ct = BanditUtils.GetTime()
     for i, event in pairs(BWOScheduler.Schedule) do
         if event.start < ct then
             if BWOEvents[event.phase] then
-                BWOEvents[event.phase](player)
+                BWOEvents[event.phase](event.params)
             end
             table.remove(BWOScheduler.Schedule, i)
             break

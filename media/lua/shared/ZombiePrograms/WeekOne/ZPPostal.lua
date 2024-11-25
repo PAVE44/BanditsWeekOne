@@ -108,8 +108,8 @@ ZombiePrograms.Postal.Main = function(bandit)
         if BWOScheduler.SymptomLevel >= 4 then walkType = "Run" end
     end
     
-    -- crime scene
-    local subTasks = BanditPrograms.CrimeScene(bandit)
+    -- react to events
+    local subTasks = BanditPrograms.Events(bandit)
     if #subTasks > 0 then
         for _, subTask in pairs(subTasks) do
             table.insert(tasks, subTask)

@@ -57,8 +57,8 @@ ZombiePrograms.Runner.Main = function(bandit)
         return {status=true, next="Main", tasks=tasks}
     end
 
-    -- attracted to crime scene
-    local subTasks = BanditPrograms.CrimeScene(bandit)
+    -- react to events
+    local subTasks = BanditPrograms.Events(bandit)
     if #subTasks > 0 then
         for _, subTask in pairs(subTasks) do
             table.insert(tasks, subTask)

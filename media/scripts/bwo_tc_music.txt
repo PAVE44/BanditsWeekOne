@@ -32,4 +32,15 @@ module Tsarcraft
             distanceMax = 75,
         }
     }
+
+    sound CassetteBanditBreakdance01
+    {
+        category = True Music,
+        master = Ambient,
+        clip
+        {
+            file = media/sound/TCBoombox/music_breakdance_1.ogg,
+            distanceMax = 75,
+        }
+    }
 }

@@ -8,6 +8,39 @@ BWORoomPrograms.livingroom = function(bandit, def)
     local hour = gameTime:getHour()
     local minute = gameTime:getMinutes()
 
+    local piano = BWOObjects.Find(bandit, def, "Piano")
+    local stool = BWOObjects.Find(bandit, def, "Stool")
+    if piano and stool then
+        if true then -- (hour > 5 and hour < 23) then
+            local square = stool:getSquare()
+            local zombie = square:getZombie()
+            local asquare = AdjacentFreeTileFinder.Find(square, bandit)
+            if asquare then
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
+                if dist > 1.20 then
+                    if not zombie then
+                        table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
+                        return tasks
+                    end
+                else
+                    local anim = "InstrumentPiano"
+                    local sound = "BWOInstrumentPiano1"
+                    local sprite = stool:getSprite()
+                    local spriteName = sprite:getName()
+                    if spriteName == "recreational_01_11" then
+                        local task = {action="TimeEvent", sound=sound, anim=anim, x=piano:getX(), y=piano:getY() - 1, z=piano:getZ(), lx=stool:getX() + 0.8, ly=stool:getY() + 0.25, time=3000}
+                        table.insert(tasks, task)
+                        return tasks
+                    elseif spriteName == "recreational_01_14" then
+                        local task = {action="TimeEvent", sound=sound, anim=anim, x=piano:getX() - 1, y=piano:getY(), z=piano:getZ(), lx=stool:getX() + 0.25, ly=stool:getY() - 0.2, time=3000}
+                        table.insert(tasks, task)
+                        return tasks
+                    end
+                end
+            end
+        end
+    end
+
     local tv = BWOObjects.Find(bandit, def, "Television")
     if tv then
         local dd = tv:getDeviceData()
@@ -332,6 +365,9 @@ BWORoomPrograms.church = function(bandit, def)
         end
     else
         local sittable = BWOObjects.Find(bandit, def, "Pew")
+        if not sittable then
+            sittable = BWOObjects.Find(bandit, def, "Bench")
+        end
 
         if sittable then
             local square = sittable:getSquare()

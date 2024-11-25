@@ -420,6 +420,200 @@ module Bandits{
         } 
     }
 
+    sound BWOClap1 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/clap_1.wav,
+            distanceMin = 1, 
+            distanceMax = 13,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
+        } 
+    }
+
+    sound BWOClap2 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/clap_2.wav,
+            distanceMin = 1, 
+            distanceMax = 13,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
+        } 
+    }
+
+    sound BWOClap3 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/clap_3.wav,
+            distanceMin = 1, 
+            distanceMax = 13,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
+        } 
+    }
+
+    sound BWOClap4 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/clap_4.wav,
+            distanceMin = 1, 
+            distanceMax = 13,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
+        } 
+    }
+
+    sound BWOClap5 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/clap_5.wav,
+            distanceMin = 1, 
+            distanceMax = 13,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
+        } 
+    }
+
+    sound BWOClap6 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/clap_6.wav,
+            distanceMin = 1, 
+            distanceMax = 13,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
+        } 
+    }
+
+    sound BWOClap7 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/clap_7.wav,
+            distanceMin = 1, 
+            distanceMax = 13,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
+        } 
+    }
+
+    sound BWOClap8 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/clap_8.wav,
+            distanceMin = 1, 
+            distanceMax = 13,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
+        } 
+    }
+
+    sound BWOClap9 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/clap_9.wav,
+            distanceMin = 1, 
+            distanceMax = 13,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
+        } 
+    }
+
+    sound BWOClap10 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/clap_10.wav,
+            distanceMin = 1, 
+            distanceMax = 13,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
+        } 
+    }
+
+    sound BWOClap11 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/clap_11.wav,
+            distanceMin = 1, 
+            distanceMax = 13,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
+        } 
+    }
+
+    sound BWOClap12 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/clap_12.wav,
+            distanceMin = 1, 
+            distanceMax = 13,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
+        } 
+    }
+
+    sound BWOClap13 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/clap_13.wav,
+            distanceMin = 1, 
+            distanceMax = 13,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
+        } 
+    }
+
+    sound BWOExtinguish {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/extinguish.ogg,
+            distanceMin = 1, 
+            distanceMax = 16,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
+        } 
+    }
+
+    sound BWOInstrumentPiano1 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/instrument_piano_1.ogg,
+            distanceMin = 1, 
+            distanceMax = 28,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
+        } 
+    }
 
     sound BWOInstrumentViolinPaganini {
         category = Object, 
@@ -454,9 +648,9 @@ module Bandits{
         clip { 
             file = media/sound/instrument_sax_2.ogg,
             distanceMin = 1, 
-            distanceMax = 15,
+            distanceMax = 28,
             reverbFactor = 0.1, 
-            volume = 0.7, 
+            volume = 0.6, 
         } 
     }
 
@@ -467,9 +661,22 @@ module Bandits{
         clip { 
             file = media/sound/instrument_sax_3.ogg,
             distanceMin = 1, 
-            distanceMax = 15,
+            distanceMax = 28,
             reverbFactor = 0.1, 
-            volume = 0.7, 
+            volume = 0.6, 
+        } 
+    }
+
+    sound BWOInstrumentBassGuitar1 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/instrument_bassguitar_1.ogg,
+            distanceMin = 1, 
+            distanceMax = 28,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
         } 
     }
 

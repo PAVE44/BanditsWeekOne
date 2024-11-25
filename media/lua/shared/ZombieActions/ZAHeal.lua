@@ -36,7 +36,7 @@ ZombieActions.Heal.onComplete = function(zombie, task)
                 -- ISInventoryPage.dirtyUI()
                 
                 -- unregister dead body
-                local args = {x=zombie:getX(), y=zombie:getY(), z=zombie:getZ()}
+                local args = {x=corpse:getX(), y=corpse:getY(), z=corpse:getZ()}
                 sendClientCommand(getPlayer(), 'Commands', 'DeadBodyRemove', args)
             end
         end

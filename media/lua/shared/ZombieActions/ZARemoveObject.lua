@@ -42,6 +42,7 @@ ZombieActions.RemoveObject.onComplete = function(zombie, task)
                     else
                         square:transmitRemoveItemFromSquare(object)
                     end
+                    break
                 end
             end
         end

@@ -21,8 +21,11 @@ ZombieActions.Smoke.onWorking = function(zombie, task)
         effect.frameCnt = 60
         effect.frameRnd = false
         effect.repCnt = 2
+        effect.r = 0.6
+        effect.g = 0.6
+        effect.b = 0.6
         if isClient() then
-            sendClientCommand(getPlayer(), 'Schedule', 'AddEffect', effect)
+            sendClientCommand(getPlayer(), 'Commands', 'AddEffect', effect)
         else
             table.insert(BanditEffects.tab, effect)
         end

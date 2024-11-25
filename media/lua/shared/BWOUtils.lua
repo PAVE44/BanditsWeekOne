@@ -1,6 +1,6 @@
-BWOUtils = BWOUtils or {}
+BanditUtils = BanditUtils or {}
 
-BWOUtils.GetTime = function()
+BanditUtils.GetTime = function()
     local world = getWorld()
     local gamemode = world:getGameMode()
     if gamemode == "Multiplayer" then
@@ -9,4 +9,35 @@ BWOUtils.GetTime = function()
     else
         return getGameTime():getWorldAgeHours() * 2500000 / 24
     end
+end
+
+function BanditUtils.GetClosestBanditLocationProgram(character, program)
+    local result = {}
+    local cid = BanditUtils.GetCharacterID(character)
+
+    result.dist = math.huge
+    result.x = false
+    result.y = false
+    result.z = false
+    result.id = false
+    
+    local cx, cy = character:getX(), character:getY()
+
+    local zombieList = BanditZombie.GetAllB()
+    for id, zombie in pairs(zombieList) do
+        if zombie.brain.program.name == program then
+            if math.abs(zombie.x - cx) < 30 or math.abs(zombie.y - cy) < 30 then
+                local dist = BanditUtils.DistTo(cx, cy, zombie.x, zombie.y)
+                if dist < result.dist and cid ~= id then
+                    result.dist = dist
+                    result.x = zombie.x
+                    result.y = zombie.y
+                    result.z = zombie.z
+                    result.id = zombie.id
+                end
+            end
+        end
+    end
+
+    return result
 end

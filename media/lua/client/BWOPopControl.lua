@@ -37,6 +37,11 @@ BWOPopControl.Hazmats = {}
 BWOPopControl.Hazmats.Cooldown = 0
 BWOPopControl.Hazmats.On = true
 
+BWOPopControl.Fireman = {} 
+BWOPopControl.Fireman.Cooldown = 0
+BWOPopControl.Fireman.On = true
+
+
 BWOPopControl.Zombie = function()
     -- local x = SandboxVars.ZombieConfig.PopulationMultiplier
     -- SandboxVars.ZombieConfig.PopulationMultiplier = 0.1
@@ -108,7 +113,7 @@ BWOPopControl.StreetsSpawn = function(cnt)
                     event.x = square:getX()
                     event.y = square:getY()
                     local rnd = ZombRand(100)
-                    if rnd < 8 then
+                    if rnd < 5 then
                         bandit.outfit = BanditUtils.Choice({"StreetSports", "AuthenticJogger", "AuthenticFitnessInstructor"})
                         event.program.name = "Runner"
                         event.program.stage = "Prepare"
@@ -116,11 +121,11 @@ BWOPopControl.StreetsSpawn = function(cnt)
                         bandit.outfit = BanditUtils.Choice({"Postal"})
                         event.program.name = "Postal"
                         event.program.stage = "Prepare"
-                    elseif rnd < 14 then 
+                    elseif rnd < 15 then 
                         bandit.outfit = BanditUtils.Choice({"Farmer"})
                         event.program.name = "Gardener"
                         event.program.stage = "Prepare"
-                    elseif rnd < 18 then 
+                    elseif rnd < 20 then 
                         bandit.outfit = BanditUtils.Choice({"AuthenticHomeless"})
                         bandit.weapons.melee = "Base.Broom"
                         event.program.name = "Janitor"
@@ -145,7 +150,7 @@ BWOPopControl.StreetsDespawn = function(cnt)
     local px = player:getX()
     local py = player:getY()
 
-    local removePrg = {"Walker", "Runner", "Postal", "Musician", "Janitor", "Medic", "Gardener"}
+    local removePrg = {"Walker", "Runner", "Postal", "Entertainer", "Janitor", "Medic", "Gardener"}
     local zombieList = cell:getZombieList()
     
     for i = 0, zombieList:size() - 1 do
@@ -252,7 +257,7 @@ BWOPopControl.InhabitantsDespawn = function(cnt)
     local px = player:getX()
     local py = player:getY()
 
-    local removePrg = {"Inhabitant", "Medic", "Janitor", "Musician"}
+    local removePrg = {"Inhabitant", "Medic", "Janitor", "Entertainer"}
     local zombieList = cell:getZombieList()
 
     for i = 0, zombieList:size() - 1 do
@@ -297,7 +302,7 @@ BWOPopControl.SurvivorsSpawn = function(missing)
     event.hostile = false
     event.occured = false
     event.program = {}
-    event.program.name = "Looter"
+    event.program.name = "Survivor"
     event.program.stage = "Prepare"
 
     for i=1, missing do
@@ -312,6 +317,43 @@ BWOPopControl.SurvivorsSpawn = function(missing)
             
             sendClientCommand(player, 'Commands', 'SpawnGroup', event)
 
+        end
+    end
+end
+
+BWOPopControl.SurvivorsDespawn = function(cnt)
+    local player = getPlayer()
+    local cell = player:getCell()
+    local px = player:getX()
+    local py = player:getY()
+
+    local removePrg = {"Survivor"}
+    local zombieList = cell:getZombieList()
+    
+    for i = 0, zombieList:size() - 1 do
+        local zombie = zombieList:get(i)
+
+        if zombie:getVariableBoolean("Bandit") then
+            local brain = BanditBrain.Get(zombie)
+            local prg = brain.program.name
+            
+            for _, prg in pairs(removePrg) do
+                if prg == brain.program.name then
+                    local zx = zombie:getX()
+                    local zy = zombie:getY()
+                    local dist = BanditUtils.DistTo(px, py, zx, zy)
+                    
+                    if dist > 45 then
+                        zombie:removeFromSquare()
+                        zombie:removeFromWorld()
+                        args = {}
+                        args.id = brain.id
+                        sendClientCommand(player, 'Commands', 'BanditRemove', args)
+                        i = i + 1
+                        if i >= cnt then return end
+                    end
+                end
+            end
         end
     end
 end
@@ -369,7 +411,7 @@ BWOPopControl.UpdateCivs = function()
     tab.Inhabitant = 0
     tab.Janitor = 0
     tab.Medic = 0
-    tab.Musician = 0
+    tab.Entertainer = 0
     tab.Postal = 0
     tab.Runner = 0
     tab.Walker = 0
@@ -420,7 +462,7 @@ BWOPopControl.UpdateCivs = function()
     -- ADJUST: people on the streets
 
     -- count currently active civs
-    BWOPopControl.StreetsCnt = tab.Walker + tab.Runner + tab.Postal + tab.Gardener +  + tab.Janitor
+    BWOPopControl.StreetsCnt = tab.Walker + tab.Runner + tab.Postal + tab.Gardener + tab.Janitor
 
     -- count desired population of civs
     local nominal = BWOPopControl.StreetsNominal
@@ -472,6 +514,9 @@ BWOPopControl.UpdateCivs = function()
     if missing > 4 then missing = 4 end
     if missing > 0 then
         BWOPopControl.SurvivorsSpawn(missing)
+    elseif missing < 0 then
+        local surplus = -missing
+        BWOPopControl.SurvivorsDespawn(surplus)
     end
 
     -- debug report:
@@ -502,7 +547,7 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
 
     -- killing bandits is ok!
     local brain = BanditBrain.Get(bandit)
-    if brain.hostile == true then return end
+    if brain.clan > 1 then return end
 
     -- to weak to respond
     -- local infection = Bandit.GetInfection(bandit)
@@ -517,36 +562,47 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
                 local actor = BanditZombie.GetInstanceById(witness.id)
                 if actor:CanSee(bandit) then
 
+                    local params ={}
+                    params.x = bandit:getX()
+                    params.y = bandit:getY()
+                    params.z = bandit:getZ()
+
                     -- attacking by player retaliation is handled by main Bandits mod, here we just want to call hostile cops additionally
                     -- theifs are exception, they spawn technically as friendy so attacking them here should not trigger enemy, but friendly cops
                     if instanceof(attacker, "IsoPlayer") and attacker:getDisplayName() == getPlayer():getDisplayName() and brain.program.name ~= "Thief" then
                         local outfit = bandit:getOutfitName()
                         if outfit == "Police" then
                             if BWOPopControl.SWAT.On then
-                                BWOScheduler.Add("CallSWATHostile", 3500)
+                                params.hostile = true
+                                BWOScheduler.Add("CallSWAT", params, 3500)
                             end
                         else
                             if BWOPopControl.Police.On then
-                                BWOScheduler.Add("CallCopsHostile", 3100)
+                                params.hostile = true
+                                BWOScheduler.Add("CallCops", params, 3100)
                             end
                         end
 
                         -- witnessing civilians need to change peaceful behavior to active
-                        if witness.brain.program.name == "Inhabitant" or witness.brain.program.name == "Walker" or witness.brain.program.name == "Runner" or witness.brain.program.name == "Postal" then
-                            Bandit.SetProgram(actor, "Active", {})
-                            local brain = BanditBrain.Get(actor)
-                            if brain then
-                                local syncData = {}
-                                syncData.id = brain.id
-                                syncData.hostile = brain.hostile
-                                syncData.program = brain.program
-                                Bandit.ForceSyncPart(actor, syncData)
+                        local activatePrograms = {"Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer"}
+                        for _, prg in pairs(activatePrograms) do
+                            if witness.brain.program.name == prg then 
+                                Bandit.SetProgram(actor, "Active", {})
+                                local brain = BanditBrain.Get(actor)
+                                if brain then
+                                    local syncData = {}
+                                    syncData.id = brain.id
+                                    syncData.hostile = brain.hostile
+                                    syncData.program = brain.program
+                                    Bandit.ForceSyncPart(actor, syncData)
+                                end
                             end
                         end
                     else
                         -- call friendly police
                         if BWOPopControl.Police.On then
-                            BWOScheduler.Add("CallCops", 3000)
+                            params.hostile = false
+                            BWOScheduler.Add("CallCops", params, 3000)
                         end
                     end
                 end
@@ -567,15 +623,31 @@ BWOPopControl.OnZombieDead = function(zombie)
     local args = {x=zombie:getX(), y=zombie:getY(), z=zombie:getZ()}
     sendClientCommand(getPlayer(), 'Commands', 'DeadBodyAdd', args)
 
+    local params ={}
+    params.x = zombie:getX()
+    params.y = zombie:getY()
+    params.z = zombie:getZ()
+    params.hostile = false
+
     if BWOPopControl.Medics.On then
-        BWOScheduler.Add("CallMedics", 9000)
+        BWOScheduler.Add("CallMedics", params, 9000)
     elseif BWOPopControl.Hazmats.On then
-        BWOScheduler.Add("CallHazmats", 9500)
+        BWOScheduler.Add("CallHazmats", params, 9500)
     end
 end
 
-Events.OnHitZombie.Add(BWOPopControl.OnHitZombie)
-Events.OnZombieDead.Add(BWOPopControl.OnZombieDead)
+BWOPopControl.OnNewFire = function(fire)
+    local params ={}
+    params.x = fire:getX()
+    params.y = fire:getY()
+    params.z = fire:getZ()
+    params.hostile = true
+    BWOScheduler.Add("CallFireman", params, 3100)
+end
+
 Events.EveryOneMinute.Add(BWOPopControl.UpdateCivs)
 Events.OnTick.Add(BWOPopControl.UpdateZombie)
+Events.OnHitZombie.Add(BWOPopControl.OnHitZombie)
+Events.OnZombieDead.Add(BWOPopControl.OnZombieDead)
+Events.OnNewFire.Add(BWOPopControl.OnNewFire)
 

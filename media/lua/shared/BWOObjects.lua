@@ -42,6 +42,70 @@ BWOObjects.Find = function (bandit, def, objName)
     return foundObj
 end
 
+BWOObjects.FindAround = function (bandit, r, objName)
+    local cell = getCell()
+    local bid = BanditUtils.GetCharacterID(bandit)
+    local bx = bandit:getX()
+    local by = bandit:getY()
+    local bz = bandit:getZ()
+    local foundDist = math.huge
+    local foundObj
+    for x=bx-r, bx+r do
+        for y=by-r, by+r do
+            local square = cell:getGridSquare(x, y, bz)
+            if square then
+                local zombie = square:getZombie()
+                if not zombie or BanditUtils.GetCharacterID(zombie) == bid then
+                    local objects = square:getObjects()
+                    for i=0, objects:size()-1 do
+                        local object = objects:get(i)
+                        local sprite = object:getSprite()
+                        if sprite then
+                            local props = sprite:getProperties()
+                            if props:Is("CustomName") then
+                                local name = props:Val("CustomName")
+                                if name == objName then
+                                    local dist = math.sqrt(math.pow(x - bx, 2) + math.pow(y - by, 2))
+                                    if dist < foundDist then
+                                        foundObj = object
+                                        foundDist = dist
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    return foundObj
+end
+
+BWOObjects.FindFire = function (bandit, r)
+    local cell = getCell()
+    local bid = BanditUtils.GetCharacterID(bandit)
+    local bx = bandit:getX()
+    local by = bandit:getY()
+    local bz = bandit:getZ()
+    local foundDist = math.huge
+    local foundObj
+    for x=bx-r, bx+r do
+        for y=by-r, by+r do
+            local square = cell:getGridSquare(x, y, bz)
+            if square then
+                if square:haveFire() then
+                    local dist = math.sqrt(math.pow(x - bx, 2) + math.pow(y - by, 2))
+                    if dist < foundDist then
+                        foundObj = square
+                        foundDist = dist
+                    end
+                end
+            end
+        end
+    end
+    return foundObj
+end
+
 BWOObjects.FindBarricadable = function (bandit, def)
     local cell = getCell()
     local bid = BanditUtils.GetCharacterID(bandit)

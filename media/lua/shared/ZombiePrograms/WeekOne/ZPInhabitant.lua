@@ -131,8 +131,8 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
             end
         end
 
-        -- crime scene
-        local subTasks = BanditPrograms.CrimeScene(bandit)
+        -- react to events
+        local subTasks = BanditPrograms.Events(bandit)
         if #subTasks > 0 then
             for _, subTask in pairs(subTasks) do
                 table.insert(tasks, subTask)
@@ -150,13 +150,14 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
         end
 
         -- house event actions
+        local partyOn = false -- false
         if BWOScheduler.SymptomLevel < 3 then
             if BWOBuildings.IsEventBuilding(building, "party") then
 
                 local boombox = BWOObjects.Find(bandit, def, "Boombox")
                 if boombox then
 
-                    local partyOn = false -- false
+                    
                     if hour >= 19 or hour < 5 then 
                         partyOn = true
                     end
@@ -246,7 +247,7 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                         unlock = false -- lock doors
                     end
                 elseif door:isLockedByKey() or door:isLocked() then
-                    if hour >= hours.open and hour < hours.close then
+                    if (hour >= hours.open and hour < hours.close) or partyOn then
                         unlock = true -- unlock doors
                     end
                 end

@@ -34,4 +34,14 @@ module Tsarcraft
         DisplayName      = Cassette Bandit Party 03,
         WorldStaticModel = Tsarcraft.TCTape3,
     }
+
+    item CassetteBanditBreakdance01
+    {
+        Type             = Normal,
+        DisplayCategory  = Entertainment,
+        Weight           = 0.02,
+        Icon             = TCTape4,
+        DisplayName      = Cassette Bandit Breakdance 01,
+        WorldStaticModel = Tsarcraft.TCTape5,
+    }
 }

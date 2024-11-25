@@ -34,6 +34,9 @@ ZombiePrograms.Active.Prepare = function(bandit)
     Bandit.ForceStationary(bandit, false)
     Bandit.SetWeapons(bandit, weapons)
 
+    bandit:setPrimaryHandItem(nil)
+    bandit:setSecondaryHandItem(nil)
+
     local secondary
     if SandboxVars.Bandits.General_CarryTorches and dls < 0.3 then
         secondary = "Base.HandTorch"
@@ -213,7 +216,6 @@ ZombiePrograms.Active.Main = function(bandit)
             local dy = 0
             local dxf = ((id % 10) - 5) / 10
             local dyf = ((id % 11) - 5) / 10
-
 
             table.insert(tasks, BanditUtils.GetMoveTask(endurance, target.x+dx+dxf, target.y+dy+dyf, target.z, walkType, target.dist, closeSlow))
         end

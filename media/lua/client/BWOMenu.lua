@@ -31,7 +31,7 @@ BWOMenu.Spawn = function(player, square)
             else
                 bandit.outfit = BanditUtils.Choice({"AuthenticHomeless"})
                 bandit.weapons.melee = "Base.Broom"
-                event.program.name = "Janitor"
+                event.program.name = "Walker"
                 event.program.stage = "Prepare"
             end
         end
@@ -104,7 +104,7 @@ BWOMenu.SpawnPedestrian = function(player, square)
     sendClientCommand(player, 'Commands', 'SpawnGroup', event)
 end
 
-BWOMenu.SpawnRunner = function(player, square)
+BWOMenu.SpawnFireman = function(player, square)
     config = {}
     config.clanId = 1
     config.hasRifleChance = 0
@@ -116,21 +116,25 @@ BWOMenu.SpawnRunner = function(player, square)
     event.hostile = false
     event.occured = false
     event.program = {}
-    event.program.name = "Runner"
+    event.program.name = "Fireman"
     event.program.stage = "Prepare"
     event.x = square:getX()
     event.y = square:getY()
     event.bandits = {}
    
     local bandit = BanditCreator.MakeFromWave(config)
-    bandit.outfit = BanditUtils.Choice({"StreetSports"})
+    bandit.outfit = BanditUtils.Choice({"FiremanFullSuit"})
     table.insert(event.bandits, bandit)
 
     sendClientCommand(player, 'Commands', 'SpawnGroup', event)
 end
 
-BWOMenu.SpawnMusician = function(player, square)
-    BWOScheduler.Add("EventMusician", 100)
+BWOMenu.SpawnEntertainer = function(player, square)
+    local params ={}
+    params.x = player:getX()
+    params.y = player:getY()
+    params.z = player:getZ()
+    BWOScheduler.Add("EventEntertainer", params, 100)
 end
 
 BWOMenu.FlushDeadbodies = function(player)
@@ -139,7 +143,11 @@ BWOMenu.FlushDeadbodies = function(player)
 end
 
 BWOMenu.EventArson = function(player)
-    BWOScheduler.Add("Arson", 100)
+    local params ={}
+    params.x = player:getX()
+    params.y = player:getY()
+    params.z = player:getZ()
+    BWOScheduler.Add("Arson", params, 100)
 end
 
 function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
@@ -181,8 +189,8 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
     if isDebugEnabled() or isAdmin() then
         context:addOption("[DGB] BWO: Spawn By Location", player, BWOMenu.Spawn, square)
         context:addOption("[DGB] BWO: Spawn Pedestrian", player, BWOMenu.SpawnPedestrian, square)
-        context:addOption("[DGB] BWO: Spawn Runner", player, BWOMenu.SpawnRunner, square)
-        context:addOption("[DGB] BWO: Spawn Musician", player, BWOMenu.SpawnMusician, square)
+        context:addOption("[DGB] BWO: Spawn Fireman", player, BWOMenu.SpawnFireman, square)
+        context:addOption("[DGB] BWO: Spawn Entertainer", player, BWOMenu.SpawnEntertainer, square)
         
         local room = square:getRoom()
         if room then
