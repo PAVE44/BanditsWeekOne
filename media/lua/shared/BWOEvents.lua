@@ -530,6 +530,9 @@ BWOEvents.Arson = function(params)
                 vparams.alarm = true
                 BWOScheduler.Add("VehiclesUpdate", vparams, 500)
 
+                local args = {x=square:getX(), y=square:getY(), z=square:getZ(), otype="fire"}
+                sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
+
                 if SandboxVars.Bandits.General_ArrivalIcon then
                     local icon = "media/ui/loot.png"
                     local color = {r=1, g=0.5, b=0} -- orange
@@ -538,6 +541,11 @@ BWOEvents.Arson = function(params)
             end
         end
     end
+end
+
+BWOEvents.Protest = function(params)
+    local args = {x=params.x, y=params.y, z=params.z, otype="protest"}
+    sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
 end
 
 BWOEvents.RegisterBase = function(params)
@@ -586,8 +594,8 @@ BWOEvents.EventEntertainer = function(params)
         
         local bandit = BanditCreator.MakeFromWave(config)
 
-        local rnd = ZombRand(9)
-        -- rnd = 8
+        local rnd = ZombRand(10)
+        -- rnd = 9
         if rnd == 0 then
             bandit.outfit = "AuthenticBiker"
             bandit.femaleChance = 50
@@ -622,6 +630,9 @@ BWOEvents.EventEntertainer = function(params)
             bandit.femaleChance = 0
         elseif rnd == 8 then
             bandit.outfit = "AuthenticClownObese"
+            bandit.femaleChance = 0
+        elseif rnd == 9 then
+            bandit.outfit = "Priest"
             bandit.femaleChance = 0
         end
 

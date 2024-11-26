@@ -129,7 +129,32 @@ BWOMenu.SpawnFireman = function(player, square)
     sendClientCommand(player, 'Commands', 'SpawnGroup', event)
 end
 
-BWOMenu.SpawnEntertainer = function(player, square)
+BWOMenu.SpawnMedic = function(player, square)
+    config = {}
+    config.clanId = 1
+    config.hasRifleChance = 0
+    config.hasPistolChance = 0
+    config.rifleMagCount = 0
+    config.pistolMagCount = 0
+
+    local event = {}
+    event.hostile = false
+    event.occured = false
+    event.program = {}
+    event.program.name = "Medic"
+    event.program.stage = "Prepare"
+    event.x = square:getX()
+    event.y = square:getY()
+    event.bandits = {}
+   
+    local bandit = BanditCreator.MakeFromWave(config)
+    bandit.outfit = BanditUtils.Choice({"Doctor"})
+    table.insert(event.bandits, bandit)
+
+    sendClientCommand(player, 'Commands', 'SpawnGroup', event)
+end
+
+BWOMenu.SpawnEntertainer = function(player)
     local params ={}
     params.x = player:getX()
     params.y = player:getY()
@@ -148,6 +173,14 @@ BWOMenu.EventArson = function(player)
     params.y = player:getY()
     params.z = player:getZ()
     BWOScheduler.Add("Arson", params, 100)
+end
+
+BWOMenu.EventProtest = function(player)
+    local params ={}
+    params.x = player:getX()
+    params.y = player:getY()
+    params.z = player:getZ()
+    BWOScheduler.Add("Protest", params, 100)
 end
 
 function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
@@ -182,16 +215,20 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         end
     end]]
 
-    context:addOption("[DGB] BWO: Event: Arson", player, BWOMenu.EventArson)
-    context:addOption("[DGB] BWO: Deadbodies: Flush", player, BWOMenu.FlushDeadbodies)
-
     local player = getSpecificPlayer(playerID)
     print (player:getDescriptor():getProfession())
     if isDebugEnabled() or isAdmin() then
-        context:addOption("[DGB] BWO: Spawn By Location", player, BWOMenu.Spawn, square)
-        context:addOption("[DGB] BWO: Spawn Pedestrian", player, BWOMenu.SpawnPedestrian, square)
-        context:addOption("[DGB] BWO: Spawn Fireman", player, BWOMenu.SpawnFireman, square)
-        context:addOption("[DGB] BWO: Spawn Entertainer", player, BWOMenu.SpawnEntertainer, square)
+        context:addOption("[DGB] BWO: Event: Arson", player, BWOMenu.EventArson)
+        context:addOption("[DGB] BWO: Event: Protest", player, BWOMenu.EventProtest)
+        context:addOption("[DGB] BWO: Event: Entertainer", player, BWOMenu.SpawnEntertainer)
+
+        context:addOption("[DGB] BWO: Spawn: By Location", player, BWOMenu.Spawn, square)
+        context:addOption("[DGB] BWO: Spawn: Walker", player, BWOMenu.SpawnPedestrian, square)
+        context:addOption("[DGB] BWO: Spawn: Fireman", player, BWOMenu.SpawnFireman, square)
+        context:addOption("[DGB] BWO: Spawn: Medic", player, BWOMenu.SpawnMedic, square)
+        
+        context:addOption("[DGB] BWO: Deadbodies: Flush", player, BWOMenu.FlushDeadbodies)
+        
         
         local room = square:getRoom()
         if room then

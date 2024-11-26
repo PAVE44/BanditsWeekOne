@@ -128,6 +128,7 @@ end
 BanditPrograms.Events = function(bandit)
     local tasks = {}
     local cell = bandit:getCell()
+    local id = BanditUtils.GetCharacterID(bandit)
 
     if BWOScheduler.WorldAge > 64 then return tasks end
 
@@ -149,6 +150,65 @@ BanditPrograms.Events = function(bandit)
                         table.insert(tasks, task)
                         return tasks
                     end
+                end
+            end
+        end
+    end
+
+    local target = BWOObjects.FindGMD(bandit, "protest")
+    if target.x and target.y and target.z then
+        local square = cell:getGridSquare(target.x, target.y, target.z)
+        if square and BanditUtils.LineClear(bandit, square) then
+            if target.dist >= 9 and target.dist < 80 then
+                local walkType = "Walk"
+                table.insert(tasks, BanditUtils.GetMoveTask(0, target.x, target.y, target.z, walkType, target.dist, false))
+                return tasks
+            elseif target.dist < 9 then
+                -- Bandit.Say(bandit, "ADMIRE")
+                local rnd = id % 17
+
+                local anim
+                local sound
+                local item
+                if rnd == 0 then
+                    anim = "Talk1"
+                elseif rnd == 1 then
+                    anim = "Talk1"
+                elseif rnd == 2 then
+                    anim = "Talk1"
+                    item = "AuthenticZClothing.Stop_Sign"
+                else
+                    anim = "Clap"
+                end
+
+                local task = {action="TimeItem", sound=sound, soundDistMax=12, anim=anim, item=item, x=target.x, y=target.y, z=target.z, time=200}
+                table.insert(tasks, task)
+                return tasks
+            end
+        end
+    end
+
+    local target = BWOObjects.FindGMD(bandit, "preacher")
+    if target.x and target.y and target.z then
+        local square = cell:getGridSquare(target.x, target.y, target.z)
+        if square and BanditUtils.LineClear(bandit, square) then
+            if target.dist >= 4 and target.dist < 30 then
+                local walkType = "Walk"
+                table.insert(tasks, BanditUtils.GetMoveTask(0, target.x, target.y, target.z, walkType, target.dist, false))
+                return tasks
+            elseif target.dist < 4 then
+                local ententainer = BanditUtils.GetClosestBanditLocationProgram(bandit, "Entertainer")
+
+                if ententainer.id then
+                    -- Bandit.Say(bandit, "ADMIRE")
+                    local anim = "Yes"
+                    local sound 
+                    local task = {action="TimeEvent", sound=sound, soundDistMax=12, anim=anim, x=target.x, y=target.y, z=target.z, time=200}
+                    table.insert(tasks, task)
+                    return tasks
+                else
+                    local args = {x=target.x, y=target.y, z=target.z}
+                    sendClientCommand(getPlayer(), 'Commands', 'ObjectRemove', args)
                 end
             end
         end

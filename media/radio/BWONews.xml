@@ -27,14 +27,22 @@
   </Voices>
   <Adverts />
   <Channels>
-    <ChannelEntry ID="9d2489a0-a0bb-417d-9336-370979c0b4b0" name="BWO News" cat="Radio" freq="98400" startscript="test">
-      <ScriptEntry ID="86549bbd-9e5c-4547-a444-b3126c4aec25" name="test" startdelay="0" timestampmode="Static" loopmin="1" loopmax="12">
+    <ChannelEntry ID="9d2489a0-a0bb-417d-9336-370979c0b4b0" name="BWO News" cat="Radio" freq="98400" startscript="init">
+      <ScriptEntry ID="86549bbd-9e5c-4547-a444-b3126c4aec25" name="init" startdelay="0" timestampmode="Static" loopmin="1" loopmax="12">
         <ExitOptions />
         <BroadcastEntry ID="0b102036-4c8f-45ff-bb16-04d93b3225f5" timestamp="0" endstamp="1440" type="ActivateBroadcast" day="0" advertCat="none" isSegment="true">
           <LineEntry ID="8704055b-f4d7-4e85-95fc-597644093f57" r="0" g="128" b="192" codes="GUID:8704055b-f4d7-4e85-95fc-597644093f57">${t:5.40}[img=music]</LineEntry>
           <LineEntry ID="2588c127-be58-4cf9-91ce-97f1d826c01d" r="0" g="128" b="192" codes="GUID:2588c127-be58-4cf9-91ce-97f1d826c01d">${t:1.81}We interrupt your program</LineEntry>
           <LineEntry ID="6d88a332-f2fd-4914-a42c-9d2d073d71c3" r="0" g="128" b="192" codes="GUID:6d88a332-f2fd-4914-a42c-9d2d073d71c3">${t:1.38}to serve you the lastest develop...</LineEntry>
           <LineEntry ID="317d4d95-cd0a-466d-b664-d97ffb0845dd" r="0" g="128" b="192" codes="GUID:317d4d95-cd0a-466d-b664-d97ffb0845dd">${t:1.14}...ing situation.</LineEntry>
+        </BroadcastEntry>
+      </ScriptEntry>
+    </ChannelEntry>
+    <ChannelEntry ID="8d96bf8e-770f-492e-a613-d695799879b7" name="Sitcom Channel" cat="Television" freq="206" startscript="init">
+      <ScriptEntry ID="49128a34-7226-445f-a0ab-fd9568a25c9d" name="init" startdelay="0" timestampmode="Static" loopmin="1" loopmax="12">
+        <ExitOptions />
+        <BroadcastEntry ID="8abd9cfa-8360-4391-9abd-bdb42e1d843d" timestamp="0" endstamp="1440" type="ActivateBroadcast" day="0" advertCat="none" isSegment="true">
+          <LineEntry ID="d4e24866-7e1b-44a4-954f-87c9155f7ef9" r="0" g="128" b="192" codes="GUID:d4e24866-7e1b-44a4-954f-87c9155f7ef9">${t:68.53}[img=music] 1</LineEntry>
         </BroadcastEntry>
       </ScriptEntry>
     </ChannelEntry>

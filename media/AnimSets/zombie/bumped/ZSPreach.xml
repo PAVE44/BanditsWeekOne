@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <animNode>
 	<m_Name>ZSPreach</m_Name>
-	<m_AnimName>Preaching</m_AnimName>
+	<m_AnimName>BWO_Preaching</m_AnimName>
 	<m_Looped>false</m_Looped>
 	<m_UpperOnly>false</m_UpperOnly>
 	<m_SyncTrackingEnabled>false</m_SyncTrackingEnabled>

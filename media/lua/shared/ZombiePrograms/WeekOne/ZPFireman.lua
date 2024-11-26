@@ -64,7 +64,16 @@ ZombiePrograms.Fireman.Main = function(bandit)
     end
     
     -- extinguish
-    local fireSquare = BWOObjects.FindFire(bandit, 40)
+    local fireSquare = BWOObjects.FindFire(bandit, 30)
+    if not firesquare then
+        local target = BWOObjects.FindGMD(bandit, "fire")
+        if target.x and target.y and target.z then
+            local square = cell:getGridSquare(target.x, target.y, target.z)
+            if square then
+                fireSquare = square
+            end
+        end
+    end
 
     if fireSquare then
         local asquare = AdjacentFreeTileFinder.Find(fireSquare, bandit)

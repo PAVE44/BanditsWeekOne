@@ -583,26 +583,27 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
                             end
                         end
 
-                        -- witnessing civilians need to change peaceful behavior to active
-                        local activatePrograms = {"Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer"}
-                        for _, prg in pairs(activatePrograms) do
-                            if witness.brain.program.name == prg then 
-                                Bandit.SetProgram(actor, "Active", {})
-                                local brain = BanditBrain.Get(actor)
-                                if brain then
-                                    local syncData = {}
-                                    syncData.id = brain.id
-                                    syncData.hostile = brain.hostile
-                                    syncData.program = brain.program
-                                    Bandit.ForceSyncPart(actor, syncData)
-                                end
-                            end
-                        end
                     else
                         -- call friendly police
                         if BWOPopControl.Police.On then
                             params.hostile = false
                             BWOScheduler.Add("CallCops", params, 12000)
+                        end
+                    end
+
+                    -- witnessing civilians need to change peaceful behavior to active
+                    local activatePrograms = {"Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer"}
+                    for _, prg in pairs(activatePrograms) do
+                        if witness.brain.program.name == prg then 
+                            Bandit.SetProgram(actor, "Active", {})
+                            local brain = BanditBrain.Get(actor)
+                            if brain then
+                                local syncData = {}
+                                syncData.id = brain.id
+                                syncData.hostile = brain.hostile
+                                syncData.program = brain.program
+                                Bandit.ForceSyncPart(actor, syncData)
+                            end
                         end
                     end
                 end
