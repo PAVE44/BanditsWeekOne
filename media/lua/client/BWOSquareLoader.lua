@@ -230,23 +230,6 @@ BWOSquareLoader.OnLoad = function(square)
         BWOSquareLoader.map[id] = nil
     end
 
-    -- remove burnt / smashed vehicles
-    if BWOScheduler.WorldAge < 48 then
-        local vehicle = square:getVehicleContainer()
-        if vehicle then
-            local scriptName = vehicle:getScriptName()
-            if scriptName:embodies("Burnt") or scriptName:embodies("Smashed") then
-                if isClient() then
-                    sendClientCommand(getPlayer(), "vehicle", "remove", { vehicle = vehicle:getId() })
-                else
-                    vehicle:permanentlyRemove()
-                end
-            else
-                vehicle:repair()
-            end
-        end
-    end
-
     -- remove deadbodies
     if BWOScheduler.WorldAge < 48 then
         local corpse = square:getDeadBody()
@@ -265,7 +248,7 @@ BWOSquareLoader.OnLoad = function(square)
     end
 
     -- register global objects
-    if BWOScheduler.WorldAge < 72 then
+    if BWOScheduler.WorldAge < 90 then
         local spriteMap = {}
         spriteMap["location_business_bank_01_64"] = "atm"
         spriteMap["location_business_bank_01_65"] = "atm"
@@ -311,6 +294,8 @@ BWOSquareLoader.OnLoad = function(square)
                     end
                 end
 
+                -- this makes npcs disregard windows for pathfinding
+                -- unfortunately will impact zombies aswell
                 if object:getType() == IsoObjectType.wall then
                     if square:getWindow() then
                         if props:Is(IsoFlagType.canPathN) then
@@ -343,5 +328,36 @@ BWOSquareLoader.LocationEvents = function()
     end
 end
 
+-- removes burnt / smashed vehicles
+-- apparently vehicle loading is deffered relative to square load, so this needs to be handled separately
+BWOSquareLoader.VehicleRemover = function()
+    if BWOScheduler.WorldAge > 90 then return end
+
+    local vehicleList = getCell():getVehicles()
+    
+    for i=0, vehicleList:size()-1 do
+        local vehicle = vehicleList:get(i)
+        if vehicle then
+            local md = vehicle:getModData()
+            if not md.BWO then md.BWO = {} end
+
+            if not md.BWO.wasRepaired then
+                local scriptName = vehicle:getScriptName()
+                if scriptName:embodies("Burnt") or scriptName:embodies("Smashed") then
+                    if isClient() then
+                        sendClientCommand(getPlayer(), "vehicle", "remove", { vehicle = vehicle:getId() })
+                    else
+                        vehicle:permanentlyRemove()
+                    end
+                else
+                    vehicle:repair()
+                    md.BWO.wasRepaired = true
+                end
+            end
+        end
+    end
+end
+
 Events.LoadGridsquare.Add(BWOSquareLoader.OnLoad)
 Events.EveryOneMinute.Add(BWOSquareLoader.LocationEvents)
+Events.EveryOneMinute.Add(BWOSquareLoader.VehicleRemover)

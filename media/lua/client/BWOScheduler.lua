@@ -191,8 +191,26 @@ function BWOScheduler.MasterControl()
 
         if worldAge == 48 then
             BWOPopControl.ZombieMax = 1
+        elseif worldAge == 50 then
+            BWOPopControl.StreetsNominal = 50
+            BWOPopControl.InhabitantsNominal = 40
+        elseif worldAge == 51 then
+            BWOPopControl.StreetsNominal = 60
+            BWOPopControl.InhabitantsNominal = 30
         elseif worldAge == 52 then
-            BWOPopControl.ZombieMax = 1
+            BWOPopControl.StreetsNominal = 70
+            BWOPopControl.InhabitantsNominal = 20
+        elseif worldAge == 53 then
+            BWOPopControl.StreetsNominal = 60
+            BWOPopControl.InhabitantsNominal = 30
+            BWOPopControl.ZombieMax = 2
+        elseif worldAge == 54 then
+            BWOPopControl.StreetsNominal = 50
+            BWOPopControl.InhabitantsNominal = 20
+            BWOPopControl.ZombieMax = 2
+            if minute == 30 then
+                BWOScheduler.Add("Arson", params, 100)
+            end
         elseif worldAge == 55 then
             if minute == 11 then
                 params.intensity = 2
