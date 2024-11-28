@@ -161,34 +161,12 @@ local explode = function(x, y)
     end
 end
 
-local getSurfaceOffset = function(x, y, z)
-    local cell = getCell()
-    local square = cell:getGridSquare(x, y, z)
-    local tileObjects = square:getLuaTileObjectList()
-    local squareSurfaceOffset = 0
-
-    -- get the object with the highest offset
-    for k, object in pairs(tileObjects) do
-        local surfaceOffsetNoTable = object:getSurfaceOffsetNoTable()
-        if surfaceOffsetNoTable > squareSurfaceOffset then
-            squareSurfaceOffset = surfaceOffsetNoTable
-        end
-
-        local surfaceOffset = object:getSurfaceOffset()
-        if surfaceOffset > squareSurfaceOffset then
-            squareSurfaceOffset = surfaceOffset
-        end
-    end
-
-    return squareSurfaceOffset / 96
-end
-
 local addBoomBox = function(x, y, z, cassette)
     local cell = getCell()
     local square = cell:getGridSquare(x, y, z)
     if not square then return end
 
-    local surfaceOffset = getSurfaceOffset(x, y, z)
+    local surfaceOffset = BanditUtils.GetSurfaceOffset(x, y, z)
     local radioItem = square:AddWorldInventoryItem("Tsarcraft.TCBoombox", 0.5, 0.5, surfaceOffset)
 
     local radio = IsoRadio.new(cell, square, getSprite(TCMusic.WorldMusicPlayer[radioItem:getFullType()]))
@@ -449,6 +427,7 @@ BWOEvents.CallFireman = function(params)
     local bandit = BanditCreator.MakeFromWave(config)
     bandit.outfit = "FiremanFullSuit"
 
+    table.insert(event.bandits, bandit)
     table.insert(event.bandits, bandit)
     table.insert(event.bandits, bandit)
             

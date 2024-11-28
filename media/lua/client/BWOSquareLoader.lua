@@ -334,7 +334,7 @@ BWOSquareLoader.VehicleRemover = function()
     if BWOScheduler.WorldAge > 90 then return end
 
     local vehicleList = getCell():getVehicles()
-    
+    local toDelete = {}
     for i=0, vehicleList:size()-1 do
         local vehicle = vehicleList:get(i)
         if vehicle then
@@ -344,16 +344,20 @@ BWOSquareLoader.VehicleRemover = function()
             if not md.BWO.wasRepaired then
                 local scriptName = vehicle:getScriptName()
                 if scriptName:embodies("Burnt") or scriptName:embodies("Smashed") then
-                    if isClient() then
-                        sendClientCommand(getPlayer(), "vehicle", "remove", { vehicle = vehicle:getId() })
-                    else
-                        vehicle:permanentlyRemove()
-                    end
+                    table.insert(toDelete, vehicle)
                 else
                     vehicle:repair()
                     md.BWO.wasRepaired = true
                 end
             end
+        end
+    end
+
+    for _, vehicle in pairs(toDelete) do
+        if isClient() then
+            sendClientCommand(getPlayer(), "vehicle", "remove", { vehicle = vehicle:getId() })
+        else
+            vehicle:permanentlyRemove()
         end
     end
 end

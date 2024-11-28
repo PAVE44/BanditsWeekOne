@@ -113,7 +113,7 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                                 Bandit.Say(bandit, "DEFENDER_SPOTTED")
                                 -- BWOScheduler.Add("CallCopsHostile", 1000)
 
-                                if id % 3 == 0 then
+                                if math.abs(id) % 2 == 0 then
                                     Bandit.SetHostile(bandit, true)
                                     Bandit.SetProgramStage(bandit, "Arm")
 
@@ -413,8 +413,8 @@ ZombiePrograms.Inhabitant.Defend = function(bandit)
 
             local dx = 0
             local dy = 0
-            local dxf = ((id % 10) - 5) / 10
-            local dyf = ((id % 11) - 5) / 10
+            local dxf = ((math.abs(id) % 10) - 5) / 10
+            local dyf = ((math.abs(id) % 11) - 5) / 10
 
             table.insert(tasks, BanditUtils.GetMoveTask(endurance, target.x+dx+dxf, target.y+dy+dyf, target.z, walkType, target.dist, closeSlow))
             return {status=true, next="Defend", tasks=tasks}

@@ -213,7 +213,7 @@ ZombiePrograms.Walker.Main = function(bandit)
 
      -- most pedestrian will follow the street / road, some will just "gosomwhere" for variability
      --
-    if id % 4 > 0 then
+    if math.abs(id) % 4 > 0 then
         local subTasks = BanditPrograms.FollowRoad(bandit, walkType)
         if #subTasks > 0 then
             for _, subTask in pairs(subTasks) do

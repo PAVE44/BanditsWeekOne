@@ -48,3 +48,25 @@ function BanditUtils.LineClear(obj1, obj2)
     local x2, y2, z2 = obj2:getX(), obj2:getY(), obj2:getZ()
     return tostring(LosUtil.lineClear(cell, x1, y1, z1, x2, y2, z2, false)) ~= "Blocked"
 end
+
+function BanditUtils.GetSurfaceOffset(x, y, z)
+    local cell = getCell()
+    local square = cell:getGridSquare(x, y, z)
+    local tileObjects = square:getLuaTileObjectList()
+    local squareSurfaceOffset = 0
+
+    -- get the object with the highest offset
+    for k, object in pairs(tileObjects) do
+        local surfaceOffsetNoTable = object:getSurfaceOffsetNoTable()
+        if surfaceOffsetNoTable > squareSurfaceOffset then
+            squareSurfaceOffset = surfaceOffsetNoTable
+        end
+
+        local surfaceOffset = object:getSurfaceOffset()
+        if surfaceOffset > squareSurfaceOffset then
+            squareSurfaceOffset = surfaceOffset
+        end
+    end
+
+    return squareSurfaceOffset / 96
+end

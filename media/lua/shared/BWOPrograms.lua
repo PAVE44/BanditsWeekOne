@@ -165,17 +165,17 @@ BanditPrograms.Events = function(bandit)
                 return tasks
             elseif target.dist < 9 then
                 -- Bandit.Say(bandit, "ADMIRE")
-                local rnd = id % 17
+                local rnd = math.abs(id) % 3
 
                 local anim
                 local sound
                 local item
                 if rnd == 0 then
-                    anim = "Talk1"
+                    anim = "Protest1"
                 elseif rnd == 1 then
-                    anim = "Talk1"
+                    anim = "Protest2"
                 elseif rnd == 2 then
-                    anim = "Talk1"
+                    anim = "Protest3"
                     item = "AuthenticZClothing.Stop_Sign"
                 else
                     anim = "Clap"
@@ -424,7 +424,7 @@ BanditPrograms.GoSomewhere = function(bandit, walkType)
     local bz = bandit:getZ()
     local id = BanditUtils.GetCharacterID(bandit)
 
-    local rnd = math.abs(id % 4)
+    local rnd = math.abs(id) % 4
     local dx = 0
     local dy = 0
     if rnd == 0 then

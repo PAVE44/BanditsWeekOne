@@ -97,7 +97,7 @@ ZombiePrograms.Hooker.Main = function(bandit)
     end
 
     -- go somewhere
-    local rnd = math.abs(id % 4)
+    local rnd = math.abs(id) % 4
 
     local dx = 0
     local dy = 0

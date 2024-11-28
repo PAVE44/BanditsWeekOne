@@ -90,7 +90,7 @@ ZombiePrograms.Entertainer.Main = function(bandit)
     musicianTab.Rocker             = {item="Base.GuitarElectricBassBlack", anim="InstrumentGuitarBass",     sound="BWOInstrumentBassGuitar1"}
     -- playTab.Rocker         = {item="Base.GuitarAcoustic",          anim="InstrumentGuitarAcoustic", sound=nil}
     musicianTab.Joan           = {item="Base.Violin",                  anim="InstrumentViolin",         sound="BWOInstrumentViolinPaganini"}
-    musicianTab.John           = {item="Base.Saxophone",               anim="InstrumentSaxophone",      sound="BWOInstrumentSax" .. tostring((id % 3) + 1)}
+    musicianTab.John           = {item="Base.Saxophone",               anim="InstrumentSaxophone",      sound="BWOInstrumentSax" .. tostring((math.abs(id) % 3) + 1)}
     -- playTab.Duke           = {item="Base.Flute",                   anim="InstrumentFlute",          sound=nil}
 
     for o, tab in pairs(musicianTab) do
@@ -179,7 +179,7 @@ ZombiePrograms.Entertainer.Main = function(bandit)
         if o == outfit then
             
             if tab.text[minute] then
-                bandit:addLineChatElement(tab.text[minute], 0, 1, 0)
+                bandit:addLineChatElement(tab.text[minute], 1, 0, 1)
                 local task = {action="TimeEvent", x=bx, y=by, z=bz, event="preacher", anim=tab.anim, left=true, item=tab.item, time=200}
                 table.insert(tasks, task)
             else

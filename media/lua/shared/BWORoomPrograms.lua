@@ -53,7 +53,7 @@ BWORoomPrograms.livingroom = function(bandit, def)
                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                     return tasks
                 else
-                    local task = {action="TelevisionToggle", on=true, anim="Loot", x=square:getX(), y=square:getY(), z=square:getZ(), time=100}
+                    local task = {action="TelevisionToggle", on=true, channel=241, volume=0.2, anim="Loot", x=square:getX(), y=square:getY(), z=square:getZ(), time=100}
                     table.insert(tasks, task)
                     return tasks
                 end
@@ -165,7 +165,7 @@ BWORoomPrograms.kitchen = function(bandit, def)
     local hour = gameTime:getHour()
     local minute = gameTime:getMinutes()
     local outfit = bandit:getOutfitName()
-    local m = (id % 3) * 2
+    local m = (math.abs(id) % 3) * 2
     
     if (minute >= m and minute < m+3) or (minute >= m+20 and minute < m+23) or (minute >= m+40 and minute < m+43) then
         local fridge = BWOObjects.Find(bandit, def, "Fridge")
@@ -250,7 +250,7 @@ BWORoomPrograms.restaurantkitchen = function(bandit, def)
     local hour = gameTime:getHour()
     local minute = gameTime:getMinutes()
     local outfit = bandit:getOutfitName()
-    local m = (id % 3) * 2
+    local m = (math.abs(id) % 3) * 2
     
     if (minute >= m and minute < m+3) or (minute >= m+20 and minute < m+23) or (minute >= m+40 and minute < m+43) then
         local fridge = BWOObjects.Find(bandit, def, "Fridge")
@@ -598,6 +598,7 @@ BWORoomPrograms.medclinic = BWORoomPrograms.medical
 
 BWORoomPrograms.restaurant = function(bandit, def)
     local tasks = {}
+    local cell = getCell()
     local id = BanditUtils.GetCharacterID(bandit)
     local gameTime = getGameTime()
     local hour = gameTime:getHour()
@@ -605,7 +606,7 @@ BWORoomPrograms.restaurant = function(bandit, def)
     
     local outfit = bandit:getOutfitName()
 
-    if outfit == "Waiter_Classy" or outfit == "Waiter_Spiffo" or outfit == "Waiter_PizzaWhirled" or outfit == "Waiter_PizzaWhirled" or outfit == "Teacher" then
+    if outfit == "Waiter_Classy" or outfit == "Waiter_Spiffo" or outfit == "Waiter_Market" or outfit == "Waiter_PizzaWhirled" or outfit == "Waiter_PizzaWhirled" or outfit == "Teacher" then
 
         local register = BWOObjects.Find(bandit, def, "Register")
         if register and math.abs(id) % 2 == 0 then
@@ -628,6 +629,47 @@ BWORoomPrograms.restaurant = function(bandit, def)
             end
         end
 
+        -- find table to serve
+        local tableObj = BWOObjects.Find(bandit, def, "Table")
+        local tableSquare = tableObj:getSquare()
+
+        if tableSquare then
+            -- find if the table is used by a guest
+            local occupantCnt = 0
+            local nes = {}
+            table.insert(nes, {x=-1, y=0})
+            table.insert(nes, {x=1, y=0})
+            table.insert(nes, {x=0, y=-1})
+            table.insert(nes, {x=0, y=1})
+            for _, n in pairs(nes) do
+                local nsquare = cell:getGridSquare(tableSquare:getX() + n.x, tableSquare:getY() + n.y, tableSquare:getZ())
+                if nsquare and nsquare:getZombie() then
+                    occupantCnt = occupantCnt + 1
+                end
+            end
+
+            -- find if the table has already items served
+            local wobs = tableSquare:getWorldObjects()
+            local itemCnt = wobs:size()
+            
+            if occupantCnt > 0 and itemCnt == 0 then
+                print ("should serve")
+                local asquare = AdjacentFreeTileFinder.Find(tableSquare, bandit)
+                if asquare then
+                    local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
+                    if dist > 1 then
+                        table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX() + 0.5, asquare:getY() + 0.5, asquare:getZ(), "Walk", dist, false))
+                        return tasks
+                    else
+                        local item = "Base.Fries"
+                        local task = {action="PlaceItem", x=tableSquare:getX(), y=tableSquare:getY(), z=tableSquare:getZ(), item=item, anim="Cashier"}
+                        table.insert(tasks, task)
+                        return tasks
+                    end
+                end
+            end
+        end
+        
 
         local task = {action="Time", anim="Yes", time=100}
         table.insert(tasks, task)

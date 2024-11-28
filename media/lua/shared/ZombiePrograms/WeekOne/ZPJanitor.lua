@@ -111,7 +111,7 @@ ZombiePrograms.Janitor.Main = function(bandit)
     end
 
     -- fallback
-    local rnd = math.abs(id % 4)
+    local rnd = math.abs(id) % 4
 
     local dx = 0
     local dy = 0

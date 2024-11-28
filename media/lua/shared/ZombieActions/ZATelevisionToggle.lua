@@ -23,6 +23,14 @@ ZombieActions.TelevisionToggle.onComplete = function(zombie, task)
                 local dd = object:getDeviceData()
 
                 dd:setIsTurnedOn(task.on)
+                if task.on then
+                    if task.channel then
+                        dd:setChannel(task.channel)
+                    end
+                    if task.volume then
+                        dd:setDeviceVolume(task.volume)
+                    end
+                end
             end
         end
     end
