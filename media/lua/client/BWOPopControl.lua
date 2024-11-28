@@ -569,7 +569,7 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
 
                     -- attacking by player retaliation is handled by main Bandits mod, here we just want to call hostile cops additionally
                     -- theifs are exception, they spawn technically as friendy so attacking them here should not trigger enemy, but friendly cops
-                    if instanceof(attacker, "IsoPlayer") and attacker:getDisplayName() == getPlayer():getDisplayName() and brain.program.name ~= "Thief" then
+                    if instanceof(attacker, "IsoPlayer") and attacker:getDisplayName() == getPlayer():getDisplayName() and brain.clan == 1 and brain.program.name ~= "Thief" then
                         local outfit = bandit:getOutfitName()
                         if outfit == "Police" then
                             if BWOPopControl.SWAT.On then
