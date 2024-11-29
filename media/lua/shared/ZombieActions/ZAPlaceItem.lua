@@ -21,7 +21,9 @@ ZombieActions.PlaceItem.onComplete = function(zombie, task)
             local square = getCell():getGridSquare(task.x, task.y, task.z)
             if square then
                 local surfaceOffset = BanditUtils.GetSurfaceOffset(task.x, task.y, task.z)
-                square:AddWorldInventoryItem(item, ZombRandFloat(0.2, 0.8), ZombRandFloat(0.2, 0.8), surfaceOffset)
+                if not task.fx then task.fx = ZombRandFloat(0.2, 0.8) end
+                if not task.fy then task.fy = ZombRandFloat(0.2, 0.8) end
+                square:AddWorldInventoryItem(item, task.fx, task.fy, surfaceOffset)
             end
         end
     end

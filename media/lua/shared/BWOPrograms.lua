@@ -87,7 +87,6 @@ BanditPrograms.Symptoms = function(bandit)
                 table.insert(tasks, task)
                 return tasks
             elseif rn == 17 then
-                Bandit.UpdateInfection(bandit, pseudoRandom + 30)
                 local task = {action="Time", anim="FeelFeint", time=100}
                 table.insert(tasks, task)
                 return tasks
@@ -113,7 +112,7 @@ BanditPrograms.Symptoms = function(bandit)
                 return tasks
             elseif rn < 14 then
                 -- let's get the party started!!!
-                Bandit.UpdateInfection(bandit, pseudoRandom + 30)
+                Bandit.UpdateInfection(bandit, 200)
             else
                 local sound = "ZSVomit" .. (1 + ZombRand(4))
                 local task = {action="Vomit", anim="Scramble", sound=sound, time=100}

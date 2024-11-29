@@ -630,46 +630,130 @@ BWORoomPrograms.restaurant = function(bandit, def)
         end
 
         -- find table to serve
-        local tableObj = BWOObjects.Find(bandit, def, "Table")
-        local tableSquare = tableObj:getSquare()
+        local serve = {}
+        serve.dist = math.huge
+        for x=def:getX(), def:getX2() do
+            for y=def:getY(), def:getY2() do
+                local square = cell:getGridSquare(x, y, def:getZ())
+                if square then
+                    local objects = square:getObjects()
+                    for i=0, objects:size()-1 do
+                        local object = objects:get(i)
+                        local sprite = object:getSprite()
+                        if sprite then
+                            local props = sprite:getProperties()
+                            if props:Is("CustomName") then
+                                local name = props:Val("CustomName")
+                                if name == "Table" then
+                                    -- who is seated at the table
 
-        if tableSquare then
-            -- find if the table is used by a guest
-            local occupantCnt = 0
-            local nes = {}
-            table.insert(nes, {x=-1, y=0})
-            table.insert(nes, {x=1, y=0})
-            table.insert(nes, {x=0, y=-1})
-            table.insert(nes, {x=0, y=1})
-            for _, n in pairs(nes) do
-                local nsquare = cell:getGridSquare(tableSquare:getX() + n.x, tableSquare:getY() + n.y, tableSquare:getZ())
-                if nsquare and nsquare:getZombie() then
-                    occupantCnt = occupantCnt + 1
-                end
-            end
+                                    local nes = {}
+                                    -- bits: o: occupied, p: plate, f: food item
+                                    nes.N = {x=0, y=-1, o=false, p=false, f=false}
+                                    nes.E = {x=1, y=0, o=false, p=false, f=false}
+                                    nes.S = {x=0, y=1, o=false, p=false, f=false}
+                                    nes.W = {x=-1, y=0, o=false, p=false, f=false}
 
-            -- find if the table has already items served
-            local wobs = tableSquare:getWorldObjects()
-            local itemCnt = wobs:size()
-            
-            if occupantCnt > 0 and itemCnt == 0 then
-                print ("should serve")
-                local asquare = AdjacentFreeTileFinder.Find(tableSquare, bandit)
-                if asquare then
-                    local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
-                    if dist > 1 then
-                        table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX() + 0.5, asquare:getY() + 0.5, asquare:getZ(), "Walk", dist, false))
-                        return tasks
-                    else
-                        local item = "Base.Fries"
-                        local task = {action="PlaceItem", x=tableSquare:getX(), y=tableSquare:getY(), z=tableSquare:getZ(), item=item, anim="Cashier"}
-                        table.insert(tasks, task)
-                        return tasks
+                                    -- check who's seated
+                                    for d, n in pairs(nes) do
+                                        local test1 = square:getX() + n.x
+                                        local test2 = square:getY() + n.y
+                                        local nsquare = cell:getGridSquare(square:getX() + n.x, square:getY() + n.y, square:getZ())
+                                        if nsquare and nsquare:getZombie() and BanditUtils.GetCharacterID(square:getZombie()) ~= id then
+                                            nes[d].o = true
+                                        end
+                                    end
+
+                                    -- find if the table has necessary utensils and food
+                                    local wobs = square:getWorldObjects()
+                                    for i = 0, wobs:size()-1 do
+                                        local witem = wobs:get(i)
+                                        local x = witem:getWorldPosX() - witem:getX()
+                                        local y = witem:getWorldPosY() - witem:getY()
+                                        local z = witem:getWorldPosZ() - witem:getZ()
+
+                                        local d
+                                        if x >= 0.70 then 
+                                            d = "E"
+                                        elseif x <= 0.30 then 
+                                            d = "W"
+                                        elseif y >= 0.70 then
+                                            d = "S"
+                                        elseif y <= 0.30 then 
+                                            d = "N" 
+                                        end
+
+                                        if d then
+                                            local item = witem:getItem()
+                                            local itemType = item:getFullType()
+                                            local category = item:getDisplayCategory()
+                                            
+                                            if itemType == "Base.Plate" then nes[d].p = true end
+                                            if category == "Food" then nes[d].f = true end
+                                        end
+                                    end
+
+                                    -- determine what needs to be served and exact locations
+                                    local item
+                                    local fx = 0.5
+                                    local fy = 0.5
+                                    for d, n in pairs(nes) do
+                                        if n.o then
+                                            
+                                            if d == "E" then 
+                                                fx = 0.80
+                                            elseif d == "W" then 
+                                                fx = 0.20
+                                            elseif d == "N" then 
+                                                fy = 0.20
+                                            elseif d == "S" then 
+                                                fy = 0.80
+                                            end
+
+                                            if not n.p then 
+                                                item = "Base.Plate" 
+                                                break
+                                            end
+
+                                            if not n.f then
+                                                item = "Base.Perogies"
+                                                break
+                                            end
+                                        end
+                                    end
+
+                                    if item then
+                                        local dist = math.sqrt(math.pow(x - bandit:getX(), 2) + math.pow(y - bandit:getY(), 2))
+                                        if dist < serve.dist then
+                                            serve.square = square
+                                            serve.dist = dist
+                                            serve.item = item
+                                            serve.fx = fx
+                                            serve.fy = fy
+                                        end
+                                    end
+                                end
+                            end
+                        end
                     end
                 end
             end
         end
-        
+
+        if serve.square and serve.item then
+            local asquare = AdjacentFreeTileFinder.Find(serve.square, bandit)
+            if asquare then
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
+                if dist > 1 then
+                    table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX() + 0.5, asquare:getY() + 0.5, asquare:getZ(), "Walk", serve.dist, false))
+                    return tasks
+                else
+                    local task = {action="PlaceItem", x=serve.square:getX(), fx=serve.fx, y=serve.square:getY(), fy=serve.fy, z=serve.square:getZ(), item=serve.item, anim="Cashier"}
+                    table.insert(tasks, task)
+                    return tasks
+                end
+            end
+        end
 
         local task = {action="Time", anim="Yes", time=100}
         table.insert(tasks, task)

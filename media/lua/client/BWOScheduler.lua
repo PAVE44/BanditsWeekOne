@@ -80,8 +80,8 @@ function BWOScheduler.MasterControl()
     -- D1 09:00 - D2 19:00
     if worldAge < 34 then
         BWOScheduler.SymptomLevel = 0
-        BWOPopControl.StreetsNominal = 45
-        BWOPopControl.InhabitantsNominal = 45
+        BWOPopControl.StreetsNominal = 55
+        BWOPopControl.InhabitantsNominal = 55
         BWOPopControl.SurvivorsNominal = 0
         BWOPopControl.ZombieMax = 0
 
@@ -148,8 +148,8 @@ function BWOScheduler.MasterControl()
     -- D2 19:00 - D2 06:00
     if worldAge >= 34 and worldAge < 46 then
         BWOScheduler.SymptomLevel = 1
-        BWOPopControl.StreetsNominal = 45
-        BWOPopControl.InhabitantsNominal = 45
+        BWOPopControl.StreetsNominal = 55
+        BWOPopControl.InhabitantsNominal = 55
         BWOPopControl.SurvivorsNominal = 0
         BWOPopControl.ZombieMax = 0
 
@@ -184,29 +184,29 @@ function BWOScheduler.MasterControl()
     -- D2 7:00 - D3 21:00
     if worldAge >= 46 and worldAge < 60 then
         BWOScheduler.SymptomLevel = 2
-        BWOPopControl.StreetsNominal = 40
-        BWOPopControl.InhabitantsNominal = 50
+        BWOPopControl.StreetsNominal = 55
+        BWOPopControl.InhabitantsNominal = 55
         BWOPopControl.SurvivorsNominal = 0
         BWOPopControl.ZombieMax = 0
 
         if worldAge == 48 then
             BWOPopControl.ZombieMax = 1
         elseif worldAge == 50 then
-            BWOPopControl.StreetsNominal = 50
-            BWOPopControl.InhabitantsNominal = 40
+            BWOPopControl.StreetsNominal = 65
+            BWOPopControl.InhabitantsNominal = 45
         elseif worldAge == 51 then
-            BWOPopControl.StreetsNominal = 60
-            BWOPopControl.InhabitantsNominal = 30
+            BWOPopControl.StreetsNominal = 75
+            BWOPopControl.InhabitantsNominal = 35
         elseif worldAge == 52 then
-            BWOPopControl.StreetsNominal = 70
-            BWOPopControl.InhabitantsNominal = 20
+            BWOPopControl.StreetsNominal = 85
+            BWOPopControl.InhabitantsNominal = 25
         elseif worldAge == 53 then
-            BWOPopControl.StreetsNominal = 60
-            BWOPopControl.InhabitantsNominal = 30
+            BWOPopControl.StreetsNominal = 75
+            BWOPopControl.InhabitantsNominal = 35
             BWOPopControl.ZombieMax = 2
         elseif worldAge == 54 then
-            BWOPopControl.StreetsNominal = 50
-            BWOPopControl.InhabitantsNominal = 20
+            BWOPopControl.StreetsNominal = 65
+            BWOPopControl.InhabitantsNominal = 45
             BWOPopControl.ZombieMax = 2
             if minute == 30 then
                 BWOScheduler.Add("Arson", params, 100)
@@ -234,8 +234,8 @@ function BWOScheduler.MasterControl()
     -- D2 23:00 - D3 05:00
     if worldAge >= 60 and worldAge < 68 then
         BWOScheduler.SymptomLevel = 3
-        BWOPopControl.StreetsNominal = 35
-        BWOPopControl.InhabitantsNominal = 55
+        BWOPopControl.StreetsNominal = 50
+        BWOPopControl.InhabitantsNominal = 60
         BWOPopControl.SurvivorsNominal = 0
         BWOPopControl.ZombieMax = 0
 
@@ -258,8 +258,8 @@ function BWOScheduler.MasterControl()
     -- D3 05:00 - D4 13:00
     if worldAge >= 68 and worldAge < 76 then
         BWOScheduler.SymptomLevel = 3
-        BWOPopControl.StreetsNominal = 30
-        BWOPopControl.InhabitantsNominal = 60
+        BWOPopControl.StreetsNominal = 45
+        BWOPopControl.InhabitantsNominal = 65
         BWOPopControl.SurvivorsNominal = 0
         BWOPopControl.ZombieMax = 0
 
@@ -289,8 +289,8 @@ function BWOScheduler.MasterControl()
     -- D4 13:00 - D4 06:00
     if worldAge >= 76 and worldAge < 93 then
         BWOScheduler.SymptomLevel = 3
-        BWOPopControl.StreetsNominal = 25
-        BWOPopControl.InhabitantsNominal = 60
+        BWOPopControl.StreetsNominal = 40
+        BWOPopControl.InhabitantsNominal = 70
         BWOPopControl.SurvivorsNominal = 0
         BWOPopControl.ZombieMax = 0
 
@@ -362,8 +362,8 @@ function BWOScheduler.MasterControl()
     -- D4 06:00 - D5 03:00
     if worldAge >= 93 and worldAge < 100 then
         BWOScheduler.SymptomLevel = 4
-        BWOPopControl.StreetsNominal = 10
-        BWOPopControl.InhabitantsNominal = 55
+        BWOPopControl.StreetsNominal = 20
+        BWOPopControl.InhabitantsNominal = 80
         BWOPopControl.SurvivorsNominal = 5
         BWOPopControl.ZombieMax = 100
 
@@ -415,7 +415,7 @@ function BWOScheduler.MasterControl()
     if worldAge >= 100 and worldAge < 136 then
         BWOScheduler.SymptomLevel = 4
         BWOPopControl.StreetsNominal = 5
-        BWOPopControl.InhabitantsNominal = 45
+        BWOPopControl.InhabitantsNominal = 60
         BWOPopControl.SurvivorsNominal = 10
         BWOPopControl.ZombieMax = 1000
         if worldAge == 105 then
