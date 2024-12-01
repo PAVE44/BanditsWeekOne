@@ -2,9 +2,9 @@ ZombieActions = ZombieActions or {}
 
 ZombieActions.TimeEvent = {}
 ZombieActions.TimeEvent.onStart = function(zombie, task)
-
+    local gmd = GetBWOModData()
     if task.event then
-        local args = {x=task.x, y=task.y, z=task.z, otype=task.event}
+        local args = {x=math.floor(task.x), y=math.floor(task.y), z=task.z, otype=task.event}
         sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
     end
 
@@ -54,7 +54,7 @@ end
 
 ZombieActions.TimeEvent.onComplete = function(zombie, task)
     if task.event then
-        local args = {x=task.x, y=task.y, z=task.z}
+        local args = {x=math.floor(task.x + 0.5), y=math.floor(task.y + 0.5), z=task.z, otype=task.event}
         sendClientCommand(getPlayer(), 'Commands', 'ObjectRemove', args)
     end
 

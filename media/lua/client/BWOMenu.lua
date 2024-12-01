@@ -5,7 +5,7 @@ BWOMenu.Spawn = function(player, square)
     local groundType = BanditUtils.GetGroundType(square) 
 
     config = {}
-    config.clanId = 1
+    config.clanId = 0
     config.hasRifleChance = 0
     config.hasPistolChance = 0
     config.rifleMagCount = 0
@@ -81,7 +81,7 @@ end
 
 BWOMenu.SpawnPedestrian = function(player, square)
     config = {}
-    config.clanId = 1
+    config.clanId = 0
     config.hasRifleChance = 0
     config.hasPistolChance = 0
     config.rifleMagCount = 0
@@ -106,7 +106,7 @@ end
 
 BWOMenu.SpawnFireman = function(player, square)
     config = {}
-    config.clanId = 1
+    config.clanId = 0
     config.hasRifleChance = 0
     config.hasPistolChance = 0
     config.rifleMagCount = 0
@@ -131,7 +131,7 @@ end
 
 BWOMenu.SpawnMedic = function(player, square)
     config = {}
-    config.clanId = 1
+    config.clanId = 0
     config.hasRifleChance = 0
     config.hasPistolChance = 0
     config.rifleMagCount = 0
@@ -186,34 +186,18 @@ end
 function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
     local player = getPlayer()
     local square = clickedSquare
-    -- print (square:getBuilding():isResidential())
-    -- local zone = getWorld():getMetaGrid():getZoneAt(square:getX(), square:getY(), square:getZ())
-    -- local building = getWorld():getMetaGrid():getBuildingAt(square:getX(), square:getY(), square:getZ())
-    -- local test1 = zone:getName()
-    -- local test2 = zone:getOriginalName()
-    -- local test3 = zone:getType()
-    -- local test4 = zone:getZombieDensity()
 
-    -- local profs = ProfessionFactory.getProfessions()
-    -- for i=0, profs:size()-1 do
-    --    local p = profs:get(i)
-    --    print (p:getType())
-    -- end
-
-    --[[
+    BWOVehicles.FindSpawnPoint(player)
     local vehicle = square:getVehicleContainer()
     if vehicle then
-        local scriptName = vehicle:getScriptName()
-        if scriptName:embodies("Burnt") or scriptName:embodies("Smashed") then
-            if isClient() then
-                sendClientCommand(getPlayer(), "vehicle", "remove", { vehicle = vehicle:getId() })
-            else
-                vehicle:permanentlyRemove()
-            end
-        else
-             vehicle:repair()
-        end
-    end]]
+        -- NORTH x: -180 y: z: 180
+        -- SOUTH x: 0 y: 0 z: 0
+        -- EAST x: -125 y: 90 z: 125
+        -- WEST x: -125, y: -90, z: -125
+        print ("X:" .. vehicle:getAngleX() .. " Y: ".. vehicle:getAngleY() .. " Z: " .. vehicle:getAngleZ())
+        
+        vehicle:setAngles(-125, 90, 125)
+    end
 
     local player = getSpecificPlayer(playerID)
     print (player:getDescriptor():getProfession())

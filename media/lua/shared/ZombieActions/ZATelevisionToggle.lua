@@ -19,7 +19,7 @@ ZombieActions.TelevisionToggle.onComplete = function(zombie, task)
         local objects = square:getObjects()
         for i=0, objects:size()-1 do
             local object = objects:get(i)
-            if instanceof(object, "IsoTelevision") then
+            if instanceof(object, "IsoTelevision") or instanceof(object, "IsoRadio") then
                 local dd = object:getDeviceData()
 
                 dd:setIsTurnedOn(task.on)

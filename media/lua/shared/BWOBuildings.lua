@@ -31,6 +31,7 @@ BWOBuildings.OpenHours.bank = BWOBuildings.OpenHours.commercial
 BWOBuildings.OpenHours.mechanic = BWOBuildings.OpenHours.commercial
 BWOBuildings.OpenHours.industrial = BWOBuildings.OpenHours.commercial
 BWOBuildings.OpenHours.gunstore = BWOBuildings.OpenHours.commercial
+BWOBuildings.OpenHours.office = BWOBuildings.OpenHours.commercial
 
 BWOBuildings.OpenHours.residential = {}
 BWOBuildings.OpenHours.residential.open = 0
@@ -123,6 +124,7 @@ BWOBuildings.Hmap.bank = BWOBuildings.Hmap.commercial
 BWOBuildings.Hmap.mechanic = BWOBuildings.Hmap.commercial
 BWOBuildings.Hmap.industrial = BWOBuildings.Hmap.commercial
 BWOBuildings.Hmap.gunstore = BWOBuildings.Hmap.commercial
+BWOBuildings.Hmap.office = BWOBuildings.Hmap.commercial
 
 BWOBuildings.Hmap.residential = {}
 BWOBuildings.Hmap.residential[0] = 1.5
@@ -336,7 +338,7 @@ BWOBuildings.GetType = function(building)
         btype = "gasstation"
     elseif building:containsRoom("bakery") or building:containsRoom("grocery") or building:containsRoom("liquorstore") or building:containsRoom("clothingstore") or building:containsRoom("clothesstore") or building:containsRoom("grocery") or building:containsRoom("gigamart") or building:containsRoom("zippeestore") or building:containsRoom("movierental") or building:containsRoom("bookstore") or building:containsRoom("aesthetic") then
         btype = "commercial"
-    elseif building:containsRoom("bar") or building:containsRoom("restaurant") or building:containsRoom("pizzawhirled") or building:containsRoom("spiffo_dining")  or building:containsRoom("jayschicken_dining") then
+    elseif building:containsRoom("cafe") or building:containsRoom("bar") or building:containsRoom("restaurant") or building:containsRoom("pizzawhirled") or building:containsRoom("spiffo_dining")  or building:containsRoom("jayschicken_dining") then
         btype = "dining"
     elseif building:containsRoom("motelroom") or building:containsRoom("motelroomoccupied") then
         btype = "motel"
@@ -344,6 +346,8 @@ BWOBuildings.GetType = function(building)
         btype = "industrial"
     elseif building:containsRoom("bedroom") and building:containsRoom("bathroom") then -- and building:containsRoom("kitchen")
         btype = "residential"
+    elseif building:containsRoom("office") then
+        btype = "office"
     end
     return btype
 end

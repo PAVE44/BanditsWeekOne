@@ -227,7 +227,7 @@ BWOEvents.CallCops = function(params)
     arrivalSound(x, y, "ZSPoliceCar1")
 
     config = {}
-    config.clanId = 1
+    config.clanId = 0
     config.hasRifleChance = 0
     config.hasPistolChance = 100
     config.rifleMagCount = 0
@@ -271,7 +271,7 @@ BWOEvents.CallSWAT = function(params)
     arrivalSound(x, y, "ZSPoliceCar1")
 
     config = {}
-    config.clanId = 1
+    config.clanId = 0
     config.hasRifleChance = 100
     config.hasPistolChance = 100
     config.rifleMagCount = 4
@@ -289,7 +289,7 @@ BWOEvents.CallSWAT = function(params)
             
     local bandit = BanditCreator.MakeFromWave(config)
     bandit.outfit = "ZSPoliceSpecialOps"
-    bandit.accuracyBoost = 1.2
+    bandit.accuracyBoost = 1.3
     bandit.femaleChance = 0
     bandit.weapons.melee = "Base.Nightstick"
 
@@ -320,7 +320,7 @@ BWOEvents.CallMedics = function(params)
     arrivalSound(x, y, "ZSPoliceCar1")
 
     config = {}
-    config.clanId = 1
+    config.clanId = 0
     config.hasRifleChance = 0
     config.hasPistolChance = 0
     config.rifleMagCount = 0
@@ -364,7 +364,7 @@ BWOEvents.CallHazmats = function(params)
     arrivalSound(x, y, "ZSPoliceCar1")
 
     config = {}
-    config.clanId = 1
+    config.clanId = 0
     config.hasRifleChance = 0
     config.hasPistolChance = 100
     config.rifleMagCount = 0
@@ -408,7 +408,7 @@ BWOEvents.CallFireman = function(params)
     arrivalSound(x, y, "ZSPoliceCar1")
 
     config = {}
-    config.clanId = 1
+    config.clanId = 0
     config.hasRifleChance = 0
     config.hasPistolChance = 0
     config.rifleMagCount = 0
@@ -552,7 +552,7 @@ BWOEvents.EventEntertainer = function(params)
     local player = getPlayer()
 
     config = {}
-    config.clanId = 1
+    config.clanId = 0
     config.hasRifleChance = 0
     config.hasPistolChance = 0
     config.rifleMagCount = 0
@@ -576,17 +576,21 @@ BWOEvents.EventEntertainer = function(params)
         local rnd = ZombRand(10)
         -- rnd = 9
         if rnd == 0 then
-            bandit.outfit = "AuthenticBiker"
-            bandit.femaleChance = 50
-            bandit.weapons.melee = "Base.GuitarElectricRed"
+            -- bandit.outfit = "AuthenticBiker"
+            -- bandit.femaleChance = 50
+            -- bandit.weapons.melee = "Base.GuitarElectricRed"
+            bandit.outfit = "Priest"
+            bandit.femaleChance = 0
         elseif rnd == 1 then
             bandit.outfit = "Dean"
             bandit.femaleChance = 0
             bandit.weapons.melee = "Base.GuitarElectricBassBlack"
         elseif rnd == 2 then
-            bandit.outfit = "Rocker"
+            -- bandit.outfit = "Rocker"
+            -- bandit.femaleChance = 0
+            -- bandit.weapons.melee = "Base.GuitarAcoustic"
+            bandit.outfit = "Priest"
             bandit.femaleChance = 0
-            bandit.weapons.melee = "Base.GuitarAcoustic"
         elseif rnd == 3 then
             bandit.outfit = "Joan"
             bandit.femaleChance = 100
@@ -596,9 +600,11 @@ BWOEvents.EventEntertainer = function(params)
             bandit.femaleChance = 0
             bandit.weapons.melee = "Base.Saxophone"
         elseif rnd == 5 then
-            bandit.outfit = "Duke"
+            -- bandit.outfit = "Duke"
+            -- bandit.femaleChance = 0
+            -- bandit.weapons.melee = "Base.Flute"
+            bandit.outfit = "Priest"
             bandit.femaleChance = 0
-            bandit.weapons.melee = "Base.Flute"
         elseif rnd == 6 then
             bandit.outfit = "Young"
             bandit.femaleChance = 0
@@ -639,6 +645,8 @@ BWOEvents.EventBuildingParty = function(params)
     -- replace light and find what we need
     local boombox
     local counter
+    local fridge
+    local otable
     local bx = def:getX()
     local bx2 = def:getX2()
     local by = def:getY()
@@ -679,6 +687,10 @@ BWOEvents.EventBuildingParty = function(params)
                                         counter = object
                                     elseif name == "Light Round Table" then
                                         counter = object
+                                    elseif name == "Table" then
+                                        otable = object
+                                    elseif name == "Fridge" then
+                                        fridge = object
                                     end
                                 end
                             end
@@ -696,6 +708,30 @@ BWOEvents.EventBuildingParty = function(params)
     if not boombox then
         local cassette = BanditUtils.Choice({"Tsarcraft.CassetteBanditParty01", "Tsarcraft.CassetteBanditParty02", "Tsarcraft.CassetteBanditParty03", "Tsarcraft.CassetteBanditParty04", "Tsarcraft.CassetteBanditParty05"})
         addBoomBox(square:getX(), square:getY(), square:getZ(), cassette)
+    end
+
+    -- add beer to fridge
+    if fridge then
+        local container = fridge:getContainerByType("fridge")
+        if container then
+            for i=1, 20 + ZombRand(10) do
+                local item = container:AddItem("Base.BeerBottle")
+                if item then
+                    container:addItemOnServer(item)
+                end
+            end
+        end
+    end
+
+    -- add pizza on table
+    if otable then
+        local tableSquare = otable:getSquare()
+        local surfaceOffset = BanditUtils.GetSurfaceOffset(tableSquare:getX(), tableSquare:getY(), tableSquare:getZ())
+        local item1 = InventoryItemFactory.CreateItem("Base.PizzaWhole")
+        tableSquare:AddWorldInventoryItem(item1, 0.6, 0.6, surfaceOffset)
+        
+        local item2 = InventoryItemFactory.CreateItem("Base.Base.Wine2")
+        tableSquare:AddWorldInventoryItem(item2, 0.2, 0.2, surfaceOffset)
     end
 
     local args = {id=id, event="party"}

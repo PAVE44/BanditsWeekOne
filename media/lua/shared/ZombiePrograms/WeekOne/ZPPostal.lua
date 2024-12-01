@@ -64,6 +64,7 @@ ZombiePrograms.Postal.Main = function(bandit)
     end 
 
     -- if inside building change program
+    --[[
     if not bandit:isOutside() then
         Bandit.ClearTasks(bandit)
         Bandit.SetProgram(bandit, "Inhabitant", {})
@@ -75,6 +76,7 @@ ZombiePrograms.Postal.Main = function(bandit)
         Bandit.ForceSyncPart(bandit, syncData)
         return {status=true, next="Main", tasks=tasks}
     end
+    ]]
 
     -- ensure has newspapers
     local npiList = ArrayList.new()

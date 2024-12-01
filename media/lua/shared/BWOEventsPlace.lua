@@ -31,7 +31,7 @@ BWOEventsPlace.ProtestAreas = protestAreas
 
 function BWOEventsPlace.ArmyGuards(x, y, z)
     config = {}
-    config.clanId = 16
+    config.clanId = 0
     config.hasRifleChance = 100
     config.hasPistolChance = 100
     config.rifleMagCount = 6
@@ -49,6 +49,10 @@ function BWOEventsPlace.ArmyGuards(x, y, z)
     event.bandits = {}
     
     local bandit = BanditCreator.MakeFromWave(config)
+    bandit.hairStyles = {"Bald", "Fresh", "Demi", "FlatTop", "MohawkShort"}
+    bandit.accuracyBoost = 1.6
+    bandit.weapons.melee = "Base.HuntingKnife"
+
     local intensity = 4
     if intensity > 0 then
         for i=1, intensity do

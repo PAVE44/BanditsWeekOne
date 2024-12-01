@@ -3,8 +3,8 @@ BanditCreator = BanditCreator or {}
 function BanditCreator.MakeFromRoom(room)
     local bandit = {}
     
-    -- this always generates bandits of clan 1 - citizens
-    local clan = BanditCreator.GroupMap[1]
+    -- this always generates bandits of clan 0 - citizens
+    local clan = BanditCreator.GroupMap[0]
 
     -- properties to be rewritten from clan file to bandit instance
     bandit.clan = clan.id
@@ -19,7 +19,7 @@ function BanditCreator.MakeFromRoom(room)
     config.hasPistolChance = 4
     config.rifleMagCount = 0
     config.pistolMagCount = 1
-    config.clanId = 1
+    config.clanId = 0
 
     -- gun weapon choice comes from clan file, weapon probability from wave data
     bandit.weapons = BanditCreator.MakeWeapons(config, clan)

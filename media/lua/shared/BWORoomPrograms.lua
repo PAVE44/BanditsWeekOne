@@ -60,7 +60,27 @@ BWORoomPrograms.livingroom = function(bandit, def)
             end
         end
     end
-    
+
+    local radio = BWOObjects.Find(bandit, def, "Radio")
+    if radio then
+        local dd = radio:getDeviceData()
+        if not dd:getIsTurnedOn() or dd:getChannel() ~= 98400 then
+            local square = radio:getSquare()
+            local asquare = AdjacentFreeTileFinder.Find(square, bandit)
+            if asquare then
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
+                if dist > 0.70 then
+                    table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
+                    return tasks
+                else
+                    local task = {action="TelevisionToggle", on=true, channel=98400, volume=0.4, anim="Loot", x=square:getX(), y=square:getY(), z=square:getZ(), time=100}
+                    table.insert(tasks, task)
+                    return tasks
+                end
+            end
+        end
+    end
+
     local sittable = BWOObjects.Find(bandit, def, "Couch")
     if not sittable then
         sittable = BWOObjects.Find(bandit, def, "Chair")
@@ -167,6 +187,26 @@ BWORoomPrograms.kitchen = function(bandit, def)
     local outfit = bandit:getOutfitName()
     local m = (math.abs(id) % 3) * 2
     
+    local radio = BWOObjects.Find(bandit, def, "Radio")
+    if radio then
+        local dd = radio:getDeviceData()
+        if not dd:getIsTurnedOn() or dd:getChannel() ~= 98400 then
+            local square = radio:getSquare()
+            local asquare = AdjacentFreeTileFinder.Find(square, bandit)
+            if asquare then
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
+                if dist > 0.70 then
+                    table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
+                    return tasks
+                else
+                    local task = {action="TelevisionToggle", on=true, channel=98400, volume=0.4, anim="Loot", x=square:getX(), y=square:getY(), z=square:getZ(), time=100}
+                    table.insert(tasks, task)
+                    return tasks
+                end
+            end
+        end
+    end
+
     if (minute >= m and minute < m+3) or (minute >= m+20 and minute < m+23) or (minute >= m+40 and minute < m+43) then
         local fridge = BWOObjects.Find(bandit, def, "Fridge")
         if fridge then
@@ -687,7 +727,7 @@ BWORoomPrograms.restaurant = function(bandit, def)
                                             local item = witem:getItem()
                                             local itemType = item:getFullType()
                                             local category = item:getDisplayCategory()
-                                            
+                                            -- print ("ITEM:" .. itemType .. "X: " .. x .. "Y: " .. y)
                                             if itemType == "Base.Plate" then nes[d].p = true end
                                             if category == "Food" then nes[d].f = true end
                                         end
@@ -695,10 +735,12 @@ BWORoomPrograms.restaurant = function(bandit, def)
 
                                     -- determine what needs to be served and exact locations
                                     local item
-                                    local fx = 0.5
-                                    local fy = 0.5
+                                    local fx
+                                    local fy
                                     for d, n in pairs(nes) do
                                         if n.o then
+                                            fx = 0.5
+                                            fy = 0.5
                                             
                                             if d == "E" then 
                                                 fx = 0.80

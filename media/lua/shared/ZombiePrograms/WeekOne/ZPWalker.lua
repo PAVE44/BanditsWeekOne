@@ -72,6 +72,7 @@ ZombiePrograms.Walker.Main = function(bandit)
     end
 
     -- if has a specifit outfit change program
+    --[[
     local outfit = bandit:getOutfitName()
     if outfit == "Postal" then
         Bandit.ClearTasks(bandit)
@@ -93,7 +94,7 @@ ZombiePrograms.Walker.Main = function(bandit)
         syncData.program = brain.program
         Bandit.ForceSyncPart(bandit, syncData)
         return {status=true, next="Main", tasks=tasks}
-    end
+    end]]
     
     -- symptoms
     if math.abs(id) % 4 > 0 then

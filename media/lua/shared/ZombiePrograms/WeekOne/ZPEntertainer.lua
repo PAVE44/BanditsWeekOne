@@ -108,7 +108,7 @@ ZombiePrograms.Entertainer.Main = function(bandit)
 
     for o, tab in pairs(performerTab) do
         if o == outfit then
-            local task = {action="TimeEvent", x=bx, y=by, z=bz, event="entertainer", anim=tab.anim, time=500}
+            local task = {action="TimeEvent", x=bx, y=by, z=bz, event="entertainer", anim=tab.anim}
             table.insert(tasks, task)
             return {status=true, next="Main", tasks=tasks}
         end

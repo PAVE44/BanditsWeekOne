@@ -82,7 +82,7 @@ BWOPopControl.StreetsSpawn = function(cnt)
     local px, py = player:getX(), player:getY()
 
     config = {}
-    config.clanId = 1
+    config.clanId = 0
     config.hasRifleChance = 0
     config.hasPistolChance = 3
     config.rifleMagCount = 0
@@ -125,7 +125,7 @@ BWOPopControl.StreetsSpawn = function(cnt)
                         bandit.outfit = BanditUtils.Choice({"Farmer"})
                         event.program.name = "Gardener"
                         event.program.stage = "Prepare"
-                    elseif rnd < 20 then 
+                    elseif rnd < 18 then 
                         bandit.outfit = BanditUtils.Choice({"AuthenticHomeless"})
                         bandit.weapons.melee = "Base.Broom"
                         event.program.name = "Janitor"
@@ -292,7 +292,7 @@ BWOPopControl.SurvivorsSpawn = function(missing)
     local player = getPlayer()
 
     config = {}
-    config.clanId = 1
+    config.clanId = 0
     config.hasRifleChance = 0
     config.hasPistolChance = 30
     config.rifleMagCount = 0
@@ -521,7 +521,7 @@ BWOPopControl.UpdateCivs = function()
 
     -- debug report:
     print ("----------- POPULATION STATS -----------")
-    print ("WORLD AGE: " .. BWOScheduler.WorldAge .. " SYMPTOM LVL:" .. BWOScheduler.SymptomLevel)
+    print ("WORLD AGE: " .. BWOScheduler.WorldAge .. "(" .. ((BWOScheduler.WorldAge+9) * 60) .. ")" .. " SYMPTOM LVL:" .. BWOScheduler.SymptomLevel)
     print ("INHAB: " .. BWOPopControl.InhabitantsCnt .. "/" .. BWOPopControl.InhabitantsMax)
     print ("STREET: " .. BWOPopControl.StreetsCnt .. "/" .. BWOPopControl.StreetsMax)
     print ("SURVIVOR: " .. BWOPopControl.SurvivorsCnt .. "/" .. BWOPopControl.SurvivorsMax)
@@ -558,7 +558,7 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
     for id, witness in pairs(witnessList) do
         if not witness.brain.hostile then
             local dist = math.sqrt(math.pow(bandit:getX() - witness.x, 2) + math.pow(bandit:getY() - witness.y, 2))
-            if dist < 12 then
+            if dist < 15 then
                 local actor = BanditZombie.GetInstanceById(witness.id)
                 if actor:CanSee(bandit) then
 
@@ -569,7 +569,9 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
 
                     -- attacking by player retaliation is handled by main Bandits mod, here we just want to call hostile cops additionally
                     -- theifs are exception, they spawn technically as friendy so attacking them here should not trigger enemy, but friendly cops
-                    if instanceof(attacker, "IsoPlayer") and attacker:getDisplayName() == getPlayer():getDisplayName() and brain.clan == 1 and brain.program.name ~= "Thief" then
+                    local wasPlayerFault = false
+                    if instanceof(attacker, "IsoPlayer") and attacker:getDisplayName() == getPlayer():getDisplayName() and brain.clan == 0 and brain.program.name ~= "Thief" then
+                        wasPlayerFault = true
                         local outfit = bandit:getOutfitName()
                         if outfit == "Police" then
                             if BWOPopControl.SWAT.On then
@@ -595,7 +597,20 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
                     local activatePrograms = {"Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer"}
                     for _, prg in pairs(activatePrograms) do
                         if witness.brain.program.name == prg then 
-                            Bandit.SetProgram(actor, "Active", {})
+                            if ZombRand(4) > 0 then
+                                Bandit.SetProgram(actor, "Active", {})
+
+                                if wasPlayerFault and ZombRand(2) == 0 then
+                                    Bandit.SetHostile(actor, true)
+                                end
+
+                                Bandit.ClearTasks(actor)
+                                Bandit.Say(actor, "SPOTTED")
+                            else
+                                if ZombRand(3) == 0 then
+                                    Bandit.Say(actor, "SPOTTED")
+                                end
+                            end
                             local brain = BanditBrain.Get(actor)
                             if brain then
                                 local syncData = {}
