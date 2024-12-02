@@ -41,11 +41,10 @@ BWOPopControl.Fireman = {}
 BWOPopControl.Fireman.Cooldown = 0
 BWOPopControl.Fireman.On = true
 
-
+-- zombie despawner
 BWOPopControl.Zombie = function()
-    -- local x = SandboxVars.ZombieConfig.PopulationMultiplier
-    -- SandboxVars.ZombieConfig.PopulationMultiplier = 0.1
     if BWOPopControl.ZombieMax >= 400 then return end
+
     local fakeZombie = getCell():getFakeZombieForHit()
     local zombieList = BanditZombie.GetAllZ()
     local gmd = GetBanditModData()
@@ -76,6 +75,7 @@ BWOPopControl.Zombie = function()
     end
 end
 
+-- npc on streets spawner
 BWOPopControl.StreetsSpawn = function(cnt)
     local player = getPlayer()
     local cell = player:getCell()
@@ -144,6 +144,7 @@ BWOPopControl.StreetsSpawn = function(cnt)
     end
 end
 
+-- npc on streets despawner
 BWOPopControl.StreetsDespawn = function(cnt)
     local player = getPlayer()
     local cell = player:getCell()
@@ -181,6 +182,7 @@ BWOPopControl.StreetsDespawn = function(cnt)
     end
 end
 
+-- npcs in buildings spawner
 BWOPopControl.InhabitantsSpawn = function(cnt)
 
     local event = {}
@@ -251,6 +253,7 @@ BWOPopControl.InhabitantsSpawn = function(cnt)
     end
 end
 
+-- npcs in buildings despawner
 BWOPopControl.InhabitantsDespawn = function(cnt)
     local player = getPlayer()
     local cell = player:getCell()
@@ -287,6 +290,7 @@ BWOPopControl.InhabitantsDespawn = function(cnt)
     end
 end
 
+-- survivors spawner
 BWOPopControl.SurvivorsSpawn = function(missing)
 
     local player = getPlayer()
@@ -321,6 +325,7 @@ BWOPopControl.SurvivorsSpawn = function(missing)
     end
 end
 
+-- survivors despawner
 BWOPopControl.SurvivorsDespawn = function(cnt)
     local player = getPlayer()
     local cell = player:getCell()
@@ -358,6 +363,7 @@ BWOPopControl.SurvivorsDespawn = function(cnt)
     end
 end
 
+-- controls numbers of overall populations and inits spawn / despawn procedures for various groups when necessary
 BWOPopControl.UpdateCivs = function()
 
     local function getHourScore()
@@ -532,12 +538,7 @@ BWOPopControl.UpdateCivs = function()
 
 end
 
-BWOPopControl.UpdateZombie = function(numTicks)
-    if numTicks % 2 == 0 then
-        BWOPopControl.Zombie()
-    end
-end
-
+-- controls npc reaction to player violence
 BWOPopControl.CheckHostility = function(bandit, attacker)
 
     if not attacker then return end
@@ -627,11 +628,21 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
     end
 end
 
-BWOPopControl.OnHitZombie = function(zombie, attacker, bodyPartType, handWeapon)
+local everyOneMinute = function ()
+    BWOPopControl.UpdateCivs()
+end
+
+local onTick = function(numTicks)
+    if numTicks % 2 == 0 then
+        BWOPopControl.Zombie()
+    end
+end
+
+local onHitZombie = function(zombie, attacker, bodyPartType, handWeapon)
     BWOPopControl.CheckHostility(zombie, attacker)
 end
 
-BWOPopControl.OnZombieDead = function(zombie)
+local onZombieDead = function(zombie)
     local attacker = zombie:getAttackedBy()
     BWOPopControl.CheckHostility(zombie, attacker)
 
@@ -652,7 +663,7 @@ BWOPopControl.OnZombieDead = function(zombie)
     end
 end
 
-BWOPopControl.OnNewFire = function(fire)
+local onNewFire = function(fire)
     local params ={}
     params.x = fire:getX()
     params.y = fire:getY()
@@ -661,9 +672,9 @@ BWOPopControl.OnNewFire = function(fire)
     BWOScheduler.Add("CallFireman", params, 4800)
 end
 
-Events.EveryOneMinute.Add(BWOPopControl.UpdateCivs)
-Events.OnTick.Add(BWOPopControl.UpdateZombie)
-Events.OnHitZombie.Add(BWOPopControl.OnHitZombie)
-Events.OnZombieDead.Add(BWOPopControl.OnZombieDead)
-Events.OnNewFire.Add(BWOPopControl.OnNewFire)
+Events.EveryOneMinute.Add(everyOneMinute)
+Events.OnTick.Add(onTick)
+Events.OnHitZombie.Add(onHitZombie)
+Events.OnZombieDead.Add(onZombieDead)
+Events.OnNewFire.Add(onNewFire)
 
