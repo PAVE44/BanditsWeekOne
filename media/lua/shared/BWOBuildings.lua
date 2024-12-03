@@ -402,6 +402,35 @@ BWOBuildings.IsGuest = function(building)
     return false
 end
 
+BWOBuildings.TakeIntention = function(building)
+    local player = getPlayer()
+    local profession = player:getDescriptor():getProfession()
+    local btype = BWOBuildings.GetType(building)
+
+    local shouldPay = false
+    local canTake = false
+    if btype == "police" and profession == "policeofficer" then
+        canTake = true
+    elseif btype == "prison" and profession == "securityguard" then
+        canTake = true
+    elseif btype == "firestation" and profession == "fireofficer" then
+        canTake = true
+    elseif btype == "medical" and (profession == "doctor" or profession == "nurse") then
+        canTake = true
+    elseif btype == "gunstore" and profession == "veteran" then
+        canTake = true
+    elseif btype == "mechanic" and profession == "mechanic" then
+        canTake = true
+    elseif btype == "bank" and profession == "securityguard" then
+        canTake = true
+    elseif btype == "industrial" and not (profession == "engineer" or profession == "metalworker") then
+        canTake = true
+    elseif btype == "gasstore" or btype == "commercial" then
+        shouldPay = true
+    end
+    return canTake, shouldPay
+end
+
 BWOBuildings.IsIntrusion = function(building, room)
     local player = getPlayer()
     local profession = player:getDescriptor():getProfession()
@@ -417,7 +446,7 @@ BWOBuildings.IsIntrusion = function(building, room)
     if roomName == "armystorage" and profession ~= "veteran" then return true end
     if roomName == "gunstorestorage" and profession ~= "veteran" then return true end
     if roomName == "policestorage" and profession ~= "policeofficer" then return true end
-    if roomName == "security" and (profession ~= "policeofficer" and profession ~= "securityguard") then return true end
+    if roomName == "security" and not (profession == "policeofficer" or profession == "securityguard") then return true end
     
     if roomName == "firestorage" and profession ~= "fireofficer" then return true end
     if roomName == "farmstorage" and profession ~= "farmer" then return true end

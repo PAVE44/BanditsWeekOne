@@ -75,7 +75,7 @@ ZombiePrograms.Medic.Main = function(bandit)
             if square then
                 deadbody = square:getDeadBody()
                 if deadbody then
-                    local task = {action="Heal", anim="CPR", time=1000, itemType=itemType, x=deadbody:getX(), y=deadbody:getY(), z=deadbody:getZ()}
+                    local task = {action="Heal", time=1000, x=deadbody:getX(), y=deadbody:getY(), z=deadbody:getZ()}
                     table.insert(tasks, task)
                     return {status=true, next="Main", tasks=tasks}
                 end

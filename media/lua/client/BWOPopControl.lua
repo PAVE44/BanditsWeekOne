@@ -113,25 +113,25 @@ BWOPopControl.StreetsSpawn = function(cnt)
                     event.x = square:getX()
                     event.y = square:getY()
                     local rnd = ZombRand(100)
-                    if rnd < 5 then
+                    if rnd < 4 then
                         bandit.outfit = BanditUtils.Choice({"StreetSports", "AuthenticJogger", "AuthenticFitnessInstructor"})
                         event.program.name = "Runner"
                         event.program.stage = "Prepare"
-                    elseif rnd < 10 then 
+                    elseif rnd < 8 then 
                         bandit.outfit = BanditUtils.Choice({"Postal"})
                         event.program.name = "Postal"
                         event.program.stage = "Prepare"
-                    elseif rnd < 15 then 
+                    elseif rnd < 13 then 
                         bandit.outfit = BanditUtils.Choice({"Farmer"})
                         event.program.name = "Gardener"
                         event.program.stage = "Prepare"
-                    elseif rnd < 18 then 
-                        bandit.outfit = BanditUtils.Choice({"AuthenticHomeless"})
+                    elseif rnd < 16 then 
+                        bandit.outfit = BanditUtils.Choice({"Hobbo"})
                         bandit.weapons.melee = "Base.Broom"
                         event.program.name = "Janitor"
                         event.program.stage = "Prepare"
                     else
-                        bandit.outfit = BanditUtils.Choice({"Generic02", "Generic01"})
+                        bandit.outfit = BanditUtils.Choice({"Generic05", "Generic04", "Generic03", "Generic02", "Generic01"})
                         event.program.name = "Walker"
                         event.program.stage = "Prepare"
                     end
@@ -548,7 +548,7 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
 
     -- killing bandits is ok!
     local brain = BanditBrain.Get(bandit)
-    if brain.clan > 1 then return end
+    if brain.clan > 0 then return end
 
     -- to weak to respond
     -- local infection = Bandit.GetInfection(bandit)
@@ -563,29 +563,28 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
                 local actor = BanditZombie.GetInstanceById(witness.id)
                 if actor:CanSee(bandit) then
 
-                    local params ={}
+                    local params = {}
                     params.x = bandit:getX()
                     params.y = bandit:getY()
                     params.z = bandit:getZ()
 
-                    -- attacking by player retaliation is handled by main Bandits mod, here we just want to call hostile cops additionally
-                    -- theifs are exception, they spawn technically as friendy so attacking them here should not trigger enemy, but friendly cops
                     local wasPlayerFault = false
                     if instanceof(attacker, "IsoPlayer") and attacker:getDisplayName() == getPlayer():getDisplayName() and brain.clan == 0 and brain.program.name ~= "Thief" then
-                        wasPlayerFault = true
-                        local outfit = bandit:getOutfitName()
-                        if outfit == "Police" then
-                            if BWOPopControl.SWAT.On then
-                                params.hostile = true
-                                BWOScheduler.Add("CallSWAT", params, 19500)
-                            end
-                        else
-                            if BWOPopControl.Police.On then
-                                params.hostile = true
-                                BWOScheduler.Add("CallCops", params, 12000)
+                        if  brain.id ~= id then
+                            wasPlayerFault = true
+                            local outfit = bandit:getOutfitName()
+                            if outfit == "Police" then
+                                if BWOPopControl.SWAT.On then
+                                    params.hostile = true
+                                    BWOScheduler.Add("CallSWAT", params, 19500)
+                                end
+                            else
+                                if BWOPopControl.Police.On then
+                                    params.hostile = true
+                                    BWOScheduler.Add("CallCops", params, 12000)
+                                end
                             end
                         end
-
                     else
                         -- call friendly police
                         if BWOPopControl.Police.On then
@@ -670,6 +669,9 @@ local onNewFire = function(fire)
     params.z = fire:getZ()
     params.hostile = true
     BWOScheduler.Add("CallFireman", params, 4800)
+
+    local args = {x=params.x, y=params.y, z=params.z, otype="fire", ttl=BanditUtils.GetTime()+25000}
+    sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
 end
 
 Events.EveryOneMinute.Add(everyOneMinute)

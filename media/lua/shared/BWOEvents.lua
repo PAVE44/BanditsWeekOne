@@ -336,12 +336,16 @@ BWOEvents.CallMedics = function(params)
     event.y = y + 6
     event.bandits = {}
             
-    local bandit = BanditCreator.MakeFromWave(config)
-    bandit.outfit = "Doctor"
-    bandit.weapons.melee = "Base.Scalpel"
+    local bandit1 = BanditCreator.MakeFromWave(config)
+    bandit1.outfit = "Doctor"
+    bandit1.weapons.melee = "Base.Scalpel"
+    table.insert(event.bandits, bandit1)
 
-    table.insert(event.bandits, bandit)
-    table.insert(event.bandits, bandit)
+    local bandit2 = BanditCreator.MakeFromWave(config)
+    bandit2.outfit = "AmbulanceDriver"
+    bandit2.weapons.melee = "Base.Scalpel"
+    table.insert(event.bandits, bandit2)
+
             
     sendClientCommand(getPlayer(), 'Commands', 'SpawnGroup', event)
     
@@ -443,7 +447,7 @@ BWOEvents.CallFireman = function(params)
         BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, x, y, color)
     end
 
-    BWOPopControl.Fireman.Cooldown = 80
+    BWOPopControl.Fireman.Cooldown = 60
 end
 
 BWOEvents.Siren = function(params)
@@ -509,9 +513,6 @@ BWOEvents.Arson = function(params)
                 vparams.alarm = true
                 BWOScheduler.Add("VehiclesUpdate", vparams, 500)
 
-                local args = {x=square:getX(), y=square:getY(), z=square:getZ(), otype="fire"}
-                sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
-
                 if SandboxVars.Bandits.General_ArrivalIcon then
                     local icon = "media/ui/loot.png"
                     local color = {r=1, g=0.5, b=0} -- orange
@@ -545,6 +546,25 @@ BWOEvents.RegisterBase = function(params)
             local color = {r=0.5, g=1, b=0.5} -- GREEN
             BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, (x + x2) / 2, (y + y2) / 2, color)
         end
+    end
+end
+
+BWOEvents.GetStartInventory = function(params)
+    local player = getPlayer()
+    local building = player:getBuilding()
+    if building then
+        local buildingDef = building:getDef()
+        local keyId = buildingDef:getKeyId()
+
+        local item = InventoryItemFactory.CreateItem("Base.Key2")
+        item:setKeyId(keyId)
+        item:setName("Home Key")
+        player:getInventory():AddItem(item)
+    end
+
+    for i=1, 12 + ZombRand(10) do
+        local item = InventoryItemFactory.CreateItem("Base.Money")
+        player:getInventory():AddItem(item)
     end
 end
 

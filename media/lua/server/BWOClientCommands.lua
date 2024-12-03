@@ -66,4 +66,22 @@ local onClientCommand = function(module, command, player, args)
     end
 end
 
+-- gc for objects with set ttl
+local everyOneMinute = function()
+    local toRemove = {}
+    local gmd = GetBWOModData()
+    for k, obj in pairs(gmd.Objects) do
+        if obj.ttl then
+            if BanditUtils.GetTime() > obj.ttl then
+                table.insert(toRemove, k)
+            end
+        end
+    end
+
+    for _, k in pairs(toRemove) do
+        gmd.Objects[k] = nil
+    end
+end
+
 Events.OnClientCommand.Add(onClientCommand)
+Events.EveryOneMinute.Add(everyOneMinute)

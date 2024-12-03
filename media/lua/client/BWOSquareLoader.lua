@@ -306,6 +306,17 @@ BWOSquareLoader.OnLoad = function(square)
                     end
                 end
             end
+
+            local attachments = object:getAttachedAnimSprite()
+            if attachments then
+                for i=0, attachments:size()-1 do
+                    local attachment = attachments:get(i)
+                    if attachment and attachment:getName():embodies("blood") then
+                        object:clearAttachedAnimSprite()
+                        break
+                    end
+                end
+            end
         end
     end
 end

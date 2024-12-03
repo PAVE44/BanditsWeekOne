@@ -376,7 +376,7 @@
       <ScriptEntry ID="86549bbd-9e5c-4547-a444-b3126c4aec25" name="init" startdelay="0" timestampmode="Static" loopmin="1" loopmax="12">
         <ExitOptions />
 
-        <BroadcastEntry ID="43328737-9440-4caa-8e74-6ce99592c2a2" timestamp="0" endstamp="660" type="ActivateBroadcast" day="0" advertCat="none" isSegment="true">
+        <BroadcastEntry ID="43328737-9440-4caa-8e74-6ce99592c2a2" timestamp="0" endstamp="660" type="ActivateBroadcast" day="0" advertCat="none" isSegment="false">
           <LineEntry ID="9589fd3d-5b52-4102-9df1-14e34d8d1271" r="224" g="0" b="0" codes="GUID:9589fd3d-5b52-4102-9df1-14e34d8d1271">${t:4.07}This station participates in the activation of the Public Safety Alert.</LineEntry>
           <LineEntry ID="e405018f-ed97-43ca-a5fd-311387374ab0" r="224" g="0" b="0" codes="GUID:e405018f-ed97-43ca-a5fd-311387374ab0">${t:3.31}Please listen carefully over the given message.</LineEntry>
           <LineEntry ID="3f370cfc-bd38-473f-a5a1-0bb6974ee958" r="224" g="0" b="0" codes="GUID:3f370cfc-bd38-473f-a5a1-0bb6974ee958">${t:2.04}[img=music]</LineEntry>
@@ -388,7 +388,7 @@
           <LineEntry ID="da74217a-0251-4f28-91a0-33b0f6b7cc05" r="224" g="0" b="0" codes="GUID:da74217a-0251-4f28-91a0-33b0f6b7cc05">${t:3.80}we recommend citizens to stay calm and wait for further news.</LineEntry>
         </BroadcastEntry>
 
-        <BroadcastEntry ID="eeda4fa2-e713-4144-8384-138c93196bc0" timestamp="660" endstamp="1140" type="ActivateBroadcast" day="0" advertCat="none" isSegment="true">
+        <BroadcastEntry ID="eeda4fa2-e713-4144-8384-138c93196bc0" timestamp="660" endstamp="1140" type="ActivateBroadcast" day="0" advertCat="none" isSegment="false">
           <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
           <LineEntry ID="69bbaf58-7031-4c2d-9ac6-18bcb6136e2d" r="40" g="180" b="255" codes="GUID:69bbaf58-7031-4c2d-9ac6-18bcb6136e2d">${t:3.86}We interrupt this program to bring you a special report over Kentucky.</LineEntry>
           <LineEntry ID="2699ba70-1ae8-4ad1-8178-bd93cd065c46" r="40" g="180" b="192" codes="GUID:2699ba70-1ae8-4ad1-8178-bd93cd065c46">${t:3.80}A major military drill is currently taking place in Knox County.</LineEntry>
@@ -400,7 +400,7 @@
           <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
         </BroadcastEntry>
         
-        <BroadcastEntry ID="cbf5185e-fd35-4eb5-b8a9-8dc0327ee68b" timestamp="1140" endstamp="1440" type="ActivateBroadcast" day="0" advertCat="none" isSegment="true">
+        <BroadcastEntry ID="cbf5185e-fd35-4eb5-b8a9-8dc0327ee68b" timestamp="1140" endstamp="1440" type="ActivateBroadcast" day="0" advertCat="none" isSegment="false">
           <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
           <LineEntry ID="65289d7e-9271-4111-9252-7eb09460d515" r="40" g="180" b="255" codes="GUID:65289d7e-9271-4111-9252-7eb09460d515">${t:3.20}We now look at the progress of the ongoing military drill.</LineEntry>
           <LineEntry ID="5586c213-15c2-4779-8861-68686c437738" r="40" g="180" b="255" codes="GUID:5586c213-15c2-4779-8861-68686c437738">${t:2.27}From what we can see from here,</LineEntry>
@@ -414,7 +414,7 @@
 
         <BroadcastEntry ID="25bc0a13-6124-4ceb-8d8e-10648c5bae66" timestamp="1440" endstamp="1800" type="ActivateBroadcast" day="1" advertCat="none" isSegment="false" />
 
-        <BroadcastEntry ID="5d436e12-ad7c-4184-8fd6-f29b46cc0a9c" timestamp="1800" endstamp="2100" type="ActivateBroadcast" day="1" advertCat="none" isSegment="true">
+        <BroadcastEntry ID="5d436e12-ad7c-4184-8fd6-f29b46cc0a9c" timestamp="1800" endstamp="2100" type="ActivateBroadcast" day="1" advertCat="none" isSegment="false">
           <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
           <LineEntry ID="5346e723-025f-4e5a-98d6-29c173c75bd6" r="40" g="180" b="255" codes="GUID:5346e723-025f-4e5a-98d6-29c173c75bd6">${t:3.98}Kentucky’s state governor speaks out over the military’s routine drill,</LineEntry>
           <LineEntry ID="55bee40b-5b8c-494e-8c25-e9f0cb0a0d2d" r="40" g="180" b="255" codes="GUID:55bee40b-5b8c-494e-8c25-e9f0cb0a0d2d">${t:2.67}criticizing the lack of communication</LineEntry>
@@ -427,7 +427,7 @@
           <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
         </BroadcastEntry>
 
-        <BroadcastEntry ID="10d73d90-ef63-48e5-a5f9-67e74d5a4801" timestamp="2100" endstamp="2880" type="ActivateBroadcast" day="1" advertCat="none" isSegment="true">
+        <BroadcastEntry ID="10d73d90-ef63-48e5-a5f9-67e74d5a4801" timestamp="2100" endstamp="2880" type="ActivateBroadcast" day="1" advertCat="none" isSegment="false">
           <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
           <LineEntry ID="3d0828e9-abd3-4a5d-bfc2-08d0511456f8" r="40" g="180" b="255" codes="GUID:3d0828e9-abd3-4a5d-bfc2-08d0511456f8">${t:4.68}Reporting from the ongoing drill zone, now here we are in West Point,</LineEntry>
           <LineEntry ID="c0621b1f-98dd-48d4-b9f7-9051dba7cef8" r="40" g="180" b="255" codes="GUID:c0621b1f-98dd-48d4-b9f7-9051dba7cef8">${t:2.66}As you can see people are minding their own business,</LineEntry>
@@ -439,7 +439,7 @@
 
         <BroadcastEntry ID="edbe9a3c-b27a-4c5b-92df-05ac779cd00d" timestamp="2880" endstamp="3240" type="ActivateBroadcast" day="2" advertCat="none" isSegment="false" />
 
-        <BroadcastEntry ID="14219e4b-76ae-4220-ab36-b28bdc72fe7a" timestamp="3240" endstamp="3600" type="ActivateBroadcast" day="2" advertCat="none" isSegment="true">
+        <BroadcastEntry ID="14219e4b-76ae-4220-ab36-b28bdc72fe7a" timestamp="3240" endstamp="3600" type="ActivateBroadcast" day="2" advertCat="none" isSegment="false">
           <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
           <LineEntry ID="f66f23d4-c44f-4b63-b9be-854205120517" r="40" g="180" b="192" codes="GUID:f66f23d4-c44f-4b63-b9be-854205120517">${t:3.63}Townspeople are yet again baffled as infected individuals</LineEntry>
           <LineEntry ID="0cad7a60-6f4e-433a-a137-ba616ae5a906" r="40" g="180" b="192" codes="GUID:0cad7a60-6f4e-433a-a137-ba616ae5a906">${t:2.66}begin to experience tendencies of violence</LineEntry>
@@ -462,7 +462,7 @@
           <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
         </BroadcastEntry>
 
-        <BroadcastEntry ID="e891bb4c-786a-465a-8f3e-4063a63cb159" timestamp="3600" endstamp="3900" type="ActivateBroadcast" day="2" advertCat="none" isSegment="true">
+        <BroadcastEntry ID="e891bb4c-786a-465a-8f3e-4063a63cb159" timestamp="3600" endstamp="3900" type="ActivateBroadcast" day="2" advertCat="none" isSegment="false">
           <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
           <LineEntry ID="fab39121-d783-4494-9c04-86964539ad29" r="40" g="180" b="255" codes="GUID:fab39121-d783-4494-9c04-86964539ad29">${t:2.64}Despite the modest statement from the general,</LineEntry>
           <LineEntry ID="4ac25618-a675-47a1-aca0-9752e34a6c70" r="40" g="180" b="255" codes="GUID:4ac25618-a675-47a1-aca0-9752e34a6c70">${t:3.53}townspeople are outraged by how much secrecy was kept from them,</LineEntry>
@@ -478,7 +478,7 @@
           <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
         </BroadcastEntry>
 
-        <BroadcastEntry ID="d25109bf-5e89-4897-8b1d-6e09738314d9" timestamp="3900" endstamp="4320" type="ActivateBroadcast" day="2" advertCat="none" isSegment="true">
+        <BroadcastEntry ID="d25109bf-5e89-4897-8b1d-6e09738314d9" timestamp="3900" endstamp="4320" type="ActivateBroadcast" day="2" advertCat="none" isSegment="false">
           <LineEntry ID="9589fd3d-5b52-4102-9df1-14e34d8d1271" r="224" g="0" b="0" codes="GUID:9589fd3d-5b52-4102-9df1-14e34d8d1271">${t:4.07}This station participates in the activation of the Public Safety Alert.</LineEntry>
           <LineEntry ID="e405018f-ed97-43ca-a5fd-311387374ab0" r="224" g="0" b="0" codes="GUID:e405018f-ed97-43ca-a5fd-311387374ab0">${t:3.31}Please listen carefully over the given message.</LineEntry>
           <LineEntry ID="3f370cfc-bd38-473f-a5a1-0bb6974ee958" r="224" g="0" b="0" codes="GUID:3f370cfc-bd38-473f-a5a1-0bb6974ee958">${t:2.04}[img=music]</LineEntry>
@@ -491,7 +491,7 @@
           <LineEntry ID="f1c03f74-a2ce-4dc3-956d-8b2175b58038" r="224" g="0" b="0" codes="GUID:f1c03f74-a2ce-4dc3-956d-8b2175b58038">${t:6.02}We entrust your participation to ensure safety for the Knox County area.</LineEntry>
         </BroadcastEntry>
 
-        <BroadcastEntry ID="c88340db-0ec3-4502-8190-f1bb14ffef6e" timestamp="4320" endstamp="4800" type="ActivateBroadcast" day="3" advertCat="none" isSegment="true">
+        <BroadcastEntry ID="c88340db-0ec3-4502-8190-f1bb14ffef6e" timestamp="4320" endstamp="4800" type="ActivateBroadcast" day="3" advertCat="none" isSegment="false">
           <LineEntry ID="9589fd3d-5b52-4102-9df1-14e34d8d1271" r="224" g="0" b="0" codes="GUID:9589fd3d-5b52-4102-9df1-14e34d8d1271">${t:4.07}This station participates in the activation of the Public Safety Alert.</LineEntry>
           <LineEntry ID="e405018f-ed97-43ca-a5fd-311387374ab0" r="224" g="0" b="0" codes="GUID:e405018f-ed97-43ca-a5fd-311387374ab0">${t:3.31}Please listen carefully over the given message.</LineEntry>
           <LineEntry ID="3f370cfc-bd38-473f-a5a1-0bb6974ee958" r="224" g="0" b="0" codes="GUID:3f370cfc-bd38-473f-a5a1-0bb6974ee958">${t:2.04}[img=music]</LineEntry>
@@ -504,7 +504,7 @@
           <LineEntry ID="f1c03f74-a2ce-4dc3-956d-8b2175b58038" r="224" g="0" b="0" codes="GUID:f1c03f74-a2ce-4dc3-956d-8b2175b58038">${t:6.02}We entrust your participation to ensure safety for the Knox County area.</LineEntry>
         </BroadcastEntry>
 
-        <BroadcastEntry ID="ad25ac20-8bd8-4718-af3e-33e9e124b719" timestamp="4800" endstamp="5160" type="ActivateBroadcast" day="3" advertCat="none" isSegment="true">
+        <BroadcastEntry ID="ad25ac20-8bd8-4718-af3e-33e9e124b719" timestamp="4800" endstamp="5160" type="ActivateBroadcast" day="3" advertCat="none" isSegment="false">
           <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
           <LineEntry ID="0b2738e6-c92b-41e8-a1fe-dee4bd1c0768" r="40" g="180" b="255" codes="GUID:0b2738e6-c92b-41e8-a1fe-dee4bd1c0768">${t:2.05}We bring our report for today's morning,</LineEntry>
           <LineEntry ID="1d6d98b2-e5e3-49d5-9e1f-e5efa5e230a2" r="40" g="180" b="255" codes="GUID:1d6d98b2-e5e3-49d5-9e1f-e5efa5e230a2">${t:4.81}citizens were horrified over the eerie broadcast sent out by the PD last night,</LineEntry>
@@ -518,7 +518,7 @@
           <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
         </BroadcastEntry>
 
-        <BroadcastEntry ID="700206dc-5080-4097-b3eb-3fd17d762753" timestamp="5160" endstamp="5520" type="ActivateBroadcast" day="3" advertCat="none" isSegment="true">
+        <BroadcastEntry ID="700206dc-5080-4097-b3eb-3fd17d762753" timestamp="5160" endstamp="5520" type="ActivateBroadcast" day="3" advertCat="none" isSegment="false">
           <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
           <LineEntry ID="a2dfed6e-b63f-4d6c-8b97-f4886372ca26" r="40" g="180" b="255" codes="GUID:a2dfed6e-b63f-4d6c-8b97-f4886372ca26">${t:1.84}Today's out of the ordinary compared to the first day,</LineEntry> 
           <LineEntry ID="1631949c-f9fd-4109-8d30-e9596d12915d" r="40" g="180" b="255" codes="GUID:1631949c-f9fd-4109-8d30-e9596d12915d">${t:4.72}the atmosphere outside is nothing but tension and fear.</LineEntry> 
@@ -528,7 +528,7 @@
           <LineEntry ID="402f7f6d-7db3-42f4-a1da-492cf4a5b576" r="255" g="0" b="255" codes="GUID:402f7f6d-7db3-42f4-a1da-492cf4a5b576">${t:4.31}[img=music]</LineEntry>
         </BroadcastEntry>
 
-        <BroadcastEntry ID="7ed1ec56-c7e9-48a4-977f-94fdbcee671e" timestamp="5520" endstamp="5760" type="ActivateBroadcast" day="3" advertCat="none" isSegment="true">
+        <BroadcastEntry ID="7ed1ec56-c7e9-48a4-977f-94fdbcee671e" timestamp="5520" endstamp="5760" type="ActivateBroadcast" day="3" advertCat="none" isSegment="false">
           <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
           <LineEntry ID="2475a0b4-d33f-4dd4-af06-b1a5126c4b9e" r="40" g="180" b="255" codes="GUID:2475a0b4-d33f-4dd4-af06-b1a5126c4b9e">${t:2.94}We're staying in our news van, but with our naked eyes</LineEntry>
           <LineEntry ID="1d1bb224-7035-48e7-a267-b4e3e09a1473" r="40" g="180" b="255" codes="GUID:1d1bb224-7035-48e7-a267-b4e3e09a1473">${t:3.82}we have seen groups of sick people attempting to assault a pedestrian orally.</LineEntry>
@@ -538,7 +538,7 @@
 
         <BroadcastEntry ID="d05ba67e-989c-4cda-bafc-6a0782720d71" timestamp="5760" endstamp="6060" type="ActivateBroadcast" day="4" advertCat="none" isSegment="false" />
 
-        <BroadcastEntry ID="a902f9ca-ce7b-4a57-a868-8585c4397af6" timestamp="6060" endstamp="7200" type="ActivateBroadcast" day="4" advertCat="none" isSegment="true">
+        <BroadcastEntry ID="a902f9ca-ce7b-4a57-a868-8585c4397af6" timestamp="6060" endstamp="7200" type="ActivateBroadcast" day="4" advertCat="none" isSegment="false">
           <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
           <LineEntry ID="be1e3084-f570-44e4-999b-75bde3e8f7fb" r="40" g="180" b="255" codes="GUID:be1e3084-f570-44e4-999b-75bde3e8f7fb">${t:4.52}We're back once again to bring you to the latest developing situation in Knox County,</LineEntry>
           <LineEntry ID="c5c83085-e3b2-4a72-bacf-591c0c85c26a" r="40" g="180" b="255" codes="GUID:c5c83085-e3b2-4a72-bacf-591c0c85c26a">${t:6.39}chaos and violence ensues as those who were previously sick with this unknown disease are starting to turn on people,</LineEntry>

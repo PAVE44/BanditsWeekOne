@@ -49,8 +49,11 @@ function BWOEventsPlace.ArmyGuards(x, y, z)
     event.bandits = {}
     
     local bandit = BanditCreator.MakeFromWave(config)
-    bandit.hairStyles = {"Bald", "Fresh", "Demi", "FlatTop", "MohawkShort"}
+    bandit.hairStyle = BanditUtils.Choice({"Bald", "Fresh", "Demi", "FlatTop", "MohawkShort"})
     bandit.accuracyBoost = 1.6
+    bandit.femaleChance = 0
+    bandit.health = 6
+    bandit.outfit = "ZSArmySpecialOps"
     bandit.weapons.melee = "Base.HuntingKnife"
 
     local intensity = 4

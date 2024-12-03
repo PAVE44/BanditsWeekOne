@@ -204,12 +204,16 @@ ZombiePrograms.Walker.Main = function(bandit)
     end
 
     -- interact with players and other npcs
-    local subTasks = BanditPrograms.Talk(bandit)
-    if #subTasks > 0 then
-        for _, subTask in pairs(subTasks) do
-            table.insert(tasks, subTask)
+    -- dont do it on the street tho
+    local groundType = BanditUtils.GetGroundType(bandit:getSquare())
+    if groundType ~= "street" then
+        local subTasks = BanditPrograms.Talk(bandit)
+        if #subTasks > 0 then
+            for _, subTask in pairs(subTasks) do
+                table.insert(tasks, subTask)
+            end
+            return {status=true, next="Main", tasks=tasks}
         end
-        return {status=true, next="Main", tasks=tasks}
     end
 
      -- most pedestrian will follow the street / road, some will just "gosomwhere" for variability

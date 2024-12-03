@@ -7,18 +7,26 @@ end
 
 ZombieActions.Heal.onWorking = function(zombie, task)
     zombie:faceLocationF(task.x, task.y)
-    if task.time <= 0 then
-        return true
-    else
-        local bumpType = zombie:getBumpType()
-        if bumpType ~= task.anim then 
-            -- zombie:playSound("Smoke")
-            zombie:setBumpType(task.anim)
-            if not zombie:getEmitter():isPlaying("ZSDefib") then
-                zombie:playSound("ZSDefib")
-            end
+    if not task.stage then task.stage = 1 end
+    
+    if not zombie:isBumped() then
+        if task.stage == 1 then
+            zombie:setBumpType("CPRStart")
+        elseif task.stage < 20 then
+            zombie:setBumpType("CPRLoop")
+            zombie:addLineChatElement(tostring(task.stage - 1), 0, 1, 0)
+        else
+            zombie:setBumpType("CPREnd")
         end
+
+        task.stage = task.stage + 1
+        Bandit.UpdateTask(zombie, task)
     end
+
+    if task.stage == 20 then
+        return true
+    end
+
     return false
 end
 
@@ -27,18 +35,15 @@ ZombieActions.Heal.onComplete = function(zombie, task)
     if square then
         local corpse = square:getDeadBody()
         if corpse then
-            local result = ZombRand(2)
-            if result == 0 then
-                Bandit.Say(zombie, "CPRFAILED")
-                -- corpse:reanimateNow()
-                -- square:removeCorpse(corpse, true)
-                -- square:AddWorldInventoryItem(corpse:getItem(), 0.5, 0.5, 0)
-                -- ISInventoryPage.dirtyUI()
-                
-                -- unregister dead body
-                local args = {x=corpse:getX(), y=corpse:getY(), z=corpse:getZ()}
-                sendClientCommand(getPlayer(), 'Commands', 'DeadBodyRemove', args)
-            end
+            Bandit.Say(zombie, "CPRFAILED")
+            -- corpse:reanimateNow()
+            -- square:removeCorpse(corpse, true)
+            -- square:AddWorldInventoryItem(corpse:getItem(), 0.5, 0.5, 0)
+            -- ISInventoryPage.dirtyUI()
+            
+            -- unregister dead body
+            local args = {x=corpse:getX(), y=corpse:getY(), z=corpse:getZ()}
+            sendClientCommand(getPlayer(), 'Commands', 'DeadBodyRemove', args)
         end
     end
     return true

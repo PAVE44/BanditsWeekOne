@@ -1,9 +1,68 @@
 BWOObjects = BWOObjects or {}
 
+local function predicateAll(item)
+    -- item:getType()
+    return true
+end
+
+
 -- this is a collection of functions resonsible for finding a particular map object that is required
 -- by various npc programs
 
 BWOObjects.Find = function (bandit, def, objName)
+    local cell = getCell()
+    local bid = BanditUtils.GetCharacterID(bandit)
+    local bx = bandit:getX()
+    local by = bandit:getY()
+    local bz = bandit:getZ()
+    local foundDist = math.huge
+    local foundObj
+    for x=def:getX(), def:getX2() do
+        for y=def:getY(), def:getY2() do
+            local square = cell:getGridSquare(x, y, def:getZ())
+            if square then
+                local zombie = square:getZombie()
+                
+                -- skip objects that are already occupied by other char
+                local taken = false
+                local chrs = square:getMovingObjects()
+                for i=0, chrs:size()-1 do
+                    local chr = chrs:get(i)
+                    if instanceof(chr, "IsoZombie") and BanditUtils.GetCharacterID(chr) == bid then
+                        taken = false
+                    else
+                        taken = true
+                        break
+                    end
+                end
+
+                if not taken then
+                    local objects = square:getObjects()
+                    for i=0, objects:size()-1 do
+                        local object = objects:get(i)
+                        local sprite = object:getSprite()
+                        if sprite then
+                            local props = sprite:getProperties()
+                            if props:Is("CustomName") then
+                                local name = props:Val("CustomName")
+                                if name == objName then
+                                    local dist = math.sqrt(math.pow(x - bx, 2) + math.pow(y - by, 2))
+                                    if dist < foundDist then
+                                        foundObj = object
+                                        foundDist = dist
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    return foundObj
+end
+
+BWOObjects.FindFull = function (bandit, def, objName)
     local cell = getCell()
     local bid = BanditUtils.GetCharacterID(bandit)
     local bx = bandit:getX()
@@ -26,10 +85,13 @@ BWOObjects.Find = function (bandit, def, objName)
                             if props:Is("CustomName") then
                                 local name = props:Val("CustomName")
                                 if name == objName then
-                                    local dist = math.sqrt(math.pow(x - bx, 2) + math.pow(y - by, 2))
-                                    if dist < foundDist then
-                                        foundObj = object
-                                        foundDist = dist
+                                    local container = object:getContainer()
+                                    if container and not container:isEmpty() then
+                                        local dist = math.sqrt(math.pow(x - bx, 2) + math.pow(y - by, 2))
+                                        if dist < foundDist then
+                                            foundObj = object
+                                            foundDist = dist
+                                        end
                                     end
                                 end
                             end

@@ -86,9 +86,10 @@ function BWOScheduler.MasterControl()
         BWOPopControl.ZombieMax = 0
 
         if worldAge == 0  then
-            if minute == 1 or minute == 4 then
+            if minute == 1 then
                 params.icon = true
                 BWOScheduler.Add("RegisterBase", params, 100)
+                BWOScheduler.Add("GetStartInventory", params, 120)
             elseif minute == 2 then 
                 BWOScheduler.Add("FixVehicles", params, 100)
             end

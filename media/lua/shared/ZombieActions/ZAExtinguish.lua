@@ -74,7 +74,7 @@ ZombieActions.Extinguish.onWorking = function(zombie, task)
 end
 
 ZombieActions.Extinguish.onComplete = function(zombie, task)
-    if ZombRand(3) == 0 then
+    if ZombRand(2) == 0 then
         local cell = getCell()
         local square = cell:getGridSquare(task.x, task.y, task.z)
         if square then

@@ -5,10 +5,9 @@ ZombieActions.SitInChair.onStart = function(zombie, task)
     local anim = "SitInChair1"
     local aox = 0
     local aoy = 0
-    local r = ZombRand(3)
+    local r = ZombRand(4)
     
-    local fakeItem = InventoryItemFactory.CreateItem("Bandits.BeerBottle")
-    zombie:setSecondaryHandItem(fakeItem)
+    local fakeItem
 
     if r == 1 then
         anim = "SitInChair2"
@@ -18,6 +17,16 @@ ZombieActions.SitInChair.onStart = function(zombie, task)
         anim = "SitInChairDrink"
         aox = 0.5
         aoy = 0.5
+        fakeItem = InventoryItemFactory.CreateItem("Bandits.BeerBottle")
+    elseif r == 3 then
+        anim = "SitInChairEat"
+        aox = 0.5
+        aoy = 0.5
+        fakeItem = InventoryItemFactory.CreateItem("Base.Fork")
+    end
+
+    if fakeItem then
+        zombie:setPrimaryHandItem(fakeItem)
     end
 
     task.anim = anim
@@ -74,6 +83,6 @@ ZombieActions.SitInChair.onWorking = function(zombie, task)
 end
 
 ZombieActions.SitInChair.onComplete = function(zombie, task)
-    zombie:setSecondaryHandItem(nil)
+    zombie:setPrimaryHandItem(nil)
     return true
 end

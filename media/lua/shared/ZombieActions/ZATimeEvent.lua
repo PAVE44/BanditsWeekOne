@@ -4,7 +4,7 @@ ZombieActions.TimeEvent = {}
 ZombieActions.TimeEvent.onStart = function(zombie, task)
     local gmd = GetBWOModData()
     if task.event then
-        local args = {x=math.floor(task.x), y=math.floor(task.y), z=task.z, otype=task.event}
+        local args = {x=math.floor(task.x), y=math.floor(task.y), z=task.z, otype=task.event, ttl=BanditUtils.GetTime()+100000}
         sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
     end
 

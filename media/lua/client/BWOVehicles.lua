@@ -244,28 +244,28 @@ end
 
 local dirMap = {}
 dirMap.N = {}
-for y=-10, -5 do
+for y=-12, -4 do
     for x=-1, 1 do
         table.insert(dirMap.N, {x=x, y=y})
     end
 end
 
 dirMap.S = {}
-for y=5, 10 do
+for y=4, 12 do
     for x=-1, 1 do
         table.insert(dirMap.S, {x=x, y=y})
     end
 end
 
 dirMap.W = {}
-for x=-10, -5 do
+for x=-20, -4 do
     for y=-1, -1 do
         table.insert(dirMap.W, {x=x, y=y})
     end
 end
 
 dirMap.E = {}
-for x=5, 10 do
+for x=4, 12 do
     for y=-1, 1 do
         table.insert(dirMap.E, {x=x, y=y})
     end
@@ -308,11 +308,10 @@ local ManageVehicles = function(ticks)
     local vehicleList = BWOVehicles.tab
     for id, vehicle in pairs(vehicleList) do
         local square = vehicle:getSquare()
-        local chunk = vehicle:getChunk()
-        local test = chunk.bLoaded
-        local cell = square:getCell()
-        if square and chunk and cell then
-            
+        if square then
+
+            local chunk = vehicle:getChunk()
+            local cell = square:getCell()
             local vx = vehicle:getX()
             local vy = vehicle:getY()
             local driver = vehicle:getDriver()
@@ -398,8 +397,12 @@ local ManageVehicles = function(ticks)
                 local forwardVector = Vector3f.new(vx, vy, 0)
                 
                 if vehicle:getChunk() then
+                    --vehicle:enter(0, driver)
+
+                    vehicle:setPassenger(0, driver, forwardVector)
                     driver:setVehicle(vehicle)
                     driver:setCollidable(false)
+
                     -- driver:enterVehicle(vehicle, 0, forwardVector)
                 end
 

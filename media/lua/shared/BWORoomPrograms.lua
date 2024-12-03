@@ -1,5 +1,10 @@
 BWORoomPrograms = BWORoomPrograms or {}
 
+local function predicateAll(item)
+    -- item:getType()
+    return true
+end
+
 -- this is a collection of subprograms that crerates tasks for npcs based on the room they are currently in.
 
 BWORoomPrograms.livingroom = function(bandit, def)
@@ -13,15 +18,12 @@ BWORoomPrograms.livingroom = function(bandit, def)
     if piano and stool then
         if true then -- (hour > 5 and hour < 23) then
             local square = stool:getSquare()
-            local zombie = square:getZombie()
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
                 local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
                 if dist > 1.20 then
-                    if not zombie then
-                        table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
-                        return tasks
-                    end
+                    table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
+                    return tasks
                 else
                     local anim = "InstrumentPiano"
                     local sound = "BWOInstrumentPiano1"
@@ -561,24 +563,46 @@ BWORoomPrograms.zippeestore = function(bandit, def)
         return tasks
 
     else
-        local rack = BWOObjects.Find(bandit, def, "Rack")
+        local rack = BWOObjects.FindFull(bandit, def, "Rack")
 
         if not rack then
-            rack = BWOObjects.Find(bandit, def, "Shelves")
+            rack = BWOObjects.FindFull(bandit, def, "Shelves")
+        end
+
+        if not rack then
+            rack = BWOObjects.FindFull(bandit, def, "Bar")
+        end
+
+        if not rack then
+            rack = BWOObjects.FindFull(bandit, def, "Fridge")
         end
 
         if rack then
-            local square = rack:getSquare()
-            local asquare = AdjacentFreeTileFinder.Find(square, bandit)
-            if asquare then
-                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
-                if dist > 0.70 then
-                    table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
-                    return tasks
-                else
-                    local task = {action="FaceLocation", anim="Loot", sound="TIsnd_TakingM", x=square:getX(), y=square:getY(), z=square:getZ(), time=200}
-                    table.insert(tasks, task)
-                    return tasks
+
+            local items = ArrayList.new()
+            local container = rack:getContainer()
+            container:getAllEvalRecurse(predicateAll, items)
+        
+            -- analyze container contents
+            for i=0, items:size()-1 do
+                local item = items:get(i)
+            end
+
+            if items:size() > 0 then
+                local item = items:get(0)
+                local itemType = item:getFullType()
+                local square = rack:getSquare()
+                local asquare = AdjacentFreeTileFinder.Find(square, bandit)
+                if asquare then
+                    local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
+                    if dist > 0.70 then
+                        table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
+                        return tasks
+                    else
+                        local task = {action="TakeFromContainer", anim="Loot", sound="TIsnd_TakingM", itemType=itemType, x=square:getX(), y=square:getY(), z=square:getZ(), time=100}
+                        table.insert(tasks, task)
+                        return tasks
+                    end
                 end
             end
         end
@@ -823,7 +847,7 @@ BWORoomPrograms.restaurant = function(bandit, def)
                     return tasks
                 else
                     local facing = sittable:getSprite():getProperties():Val("Facing")
-                    local anim = BanditUtils.Choice({"SitInChair", "SitInChairDrink"})
+                    local anim = BanditUtils.Choice({"SitInChairEat", "SitInChairEat", "SitInChairEat"})
                     local task = {action="SitInChair", anim=anim, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=100}
                     table.insert(tasks, task)
                     return tasks
