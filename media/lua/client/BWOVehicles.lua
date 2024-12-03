@@ -13,6 +13,8 @@ BWOVehicles.VehicleSpawn = function(x, y, dir, btype)
 
         if not square:isFree(false) then return end
 
+        if square:isVehicleIntersecting() then return end
+
         local vehicle = addVehicleDebug(btype, dir, nil, square)
         if vehicle then
             for i = 0, vehicle:getPartCount() - 1 do
@@ -242,28 +244,28 @@ end
 
 local dirMap = {}
 dirMap.N = {}
-for y=-8, -5 do
+for y=-10, -5 do
     for x=-1, 1 do
         table.insert(dirMap.N, {x=x, y=y})
     end
 end
 
 dirMap.S = {}
-for y=5, 8 do
+for y=5, 10 do
     for x=-1, 1 do
         table.insert(dirMap.S, {x=x, y=y})
     end
 end
 
 dirMap.W = {}
-for x=-8, -5 do
+for x=-10, -5 do
     for y=-1, -1 do
         table.insert(dirMap.W, {x=x, y=y})
     end
 end
 
 dirMap.E = {}
-for x=5, 8 do
+for x=5, 10 do
     for y=-1, 1 do
         table.insert(dirMap.E, {x=x, y=y})
     end
@@ -396,7 +398,9 @@ local ManageVehicles = function(ticks)
                 local forwardVector = Vector3f.new(vx, vy, 0)
                 
                 if vehicle:getChunk() then
-                    driver:enterVehicle(vehicle, 0, forwardVector)
+                    driver:setVehicle(vehicle)
+                    driver:setCollidable(false)
+                    -- driver:enterVehicle(vehicle, 0, forwardVector)
                 end
 
                 --vehicle:setAngles(-180, 0, 180)
