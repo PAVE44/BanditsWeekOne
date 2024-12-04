@@ -257,6 +257,17 @@ BWOEvents.CallCops = function(params)
     vparams.lightbar = true
     BWOScheduler.Add("VehiclesUpdate", vparams, 500)
 
+    if SandboxVars.Bandits.General_ArrivalIcon then
+        local icon = "media/ui/sheriff.png"
+        local color
+        if event.hostile then
+            color = {r=1, g=0, b=0} -- red
+        else
+            color = {r=0, g=1, b=0} -- green
+        end
+        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, params.x, params.y, color)
+    end
+
     BWOPopControl.Police.Cooldown = 100
 end
 
@@ -514,8 +525,8 @@ BWOEvents.Arson = function(params)
                 BWOScheduler.Add("VehiclesUpdate", vparams, 500)
 
                 if SandboxVars.Bandits.General_ArrivalIcon then
-                    local icon = "media/ui/loot.png"
-                    local color = {r=1, g=0.5, b=0} -- orange
+                    local icon = "media/ui/arson.png"
+                    local color = {r=1, g=0, b=0} -- red
                     BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, square:getX(), square:getY(), color)
                 end
             end
@@ -526,6 +537,12 @@ end
 BWOEvents.Protest = function(params)
     local args = {x=params.x, y=params.y, z=params.z, otype="protest"}
     sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
+
+    if SandboxVars.Bandits.General_ArrivalIcon then
+        local icon = "media/ui/protests.png"
+        local color = {r=0, g=1, b=0} -- red
+        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, params.x, params.y, color)
+    end
 end
 
 BWOEvents.RegisterBase = function(params)
