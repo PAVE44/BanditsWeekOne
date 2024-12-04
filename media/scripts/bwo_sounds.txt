@@ -72,12 +72,12 @@ module Bandits{
         } 
     }
 
-    sound BWOChopperDisperce {
+    sound BWOChopperDisperse {
         category = Object, 
         loop = false,
         is3D = true,
         clip { 
-            file = media/sound/chopper_disperse.wav, 
+            file = media/sound/chopper_disperse.ogg, 
             distanceMax = 100,
             reverbFactor = 0.1, 
             volume = 0.5, 
@@ -598,6 +598,276 @@ module Bandits{
             distanceMax = 13,
             reverbFactor = 0.1, 
             volume = 0.6, 
+        } 
+    }
+
+    sound BWOTruthMale1 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_male_1.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthMale2 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_male_2.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthMale3 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_male_3.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthMale4 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_male_4.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthMale5 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_male_5.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthMale6 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_male_6.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthMale7 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_male_7.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthMale8 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_male_8.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthMale9 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_male_9.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthMale10 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_male_10.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthMale11 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_male_11.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthMale12 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_male_12.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthMale13 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_male_13.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthMale14 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_male_14.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthMale15 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_male_15.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthMale16 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_male_16.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthMale17 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_male_17.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthMale18 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_male_18.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthFemale1 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_female_1.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthFemale2 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_female_2.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthFemale3 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_female_3.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthFemale4 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_female_4.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthFemale5 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_female_5.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthFemale6 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_female_6.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthFemale7 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_female_7.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthFemale8 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_female_8.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+        } 
+    }
+
+    sound BWOTruthFemale9 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/truth_female_9.ogg,
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
         } 
     }
 

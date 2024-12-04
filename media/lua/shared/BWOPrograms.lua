@@ -179,6 +179,16 @@ BanditPrograms.Events = function(bandit)
                 else
                     anim = "Clap"
                 end
+                
+                if ZombRand(3) == 0 then
+                    if bandit:isFemale() then
+                        local rn = 1 + ZombRand(9)
+                        sound = "BWOTruthFemale" .. tostring(rn)
+                    else
+                        local rn = 1 + ZombRand(18)
+                        sound = "BWOTruthMale" .. tostring(rn)
+                    end
+                end
 
                 local task = {action="TimeItem", sound=sound, soundDistMax=12, anim=anim, item=item, x=target.x, y=target.y, z=target.z, time=200}
                 table.insert(tasks, task)

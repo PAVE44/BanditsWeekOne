@@ -211,7 +211,7 @@ function BWOScheduler.MasterControl()
             BWOPopControl.StreetsNominal = 60
             BWOPopControl.InhabitantsNominal = 30
             if minute == 9 then
-                params.sound = "BWOChopper"
+                params.sound = "BWOChopperDisperse"
                 BWOScheduler.Add("ChopperAlert", params, 100)
             end
         elseif worldAge == 52 then
@@ -244,6 +244,8 @@ function BWOScheduler.MasterControl()
                 params.intensity = 2
                 BWOScheduler.Add("Criminals", params, 100)
             end
+        elseif worldAge == 56 then
+            BWOPopControl.ZombieMax = 2
         elseif worldAge == 58 then
             BWOPopControl.ZombieMax = 1
             if minute == 33 then
