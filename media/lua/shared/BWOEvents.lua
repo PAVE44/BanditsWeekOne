@@ -469,10 +469,9 @@ BWOEvents.Siren = function(params)
 end
 
 BWOEvents.ChopperAlert = function(params)
-    --getCell():getGridSquare(player:getX()-10, player:getY()-10, 0):playSound("DOChopper")
     BanditPlayer.WakeEveryone()
     local emitter = getWorld():getFreeEmitter(params.x, params.y, 0)
-    emitter:playAmbientSound("DOChopper")
+    emitter:playAmbientSound(params.sound)
     emitter:setVolumeAll(0.9)
     addSound(getPlayer(), params.x, params.y, params.z, 150, 100)
 end

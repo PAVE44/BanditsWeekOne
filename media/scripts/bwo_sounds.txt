@@ -60,12 +60,24 @@ module Bandits{
         } 
     }
 
-    sound DOChopper {
+    sound BWOChopper {
         category = Object, 
         loop = false,
         is3D = true,
         clip { 
             file = media/sound/day_one_chopper.wav, 
+            distanceMax = 100,
+            reverbFactor = 0.1, 
+            volume = 0.5, 
+        } 
+    }
+
+    sound BWOChopperDisperce {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/chopper_disperse.wav, 
             distanceMax = 100,
             reverbFactor = 0.1, 
             volume = 0.5, 
