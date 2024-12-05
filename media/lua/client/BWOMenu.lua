@@ -187,6 +187,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
     local player = getPlayer()
     local square = clickedSquare
 
+    --[[
     BWOVehicles.FindSpawnPoint(player)
     local vehicle = square:getVehicleContainer()
     if vehicle then
@@ -195,9 +196,16 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         -- EAST x: -125 y: 90 z: 125
         -- WEST x: -125, y: -90, z: -125
         print ("X:" .. vehicle:getAngleX() .. " Y: ".. vehicle:getAngleY() .. " Z: " .. vehicle:getAngleZ())
-        
-        vehicle:setAngles(-125, 90, 125)
-    end
+        local radioPart = vehicle:getPartById("Radio")
+        if radioPart then
+            local dd = radioPart:getDeviceData()
+            if dd then
+                dd:setIsTurnedOn(true)
+                dd:setChannel(98400)
+                dd:setDeviceVolume(1)
+            end
+        end
+    end]]
 
     local player = getSpecificPlayer(playerID)
     print (player:getDescriptor():getProfession())

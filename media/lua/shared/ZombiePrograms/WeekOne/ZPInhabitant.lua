@@ -238,20 +238,17 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
         if door then
 
             local unlock
-            if BWOPopControl.ZombieMax > 0 then
-                unlock = false
-            else
-                local buildingType = BWOBuildings.GetType(building)
-                local hours = BWOBuildings.OpenHours[buildingType]
-            
-                if door:IsOpen() or not door:isLockedByKey() then
-                    if hour < hours.open or hour >= hours.close then
-                        unlock = false -- lock doors
-                    end
-                elseif door:isLockedByKey() or door:isLocked() then
-                    if (hour >= hours.open and hour < hours.close) or partyOn then
-                        unlock = true -- unlock doors
-                    end
+
+            local buildingType = BWOBuildings.GetType(building)
+            local hours = BWOBuildings.OpenHours[buildingType]
+        
+            if door:IsOpen() or not door:isLockedByKey() then
+                if hour < hours.open or hour >= hours.close or BWOPopControl.ZombieMax > 0 then
+                    unlock = false -- lock doors
+                end
+            elseif door:isLockedByKey() or door:isLocked() then
+                if (hour >= hours.open and hour < hours.close) or partyOn then
+                    unlock = true -- unlock doors
                 end
             end
 

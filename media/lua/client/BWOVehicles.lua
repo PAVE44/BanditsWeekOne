@@ -340,9 +340,11 @@ local ManageVehicles = function(ticks)
                             local asquare = cell:getGridSquare(vx + vec.x, vy + vec.y, 0)
                             if asquare then
                                 local shouldStop = false
+                                local shouldAbandon = false
 
-                                if not asquare:isFree(false) or asquare:getVehicleContainer() then
+                                if not asquare:isFree(false) or asquare:isVehicleIntersecting() then
                                     shouldStop = true
+                                    -- shouldAbandon = true
                                 elseif asquare:getZombie() or asquare:getPlayer() then
                                     local emitter = vehicle:getEmitter()
                                     if not emitter:isPlaying("VehicleHornStandard") then
@@ -357,6 +359,57 @@ local ManageVehicles = function(ticks)
                                     -- vehicle:setForceBrake()
                                     vehicle:setRegulatorSpeed(0)
                                     vehicle:setRegulator(false)
+
+                                    if shouldAbandon and vehicle:isStopped() then
+
+                                        BWOVehicles.tab[id] = nil
+
+                                        local emitter = vehicle:getEmitter()
+                                        if emitter:isPlaying("VehicleHornStandard") then
+                                            emitter:stopSoundByName("VehicleHornStandard")
+                                        end
+
+                                        vehicle:shutOff()
+                                        vehicle:setHeadlightsOn(false)
+                                        vehicle:playPassengerSound(0, "exit")
+
+                                        -- vehicle:setPassenger(0, nil)
+                                        local seat = vehicle:getSeat(driver)
+                                        vehicle:clearPassenger(seat)
+                                        driver:setVehicle(nil)
+                                        driver:setCollidable(true)
+
+                                        driver:removeFromSquare()
+                                        driver:removeFromWorld()
+
+                                        local doorPart = vehicle:getPartById("DoorFrontLeft")
+                                        local exitSquare = doorPart:getSquare()
+                                        
+                                        config = {}
+                                        config.clanId = 0
+                                        config.hasRifleChance = 0
+                                        config.hasPistolChance = 3
+                                        config.rifleMagCount = 0
+                                        config.pistolMagCount = 1
+
+                                        local event = {}
+                                        event.hostile = false
+                                        event.occured = false
+                                        event.program = {}
+                                        event.program.name = "Walker"
+                                        event.program.stage = "Prepare"
+                                        event.x = square:getX()
+                                        event.y = square:getY()
+                                        event.bandits = {}
+
+                                        local bandit = BanditCreator.MakeFromWave(config)
+                                        bandit.weapons.melee = "Base.BareHands"
+                                        table.insert(event.bandits, bandit)
+                                        sendClientCommand(player, 'Commands', 'SpawnGroup', event)
+
+                                        
+
+                                    end
                                     return
                                 end
                             end
@@ -410,6 +463,16 @@ local ManageVehicles = function(ticks)
                 vehicle:tryStartEngine(true)
                 vehicle:engineDoStartingSuccess()
                 vehicle:engineDoRunning()
+
+                local radioPart = vehicle:getPartById("Radio")
+                if radioPart then
+                    local dd = radioPart:getDeviceData()
+                    if dd then
+                        dd:setIsTurnedOn(true)
+                        dd:setChannel(98400)
+                        dd:setDeviceVolume(0.8)
+                    end
+                end
             end
         end
     end
