@@ -97,9 +97,45 @@ BWORoomPrograms.livingroom = function(bandit, def)
                 table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                 return tasks
             else
+                local anim
+                local sound
+                local item
+                local smoke = false
+                local time = 200
+                local right = false
+                local left = false
+                local r = ZombRand(7)
+                if r == 0 then
+                    anim = "SitInChair1"
+                elseif r == 1 then
+                    anim = "SitInChair2"
+                elseif r == 2 then
+                    anim = "SitInChairTalk"
+                elseif r == 3 then
+                    anim = "SitInChairDrink"
+                    item = "Bandits.BeerBottle"
+                    sound = "DrinkingFromBottle"
+                    right = true
+                elseif r == 4 then
+                    anim = "SitInChairEat"
+                    item = "Base.Fork"
+                    right = true
+                elseif r == 5 then
+                    anim = "SitInChairSmoke"
+                    sound = "Smoke"
+                    smoke = true
+                    time = 400
+                elseif r == 6 then
+                    anim = "SitInChairRead"
+                    sound = "PageFlipBook"
+                    item = "Bandits.Book"
+                    left = true
+                    time = 600
+                end
+
                 local facing = sittable:getSprite():getProperties():Val("Facing")
-                local anim = BanditUtils.Choice({"SitInChair", "SitInChairDrink"})
-                local task = {action="SitInChair", anim=anim, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=100}
+
+                local task = {action="SitInChair", anim=anim, sound=sound, item=item, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=200}
                 table.insert(tasks, task)
                 return tasks
             end
@@ -420,9 +456,22 @@ BWORoomPrograms.church = function(bandit, def)
                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                     return tasks
                 else
+                    local anim
+                    local sound
+                    local item
+                    local time = 200
+                    local right = false
+                    local left = false
+                    local r = ZombRand(2)
+                    if r == 0 then
+                        anim = "SitInChair1"
+                    elseif r == 1 then
+                        anim = "SitInChair2"
+                    end
+    
                     local facing = sittable:getSprite():getProperties():Val("Facing")
-                    local anim = BanditUtils.Choice({"SitInChair"})
-                    local task = {action="SitInChair", anim=anim, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=100}
+    
+                    local task = {action="SitInChair", anim=anim, sound=sound, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=200}
                     table.insert(tasks, task)
                     return tasks
                 end
@@ -452,9 +501,31 @@ BWORoomPrograms.office = function(bandit, def)
                 table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                 return tasks
             else
+                local anim
+                local sound
+                local item
+                local smoke = false
+                local time = 200
+                local right = false
+                local left = false
+                local r = ZombRand(4)
+                if r == 0 then
+                    anim = "SitInChair1"
+                elseif r == 1 then
+                    anim = "SitInChair2"
+                elseif r == 2 then
+                    anim = "SitInChairTalk"
+                elseif r == 3 then
+                    anim = "SitInChairRead"
+                    sound = "PageFlipBook"
+                    item = "Bandits.Book"
+                    left = true
+                    time = 600
+                end
+
                 local facing = sittable:getSprite():getProperties():Val("Facing")
-                local anim = BanditUtils.Choice({"SitInChair", "SitInChairDrink"})
-                local task = {action="SitInChair", anim=anim, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=100}
+
+                local task = {action="SitInChair", anim=anim, sound=sound, item=item, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=200}
                 table.insert(tasks, task)
                 return tasks
             end
@@ -647,9 +718,31 @@ BWORoomPrograms.medical = function(bandit, def)
                 table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                 return tasks
             else
+                local anim
+                local sound
+                local item
+                local smoke = false
+                local time = 200
+                local right = false
+                local left = false
+                local r = ZombRand(4)
+                if r == 0 then
+                    anim = "SitInChair1"
+                elseif r == 1 then
+                    anim = "SitInChair2"
+                elseif r == 2 then
+                    anim = "SitInChairTalk"
+                elseif r == 3 then
+                    anim = "SitInChairRead"
+                    sound = "PageFlipBook"
+                    item = "Bandits.Book"
+                    left = true
+                    time = 600
+                end
+
                 local facing = sittable:getSprite():getProperties():Val("Facing")
-                local anim = BanditUtils.Choice({"SitInChair", "SitInChairDrink"})
-                local task = {action="SitInChair", anim=anim, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=100}
+
+                local task = {action="SitInChair", anim=anim, sound=sound, item=item, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=200}
                 table.insert(tasks, task)
                 return tasks
             end
@@ -846,9 +939,39 @@ BWORoomPrograms.restaurant = function(bandit, def)
                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                     return tasks
                 else
+                    local anim
+                    local sound
+                    local item
+                    local smoke = false
+                    local time = 200
+                    local right = false
+                    local left = false
+                    local r = ZombRand(6)
+                    if r == 0 then
+                        anim = "SitInChair1"
+                    elseif r == 1 then
+                        anim = "SitInChair2"
+                    elseif r == 2 then
+                        anim = "SitInChairTalk"
+                    elseif r == 3 then
+                        anim = "SitInChairDrink"
+                        item = "Bandits.BeerBottle"
+                        sound = "DrinkingFromBottle"
+                        right = true
+                    elseif r == 4 then
+                        anim = "SitInChairEat"
+                        item = "Base.Fork"
+                        right = true
+                    elseif r == 5 then
+                        anim = "SitInChairSmoke"
+                        sound = "Smoke"
+                        smoke = true
+                        time = 400
+                    end
+    
                     local facing = sittable:getSprite():getProperties():Val("Facing")
-                    local anim = BanditUtils.Choice({"SitInChairEat", "SitInChairEat", "SitInChairEat"})
-                    local task = {action="SitInChair", anim=anim, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=100}
+    
+                    local task = {action="SitInChair", anim=anim, sound=sound, item=item, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=200}
                     table.insert(tasks, task)
                     return tasks
                 end
@@ -938,9 +1061,39 @@ BWORoomPrograms.bar = function(bandit, def)
                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                     return tasks
                 else
+                    local anim
+                    local sound
+                    local item
+                    local smoke = false
+                    local time = 200
+                    local right = false
+                    local left = false
+                    local r = ZombRand(6)
+                    if r == 0 then
+                        anim = "SitInChair1"
+                    elseif r == 1 then
+                        anim = "SitInChair2"
+                    elseif r == 2 then
+                        anim = "SitInChairTalk"
+                    elseif r == 3 then
+                        anim = "SitInChairDrink"
+                        item = "Bandits.BeerBottle"
+                        sound = "DrinkingFromBottle"
+                        right = true
+                    elseif r == 4 then
+                        anim = "SitInChairEat"
+                        item = "Base.Fork"
+                        right = true
+                    elseif r == 5 then
+                        anim = "SitInChairSmoke"
+                        sound = "Smoke"
+                        smoke = true
+                        time = 400
+                    end
+    
                     local facing = sittable:getSprite():getProperties():Val("Facing")
-                    local anim = BanditUtils.Choice({"SitInChair", "SitInChairDrink"})
-                    local task = {action="SitInChair", anim=anim, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=100}
+    
+                    local task = {action="SitInChair", anim=anim, sound=sound, item=item, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=200}
                     table.insert(tasks, task)
                     return tasks
                 end
@@ -1038,9 +1191,25 @@ BWORoomPrograms.aesthetic = function(bandit, def)
                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                     return tasks
                 else
+                    local anim
+                    local sound
+                    local item
+                    local smoke = false
+                    local time = 200
+                    local right = false
+                    local left = false
+                    local r = ZombRand(3)
+                    if r == 0 then
+                        anim = "SitInChair1"
+                    elseif r == 1 then
+                        anim = "SitInChair2"
+                    elseif r == 2 then
+                        anim = "SitInChairTalk"
+                    end
+    
                     local facing = sittable:getSprite():getProperties():Val("Facing")
-                    local anim = BanditUtils.Choice({"SitInChair", "SitInChairDrink"})
-                    local task = {action="SitInChair", anim=anim, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=100}
+    
+                    local task = {action="SitInChair", anim=anim, sound=sound, item=item, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=200}
                     table.insert(tasks, task)
                     return tasks
                 end

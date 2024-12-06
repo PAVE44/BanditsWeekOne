@@ -168,15 +168,24 @@ BWOMenu.FlushDeadbodies = function(player)
 end
 
 BWOMenu.EventArson = function(player)
-    local params ={}
+    local params = {}
     params.x = player:getX()
     params.y = player:getY()
     params.z = player:getZ()
     BWOScheduler.Add("Arson", params, 100)
 end
 
+BWOMenu.EventBombDrop = function(player)
+    local params = {}
+    params.x = player:getX()
+    params.y = player:getY()
+    params.z = player:getZ()
+    params.outside = player:isOutside()
+    BWOScheduler.Add("BombDrop", params, 100)
+end
+
 BWOMenu.EventProtest = function(player)
-    local params ={}
+    local params = {}
     params.x = player:getX()
     params.y = player:getY()
     params.z = player:getZ()
@@ -212,6 +221,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
     print (player:getDescriptor():getProfession())
     if isDebugEnabled() or isAdmin() then
         context:addOption("[DGB] BWO: Event: Arson", player, BWOMenu.EventArson)
+        context:addOption("[DGB] BWO: Event: Bomb Drop", player, BWOMenu.EventBombDrop)
         context:addOption("[DGB] BWO: Event: Protest", player, BWOMenu.EventProtest)
         context:addOption("[DGB] BWO: Event: Entertainer", player, BWOMenu.SpawnEntertainer)
 

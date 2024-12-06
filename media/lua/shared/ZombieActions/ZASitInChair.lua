@@ -2,61 +2,16 @@ ZombieActions = ZombieActions or {}
 
 ZombieActions.SitInChair = {}
 ZombieActions.SitInChair.onStart = function(zombie, task)
-    local anim = "SitInChair1"
-    local aox = 0
-    local aoy = 0
-    local r = ZombRand(7)
-
-    local fakeItem
-    local right = false
-    local left = false
-
-    if r == 1 then
-        anim = "SitInChair2"
-        aox = 0.5
-        aoy = 0.5
-    elseif r == 2 then
-        anim = "SitInChairTalk"
-        aox = 0.5
-        aoy = 0.5
-    elseif r == 3 then
-        anim = "SitInChairDrink"
-        aox = 0.5
-        aoy = 0.5
-        fakeItem = InventoryItemFactory.CreateItem("Bandits.BeerBottle")
-        right = true
-    elseif r == 4 then
-        anim = "SitInChairEat"
-        aox = 0.5
-        aoy = 0.5
-        fakeItem = InventoryItemFactory.CreateItem("Base.Fork")
-        right = true
-    elseif r == 5 then
-        anim = "SitInChairSmoke"
-        aox = 0.5
-        aoy = 0.5
-    elseif r == 6 then
-        anim = "SitInChairRead"
-        aox = 0.5
-        aoy = 0.5
-        fakeItem = InventoryItemFactory.CreateItem("Bandits.Book")
-        left = true
-    end
-
-    if fakeItem then
-        if not left then
+    if task.item then
+        local fakeItem = InventoryItemFactory.CreateItem(task.item)
+        if not task.left then
             zombie:setPrimaryHandItem(fakeItem)
         end
-        if not right then
+        if not task.right then
             zombie:setSecondaryHandItem(fakeItem)
         end
-    end
 
-    task.anim = anim
-    task.aox = aox
-    task.aoy = aoy
-    Bandit.UpdateTask(zombie, task)
-    zombie:setBumpType(anim)
+    end
     return true
 end
 
@@ -93,20 +48,29 @@ ZombieActions.SitInChair.onWorking = function(zombie, task)
         zombie:faceLocationF(task.x + fx, task.y + fy)
     end
     
-    local bumpType = zombie:getBumpType()
-    if bumpType ~= task.anim then return true end
-
-    if not zombie:getVariableString("BumpAnimFinished") then
-        return false
-    else
+    if task.time <= 0 then
         return true
-    end
+    else
+        local bumpType = zombie:getBumpType()
+        if bumpType ~= task.anim then 
+            zombie:setBumpType(task.anim)
 
-    return false
+            if task.sound then
+                local emitter = zombie:getEmitter()
+                if not emitter:isPlaying(task.sound) then
+                    emitter:playSound(task.sound)
+                end
+            end
+        end
+    end
 end
 
 ZombieActions.SitInChair.onComplete = function(zombie, task)
-    zombie:setPrimaryHandItem(nil)
-    zombie:setSecondaryHandItem(nil)
-    return true
+    if task.item then
+        if task.left then
+            zombie:setSecondaryHandItem(nil)
+        else
+            zombie:setPrimaryHandItem(nil)
+        end
+    end
 end

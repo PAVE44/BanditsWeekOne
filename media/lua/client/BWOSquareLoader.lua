@@ -1,6 +1,7 @@
 BWOSquareLoader = BWOSquareLoader or {}
 BWOSquareLoader.map = {}
 BWOSquareLoader.events = {}
+BWOSquareLoader.nukes = {}
 
 local addBarricadeNorth = function(x1, x2, y)
     for x=x1, x2 do
@@ -105,6 +106,10 @@ local addBarricadeEast = function(y1, y2, x)
     end
 end
 
+local function addNuke = function(x, y, r)
+    table.insert(BWOSquareLoader.nukes, {x=x, y=y, r=r})
+end
+
 -- muldrough road blocks
 addBarricadeSouth(10576, 10602, 10679)
 table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=10592, y=10675, z=0})
@@ -157,6 +162,17 @@ addBarricadeEast(5440, 5500, 7000)
 addBarricadeSouth(6515, 6540, 5615)
 addBarricadeSouth(5872, 5888, 5460)
 addBarricadeWest(5385, 5394, 5710)
+
+-- nuke locations
+addNuke(10800, 9800, 700) -- muldraugh
+addNuke(10040, 12760, 700) -- march ridge
+addNuke(8160, 11550, 700) -- rosewood
+addNuke(7267, 8320, 700) -- doe valley
+addNuke(6350, 5430, 700) -- riverside
+addNuke(11740, 6900, 700) -- westpoint
+
+-- addNuke(11740, 6900, 700) -- LV
+
 
 BWOSquareLoader.Clear = function(square)
     local objects = square:getObjects()
@@ -217,10 +233,17 @@ BWOSquareLoader.Add = function(square, objectList)
 end
 
 BWOSquareLoader.OnLoad = function(square)
+
+    local function isInCircle(x, y, cx, cy, r)
+        local d2 = ((x - cx) * (x - cx)) + ((y - cy) * (y - cy))
+        return d2 <= r * r
+    end
+
     local test = BWOSquareLoader.map
 	local x = square:getX()
     local y = square:getY()
     local z = square:getZ()
+    local md = square:getModData()
     local id = x .. "-" .. y .. "-" .. z
 
     -- spawn map objects
@@ -317,6 +340,31 @@ BWOSquareLoader.OnLoad = function(square)
                     end
                 end
             end
+        end
+    end
+
+    -- post nuke world destroyer
+    if BWOScheduler.WorldAge >= 168 then
+        if not md.BWO then md.BWO = {} end
+
+        if not md.BWO.burnt then
+            local nukes = BWOSquareLoader.nukes
+            for _, nuke in pairs(nukes) do
+                if isInCircle(x, y, nuke.x, nuke.y, nuke.r) then
+                    square:BurnWalls(false)
+                    if ZombRand(4) == 1 and square:isFree(false) then
+                        local obj = IsoObject.new(square, "floors_burnt_01_1", "")
+                        square:AddSpecialObject(obj)
+                    end
+                    if ZombRand(9) == 1 and square:isFree(false) then
+                        local rn = ZombRand(53)
+                        local sprite = "trash_01_" .. tostring(rn)
+                        local obj = IsoObject.new(square, sprite, "")
+                        square:AddSpecialObject(obj)
+                    end
+                end
+            end
+            md.BWO.burnt = true
         end
     end
 end
