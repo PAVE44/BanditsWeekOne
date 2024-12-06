@@ -18,7 +18,7 @@ BanditClan.Civilians.health = 2
 BanditClan.Civilians.eatBody = false
 
 -- Ranged weapon accuracy multiplayer (1=default)
-BanditClan.Civilians.accuracyBoost = 0.8
+BanditClan.Civilians.accuracyBoost = 0.75
 
 -- Favorite zones 
 BanditClan.Civilians.favoriteZones = {}
@@ -26,29 +26,18 @@ BanditClan.Civilians.avoidZones = {"Vegitation", "Forest", "DeepForest"}
 
 -- available outfits
 BanditClan.Civilians.Outfits = BanditClan.Civilians.Outfits or {}
-table.insert(BanditClan.Civilians.Outfits, "Bathrobe")
 table.insert(BanditClan.Civilians.Outfits, "Generic06")
 table.insert(BanditClan.Civilians.Outfits, "Generic05")
 table.insert(BanditClan.Civilians.Outfits, "Generic04")
 table.insert(BanditClan.Civilians.Outfits, "Generic03")
 table.insert(BanditClan.Civilians.Outfits, "Generic02")
 table.insert(BanditClan.Civilians.Outfits, "Generic01")
-table.insert(BanditClan.Civilians.Outfits, "Punk")
-table.insert(BanditClan.Civilians.Outfits, "Rocker")
 table.insert(BanditClan.Civilians.Outfits, "Tourist")
 table.insert(BanditClan.Civilians.Outfits, "BaseballFan_KY")
 table.insert(BanditClan.Civilians.Outfits, "BaseballFan_Rangers")
 table.insert(BanditClan.Civilians.Outfits, "BaseballFan_Z")
-table.insert(BanditClan.Civilians.Outfits, "Bedroom")
-table.insert(BanditClan.Civilians.Outfits, "Chef")
 table.insert(BanditClan.Civilians.Outfits, "Cyclist")
-table.insert(BanditClan.Civilians.Outfits, "Doctor")
-table.insert(BanditClan.Civilians.Outfits, "Fireman")
-table.insert(BanditClan.Civilians.Outfits, "Fossoil")
-table.insert(BanditClan.Civilians.Outfits, "Gas2Go")
-table.insert(BanditClan.Civilians.Outfits, "GigaMart_Employee")
 table.insert(BanditClan.Civilians.Outfits, "Hobbo")
-table.insert(BanditClan.Civilians.Outfits, "Pharmacist")
 table.insert(BanditClan.Civilians.Outfits, "ShellSuit_Black")
 table.insert(BanditClan.Civilians.Outfits, "ShellSuit_Blue")
 table.insert(BanditClan.Civilians.Outfits, "ShellSuit_Green")
@@ -98,6 +87,11 @@ BanditClan.Civilians.Secondary = BanditClan.Civilians.Secondary or BanditWeapons
 
 -- loot table
 BanditClan.Civilians.Loot = BanditClan.Civilians.Loot or {}
+
+for i=1, 80 do
+    table.insert(BanditClan.Civilians.Loot, BanditLoot.MakeItem("Base.Money", 5))
+end
+
 table.insert(BanditClan.Civilians.Loot, BanditLoot.MakeItem("Base.WaterBottleFull", 30))
 table.insert(BanditClan.Civilians.Loot, BanditLoot.MakeItem("Base.Gum", 5))
 table.insert(BanditClan.Civilians.Loot, BanditLoot.MakeItem("Base.Peppermint", 2))
