@@ -194,7 +194,6 @@ ZombiePrograms.Walker.Main = function(bandit)
     end
 
     -- chair/bench rest
-
     local subTasks = BanditPrograms.Bench(bandit)
     if #subTasks > 0 then
         for _, subTask in pairs(subTasks) do
@@ -216,8 +215,8 @@ ZombiePrograms.Walker.Main = function(bandit)
         end
     end
 
-     -- most pedestrian will follow the street / road, some will just "gosomwhere" for variability
-     --
+    -- most pedestrian will follow the street / road, some will just "gosomwhere" for variability
+    --
     if math.abs(id) % 4 > 0 then
         local subTasks = BanditPrograms.FollowRoad(bandit, walkType)
         if #subTasks > 0 then

@@ -185,6 +185,7 @@ end
 
 function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
     local player = getPlayer()
+    print ("DIR: " .. player:getDirectionAngle())
     local square = clickedSquare
 
     --[[

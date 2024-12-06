@@ -399,6 +399,59 @@ BanditPrograms.FollowRoad = function(bandit, walkType)
     local bx = bandit:getX()
     local by = bandit:getY()
     local bz = bandit:getZ()
+
+    -- react to cars
+    local vehicleList = {}
+    local npcVehicles = BWOVehicles.tab
+    for k, v in pairs(npcVehicles) do
+        if v:getController() and not v:isStopped() then
+            vehicleList[k] = v
+        end
+    end
+
+    local playerVehicle = getPlayer():getVehicle()
+    if playerVehicle and not playerVehicle:isStopped() then
+        vehicleList[playerVehicle:getId()] = playerVehicle
+    end
+
+    for id, vehicle in pairs(vehicleList) do
+        local vx = vehicle:getX()
+        local vy = vehicle:getY()
+        local dist = BanditUtils.DistTo(bx, by, vx, vy)
+        if dist < 10 then
+            local vay = vehicle:getAngleY()
+            local ba = bandit:getDirectionAngle()
+
+            -- angles of cars are 90 degrees rotated compared to character angles
+            -- normalize this
+            vay = vay - 90
+            if vay < -180 then vay = vay + 360 end
+
+            local escapeAngle = vay - 90
+            if escapeAngle < 180 then escapeAngle = escapeAngle + 360 end 
+
+            local theta = escapeAngle * math.pi * 0.00555555--/ 180
+            local lx = math.floor(10 * math.cos(theta) + 0.5)
+            if bx > vx then 
+                lx = math.abs(lx) 
+            else
+                lx = -math.abs(lx) 
+            end
+
+            local ly = math.floor(10 * math.sin(theta) + 0.5)
+            if by > vy then 
+                ly = math.abs(ly) 
+            else
+                ly = -math.abs(ly) 
+            end
+            
+            print ("should escape to lx: " .. lx .. " ly: " .. ly)
+            table.insert(tasks, BanditUtils.GetMoveTask(0, bx + lx, by + ly, 0, "Run", 10, false))
+            return tasks
+            
+        end
+    end
+
     local direction = bandit:getForwardDirection()
     local angle = direction:getDirection()
     direction:setLength(8)

@@ -65,6 +65,8 @@ BanditActionInterceptor.BWOInventoryTransferAction = function(data)
     local container = data.srcContainer
     if not container then return end
 
+    local cnt = data.item:getUses()
+
     local object = container:getParent()
 
     -- taken from floor, i guess it's ok

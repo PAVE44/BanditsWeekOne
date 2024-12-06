@@ -28,6 +28,7 @@ BWOVehicles.VehicleSpawn = function(x, y, dir, btype)
             vehicle:setAlarmed(false)
             vehicle:setGeneralPartCondition(100, 80)
             vehicle:setHeadlightsOn(true)
+            vehicle:setPhysicsActive(true)
 
             -- NORTH x: -180 y: 0 z: 180
             -- SOUTH x: 0 y: 0 z: 0
@@ -38,16 +39,17 @@ BWOVehicles.VehicleSpawn = function(x, y, dir, btype)
             if not md.BWO then md.BWO = {} end
 
             if dir == IsoDirections.N then
-                vehicle:setAngles(-180, 0, 180)
+                vehicle:setAngles(0, 180, 0)
                 md.BWO.dir = "N"
             elseif dir == IsoDirections.S then
                 vehicle:setAngles(0, 0, 0)
                 md.BWO.dir = "S"
             elseif dir == IsoDirections.E then
-                vehicle:setAngles(-125, 90, 125)
+                vehicle:setAngles(0, 90, 0)
                 md.BWO.dir = "E"
             elseif dir == IsoDirections.W then
-                vehicle:setAngles(-125, -90, -125)
+                -- vehicle:setAngles(-125, -90, -125)
+                vehicle:setAngles(0, -90, 0)
                 md.BWO.dir = "W"
             end
 
