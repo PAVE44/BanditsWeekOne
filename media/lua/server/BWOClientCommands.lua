@@ -3,18 +3,22 @@ BWOServer.Commands = {}
 
 BWOServer.Commands.ObjectAdd = function(player, args)
     local gmd = GetBWOModData()
-    if not (args.x and args.y and args.z) then return end
+    if not (args.x and args.y and args.z and args.otype) then return end
 
     local id = math.floor(args.x) .. "-" .. math.floor(args.y) .. "-" ..args.z
-    gmd.Objects[id] = args
+
+    if not gmd.Objects[args.otype] then gmd.Objects[args.otype] = {} end
+    gmd.Objects[args.otype][id] = args
 end
 
 BWOServer.Commands.ObjectRemove = function(player, args)
     local gmd = GetBWOModData()
-    if not (args.x and args.y and args.z) then return end
+    if not (args.x and args.y and args.z and args.otype) then return end
 
     local id = math.floor(args.x) .. "-" .. math.floor(args.y) .. "-" ..args.z
-    gmd.Objects[id] = nil
+    if not gmd.Objects[args.otype] then gmd.Objects[args.otype] = {} end
+
+    gmd.Objects[args.otype][id] = nil
 end
 
 BWOServer.Commands.EventBuildingAdd = function(player, args)

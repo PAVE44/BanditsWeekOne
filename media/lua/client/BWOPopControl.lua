@@ -191,59 +191,51 @@ BWOPopControl.InhabitantsSpawn = function(cnt)
     event.program = {}
     event.program.name = "Inhabitant"
     event.program.stage = "Prepare"
+    
 
     local player = getPlayer()
     local cell = player:getCell()
     local px, py = player:getX(), player:getY()
     local rooms = cell:getRoomList()
-    local buildings = {}
+
+    -- the probability of spawn in a room will depend on room size and other factors
+    local cursor = 0
+    local roomPool = {}
     for i = 0, rooms:size() - 1 do
         local room = rooms:get(i)
-
-        local building = room:getBuilding()
-        if building then
-            local def = building:getDef()
-            local key = def:getKeyId()
-
-            if not buildings[key] then
-                buildings[key] = building
+        local def = room:getRoomDef()
+        if def then
+            if math.abs(def:getX() - player:getX()) < 100 and math.abs(def:getX2() - player:getX()) < 100 and 
+               math.abs(def:getY() - player:getY()) < 100 and math.abs(def:getY2() - player:getY()) < 100 then
+                local roomSize = BWORooms.GetRoomSize(room)
+                local popMod = BWORooms.GetRoomPopMod(room)
+                cursor = cursor + math.floor(roomSize * popMod)
+                table.insert(roomPool, {room=room, cursor=cursor})
             end
         end
     end
 
-    local s = 0
-    for key, building in pairs(buildings) do
-        local room = building:getRandomRoom()
-        if room then
-            local roomDef = room:getRoomDef()
-            if roomDef then
-                local roomName = room:getName()
-
-                if ZombRand(3) > 0 then
-                    local pop = BWOBuildings.GetRoomPop(room)
-                    local multiplier = BWOBuildings.GetPopMultiplier(building)
-                    local btype = BWOBuildings.GetType(building)
-                    pop = math.floor(pop * multiplier)
-
-                    if btype ~= "residential" and roomName == "bathroom" then
-                        pop = 0
-                    end
-
-                    for i=1, pop do
-                        local spawnSquare = roomDef:getFreeSquare()
-                        if spawnSquare then
-                            event.x = spawnSquare:getX()
-                            event.y = spawnSquare:getY()
-                            event.z = spawnSquare:getZ()
+    -- now spawn
+    for i = 1, cnt do
+        local rnd = ZombRand(cursor)
+        for _, rp in pairs(roomPool) do
+            if rnd < rp.cursor then
+                local spawnRoom = rp.room
+                local spawnRoomDef = spawnRoom:getRoomDef()
+                if spawnRoomDef then
+                    local spawnSquare = spawnRoomDef:getFreeSquare()
+                    if spawnSquare then
+                        event.x = spawnSquare:getX()
+                        event.y = spawnSquare:getY()
+                        event.z = spawnSquare:getZ()
+                        local dist = BanditUtils.DistTo(px, py, event.x, event.y)
+                        if dist > 30 then
                             event.bandits = {}
-                            local bandit = BanditCreator.MakeFromRoom(room)
-                            local dist = BanditUtils.DistTo(px, py, event.x, event.y)
-                            if bandit and dist > 30 then
+                            local bandit = BanditCreator.MakeFromRoom(spawnRoom)
+                            if bandit then
                                 table.insert(event.bandits, bandit)
                                 sendClientCommand(player, 'Commands', 'SpawnGroup', event)
-                                s = s + pop
-
-                                if s > cnt then return end
+                                break
                             end
                         end
                     end
@@ -266,7 +258,7 @@ BWOPopControl.InhabitantsDespawn = function(cnt)
     for i = 0, zombieList:size() - 1 do
         local zombie = zombieList:get(i)
 
-        if zombie:getVariableBoolean("Bandit") then
+        if zombie and zombie:getVariableBoolean("Bandit") then
             local brain = BanditBrain.Get(zombie)
             
             for _, prg in pairs(removePrg) do
@@ -594,23 +586,27 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
                     end
 
                     -- witnessing civilians need to change peaceful behavior to active
-                    local activatePrograms = {"Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer"}
+                    local activatePrograms = {"Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer"}
                     for _, prg in pairs(activatePrograms) do
                         if witness.brain.program.name == prg then 
-                            if ZombRand(4) > 0 then
-                                Bandit.SetProgram(actor, "Active", {})
-
-                                if wasPlayerFault and ZombRand(2) == 0 then
+                            local outfit = actor:getOutfitName()
+                            if outfit == "Police" then
+                                Bandit.ClearTasks(actor)
+                                Bandit.SetProgram(actor, "Police", {})
+                                if wasPlayerFault then
                                     Bandit.SetHostile(actor, true)
                                 end
-
-                                Bandit.ClearTasks(actor)
-                                Bandit.Say(actor, "SPOTTED")
                             else
-                                if ZombRand(3) == 0 then
+                                if ZombRand(4) > 0 then
+                                    Bandit.ClearTasks(actor)
+                                    Bandit.SetProgram(actor, "Active", {})
+                                    if wasPlayerFault and ZombRand(2) == 0 then
+                                        Bandit.SetHostile(actor, true)
+                                    end
                                     Bandit.Say(actor, "SPOTTED")
                                 end
                             end
+
                             local brain = BanditBrain.Get(actor)
                             if brain then
                                 local syncData = {}

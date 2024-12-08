@@ -27,30 +27,33 @@ ZombieActions.BoomboxToggle.onComplete = function(zombie, task)
                 local musicId = nil
                 musicId = "#" .. object:getX() .. "-" .. object:getY() .. "-" .. object:getZ()
 
-                if not task.on and object:getModData().tcmusic.isPlaying then -- dd:isPlayingMedia()
-                    object:getModData().tcmusic.isPlaying = false 
+                local md = object:getModData()
+                if not md.tcmusic then md.tcmusic = {} end
+
+                if not task.on and md.tcmusic.isPlaying then -- dd:isPlayingMedia()
+                    md.tcmusic.isPlaying = false 
                     if dd:getEmitter() then
                         dd:getEmitter():stopAll()
                     end
                     ModData.getOrCreate("trueMusicData")["now_play"][musicId] = nil
                 end
 
-                if (task.on and not object:getModData().tcmusic.isPlaying) then
+                if (task.on and not md.tcmusic.isPlaying) then
                     getSoundManager():StopMusic()
-                    object:getModData().tcmusic.isPlaying = true
+                    md.tcmusic.isPlaying = true
                     -- print("playSound WO PLAYER")
                     -- print(dd:getParent())
                     dd:getEmitter():stopAll()
                     dd:setNoTransmit(false)
-                    dd:playSound(object:getModData().tcmusic.mediaItem, dd:getDeviceVolume() * 0.4, false)
+                    dd:playSound(md.tcmusic.mediaItem, dd:getDeviceVolume() * 0.4, false)
                     
                     ModData.getOrCreate("trueMusicData")["now_play"][musicId] = {
                         volume = dd:getDeviceVolume(),
                         headphone = dd:getHeadphoneType() >= 0,
                         timestamp = "update",
-                        musicName = object:getModData().tcmusic.mediaItem,
+                        musicName = md.tcmusic.mediaItem,
                     }
-                    if object:getModData().tcmusic.deviceType == "InventoryItem" then
+                    if md.tcmusic.deviceType == "InventoryItem" then
                         ModData.getOrCreate("trueMusicData")["now_play"][musicId]["itemid"] = object:getID()
                     end
                 end

@@ -131,29 +131,6 @@ BanditPrograms.Events = function(bandit)
 
     if BWOScheduler.WorldAge > 64 then return tasks end
 
-    local target = BWOObjects.FindDeadBody(bandit)
-    if target.x and target.y and target.z then
-        local square = cell:getGridSquare(target.x, target.y, target.z)
-        if square and BanditUtils.LineClear(bandit, square) then
-            if target.dist >= 3 and target.dist < 15 then
-                local walkType = "Run"
-                table.insert(tasks, BanditUtils.GetMoveTask(0, target.x, target.y, target.z, walkType, target.dist, false))
-                return tasks
-            elseif target.dist < 3 then
-                if square then
-                    deadbody = square:getDeadBody()
-                    if deadbody then
-                        Bandit.Say(bandit, "CORPSE")
-                        local anim = BanditUtils.Choice({"SmellBad", "SmellGag", "PainHead", "ChewNails", "No", "No", "WipeBrow"})
-                        local task = {action="FaceLocation", anim=anim, time=100, x=deadbody:getX(), y=deadbody:getY(), z=deadbody:getZ()}
-                        table.insert(tasks, task)
-                        return tasks
-                    end
-                end
-            end
-        end
-    end
-
     local target = BWOObjects.FindGMD(bandit, "protest")
     if target.x and target.y and target.z then
         local square = cell:getGridSquare(target.x, target.y, target.z)
@@ -197,6 +174,29 @@ BanditPrograms.Events = function(bandit)
         end
     end
 
+    local target = BWOObjects.FindDeadBody(bandit)
+    if target.x and target.y and target.z then
+        local square = cell:getGridSquare(target.x, target.y, target.z)
+        if square and BanditUtils.LineClear(bandit, square) then
+            if target.dist >= 3 and target.dist < 15 then
+                local walkType = "Run"
+                table.insert(tasks, BanditUtils.GetMoveTask(0, target.x, target.y, target.z, walkType, target.dist, false))
+                return tasks
+            elseif target.dist < 3 then
+                if square then
+                    deadbody = square:getDeadBody()
+                    if deadbody then
+                        Bandit.Say(bandit, "CORPSE")
+                        local anim = BanditUtils.Choice({"SmellBad", "SmellGag", "PainHead", "ChewNails", "No", "No", "WipeBrow"})
+                        local task = {action="FaceLocation", anim=anim, time=100, x=deadbody:getX(), y=deadbody:getY(), z=deadbody:getZ()}
+                        table.insert(tasks, task)
+                        return tasks
+                    end
+                end
+            end
+        end
+    end
+
     local target = BWOObjects.FindGMD(bandit, "preacher")
     if target.x and target.y and target.z then
         local square = cell:getGridSquare(target.x, target.y, target.z)
@@ -206,7 +206,7 @@ BanditPrograms.Events = function(bandit)
                 table.insert(tasks, BanditUtils.GetMoveTask(0, target.x, target.y, target.z, walkType, target.dist, false))
                 return tasks
             elseif target.dist < 4 then
-                local ententainer = BanditUtils.GetClosestBanditLocationProgram(bandit, "Entertainer")
+                local ententainer = BanditUtils.GetClosestBanditLocationProgram(bandit, {"Entertainer"})
 
                 if ententainer.id then
                     -- Bandit.Say(bandit, "ADMIRE")
@@ -232,13 +232,13 @@ BanditPrograms.Events = function(bandit)
                 table.insert(tasks, BanditUtils.GetMoveTask(0, target.x, target.y, target.z, walkType, target.dist, false))
                 return tasks
             elseif target.dist < 6 then
-                local ententainer = BanditUtils.GetClosestBanditLocationProgram(bandit, "Entertainer")
+                local ententainer = BanditUtils.GetClosestBanditLocationProgram(bandit, {"Entertainer"})
 
                 if ententainer.id then
                     Bandit.Say(bandit, "ADMIRE")
                     local anim = "Clap"
                     local sound = "BWOClap" .. tostring(1 + ZombRand(13))
-                    local task = {action="TimeEvent", sound=sound, soundDistMax=12, anim=anim, x=target.x, y=target.y, z=target.z, time=200}
+                    local task = {action="TimeEvent", sound=sound, soundDistMax=12, anim=anim, x=target.x, y=target.y, z=target.z, time=400}
                     table.insert(tasks, task)
                     return tasks
                 else

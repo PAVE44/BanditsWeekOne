@@ -24,7 +24,7 @@ BWOVehicles.VehicleSpawn = function(x, y, dir, btype)
                 end
             end
             vehicle:repair()
-            vehicle:setColor(0, 0, 0)
+            vehicle:setColor(ZombRandFloat(0, 1), ZombRandFloat(0, 1), ZombRandFloat(0, 1))
             vehicle:setAlarmed(false)
             vehicle:setGeneralPartCondition(100, 80)
             vehicle:setHeadlightsOn(true)
@@ -422,7 +422,7 @@ local ManageVehicles = function(ticks)
                         end
                         if vehicle:isStopped() then
                             vehicle:setRegulator(true)
-                            vehicle:setRegulatorSpeed(25)
+                            vehicle:setRegulatorSpeed(30)
                         end
                     end
                 end

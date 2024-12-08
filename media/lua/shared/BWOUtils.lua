@@ -11,7 +11,7 @@ BanditUtils.GetTime = function()
     end
 end
 
-function BanditUtils.GetClosestBanditLocationProgram(character, program)
+function BanditUtils.GetClosestBanditLocationProgram(character, programs)
     local result = {}
     local cid = BanditUtils.GetCharacterID(character)
 
@@ -25,15 +25,17 @@ function BanditUtils.GetClosestBanditLocationProgram(character, program)
 
     local zombieList = BanditZombie.GetAllB()
     for id, zombie in pairs(zombieList) do
-        if zombie.brain.program.name == program then
-            if math.abs(zombie.x - cx) < 30 or math.abs(zombie.y - cy) < 30 then
-                local dist = BanditUtils.DistTo(cx, cy, zombie.x, zombie.y)
-                if dist < result.dist and cid ~= id then
-                    result.dist = dist
-                    result.x = zombie.x
-                    result.y = zombie.y
-                    result.z = zombie.z
-                    result.id = zombie.id
+        for _, program in pairs(programs) do
+            if zombie.brain.program.name == program then
+                if math.abs(zombie.x - cx) < 30 or math.abs(zombie.y - cy) < 30 then
+                    local dist = BanditUtils.DistTo(cx, cy, zombie.x, zombie.y)
+                    if dist < result.dist and cid ~= id then
+                        result.dist = dist
+                        result.x = zombie.x
+                        result.y = zombie.y
+                        result.z = zombie.z
+                        result.id = zombie.id
+                    end
                 end
             end
         end

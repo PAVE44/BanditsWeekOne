@@ -89,7 +89,7 @@ BanditClan.Civilians.Secondary = BanditClan.Civilians.Secondary or BanditWeapons
 BanditClan.Civilians.Loot = BanditClan.Civilians.Loot or {}
 
 for i=1, 80 do
-    table.insert(BanditClan.Civilians.Loot, BanditLoot.MakeItem("Base.Money", 5))
+    table.insert(BanditClan.Civilians.Loot, BanditLoot.MakeItem("Base.Money", 22))
 end
 
 table.insert(BanditClan.Civilians.Loot, BanditLoot.MakeItem("Base.WaterBottleFull", 30))

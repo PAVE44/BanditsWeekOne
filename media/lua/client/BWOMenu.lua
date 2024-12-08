@@ -1,8 +1,6 @@
 BWOMenu = BWOMenu or {}
 
-BWOMenu.Spawn = function(player, square)
-
-    local groundType = BanditUtils.GetGroundType(square) 
+BWOMenu.SpawnRoom = function(player, square, prgName)
 
     config = {}
     config.clanId = 0
@@ -15,71 +13,30 @@ BWOMenu.Spawn = function(player, square)
     event.hostile = false
     event.occured = false
     event.program = {}
-    event.program.name = "Walker"
+    event.program.name = prgName
     event.program.stage = "Prepare"
-    event.x = square:getX()
-    event.y = square:getY()
     event.bandits = {}
 
-    if square:isOutside() then
-        local bandit = BanditCreator.MakeFromWave(config)
-        if groundType == "street" then
-            if ZombRand(10) == 1 then
-                bandit.outfit = BanditUtils.Choice({"StreetSports"})
-                event.program.name = "Runner"
-                event.program.stage = "Prepare"
-            else
-                bandit.outfit = BanditUtils.Choice({"AuthenticHomeless"})
-                bandit.weapons.melee = "Base.Broom"
-                event.program.name = "Walker"
-                event.program.stage = "Prepare"
-            end
-        end
-        table.insert(event.bandits, bandit)
-    else
-        event.program.name = "Inhabitant"
-        event.program.stage = "Prepare"
-
-        local room = square:getRoom()
-        if room then
-            local roomDef = room:getRoomDef()
-            if roomDef then
-
-                local roomSize = (roomDef:getX2() - roomDef:getX()) * (roomDef:getY2() - roomDef:getY())
-                local pop = 1
-                if roomSize >= 400 then
-                    pop = 8
-                elseif roomSize >= 225 then
-                    pop = 4
-                elseif roomSize >= 100 then
-                    pop = 2
-                end
-                
-                local roomName = room:getName()
-                for i=1, pop do
-                    local spawnSquare = roomDef:getFreeSquare()
-                    if spawnSquare then
-                        event.x = spawnSquare:getX()
-                        event.y = spawnSquare:getY()
-                        event.z = spawnSquare:getZ()
-                        event.bandits = {}
-                        local bandit = BanditCreator.MakeFromRoom(room)
-                        if bandit then
-                            table.insert(event.bandits, bandit)
-                            sendClientCommand(player, 'Commands', 'SpawnGroup', event)
-                        end
-                    end
+    local room = square:getRoom()
+    if room then
+        local roomDef = room:getRoomDef()
+        if roomDef then
+            local spawnSquare = roomDef:getFreeSquare()
+            if spawnSquare then
+                event.x = spawnSquare:getX()
+                event.y = spawnSquare:getY()
+                event.z = spawnSquare:getZ()
+                local bandit = BanditCreator.MakeFromRoom(room)
+                if bandit then
+                    table.insert(event.bandits, bandit)
+                    sendClientCommand(player, 'Commands', 'SpawnGroup', event)
                 end
             end
         end
     end
-
-    
-
-    sendClientCommand(player, 'Commands', 'SpawnGroup', event)
 end
 
-BWOMenu.SpawnPedestrian = function(player, square)
+BWOMenu.SpawnWave = function(player, square, prgName)
     config = {}
     config.clanId = 0
     config.hasRifleChance = 0
@@ -91,75 +48,35 @@ BWOMenu.SpawnPedestrian = function(player, square)
     event.hostile = false
     event.occured = false
     event.program = {}
-    event.program.name = "Walker"
+    event.program.name = prgName
     event.program.stage = "Prepare"
     event.x = square:getX()
     event.y = square:getY()
     event.bandits = {}
    
     local bandit = BanditCreator.MakeFromWave(config)
-    bandit.outfit = BanditUtils.Choice({"Generic02", "Generic01"})
+
+    if prgName == "Walker" then
+        bandit.outfit = BanditUtils.Choice({"Generic02", "Generic01"})
+    elseif prgName == "Fireman" then
+        bandit.outfit = BanditUtils.Choice({"FiremanFullSuit"})
+        bandit.weapons.melee = "Base.Axe"
+    elseif prgName == "Gardener" then
+        bandit.outfit = BanditUtils.Choice({"Farmer"})
+    elseif prgName == "Janitor" then
+        bandit.outfit = BanditUtils.Choice({"Hobbo"})
+        bandit.weapons.melee = "Base.Broom"
+    elseif prgName == "Medic" then
+        bandit.outfit = BanditUtils.Choice({"Doctor"})
+        bandit.weapons.melee = "Base.Scalpel"
+    elseif prgName == "Postal" then
+        bandit.outfit = BanditUtils.Choice({"Postal"})
+    elseif prgName == "Runner" then
+        bandit.outfit = BanditUtils.Choice({"StreetSports", "AuthenticJogger", "AuthenticFitnessInstructor"})
+    end
     table.insert(event.bandits, bandit)
 
     sendClientCommand(player, 'Commands', 'SpawnGroup', event)
-end
-
-BWOMenu.SpawnFireman = function(player, square)
-    config = {}
-    config.clanId = 0
-    config.hasRifleChance = 0
-    config.hasPistolChance = 0
-    config.rifleMagCount = 0
-    config.pistolMagCount = 0
-
-    local event = {}
-    event.hostile = false
-    event.occured = false
-    event.program = {}
-    event.program.name = "Fireman"
-    event.program.stage = "Prepare"
-    event.x = square:getX()
-    event.y = square:getY()
-    event.bandits = {}
-   
-    local bandit = BanditCreator.MakeFromWave(config)
-    bandit.outfit = BanditUtils.Choice({"FiremanFullSuit"})
-    table.insert(event.bandits, bandit)
-
-    sendClientCommand(player, 'Commands', 'SpawnGroup', event)
-end
-
-BWOMenu.SpawnMedic = function(player, square)
-    config = {}
-    config.clanId = 0
-    config.hasRifleChance = 0
-    config.hasPistolChance = 0
-    config.rifleMagCount = 0
-    config.pistolMagCount = 0
-
-    local event = {}
-    event.hostile = false
-    event.occured = false
-    event.program = {}
-    event.program.name = "Medic"
-    event.program.stage = "Prepare"
-    event.x = square:getX()
-    event.y = square:getY()
-    event.bandits = {}
-   
-    local bandit = BanditCreator.MakeFromWave(config)
-    bandit.outfit = BanditUtils.Choice({"Doctor"})
-    table.insert(event.bandits, bandit)
-
-    sendClientCommand(player, 'Commands', 'SpawnGroup', event)
-end
-
-BWOMenu.SpawnEntertainer = function(player)
-    local params ={}
-    params.x = player:getX()
-    params.y = player:getY()
-    params.z = player:getZ()
-    BWOScheduler.Add("EventEntertainer", params, 100)
 end
 
 BWOMenu.FlushDeadbodies = function(player)
@@ -181,7 +98,48 @@ BWOMenu.EventBombDrop = function(player)
     params.y = player:getY()
     params.z = player:getZ()
     params.outside = player:isOutside()
+    params.intensity = 5
     BWOScheduler.Add("BombDrop", params, 100)
+end
+
+BWOMenu.EventBombRun = function(player)
+    local params = {}
+    params.x = player:getX()
+    params.y = player:getY()
+    params.z = player:getZ()
+    params.outside = player:isOutside()
+    BWOScheduler.Add("BombRun", params, 100)
+end
+
+BWOMenu.EventEntertainer = function(player)
+    local params ={}
+    params.x = player:getX()
+    params.y = player:getY()
+    params.z = player:getZ()
+    BWOScheduler.Add("Entertainer", params, 100)
+end
+
+BWOMenu.EventParty = function (player)
+    local params = {}
+    BWOScheduler.Add("BuildingParty", params, 100)
+end
+
+BWOMenu.EventJetFighter = function (player)
+    local params = {}
+    params.x = player:getX()
+    params.y = player:getY()
+    params.z = player:getZ()
+    params.outside = player:isOutside()
+    BWOScheduler.Add("JetFighter", params, 100)
+end
+
+BWOMenu.EventJetFighterRun = function (player)
+    local params = {}
+    params.x = player:getX()
+    params.y = player:getY()
+    params.z = player:getZ()
+    params.outside = player:isOutside()
+    BWOScheduler.Add("JetFighterRun", params, 100)
 end
 
 BWOMenu.EventProtest = function(player)
@@ -190,6 +148,36 @@ BWOMenu.EventProtest = function(player)
     params.y = player:getY()
     params.z = player:getZ()
     BWOScheduler.Add("Protest", params, 100)
+end
+
+BWOMenu.EventStart = function(player)
+    local params = {}
+    BWOScheduler.Add("GetStartInventory", params, 100)
+end
+
+BWOMenu.EventPoliceRiot = function(player)
+    local params = {}
+    params.intensity = 10
+    params.hostile = true
+    BWOScheduler.Add("PoliceRiot", params, 100)
+end
+
+BWOMenu.EventBikers = function(player)
+    local params = {}
+    params.intensity = 5
+    BWOScheduler.Add("Bikers", params, 100)
+end
+
+BWOMenu.EventCriminals = function(player)
+    local params = {}
+    params.intensity = 3
+    BWOScheduler.Add("Criminals", params, 100)
+end
+
+BWOMenu.EventBandits = function(player)
+    local params = {}
+    params.intensity = 7
+    BWOScheduler.Add("Bandits", params, 100)
 end
 
 function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
@@ -220,18 +208,39 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
     local player = getSpecificPlayer(playerID)
     print (player:getDescriptor():getProfession())
     if isDebugEnabled() or isAdmin() then
-        context:addOption("[DGB] BWO: Event: Arson", player, BWOMenu.EventArson)
-        context:addOption("[DGB] BWO: Event: Bomb Drop", player, BWOMenu.EventBombDrop)
-        context:addOption("[DGB] BWO: Event: Protest", player, BWOMenu.EventProtest)
-        context:addOption("[DGB] BWO: Event: Entertainer", player, BWOMenu.SpawnEntertainer)
+        local eventsOption = context:addOption("BWO Event")
+        local eventsMenu = context:getNew(context)
+        context:addSubMenu(eventsOption, eventsMenu)
 
-        context:addOption("[DGB] BWO: Spawn: By Location", player, BWOMenu.Spawn, square)
-        context:addOption("[DGB] BWO: Spawn: Walker", player, BWOMenu.SpawnPedestrian, square)
-        context:addOption("[DGB] BWO: Spawn: Fireman", player, BWOMenu.SpawnFireman, square)
-        context:addOption("[DGB] BWO: Spawn: Medic", player, BWOMenu.SpawnMedic, square)
+        eventsMenu:addOption("Arson", player, BWOMenu.EventArson)
+        eventsMenu:addOption("Bandits", player, BWOMenu.EventBandits)
+        eventsMenu:addOption("Bikers", player, BWOMenu.EventBikers)
+        eventsMenu:addOption("Bomb Drop", player, BWOMenu.EventBombDrop)
+        eventsMenu:addOption("Bomb Run", player, BWOMenu.EventBombRun)
+        eventsMenu:addOption("Criminals", player, BWOMenu.EventCriminals)
+        eventsMenu:addOption("Entertainer", player, BWOMenu.EventEntertainer)
+        eventsMenu:addOption("House Party", player, BWOMenu.EventParty)
+        eventsMenu:addOption("Jetfighter", player, BWOMenu.EventJetFighter)
+        eventsMenu:addOption("Jetfighter Run", player, BWOMenu.EventJetFighterRun)
+        eventsMenu:addOption("Rolice Riot", player, BWOMenu.EventPoliceRiot)
+        eventsMenu:addOption("Protest", player, BWOMenu.EventProtest)
+        eventsMenu:addOption("Start event", player, BWOMenu.EventStart)
         
-        context:addOption("[DGB] BWO: Deadbodies: Flush", player, BWOMenu.FlushDeadbodies)
+        local spawnOption = context:addOption("BWO Spawn")
+        local spawnMenu = context:getNew(context)
+        context:addSubMenu(spawnOption, spawnMenu)
         
+        spawnMenu:addOption("Fireman", player, BWOMenu.SpawnWave, square, "Fireman")
+        spawnMenu:addOption("Gardener", player, BWOMenu.SpawnWave, square, "Gardener")
+        spawnMenu:addOption("Inhabitant", player, BWOMenu.SpawnRoom, square, "Inhabitant")
+        spawnMenu:addOption("Janitor", player, BWOMenu.SpawnWave, square, "Janitor")
+        spawnMenu:addOption("Medic", player, BWOMenu.SpawnWave, square, "Medic")
+        spawnMenu:addOption("Postal", player, BWOMenu.SpawnWave, square, "Postal")
+        spawnMenu:addOption("Runner", player, BWOMenu.SpawnWave, square, "Runner")
+        spawnMenu:addOption("Survivor", player, BWOMenu.SpawnWave, square, "Survivor")
+        spawnMenu:addOption("Walker", player, BWOMenu.SpawnWave, square, "Walker")
+        
+        context:addOption("BWO Deadbodies: Flush", player, BWOMenu.FlushDeadbodies)
         
         local room = square:getRoom()
         if room then

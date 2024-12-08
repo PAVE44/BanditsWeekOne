@@ -73,4 +73,5 @@ ZombieActions.SitInChair.onComplete = function(zombie, task)
             zombie:setPrimaryHandItem(nil)
         end
     end
+    return true
 end

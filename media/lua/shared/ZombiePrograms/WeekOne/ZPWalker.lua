@@ -34,6 +34,8 @@ ZombiePrograms.Walker.Prepare = function(bandit)
 end
 
 ZombiePrograms.Walker.Main = function(bandit)
+    local ts = getTimestampMs()
+
     local tasks = {}
 
     local cell = bandit:getCell()
@@ -70,6 +72,7 @@ ZombiePrograms.Walker.Main = function(bandit)
         Bandit.ForceSyncPart(bandit, syncData)
         return {status=true, next="Main", tasks=tasks}
     end
+    -- print ("WALKER 1: " .. (getTimestampMs() - ts))
 
     -- if has a specifit outfit change program
     --[[
@@ -109,11 +112,13 @@ ZombiePrograms.Walker.Main = function(bandit)
             for _, subTask in pairs(subTasks) do
                 table.insert(tasks, subTask)
             end
+            
             return {status=true, next="Main", tasks=tasks}
         end
     else
         if BWOScheduler.SymptomLevel >= 4 then walkType = "Run" end
     end
+    -- print ("WALKER 2: " .. (getTimestampMs() - ts))
     
     -- react to events
     local subTasks = BanditPrograms.Events(bandit)
@@ -123,6 +128,8 @@ ZombiePrograms.Walker.Main = function(bandit)
         end
         return {status=true, next="Main", tasks=tasks}
     end
+    -- print ("WALKER 3: " .. (getTimestampMs() - ts))
+
 
     -- atm
     local subTasks = BanditPrograms.ATM(bandit)
@@ -132,6 +139,7 @@ ZombiePrograms.Walker.Main = function(bandit)
         end
         return {status=true, next="Main", tasks=tasks}
     end
+    -- print ("WALKER 4: " .. (getTimestampMs() - ts))
 
     -- grill time
     if BWOScheduler.SymptomLevel < 3 and ((hour >= 12 and hour < 15) or (hour >= 18 and hour < 23)) then
@@ -179,6 +187,7 @@ ZombiePrograms.Walker.Main = function(bandit)
                                 local dist = math.sqrt(math.pow(bandit:getX() - (square:getX() + 0.5), 2) + math.pow(bandit:getY() - (square:getY() + 0.5), 2))
                                 if dist > 1.20 then
                                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
+                                    print ("WALKER 7: " .. (getTimestampMs() - ts))
                                     return {status=true, next="Main", tasks=tasks}
                                 else
                                     local task = {action="BarbecueLit", anim="Loot", x=object:getX(), y=object:getY(), z=object:getZ(), time=100}
@@ -192,6 +201,7 @@ ZombiePrograms.Walker.Main = function(bandit)
             end
         end
     end
+    -- print ("WALKER 8: " .. (getTimestampMs() - ts))
 
     -- chair/bench rest
     local subTasks = BanditPrograms.Bench(bandit)
@@ -201,6 +211,7 @@ ZombiePrograms.Walker.Main = function(bandit)
         end
         return {status=true, next="Main", tasks=tasks}
     end
+    -- print ("WALKER 9: " .. (getTimestampMs() - ts))
 
     -- interact with players and other npcs
     -- dont do it on the street tho
@@ -214,6 +225,7 @@ ZombiePrograms.Walker.Main = function(bandit)
             return {status=true, next="Main", tasks=tasks}
         end
     end
+    -- print ("WALKER 10: " .. (getTimestampMs() - ts))
 
     -- most pedestrian will follow the street / road, some will just "gosomwhere" for variability
     --
@@ -226,8 +238,9 @@ ZombiePrograms.Walker.Main = function(bandit)
             return {status=true, next="Main", tasks=tasks}
         end
     end
-
+    -- print ("WALKER 11: " .. (getTimestampMs() - ts))
     -- go somewhere if no road is found
+
     local subTasks = BanditPrograms.GoSomewhere(bandit, walkType)
     if #subTasks > 0 then
         for _, subTask in pairs(subTasks) do
@@ -235,6 +248,7 @@ ZombiePrograms.Walker.Main = function(bandit)
         end
         return {status=true, next="Main", tasks=tasks}
     end
+    -- print ("WALKER 12: " .. (getTimestampMs() - ts))
     
     -- fallback if going somewhere results in interior square
     local subTasks = BanditPrograms.Fallback(bandit)
@@ -245,5 +259,6 @@ ZombiePrograms.Walker.Main = function(bandit)
         return {status=true, next="Main", tasks=tasks}
     end
 
+    -- print ("WALKER 13: " .. (getTimestampMs() - ts))
     return {status=true, next="Main", tasks=tasks}
 end

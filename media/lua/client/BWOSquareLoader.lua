@@ -1,5 +1,6 @@
 BWOSquareLoader = BWOSquareLoader or {}
 BWOSquareLoader.map = {}
+BWOSquareLoader.remove = {}
 BWOSquareLoader.events = {}
 BWOSquareLoader.nukes = {}
 
@@ -106,9 +107,13 @@ local addBarricadeEast = function(y1, y2, x)
     end
 end
 
-local function addNuke = function(x, y, r)
+local addNuke = function(x, y, r)
     table.insert(BWOSquareLoader.nukes, {x=x, y=y, r=r})
 end
+
+-- remove fence in wespoint gunshop
+BWOSquareLoader.remove["12072-6759-0"] = {}
+BWOSquareLoader.remove["12072-6760-0"] = {}
 
 -- muldrough road blocks
 addBarricadeSouth(10576, 10602, 10679)
@@ -239,7 +244,6 @@ BWOSquareLoader.OnLoad = function(square)
         return d2 <= r * r
     end
 
-    local test = BWOSquareLoader.map
 	local x = square:getX()
     local y = square:getY()
     local z = square:getZ()
@@ -251,6 +255,14 @@ BWOSquareLoader.OnLoad = function(square)
         BWOSquareLoader.Clear(square)
         BWOSquareLoader.Add(square, BWOSquareLoader.map[id])
         BWOSquareLoader.map[id] = nil
+    end
+
+    -- remove map objects
+    if BWOScheduler.WorldAge < 48 then
+        if BWOSquareLoader.remove[id] then
+            BWOSquareLoader.Clear(square)
+            BWOSquareLoader.remove[id] = nil
+        end
     end
 
     -- remove deadbodies
@@ -271,7 +283,7 @@ BWOSquareLoader.OnLoad = function(square)
     end
 
     -- register global objects
-    if BWOScheduler.WorldAge < 90 then
+    if BWOScheduler.WorldAge < 90 and square:isOutside() then
         local spriteMap = {}
         spriteMap["location_business_bank_01_64"] = "atm"
         spriteMap["location_business_bank_01_65"] = "atm"
@@ -356,11 +368,19 @@ BWOSquareLoader.OnLoad = function(square)
                         local obj = IsoObject.new(square, "floors_burnt_01_1", "")
                         square:AddSpecialObject(obj)
                     end
+                    
                     if ZombRand(9) == 1 and square:isFree(false) then
-                        local rn = ZombRand(53)
-                        local sprite = "trash_01_" .. tostring(rn)
-                        local obj = IsoObject.new(square, sprite, "")
-                        square:AddSpecialObject(obj)
+                        local metaGrid = getWorld():getMetaGrid()
+                        local zone = metaGrid:getZoneAt(square:getX(), square:getY(), 0)
+                        if zone then
+                            local zoneType = zone:getType()
+                            if zoneType and zoneType == "TownZone" then
+                                local rn = ZombRand(53)
+                                local sprite = "trash_01_" .. tostring(rn)
+                                local obj = IsoObject.new(square, sprite, "")
+                                square:AddSpecialObject(obj)
+                            end
+                        end
                     end
                 end
             end

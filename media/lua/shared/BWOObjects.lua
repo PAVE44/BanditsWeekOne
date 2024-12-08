@@ -227,29 +227,24 @@ BWOObjects.FindExteriorDoor = function (bandit, def)
     local bz = bandit:getZ()
     local foundDist = math.huge
     local foundObj
+    local cnt = 0
     for x=def:getX(), def:getX2() + 1 do
         for y=def:getY(), def:getY2() + 1 do
             local square = cell:getGridSquare(x, y, def:getZ())
             if square then
-                local zombie = square:getZombie()
-                if not zombie or BanditUtils.GetCharacterID(zombie) == bid then
-                    local objects = square:getObjects()
-                    for i=0, objects:size()-1 do
-                        local object = objects:get(i)
-                        if instanceof(object, "IsoDoor") then
-                            if object:isExterior() then
-                                local dist = math.sqrt(math.pow(x - bx, 2) + math.pow(y - by, 2))
-                                if dist < foundDist then
-                                    foundObj = object
-                                    foundDist = dist
-                                end
-                            end
-                        end
+                local door = square:getIsoDoor()
+                if door and door:isExterior() then
+                    local dist = BanditUtils.DistTo(x, y, bx, by)
+                    if dist < foundDist then
+                        foundObj = door
+                        foundDist = dist
                     end
                 end
             end
+            cnt = cnt + 1
         end
     end
+    -- print ("EX DOOR CNT" .. cnt)
     return foundObj
 end
 
@@ -293,7 +288,7 @@ BWOObjects.FindDeadBody = function (bandit)
     result.z = false
 
     for id, deadBody in pairs(gmd.DeadBodies) do
-        local dist = BanditUtils.DistTo(bx, by, deadBody.x, deadBody.y)
+        local dist = BanditUtils.DistToManhattan(bx, by, deadBody.x, deadBody.y)
         if dist < result.dist then
             result.dist = dist
             result.x = deadBody.x
@@ -315,17 +310,20 @@ BWOObjects.FindGMD = function (bandit, otype)
     result.y = false
     result.z = false
 
-    for id, object in pairs(gmd.Objects) do
-        if object.otype == otype then
-            local dist = BanditUtils.DistTo(bx, by, object.x, object.y)
+    local cnt = 0
+    if gmd.Objects[otype] then
+        for id, object in pairs(gmd.Objects[otype]) do
+            local dist = BanditUtils.DistToManhattan(bx, by, object.x, object.y)
             if dist < result.dist then
                 result.dist = dist
                 result.x = object.x
                 result.y = object.y
                 result.z = object.z
             end
+            cnt = cnt + 1
         end
     end
-
+    
+    -- print ("scanned " .. otype .. ": " .. cnt)
     return result
 end

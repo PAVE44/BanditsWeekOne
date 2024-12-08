@@ -568,7 +568,7 @@
           <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
         </BroadcastEntry>
 
-        <BroadcastEntry ID="79565268-a8cd-4d3f-ac72-03bc560ea312" timestamp="6240" endstamp="7200" type="ActivateBroadcast" day="4" advertCat="none" isSegment="false">
+        <BroadcastEntry ID="79565268-a8cd-4d3f-ac72-03bc560ea312" timestamp="6240" endstamp="6780" type="ActivateBroadcast" day="4" advertCat="none" isSegment="false">
           <LineEntry ID="9589fd3d-5b52-4102-9df1-14e34d8d1271" r="224" g="0" b="0" codes="GUID:9589fd3d-5b52-4102-9df1-14e34d8d1271">${t:4.07}This station participates in the activation of the Public Safety Alert.</LineEntry>
           <LineEntry ID="e405018f-ed97-43ca-a5fd-311387374ab0" r="224" g="0" b="0" codes="GUID:e405018f-ed97-43ca-a5fd-311387374ab0">${t:3.31}Please listen carefully over the given message.</LineEntry>
           <LineEntry ID="3f370cfc-bd38-473f-a5a1-0bb6974ee958" r="224" g="0" b="0" codes="GUID:3f370cfc-bd38-473f-a5a1-0bb6974ee958">${t:2.04}[img=music]</LineEntry>
@@ -582,6 +582,51 @@
           <LineEntry ID="4a1c5acd-aead-4a8a-8498-a51f4135ae17" r="224" g="0" b="0" codes="GUID:4a1c5acd-aead-4a8a-8498-a51f4135ae17">${t:0.45}*click*</LineEntry>
           <LineEntry ID="b0c11ba4-5ecc-415e-a946-1a30d2dc8fef" r="224" g="0" b="0" codes="GUID:b0c11ba4-5ecc-415e-a946-1a30d2dc8fef">${t:0.63}*BANG*</LineEntry>
           <LineEntry ID="342caafd-1d3b-485b-87a9-6a1e0d6db9d2" r="224" g="0" b="0" codes="GUID:342caafd-1d3b-485b-87a9-6a1e0d6db9d2">${t:1.73}[img=music]</LineEntry>
+        </BroadcastEntry>
+
+        <BroadcastEntry ID="ed461909-8480-4e59-a925-a2294122286f" timestamp="6780" endstamp="6960" type="ActivateBroadcast" day="4" advertCat="none" isSegment="false">
+          <LineEntry ID="9589fd3d-5b52-4102-9df1-14e34d8d1271" r="224" g="0" b="0" codes="GUID:9589fd3d-5b52-4102-9df1-14e34d8d1271">${t:4.07}This station participates in the activation of the Public Safety Alert.</LineEntry>
+          <LineEntry ID="e405018f-ed97-43ca-a5fd-311387374ab0" r="224" g="0" b="0" codes="GUID:e405018f-ed97-43ca-a5fd-311387374ab0">${t:3.31}Please listen carefully over the given message.</LineEntry>
+          <LineEntry ID="3f370cfc-bd38-473f-a5a1-0bb6974ee958" r="224" g="0" b="0" codes="GUID:3f370cfc-bd38-473f-a5a1-0bb6974ee958">${t:2.04}[img=music]</LineEntry>
+          <LineEntry ID="c9fe9865-f92e-4982-989c-04549db55e85" r="224" g="0" b="0" codes="GUID:c9fe9865-f92e-4982-989c-04549db55e85">${t:4.76}We temporarily suspend our daily programming to bring you a live report from Kentucky.</LineEntry>
+          <LineEntry ID="f2d9ce09-9a25-4095-9e17-35ac40a95dfb" r="224" g="0" b="0" codes="GUID:f2d9ce09-9a25-4095-9e17-35ac40a95dfb">${t:4.45}Thousands of people in Louisville stand silent as they hear chaos,</LineEntry>
+          <LineEntry ID="c9fe9865-f92e-4982-989c-04549db55e85" r="224" g="0" b="0" codes="GUID:c9fe9865-f92e-4982-989c-04549db55e85">${t:3.90}occasionally distant gunshots and explosions from the boundary zone.</LineEntry>
+          <LineEntry ID="f6b79920-5b19-4795-8634-fc29c1ac05e7" r="224" g="0" b="0" codes="GUID:f6b79920-5b19-4795-8634-fc29c1ac05e7">${t:3.54}We can no longer reach back to our news crew inside Knox County</LineEntry>
+          <LineEntry ID="34427d7e-dd65-499b-baea-ead4dc82de0d" r="224" g="0" b="0" codes="GUID:34427d7e-dd65-499b-baea-ead4dc82de0d">${t:4.86}I'm noting three, four, five trails of smoke from the distance, </LineEntry>
+          <LineEntry ID="6e8c4f8e-7ca3-47e6-b31f-ca0a33bcc092" r="224" g="0" b="0" codes="GUID:6e8c4f8e-7ca3-47e6-b31f-ca0a33bcc092">${t:4.37}we don't know what is happening inside aside from the sickness.</LineEntry>
+        </BroadcastEntry>
+
+        <BroadcastEntry ID="7e7e8638-b0db-4d16-8980-a8a89e7c895d" timestamp="6960" endstamp="7200" type="ActivateBroadcast" day="4" advertCat="none" isSegment="false">
+          <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
+          <LineEntry ID="514c6101-b505-4f3f-9674-f7f1bce82445" r="40" g="180" b="255" codes="GUID:514c6101-b505-4f3f-9674-f7f1bce82445">${t:4.40}We return back to the Louisville checkpoint.</LineEntry>
+          <LineEntry ID="b15771de-e8a4-4de4-b5d4-7a3e926747b2" r="40" g="180" b="255" codes="GUID:b15771de-e8a4-4de4-b5d4-7a3e926747b2">${t:4.04}I am looking from far away but we can see a bunch of exhausted and wounded soldiers over by the camp,</LineEntry>
+          <LineEntry ID="57899299-19af-4e39-b1db-c057af5cbcdc" r="40" g="180" b="255" codes="GUID:57899299-19af-4e39-b1db-c057af5cbcdc">${t:4.35}I can see what appears to be citizens from the Knox County with medical gowns.</LineEntry>
+          <LineEntry ID="b33ad9dc-425a-4c2d-bd94-f153d3cc1249" r="40" g="180" b="255" codes="GUID:b33ad9dc-425a-4c2d-bd94-f153d3cc1249">${t:4.17}Judging from their expressions, it looks like they've been through war.</LineEntry>
+          <LineEntry ID="92d0dfa1-d399-4189-8e3d-18d8f549628e" r="40" g="180" b="255" codes="GUID:92d0dfa1-d399-4189-8e3d-18d8f549628e">${t:4.99}We don't know what this Knox Virus does but, I can tell you, it changes people.</LineEntry>
+          <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
+        </BroadcastEntry>
+
+        <BroadcastEntry ID="d05ba67e-989c-4cda-bafc-6a0782720d71" timestamp="7200" endstamp="7380" type="ActivateBroadcast" day="5" advertCat="none" isSegment="false" />
+
+        <BroadcastEntry ID="c9b4890c-13a9-4192-bc82-8dbfb7ce3806" timestamp="7380" endstamp="7860" type="ActivateBroadcast" day="5" advertCat="none" isSegment="false">
+          <LineEntry ID="9589fd3d-5b52-4102-9df1-14e34d8d1271" r="224" g="0" b="0" codes="GUID:9589fd3d-5b52-4102-9df1-14e34d8d1271">${t:4.07}This station participates in the activation of the Public Safety Alert.</LineEntry>
+          <LineEntry ID="e405018f-ed97-43ca-a5fd-311387374ab0" r="224" g="0" b="0" codes="GUID:e405018f-ed97-43ca-a5fd-311387374ab0">${t:3.31}Please listen carefully over the given message.</LineEntry>
+          <LineEntry ID="3f370cfc-bd38-473f-a5a1-0bb6974ee958" r="224" g="0" b="0" codes="GUID:3f370cfc-bd38-473f-a5a1-0bb6974ee958">${t:2.04}[img=music]</LineEntry>
+          <LineEntry ID="bbd48eef-df19-4fac-912d-e03523e0ee7a" r="224" g="0" b="0" codes="GUID:bbd48eef-df19-4fac-912d-e03523e0ee7a">${t:6.62}Louisville Police Department in conjunction with the United States Military has ordered the evacuation of the entire city.</LineEntry>
+          <LineEntry ID="e3402856-2eb7-4ea6-8d38-a269babda928" r="224" g="0" b="0" codes="GUID:e3402856-2eb7-4ea6-8d38-a269babda928">${t:3.62}You must leave personal belongings and pack essential supplies.</LineEntry>
+          <LineEntry ID="3ed4a1e2-7d1b-41be-8b55-f8a0ff2aae7b" r="224" g="0" b="0" codes="GUID:3ed4a1e2-7d1b-41be-8b55-f8a0ff2aae7b">${t:3.87}Multiple sick individuals have been reported in the outskirts of Louisville.</LineEntry>
+          <LineEntry ID="60c291a5-804f-4bb5-84d3-4956c19bca67" r="224" g="0" b="0" codes="GUID:60c291a5-804f-4bb5-84d3-4956c19bca67">${t:2.68}Those who stumbles upon an ill individual..</LineEntry>
+          <LineEntry ID="3201d6df-4778-486e-bf5c-d4863e428f8c" r="224" g="0" b="0" codes="GUID:3201d6df-4778-486e-bf5c-d4863e428f8c">${t:3.95}are required report them to your local authorities or stationed soldiers.</LineEntry>
+          <LineEntry ID="f212cd4c-f6c5-42a3-80ca-5bca9ee5ebdb" r="224" g="0" b="0" codes="GUID:f212cd4c-f6c5-42a3-80ca-5bca9ee5ebdb">${t:2.06}Thank you for your cooperation</LineEntry>
+        </BroadcastEntry>
+
+        <BroadcastEntry ID="71de9221-fdba-4862-8a34-9f301535b830" timestamp="7860" endstamp="8640" type="ActivateBroadcast" day="5" advertCat="none" isSegment="false">
+          <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
+          <LineEntry ID="cfb9d0c9-cb71-43e2-ac3c-8f6895539a58" r="40" g="180" b="255" codes="GUID:cfb9d0c9-cb71-43e2-ac3c-8f6895539a58">${t:2.92}Riots ensue across the metropolitan area, </LineEntry>
+          <LineEntry ID="179b873f-946d-4ad8-b012-88252bb41e11" r="40" g="180" b="255" codes="GUID:179b873f-946d-4ad8-b012-88252bb41e11">${t:4.35}demanding presidential eviction over the poor handling of the Knox epidemic.</LineEntry>
+          <LineEntry ID="9f3c7757-61ef-4489-8f9e-c437a0a3a5f3" r="40" g="180" b="255" codes="GUID:9f3c7757-61ef-4489-8f9e-c437a0a3a5f3">${t:5.99}Looting and panic buying becomes more frequent everywhere else, leaving staffs overwhelmed.</LineEntry>
+          <LineEntry ID="71b0b124-5c65-4540-9af2-4d33e2536628" r="40" g="180" b="255" codes="GUID:71b0b124-5c65-4540-9af2-4d33e2536628">${t:4.91}More and more people book flights as they want to leave before something hits the fan.</LineEntry>
+          <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
         </BroadcastEntry>
 
       </ScriptEntry>

@@ -130,7 +130,7 @@ function BanditCreator.MakeFromRoom(room)
                 end
                 bandit.weapons.melee = "Base.BareHands"
 
-            elseif roomName == "jayschicken_dining" then
+            elseif roomName == "jayschicken_dining" or roomName == "icecream" or roomName == "pileocrepe" then
                 bandit.outfit = BanditUtils.Choice({"Young", "Generic04", "Waiter_Market"})
                 bandit.weapons.melee = "Base.BareHands"
 
@@ -160,7 +160,7 @@ function BanditCreator.MakeFromRoom(room)
                 end
                 bandit.weapons.melee = "Base.BareHands"
 
-            elseif roomName == "grocery" or roomName == "gigamart" then
+            elseif roomName == "grocery" or roomName == "gigamart" or roomName == "jewelrystore" then
                 local rn = ZombRand(9)
                 if rn == 1 then
                     bandit.outfit = "OfficeWorkerSkirt"

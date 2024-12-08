@@ -34,8 +34,9 @@ ZombiePrograms.Inhabitant.Prepare = function(bandit)
 end
 
 ZombiePrograms.Inhabitant.Main = function(bandit)
+    local ts = getTimestampMs()
     local tasks = {}
-
+    
     local id = BanditUtils.GetCharacterID(bandit)
     local bx = bandit:getX()
     local by = bandit:getY()
@@ -72,6 +73,7 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
         Bandit.ForceSyncPart(bandit, syncData)
         return {status=true, next="Main", tasks=tasks}
     end
+    -- print ("INHABITANT 1: " .. (getTimestampMs() - ts))
     
     if room then
         local def = room:getRoomDef()
@@ -97,41 +99,38 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
         end
 
         -- instrusion
-        if not BWOBuildings.IsGuest(building) then
-            local playerList = BanditPlayer.GetPlayers()
-            for i=0, playerList:size()-1 do
-                local player = playerList:get(i)
-                if player and not BanditPlayer.IsGhost(player) then
-                    local building = player:getBuilding()
-                    local room = player:getSquare():getRoom()
-                    
-                    if building then
-                        local base = BanditPlayerBase.GetBase(player)
-                        if not base then
-                            local roomName = room:getName()
-                            if BWOBuildings.IsIntrusion(building, room) and bandit:CanSee(player) and not player:isOutside() then
-                                Bandit.Say(bandit, "DEFENDER_SPOTTED")
-                                -- BWOScheduler.Add("CallCopsHostile", 1000)
+        local playerList = BanditPlayer.GetPlayers()
+        for i=0, playerList:size()-1 do
+            local player = playerList:get(i)
+            if player and not BanditPlayer.IsGhost(player) then
+                local room = player:getSquare():getRoom()
+                
+                if room then
+                    local roomName = room:getName()
 
-                                if math.abs(id) % 2 == 0 then
-                                    Bandit.SetHostile(bandit, true)
-                                    Bandit.SetProgramStage(bandit, "Arm")
+                    if BWORooms.IsIntrusion(room) and bandit:CanSee(player) and not player:isOutside() then
+                        Bandit.Say(bandit, "DEFENDER_SPOTTED")
+                        -- BWOScheduler.Add("CallCopsHostile", 1000)
 
-                                    local brain = BanditBrain.Get(bandit)
-                                    local syncData = {}
-                                    syncData.id = brain.id
-                                    syncData.hostile = brain.hostile
-                                    syncData.program = brain.program
-                                    Bandit.ForceSyncPart(bandit, syncData)
+                        if math.abs(id) % 2 == 0 then
+                            Bandit.SetHostile(bandit, true)
+                            Bandit.SetProgramStage(bandit, "Arm")
 
-                                    return {status=true, next="Arm", tasks=tasks}
-                                end
-                            end
+                            local brain = BanditBrain.Get(bandit)
+                            local syncData = {}
+                            syncData.id = brain.id
+                            syncData.hostile = brain.hostile
+                            syncData.program = brain.program
+                            Bandit.ForceSyncPart(bandit, syncData)
+
+                            return {status=true, next="Arm", tasks=tasks}
                         end
                     end
                 end
             end
         end
+
+        -- print ("INHABITANT 2: " .. (getTimestampMs() - ts))
 
         -- react to events
         local subTasks = BanditPrograms.Events(bandit)
@@ -141,6 +140,7 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
             end
             return {status=true, next="Main", tasks=tasks}
         end
+        -- print ("INHABITANT 3: " .. (getTimestampMs() - ts))
 
         -- atm
         local subTasks = BanditPrograms.ATM(bandit)
@@ -150,6 +150,7 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
             end
             return {status=true, next="Main", tasks=tasks}
         end
+        -- print ("INHABITANT 4: " .. (getTimestampMs() - ts))
 
         -- house event actions
         local partyOn = false -- false
@@ -201,6 +202,7 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                 end
             end
         end
+        -- print ("INHABITANT 5: " .. (getTimestampMs() - ts))
 
         -- light switch
         if world:isHydroPowerOn() then
@@ -233,17 +235,30 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                 end
             end
         end
+        -- print ("INHABITANT 6: " .. (getTimestampMs() - ts))
 
         local door = BWOObjects.FindExteriorDoor(bandit, def)
         if door then
 
             local unlock
 
-            local buildingType = BWOBuildings.GetType(building)
-            local hours = BWOBuildings.OpenHours[buildingType]
+            local hours = {}
+            if BWOPopControl.ZombieMax > 0 then
+                hours.open = -1
+                hours.close = -1
+            elseif BWORooms.IsShop(room) then
+                hours.open = 8
+                hours.close = 21
+            elseif BWORooms.IsRestaurant(room) then
+                hours.open = 8
+                hours.close = 24
+            else
+                hours.open = -1
+                hours.close = -1
+            end
         
             if door:IsOpen() or not door:isLockedByKey() then
-                if hour < hours.open or hour >= hours.close or BWOPopControl.ZombieMax > 0 then
+                if hour < hours.open or hour >= hours.close then
                     unlock = false -- lock doors
                 end
             elseif door:isLockedByKey() or door:isLocked() then
@@ -269,6 +284,7 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                 end
             end
         end
+        -- print ("INHABITANT 7: " .. (getTimestampMs() - ts))
 
         -- barricade
         if BWOPopControl.ZombieMax >= 2 then
@@ -294,6 +310,7 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                 end
             end
         end
+        -- print ("INHABITANT 8: " .. (getTimestampMs() - ts))
 
         -- actions specific to room type
         if BWORoomPrograms[roomName] then
@@ -306,11 +323,13 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
             end
         end
     end
+    -- print ("INHABITANT 9: " .. (getTimestampMs() - ts))
     
     -- fallback
     local anim = BanditUtils.Choice({"ShiftWeight", "ChewNails", "PullAtCollar", "WipeBrow", "WipeHead"})
     local task = {action="Time", anim=anim, time=100}
     table.insert(tasks, task)
+    -- print ("INHABITANT 10: " .. (getTimestampMs() - ts))
 
     return {status=true, next="Main", tasks=tasks}
 end

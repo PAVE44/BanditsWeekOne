@@ -1,21 +1,5 @@
 BWOBuildings = BWOBuildings or {}
 
--- RoomPop defines a nominal numbers of npcs within a room
-BWOBuildings.RoomPop = {church=17, 
-                         bank=10,
-                         gigamart=16, generalstore=8, grocery=5, zippeestore=5, liquorstore=5, movierental=5, gasstore=4, clothingstore=3, clothesstore=4,
-                         bookstore=5, library=5,
-                         restaurant=14, dining=14, spiffo_dining=15, pizzawhirled=16, diningroom=12, cafeteria=10, cafe=8, bakery=5,
-                         classroom=14, 
-                         motelroom=1, motelroomoccupied=2,
-                         bedroom=1,
-                         restaurantkitchen=2, pizzakitchen=2, jayschicken_kitchen=2, gigamartkitchen=2, 
-                         mechanic=1, kitchen=1, bathroom=1,
-                         gym=5,
-                         aesthetic=5,
-                         medclinic=3, medical=3,
-                         breakroom=2}
-
 -- OpenHours defines opening hours for a given type of a building
 BWOBuildings.OpenHours = {}
 
@@ -311,73 +295,17 @@ BWOBuildings.Hmap.medical[21] = 0.5
 BWOBuildings.Hmap.medical[22] = 0.5
 BWOBuildings.Hmap.medical[23] = 0.5
 
--- guesses the type of a building bassed on room composition
--- works badly for modular buildings where there are multiple business
--- establishments
-BWOBuildings.GetType = function(building)
-    local btype = "unknown"
-    if building:containsRoom("policestorage") then
-        btype = "police"
-    elseif building:containsRoom("cell") then
-        btype = "prison"
-    elseif building:containsRoom("firestorage") then
-        btype = "firestation"
-    elseif building:containsRoom("church") then
-        btype = "church"
-    elseif building:containsRoom("medclinic") or building:containsRoom("medical")  or building:containsRoom("pharmacy")  then
-        btype = "medical"
-    elseif building:containsRoom("gunstore") then
-        btype = "gunstore"
-    elseif building:containsRoom("mechanic") then
-        btype = "mechanic"
-    elseif building:containsRoom("classroom") then
-        btype = "education"
-    elseif building:containsRoom("bank") then
-        btype = "bank"
-    elseif building:containsRoom("gasstore") or building:containsRoom("gasstorage") then
-        btype = "gasstation"
-    elseif building:containsRoom("bakery") or building:containsRoom("grocery") or building:containsRoom("liquorstore") or building:containsRoom("clothingstore") or building:containsRoom("clothesstore") or building:containsRoom("grocery") or building:containsRoom("gigamart") or building:containsRoom("zippeestore") or building:containsRoom("movierental") or building:containsRoom("bookstore") or building:containsRoom("aesthetic") then
-        btype = "commercial"
-    elseif building:containsRoom("cafe") or building:containsRoom("bar") or building:containsRoom("restaurant") or building:containsRoom("pizzawhirled") or building:containsRoom("spiffo_dining")  or building:containsRoom("jayschicken_dining") then
-        btype = "dining"
-    elseif building:containsRoom("motelroom") or building:containsRoom("motelroomoccupied") then
-        btype = "motel"
-    elseif building:containsRoom("warehouse") then
-        btype = "industrial"
-    elseif building:containsRoom("bedroom") and building:containsRoom("bathroom") then -- and building:containsRoom("kitchen")
-        btype = "residential"
-    elseif building:containsRoom("office") then
-        btype = "office"
+BWOBuildings.IsResidential = function(building)
+    if building:containsRoom("bedroom") and building:containsRoom("bathroom") then -- and building:containsRoom("kitchen")
+        return true
     end
-    return btype
+    return false
 end
 
 BWOBuildings.GetSize = function(building)
     local def = building:getDef()
-    local roomSize = (def:getX2() - def:getX()) * (def:getY2() - def:getY())
-    return roomSize
-end
-
-BWOBuildings.GetRoomPop = function(room)
-    local pop = 1
-    local roomName = room:getName()
-    
-    if BWOBuildings.RoomPop[roomName] then
-        pop = BWOBuildings.RoomPop[roomName]
-    else
-        local roomDef = room:getRoomDef()
-        local roomSize = (roomDef:getX2() - roomDef:getX()) * (roomDef:getY2() - roomDef:getY())
-        if roomSize >= 400 then
-            pop = 8
-        elseif roomSize >= 144 then
-            pop = 4
-        elseif roomSize >= 64 then
-            pop = 3
-        elseif roomSize >= 25 then
-            pop = 2
-        end
-    end
-    return pop
+    local size = (def:getX2() - def:getX()) * (def:getY2() - def:getY())
+    return size
 end
 
 BWOBuildings.IsEventBuilding = function(building, event)
@@ -392,114 +320,7 @@ BWOBuildings.IsEventBuilding = function(building, event)
     return false
 end
 
-BWOBuildings.IsGuest = function(building)
-    local gmd = GetBWOModData()
-    local buildingDef = building:getDef()
-    local id = buildingDef:getKeyId()
-    if gmd.EventBuildings[id] then
-        return true
-    end
-    return false
-end
-
-BWOBuildings.TakeIntention = function(building)
-    local player = getPlayer()
-    local profession = player:getDescriptor():getProfession()
-    local btype = BWOBuildings.GetType(building)
-
-    local shouldPay = false
-    local canTake = false
-    if btype == "police" and profession == "policeofficer" then
-        canTake = true
-    elseif btype == "prison" and profession == "securityguard" then
-        canTake = true
-    elseif btype == "firestation" and profession == "fireofficer" then
-        canTake = true
-    elseif btype == "medical" and (profession == "doctor" or profession == "nurse") then
-        canTake = true
-    elseif btype == "gunstore" and profession == "veteran" then
-        canTake = true
-    elseif btype == "mechanic" and profession == "mechanic" then
-        canTake = true
-    elseif btype == "bank" and profession == "securityguard" then
-        canTake = true
-    elseif btype == "industrial" and not (profession == "engineer" or profession == "metalworker") then
-        canTake = true
-    elseif btype == "gasstore" or btype == "commercial" then
-        shouldPay = true
-    end
-    return canTake, shouldPay
-end
-
-BWOBuildings.IsIntrusion = function(building, room)
-    local player = getPlayer()
-    local profession = player:getDescriptor():getProfession()
-    local btype = BWOBuildings.GetType(building)
-    local roomName = room:getName()
-
-    -- available professions types: 
-    -- unemployed, fireofficer, policeofficer, parkranger, constructionworker, securityguard, carpenter, burglar, chef, farmer, fisherman
-    -- doctor, veteran, nurse, lumberjack, fitnessinstructor, burgerflipper, electrician, metalworker, mechanics
-
-    if btype == "residential" then return true end
-
-    if roomName == "armystorage" and profession ~= "veteran" then return true end
-    if roomName == "gunstorestorage" and profession ~= "veteran" then return true end
-    if roomName == "policestorage" and profession ~= "policeofficer" then return true end
-    if roomName == "security" and not (profession == "policeofficer" or profession == "securityguard") then return true end
-    
-    if roomName == "firestorage" and profession ~= "fireofficer" then return true end
-    if roomName == "farmstorage" and profession ~= "farmer" then return true end
-    if roomName == "potatostorage" and profession ~= "farmer" then return true end
-    if roomName == "producestorage" and profession ~= "farmer" then return true end
-    if roomName == "electronicsstorage" and profession ~= "electrician" then return true end
-    if roomName == "radiostorage" and profession ~= "electrician" then return true end
-    if roomName == "dentiststorage" and (profession ~= "doctor" and profession ~= "nurse") then return true end
-    if roomName == "hospitalstorage" and (profession ~= "doctor" and profession ~= "nurse") then return true end
-    if roomName == "medicalstorage" and (profession ~= "doctor" and profession ~= "nurse") then return true end
-    if roomName == "pharmacystorage" and (profession ~= "doctor" and profession ~= "nurse") then return true end
-    if roomName == "burgerstorage" and (profession ~= "chef" and profession ~= "burgerflipper") then return true end
-    if roomName == "fishingstorage" and (profession ~= "chef" and profession ~= "fisherman") then return true end
-
-    local otherStorage = {"aestheticstorage", "batstorage", "barstorage", "batterystorage", "brewerystorage", "campingstorage", "candystorage", "clothingstorage", 
-                          "cornerstorestorage", "departmentstorage", "dogfoodstorage", "donut_kitchenstorage", "factorystorage", "furniturestorage", 
-                          "gasstorage", "generalstorestorage", "giftstorage", "grocerystorage", "jewelrystorage", "newspaperstorage", "pawnshopstorage", 
-                          "poststorage", "schoolstorage", "sewingstorage", "spiffosstorage", "sportstorage", "theatrestorage", "toolstorestorage",
-                          "toystorestorage", "zippeestorage"}
-
-    for _, storage in pairs(otherStorage) do
-        if roomName == storage then return true end
-    end
-
-    return false
-end
-
-BWOBuildings.GetPopMultiplier = function(building)
-    local btype = BWOBuildings.GetType(building)
-    local roomCnt = building:getRoomsNumber()
-    local worldAge = BWOScheduler.WorldAge
-    local symptomLevel = BWOScheduler.SymptomLevel
-    local gameTime = getGameTime()
-    local hour = gameTime:getHour()
-
-    local intensity = BWOBuildings.Hmap[btype][hour]
-
-    if symptomLevel > 0 then
-        if btype == "medical" or btype == "church" then
-            intensity = intensity + (1 * symptomLevel)
-        elseif btype == "residential" then
-            intensity = intensity + (0.6 * symptomLevel)
-        else
-            intensity = intensity -- - (0.1 * symptomLevel)
-        end
-    end
-
-    -- intensity = math.floor(intensity * BWOBuildings.GetSize(building) / 10)
-
-    return intensity
-end
-
-BWOBuildings.FindBuildingType = function(bsearch)
+BWOBuildings.FindBuildingWithRoom = function(bsearch)
     local player = getPlayer()
     local cell = player:getCell()
     local rooms = cell:getRoomList()
@@ -508,7 +329,7 @@ BWOBuildings.FindBuildingType = function(bsearch)
         local room = rooms:get(i)
 
         local building = room:getBuilding()
-        if building then
+        if building and building:containsRoom(bsearch) then
             local def = building:getDef()
             if math.abs(def:getX() - player:getX()) < 100 and math.abs(def:getX2() - player:getX()) < 100 and 
                math.abs(def:getY() - player:getY()) < 100 and math.abs(def:getY2() - player:getY()) < 100 then
@@ -527,11 +348,9 @@ BWOBuildings.FindBuildingType = function(bsearch)
         buildings[i], buildings[j] = buildings[j], buildings[i]
     end
     
+    -- return first after shuffle
     for key, building in pairs(buildings) do
-        local btype = BWOBuildings.GetType(building)
-        if bsearch == btype then
-            return building
-        end
+        return building
     end
 end
 

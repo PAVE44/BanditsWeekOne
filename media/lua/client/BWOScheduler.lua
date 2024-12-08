@@ -43,7 +43,7 @@ function BWOScheduler.MasterControl()
         -- church
         if hour >=6 and hour < 19 then
             if minute == 0 then
-                local church = BWOBuildings.FindBuildingType("church")
+                local church = BWOBuildings.FindBuildingWithRoom("church")
                 if church then
                     local def = church:getDef()
                     local x = (def:getX() + def:getX2()) / 2
@@ -58,7 +58,7 @@ function BWOScheduler.MasterControl()
         -- school
         if hour >=8 and hour < 17 then
             if minute == 10 or minute == 45 then
-                local school = BWOBuildings.FindBuildingType("education")
+                local school = BWOBuildings.FindBuildingWithRoom("education")
                 if school then
                     local def = school:getDef()
                     local emitter = getWorld():getFreeEmitter((def:getX() + def:getX2()) / 2, (def:getY() + def:getY2()) / 2, 0)
@@ -87,9 +87,8 @@ function BWOScheduler.MasterControl()
 
         if worldAge == 0  then
             if minute == 1 then
-                params.icon = true
                 BWOScheduler.Add("RegisterBase", params, 100)
-                BWOScheduler.Add("GetStartInventory", params, 120)
+                BWOScheduler.Add("Start", params, 120)
             elseif minute == 2 then 
                 BWOScheduler.Add("FixVehicles", params, 100)
             end
@@ -226,7 +225,7 @@ function BWOScheduler.MasterControl()
             BWOPopControl.InhabitantsNominal = 30
             BWOPopControl.ZombieMax = 2
             if minute == 1 then
-                params.sound = "BWOChopper"
+                params.sound = "BWOChopperDisperse"
                 BWOScheduler.Add("ChopperAlert", params, 100)
             end
         elseif worldAge == 54 then
@@ -403,7 +402,8 @@ function BWOScheduler.MasterControl()
             if minute == 0 then 
                 BWOScheduler.Add("Siren", params, 100)
             elseif minute == 11 then
-                params.intensity = 6
+                params.intensity = 12
+                params.hostile = true
                 BWOScheduler.Add("PoliceRiot", params, 100)
             elseif minute == 12 or minute == 44 then
                 params.sound = "BWOChopperDisperse"
@@ -429,7 +429,8 @@ function BWOScheduler.MasterControl()
                 params.intensity = 5
                 BWOScheduler.Add("Bandits", params, 100)
             elseif minute == 24 then
-                params.intensity = 7
+                params.intensity = 16
+                params.hostile = true
                 BWOScheduler.Add("PoliceRiot", params, 100)
             elseif minute == 33 or minute == 37 then
                 params.intensity = 6
@@ -456,7 +457,8 @@ function BWOScheduler.MasterControl()
                 params.instensity = 12
                 BWOScheduler.Add("Bikers", params, 100)
             elseif minute == 11 then
-                params.intensity = 8
+                params.intensity = 12
+                params.hostile = true
                 BWOScheduler.Add("PoliceRiot", params, 100)
             end
         elseif worldAge == 98 then
