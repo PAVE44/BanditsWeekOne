@@ -272,6 +272,35 @@ local arrivalSound = function(x, y, sound)
     emitter:playSound(sound)
 end
 
+local spawnVehicle = function(x, y, vtype)
+    local cell = getCell()
+    local square = getCell():getGridSquare(x, y, 0)
+    if not square then return end
+
+    local vehicle = addVehicleDebug(vtype, IsoDirections.S, nil, square)
+    if not vehicle then return end
+
+    for i = 0, vehicle:getPartCount() - 1 do
+        local container = vehicle:getPartByIndex(i):getItemContainer()
+        if container then
+            container:removeAllItems()
+        end
+    end
+
+    vehicle:getModData().BWO = {}
+    vehicle:getModData().BWO.wasRepaired = true
+    vehicle:repair()
+    vehicle:setColor(0, 0, 0)
+    vehicle:setGeneralPartCondition(80, 100)
+    vehicle:putKeyInIgnition(vehicle:createVehicleKey())
+    vehicle:tryStartEngine(true)
+    vehicle:engineDoStartingSuccess()
+    vehicle:engineDoRunning()
+    vehicle:setHeadlightsOn(true)
+    vehicle:setLightbarLightsMode(3)
+
+end
+
 -- params: [headlight(opt), lightbar(opt), alarm(opt)]
 BWOEvents.VehiclesUpdate = function(params)
     local vehicleList = getCell():getVehicles()
@@ -869,8 +898,7 @@ BWOEvents.CallCops = function(params)
     local x, y = findVehicleSpot2(params.x, params.y)
     if not x or not y then return end
 
-    local args = {type="Base.PickUpVanLightsPolice", x=x, y=y, engine=true, lights=true, lightbar=true}
-    sendClientCommand(getPlayer(), 'Commands', 'VehicleSpawn', args)
+    spawnVehicle (x, y, "Base.PickUpVanLightsPolice")
     arrivalSound(x, y, "ZSPoliceCar1")
 
     config = {}
@@ -925,8 +953,7 @@ BWOEvents.CallSWAT = function(params)
     local x, y = findVehicleSpot2(params.x, params.y)
     if not x or not y then return end
 
-    local args = {type="Base.PickUpVanLightsPolice", x=x, y=y, engine=true, lights=true, lightbar=true}
-    sendClientCommand(getPlayer(), 'Commands', 'VehicleSpawn', args)
+    spawnVehicle (x, y, "Base.PickUpVanLightsPolice")
     arrivalSound(x, y, "ZSPoliceCar1")
 
     config = {}
@@ -975,8 +1002,7 @@ BWOEvents.CallMedics = function(params)
     local x, y = findVehicleSpot2(params.x, params.y)
     if not x or not y then return end
 
-    local args = {type="Base.VanAmbulance", x=x, y=y, engine=true, lights=true, lightbar=true}
-    sendClientCommand(getPlayer(), 'Commands', 'VehicleSpawn', args)
+    spawnVehicle (x, y, "Base.VanAmbulance")
     arrivalSound(x, y, "ZSPoliceCar1")
 
     config = {}
@@ -1030,8 +1056,7 @@ BWOEvents.CallHazmats = function(params)
     local x, y = findVehicleSpot2(params.x, params.y)
     if not x or not y then return end
 
-    local args = {type="Base.VanAmbulance", x=x, y=y, engine=true, lights=true, lightbar=true}
-    sendClientCommand(getPlayer(), 'Commands', 'VehicleSpawn', args)
+    spawnVehicle (x, y, "Base.VanAmbulance")
     arrivalSound(x, y, "ZSPoliceCar1")
 
     config = {}
@@ -1075,8 +1100,7 @@ BWOEvents.CallFireman = function(params)
     local x, y = findVehicleSpot2(params.x, params.y)
     if not x or not y then return end
 
-    local args = {type="Base.PickUpTruckLightsFire", x=x, y=y, engine=true, lights=true, lightbar=true}
-    sendClientCommand(getPlayer(), 'Commands', 'VehicleSpawn', args)
+    spawnVehicle (x, y, "Base.PickUpTruckLightsFire")
     arrivalSound(x, y, "ZSPoliceCar1")
 
     config = {}

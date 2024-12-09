@@ -645,8 +645,18 @@ BWORoomPrograms.zippeestore = function(bandit, def)
             walkType = "Run"
         end
 
-        -- got enough, leave shop and become walker
-        if BWOScheduler.SymptomLevel > 0 or itemCnt > 10 then
+        local enough
+        if BWOScheduler.SymptomLevel == 0 then
+            enough = 4
+        elseif BWOScheduler.SymptomLevel == 1 then
+            enough = 6
+        elseif BWOScheduler.SymptomLevel == 2 then
+            enough = 8
+        elseif BWOScheduler.SymptomLevel == 3 then
+            enough = 12
+        end
+
+        if itemCnt > enough then
             table.insert(tasks, BanditUtils.GetMoveTask(0, bandit:getX() + 8, bandit:getY() + 8, 0, walkType, 11, false))
             return tasks
         end

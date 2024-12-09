@@ -23,6 +23,8 @@ BWOVehicles.VehicleSpawn = function(x, y, dir, btype)
                     container:removeAllItems()
                 end
             end
+            vehicle:getModData().BWO = {}
+            vehicle:getModData().BWO.wasRepaired = true
             vehicle:repair()
             vehicle:setColor(ZombRandFloat(0, 1), ZombRandFloat(0, 1), ZombRandFloat(0, 1))
             vehicle:setAlarmed(false)

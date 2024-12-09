@@ -55,6 +55,11 @@ BWORooms.tab = {
         occupations = {"securityguard"},
     },
 
+    bankstorage = {
+        isStorage = true,
+        occupations = {"securityguard"},
+    },
+
     bar = {
         isRestaurant = true,
     },
@@ -193,6 +198,10 @@ BWORooms.tab = {
         isShop = true,
     },
 
+    cell = {
+        occupations = {"securityguard", "policeofficer"}
+    },
+
     changeroom = {
 
     },
@@ -220,8 +229,17 @@ BWORooms.tab = {
 
     },
 
+    clinic = {
+        isShop = true,
+        isMedical = true,
+    },
+
     clothesstore = {
 
+    },
+
+    clothesstorestorage = {
+        isStorage = true,
     },
 
     clothingstorage = {
@@ -387,7 +405,11 @@ BWORooms.tab = {
 
     furniturestore = {
         isShop = true,
-     },
+    },
+
+    garage = {
+
+    },
 
     garagestorage = {
         isStorage = true,
@@ -459,6 +481,10 @@ BWORooms.tab = {
     },
 
     hall = {
+
+    },
+
+    hallway = {
 
     },
 
@@ -605,6 +631,14 @@ BWORooms.tab = {
 
     },
 
+    locker = {
+
+    },
+
+    lockerroom = {
+
+    },
+
     loggingfactory = {
 
     },
@@ -624,11 +658,13 @@ BWORooms.tab = {
 
     medical = {
         isShop = true,
+        isMedical = true,
         occupations = {"doctor", "nurse"}
     },
 
     medicalclinic = {
         isShop = true,
+        isMedical = true,
         occupations = {"doctor", "nurse"}
     },
 
@@ -636,6 +672,15 @@ BWORooms.tab = {
         isStorage = true,
         occupations = {"doctor", "nurse"}
     },
+
+    meeting = {
+
+    },
+
+    meetingroom = {
+
+    },
+
 
     metalshipping = {
 
@@ -718,7 +763,7 @@ BWORooms.tab = {
 
     pharmacy = {
         isShop = true,
-
+        isMedical = true,
     },
 
     pharmacystorage = {
@@ -775,7 +820,7 @@ BWORooms.tab = {
     },
 
     prisoncells = {
-        occupations = {"securityguard"}
+        occupations = {"securityguard", "policeofficer"}
     },
 
     producestorage = {
@@ -796,7 +841,15 @@ BWORooms.tab = {
         occupations = {"electrician"}
     },
 
+    recreation = {
+
+    },
+
     restaurant = {
+        isRestaurant = true,
+    },
+
+    restaurant_dining = {
         isRestaurant = true,
     },
 
@@ -804,6 +857,15 @@ BWORooms.tab = {
         isRestaurant = true,
         isKitchen = true,
         occupations = {"chef", "burgerflipper"}
+
+    },
+
+    restaurantstorage = {
+        isStorage = true,
+
+    },
+
+    room1 = {
 
     },
 
@@ -838,6 +900,10 @@ BWORooms.tab = {
         isShop = true,
     },
 
+    shoestorage = {
+        isStorage = true,
+    },
+
     sodatruck = {
         isShop = true,
     },
@@ -857,7 +923,7 @@ BWORooms.tab = {
     },
 
     sportstorage = {
-        isStorage = true,
+        isShop = true,
     },
 
     sportstore = {
@@ -865,6 +931,15 @@ BWORooms.tab = {
     },
 
     storageunit = {
+
+    },
+
+    storage = {
+        isStorage = true
+    },
+
+    storageclothes = {
+        isStorage = true,
 
     },
 
@@ -974,6 +1049,16 @@ BWORooms.IsStorage = function(room)
     end 
 end
 
+BWORooms.IsMedical = function(room)
+    local name = room:getName()
+    local data = BWORooms.tab[name]
+    if data.isMedical then 
+        return true
+    else
+        return false
+    end 
+end
+
 BWORooms.IsEmpty = function(room)
     local name = room:getName()
     local data = BWORooms.tab[name]
@@ -1005,8 +1090,10 @@ BWORooms.IsIntrusion = function(room)
     if BWORooms.IsShop(room) then return false end
 
     if BWORooms.IsRestaurant(room) then return false end
+
+    if BWORooms.IsMedical(room) then return false end
     
-    if roomName == "bathroom" or roomname == "church" then return false end
+    if roomName == "bathroom" or roomName == "church" then return false end
 
     local isIntrusion = true
     local name = room:getName()
@@ -1083,20 +1170,39 @@ BWORooms.GetRoomPopMod = function(room)
         else
             popMod = 1.6
         end
+        if BWOScheduler.SymptomLevel == 1 then
+            popMod = 1.2
+        elseif BWOScheduler.SymptomLevel == 2 then
+            popMod = 1.7
+        elseif BWOScheduler.SymptomLevel == 3 then
+            popMod = 2
+        elseif BWOScheduler.SymptomLevel == 4 then
+            popMod = 1.8
+        end
     elseif BWORooms.IsStorage(room) then
         popMod = 0.5
     elseif BWORooms.IsShop(room) then
         if hour < 8 then
             popMod = 0
         elseif hour < 10 then
-            popMod = 0.5
+            popMod = 0.7
         elseif hour < 19 then
-            popMod = 1.2
+            popMod = 1.8
         elseif hour < 20 then
             popMod = 0.5
         else
             popMod = 0
         end
+        if BWOScheduler.SymptomLevel == 1 then
+            popMod = 1.3
+        elseif BWOScheduler.SymptomLevel == 2 then
+            popMod = 2
+        elseif BWOScheduler.SymptomLevel == 3 then
+            popMod = 3
+        elseif BWOScheduler.SymptomLevel == 4 then
+            popMod = 0.8
+        end
+
     elseif BWORooms.IsRestaurant(room) then
         if hour < 8 then
             popMod = 0
@@ -1107,12 +1213,26 @@ BWORooms.GetRoomPopMod = function(room)
         elseif hour < 19 then
             popMod = 0.7
         elseif hour < 23 then
-            popMod = 2
+            popMod = 2.2
         elseif hour < 24 then
             popMod = 0.8
         end
+        if BWOScheduler.SymptomLevel >= 2 then
+            popMod = popMod * 0.5
+        end
     elseif BWORooms.IsEmpty(room) then
         popMod = 0.1
+    elseif BWORooms.IsMedical(room) then
+        if BWOScheduler.SymptomLevel == 1 then
+            popMod = 1.5
+        elseif BWOScheduler.SymptomLevel == 2 then
+            popMod = 3
+        elseif BWOScheduler.SymptomLevel == 3 then
+            popMod = 4
+        elseif BWOScheduler.SymptomLevel == 4 then
+            popMod = 4.5
+        end
+
     elseif roomName == "church" or roomName == "classroom" then
         if hour < 6 then
             popMod = 0
@@ -1120,6 +1240,9 @@ BWORooms.GetRoomPopMod = function(room)
             popMod = 2
         else
             popMod = 0
+        end
+        if BWOScheduler.SymptomLevel >= 2 then
+            popMod = popMod * 2
         end
     end
     return popMod

@@ -405,17 +405,20 @@ BWOPopControl.UpdateCivs = function()
 
     local tab = {}
     tab.Active = 0
+    tab.ArmyGuard = 0
+    tab.Bandit = 0
+    tab.Entertainer = 0
+    tab.Fireman = 0
     tab.Gardener = 0
     tab.Inhabitant = 0
     tab.Janitor = 0
     tab.Medic = 0
-    tab.Entertainer = 0
+    tab.Police = 0
     tab.Postal = 0
+    tab.RiotPolice = 0
     tab.Runner = 0
+    tab.Survivor = 0
     tab.Walker = 0
-    tab.Active = 0
-    tab.Looter = 0
-    tab.Bandit = 0
 
     for i = 0, zombieList:size() - 1 do
         local zombie = zombieList:get(i)
@@ -460,7 +463,7 @@ BWOPopControl.UpdateCivs = function()
     -- ADJUST: people on the streets
 
     -- count currently active civs
-    BWOPopControl.StreetsCnt = tab.Walker + tab.Runner + tab.Postal + tab.Gardener + tab.Janitor
+    BWOPopControl.StreetsCnt = tab.Walker + tab.Runner + tab.Postal + tab.Gardener + tab.Janitor + tab.Entertainer
 
     -- count desired population of civs
     local nominal = BWOPopControl.StreetsNominal
@@ -501,7 +504,7 @@ BWOPopControl.UpdateCivs = function()
     
     -- ADJUST: survivors (first organized immune civs)
     -- count currently active civs
-    BWOPopControl.SurvivorsCnt = tab.Looter
+    BWOPopControl.SurvivorsCnt = tab.Survivor
 
     -- count desired population of civs
     local nominal = BWOPopControl.SurvivorsNominal
