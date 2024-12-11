@@ -2,6 +2,11 @@ BWOVehicles = BWOVehicles or {}
 
 BWOVehicles.tab = {}
 
+BWOVehicles.carChoices = {"Base.CarLights", "Base.CarLuxury", "Base.CarNormal", "Base.CarStationWagon", 
+                          "Base.CarTaxi", "Base.ModernCar", "Base.PickUpTruck", "Base.PickUpTruckLights", 
+                          "Base.PickUpVan", "Base.PickUpVanLights", "Base.SUV", "Base.SmallCar", 
+                          "Base.SportsCar", "Base.StepVan", "Base.Van"}
+
 BWOVehicles.Register = function(vehicle)
     local id = vehicle:getId()
     BWOVehicles.tab[id] = vehicle
@@ -220,7 +225,7 @@ BWOVehicles.FindSpawnPoint = function(player)
     local res = list[1]
     if res.valid then
         local x, y, dir
-        local btype = BanditUtils.Choice({"Base.CarLights", "Base.CarLuxury", "Base.CarNormal", "Base.CarStationWagon", "Base.CarTaxi", "Base.ModernCar", "Base.PickUpTruck", "Base.PickUpTruckLights", "Base.PickUpVan", "Base.PickUpVanLights", "Base.SUV", "Base.SmallCar", "Base.SportsCar", "Base.StepVan", "Base.Van"})
+        local btype = BanditUtils.Choice(BWOVehicles.carChoices)
         if res.toNorth and res.toSouth then
             if ZombRand(2) == 0 then
                 x = res.toNorth.x

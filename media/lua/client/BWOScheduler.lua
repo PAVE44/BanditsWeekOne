@@ -462,11 +462,11 @@ function BWOScheduler.MasterControl()
                 BWOScheduler.Add("PoliceRiot", params, 100)
             end
         elseif worldAge == 98 then
-            BWOPopControl.StreetsNominal = 50
+            BWOPopControl.StreetsNominal = 80
             BWOPopControl.InhabitantsNominal = 45
             BWOPopControl.SurvivorsNominal = 7
         elseif worldAge == 99 then
-            BWOPopControl.StreetsNominal = 5
+            BWOPopControl.StreetsNominal = 35
             BWOPopControl.InhabitantsNominal = 40
             BWOPopControl.SurvivorsNominal = 7
             if minute == 2 then
@@ -478,8 +478,8 @@ function BWOScheduler.MasterControl()
     -- D5 03:00 - D6 01:00
     if worldAge >= 100 and worldAge < 136 then
         BWOScheduler.SymptomLevel = 5
-        BWOPopControl.StreetsNominal = 0
-        BWOPopControl.InhabitantsNominal = 0
+        BWOPopControl.StreetsNominal = 10
+        BWOPopControl.InhabitantsNominal = 10
         BWOPopControl.SurvivorsNominal = 8
         BWOPopControl.ZombieMax = 1000
         if worldAge == 105 then
@@ -530,20 +530,81 @@ function BWOScheduler.MasterControl()
     end
 
     -- D6 01:00 - ?
-    if worldAge >= 136 then
+    if worldAge >= 125 and worldAge < 144 then
         BWOScheduler.SymptomLevel = 5
-        BWOPopControl.StreetsNominal = 0
-        BWOPopControl.InhabitantsNominal = 0
+        BWOPopControl.StreetsNominal = 5
+        BWOPopControl.InhabitantsNominal = 5
         BWOPopControl.SurvivorsNominal = 10
         BWOPopControl.ZombieMax = 1000
 
         if worldAge == 125 then
             if minute == 2 then
+                params.intensity = 10
+                BWOScheduler.Add("Arson", params, 200)
                 BWOScheduler.Add("Asylum", params, 100)
+            elseif minute == 5 then
+                BWOScheduler.Add("Arson", params, 200)
             end
         elseif worldAge == 128 then
             if minute == 14 then
+                params.intensity = 12
+                BWOScheduler.Add("Army", params, 100)
+            elseif minute == 16 or minute == 27 then 
+                params.intensity = 18
+                BWOScheduler.Add("Arson", params, 200)
                 BWOScheduler.Add("Inmates", params, 100)
+            elseif minute == 58 then
+                BWOScheduler.Add("Arson", params, 200)
+            end
+        elseif worldAge == 130 then
+            if minute == 15 then
+                params.intensity = 12
+                BWOScheduler.Add("Army", params, 100)
+            end
+        elseif worldAge == 132 then
+            if minute == 11 then
+                params.intensity = 12
+                BWOScheduler.Add("Arson", params, 200)
+                BWOScheduler.Add("Army", params, 100)
+            end
+        elseif worldAge == 135 then
+            if minute % 10 == 0 then
+                params.intensity = 4
+                BWOScheduler.Add("Bandits", params, 100)
+            end
+        elseif worldAge == 136 then
+            if minute == 12 or minute == 14 then
+                params.intensity = 10
+                BWOScheduler.Add("Army", params, 100)
+            elseif minute == 13 then
+                params.intensity = 6
+                BWOScheduler.Add("Bandits", params, 100)
+                BWOScheduler.Add("Arson", params, 200)
+            end
+        elseif worldAge == 138 then
+            if minute % 8 == 0 then
+                params.intensity = 3
+                BWOScheduler.Add("Bandits", params, 100)
+            end
+            if minute == 33 then
+                params.intensity = 6
+                BWOScheduler.Add("Army", params, 100)
+            end
+        end
+    end
+
+    if worldAge >= 144 then
+        BWOScheduler.SymptomLevel = 5
+        BWOPopControl.StreetsNominal = 0
+        BWOPopControl.InhabitantsNominal = 0
+        BWOPopControl.SurvivorsNominal = 15
+        BWOPopControl.ZombieMax = 1000
+        if worldAge == 144 then
+            if minute == 0 then 
+                BWOScheduler.Add("Siren", params, 100)
+            elseif minute == 8 or minute == 24 or minute == 49 then
+                params.intensity = 20
+                BWOScheduler.Add("BombRun", params, 100)
             end
         end
     end

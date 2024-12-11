@@ -630,29 +630,53 @@ local onHitZombie = function(zombie, attacker, bodyPartType, handWeapon)
 end
 
 local onZombieDead = function(zombie)
-    local attacker = zombie:getAttackedBy()
 
+    if not zombie:getVariableBoolean("Bandit") then return end
+        
+    local bandit = zombie
+
+    local attacker = bandit:getAttackedBy()
     if not attacker then
-        attacker = zombie:getTarget()
+        attacker = bandit:getTarget()
     end
 
-    BWOPopControl.CheckHostility(zombie, attacker)
+    BWOPopControl.CheckHostility(bandit, attacker)
 
     -- register dead body
-    local args = {x=zombie:getX(), y=zombie:getY(), z=zombie:getZ()}
+    local args = {x=bandit:getX(), y=bandit:getY(), z=bandit:getZ()}
     sendClientCommand(getPlayer(), 'Commands', 'DeadBodyAdd', args)
 
     local params ={}
-    params.x = zombie:getX()
-    params.y = zombie:getY()
-    params.z = zombie:getZ()
+    params.x = bandit:getX()
+    params.y = bandit:getY()
+    params.z = bandit:getZ()
     params.hostile = false
 
+    -- call medics
     if BWOPopControl.Medics.On then
         BWOScheduler.Add("CallMedics", params, 15000)
     elseif BWOPopControl.Hazmats.On then
         BWOScheduler.Add("CallHazmats", params, 15500)
     end
+
+    -- deprovision bandit (bandit main function is no longer doing that for clan 0)
+    Bandit.Say(bandit, "DEAD", true)
+
+    local id = BanditUtils.GetCharacterID(bandit)
+    local brain = BanditBrain.Get(bandit)
+
+    bandit:setUseless(false)
+    bandit:setReanim(false)
+    bandit:setVariable("Bandit", false)
+    bandit:setPrimaryHandItem(nil)
+    bandit:clearAttachedItems()
+    bandit:resetEquippedHandsModels()
+    -- bandit:getInventory():clear()
+
+    args = {}
+    args.id = id
+    sendClientCommand(getPlayer(), 'Commands', 'BanditRemove', args)
+    BanditBrain.Remove(bandit)
 end
 
 local onNewFire = function(fire)

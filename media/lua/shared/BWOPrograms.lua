@@ -178,7 +178,7 @@ BanditPrograms.Events = function(bandit)
     if target.x and target.y and target.z then
         local square = cell:getGridSquare(target.x, target.y, target.z)
         if square and BanditUtils.LineClear(bandit, square) then
-            if target.dist >= 3 and target.dist < 15 then
+            if target.dist >= 5 and target.dist < 16 then
                 local walkType = "Run"
                 table.insert(tasks, BanditUtils.GetMoveTask(0, target.x, target.y, target.z, walkType, target.dist, false))
                 return tasks

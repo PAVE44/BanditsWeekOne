@@ -1127,7 +1127,7 @@ BWORooms.IsIntrusion = function(room)
         isIntrusion = false 
     elseif BWORooms.IsMedical(room) then 
         isIntrusion = false 
-    elseif roomName == "bathroom" or roomName == "church" then 
+    elseif roomName == "church" then 
         isIntrusion = false 
     end
 
