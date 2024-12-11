@@ -833,7 +833,7 @@ BWORoomPrograms.restaurant = function(bandit, def)
                             local props = sprite:getProperties()
                             if props:Is("CustomName") then
                                 local name = props:Val("CustomName")
-                                if name == "Table" then
+                                if name == "Table" or name == "Light Round Table" then
                                     -- who is seated at the table
 
                                     local nes = {}

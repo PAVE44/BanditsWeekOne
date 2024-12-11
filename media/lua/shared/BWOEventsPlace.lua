@@ -66,7 +66,39 @@ function BWOEventsPlace.ArmyGuards(x, y, z)
 
     if SandboxVars.Bandits.General_ArrivalIcon then
         local icon = "media/ui/raid.png"
-        local color = {r=0, g=1, b=0} -- orange
+        local color = {r=0, g=1, b=0} -- green
         BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
     end
+end
+
+function BWOEventsPlace.CarMechanic(x, y, z, directions)
+
+    local cell = getCell()
+    local square = getCell():getGridSquare(x, y, 0)
+    if not square then return end
+
+    local vtype = BanditUtils.Choice(BWOVehicles.carChoices)
+
+    local vehicle = addVehicleDebug(vtype, directions, nil, square)
+    if not vehicle then return end
+
+    for i = 0, vehicle:getPartCount() - 1 do
+        local container = vehicle:getPartByIndex(i):getItemContainer()
+        if container then
+            container:removeAllItems()
+        end
+    end
+
+    vehicle:getModData().BWO = {}
+    vehicle:getModData().BWO.wasRepaired = true
+    vehicle:repair()
+    vehicle:setColor(0, 0, 0)
+    vehicle:setGeneralPartCondition(80, 100)
+    vehicle:putKeyInIgnition(vehicle:createVehicleKey())
+    -- vehicle:tryStartEngine(true)
+    -- vehicle:engineDoStartingSuccess()
+    -- vehicle:engineDoRunning()
+    -- vehicle:setHeadlightsOn(true)
+    -- vehicle:setLightbarLightsMode(3)
+
 end

@@ -943,7 +943,7 @@ BWOEvents.CallCops = function(params)
         BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, params.x, params.y, color)
     end
 
-    BWOPopControl.Police.Cooldown = 100
+    BWOPopControl.Police.Cooldown = 30
 end
 
 -- params: [x, y, hostile]
@@ -992,7 +992,7 @@ BWOEvents.CallSWAT = function(params)
     vparams.lightbar = true
     BWOScheduler.Add("VehiclesUpdate", vparams, 500)
 
-    BWOPopControl.SWAT.Cooldown = 300
+    BWOPopControl.SWAT.Cooldown = 120
 end
 
 -- params: [x, y]
@@ -1045,7 +1045,7 @@ BWOEvents.CallMedics = function(params)
         BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, params.x, params.y, color)
     end
 
-    BWOPopControl.Medics.Cooldown = 80
+    BWOPopControl.Medics.Cooldown = 45
 end
 
 -- params: [x, y]
@@ -1090,7 +1090,7 @@ BWOEvents.CallHazmats = function(params)
     vparams.lightbar = true
     BWOScheduler.Add("VehiclesUpdate", vparams, 500)
 
-    BWOPopControl.Hazmats.Cooldown = 100
+    BWOPopControl.Hazmats.Cooldown = 50
 end
 
 -- params: [x, y]
@@ -1139,7 +1139,7 @@ BWOEvents.CallFireman = function(params)
         BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, x, y, color)
     end
 
-    BWOPopControl.Fireman.Cooldown = 60
+    BWOPopControl.Fireman.Cooldown = 25
 end
 
 -- bandits spawn groups
@@ -1389,7 +1389,7 @@ BWOEvents.Inmates = function(params)
         event.bandits = {}
         
         local bandit = BanditCreator.MakeFromWave(config)
-        local intensity = 14
+        local intensity = params.intensity
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)
@@ -1430,7 +1430,7 @@ BWOEvents.Asylum = function(params)
         event.bandits = {}
         
         local bandit = BanditCreator.MakeFromWave(config)
-        local intensity = 16
+        local intensity = params.intensity
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)
@@ -1441,6 +1441,47 @@ BWOEvents.Asylum = function(params)
         if SandboxVars.Bandits.General_ArrivalIcon then
             local icon = "media/ui/loot.png"
             local color = {r=1, g=0.5, b=0} -- orange
+            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+        end
+    end
+end
+
+-- params: [intensity]
+BWOEvents.Army = function(params)
+    local player = getPlayer()
+
+    config = {}
+    config.clanId = 16
+    config.hasRifleChance = 100
+    config.hasPistolChance = 100
+    config.rifleMagCount = 6
+    config.pistolMagCount = 4
+
+    local event = {}
+    event.hostile = false
+    event.occured = false
+    event.program = {}
+    event.program.name = "Police"
+    event.program.stage = "Prepare"
+
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(40,45))
+    if spawnPoint then
+        event.x = spawnPoint.x
+        event.y = spawnPoint.y
+        event.bandits = {}
+        
+        local bandit = BanditCreator.MakeFromWave(config)
+        local intensity = params.intensity
+        if intensity > 0 then
+            for i=1, intensity do
+                table.insert(event.bandits, bandit)
+            end
+            sendClientCommand(player, 'Commands', 'SpawnGroup', event)
+        end
+
+        if SandboxVars.Bandits.General_ArrivalIcon then
+            local icon = "media/ui/raid.png"
+            local color = {r=0, g=1, b=0} -- green
             BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
         end
     end

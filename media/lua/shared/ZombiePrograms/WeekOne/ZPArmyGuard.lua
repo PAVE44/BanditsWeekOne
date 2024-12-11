@@ -49,7 +49,7 @@ ZombiePrograms.ArmyGuard.Main = function(bandit)
     if closestZombie.dist < 15 then
         Bandit.Say(bandit, "SPOTTED")
         Bandit.ClearTasks(bandit)
-        Bandit.SetProgram(bandit, "Looter", {})
+        Bandit.SetProgram(bandit, "Police", {})
         Bandit.ForceStationary(bandit, false)
         return {status=true, next="Prepare", tasks=tasks}
     end

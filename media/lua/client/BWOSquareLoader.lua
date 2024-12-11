@@ -176,7 +176,20 @@ addNuke(7267, 8320, 700) -- doe valley
 addNuke(6350, 5430, 700) -- riverside
 addNuke(11740, 6900, 700) -- westpoint
 
--- addNuke(11740, 6900, 700) -- LV
+-- mechanic cars
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5467, y=9652, z=0, directions=IsoDirections.E}) -- riverside
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5467, y=9661, z=0, directions=IsoDirections.E}) -- riverside
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=10608, y=9404, z=0, directions=IsoDirections.E}) -- muldraugh
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=10608, y=9409, z=0, directions=IsoDirections.E}) -- muldraugh
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=10180, y=10936, z=0, directions=IsoDirections.W}) -- muldraugh
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=10180, y=10945, z=0, directions=IsoDirections.W}) -- muldraugh
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5429, y=5960, z=0, directions=IsoDirections.E}) -- riverside
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5429, y=5964, z=0, directions=IsoDirections.E}) -- riverside
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=8151, y=11322, z=0, directions=IsoDirections.W}) -- rosewood
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=8151, y=11331, z=0, directions=IsoDirections.W}) -- rosewood
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=11897, y=6809, z=0, directions=IsoDirections.N}) -- westpoint
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=12273, y=6927, z=0, directions=IsoDirections.W}) -- westpoint
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=12273, y=6934, z=0, directions=IsoDirections.W}) -- westpoint
 
 
 BWOSquareLoader.Clear = function(square)
@@ -423,7 +436,7 @@ BWOSquareLoader.VehicleRemover = function()
             if not md.BWO.wasRepaired then
                 local scriptName = vehicle:getScriptName()
                 local engine = vehicle:getPartById("Engine")
-                if scriptName:embodies("Burnt") or scriptName:embodies("Smashed") or engine:getCondition() < 50 then
+                if scriptName:embodies("Burnt") or scriptName:embodies("Smashed") or (engine and engine:getCondition() < 50) then
                     table.insert(toDelete, vehicle)
                 else
                     vehicle:repair()

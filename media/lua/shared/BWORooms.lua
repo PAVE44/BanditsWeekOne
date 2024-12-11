@@ -338,6 +338,10 @@ BWORooms.tab = {
         isStorage = true,
     },
 
+    dressingrooms = {
+
+    },
+
     druglab = {
 
     },
@@ -656,6 +660,12 @@ BWORooms.tab = {
         occupations = {"mechanic"}
     },
 
+    medclinic = {
+        isShop = true,
+        isMedical = true,
+        occupations = {"doctor", "nurse"}
+    },
+
     medical = {
         isShop = true,
         isMedical = true,
@@ -881,6 +891,7 @@ BWORooms.tab = {
     },
 
     security = {
+        isStorage = true,
         occupations = {"securityguard"}
     },
 
@@ -1022,7 +1033,7 @@ BWORooms.tab = {
 BWORooms.IsShop = function(room)
     local name = room:getName()
     local data = BWORooms.tab[name]
-    if data.isShop then 
+    if data and data.isShop then 
         return true
     else
         return false
@@ -1032,7 +1043,7 @@ end
 BWORooms.IsRestaurant = function(room)
     local name = room:getName()
     local data = BWORooms.tab[name]
-    if data.isRestaurant then 
+    if data and data.isRestaurant then 
         return true
     else
         return false
@@ -1042,7 +1053,7 @@ end
 BWORooms.IsStorage = function(room)
     local name = room:getName()
     local data = BWORooms.tab[name]
-    if data.isStorage then 
+    if data and data.isStorage then 
         return true
     else
         return false
@@ -1052,7 +1063,7 @@ end
 BWORooms.IsMedical = function(room)
     local name = room:getName()
     local data = BWORooms.tab[name]
-    if data.isMedical then 
+    if data and data.isMedical then 
         return true
     else
         return false
@@ -1062,7 +1073,7 @@ end
 BWORooms.IsEmpty = function(room)
     local name = room:getName()
     local data = BWORooms.tab[name]
-    if data.isEmpty then 
+    if data and data.isEmpty then 
         return true
     else
         return false
@@ -1079,23 +1090,17 @@ BWORooms.IsIntrusion = function(room)
     local building = room:getBuilding()
     local roomName = room:getName()
 
-    if BWOBuildings.IsEventBuilding(building, "party") then return false end
+    -- instrusions
+    local isIntrusion = false
+    if BWOBuildings.IsResidential(building) then 
+        isIntrusion = true
+    end
 
-    if BWOBuildings.IsEventBuilding(building, "home") then return false end
+    if BWORooms.IsStorage(room) then 
+        isIntrusion = true
+    end
 
-    -- if BWOBuildings.IsResidential(building) then return true end
-
-    if BWORooms.IsEmpty(room) then return false end
-
-    if BWORooms.IsShop(room) then return false end
-
-    if BWORooms.IsRestaurant(room) then return false end
-
-    if BWORooms.IsMedical(room) then return false end
-    
-    if roomName == "bathroom" or roomName == "church" then return false end
-
-    local isIntrusion = true
+    -- exceptions
     local name = room:getName()
     local tab = BWORooms.tab
     local data = BWORooms.tab[name]
@@ -1108,6 +1113,22 @@ BWORooms.IsIntrusion = function(room)
                 end
             end
         end
+    end
+
+    if BWOBuildings.IsEventBuilding(building, "party") then 
+        isIntrusion = false 
+    elseif BWOBuildings.IsEventBuilding(building, "home") then 
+        isIntrusion = false 
+    elseif BWORooms.IsEmpty(room) then  
+        isIntrusion = false 
+    elseif BWORooms.IsShop(room) then 
+        isIntrusion = false 
+    elseif BWORooms.IsRestaurant(room) then 
+        isIntrusion = false 
+    elseif BWORooms.IsMedical(room) then 
+        isIntrusion = false 
+    elseif roomName == "church" then 
+        isIntrusion = false 
     end
 
     return isIntrusion
@@ -1127,10 +1148,6 @@ BWORooms.TakeIntention = function(room)
         canTake = true
         shouldPay = false
 
-    elseif BWOBuildings.IsResidential(building) then 
-        canTake = false
-        shouldPay = false
-
     elseif BWORooms.IsShop(room) then
         canTake = false
         shouldPay = true
@@ -1138,6 +1155,10 @@ BWORooms.TakeIntention = function(room)
     elseif BWORooms.IsRestaurant(room) then
         canTake = false
         shouldPay = true
+
+    elseif BWOBuildings.IsResidential(building) then 
+        canTake = false
+        shouldPay = false
 
     end
 
@@ -1244,6 +1265,8 @@ BWORooms.GetRoomPopMod = function(room)
         if BWOScheduler.SymptomLevel >= 2 then
             popMod = popMod * 2
         end
+    elseif roomName == "hall" then
+        popMod = 0.2
     end
     return popMod
 end
