@@ -293,7 +293,7 @@ local AddVehicles = function()
     if hour == 5 then
         max = 1 
     elseif hour >= 6 and hour < 20 then
-        max = 2 
+        max = 4 
     elseif hour >= 20 and hour < 23 then
         max = 1
     end

@@ -423,7 +423,7 @@ BWOSquareLoader.VehicleRemover = function()
             if not md.BWO.wasRepaired then
                 local scriptName = vehicle:getScriptName()
                 local engine = vehicle:getPartById("Engine")
-                if scriptName:embodies("Burnt") or scriptName:embodies("Smashed") or engine:getCondition() < 50 then
+                if scriptName:embodies("Burnt") or scriptName:embodies("Smashed") or (engine and engine:getCondition() < 50) then
                     table.insert(toDelete, vehicle)
                 else
                     vehicle:repair()

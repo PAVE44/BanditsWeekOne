@@ -99,8 +99,8 @@ BWOPopControl.StreetsSpawn = function(cnt)
     local bandit = BanditCreator.MakeFromWave(config)
 
     for i = 1, cnt do
-        local x = 30 + ZombRand(30)
-        local y = 30 + ZombRand(30)
+        local x = 30 + ZombRand(20)
+        local y = 30 + ZombRand(20)
         
         if ZombRand(2) == 1 then x = -x end
         if ZombRand(2) == 1 then y = -y end
@@ -167,7 +167,7 @@ BWOPopControl.StreetsDespawn = function(cnt)
                     local zy = zombie:getY()
                     local dist = BanditUtils.DistTo(px, py, zx, zy)
                     
-                    if dist > 45 then
+                    if dist > 50 then
                         zombie:removeFromSquare()
                         zombie:removeFromWorld()
                         args = {}
@@ -229,7 +229,7 @@ BWOPopControl.InhabitantsSpawn = function(cnt)
                         event.y = spawnSquare:getY()
                         event.z = spawnSquare:getZ()
                         local dist = BanditUtils.DistTo(px, py, event.x, event.y)
-                        if dist > 30 then
+                        if dist > 30 and dist < 50 then
                             event.bandits = {}
                             local bandit = BanditCreator.MakeFromRoom(spawnRoom)
                             if bandit then
@@ -267,7 +267,7 @@ BWOPopControl.InhabitantsDespawn = function(cnt)
                     local zy = zombie:getY()
                     local dist = BanditUtils.DistTo(px, py, zx, zy)
                     
-                    if dist > 55 then
+                    if dist > 50 then
                         zombie:removeFromSquare()
                         zombie:removeFromWorld()
                         args = {}
@@ -340,7 +340,7 @@ BWOPopControl.SurvivorsDespawn = function(cnt)
                     local zy = zombie:getY()
                     local dist = BanditUtils.DistTo(px, py, zx, zy)
                     
-                    if dist > 45 then
+                    if dist > 50 then
                         zombie:removeFromSquare()
                         zombie:removeFromWorld()
                         args = {}
@@ -399,9 +399,7 @@ BWOPopControl.UpdateCivs = function()
     local zombieList = cell:getZombieList()
 
     local totalb = 0 -- all civs
-    local totalbc = 0 -- all civs close to player
     local totalz = 0 -- all zeds
-    local totalzc = 0 -- all zeds close to player
 
     local tab = {}
     tab.Active = 0
@@ -433,17 +431,7 @@ BWOPopControl.UpdateCivs = function()
             else
                 tab[prg] = 1
             end
-            if dist < 50 then
-                totalbc = totalbc + 1
-            end
-            totalb = totalb + 1
-        else
-            if dist < 50 then
-                totalzc = totalzc + 1
-            end
-            totalz = totalz + 1
         end
-
     end
 
     -- ADJUST cooldowns 
@@ -490,7 +478,7 @@ BWOPopControl.UpdateCivs = function()
     -- count desired population of civs
     local nominal = BWOPopControl.InhabitantsNominal
     local density = BanditScheduler.GetDensityScore(player, 120)
-    BWOPopControl.InhabitantsMax = nominal * density
+    BWOPopControl.InhabitantsMax = nominal * density * 1.5
 
     -- count missing amount to spawn
     local missing = BWOPopControl.InhabitantsMax - BWOPopControl.InhabitantsCnt
@@ -508,7 +496,7 @@ BWOPopControl.UpdateCivs = function()
 
     -- count desired population of civs
     local nominal = BWOPopControl.SurvivorsNominal
-    BWOPopControl.SurvivorsMax = nominal * (totalzc - 10)
+    BWOPopControl.SurvivorsMax = nominal
 
     -- count missing amount to spawn
     local missing = BWOPopControl.SurvivorsMax - BWOPopControl.SurvivorsCnt
@@ -539,6 +527,7 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
     if not attacker then return end
 
     -- attacking zombies is ok!
+    local brain = BanditBrain.Get(bandit)
     if not bandit:getVariableBoolean("Bandit") then return end
 
     -- killing bandits is ok!
@@ -565,8 +554,8 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
 
                     local wasPlayerFault = false
                     if instanceof(attacker, "IsoPlayer") and attacker:getDisplayName() == getPlayer():getDisplayName() and brain.clan == 0 and brain.program.name ~= "Thief" then
-                        if  brain.id ~= id then
-                            wasPlayerFault = true
+                        wasPlayerFault = true
+                        if brain.id ~= id then
                             local outfit = bandit:getOutfitName()
                             if outfit == "Police" then
                                 if BWOPopControl.SWAT.On then
@@ -642,6 +631,11 @@ end
 
 local onZombieDead = function(zombie)
     local attacker = zombie:getAttackedBy()
+
+    if not attacker then
+        attacker = zombie:getTarget()
+    end
+
     BWOPopControl.CheckHostility(zombie, attacker)
 
     -- register dead body
