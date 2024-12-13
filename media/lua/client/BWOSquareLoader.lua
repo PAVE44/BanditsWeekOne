@@ -423,7 +423,7 @@ end
 
 -- removes burnt / smashed vehicles
 -- apparently vehicle loading is deffered relative to square load, so this needs to be handled separately
-BWOSquareLoader.VehicleRemover = function()
+BWOSquareLoader.VehicleFixOrRemove = function()
     if BWOScheduler.WorldAge > 90 then return end
 
     local vehicleList = getCell():getVehicles()
@@ -451,6 +451,12 @@ BWOSquareLoader.VehicleRemover = function()
                             end
                         end
                     end
+
+                    local gasTank = vehicle:getPartById("GasTank")
+                    if gasTank then
+                        local max = gasTank:getContainerCapacity()
+                        gasTank:setContainerContentAmount(ZombRandFloat(0, max))
+                    end
                     md.BWO.wasRepaired = true
                 end
             end
@@ -468,4 +474,4 @@ end
 
 Events.LoadGridsquare.Add(BWOSquareLoader.OnLoad)
 Events.EveryOneMinute.Add(BWOSquareLoader.LocationEvents)
-Events.EveryOneMinute.Add(BWOSquareLoader.VehicleRemover)
+Events.EveryOneMinute.Add(BWOSquareLoader.VehicleFixOrRemove)

@@ -224,8 +224,7 @@ ZombiePrograms.Entertainer.Main = function(bandit)
     end
     
     -- fallback
-    local anim = BanditUtils.Choice({"ShiftWeight", "ChewNails", "PullAtCollar", "WipeBrow", "WipeHead"})
-    local task = {action="Time", anim=anim, time=100}
+    local task = {action="Time", anim="Shrug", time=200}
     table.insert(tasks, task)
 
     return {status=true, next="Main", tasks=tasks}

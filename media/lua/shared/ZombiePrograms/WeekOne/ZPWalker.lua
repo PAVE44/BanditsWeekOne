@@ -249,15 +249,10 @@ ZombiePrograms.Walker.Main = function(bandit)
         return {status=true, next="Main", tasks=tasks}
     end
     -- print ("WALKER 12: " .. (getTimestampMs() - ts))
-    
-    -- fallback if going somewhere results in interior square
-    local subTasks = BanditPrograms.Fallback(bandit)
-    if #subTasks > 0 then
-        for _, subTask in pairs(subTasks) do
-            table.insert(tasks, subTask)
-        end
-        return {status=true, next="Main", tasks=tasks}
-    end
+
+    -- fallback
+    local task = {action="Time", anim="Shrug", time=200}
+    table.insert(tasks, task)
 
     -- print ("WALKER 13: " .. (getTimestampMs() - ts))
     return {status=true, next="Main", tasks=tasks}

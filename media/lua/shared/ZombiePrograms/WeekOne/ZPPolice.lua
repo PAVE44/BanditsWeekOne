@@ -179,6 +179,7 @@ ZombiePrograms.Police.Main = function(bandit)
             table.insert(tasks, BanditUtils.GetMoveTask(endurance, target.x+dx+dxf, target.y+dy+dyf, target.z, walkType, target.dist, closeSlow))
         end
     else
+        -- fixme change to patrol program so its not affected by walkder typical behavior like protersts
         Bandit.ClearTasks(bandit)
         Bandit.SetHostile(bandit, false)
         Bandit.SetProgram(bandit, "Walker", {})
@@ -189,6 +190,10 @@ ZombiePrograms.Police.Main = function(bandit)
         Bandit.ForceSyncPart(bandit, syncData)
         return {status=true, next="Main", tasks=tasks}
     end
+
+    -- fallback
+    local task = {action="Time", anim="Shrug", time=200}
+    table.insert(tasks, task)
 
     return {status=true, next="Main", tasks=tasks}
 end

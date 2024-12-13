@@ -79,6 +79,8 @@ ZombieActions.Extinguish.onComplete = function(zombie, task)
         local square = cell:getGridSquare(task.x, task.y, task.z)
         if square then
             square:stopFire()
+            local args = {x=task.x, y=task.y, z=task.z, otype="fire"}
+            sendClientCommand(getPlayer(), 'Commands', 'ObjectRemove', args)
         end
     end
     if task.item then

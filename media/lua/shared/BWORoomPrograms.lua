@@ -667,26 +667,8 @@ BWORoomPrograms.zippeestore = function(bandit, def)
             return tasks
         end
 
-        local rack = BWOObjects.FindFull(bandit, def, "Rack")
-
-        if not rack then
-            rack = BWOObjects.FindFull(bandit, def, "Shelves")
-        end
-
-        if not rack then
-            rack = BWOObjects.FindFull(bandit, def, "Bar")
-        end
-
-        if not rack then
-            rack = BWOObjects.FindFull(bandit, def, "Fridge")
-        end
-
-        if not rack then
-            rack = BWOObjects.FindFull(bandit, def, "Counter")
-        end
-
+        local rack = BWOObjects.FindFull(bandit, def)
         if rack then
-
             local items = ArrayList.new()
             local container = rack:getContainer()
             container:getAllEvalRecurse(predicateAll, items)

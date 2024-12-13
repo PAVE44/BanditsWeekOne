@@ -328,10 +328,8 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
     -- print ("INHABITANT 9: " .. (getTimestampMs() - ts))
     
     -- fallback
-    local anim = BanditUtils.Choice({"ShiftWeight", "ChewNails", "PullAtCollar", "WipeBrow", "WipeHead"})
-    local task = {action="Time", anim=anim, time=100}
+    local task = {action="Time", anim="Shrug", time=200}
     table.insert(tasks, task)
-    -- print ("INHABITANT 10: " .. (getTimestampMs() - ts))
 
     return {status=true, next="Main", tasks=tasks}
 end

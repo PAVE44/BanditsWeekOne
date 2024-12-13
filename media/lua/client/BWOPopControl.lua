@@ -584,7 +584,7 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
                     for _, prg in pairs(activatePrograms) do
                         if witness.brain.program.name == prg then 
                             local outfit = actor:getOutfitName()
-                            if outfit == "Police" then
+                            if outfit == "Police" or outfit == "MallSecurity" then
                                 Bandit.ClearTasks(actor)
                                 Bandit.SetProgram(actor, "Police", {})
                                 if wasPlayerFault then

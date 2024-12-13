@@ -62,6 +62,10 @@ ZombiePrograms.ArmyGuard.Main = function(bandit)
         return {status=true, next="Main", tasks=tasks}
     end
 
+    -- fallback
+    local task = {action="Time", anim="Shrug", time=200}
+    table.insert(tasks, task)
+
     return {status=true, next="Main", tasks=tasks}
 end
 

@@ -109,8 +109,6 @@ BanditActionInterceptor.BWOInventoryTransferAction = function(data)
 
     local canTake, shouldPay = BWORooms.TakeIntention(room)
 
-    
-
     -- taking money is not buying
     if data.item:getType() == "Money" then
         canTake = false
@@ -133,7 +131,7 @@ BanditActionInterceptor.BWOInventoryTransferAction = function(data)
         if items:size() >= price then
             character:addLineChatElement("Paid: -$" .. price .. ".00", 0, 1, 0)
             for i=0, price do
-                inventory:RemoveOneOf("Money", false)
+                inventory:RemoveOneOf("Money", true)
             end
         else
             character:addLineChatElement("No money, item stolen!", 1, 0, 0)
