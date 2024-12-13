@@ -52,8 +52,6 @@ ZombiePrograms.Police.Main = function(bandit)
     -- update walk type
     local world = getWorld()
     local cell = getCell()
-    local cm = world:getClimateManager()
-    local dls = cm:getDayLightStrength()
     local weapons = Bandit.GetWeapons(bandit)
     local outOfAmmo = Bandit.IsOutOfAmmo(bandit)
     local hands = bandit:getVariableString("BanditPrimaryType")
@@ -62,14 +60,6 @@ ZombiePrograms.Police.Main = function(bandit)
     local walkType = "Run"
     local endurance = -0.06
     local secondary
-    if dls < 0.3 then
-        if SandboxVars.Bandits.General_SneakAtNight then
-            if Bandit.IsDNA(bandit, "sneak") then
-                walkType = "SneakWalk"
-                endurance = 0
-            end
-        end
-    end
 
     if bandit:isInARoom() then
         if outOfAmmo then

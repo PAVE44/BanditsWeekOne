@@ -129,13 +129,13 @@ BanditPrograms.Events = function(bandit)
     local cell = bandit:getCell()
     local id = BanditUtils.GetCharacterID(bandit)
 
-    if BWOScheduler.WorldAge > 64 then return tasks end
+    if BWOScheduler.WorldAge > 84 then return tasks end
 
     local target = BWOObjects.FindGMD(bandit, "protest")
     if target.x and target.y and target.z then
         local square = cell:getGridSquare(target.x, target.y, target.z)
         if square and BanditUtils.LineClear(bandit, square) then
-            if target.dist >= 9 and target.dist < 80 then
+            if target.dist >= 9 and target.dist < 100 then
                 local walkType = "Walk"
                 table.insert(tasks, BanditUtils.GetMoveTask(0, target.x, target.y, target.z, walkType, target.dist, false))
                 return tasks
@@ -174,6 +174,8 @@ BanditPrograms.Events = function(bandit)
         end
     end
 
+    if BWOScheduler.WorldAge > 77 then return tasks end
+
     local target = BWOObjects.FindDeadBody(bandit)
     if target.x and target.y and target.z then
         local square = cell:getGridSquare(target.x, target.y, target.z)
@@ -197,6 +199,8 @@ BanditPrograms.Events = function(bandit)
         end
     end
 
+    if BWOScheduler.WorldAge > 70 then return tasks end
+
     local target = BWOObjects.FindGMD(bandit, "preacher")
     if target.x and target.y and target.z then
         local square = cell:getGridSquare(target.x, target.y, target.z)
@@ -216,12 +220,14 @@ BanditPrograms.Events = function(bandit)
                     table.insert(tasks, task)
                     return tasks
                 else
-                    local args = {x=target.x, y=target.y, z=target.z}
+                    local args = {x=target.x, y=target.y, z=target.z, otype="preacher"}
                     sendClientCommand(getPlayer(), 'Commands', 'ObjectRemove', args)
                 end
             end
         end
     end
+
+    if BWOScheduler.WorldAge > 64 then return tasks end
 
     local target = BWOObjects.FindGMD(bandit, "entertainer")
     if target.x and target.y and target.z then
@@ -242,7 +248,7 @@ BanditPrograms.Events = function(bandit)
                     table.insert(tasks, task)
                     return tasks
                 else
-                    local args = {x=target.x, y=target.y, z=target.z}
+                    local args = {x=target.x, y=target.y, z=target.z, otype="entertainer"}
                     sendClientCommand(getPlayer(), 'Commands', 'ObjectRemove', args)
                 end
             end
@@ -253,6 +259,9 @@ end
 
 BanditPrograms.Bench = function(bandit)
     local tasks = {}
+    local id = BanditUtils.GetCharacterID(bandit)
+    local gameTime = getGameTime()
+    local hour = gameTime:getHour()
 
     if BWOScheduler.WorldAge > 64 then return tasks end
 
@@ -290,8 +299,43 @@ BanditPrograms.Bench = function(bandit)
                         table.insert(tasks, BanditUtils.GetMoveTask(0, square:getX() + 0.5, square:getY() + 0.5, square:getZ(), "Walk", dist, false))
                         return tasks
                     else
-                        local anim = BanditUtils.Choice({"SitInChair"})
-                        local task = {action="SitInChair", anim=anim, x=square:getX(), y=square:getY(), z=square:getZ(), facing=facing, time=100}
+                        local anim
+                        local sound
+                        local item
+                        local smoke = false
+                        local time = 200
+                        local right = false
+                        local left = false
+                        local r = math.floor(math.abs(id) / hour) % 7
+                        if r == 0 then
+                            anim = "SitInChair1"
+                        elseif r == 1 then
+                            anim = "SitInChair2"
+                        elseif r == 2 then
+                            anim = "SitInChairTalk"
+                        elseif r == 3 then
+                            anim = "SitInChairDrink"
+                            item = "Bandits.BeerBottle"
+                            sound = "DrinkingFromBottle"
+                            right = true
+                        elseif r == 4 then
+                            anim = "SitInChairEat"
+                            item = "Base.Fork"
+                            right = true
+                        elseif r == 5 then
+                            anim = "SitInChairSmoke"
+                            sound = "Smoke"
+                            smoke = true
+                            time = 400
+                        elseif r == 6 then
+                            anim = "SitInChairRead"
+                            sound = "PageFlipBook"
+                            item = "Bandits.Book"
+                            left = true
+                            time = 600
+                        end
+
+                        local task = {action="SitInChair", anim=anim, sound=sound, item=item, left=left, right=right, x=square:getX(), y=square:getY(), z=square:getZ(), facing=facing, time=100}
                         table.insert(tasks, task)
                         return tasks
                     end
@@ -307,7 +351,7 @@ BanditPrograms.ATM = function(bandit)
     local tasks = {}
     local cell = bandit:getCell()
 
-    if BWOScheduler.WorldAge < 69 or BWOScheduler.WorldAge > 82 then return tasks end
+    if BWOScheduler.WorldAge < 68 or BWOScheduler.WorldAge > 86 then return tasks end
 
     local target = BWOObjects.FindGMD(bandit, "atm")      
     if target.x and target.y and target.z and target.dist < 25 then
@@ -394,6 +438,47 @@ BanditPrograms.Talk = function(bandit)
 end
 
 BanditPrograms.FollowRoad = function(bandit, walkType)
+
+    local function getGroundQuality(square)
+        local quality
+        local objects = square:getObjects()
+        for i=0, objects:size()-1 do
+            local object = objects:get(i)
+            if object then
+                local sprite = object:getSprite()
+                if sprite then
+                    local spriteName = sprite:getName()
+                    if spriteName then
+                        
+                        if spriteName:embodies("tilesandstone") then
+                            -- best quality pedestrian pavements
+                            quality = 1
+                            break
+                        elseif spriteName:embodies("street") then
+                            local spriteProps = sprite:getProperties()
+                            if spriteProps:Is(IsoFlagType.attachedFloor) then
+                                local material = spriteProps:Val("FootstepMaterial")
+                                if material == "Gravel" then
+                                    -- gravel path
+                                    quality = 2
+                                else
+                                    -- probably main road
+                                    quality = 4
+                                end
+                            else
+                                -- probably parking
+                                quality = 3
+                            end
+
+                            break
+                        end
+                    end
+                end
+            end
+        end
+        return quality
+    end
+
     local tasks = {}
     local cell = bandit:getCell()
     local bx = bandit:getX()
@@ -445,7 +530,7 @@ BanditPrograms.FollowRoad = function(bandit, walkType)
                 ly = -math.abs(ly) 
             end
             
-            print ("should escape to lx: " .. lx .. " ly: " .. ly)
+            -- print ("should escape to lx: " .. lx .. " ly: " .. ly)
             table.insert(tasks, BanditUtils.GetMoveTask(0, bx + lx, by + ly, 0, "Run", 10, false))
             return tasks
             
@@ -455,6 +540,13 @@ BanditPrograms.FollowRoad = function(bandit, walkType)
     local direction = bandit:getForwardDirection()
     local angle = direction:getDirection()
     direction:setLength(8)
+
+    local options = {}
+    options[1] = {} -- pavements
+    options[2] = {} -- gravel roads
+    options[3] = {} -- parkings
+    options[4] = {} -- main roads
+    options[5] = {} -- unused
 
     local step = 0.785398163 / 2 -- 22.5 deg
     for i = 0, 14 do
@@ -468,14 +560,21 @@ BanditPrograms.FollowRoad = function(bandit, walkType)
             local vz = bz
             local square = cell:getGridSquare(vx, vy, vz)
             if square and square:isOutside() then
-                local groundType = BanditUtils.GetGroundType(square)
-                if groundType == "street" then
-                    table.insert(tasks, BanditUtils.GetMoveTask(0, vx, vy, vz, walkType, 2, false))
-                    return tasks
+                local groundQuality = getGroundQuality(square)
+                if groundQuality then
+                    table.insert(options[groundQuality], {x=vx, y=vy, z=vz})
                 end
             end
         end
     end
+
+    for _, opts in pairs(options) do
+        for _, opt in pairs(opts) do
+            table.insert(tasks, BanditUtils.GetMoveTask(0, opt.x, opt.y, opt.z, walkType, 2, false))
+            return tasks
+        end
+    end
+    
     return tasks
 end
 

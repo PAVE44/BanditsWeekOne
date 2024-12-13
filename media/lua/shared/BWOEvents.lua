@@ -404,7 +404,7 @@ BWOEvents.Start = function(params)
         local keyId = buildingDef:getKeyId()
 
         -- register player home
-        local args = {id=id, event="home"}
+        local args = {id=keyId, event="home"}
         sendClientCommand(player, 'Commands', 'EventBuildingAdd', args)
 
         -- generate home key

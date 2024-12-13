@@ -297,8 +297,8 @@ local AddVehicles = function()
     local max = 0
     if hour == 5 then
         max = 1 
-    elseif hour >= 6 and hour < 20 then
-        max = 4 
+    elseif hour >= 6 and hour < 19 then
+        max = 3 
     elseif hour >= 20 and hour < 23 then
         max = 1
     end
@@ -316,6 +316,11 @@ local ManageVehicles = function(ticks)
     local player = getPlayer()
     local vehicleList = BWOVehicles.tab
     for id, vehicle in pairs(vehicleList) do
+        local controller = vehicle:getController()
+        if not controller then
+            BWOVehicles.tab[id] = nil
+            break
+        end
         local square = vehicle:getSquare()
         if square then
 
@@ -327,15 +332,16 @@ local ManageVehicles = function(ticks)
             if driver then
                 if driver:isNPC() then 
                     local dist = BanditUtils.DistTo(player:getX(), player:getY(), vehicle:getX(), vehicle:getY())
-                    if dist > 60 then
-                        if isClient() then
-                            sendClientCommand(getPlayer(), "vehicle", "remove", { vehicle = vehicle:getId() })
-                        else
-                            vehicle:permanentlyRemove()
-                        end
-                        BWOVehicles.tab[id] = nil
+                    if dist > 50 then
+                        local seat = vehicle:getSeat(driver)
+                        vehicle:clearPassenger(seat)
+                        driver:setVehicle(nil)
+                        driver:setCollidable(true)
                         driver:removeFromSquare()
                         driver:removeFromWorld()
+                        vehicle:permanentlyRemove()
+                        BWOVehicles.tab[id] = nil
+                        
                         break
                     end
 

@@ -17,8 +17,27 @@ BWOObjects.Find = function (bandit, def, objName)
     local bz = bandit:getZ()
     local foundDist = math.huge
     local foundObj
-    for x=def:getX(), def:getX2() do
-        for y=def:getY(), def:getY2() do
+
+    local x1 = def:getX()
+    local x2 = def:getX2()
+    local y1 = def:getY()
+    local y2 = def:getY2()
+    local size = (x2 - x1) * (y2 - y1)
+
+    if size > 225 then
+        x1 = bx - 15
+        x2 = bx + 15
+        y1 = by - 15
+        y2 = by + 15
+
+        if x1 < def:getX() then x1 = def:getX() end
+        if x2 > def:getX2() then x2 = def:getX2() end
+        if y1 < def:getY() then y1 = def:getY() end
+        if y2 > def:getY2() then y2 = def:getY2() end
+    end
+
+    for x=x1, x2 do
+        for y=y1, y2 do
             local square = cell:getGridSquare(x, y, def:getZ())
             if square then
                 local zombie = square:getZombie()

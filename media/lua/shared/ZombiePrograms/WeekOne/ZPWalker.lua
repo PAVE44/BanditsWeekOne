@@ -49,7 +49,7 @@ ZombiePrograms.Walker.Main = function(bandit)
 
     local walkType = "Walk"
     local endurance = 0
-    if BWOScheduler.WorldAge > 57 then 
+    if BWOScheduler.WorldAge > 84 then 
         walkType = "Run"
         endurance = -0.06
     end
@@ -229,7 +229,7 @@ ZombiePrograms.Walker.Main = function(bandit)
 
     -- most pedestrian will follow the street / road, some will just "gosomwhere" for variability
     --
-    if math.abs(id) % 4 > 0 then
+    if math.floor(math.abs(id) / hour) % 4 > 0 then
         local subTasks = BanditPrograms.FollowRoad(bandit, walkType)
         if #subTasks > 0 then
             for _, subTask in pairs(subTasks) do

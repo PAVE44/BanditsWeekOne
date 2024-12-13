@@ -195,17 +195,6 @@ function BWOScheduler.MasterControl()
             BWOPopControl.StreetsNominal = 50
             BWOPopControl.InhabitantsNominal = 50
 
-            if minute == 5 or minute == 10 then
-                for _, pcoords in pairs(BWOEventsPlace.ProtestAreas) do 
-                    BWOScheduler.Add("Protest", {x=pcoords.x, y=pcoords.y, z=pcoords.z}, 100)
-                    params.sound = "BWOChopperDisperse"
-                    params.x = pcoords.x
-                    params.y = pcoords.y
-                    params.z = pcoords.z
-                    BWOScheduler.Add("ChopperAlert", params, 4000)
-                end
-            end
-
         elseif worldAge == 51 then
             BWOPopControl.StreetsNominal = 60
             BWOPopControl.InhabitantsNominal = 40
@@ -262,7 +251,7 @@ function BWOScheduler.MasterControl()
 
     -- D2 23:00 - D3 05:00
     if worldAge >= 60 and worldAge < 68 then
-        BWOScheduler.SymptomLevel = 3
+        BWOScheduler.SymptomLevel = 2
         BWOPopControl.StreetsNominal = 80
         BWOPopControl.InhabitantsNominal = 90
         BWOPopControl.SurvivorsNominal = 0
@@ -286,7 +275,7 @@ function BWOScheduler.MasterControl()
 
     -- D3 05:00 - D4 13:00
     if worldAge >= 68 and worldAge < 76 then
-        BWOScheduler.SymptomLevel = 3
+        BWOScheduler.SymptomLevel = 2
         BWOPopControl.StreetsNominal = 90
         BWOPopControl.InhabitantsNominal = 100
         BWOPopControl.SurvivorsNominal = 0
@@ -301,15 +290,27 @@ function BWOScheduler.MasterControl()
 
         if worldAge == 71 then
             BWOPopControl.ZombieMax = 3
-            if minute == 21 then
+            if minute == 5 or minute == 10 then
+                for _, pcoords in pairs(BWOEventsPlace.ProtestAreas) do 
+                    BWOScheduler.Add("Protest", {x=pcoords.x, y=pcoords.y, z=pcoords.z}, 100)
+                    params.sound = "BWOChopperDisperse"
+                    params.x = pcoords.x
+                    params.y = pcoords.y
+                    params.z = pcoords.z
+                    BWOScheduler.Add("ChopperAlert", params, 4000)
+                end
+            elseif minute == 21 then
                 BWOScheduler.Add("Defenders", params, 100)
             end
         end
 
-        if worldAge == 74 then
+        if worldAge == 73 then
             BWOPopControl.ZombieMax = 3
             if minute == 2 then
                 BWOScheduler.Add("Defenders", params, 100)
+            elseif minute == 16 then
+                params.sound = "BWOChopperDisperse"
+                BWOScheduler.Add("ChopperAlert", params, 100)
             end
         end
 
@@ -323,13 +324,25 @@ function BWOScheduler.MasterControl()
         BWOPopControl.SurvivorsNominal = 0
         BWOPopControl.ZombieMax = 0
 
-        if worldAge == 77 then
+        if worldAge == 76 then
             BWOPopControl.ZombieMax = 1
             if minute == 7 or minute == 57 then
                 BWOScheduler.Add("Defenders", params, 100)
-            elseif minute == 10 or minute == 30 then
-                params.sound = "BWOChopper"
+            end
+        elseif worldAge == 77 then
+            if minute == 0 then 
+                BWOScheduler.Add("Siren", params, 100)
+            elseif minute == 11 then
+                params.intensity = 12
+                params.hostile = true
+                BWOScheduler.Add("PoliceRiot", params, 100)
+            elseif minute == 12 or minute == 44 then
+                params.sound = "BWOChopperDisperse"
                 BWOScheduler.Add("ChopperAlert", params, 100)
+            elseif minute == 15 or minute == 17 then
+                params.intensity = 12
+                params.hostile = true
+                BWOScheduler.Add("PoliceRiot", params, 100)
             end
         elseif worldAge == 80 then
             BWOPopControl.ZombieMax = 1
@@ -399,16 +412,6 @@ function BWOScheduler.MasterControl()
             BWOPopControl.InhabitantsNominal = 70
             BWOPopControl.SurvivorsNominal = 0
             BWOPopControl.ZombieMax = 100
-            if minute == 0 then 
-                BWOScheduler.Add("Siren", params, 100)
-            elseif minute == 11 then
-                params.intensity = 12
-                params.hostile = true
-                BWOScheduler.Add("PoliceRiot", params, 100)
-            elseif minute == 12 or minute == 44 then
-                params.sound = "BWOChopperDisperse"
-                BWOScheduler.Add("ChopperAlert", params, 100)
-            end
         elseif worldAge == 94 then
             BWOPopControl.StreetsNominal = 80
             BWOPopControl.InhabitantsNominal = 50
@@ -428,10 +431,6 @@ function BWOScheduler.MasterControl()
             if minute == 22 then
                 params.intensity = 5
                 BWOScheduler.Add("Bandits", params, 100)
-            elseif minute == 24 then
-                params.intensity = 16
-                params.hostile = true
-                BWOScheduler.Add("PoliceRiot", params, 100)
             elseif minute == 33 or minute == 37 then
                 params.intensity = 6
                 BWOScheduler.Add("Criminals", params, 100)
@@ -456,10 +455,6 @@ function BWOScheduler.MasterControl()
                 BWOScheduler.Add("Defenders", params, 100)
                 params.instensity = 12
                 BWOScheduler.Add("Bikers", params, 100)
-            elseif minute == 11 then
-                params.intensity = 12
-                params.hostile = true
-                BWOScheduler.Add("PoliceRiot", params, 100)
             end
         elseif worldAge == 98 then
             BWOPopControl.StreetsNominal = 80
@@ -625,7 +620,7 @@ function BWOScheduler.MasterControl()
         BWOPopControl.Hazmats.On = true
     end
 
-    if worldAge < 90 then
+    if worldAge < 78 then
         BWOPopControl.Police.On = true
         BWOPopControl.SWAT.On = true
         BWOPopControl.Security.On = true

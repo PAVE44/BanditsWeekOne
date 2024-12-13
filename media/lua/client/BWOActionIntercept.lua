@@ -13,7 +13,7 @@ local function activateWitness(character)
             if dist < 15 then
                 local actor = BanditZombie.GetInstanceById(witness.id)
                 local canSee = actor:CanSee(character)
-                if canSee or dist < 10 then
+                if canSee or dist < 3 then
                     -- witnessing civilians need to change peaceful behavior to active
                     
                     for _, prg in pairs(activatePrograms) do
