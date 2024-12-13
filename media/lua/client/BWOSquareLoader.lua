@@ -177,6 +177,7 @@ addNuke(6350, 5430, 700) -- riverside
 addNuke(11740, 6900, 700) -- westpoint
 
 -- mechanic cars
+--[[
 table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5467, y=9652, z=0, directions=IsoDirections.E}) -- riverside
 table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5467, y=9661, z=0, directions=IsoDirections.E}) -- riverside
 table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=10608, y=9404, z=0, directions=IsoDirections.E}) -- muldraugh
@@ -188,9 +189,9 @@ table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5429, y=5964, z=0, 
 table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=8151, y=11322, z=0, directions=IsoDirections.W}) -- rosewood
 table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=8151, y=11331, z=0, directions=IsoDirections.W}) -- rosewood
 table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=11897, y=6809, z=0, directions=IsoDirections.N}) -- westpoint
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=12273, y=6927, z=0, directions=IsoDirections.W}) -- westpoint
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=12273, y=6934, z=0, directions=IsoDirections.W}) -- westpoint
-
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=12283, y=6927, z=0, directions=IsoDirections.W}) -- westpoint
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=12283, y=6934, z=0, directions=IsoDirections.W}) -- westpoint
+]]
 
 BWOSquareLoader.Clear = function(square)
     local objects = square:getObjects()
@@ -271,7 +272,7 @@ BWOSquareLoader.OnLoad = function(square)
     end
 
     -- remove map objects
-    if BWOScheduler.WorldAge < 48 then
+    if BWOScheduler.WorldAge < 64 then
         if BWOSquareLoader.remove[id] then
             BWOSquareLoader.Clear(square)
             BWOSquareLoader.remove[id] = nil
@@ -411,7 +412,7 @@ BWOSquareLoader.LocationEvents = function()
         if square then
             if BanditUtils.DistToManhattan(player:getX(), player:getY(), event.x, event.y) < 70 then
                 if BWOEventsPlace[event.phase] then
-                    BWOEventsPlace[event.phase](event.x, event.y, event.z)
+                    BWOEventsPlace[event.phase](event)
                 end
                 table.remove(BWOSquareLoader.events, i)
                 break
@@ -422,7 +423,7 @@ end
 
 -- removes burnt / smashed vehicles
 -- apparently vehicle loading is deffered relative to square load, so this needs to be handled separately
-BWOSquareLoader.VehicleRemover = function()
+BWOSquareLoader.VehicleFixOrRemove = function()
     if BWOScheduler.WorldAge > 90 then return end
 
     local vehicleList = getCell():getVehicles()
@@ -440,6 +441,22 @@ BWOSquareLoader.VehicleRemover = function()
                     table.insert(toDelete, vehicle)
                 else
                     vehicle:repair()
+                    vehicle:setTrunkLocked(true)
+                    for i=0, vehicle:getMaxPassengers() -1 do 
+                        local part = vehicle:getPassengerDoor(i)
+                        if part then 
+                            local door = part:getDoor()
+                            if door then
+                                door:setLocked(true)
+                            end
+                        end
+                    end
+
+                    local gasTank = vehicle:getPartById("GasTank")
+                    if gasTank then
+                        local max = gasTank:getContainerCapacity()
+                        gasTank:setContainerContentAmount(ZombRandFloat(0, max))
+                    end
                     md.BWO.wasRepaired = true
                 end
             end
@@ -457,4 +474,4 @@ end
 
 Events.LoadGridsquare.Add(BWOSquareLoader.OnLoad)
 Events.EveryOneMinute.Add(BWOSquareLoader.LocationEvents)
-Events.EveryOneMinute.Add(BWOSquareLoader.VehicleRemover)
+Events.EveryOneMinute.Add(BWOSquareLoader.VehicleFixOrRemove)

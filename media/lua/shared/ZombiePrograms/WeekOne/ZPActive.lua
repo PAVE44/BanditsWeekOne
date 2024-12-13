@@ -138,7 +138,6 @@ ZombiePrograms.Active.Main = function(bandit)
         enemy = BanditPlayer.GetPlayerById(target.id)
     end
 
-
     -- no targets, relax
     if target.dist > 30 then
         if bandit:isOutside() then
@@ -167,37 +166,6 @@ ZombiePrograms.Active.Main = function(bandit)
     end
 
     if target.x and target.y and target.z then
-        
-        local targetSquare = cell:getGridSquare(target.x, target.y, target.z)
-        local banditSquare = bandit:getSquare()
-        if targetSquare and banditSquare then
-            local targetBuilding = targetSquare:getBuilding()
-            local banditBuilding = banditSquare:getBuilding()
-            local x = 100
-
-            if targetBuilding and not banditBuilding then
-                Bandit.Say(bandit, "INSIDE")
-            end
-            if not targetBuilding and banditBuilding then
-                Bandit.Say(bandit, "OUTSIDE")
-            end
-            if targetBuilding and banditBuilding then
-                if bandit:getZ() < target.z then
-                    Bandit.Say(bandit, "UPSTAIRS")
-                else
-                    local room = targetSquare:getRoom()
-                    if room then
-                        local roomName = room:getName()
-                        if roomName == "kitchen" then
-                            Bandit.Say(bandit, "ROOM_KITCHEN")
-                        end
-                        if roomName == "bathroom" then
-                            Bandit.Say(bandit, "ROOM_BATHROOM")
-                        end
-                    end
-                end
-            end
-        end
 
         -- out of ammo, get close
         local minDist = 2
@@ -208,8 +176,6 @@ ZombiePrograms.Active.Main = function(bandit)
         if target.dist > minDist then
 
             -- must be deterministic, not random (same for all clients)
-            local id = BanditUtils.GetCharacterID(bandit)
-
             local dx = 0
             local dy = 0
             local dxf = ((math.abs(id) % 10) - 5) / 10
@@ -217,10 +183,11 @@ ZombiePrograms.Active.Main = function(bandit)
 
             table.insert(tasks, BanditUtils.GetMoveTask(endurance, target.x+dx+dxf, target.y+dy+dyf, target.z, walkType, target.dist, closeSlow))
         end
-    else
-        local task = {action="Time", anim="Shrug", time=200}
-        table.insert(tasks, task)
     end
+    
+    -- fallback
+    local task = {action="Time", anim="Shrug", time=200}
+    table.insert(tasks, task)
 
     return {status=true, next="Main", tasks=tasks}
 end

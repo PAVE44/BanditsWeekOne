@@ -99,8 +99,8 @@ BWOPopControl.StreetsSpawn = function(cnt)
     local bandit = BanditCreator.MakeFromWave(config)
 
     for i = 1, cnt do
-        local x = 30 + ZombRand(20)
-        local y = 30 + ZombRand(20)
+        local x = 35 + ZombRand(25)
+        local y = 35 + ZombRand(25)
         
         if ZombRand(2) == 1 then x = -x end
         if ZombRand(2) == 1 then y = -y end
@@ -229,7 +229,7 @@ BWOPopControl.InhabitantsSpawn = function(cnt)
                         event.y = spawnSquare:getY()
                         event.z = spawnSquare:getZ()
                         local dist = BanditUtils.DistTo(px, py, event.x, event.y)
-                        if dist > 30 and dist < 50 then
+                        if dist > 30 and dist < 80 then
                             event.bandits = {}
                             local bandit = BanditCreator.MakeFromRoom(spawnRoom)
                             if bandit then
@@ -526,12 +526,14 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
 
     if not attacker then return end
 
+    local player = getPlayer()
+
+    
     -- attacking zombies is ok!
     local brain = BanditBrain.Get(bandit)
     if not bandit:getVariableBoolean("Bandit") then return end
 
     -- killing bandits is ok!
-    local brain = BanditBrain.Get(bandit)
     if brain.clan > 0 then return end
 
     -- to weak to respond
@@ -553,7 +555,7 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
                     params.z = bandit:getZ()
 
                     local wasPlayerFault = false
-                    if instanceof(attacker, "IsoPlayer") and attacker:getDisplayName() == getPlayer():getDisplayName() and brain.clan == 0 and brain.program.name ~= "Thief" then
+                    if instanceof(attacker, "IsoPlayer") and not attacker:isNPC() and brain.clan == 0 and brain.program.name ~= "Thief" then
                         wasPlayerFault = true
                         if brain.id ~= id then
                             local outfit = bandit:getOutfitName()
@@ -582,7 +584,7 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
                     for _, prg in pairs(activatePrograms) do
                         if witness.brain.program.name == prg then 
                             local outfit = actor:getOutfitName()
-                            if outfit == "Police" then
+                            if outfit == "Police" or outfit == "MallSecurity" then
                                 Bandit.ClearTasks(actor)
                                 Bandit.SetProgram(actor, "Police", {})
                                 if wasPlayerFault then

@@ -52,8 +52,6 @@ ZombiePrograms.Police.Main = function(bandit)
     -- update walk type
     local world = getWorld()
     local cell = getCell()
-    local cm = world:getClimateManager()
-    local dls = cm:getDayLightStrength()
     local weapons = Bandit.GetWeapons(bandit)
     local outOfAmmo = Bandit.IsOutOfAmmo(bandit)
     local hands = bandit:getVariableString("BanditPrimaryType")
@@ -62,14 +60,6 @@ ZombiePrograms.Police.Main = function(bandit)
     local walkType = "Run"
     local endurance = -0.06
     local secondary
-    if dls < 0.3 then
-        if SandboxVars.Bandits.General_SneakAtNight then
-            if Bandit.IsDNA(bandit, "sneak") then
-                walkType = "SneakWalk"
-                endurance = 0
-            end
-        end
-    end
 
     if bandit:isInARoom() then
         if outOfAmmo then
@@ -189,6 +179,7 @@ ZombiePrograms.Police.Main = function(bandit)
             table.insert(tasks, BanditUtils.GetMoveTask(endurance, target.x+dx+dxf, target.y+dy+dyf, target.z, walkType, target.dist, closeSlow))
         end
     else
+        -- fixme change to patrol program so its not affected by walkder typical behavior like protersts
         Bandit.ClearTasks(bandit)
         Bandit.SetHostile(bandit, false)
         Bandit.SetProgram(bandit, "Walker", {})
@@ -199,6 +190,10 @@ ZombiePrograms.Police.Main = function(bandit)
         Bandit.ForceSyncPart(bandit, syncData)
         return {status=true, next="Main", tasks=tasks}
     end
+
+    -- fallback
+    local task = {action="Time", anim="Shrug", time=200}
+    table.insert(tasks, task)
 
     return {status=true, next="Main", tasks=tasks}
 end

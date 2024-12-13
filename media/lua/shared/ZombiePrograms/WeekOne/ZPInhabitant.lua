@@ -99,31 +99,33 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
         end
 
         -- instrusion
-        local playerList = BanditPlayer.GetPlayers()
-        for i=0, playerList:size()-1 do
-            local player = playerList:get(i)
-            if player and not BanditPlayer.IsGhost(player) then
-                local room = player:getSquare():getRoom()
-                
-                if room then
-                    local roomName = room:getName()
+        if BWOScheduler.SymptomLevel < 3 then
+            local playerList = BanditPlayer.GetPlayers()
+            for i=0, playerList:size()-1 do
+                local player = playerList:get(i)
+                if player and not BanditPlayer.IsGhost(player) then
+                    local room = player:getSquare():getRoom()
+                    
+                    if room then
+                        local roomName = room:getName()
 
-                    if BWORooms.IsIntrusion(room) and bandit:CanSee(player) and not player:isOutside() then
-                        Bandit.Say(bandit, "DEFENDER_SPOTTED")
-                        -- BWOScheduler.Add("CallCopsHostile", 1000)
+                        if BWORooms.IsIntrusion(room) and bandit:CanSee(player) and not player:isOutside() then
+                            Bandit.Say(bandit, "DEFENDER_SPOTTED")
+                            -- BWOScheduler.Add("CallCopsHostile", 1000)
 
-                        if math.abs(id) % 2 == 0 then
-                            Bandit.SetHostile(bandit, true)
-                            Bandit.SetProgramStage(bandit, "Arm")
+                            if math.abs(id) % 2 == 0 then
+                                Bandit.SetHostile(bandit, true)
+                                Bandit.SetProgramStage(bandit, "Arm")
 
-                            local brain = BanditBrain.Get(bandit)
-                            local syncData = {}
-                            syncData.id = brain.id
-                            syncData.hostile = brain.hostile
-                            syncData.program = brain.program
-                            Bandit.ForceSyncPart(bandit, syncData)
+                                local brain = BanditBrain.Get(bandit)
+                                local syncData = {}
+                                syncData.id = brain.id
+                                syncData.hostile = brain.hostile
+                                syncData.program = brain.program
+                                Bandit.ForceSyncPart(bandit, syncData)
 
-                            return {status=true, next="Arm", tasks=tasks}
+                                return {status=true, next="Arm", tasks=tasks}
+                            end
                         end
                     end
                 end
@@ -287,7 +289,7 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
         -- print ("INHABITANT 7: " .. (getTimestampMs() - ts))
 
         -- barricade
-        if BWOPopControl.ZombieMax >= 2 then
+        if BWOScheduler.WorldAge > 78 and BWOBuildings.IsResidential(building) then
             local barricadable = BWOObjects.FindBarricadable(bandit, def)
             if barricadable then
                 --local standSquare = barricadable:getIndoorSquare()
@@ -326,10 +328,8 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
     -- print ("INHABITANT 9: " .. (getTimestampMs() - ts))
     
     -- fallback
-    local anim = BanditUtils.Choice({"ShiftWeight", "ChewNails", "PullAtCollar", "WipeBrow", "WipeHead"})
-    local task = {action="Time", anim=anim, time=100}
+    local task = {action="Time", anim="Shrug", time=200}
     table.insert(tasks, task)
-    -- print ("INHABITANT 10: " .. (getTimestampMs() - ts))
 
     return {status=true, next="Main", tasks=tasks}
 end

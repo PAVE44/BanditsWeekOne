@@ -91,16 +91,8 @@ ZombiePrograms.Fireman.Main = function(bandit)
     end
     
     -- fallback
-    local task1 = {action="Smoke", anim="Smoke", item="Bandits.Cigarette", left=true, time=100}
-    table.insert(tasks, task1)
-    
-    local anim2 = BanditUtils.Choice({"WipeBrow", "WipeHead"})
-    local task2 = {action="Time", anim=anim, time=100}
-    table.insert(tasks, task2)
-
-    local anim3 = BanditUtils.Choice({"WipeBrow", "WipeHead"})
-    local task3 = {action="Time", anim=anim, time=100}
-    table.insert(tasks, task3)
+    local task = {action="Time", anim="Shrug", time=200}
+    table.insert(tasks, task)
 
     return {status=true, next="Main", tasks=tasks}
 end

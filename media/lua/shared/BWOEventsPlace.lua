@@ -12,6 +12,7 @@ table.insert(protestAreas, {x=12160, y=6900, z=0}) --westpoint e traintack
 table.insert(protestAreas, {x=12050, y=6883, z=0}) --westpoint gigamart
 table.insert(protestAreas, {x=11955, y=6805, z=0}) --westpoint spiffos
 table.insert(protestAreas, {x=11927, y=6893, z=0}) --westpoint townhall
+table.insert(protestAreas, {x=11933, y=6871, z=0}) --westpoint townhall inside
 table.insert(protestAreas, {x=11109, y=6898, z=0}) --westpoint barricade w
 table.insert(protestAreas, {x=11920, y=6963, z=0}) --westpoint police
 table.insert(protestAreas, {x=6992, y=5468, z=0}) --riverside blockade e
@@ -29,7 +30,7 @@ table.insert(protestAreas, {x=10007, y=12692, z=0}) --marchridge crossroads
 table.insert(protestAreas, {x=10326, y=12768, z=0}) --marchridge church
 BWOEventsPlace.ProtestAreas = protestAreas
 
-function BWOEventsPlace.ArmyGuards(x, y, z)
+function BWOEventsPlace.ArmyGuards(params)
     config = {}
     config.clanId = 0
     config.hasRifleChance = 100
@@ -44,8 +45,8 @@ function BWOEventsPlace.ArmyGuards(x, y, z)
     event.program.name = "ArmyGuard"
     event.program.stage = "Prepare"
 
-    event.x = x
-    event.y = y
+    event.x = params.x
+    event.y = params.y
     event.bandits = {}
     
     local bandit = BanditCreator.MakeFromWave(config)
@@ -71,22 +72,49 @@ function BWOEventsPlace.ArmyGuards(x, y, z)
     end
 end
 
-function BWOEventsPlace.CarMechanic(x, y, z, directions)
+function BWOEventsPlace.CarMechanic(params)
 
     local cell = getCell()
-    local square = getCell():getGridSquare(x, y, 0)
+    local square = getCell():getGridSquare(params.x, params.y, 0)
     if not square then return end
 
     local vtype = BanditUtils.Choice(BWOVehicles.carChoices)
 
-    local vehicle = addVehicleDebug(vtype, directions, nil, square)
+    local vehicle = addVehicleDebug(vtype, params.directions, nil, square)
     if not vehicle then return end
+
+    --[[local vehicle = BaseVehicle.new(cell)
+    vehicle:setScriptName(vtype)
+    vehicle:setScript()
+    vehicle:setDir(params.directions)
+    vehicle:setX(params.x)
+    vehicle:setY(params.y)
+    vehicle:setZ(0)
+    vehicle:setSquare(square)
+    VehiclesDB2.instance:addVehicle(vehicle)
+    -- vehicle:addToWorld()
+    -- vehicle:setRust(0)]]
+
+    if params.directions == IsoDirections.N then
+        vehicle:setAngles(0, 180, 0)
+    elseif params.directions == IsoDirections.S then
+        vehicle:setAngles(0, 0, 0)
+    elseif params.directions == IsoDirections.E then
+        vehicle:setAngles(0, 90, 0)
+    elseif params.directions == IsoDirections.W then
+        -- vehicle:setAngles(-125, -90, -125)
+        vehicle:setAngles(0, -90, 0)
+    end
 
     for i = 0, vehicle:getPartCount() - 1 do
         local container = vehicle:getPartByIndex(i):getItemContainer()
         if container then
             container:removeAllItems()
         end
+    end
+
+    if params.dx then
+        vehicle:setX(params.x + params.dx)
     end
 
     vehicle:getModData().BWO = {}

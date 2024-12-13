@@ -101,7 +101,7 @@ ZombiePrograms.Janitor.Main = function(bandit)
                     local task1 = {action="Equip", itemPrimary="Base.Broom"}
                     table.insert(tasks, task1)
         
-                    local task2 = {action="RemoveObject", customName="Trash", anim="Rake", itemType=itemMopType, x=target.x, y=target.y, z=target.z, time=300}
+                    local task2 = {action="RemoveObject", customName="Trash", otype="trash", anim="Rake", itemType=itemMopType, x=target.x, y=target.y, z=target.z, time=300}
                     table.insert(tasks, task2)
 
                     return {status=true, next="Main", tasks=tasks}

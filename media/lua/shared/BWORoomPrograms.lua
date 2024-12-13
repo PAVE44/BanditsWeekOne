@@ -447,6 +447,9 @@ BWORoomPrograms.church = function(bandit, def)
         if not sittable then
             sittable = BWOObjects.Find(bandit, def, "Bench")
         end
+        if not sittable then
+            sittable = BWOObjects.Find(bandit, def, "Chair")
+        end
 
         if sittable then
             local square = sittable:getSquare()
@@ -481,6 +484,7 @@ BWORoomPrograms.church = function(bandit, def)
     end
     return tasks
 end
+BWORoomPrograms.meetingroom = BWORoomPrograms.church
 
 BWORoomPrograms.office = function(bandit, def)
     local tasks = {}
@@ -654,6 +658,8 @@ BWORoomPrograms.zippeestore = function(bandit, def)
             enough = 8
         elseif BWOScheduler.SymptomLevel == 3 then
             enough = 12
+        else
+            enough = 24
         end
 
         if itemCnt > enough then
@@ -661,26 +667,8 @@ BWORoomPrograms.zippeestore = function(bandit, def)
             return tasks
         end
 
-        local rack = BWOObjects.FindFull(bandit, def, "Rack")
-
-        if not rack then
-            rack = BWOObjects.FindFull(bandit, def, "Shelves")
-        end
-
-        if not rack then
-            rack = BWOObjects.FindFull(bandit, def, "Bar")
-        end
-
-        if not rack then
-            rack = BWOObjects.FindFull(bandit, def, "Fridge")
-        end
-
-        if not rack then
-            rack = BWOObjects.FindFull(bandit, def, "Counter")
-        end
-
+        local rack = BWOObjects.FindFull(bandit, def)
         if rack then
-
             local items = ArrayList.new()
             local container = rack:getContainer()
             container:getAllEvalRecurse(predicateAll, items)

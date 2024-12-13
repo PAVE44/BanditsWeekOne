@@ -49,7 +49,7 @@ ZombiePrograms.Walker.Main = function(bandit)
 
     local walkType = "Walk"
     local endurance = 0
-    if BWOScheduler.WorldAge > 57 then 
+    if BWOScheduler.WorldAge > 84 then 
         walkType = "Run"
         endurance = -0.06
     end
@@ -229,7 +229,7 @@ ZombiePrograms.Walker.Main = function(bandit)
 
     -- most pedestrian will follow the street / road, some will just "gosomwhere" for variability
     --
-    if math.abs(id) % 4 > 0 then
+    if math.floor(math.abs(id) / hour) % 4 > 0 then
         local subTasks = BanditPrograms.FollowRoad(bandit, walkType)
         if #subTasks > 0 then
             for _, subTask in pairs(subTasks) do
@@ -249,15 +249,10 @@ ZombiePrograms.Walker.Main = function(bandit)
         return {status=true, next="Main", tasks=tasks}
     end
     -- print ("WALKER 12: " .. (getTimestampMs() - ts))
-    
-    -- fallback if going somewhere results in interior square
-    local subTasks = BanditPrograms.Fallback(bandit)
-    if #subTasks > 0 then
-        for _, subTask in pairs(subTasks) do
-            table.insert(tasks, subTask)
-        end
-        return {status=true, next="Main", tasks=tasks}
-    end
+
+    -- fallback
+    local task = {action="Time", anim="Shrug", time=200}
+    table.insert(tasks, task)
 
     -- print ("WALKER 13: " .. (getTimestampMs() - ts))
     return {status=true, next="Main", tasks=tasks}

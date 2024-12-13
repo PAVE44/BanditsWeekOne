@@ -35,8 +35,11 @@ ZombieActions.RemoveObject.onComplete = function(zombie, task)
             if props:Is("CustomName") then
                 local customName = props:Val("CustomName")
                 if customName == task.customName then
-                    local args = {x=task.x, y=task.y, z=task.z}
-                    sendClientCommand(getPlayer(), 'Commands', 'ObjectRemove', args)
+                    if task.otype then
+                        local args = {x=task.x, y=task.y, z=task.z, otype=task.otype}
+                        sendClientCommand(getPlayer(), 'Commands', 'ObjectRemove', args)
+                    end
+                    
                     if isClient() then
                         sledgeDestroy(object)
                     else
