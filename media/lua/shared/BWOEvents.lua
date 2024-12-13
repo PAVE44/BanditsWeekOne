@@ -343,14 +343,28 @@ BWOEvents.FixVehicles = function(params)
     for i=0, vehicleList:size()-1 do
         local vehicle = vehicleList:get(i)
         local scriptName = vehicle:getScriptName()
-        if scriptName:embodies("Burnt") or scriptName:embodies("Smashed") then
-            if isClient() then
-                sendClientCommand(player, "vehicle", "remove", { vehicle = vehicle:getId() })
-            else
-                vehicle:permanentlyRemove()
-            end
+        local engine = vehicle:getPartById("Engine")
+        if scriptName:embodies("Burnt") or scriptName:embodies("Smashed") or (engine and engine:getCondition() < 50) then
+            table.insert(toDelete, vehicle)
         else
             vehicle:repair()
+            vehicle:setTrunkLocked(true)
+            for i=0, vehicle:getMaxPassengers() - 1 do 
+                local part = vehicle:getPassengerDoor(i)
+                if part then 
+                    local door = part:getDoor()
+                    if door then
+                        door:setLocked(true)
+                    end
+                end
+            end
+
+            local gasTank = vehicle:getPartById("GasTank")
+            if gasTank then
+                local max = gasTank:getContainerCapacity()
+                gasTank:setContainerContentAmount(ZombRandFloat(0, max))
+            end
+            md.BWO.wasRepaired = true
         end
     end
 end

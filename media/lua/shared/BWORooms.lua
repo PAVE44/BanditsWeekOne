@@ -1206,11 +1206,11 @@ BWORooms.GetRoomPopMod = function(room)
         if hour < 8 then
             popMod = 0
         elseif hour < 10 then
-            popMod = 0.7
+            popMod = 1
         elseif hour < 19 then
-            popMod = 1.8
+            popMod = 2.5
         elseif hour < 20 then
-            popMod = 0.5
+            popMod = 0.75
         else
             popMod = 0
         end
@@ -1228,15 +1228,15 @@ BWORooms.GetRoomPopMod = function(room)
         if hour < 8 then
             popMod = 0
         elseif hour < 12 then
-            popMod = 0.8
+            popMod = 2
         elseif hour < 14 then
-            popMod = 1.6
+            popMod = 2.5
         elseif hour < 19 then
-            popMod = 0.7
+            popMod = 2
         elseif hour < 23 then
-            popMod = 2.2
+            popMod = 2.5
         elseif hour < 24 then
-            popMod = 0.8
+            popMod = 1
         end
         if BWOScheduler.SymptomLevel >= 2 then
             popMod = popMod * 0.5

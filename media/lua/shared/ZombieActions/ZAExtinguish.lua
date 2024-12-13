@@ -80,7 +80,9 @@ ZombieActions.Extinguish.onComplete = function(zombie, task)
         if square then
             square:stopFire()
             local args = {x=task.x, y=task.y, z=task.z, otype="fire"}
-            sendClientCommand(getPlayer(), 'Commands', 'ObjectRemove', args)
+            -- bugged dunno why
+            -- sendClientCommand(getPlayer(), 'Commands', 'ObjectRemove', args)
+            BWOServer.Commands.ObjectRemove(getPlayer(), args)
         end
     end
     if task.item then

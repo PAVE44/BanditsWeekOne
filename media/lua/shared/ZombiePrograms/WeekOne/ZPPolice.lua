@@ -177,6 +177,7 @@ ZombiePrograms.Police.Main = function(bandit)
             local dyf = ((math.abs(id) % 11) - 5) / 10
 
             table.insert(tasks, BanditUtils.GetMoveTask(endurance, target.x+dx+dxf, target.y+dy+dyf, target.z, walkType, target.dist, closeSlow))
+            return {status=true, next="Escape", tasks=tasks}
         end
     else
         -- fixme change to patrol program so its not affected by walkder typical behavior like protersts
@@ -227,6 +228,7 @@ ZombiePrograms.Police.Escape = function(bandit)
         if ry == 1 then deltaY = -deltaY end
 
         table.insert(tasks, BanditUtils.GetMoveTask(endurance, closestPlayer.x+deltaX, closestPlayer.y+deltaY, 0, walkType, 12, false))
+        return {status=true, next="Escape", tasks=tasks}
     end
     return {status=true, next="Escape", tasks=tasks}
 end

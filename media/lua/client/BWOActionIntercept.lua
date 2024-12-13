@@ -4,13 +4,13 @@ local function predicateMoney(item)
     return item:getType() == "Money"
 end
 
-local function activateWitness(character)
+local function activateWitness(character, min)
     local activatePrograms = {"Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer"}
     local witnessList = BanditZombie.GetAllB()
     for id, witness in pairs(witnessList) do
         if not witness.brain.hostile then
             local dist = math.sqrt(math.pow(character:getX() - witness.x, 2) + math.pow(character:getY() - witness.y, 2))
-            if dist < 15 then
+            if dist < min then
                 local actor = BanditZombie.GetInstanceById(witness.id)
                 local canSee = actor:CanSee(character)
                 if canSee or dist < 3 then
@@ -53,6 +53,65 @@ local function activateWitness(character)
     end
 end
 
+local function activateTargets(character, min)
+    local activatePrograms = {"Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer"}
+    local witnessList = BanditZombie.GetAllB()
+    local shouldActivate = true
+    local activateList = {}
+    for id, witness in pairs(witnessList) do
+    
+        local dist = math.sqrt(math.pow(character:getX() - witness.x, 2) + math.pow(character:getY() - witness.y, 2))
+        if dist < min then
+            if witness.brain.hostile then
+                shouldActivate = false
+                break
+            else
+                local actor = BanditZombie.GetInstanceById(witness.id)
+                local canSee1 = actor:CanSee(character)
+                local canSee2 = character:CanSee(actor)
+                if canSee1 and canSee2 then
+                    for _, prg in pairs(activatePrograms) do
+                        if witness.brain.program.name == prg then
+                            table.insert(activateList, actor)
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    if shouldActivate then
+        for _, actor in pairs(activateList) do
+            Bandit.ClearTasks(actor)
+            local outfit = actor:getOutfitName()
+            if outfit == "Police" then
+                Bandit.SetProgram(actor, "Police", {})
+                Bandit.SetHostile(actor, true)
+                Bandit.Say(actor, "SPOTTED")
+            else
+                Bandit.SetProgram(actor, "Active", {})
+                if ZombRand(7) == 0 then
+                    Bandit.SetHostile(actor, true)
+                    Bandit.Say(actor, "SPOTTED")
+                else
+                    if ZombRand(3) == 0 then
+                        Bandit.Say(actor, "SPOTTED")
+                    end
+                end
+            end
+            
+            local brain = BanditBrain.Get(actor)
+            if brain then
+                local syncData = {}
+                syncData.id = brain.id
+                syncData.hostile = brain.hostile
+                syncData.program = brain.program
+                Bandit.ForceSyncPart(actor, syncData)
+            end
+        end
+    end
+end
+
 BanditActionInterceptor.BWOTimedAction = function(data)
     local character = data.character
     if not character then return end
@@ -62,7 +121,7 @@ BanditActionInterceptor.BWOTimedAction = function(data)
 
     -- illegal actions intercepted hre
     if action == "ISSmashWindow" or action == "ISSmashVehicleWindow" or action == "ISHotwireVehicle" then
-        activateWitness(character)
+        activateWitness(character, 15)
     end
 end
 
@@ -83,7 +142,7 @@ BanditActionInterceptor.BWOInventoryTransferAction = function(data)
             local props = sprite:getProperties()
             if props:Is("CustomName") then
                 local customName = props:Val("CustomName")
-                if customName == "Trash" then
+                if customName == "Trash" or customName == "Garbage" then
                     return
                 end
             end
@@ -97,9 +156,9 @@ BanditActionInterceptor.BWOInventoryTransferAction = function(data)
         square = character:getSquare()
     end
 
-    -- transfering to floor is not yet buying
+    -- transfering to non player containers is not buying
     local destContainer = data.destContainer
-    local destObject = destContainer:getParent()
+    local destObject = destContainer:getCharacter()
     if not destObject then return end
 
     local room = square:getRoom()
@@ -135,14 +194,66 @@ BanditActionInterceptor.BWOInventoryTransferAction = function(data)
             end
         else
             character:addLineChatElement("No money, item stolen!", 1, 0, 0)
-            activateWitness(character)
+            activateWitness(character, 15)
         end
     elseif not canTake then
-        activateWitness(character)
+        activateWitness(character, 15)
     end
+end
+
+BanditActionInterceptor.tick = 0
+BanditActionInterceptor.aimTime = 0
+
+BanditActionInterceptor.OnPlayerUpdate = function(player)
+
+    if BanditActionInterceptor.tick > 15 then
+        BanditActionInterceptor.tick = 0
+    end
+    
+
+    if BanditActionInterceptor.tick == 0 then
+        if player:IsAiming() and not BanditPlayer.IsGhost(player)  then 
+            local primaryItem = player:getPrimaryHandItem()
+
+            local max
+            if primaryItem and primaryItem:IsWeapon() then
+                local primaryItemType = WeaponType.getWeaponType(primaryItem)
+                if primaryItemType == WeaponType.firearm then
+                    max = 12
+                elseif primaryItemType == WeaponType.handgun then
+                    max = 8
+                elseif primaryItemType == WeaponType.heavy then
+                    max = 3
+                elseif primaryItemType == WeaponType.onehanded then
+                    max = 3
+                elseif primaryItemType == WeaponType.spear then
+                    max = 3
+                elseif primaryItemType == WeaponType.twohanded then
+                    max = 3
+                elseif primaryItemType == WeaponType.throwing then
+                    max = 12
+                elseif primaryItemType == WeaponType.chainsaw then
+                    max = 4
+                end
+            end
+
+            if max then
+                print ("aimtime: " .. BanditActionInterceptor.aimTime .. " dist:" .. max)
+                if BanditActionInterceptor.aimTime > 4 then 
+                    activateTargets(player, max)
+                end
+                BanditActionInterceptor.aimTime = BanditActionInterceptor.aimTime + 1
+            end
+        else
+            BanditActionInterceptor.aimTime = 0
+        end
+    end
+
+    BanditActionInterceptor.tick = BanditActionInterceptor.tick + 1
 end
 
 LuaEventManager.AddEvent("OnInventoryTransferActionPerform")
 
 Events.OnTimedActionPerform.Add(BanditActionInterceptor.BWOTimedAction)
 Events.OnInventoryTransferActionPerform.Add(BanditActionInterceptor.BWOInventoryTransferAction)
+Events.OnPlayerUpdate.Add(BanditActionInterceptor.OnPlayerUpdate)

@@ -478,7 +478,7 @@ BWOPopControl.UpdateCivs = function()
     -- count desired population of civs
     local nominal = BWOPopControl.InhabitantsNominal
     local density = BanditScheduler.GetDensityScore(player, 120)
-    BWOPopControl.InhabitantsMax = nominal * density * 1.5
+    BWOPopControl.InhabitantsMax = nominal * density
 
     -- count missing amount to spawn
     local missing = BWOPopControl.InhabitantsMax - BWOPopControl.InhabitantsCnt

@@ -460,14 +460,14 @@ BanditPrograms.FollowRoad = function(bandit, walkType)
                                 local material = spriteProps:Val("FootstepMaterial")
                                 if material == "Gravel" then
                                     -- gravel path
-                                    quality = 2
+                                    quality = 1 -- 2
                                 else
                                     -- probably main road
                                     quality = 4
                                 end
                             else
                                 -- probably parking
-                                quality = 3
+                                quality = 1 -- 3
                             end
 
                             break
