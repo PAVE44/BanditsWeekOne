@@ -7,6 +7,30 @@ BWOVehicles.carChoices = {"Base.CarLights", "Base.CarLuxury", "Base.CarNormal", 
                           "Base.PickUpVan", "Base.PickUpVanLights", "Base.SUV", "Base.SmallCar", 
                           "Base.SportsCar", "Base.StepVan", "Base.Van"}
 
+BWOVehicles.burnMap = {}
+BWOVehicles.burnMap["Base.CarNormal"] = "Base.CarNormalBurnt"
+BWOVehicles.burnMap["Base.SmallCar"] = "Base.SmallCarBurnt"
+BWOVehicles.burnMap["Base.SmallCar02"] = "Base.SmallCar02Burnt"
+BWOVehicles.burnMap["Base.OffRoad"] = "Base.OffRoadBurnt"
+BWOVehicles.burnMap["Base.Pickup"] = "Base.PickupBurnt"
+BWOVehicles.burnMap["Base.PickUpVan"] = "Base.PickUpVanBurnt"
+BWOVehicles.burnMap["Base.SportsCar"] = "Base.SportsCarBurnt"
+BWOVehicles.burnMap["Base.VanSeats"] = "Base.VanSeatsBurnt"
+BWOVehicles.burnMap["Base.Van"] = "Base.VanBurnt"
+BWOVehicles.burnMap["Base.ModernCar"] = "Base.ModernCarBurnt"
+BWOVehicles.burnMap["Base.ModernCar02"] = "Base.ModernCar02Burnt"
+BWOVehicles.burnMap["Base.SUV"] = "Base.SUVBurnt"
+BWOVehicles.burnMap["Base.Taxi"] = "Base.TaxiBurnt"
+BWOVehicles.burnMap["Base.Taxi2"] = "Base.TaxiBurnt"
+BWOVehicles.burnMap["Base.LuxuryCar"] = "Base.LuxuryCarBurnt"
+BWOVehicles.burnMap["Base.NormalCarPolice"] = "Base.NormalCarBurntPolice"
+BWOVehicles.burnMap["Base.VanAmbulance"] = "Base.AmbulanceBurnt"
+BWOVehicles.burnMap["Base.VanRadio"] = "Base.VanRadioBurnt"
+BWOVehicles.burnMap["Base.PickupSpecial"] = "Base.PickupSpecialBurnt"
+BWOVehicles.burnMap["Base.PickUpVanLights"] = "Base.PickUpVanLightsBurnt"
+BWOVehicles.burnMap["Base.PickUpVanLightsPolice"] = "Base.PickUpVanLightsBurnt"
+BWOVehicles.burnMap["Base.PickUpTruckLightsFire"] = "Base.PickupBurnt"
+
 BWOVehicles.Register = function(vehicle)
     local id = vehicle:getId()
     BWOVehicles.tab[id] = vehicle
@@ -73,6 +97,33 @@ BWOVehicles.VehicleSpawn = function(x, y, dir, btype)
     end
 end
 
+BWOVehicles.Burn = function(vehicle)
+    local burnMap = BWOVehicles.burnMap
+    local scriptName = vehicle:getScriptName()
+    if scriptName:embodies("Burnt") then return end
+
+    if burnMap[scriptName] then
+        local ax = vehicle:getAngleX()
+        local ay = vehicle:getAngleY()
+        local az = vehicle:getAngleZ()
+        vehicle:permanentlyRemove()
+
+        local vehicleBurnt = addVehicleDebug(burnMap[scriptName], IsoDirections.S, nil, vehicle:getSquare())
+        if vehicleBurnt then
+            for i = 0, vehicleBurnt:getPartCount() - 1 do
+                local container = vehicleBurnt:getPartByIndex(i):getItemContainer()
+                if container then
+                    container:removeAllItems()
+                end
+            end
+            vehicleBurnt:getModData().BWO = {}
+            vehicleBurnt:getModData().BWO.wasRepaired = true
+            vehicleBurnt:setAngles(ax, ay, az)
+        end
+    else
+        print ("cannot burn" .. scriptName)
+    end
+end
 BWOVehicles.FindSpawnPoint = function(player)
     
     -- detects orientation and width of the road

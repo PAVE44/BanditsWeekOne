@@ -5,7 +5,7 @@ local function predicateMoney(item)
 end
 
 local function activateWitness(character, min)
-    local activatePrograms = {"Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer"}
+    local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer"}
     local witnessList = BanditZombie.GetAllB()
     for id, witness in pairs(witnessList) do
         if not witness.brain.hostile then
@@ -20,7 +20,7 @@ local function activateWitness(character, min)
                         if witness.brain.program.name == prg then
                             Bandit.ClearTasks(actor)
                             local outfit = actor:getOutfitName()
-                            if outfit == "Police" then
+                            if outfit == "Police" or outfit == "MallSecurity" or outfit == "ZSArmySpecialOps" then
                                 Bandit.SetProgram(actor, "Police", {})
                                 Bandit.SetHostile(actor, true)
                                 Bandit.Say(actor, "SPOTTED")
@@ -54,7 +54,7 @@ local function activateWitness(character, min)
 end
 
 local function activateTargets(character, min)
-    local activatePrograms = {"Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer"}
+    local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal"}
     local witnessList = BanditZombie.GetAllB()
     local shouldActivate = true
     local activateList = {}
@@ -84,7 +84,7 @@ local function activateTargets(character, min)
         for _, actor in pairs(activateList) do
             Bandit.ClearTasks(actor)
             local outfit = actor:getOutfitName()
-            if outfit == "Police" then
+            if outfit == "Police" or outfit == "MallSecurity" or outfit == "ZSArmySpecialOps" then
                 Bandit.SetProgram(actor, "Police", {})
                 Bandit.SetHostile(actor, true)
                 Bandit.Say(actor, "SPOTTED")

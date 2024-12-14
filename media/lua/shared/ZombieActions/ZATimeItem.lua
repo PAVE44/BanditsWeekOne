@@ -29,7 +29,7 @@ ZombieActions.TimeItem.onWorking = function(zombie, task)
                     emitter:playSound(task.sound)
                 end
             end
-            
+
         end
     end
 end

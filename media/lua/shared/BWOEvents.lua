@@ -364,6 +364,8 @@ BWOEvents.FixVehicles = function(params)
                 local max = gasTank:getContainerCapacity()
                 gasTank:setContainerContentAmount(ZombRandFloat(0, max))
             end
+            local md = vehicle:getModData()
+            if not md.BWO then md.BWO = {} end
             md.BWO.wasRepaired = true
         end
     end
@@ -466,7 +468,7 @@ end
 
 -- params: []
 BWOEvents.Arson = function(params)
-    local building = BWOBuildings.FindBuildingDist(35, 50)
+    local building = BWOBuildings.FindBuildingDist(getPlayer(), 35, 50)
     if building then
 
         local room = building:getRandomRoom()
@@ -571,6 +573,40 @@ BWOEvents.BombRun = function(params)
             vparams.alarm = true
             BWOScheduler.Add("VehiclesUpdate", vparams, d + 10)
         end
+    end
+end
+
+-- params: [x, y, outside]
+BWOEvents.Nuke = function(params)
+    local player = getPlayer()
+
+    BWOTex.speed = 0.018
+    BWOTex.tex = getTexture("media/textures/mask_white.png")
+    BWOTex.alpha = 3
+    player:playSound("DOKaboom")
+
+    local r = 80
+    args = {}
+    args.x = params.x
+    args.y = params.y
+    args.r = r
+    sendClientCommand(player, 'Commands', 'Nuke', args)
+
+    local fakeItem = InventoryItemFactory.CreateItem("Base.RollingPin")
+    local fakeZombie = getCell():getFakeZombieForHit()
+    local zombieList = BanditZombie.GetAll()
+    for id, z in pairs(zombieList) do
+        local dist = math.sqrt(math.pow(z.x - params.x, 2) + math.pow(z.y - params.y, 2))
+        if dist < r then
+            local character = BanditZombie.GetInstanceById(id)
+            if character and character:isOutside() then
+                character:SetOnFire()
+            end
+        end
+    end
+
+    if player:isOutside() then
+        player:SetOnFire()
     end
 end
 
@@ -1501,3 +1537,50 @@ BWOEvents.Army = function(params)
     end
 end
 
+-- params: [intensity]
+BWOEvents.ArmyPatrol = function(params)
+    local player = getPlayer()
+
+    config = {}
+    config.clanId = 0
+    config.hasRifleChance = 100
+    config.hasPistolChance = 100
+    config.rifleMagCount = 6
+    config.pistolMagCount = 4
+
+    local event = {}
+    event.hostile = false
+    event.occured = false
+    event.program = {}
+    event.program.name = "Patrol"
+    event.program.stage = "Prepare"
+
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(40,45))
+    if spawnPoint then
+        event.x = spawnPoint.x
+        event.y = spawnPoint.y
+        event.bandits = {}
+        
+        local bandit = BanditCreator.MakeFromWave(config)
+        bandit.hairStyle = BanditUtils.Choice({"Bald", "Fresh", "Demi", "FlatTop", "MohawkShort"})
+        bandit.accuracyBoost = 1.6
+        bandit.femaleChance = 0
+        bandit.health = 6
+        bandit.outfit = "ZSArmySpecialOps"
+        bandit.weapons.melee = "Base.HuntingKnife"
+
+        local intensity = params.intensity
+        if intensity > 0 then
+            for i=1, intensity do
+                table.insert(event.bandits, bandit)
+            end
+            sendClientCommand(player, 'Commands', 'SpawnGroup', event)
+        end
+
+        if SandboxVars.Bandits.General_ArrivalIcon then
+            local icon = "media/ui/raid.png"
+            local color = {r=0, g=1, b=0} -- green
+            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+        end
+    end
+end

@@ -73,6 +73,8 @@ BWOMenu.SpawnWave = function(player, square, prgName)
         bandit.outfit = BanditUtils.Choice({"Postal"})
     elseif prgName == "Runner" then
         bandit.outfit = BanditUtils.Choice({"StreetSports", "AuthenticJogger", "AuthenticFitnessInstructor"})
+    elseif prgName == "Vandal" then
+        bandit.outfit = BanditUtils.Choice({"Bandit"})
     end
     table.insert(event.bandits, bandit)
 
@@ -82,6 +84,12 @@ end
 BWOMenu.FlushDeadbodies = function(player)
     local args = {a=1}
     sendClientCommand(getPlayer(), 'Commands', 'DeadBodyFlush', args)
+end
+
+BWOMenu.EventArmyPatrol = function(player)
+    local params = {}
+    params.intensity = 9
+    BWOScheduler.Add("ArmyPatrol", params, 100)
 end
 
 BWOMenu.EventArson = function(player)
@@ -109,6 +117,13 @@ BWOMenu.EventBombRun = function(player)
     params.z = player:getZ()
     params.outside = player:isOutside()
     BWOScheduler.Add("BombRun", params, 100)
+end
+
+BWOMenu.EventNuke = function(player)
+    local params = {}
+    params.x = player:getX()
+    params.y = player:getY()
+    BWOScheduler.Add("Nuke", params, 100)
 end
 
 BWOMenu.EventEntertainer = function(player)
@@ -212,6 +227,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         local eventsMenu = context:getNew(context)
         context:addSubMenu(eventsOption, eventsMenu)
 
+        eventsMenu:addOption("Army Patrol", player, BWOMenu.EventArmyPatrol)
         eventsMenu:addOption("Arson", player, BWOMenu.EventArson)
         eventsMenu:addOption("Bandits", player, BWOMenu.EventBandits)
         eventsMenu:addOption("Bikers", player, BWOMenu.EventBikers)
@@ -222,6 +238,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         eventsMenu:addOption("House Party", player, BWOMenu.EventParty)
         eventsMenu:addOption("Jetfighter", player, BWOMenu.EventJetFighter)
         eventsMenu:addOption("Jetfighter Run", player, BWOMenu.EventJetFighterRun)
+        eventsMenu:addOption("Nuke", player, BWOMenu.EventNuke)
         eventsMenu:addOption("Rolice Riot", player, BWOMenu.EventPoliceRiot)
         eventsMenu:addOption("Protest", player, BWOMenu.EventProtest)
         eventsMenu:addOption("Start event", player, BWOMenu.EventStart)
@@ -238,6 +255,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         spawnMenu:addOption("Postal", player, BWOMenu.SpawnWave, square, "Postal")
         spawnMenu:addOption("Runner", player, BWOMenu.SpawnWave, square, "Runner")
         spawnMenu:addOption("Survivor", player, BWOMenu.SpawnWave, square, "Survivor")
+        spawnMenu:addOption("Vandal", player, BWOMenu.SpawnWave, square, "Vandal")
         spawnMenu:addOption("Walker", player, BWOMenu.SpawnWave, square, "Walker")
         
         context:addOption("BWO Deadbodies: Flush", player, BWOMenu.FlushDeadbodies)

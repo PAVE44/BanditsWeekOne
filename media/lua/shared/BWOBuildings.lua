@@ -354,10 +354,9 @@ BWOBuildings.FindBuildingWithRoom = function(bsearch)
     end
 end
 
-BWOBuildings.FindBuildingDist = function(min, max)
-    local player = getPlayer()
-    local px, py = player:getX(), player:getY()
-    local cell = player:getCell()
+BWOBuildings.FindBuildingDist = function(character, min, max)
+    local px, py = character:getX(), character:getY()
+    local cell = character:getCell()
     local rooms = cell:getRoomList()
     local buildings = {}
     for i = 0, rooms:size() - 1 do

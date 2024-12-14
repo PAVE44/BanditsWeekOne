@@ -144,7 +144,6 @@ ZombiePrograms.Walker.Main = function(bandit)
     -- grill time
     if BWOScheduler.SymptomLevel < 3 and ((hour >= 12 and hour < 15) or (hour >= 18 and hour < 23)) then
         local target = BWOObjects.FindGMD(bandit, "barbecue")
-        local test = LosUtil.lineClear(cell, bx, by, bz, target.x, target.y, target.z, false)
         if target.x and target.y and target.z and target.dist < 20 then
             local square = cell:getGridSquare(target.x, target.y, target.z)
             if square and BanditUtils.LineClear(bandit, square) then

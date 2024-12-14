@@ -92,9 +92,19 @@ function BWOScheduler.MasterControl()
             elseif minute == 2 then 
                 BWOScheduler.Add("FixVehicles", params, 100)
             end
+        elseif worldAge == 2 then
+            if minute == 22 then
+                params.intensity = 9
+                BWOScheduler.Add("ArmyPatrol", params, 100)
+            end
         elseif worldAge == 4 then
             if minute == 15 then
                 BWOScheduler.Add("Entertainer", params, 100)
+            end
+        elseif worldAge == 5 then
+            if minute == 44 then
+                params.intensity = 9
+                BWOScheduler.Add("ArmyPatrol", params, 100)
             end
         elseif worldAge == 6 then
             if minute == 35 then
@@ -134,13 +144,28 @@ function BWOScheduler.MasterControl()
             if minute == 15 then
                 BWOScheduler.Add("Entertainer", params, 100)
             end
+        elseif worldAge == 25 then
+            if minute == 44 then
+                params.intensity = 12
+                BWOScheduler.Add("ArmyPatrol", params, 100)
+            end
         elseif worldAge == 26 then
             if minute == 15 then
                 BWOScheduler.Add("Entertainer", params, 100)
             end
+        elseif worldAge == 27 then
+            if minute == 8 then
+                params.intensity = 12
+                BWOScheduler.Add("ArmyPatrol", params, 100)
+            end
         elseif worldAge == 28 then
             if minute == 33 then
                 BWOScheduler.Add("Entertainer", params, 100)
+            end
+        elseif worldAge == 30 then
+            if minute == 33 then
+                params.intensity = 9
+                BWOScheduler.Add("ArmyPatrol", params, 100)
             end
         end
     end
@@ -215,7 +240,7 @@ function BWOScheduler.MasterControl()
             BWOPopControl.InhabitantsNominal = 40
             BWOPopControl.ZombieMax = 2
             if minute == 1 then
-                params.sound = "BWOChopperDisperse"
+                params.sound = "BWOChopper"
                 BWOScheduler.Add("ChopperAlert", params, 100)
             end
         elseif worldAge == 54 then

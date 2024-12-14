@@ -130,6 +130,11 @@ BWOPopControl.StreetsSpawn = function(cnt)
                         bandit.weapons.melee = "Base.Broom"
                         event.program.name = "Janitor"
                         event.program.stage = "Prepare"
+                    elseif rnd < 17 then 
+                        bandit.outfit = BanditUtils.Choice({"Bandit"})
+                        bandit.weapons.melee = "Base.Crowbar"
+                        event.program.name = "Vandal"
+                        event.program.stage = "Prepare"
                     else
                         bandit.outfit = BanditUtils.Choice({"Generic05", "Generic04", "Generic03", "Generic02", "Generic01"})
                         event.program.name = "Walker"
@@ -151,7 +156,7 @@ BWOPopControl.StreetsDespawn = function(cnt)
     local px = player:getX()
     local py = player:getY()
 
-    local removePrg = {"Walker", "Runner", "Postal", "Entertainer", "Janitor", "Medic", "Gardener"}
+    local removePrg = {"Walker", "Runner", "Postal", "Entertainer", "Janitor", "Medic", "Gardener", "Vandal"}
     local zombieList = cell:getZombieList()
     
     for i = 0, zombieList:size() - 1 do
@@ -416,6 +421,7 @@ BWOPopControl.UpdateCivs = function()
     tab.RiotPolice = 0
     tab.Runner = 0
     tab.Survivor = 0
+    tab.Vandal = 0
     tab.Walker = 0
 
     for i = 0, zombieList:size() - 1 do
@@ -451,7 +457,7 @@ BWOPopControl.UpdateCivs = function()
     -- ADJUST: people on the streets
 
     -- count currently active civs
-    BWOPopControl.StreetsCnt = tab.Walker + tab.Runner + tab.Postal + tab.Gardener + tab.Janitor + tab.Entertainer
+    BWOPopControl.StreetsCnt = tab.Walker + tab.Runner + tab.Postal + tab.Gardener + tab.Janitor + tab.Entertainer + tab.Vandal
 
     -- count desired population of civs
     local nominal = BWOPopControl.StreetsNominal
@@ -580,11 +586,11 @@ BWOPopControl.CheckHostility = function(bandit, attacker)
                     end
 
                     -- witnessing civilians need to change peaceful behavior to active
-                    local activatePrograms = {"Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer"}
+                    local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal"}
                     for _, prg in pairs(activatePrograms) do
                         if witness.brain.program.name == prg then 
                             local outfit = actor:getOutfitName()
-                            if outfit == "Police" or outfit == "MallSecurity" then
+                            if outfit == "Police" or outfit == "MallSecurity" or outfit == "ZSArmySpecialOps" then
                                 Bandit.ClearTasks(actor)
                                 Bandit.SetProgram(actor, "Police", {})
                                 if wasPlayerFault then

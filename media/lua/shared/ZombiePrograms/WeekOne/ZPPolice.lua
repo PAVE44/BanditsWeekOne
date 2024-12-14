@@ -97,7 +97,7 @@ ZombiePrograms.Police.Main = function(bandit)
         if age > 1 and closestPlayer.dist > 30 then
             Bandit.ClearTasks(bandit)
             Bandit.SetHostile(bandit, false)
-            Bandit.SetProgram(bandit, "Walker", {})
+            Bandit.SetProgram(bandit, "Patrol", {})
             local syncData = {}
             syncData.id = brain.id
             syncData.hostile = brain.hostile
