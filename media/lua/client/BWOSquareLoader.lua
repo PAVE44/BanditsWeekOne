@@ -1,9 +1,24 @@
 BWOSquareLoader = BWOSquareLoader or {}
+
+-- table for objects to be added to the map
 BWOSquareLoader.map = {}
+
+-- table for objects to be removed from the map
 BWOSquareLoader.remove = {}
+
+-- table of coordinates of location based events
 BWOSquareLoader.events = {}
+
+-- table of nuclear strike coordinates
 BWOSquareLoader.nukes = {}
 
+-- table of protest gathering point coordinates
+BWOSquareLoader.protests = {}
+
+-- table of exclusion zones where certain events are removed or modified
+BWOSquareLoader.exclusions = {}
+
+-- populating tables
 local addBarricadeNorth = function(x1, x2, y)
     for x=x1, x2 do
         local z = 0
@@ -107,14 +122,6 @@ local addBarricadeEast = function(y1, y2, x)
     end
 end
 
-local addNuke = function(x, y, r)
-    table.insert(BWOSquareLoader.nukes, {x=x, y=y, r=r})
-end
-
--- remove fence in wespoint gunshop
-BWOSquareLoader.remove["12072-6759-0"] = {}
-BWOSquareLoader.remove["12072-6760-0"] = {}
-
 -- muldrough road blocks
 addBarricadeSouth(10576, 10602, 10679)
 table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=10592, y=10675, z=0})
@@ -168,7 +175,46 @@ addBarricadeSouth(6515, 6540, 5615)
 addBarricadeSouth(5872, 5888, 5460)
 addBarricadeWest(5385, 5394, 5710)
 
--- nuke locations
+-- remove fence in westpoint gunshop
+BWOSquareLoader.remove["12072-6759-0"] = {}
+BWOSquareLoader.remove["12072-6760-0"] = {}
+
+-- protests
+local protests = {}
+table.insert(protests, {x=10590, y=10670, z=0}) --muldraugh n blockade
+table.insert(protests, {x=10590, y=9172, z=0}) --muldraugh s blockade
+table.insert(protests, {x=10590, y=9737, z=0}) --muldraugh middle road
+table.insert(protests, {x=10653, y=9940, z=0}) --muldraugh cafeteria, liquorstore, slothing store complex
+table.insert(protests, {x=10740, y=10340, z=0}) --muldraugh offices
+table.insert(protests, {x=10760, y=10160, z=0}) --muldraugh church
+table.insert(protests, {x=10634, y=10431, z=0}) --muldraugh police
+table.insert(protests, {x=12160, y=6900, z=0}) --westpoint e traintack
+table.insert(protests, {x=12050, y=6883, z=0}) --westpoint gigamart
+table.insert(protests, {x=11955, y=6805, z=0}) --westpoint spiffos
+table.insert(protests, {x=11927, y=6893, z=0}) --westpoint townhall
+table.insert(protests, {x=11933, y=6871, z=0}) --westpoint townhall inside
+table.insert(protests, {x=11109, y=6898, z=0}) --westpoint barricade w
+table.insert(protests, {x=11920, y=6963, z=0}) --westpoint police
+table.insert(protests, {x=6992, y=5468, z=0}) --riverside blockade e
+table.insert(protests, {x=6399, y=5427, z=0}) --riverside school
+table.insert(protests, {x=6381, y=5283, z=0}) --riverside central road
+table.insert(protests, {x=6090, y=5280, z=0}) --riverside police
+table.insert(protests, {x=6545, y=5261, z=0}) --riverside community centre
+table.insert(protests, {x=5881, y=5445, z=0}) --riverside blockade w
+table.insert(protests, {x=8100, y=11740, z=0}) --rosewood police
+table.insert(protests, {x=8100, y=11645, z=0}) --rosewood court of justice
+table.insert(protests, {x=8093, y=11363, z=0}) --rosewood spiffos
+table.insert(protests, {x=8313, y=15583, z=0}) --rosewood school
+table.insert(protests, {x=10362, y=12416, z=0}) --marchridge exit
+table.insert(protests, {x=10007, y=12692, z=0}) --marchridge crossroads
+table.insert(protests, {x=10326, y=12768, z=0}) --marchridge church
+BWOSquareLoader.protests = protests
+
+-- nukes
+local addNuke = function(x, y, r)
+    table.insert(BWOSquareLoader.nukes, {x=x, y=y, r=r})
+end
+
 addNuke(10800, 9800, 700) -- muldraugh
 addNuke(10040, 12760, 700) -- march ridge
 addNuke(8160, 11550, 700) -- rosewood
@@ -176,7 +222,10 @@ addNuke(7267, 8320, 700) -- doe valley
 addNuke(6350, 5430, 700) -- riverside
 addNuke(11740, 6900, 700) -- westpoint
 
--- mechanic cars
+-- exclusion zones
+table.insert(BWOSquareLoader.exclusions, {x1=5000, y1=12000, x2=6200, y2=13000}) -- military research lab
+
+-- mechanic cars - abandoned idea because var cannot spawn inside auto repair shops
 --[[
 table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5467, y=9652, z=0, directions=IsoDirections.E}) -- riverside
 table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5467, y=9661, z=0, directions=IsoDirections.E}) -- riverside
@@ -193,67 +242,79 @@ table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=12283, y=6927, z=0,
 table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=12283, y=6934, z=0, directions=IsoDirections.W}) -- westpoint
 ]]
 
-BWOSquareLoader.Clear = function(square)
-    local objects = square:getObjects()
-    local destroyList = {}
-    local legalSprites = {}
-    table.insert(legalSprites, "fencing_01_88")
-    table.insert(legalSprites, "fencing_01_90")
-    table.insert(legalSprites, "fencing_01_90")
-    table.insert(legalSprites, "fencing_01_91")
-    table.insert(legalSprites, "carpentry_02_13")
-    table.insert(legalSprites, "carpentry_02_12")
-    table.insert(legalSprites, "fencing_01_96")
+-- checks if a point is inside any exclusion zone
+BWOSquareLoader.IsInExclusion = function (x, y)
+    for _, exclusion in pairs(BWOSquareLoader.exclusions) do
+        if x > exclusion.x1 and x < exclusion.x2 and y > exclusion.y1 and y < exclusion.y2 then
+            return true
+            break
+        end
+    end
+    return false
+end
 
-    for i=0, objects:size()-1 do
-        local object = objects:get(i)
-        if object then
-            local sprite = object:getSprite()
-            if sprite then 
-                local spriteName = sprite:getName()
-                local spriteProps = sprite:getProperties()
+-- updates square to implement prepandemic world and manage add/remove objects
+BWOSquareLoader.OnLoad = function(square)
 
-                local isSolidFloor = spriteProps:Is(IsoFlagType.solidfloor)
-                local isAttachedFloor = spriteProps:Is(IsoFlagType.attachedFloor)
-
-                isLegalSprite = false
-                --[[
-                for _, sp in pairs(legalSprites) do
-                    if sp == spriteName then
-                        isLegalSprite = true
-                        break
+    local clearObjects = function(square)
+        local objects = square:getObjects()
+        local destroyList = {}
+        local legalSprites = {}
+        table.insert(legalSprites, "fencing_01_88")
+        table.insert(legalSprites, "fencing_01_90")
+        table.insert(legalSprites, "fencing_01_90")
+        table.insert(legalSprites, "fencing_01_91")
+        table.insert(legalSprites, "carpentry_02_13")
+        table.insert(legalSprites, "carpentry_02_12")
+        table.insert(legalSprites, "fencing_01_96")
+    
+        for i=0, objects:size()-1 do
+            local object = objects:get(i)
+            if object then
+                local sprite = object:getSprite()
+                if sprite then 
+                    local spriteName = sprite:getName()
+                    local spriteProps = sprite:getProperties()
+    
+                    local isSolidFloor = spriteProps:Is(IsoFlagType.solidfloor)
+                    local isAttachedFloor = spriteProps:Is(IsoFlagType.attachedFloor)
+    
+                    isLegalSprite = false
+                    --[[
+                    for _, sp in pairs(legalSprites) do
+                        if sp == spriteName then
+                            isLegalSprite = true
+                            break
+                        end
+                    end
+                    ]]
+    
+                    if not isSolidFloor and not isLegalSprite then
+                        table.insert(destroyList, object)
                     end
                 end
-                ]]
-
-                if not isSolidFloor and not isLegalSprite then
-                    table.insert(destroyList, object)
-                end
+            end
+        end
+    
+        for k, obj in pairs(destroyList) do
+            if isClient() then
+                sledgeDestroy(obj);
+            else
+                square:transmitRemoveItemFromSquare(obj)
             end
         end
     end
 
-    for k, obj in pairs(destroyList) do
-        if isClient() then
-            sledgeDestroy(obj);
-        else
-            square:transmitRemoveItemFromSquare(obj)
+    local addObject = function(square, objectList)
+        for _, sprite in pairs(objectList) do
+            local obj = IsoObject.new(square, sprite, "")
+            square:AddSpecialObject(obj)
+            obj:transmitCompleteItemToServer()
+            print ("added")
         end
     end
-end
 
-BWOSquareLoader.Add = function(square, objectList)
-    for _, sprite in pairs(objectList) do
-        local obj = IsoObject.new(square, sprite, "")
-        square:AddSpecialObject(obj)
-        obj:transmitCompleteItemToServer()
-        print ("added")
-    end
-end
-
-BWOSquareLoader.OnLoad = function(square)
-
-    local function isInCircle(x, y, cx, cy, r)
+    local isInCircle = function(x, y, cx, cy, r)
         local d2 = ((x - cx) * (x - cx)) + ((y - cy) * (y - cy))
         return d2 <= r * r
     end
@@ -266,15 +327,15 @@ BWOSquareLoader.OnLoad = function(square)
 
     -- spawn map objects
     if BWOSquareLoader.map[id] then
-        BWOSquareLoader.Clear(square)
-        BWOSquareLoader.Add(square, BWOSquareLoader.map[id])
+        clearObjects(square)
+        addObject(square, BWOSquareLoader.map[id])
         BWOSquareLoader.map[id] = nil
     end
 
     -- remove map objects
     if BWOScheduler.WorldAge < 64 then
         if BWOSquareLoader.remove[id] then
-            BWOSquareLoader.Clear(square)
+            clearObjects(square)
             BWOSquareLoader.remove[id] = nil
         end
     end
@@ -403,6 +464,7 @@ BWOSquareLoader.OnLoad = function(square)
     end
 end
 
+-- spawns location events when player is near
 BWOSquareLoader.LocationEvents = function()
     local tab = BWOSquareLoader.events
     local player = getPlayer()
