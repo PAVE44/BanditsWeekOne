@@ -86,6 +86,12 @@ BWOMenu.FlushDeadbodies = function(player)
     sendClientCommand(getPlayer(), 'Commands', 'DeadBodyFlush', args)
 end
 
+BWOMenu.EventArmy = function(player)
+    local params = {}
+    params.intensity = 12
+    BWOScheduler.Add("Army", params, 100)
+end
+
 BWOMenu.EventArmyPatrol = function(player)
     local params = {}
     params.intensity = 9
@@ -100,13 +106,31 @@ BWOMenu.EventArson = function(player)
     BWOScheduler.Add("Arson", params, 100)
 end
 
+BWOMenu.EventGasDrop = function(player)
+    local params = {}
+    params.x = player:getX()
+    params.y = player:getY()
+    params.z = player:getZ()
+    params.outside = player:isOutside()
+    BWOScheduler.Add("GasDrop", params, 100)
+end
+
+BWOMenu.EventGasRun = function(player)
+    local params = {}
+    params.x = player:getX()
+    params.y = player:getY()
+    params.z = player:getZ()
+    params.outside = player:isOutside()
+    params.intensity = 10
+    BWOScheduler.Add("GasRun", params, 100)
+end
+
 BWOMenu.EventBombDrop = function(player)
     local params = {}
     params.x = player:getX()
     params.y = player:getY()
     params.z = player:getZ()
     params.outside = player:isOutside()
-    params.intensity = 5
     BWOScheduler.Add("BombDrop", params, 100)
 end
 
@@ -115,6 +139,7 @@ BWOMenu.EventBombRun = function(player)
     params.x = player:getX()
     params.y = player:getY()
     params.z = player:getZ()
+    params.intensity = 20
     params.outside = player:isOutside()
     BWOScheduler.Add("BombRun", params, 100)
 end
@@ -233,6 +258,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         local eventsMenu = context:getNew(context)
         context:addSubMenu(eventsOption, eventsMenu)
 
+        eventsMenu:addOption("Army", player, BWOMenu.EventArmy)
         eventsMenu:addOption("Army Patrol", player, BWOMenu.EventArmyPatrol)
         eventsMenu:addOption("Arson", player, BWOMenu.EventArson)
         eventsMenu:addOption("Bandits", player, BWOMenu.EventBandits)
@@ -242,6 +268,8 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         eventsMenu:addOption("Criminals", player, BWOMenu.EventCriminals)
         eventsMenu:addOption("Entertainer", player, BWOMenu.EventEntertainer)
         eventsMenu:addOption("Final Solution", player, BWOMenu.EventFinalSolution)
+        eventsMenu:addOption("Gas Drop", player, BWOMenu.EventGasDrop)
+        eventsMenu:addOption("Gas Run", player, BWOMenu.EventGasRun)
         eventsMenu:addOption("House Party", player, BWOMenu.EventParty)
         eventsMenu:addOption("Jetfighter", player, BWOMenu.EventJetFighter)
         eventsMenu:addOption("Jetfighter Run", player, BWOMenu.EventJetFighterRun)

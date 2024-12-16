@@ -334,42 +334,6 @@ BWOEvents.VehiclesUpdate = function(params)
     end
 end
 
--- params: []
-BWOEvents.FixVehicles = function(params)
-    local player = getPlayer()
-    local cell = player:getCell()
-    local vehicleList = cell:getVehicles()
-    for i=0, vehicleList:size()-1 do
-        local vehicle = vehicleList:get(i)
-        local scriptName = vehicle:getScriptName()
-        local engine = vehicle:getPartById("Engine")
-        if scriptName:embodies("Burnt") or scriptName:embodies("Smashed") or (engine and engine:getCondition() < 50) then
-            table.insert(toDelete, vehicle)
-        else
-            vehicle:repair()
-            vehicle:setTrunkLocked(true)
-            for i=0, vehicle:getMaxPassengers() - 1 do 
-                local part = vehicle:getPassengerDoor(i)
-                if part then 
-                    local door = part:getDoor()
-                    if door then
-                        door:setLocked(true)
-                    end
-                end
-            end
-
-            local gasTank = vehicle:getPartById("GasTank")
-            if gasTank then
-                local max = gasTank:getContainerCapacity() * 0.8
-                gasTank:setContainerContentAmount(ZombRandFloat(0, max))
-            end
-            local md = vehicle:getModData()
-            if not md.BWO then md.BWO = {} end
-            md.BWO.wasRepaired = true
-        end
-    end
-end
-
 -- params: [x, y, sound]
 BWOEvents.Sound = function(params)
     local emitter = getWorld():getFreeEmitter(params.x, params.y, 0)
@@ -671,7 +635,7 @@ BWOEvents.JetFighter = function(params)
                 end
             end
 
-            if cnt > 12 then
+            if cnt >= 10 then
                 local fakeItem = InventoryItemFactory.CreateItem("Base.AssaultRifle")
                 local fakeZombie = getCell():getFakeZombieForHit()
                 for id, zombie in pairs(killList) do
@@ -706,7 +670,7 @@ BWOEvents.JetFighterRun = function(params)
     if BWOSquareLoader.IsInExclusion(params.x, params.y) then return end
 
     local jets = {}
-    jets.x = params.X
+    jets.x = params.x
     jets.y = params.y
     BWOScheduler.Add("Jets", jets, 1)
 
@@ -722,6 +686,64 @@ BWOEvents.JetFighterRun = function(params)
         d = d + 77 + ZombRand(254)
         BWOScheduler.Add("JetFighter", bomb, d)
     end
+end
+
+-- params: [x, y, intensity, outside]
+BWOEvents.GasRun = function(params)
+
+    if BWOSquareLoader.IsInExclusion(params.x, params.y) then return end
+
+    local jets = {}
+    jets.x = params.x
+    jets.y = params.y
+    BWOScheduler.Add("Jets", jets, 1)
+
+    if not params.intensity then params.intensity = 1 end
+
+    local d = 14000
+    for i = 0, params.intensity do
+        local bomb = {}
+        bomb.x = params.x
+        bomb.y = params.y
+        bomb.outside = params.outside
+
+        d = d + 79 + ZombRand(239)
+        BWOScheduler.Add("GasDrop", bomb, d)
+    end
+end
+
+-- params: [x, y, outside]
+BWOEvents.GasDrop = function(params)
+
+    if BWOSquareLoader.IsInExclusion(params.x, params.y) then return end
+
+    local x, y = findBombSpot(params.x, params.y, params.outside)
+    local svec = {}
+    table.insert(svec, {x=-3, y=-1})
+    table.insert(svec, {x=3, y=1})
+    table.insert(svec, {x=-1, y=-3})
+    table.insert(svec, {x=1, y=3})
+
+    for _, v in pairs(svec) do
+        local effect = {}
+        effect.x = x + v.x
+        effect.y = y + v.y
+        effect.z = 0
+        effect.offset = 300
+        effect.name = "mist"
+        effect.frameCnt = 60
+        effect.frameRnd = true
+        effect.repCnt = 10
+        table.insert(BWOEffects.tab, effect)
+    end
+
+    local colors = {r=0.2, g=1.0, b=0.3}
+    local lightSource = IsoLightSource.new(x, y, 0, colors.r, colors.g, colors.b, 60, 10)
+    getCell():addLamppost(lightSource)
+
+    local emitter = getWorld():getFreeEmitter(x, y, 0)
+    emitter:playSound("DOGas")
+    emitter:setVolumeAll(0.25)
 end
 
 -- params: [x, y, z]

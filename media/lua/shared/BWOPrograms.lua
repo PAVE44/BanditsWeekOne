@@ -14,7 +14,7 @@ BanditPrograms.Symptoms = function(bandit)
     if combined > 1000000000 then combined = math.floor(combined / 100) end
     local pseudoRandom = (combined * 137) % 60
 
-    if BWOScheduler.SymptomLevel == 1 or BWOScheduler.SymptomLevel == 2 then
+    if BWOScheduler.SymptomLevel == 1 then
 
         if pseudoRandom < 5 then
             local rn = ZombRand(2)
@@ -119,6 +119,10 @@ BanditPrograms.Symptoms = function(bandit)
                 table.insert(tasks, task)
                 return tasks
             end
+        end
+    elseif BWOScheduler.SymptomLevel == 5 then
+        if ZombRand(6) == 0 then
+            Bandit.UpdateInfection(bandit, 200)
         end
     end
     return tasks

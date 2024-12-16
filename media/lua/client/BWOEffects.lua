@@ -8,6 +8,7 @@ BWOEffects.Add = function(effect)
 end
 
 BWOEffects.Process = function()
+    
     if isServer() then return end
 
     BWOEffects.tick = BWOEffects.tick + 1
@@ -68,7 +69,7 @@ BWOEffects.Process = function()
                     effect.frame = effect.frame + 1
                     
                     if effect.name == "mist" then
-                        --effect.object:setCustomColor(0.1,0.7,0.2, alpha)
+                        -- effect.object:setCustomColor(0.1,0.7,0.2, alpha)
                         if effect.frame % 10 == 1 then
                             local actors = BanditZombie.GetAll()
                             for _, actor in pairs(actors) do

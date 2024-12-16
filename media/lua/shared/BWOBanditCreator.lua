@@ -16,10 +16,17 @@ function BanditCreator.MakeFromRoom(room)
     -- weapon config
     config = {}
     config.hasRifleChance = 0
-    config.hasPistolChance = 4
+    config.hasPistolChance = 7
     config.rifleMagCount = 0
-    config.pistolMagCount = 1
+    config.pistolMagCount = 3
     config.clanId = 0
+
+    if BWOScheduler.SymptomLevel >= 3 then
+        config.hasRifleChance = 5
+        config.hasPistolChance = 40
+        config.rifleMagCount = 2
+        config.pistolMagCount = 3
+    end
 
     -- gun weapon choice comes from clan file, weapon probability from wave data
     bandit.weapons = BanditCreator.MakeWeapons(config, clan)

@@ -628,6 +628,7 @@ local everyOneMinute = function ()
 end
 
 local onTick = function(numTicks)
+    
     if numTicks % 2 == 0 then
         BWOPopControl.Zombie()
     end

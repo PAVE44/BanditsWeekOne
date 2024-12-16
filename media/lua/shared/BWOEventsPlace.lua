@@ -1,5 +1,47 @@
 BWOEventsPlace = BWOEventsPlace or {}
 
+local spawnVehicle = function(x, y, dir, vtype)
+    local cell = getCell()
+    local square = getCell():getGridSquare(x, y, 0)
+    if not square then return end
+
+    if not square:isFree(false) then return end
+
+    if square:getVehicleContainer() then return end
+
+    local vehicle = addVehicleDebug(vtype, dir, nil, square)
+    if not vehicle then return end
+
+    --[[
+    for i = 0, vehicle:getPartCount() - 1 do
+        local container = vehicle:getPartByIndex(i):getItemContainer()
+        if container then
+            container:removeAllItems()
+        end
+    end]]
+
+    vehicle:getModData().BWO = {}
+    vehicle:getModData().BWO.wasRepaired = true
+    vehicle:repair()
+    vehicle:setColor(ZombRandFloat(0, 1), ZombRandFloat(0, 1), ZombRandFloat(0, 1))
+    vehicle:setTrunkLocked(true)
+    for i=0, vehicle:getMaxPassengers() -1 do 
+        local part = vehicle:getPassengerDoor(i)
+        if part then 
+            local door = part:getDoor()
+            if door then
+                door:setLocked(true)
+            end
+        end
+    end
+
+    local gasTank = vehicle:getPartById("GasTank")
+    if gasTank then
+        local max = gasTank:getContainerCapacity() * 0.8
+        gasTank:setContainerContentAmount(ZombRandFloat(0, max))
+    end
+end
+
 function BWOEventsPlace.ArmyGuards(params)
     config = {}
     config.clanId = 0
@@ -99,4 +141,9 @@ function BWOEventsPlace.CarMechanic(params)
     -- vehicle:setHeadlightsOn(true)
     -- vehicle:setLightbarLightsMode(3)
 
+end
+
+function BWOEventsPlace.AbandonedVehicle(params)
+    local vtype = BanditUtils.Choice(BWOVehicles.carChoices)
+    spawnVehicle(params.x, params.y, params.dir, vtype)
 end

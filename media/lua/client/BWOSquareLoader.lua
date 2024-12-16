@@ -126,6 +126,14 @@ end
 addBarricadeSouth(10576, 10602, 10679)
 table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=10592, y=10675, z=0})
 
+for i = 0, 14 do
+    table.insert(BWOSquareLoader.events, {phase="AbandonedVehicle", x=10587, y=10660 - (i * 6), z=0, dir=IsoDirections.S}) 
+end
+
+for i = 0, 3 do
+    table.insert(BWOSquareLoader.events, {phase="AbandonedVehicle", x=10597, y=10685 + (i * 6), z=0, dir=IsoDirections.N})
+end
+
 addBarricadeSouth(10775, 10805, 10715)
 table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=10790, y=10706, z=0})
 
@@ -137,6 +145,14 @@ table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=10962, y=8932, z=0})
 
 addBarricadeNorth(10570, 10608, 9148)
 table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=10591, y=9152, z=0})
+
+for i = 0, 4 do
+    table.insert(BWOSquareLoader.events, {phase="AbandonedVehicle", x=10587, y=9140 - (i * 6), z=0, dir=IsoDirections.S}) 
+end
+
+for i = 0, 10 do
+    table.insert(BWOSquareLoader.events, {phase="AbandonedVehicle", x=10597, y=9153 + (i * 6), z=0, dir=IsoDirections.N})
+end
 
 addBarricadeEast(9726, 9744, 10576)
 table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=10579, y=9736, z=0})
@@ -242,12 +258,13 @@ table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=12283, y=6927, z=0,
 table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=12283, y=6934, z=0, directions=IsoDirections.W}) -- westpoint
 ]]
 
+
+
 -- checks if a point is inside any exclusion zone
-BWOSquareLoader.IsInExclusion = function (x, y)
+BWOSquareLoader.IsInExclusion = function(x, y)
     for _, exclusion in pairs(BWOSquareLoader.exclusions) do
         if x > exclusion.x1 and x < exclusion.x2 and y > exclusion.y1 and y < exclusion.y2 then
             return true
-            break
         end
     end
     return false
@@ -447,7 +464,9 @@ BWOSquareLoader.OnLoad = function(square)
 end
 
 -- spawns location events when player is near
-BWOSquareLoader.LocationEvents = function()
+BWOSquareLoader.LocationEvents = function(ticks)
+    if ticks % 10 > 0 then return end
+
     local tab = BWOSquareLoader.events
     local player = getPlayer()
     local cell = getCell()
@@ -517,5 +536,5 @@ BWOSquareLoader.VehicleFixOrRemove = function()
 end
 
 Events.LoadGridsquare.Add(BWOSquareLoader.OnLoad)
-Events.EveryOneMinute.Add(BWOSquareLoader.LocationEvents)
+Events.OnTick.Add(BWOSquareLoader.LocationEvents)
 Events.EveryOneMinute.Add(BWOSquareLoader.VehicleFixOrRemove)

@@ -113,6 +113,9 @@ local function activateTargets(character, min)
 end
 
 BanditActionInterceptor.BWOTimedAction = function(data)
+
+    if BWOScheduler.SymptomLevel >= 3 then return end
+    
     local character = data.character
     if not character then return end
 
@@ -126,6 +129,9 @@ BanditActionInterceptor.BWOTimedAction = function(data)
 end
 
 BanditActionInterceptor.BWOInventoryTransferAction = function(data)
+
+    if BWOScheduler.SymptomLevel >= 3 then return end
+
     local character = data.character
     if not character then return end
 
@@ -205,6 +211,7 @@ BanditActionInterceptor.tick = 0
 BanditActionInterceptor.aimTime = 0
 
 BanditActionInterceptor.OnPlayerUpdate = function(player)
+    if BWOScheduler.SymptomLevel >= 3 then return end
 
     if BanditActionInterceptor.tick > 15 then
         BanditActionInterceptor.tick = 0

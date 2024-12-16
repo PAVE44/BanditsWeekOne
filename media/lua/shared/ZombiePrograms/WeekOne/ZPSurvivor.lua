@@ -172,6 +172,7 @@ ZombiePrograms.Survivor.Main = function(bandit)
 
 
             table.insert(tasks, BanditUtils.GetMoveTask(endurance, target.x+dx+dxf, target.y+dy+dyf, target.z, walkType, target.dist, closeSlow))
+            return {status=true, next="Main", tasks=tasks}
         end
     end
         
