@@ -298,7 +298,6 @@ local spawnVehicle = function(x, y, vtype)
     vehicle:engineDoRunning()
     vehicle:setHeadlightsOn(true)
     vehicle:setLightbarLightsMode(3)
-
 end
 
 -- params: [headlight(opt), lightbar(opt), alarm(opt)]
@@ -514,6 +513,8 @@ BWOEvents.BombDrop = function(params)
         return false
     end
 
+    if BWOSquareLoader.IsInExclusion(params.x, params.y) then return end
+
     -- where it hits
     local x, y = findBombSpot(params.x, params.y, params.outside)
 
@@ -552,6 +553,9 @@ end
 -- params: [x, y, intensity, outside]
 BWOEvents.BombRun = function(params)
     local jets = {}
+
+    if BWOSquareLoader.IsInExclusion(params.x, params.y) then return end
+
     jets.x = params.x
     jets.y = params.y
     BWOScheduler.Add("Jets", jets, 1)
@@ -644,6 +648,9 @@ end
 
 -- params: [x, y, outside]
 BWOEvents.JetFighter = function(params)
+
+    if BWOSquareLoader.IsInExclusion(params.x, params.y) then return end
+
     local zombieList = BanditZombie.GetAll()
     for by=-1, 1 do
         for bx=-1, 1 do
@@ -695,6 +702,9 @@ end
 
 -- params: [x, y, intensity, outside]
 BWOEvents.JetFighterRun = function(params)
+
+    if BWOSquareLoader.IsInExclusion(params.x, params.y) then return end
+
     local jets = {}
     jets.x = params.X
     jets.y = params.y

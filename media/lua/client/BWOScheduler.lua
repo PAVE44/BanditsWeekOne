@@ -303,8 +303,8 @@ function BWOScheduler.MasterControl()
             end
         elseif worldAge == 71 then
             BWOPopControl.ZombieMax = 3
-            if minute == 15 or minute == 25 then
-                for _, pcoords in pairs(BWOEventsPlace.ProtestAreas) do 
+            if minute == 5 or minute == 10 then
+                for _, pcoords in pairs(BWOSquareLoader.protests) do 
                     BWOScheduler.Add("Protest", {x=pcoords.x, y=pcoords.y, z=pcoords.z}, 100)
                     params.sound = "BWOChopperDisperse"
                     params.x = pcoords.x
