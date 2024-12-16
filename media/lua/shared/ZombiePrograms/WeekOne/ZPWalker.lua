@@ -121,23 +121,27 @@ ZombiePrograms.Walker.Main = function(bandit)
     -- print ("WALKER 2: " .. (getTimestampMs() - ts))
     
     -- react to events
-    local subTasks = BanditPrograms.Events(bandit)
-    if #subTasks > 0 then
-        for _, subTask in pairs(subTasks) do
-            table.insert(tasks, subTask)
+    if BWOScheduler.SymptomLevel < 4 then
+        local subTasks = BanditPrograms.Events(bandit)
+        if #subTasks > 0 then
+            for _, subTask in pairs(subTasks) do
+                table.insert(tasks, subTask)
+            end
+            return {status=true, next="Main", tasks=tasks}
         end
-        return {status=true, next="Main", tasks=tasks}
     end
     -- print ("WALKER 3: " .. (getTimestampMs() - ts))
 
 
     -- atm
-    local subTasks = BanditPrograms.ATM(bandit)
-    if #subTasks > 0 then
-        for _, subTask in pairs(subTasks) do
-            table.insert(tasks, subTask)
+    if BWOScheduler.SymptomLevel < 4 then
+        local subTasks = BanditPrograms.ATM(bandit)
+        if #subTasks > 0 then
+            for _, subTask in pairs(subTasks) do
+                table.insert(tasks, subTask)
+            end
+            return {status=true, next="Main", tasks=tasks}
         end
-        return {status=true, next="Main", tasks=tasks}
     end
     -- print ("WALKER 4: " .. (getTimestampMs() - ts))
 
@@ -203,25 +207,29 @@ ZombiePrograms.Walker.Main = function(bandit)
     -- print ("WALKER 8: " .. (getTimestampMs() - ts))
 
     -- chair/bench rest
-    local subTasks = BanditPrograms.Bench(bandit)
-    if #subTasks > 0 then
-        for _, subTask in pairs(subTasks) do
-            table.insert(tasks, subTask)
-        end
-        return {status=true, next="Main", tasks=tasks}
-    end
-    -- print ("WALKER 9: " .. (getTimestampMs() - ts))
-
-    -- interact with players and other npcs
-    -- dont do it on the street tho
-    local groundType = BanditUtils.GetGroundType(bandit:getSquare())
-    if groundType ~= "street" then
-        local subTasks = BanditPrograms.Talk(bandit)
+    if BWOScheduler.SymptomLevel < 4 then 
+        local subTasks = BanditPrograms.Bench(bandit)
         if #subTasks > 0 then
             for _, subTask in pairs(subTasks) do
                 table.insert(tasks, subTask)
             end
             return {status=true, next="Main", tasks=tasks}
+        end
+    end
+    -- print ("WALKER 9: " .. (getTimestampMs() - ts))
+
+    -- interact with players and other npcs
+    -- dont do it on the street tho
+    if BWOScheduler.SymptomLevel < 3 then
+        local groundType = BanditUtils.GetGroundType(bandit:getSquare())
+        if groundType ~= "street" then
+            local subTasks = BanditPrograms.Talk(bandit)
+            if #subTasks > 0 then
+                for _, subTask in pairs(subTasks) do
+                    table.insert(tasks, subTask)
+                end
+                return {status=true, next="Main", tasks=tasks}
+            end
         end
     end
     -- print ("WALKER 10: " .. (getTimestampMs() - ts))

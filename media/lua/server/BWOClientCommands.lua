@@ -70,19 +70,8 @@ BWOServer.Commands.Nuke = function(player, args)
                 if dist < r then
                     local square = cell:getGridSquare(bx, by, z)
                     if square then
-                        square:BurnWalls(false)
-                        if ZombRand(4) == 1 and square:isFree(false) then
-                            local obj = IsoObject.new(square, "floors_burnt_01_1", "")
-                            square:AddSpecialObject(obj)
-                            obj:transmitCompleteItemToClients()
-                        end
-                        if ZombRand(6) == 1 and square:isFree(false) then
-                            local rn = ZombRand(53)
-                            local sprite = "trash_01_" .. tostring(rn)
-                            local obj = IsoObject.new(square, sprite, "")
-                            square:AddSpecialObject(obj)
-                            obj:transmitCompleteItemToClients()
-                        end
+                        BWOSquareLoader.Burn(square)
+
                         local vehicle = square:getVehicleContainer()
                         if vehicle then
                             BWOVehicles.Burn(vehicle)

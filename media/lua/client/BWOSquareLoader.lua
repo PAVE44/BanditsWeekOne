@@ -251,6 +251,54 @@ BWOSquareLoader.Add = function(square, objectList)
     end
 end
 
+BWOSquareLoader.Burn = function(square)
+    local metaGrid = getWorld():getMetaGrid()
+    local zone = metaGrid:getZoneAt(square:getX(), square:getY(), square:getZ())
+    square:BurnWalls(false)
+    
+    if zone then
+        local zoneType = zone:getType()
+        if zoneType == "Nav" then
+            if ZombRand(6) == 1 then
+                local objects = square:getObjects()
+                for i=0, objects:size()-1 do
+                    local object = objects:get(i)
+                    local sprite = object:getSprite()
+                    if sprite then
+                        local spriteProps = sprite:getProperties()
+                        if spriteProps:Is(IsoFlagType.solidfloor) then
+                            local attachments = object:getAttachedAnimSprite()
+                            if not attachments or attachments:size() == 0 then
+                                object:setAttachedAnimSprite(ArrayList.new())
+                            end
+                            local spriteName = "blends_streetoverlays_01_" .. ZombRand(32)
+                            object:getAttachedAnimSprite():add(getSprite(spriteName):newInstance())
+                            break
+                        end
+                    end
+                end
+            end
+        elseif zoneType == "TownZone" then
+
+            if square:isFree(false) then
+                local rnd = ZombRand(7)
+                if rnd == 0 then
+                    local rn = ZombRand(53)
+                    local sprite = "trash_01_" .. tostring(rn)
+                    local obj = IsoObject.new(square, sprite, "")
+                    square:AddSpecialObject(obj)
+                    obj:transmitCompleteItemToClients()
+                elseif rnd == 1 then
+                    local obj = IsoObject.new(square, "floors_burnt_01_1", "")
+                    square:AddSpecialObject(obj)
+                    obj:transmitCompleteItemToClients()
+                end
+            end
+
+        end
+    end
+end
+
 BWOSquareLoader.OnLoad = function(square)
 
     local function isInCircle(x, y, cx, cy, r)
@@ -377,25 +425,7 @@ BWOSquareLoader.OnLoad = function(square)
             local nukes = BWOSquareLoader.nukes
             for _, nuke in pairs(nukes) do
                 if isInCircle(x, y, nuke.x, nuke.y, nuke.r) then
-                    square:BurnWalls(false)
-                    if ZombRand(4) == 1 and square:isFree(false) then
-                        local obj = IsoObject.new(square, "floors_burnt_01_1", "")
-                        square:AddSpecialObject(obj)
-                    end
-                    
-                    if ZombRand(9) == 1 and square:isFree(false) then
-                        local metaGrid = getWorld():getMetaGrid()
-                        local zone = metaGrid:getZoneAt(square:getX(), square:getY(), 0)
-                        if zone then
-                            local zoneType = zone:getType()
-                            if zoneType and zoneType == "TownZone" then
-                                local rn = ZombRand(53)
-                                local sprite = "trash_01_" .. tostring(rn)
-                                local obj = IsoObject.new(square, sprite, "")
-                                square:AddSpecialObject(obj)
-                            end
-                        end
-                    end
+                    BWOSquareLoader.Burn(square)
                 end
             end
             md.BWO.burnt = true
@@ -454,7 +484,7 @@ BWOSquareLoader.VehicleFixOrRemove = function()
 
                     local gasTank = vehicle:getPartById("GasTank")
                     if gasTank then
-                        local max = gasTank:getContainerCapacity()
+                        local max = gasTank:getContainerCapacity() * 0.8
                         gasTank:setContainerContentAmount(ZombRandFloat(0, max))
                     end
                     md.BWO.wasRepaired = true

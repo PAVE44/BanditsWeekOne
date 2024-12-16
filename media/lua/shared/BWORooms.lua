@@ -250,6 +250,10 @@ BWORooms.tab = {
         isShop = true,
     },
 
+    communications = {
+
+    },
+
     construction = {
 
     },
@@ -1104,12 +1108,14 @@ BWORooms.IsIntrusion = function(room)
     local name = room:getName()
     local tab = BWORooms.tab
     local data = BWORooms.tab[name]
-    if data.isStorage then
-        if data.occupations then
-            for _, occupation in pairs(data.occupations) do
-                if profession == occupation then
-                    isIntrusion = false
-                    break
+    if data then
+        if data.isStorage then
+            if data.occupations then
+                for _, occupation in pairs(data.occupations) do
+                    if profession == occupation then
+                        isIntrusion = false
+                        break
+                    end
                 end
             end
         end

@@ -361,7 +361,7 @@ BWOEvents.FixVehicles = function(params)
 
             local gasTank = vehicle:getPartById("GasTank")
             if gasTank then
-                local max = gasTank:getContainerCapacity()
+                local max = gasTank:getContainerCapacity() * 0.8
                 gasTank:setContainerContentAmount(ZombRandFloat(0, max))
             end
             local md = vehicle:getModData()
@@ -575,6 +575,31 @@ BWOEvents.BombRun = function(params)
         end
     end
 end
+-- params: []
+BWOEvents.FinalSolution = function(params)
+    local player = getPlayer()
+    local px = player:getX()
+    local py = player:getY()
+    local params = {}
+    params.x = px
+    params.y = py
+    params.r = 80
+
+    local nukes = BWOSquareLoader.nukes
+    if #nukes > 0 then
+        player:playSound("BWOInstrumentOrgan")
+        local ct = 100
+        for _, nuke in pairs(nukes) do
+
+            if isInCircle(px, py, nuke.x, nuke.y, nuke.r) then
+                BWOScheduler.Add("Nuke", params, 50000)
+            else
+                BWOScheduler.Add("NukeDist", nuke, ct)
+                ct = ct + 4000 + ZombRand(10000)
+            end
+        end
+    end
+end
 
 -- params: [x, y, outside]
 BWOEvents.Nuke = function(params)
@@ -585,19 +610,16 @@ BWOEvents.Nuke = function(params)
     BWOTex.alpha = 3
     player:playSound("DOKaboom")
 
-    local r = 80
     args = {}
     args.x = params.x
     args.y = params.y
-    args.r = r
+    args.r = params.r
     sendClientCommand(player, 'Commands', 'Nuke', args)
 
-    local fakeItem = InventoryItemFactory.CreateItem("Base.RollingPin")
-    local fakeZombie = getCell():getFakeZombieForHit()
     local zombieList = BanditZombie.GetAll()
     for id, z in pairs(zombieList) do
         local dist = math.sqrt(math.pow(z.x - params.x, 2) + math.pow(z.y - params.y, 2))
-        if dist < r then
+        if dist < params.r then
             local character = BanditZombie.GetInstanceById(id)
             if character and character:isOutside() then
                 character:SetOnFire()
@@ -608,6 +630,16 @@ BWOEvents.Nuke = function(params)
     if player:isOutside() then
         player:SetOnFire()
     end
+end
+
+-- params: [x, y, outside]
+BWOEvents.NukeDist = function(params)
+    local player = getPlayer()
+
+    BWOTex.speed = 0.05
+    BWOTex.tex = getTexture("media/textures/mask_white.png")
+    BWOTex.alpha = 1.1
+    player:playSound("BWOKaboomDist")
 end
 
 -- params: [x, y, outside]

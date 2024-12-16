@@ -57,7 +57,6 @@ ZombiePrograms.Vandal.Main = function(bandit)
             if spriteProps:Is(IsoFlagType.WallSE) then return false end
 
             local attachments = wall:getAttachedAnimSprite()
-            local clean = true
             if attachments then
                 for i=0, attachments:size()-1 do
                     local attachment = attachments:get(i)
@@ -109,7 +108,6 @@ ZombiePrograms.Vandal.Main = function(bandit)
                 end
 
                 if wall then
-
                     local squareList = {}
                     if north then
                         for dx=-1, 1 do

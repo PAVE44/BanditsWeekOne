@@ -132,6 +132,18 @@ module Bandits{
         } 
     }
 
+    sound BWOKaboomDist {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/nuke_dist.ogg, 
+            distanceMax = 100,
+            reverbFactor = 0.1, 
+            volume = 1, 
+        } 
+    }
+
     sound DOExploClose1 {
         category = Object, 
         loop = false,
@@ -881,6 +893,20 @@ module Bandits{
             distanceMax = 16,
             reverbFactor = 0.1, 
             volume = 0.6, 
+        } 
+    }
+
+    sound BWOInstrumentOrgan
+    {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/pachelbel_fugue.ogg,
+            distanceMin = 1, 
+            distanceMax = 28,
+            reverbFactor = 0.1, 
+            volume = 0.7, 
         } 
     }
 

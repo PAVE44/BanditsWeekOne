@@ -123,7 +123,13 @@ BWOMenu.EventNuke = function(player)
     local params = {}
     params.x = player:getX()
     params.y = player:getY()
+    params.r = 80
     BWOScheduler.Add("Nuke", params, 100)
+end
+
+BWOMenu.EventFinalSolution = function(player)
+    local params = {}
+    BWOScheduler.Add("FinalSolution", params, 100)
 end
 
 BWOMenu.EventEntertainer = function(player)
@@ -235,6 +241,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         eventsMenu:addOption("Bomb Run", player, BWOMenu.EventBombRun)
         eventsMenu:addOption("Criminals", player, BWOMenu.EventCriminals)
         eventsMenu:addOption("Entertainer", player, BWOMenu.EventEntertainer)
+        eventsMenu:addOption("Final Solution", player, BWOMenu.EventFinalSolution)
         eventsMenu:addOption("House Party", player, BWOMenu.EventParty)
         eventsMenu:addOption("Jetfighter", player, BWOMenu.EventJetFighter)
         eventsMenu:addOption("Jetfighter Run", player, BWOMenu.EventJetFighterRun)

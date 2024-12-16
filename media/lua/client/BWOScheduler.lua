@@ -25,15 +25,6 @@ function BWOScheduler.MasterControl()
     local month = gametime:getMonth()
     local year = gametime:getYear()
 
-    -- in multiplayer getStartDay and getDay returns bullshit value, so this needs to be corrected
-    local gamemode = getWorld():getGameMode()
-    if gamemode == "Multiplayer" then 
-        startDay = startDay - 13
-        startYear = startYear - 19
-        month = month + 1
-        day = day + 1
-    end
-
     local worldAge = (day * 24 + hour) - (startDay * 24 + startHour)
     BWOScheduler.WorldAge = worldAge
 
@@ -205,7 +196,6 @@ function BWOScheduler.MasterControl()
 
     end
 
-    -- day 2
     -- D2 7:00 - D3 21:00
     if worldAge >= 46 and worldAge < 60 then
         BWOScheduler.SymptomLevel = 2
@@ -274,7 +264,6 @@ function BWOScheduler.MasterControl()
         end
     end
 
-
     -- D2 23:00 - D3 05:00
     if worldAge >= 60 and worldAge < 68 then
         BWOScheduler.SymptomLevel = 2
@@ -312,11 +301,9 @@ function BWOScheduler.MasterControl()
             if minute == 14 then
                 BWOScheduler.Add("Defenders", params, 100)
             end
-        end
-
-        if worldAge == 71 then
+        elseif worldAge == 71 then
             BWOPopControl.ZombieMax = 3
-            if minute == 5 or minute == 10 then
+            if minute == 15 or minute == 25 then
                 for _, pcoords in pairs(BWOEventsPlace.ProtestAreas) do 
                     BWOScheduler.Add("Protest", {x=pcoords.x, y=pcoords.y, z=pcoords.z}, 100)
                     params.sound = "BWOChopperDisperse"
@@ -328,9 +315,7 @@ function BWOScheduler.MasterControl()
             elseif minute == 21 then
                 BWOScheduler.Add("Defenders", params, 100)
             end
-        end
-
-        if worldAge == 73 then
+        elseif worldAge == 72 then
             BWOPopControl.ZombieMax = 3
             if minute == 2 then
                 BWOScheduler.Add("Defenders", params, 100)
@@ -338,8 +323,39 @@ function BWOScheduler.MasterControl()
                 params.sound = "BWOChopperDisperse"
                 BWOScheduler.Add("ChopperAlert", params, 100)
             end
+        elseif worldAge == 73 then
+            BWOPopControl.ZombieMax = 3
+            if minute == 0 then 
+                BWOScheduler.Add("Siren", params, 100)
+            elseif minute == 11 then
+                params.intensity = 12
+                params.hostile = true
+                BWOScheduler.Add("PoliceRiot", params, 100)
+            elseif minute == 12 or minute == 44 then
+                params.sound = "BWOChopperDisperse"
+                BWOScheduler.Add("ChopperAlert", params, 100)
+            elseif minute == 15 or minute == 17 then
+                params.intensity = 12
+                params.hostile = true
+                BWOScheduler.Add("PoliceRiot", params, 100)
+            end
+        elseif worldAge == 74 then
+            BWOPopControl.ZombieMax = 3
+            if minute == 27 then
+                BWOScheduler.Add("Arson", params, 100)
+            elseif minute == 33 or minute == 39 then
+                params.intensity = 4
+                BWOScheduler.Add("Criminals", params, 100)
+            end
+        elseif worldAge == 75 then
+            if minute == 2 then
+                params.intensity = 12
+                params.hostile = true
+                BWOScheduler.Add("PoliceRiot", params, 100)
+                params.sound = "BWOChopperDisperse"
+                BWOScheduler.Add("ChopperAlert", params, 100)
+            end
         end
-
     end
 
     -- D4 13:00 - D4 06:00
@@ -354,21 +370,6 @@ function BWOScheduler.MasterControl()
             BWOPopControl.ZombieMax = 1
             if minute == 7 or minute == 57 then
                 BWOScheduler.Add("Defenders", params, 100)
-            end
-        elseif worldAge == 77 then
-            if minute == 0 then 
-                BWOScheduler.Add("Siren", params, 100)
-            elseif minute == 11 then
-                params.intensity = 12
-                params.hostile = true
-                BWOScheduler.Add("PoliceRiot", params, 100)
-            elseif minute == 12 or minute == 44 then
-                params.sound = "BWOChopper"
-                BWOScheduler.Add("ChopperAlert", params, 100)
-            elseif minute == 15 or minute == 17 then
-                params.intensity = 12
-                params.hostile = true
-                BWOScheduler.Add("PoliceRiot", params, 100)
             end
         elseif worldAge == 80 then
             BWOPopControl.ZombieMax = 1
@@ -485,11 +486,11 @@ function BWOScheduler.MasterControl()
         elseif worldAge == 98 then
             BWOPopControl.StreetsNominal = 80
             BWOPopControl.InhabitantsNominal = 45
-            BWOPopControl.SurvivorsNominal = 7
+            BWOPopControl.SurvivorsNominal = 8
         elseif worldAge == 99 then
             BWOPopControl.StreetsNominal = 35
             BWOPopControl.InhabitantsNominal = 40
-            BWOPopControl.SurvivorsNominal = 7
+            BWOPopControl.SurvivorsNominal = 10
             if minute == 2 then
                 BWOScheduler.Add("Defenders", params, 100)
             end
@@ -550,12 +551,12 @@ function BWOScheduler.MasterControl()
         end
     end
 
-    -- D6 01:00 - ?
+    -- D6 01:00 - D7 09.00
     if worldAge >= 125 and worldAge < 144 then
         BWOScheduler.SymptomLevel = 5
         BWOPopControl.StreetsNominal = 5
         BWOPopControl.InhabitantsNominal = 5
-        BWOPopControl.SurvivorsNominal = 10
+        BWOPopControl.SurvivorsNominal = 6
         BWOPopControl.ZombieMax = 1000
 
         if worldAge == 125 then
@@ -614,19 +615,29 @@ function BWOScheduler.MasterControl()
         end
     end
 
-    if worldAge >= 144 then
+    -- D7 09.00
+    if worldAge >= 144 and worldAge < 168 then
         BWOScheduler.SymptomLevel = 5
         BWOPopControl.StreetsNominal = 0
         BWOPopControl.InhabitantsNominal = 0
-        BWOPopControl.SurvivorsNominal = 15
+        BWOPopControl.SurvivorsNominal = 4
         BWOPopControl.ZombieMax = 1000
-        if worldAge == 144 then
-            if minute == 0 then 
-                BWOScheduler.Add("Siren", params, 100)
-            elseif minute == 8 or minute == 24 or minute == 49 then
-                params.intensity = 20
-                BWOScheduler.Add("BombRun", params, 100)
-            end
+        
+        if minute == 0 then 
+            BWOScheduler.Add("Siren", params, 100)
+        elseif minute == 8 or minute == 24 or minute == 49 then
+            params.intensity = 20 + worldAge - 145
+            BWOScheduler.Add("BombRun", params, 100)
+        end
+
+    end
+
+    -- and for the grand finale
+    if worldAge == 168 then
+        if minute == 0 then 
+            BWOScheduler.Add("Siren", params, 100)
+        elseif minute == 9 then
+            BWOScheduler.Add("FinalSolution", params, 100)
         end
     end
 
