@@ -224,6 +224,13 @@ table.insert(protests, {x=8313, y=15583, z=0}) --rosewood school
 table.insert(protests, {x=10362, y=12416, z=0}) --marchridge exit
 table.insert(protests, {x=10007, y=12692, z=0}) --marchridge crossroads
 table.insert(protests, {x=10326, y=12768, z=0}) --marchridge church
+table.insert(protests, {x=12611, y=1522, z=0}) --louisville country clerk / city hall
+table.insert(protests, {x=12506, y=1800, z=0}) --lmbw radio
+table.insert(protests, {x=12964, y=1357, z=0}) --police station
+table.insert(protests, {x=13790, y=2560, z=0}) --police station
+table.insert(protests, {x=13220, y=3105, z=0}) --police station
+table.insert(protests, {x=12500, y=1571, z=0}) --police station / courthhouse
+
 BWOSquareLoader.protests = protests
 
 -- nukes
