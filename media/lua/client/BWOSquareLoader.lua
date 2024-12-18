@@ -357,7 +357,7 @@ BWOSquareLoader.OnLoad = function(square)
     end
 
     -- remove map objects
-    if BWOScheduler.WorldAge < 64 then
+    if BWOScheduler.World.ObjectRemover then
         if BWOSquareLoader.remove[id] then
             clearObjects(square)
             BWOSquareLoader.remove[id] = nil
@@ -365,7 +365,7 @@ BWOSquareLoader.OnLoad = function(square)
     end
 
     -- remove deadbodies
-    if BWOScheduler.WorldAge < 48 then
+    if BWOScheduler.World.DeadBodyRemover then
         local corpse = square:getDeadBody()
         local gmd = GetBWOModData()
         local id = x .. "-" .. y .. "-" .. z
@@ -382,7 +382,7 @@ BWOSquareLoader.OnLoad = function(square)
     end
 
     -- register global objects
-    if BWOScheduler.WorldAge < 90 and square:isOutside() then
+    if BWOScheduler.World.GlobalObjectAdder and square:isOutside() then
         local spriteMap = {}
         spriteMap["location_business_bank_01_64"] = "atm"
         spriteMap["location_business_bank_01_65"] = "atm"
@@ -455,7 +455,7 @@ BWOSquareLoader.OnLoad = function(square)
     end
 
     -- post nuke world destroyer
-    if BWOScheduler.WorldAge >= 168 then
+    if BWOScheduler.World.PostNuclearTransformator then
         if not md.BWO then md.BWO = {} end
 
         if not md.BWO.burnt then
@@ -494,7 +494,7 @@ end
 -- removes burnt / smashed vehicles
 -- apparently vehicle loading is deffered relative to square load, so this needs to be handled separately
 BWOSquareLoader.VehicleFixOrRemove = function()
-    if BWOScheduler.WorldAge > 90 then return end
+    if not BWOScheduler.World.VehicleFixer then return end
 
     local vehicleList = getCell():getVehicles()
     local toDelete = {}

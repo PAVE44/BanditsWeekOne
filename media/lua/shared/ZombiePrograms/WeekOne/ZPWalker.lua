@@ -49,7 +49,7 @@ ZombiePrograms.Walker.Main = function(bandit)
 
     local walkType = "Walk"
     local endurance = 0
-    if BWOScheduler.WorldAge > 84 then 
+    if BWOScheduler.NPC.Run then 
         walkType = "Run"
         endurance = -0.06
     end

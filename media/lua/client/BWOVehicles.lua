@@ -347,11 +347,11 @@ local AddVehicles = function()
     
     local max = 0
     if hour == 5 then
-        max = 1 
+        max = math.floor(SandboxVars.BanditsWeekOne.VehiclesMax / 3)
     elseif hour >= 6 and hour < 19 then
-        max = 3 
+        max = SandboxVars.BanditsWeekOne.VehiclesMax
     elseif hour >= 20 and hour < 23 then
-        max = 1
+        max = math.floor(SandboxVars.BanditsWeekOne.VehiclesMax / 3)
     end
     
     if cnt < max then

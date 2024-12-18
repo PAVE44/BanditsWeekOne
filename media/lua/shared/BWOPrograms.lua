@@ -130,10 +130,11 @@ end
 
 BanditPrograms.Events = function(bandit)
     local tasks = {}
+
+    if not BWOScheduler.NPC.ReactProtests then return tasks end
+
     local cell = bandit:getCell()
     local id = BanditUtils.GetCharacterID(bandit)
-
-    if BWOScheduler.WorldAge > 84 then return tasks end
 
     local target = BWOObjects.FindGMD(bandit, "protest")
     if target.x and target.y and target.z then
@@ -178,7 +179,7 @@ BanditPrograms.Events = function(bandit)
         end
     end
 
-    if BWOScheduler.WorldAge > 77 then return tasks end
+    if not BWOScheduler.NPC.ReactDeadBody then return tasks end
 
     local target = BWOObjects.FindDeadBody(bandit)
     if target.x and target.y and target.z then
@@ -203,7 +204,7 @@ BanditPrograms.Events = function(bandit)
         end
     end
 
-    if BWOScheduler.WorldAge > 70 then return tasks end
+    if not BWOScheduler.NPC.ReactPreacher then return tasks end
 
     local target = BWOObjects.FindGMD(bandit, "preacher")
     if target.x and target.y and target.z then
@@ -231,7 +232,7 @@ BanditPrograms.Events = function(bandit)
         end
     end
 
-    if BWOScheduler.WorldAge > 64 then return tasks end
+    if not BWOScheduler.NPC.ReactEntertainers then return tasks end
 
     local target = BWOObjects.FindGMD(bandit, "entertainer")
     if target.x and target.y and target.z then
@@ -263,12 +264,12 @@ end
 
 BanditPrograms.Bench = function(bandit)
     local tasks = {}
+
+    if not BWOScheduler.SitBench then return tasks end
+
     local id = BanditUtils.GetCharacterID(bandit)
     local gameTime = getGameTime()
     local hour = gameTime:getHour()
-
-    if BWOScheduler.WorldAge > 64 then return tasks end
-
     local cell = bandit:getCell()
 
     local target = BWOObjects.FindGMD(bandit, "sittable")
@@ -355,7 +356,7 @@ BanditPrograms.ATM = function(bandit)
     local tasks = {}
     local cell = bandit:getCell()
 
-    if BWOScheduler.WorldAge < 68 or BWOScheduler.WorldAge > 86 then return tasks end
+    if not BWOScheduler.NPC.BankRun then return tasks end
 
     local target = BWOObjects.FindGMD(bandit, "atm")      
     if target.x and target.y and target.z and target.dist < 25 then
@@ -411,7 +412,7 @@ end
 BanditPrograms.Talk = function(bandit)
     local tasks = {}
 
-    if BWOScheduler.WorldAge > 57 then return tasks end
+    if not BWOScheduler.NPC.Talk then return tasks end
 
     local neighborBandit = BanditUtils.GetClosestBanditLocation(bandit)
     local neighborPlayer = BanditUtils.GetClosestPlayerLocation(bandit, true)

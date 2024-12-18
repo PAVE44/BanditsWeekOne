@@ -289,7 +289,7 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
         -- print ("INHABITANT 7: " .. (getTimestampMs() - ts))
 
         -- barricade
-        if BWOScheduler.WorldAge > 78 and BWOBuildings.IsResidential(building) then
+        if BWOScheduler.NPC.Barricade and BWOBuildings.IsResidential(building) then
             local barricadable = BWOObjects.FindBarricadable(bandit, def)
             if barricadable then
                 --local standSquare = barricadable:getIndoorSquare()

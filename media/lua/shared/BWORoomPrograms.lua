@@ -411,6 +411,7 @@ BWORoomPrograms.gigamartkitchen = BWORoomPrograms.restaurantkitchen
 BWORoomPrograms.cafeteriakitchen = BWORoomPrograms.restaurantkitchen
 BWORoomPrograms.dinerkitchen = BWORoomPrograms.restaurantkitchen
 BWORoomPrograms.kitchen_crepe = BWORoomPrograms.restaurantkitchen
+BWORoomPrograms.burgerkitchen = BWORoomPrograms.restaurantkitchen
 
 BWORoomPrograms.church = function(bandit, def)
     local tasks = {}
@@ -821,7 +822,7 @@ BWORoomPrograms.restaurant = function(bandit, def)
                             local props = sprite:getProperties()
                             if props:Is("CustomName") then
                                 local name = props:Val("CustomName")
-                                if name == "Table" or name == "Light Round Table" then
+                                if name == "Table" or name == "Light Round Table" or name == "Oak Round Table" then
                                     -- who is seated at the table
 
                                     local nes = {}

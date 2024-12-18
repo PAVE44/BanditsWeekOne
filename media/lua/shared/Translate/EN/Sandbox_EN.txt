@@ -1,0 +1,8 @@
+Sandbox_EN = {
+
+    Sandbox_BanditsWeekOne = "Bandits Week One"
+
+    Sandbox_BanditsWeekOne.InhabitantsPopMultiplier = "NPC Inhabitants Multiplier"
+    Sandbox_BanditsWeekOne.StreetsPopMultiplier = "NPC Streets Multiplier"
+    Sandbox_BanditsWeekOne.VehiclesMax = "Maximum concurrent NPC driven vehicles"
+}

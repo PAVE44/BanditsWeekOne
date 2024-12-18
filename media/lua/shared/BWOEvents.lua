@@ -1,7 +1,5 @@
 BWOEvents = BWOEvents or {}
 
-BWOEvents.tab = {}
-
 -- these is a set of various event functions that are triggered by time based on a schedule
 
 local isInCircle = function(x, y, cx, cy, r)
@@ -744,6 +742,15 @@ BWOEvents.GasDrop = function(params)
     local emitter = getWorld():getFreeEmitter(x, y, 0)
     emitter:playSound("DOGas")
     emitter:setVolumeAll(0.25)
+end
+
+-- params: []
+BWOEvents.ProtestAll = function(params)
+    local cnt = 100
+    for _, pcoords in pairs(BWOSquareLoader.protests) do 
+        BWOScheduler.Add("Protest", {x=pcoords.x, y=pcoords.y, z=pcoords.z}, cnt)
+        cnt = cnt + 200 + ZombRand(200)
+    end
 end
 
 -- params: [x, y, z]
