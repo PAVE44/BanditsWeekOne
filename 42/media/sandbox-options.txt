@@ -1,0 +1,16 @@
+VERSION = 1,
+
+option BanditsWeekOne.InhabitantsPopMultiplier = {
+    type = double, min = 0, max = 4, default = 1,
+    page = BanditsWeekOne, translation = BanditsWeekOne.InhabitantsPopMultiplier,
+}
+
+option BanditsWeekOne.StreetsPopMultiplier = {
+    type = double, min = 0, max = 4, default = 1,
+    page = BanditsWeekOne, translation = BanditsWeekOne.StreetsPopMultiplier,
+}
+
+option BanditsWeekOne.VehiclesMax = {
+    type = integer, min = 0, max = 10, default = 3,
+    page = BanditsWeekOne, translation = BanditsWeekOne.VehiclesMax,
+}
