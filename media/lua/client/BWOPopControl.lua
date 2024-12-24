@@ -114,7 +114,8 @@ BWOPopControl.StreetsSpawn = function(cnt)
                     event.y = square:getY()
                     local rnd = ZombRand(100)
                     if rnd < 4 then
-                        bandit.outfit = BanditUtils.Choice({"StreetSports", "AuthenticJogger", "AuthenticFitnessInstructor"})
+                        -- bandit.outfit = BanditUtils.Choice({"StreetSports", "AuthenticJogger", "AuthenticFitnessInstructor"})
+                        bandit.outfit = BanditUtils.Choice({"StreetSports"})
                         event.program.name = "Runner"
                         event.program.stage = "Prepare"
                     elseif rnd < 8 then 

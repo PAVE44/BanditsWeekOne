@@ -72,7 +72,8 @@ BWOMenu.SpawnWave = function(player, square, prgName)
     elseif prgName == "Postal" then
         bandit.outfit = BanditUtils.Choice({"Postal"})
     elseif prgName == "Runner" then
-        bandit.outfit = BanditUtils.Choice({"StreetSports", "AuthenticJogger", "AuthenticFitnessInstructor"})
+        -- bandit.outfit = BanditUtils.Choice({"StreetSports", "AuthenticJogger", "AuthenticFitnessInstructor"})
+        bandit.outfit = BanditUtils.Choice({"StreetSports"})
     elseif prgName == "Vandal" then
         bandit.outfit = BanditUtils.Choice({"Bandit"})
     end
