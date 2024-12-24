@@ -63,6 +63,7 @@ BWOPopControl.Zombie = function()
             local zombie = BanditZombie.GetInstanceById(z.id)
             -- local id = BanditUtils.GetCharacterID(zombie)
             if zombie and zombie:isAlive() and not gmd.Queue[id] then
+                -- fixme: zombie:canBeDeletedUnnoticed(float)
                 zombie:removeFromSquare()
                 zombie:removeFromWorld()
                 args = {}
