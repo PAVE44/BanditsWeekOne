@@ -159,17 +159,27 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
         if BWOScheduler.SymptomLevel < 3 then
             if BWOBuildings.IsEventBuilding(building, "party") then
 
-                local boombox = BWOObjects.Find(bandit, def, "Boombox")
+                -- true music version
+                -- local boombox = BWOObjects.Find(bandit, def, "Boombox")
+
+                -- vanilla
+                local boombox = BWOObjects.Find(bandit, def, "Radio")
+
                 if boombox then
 
-                    
                     if hour >= 19 or hour < 5 then 
                         partyOn = true
                     end
 
                     if partyOn then
                         local dd = boombox:getDeviceData()
-                        if not dd:getIsTurnedOn() or not boombox:getModData().tcmusic.isPlaying then
+                        local ch = dd:getChannel()
+                        local isPlaying = false
+                        local t = RadioWavs.getData(dd)
+                        if t then
+                            isPlaying = RadioWavs.isPlaying(t)
+                        end
+                        if not dd:getIsTurnedOn() or dd:getChannel() ~= 98600 or not isPlaying then -- true music version: or not boombox:getModData().tcmusic.isPlaying then
                             local square = boombox:getSquare()
                             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
                             if asquare then
@@ -178,14 +188,28 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                                     return {status=true, next="Main", tasks=tasks}
                                 else
-                                    local task = {action="BoomboxToggle", on=true, anim="Loot", x=square:getX(), y=square:getY(), z=square:getZ(), time=100}
+                                    -- true music version
+                                    -- local task = {action="BoomboxToggle", on=true, anim="Loot", x=square:getX(), y=square:getY(), z=square:getZ(), time=100}
+
+                                    -- vanilla version
+
+                                    local music = BanditUtils.Choice({"3fee99ec-c8b6-4ebc-9f2f-116043153195", 
+                                                                      "0bc71c8a-f954-4dbf-aa09-ff09b015d6e2", 
+                                                                      "a08b44db-b3cb-46a1-b04c-633e8e5b2a37", 
+                                                                      "38fe9b5a-e932-477c-a6b5-96b9e7ea84da", 
+                                                                      "2a379a08-4428-42b0-ae3d-0fb41c34f74c", 
+                                                                      "2cc1e0e2-75ab-4ac3-9238-635813babc18", 
+                                                                      "c688d4c8-dd7b-4d93-8e0f-c6cb5f488db2", 
+                                                                      "22b4a025-6455-4c8d-b341-fd4f0f18836a"})
+
+                                    local task = {action="TelevisionToggle", on=true, channel=98600, volume=0.9, music=music, anim="Loot", x=square:getX(), y=square:getY(), z=square:getZ(), time=100}
                                     table.insert(tasks, task)
                                     return {status=true, next="Main", tasks=tasks}
                                 end
                             end
                         end
 
-                        local rnd = ZombRand(5)
+                        local rnd = ZombRand(10)
                         if rnd == 0 then
                             local task = {action="Smoke", anim="Smoke", item="Bandits.Cigarette", left=true, time=100}
                             table.insert(tasks, task)
@@ -195,7 +219,9 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                             table.insert(tasks, task)
                             return {status=true, next="Main", tasks=tasks}
                         else
-                            local anim = BanditUtils.Choice({"DanceHipHop3", "DanceLocking", "DanceShuffling", "DanceArmsHipHop", "DanceGandy", "DanceHouseDancing", "DanceRaiseTheRoof", "DanceRobotOne", "DanceRobotTwo", "DanceSnake"})
+                            -- local anim = BanditUtils.Choice({"DanceHipHop3", "DanceLocking", "DanceShuffling", "DanceArmsHipHop", "DanceGandy", "DanceHouseDancing", "DanceRaiseTheRoof", "DanceRobotOne", "DanceRobotTwo", "DanceSnake"})
+                            -- local anim = BanditUtils.Choice({"DanceHipHop1", "DanceHipHop2", "DanceHipHop3", "DanceRaiseTheRoof", "DanceBoogaloo", "DanceBodyWave", "DanceRibPops", "DanceShimmy"})
+                            local anim = BanditUtils.Choice({"DanceHipHop3", "DanceRaiseTheRoof"})
                             local task = {action="Time", anim=anim, time=500}
                             table.insert(tasks, task)
                             return {status=true, next="Main", tasks=tasks}

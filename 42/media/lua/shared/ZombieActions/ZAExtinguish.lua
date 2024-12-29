@@ -21,7 +21,8 @@ ZombieActions.Extinguish.onStart = function(zombie, task)
     effect.frameCnt = 60
     effect.frameRnd = false
     effect.repCnt = 2
-    effect.colors = {r=0.1, g=0.7, b=0.2, a=0.2}
+    effect.colors = {r=0.9, g=0.9, b=1.0, a=0.2}
+
     table.insert(BWOEffects.tab, effect)
 
     --[[
@@ -77,6 +78,11 @@ ZombieActions.Extinguish.onComplete = function(zombie, task)
             -- bugged dunno why
             -- sendClientCommand(getPlayer(), 'Commands', 'ObjectRemove', args)
             BWOServer.Commands.ObjectRemove(getPlayer(), args)
+
+            if BWOScheduler.Anarchy.Transactions then
+                BWOPlayer.Earn(zombie, 20)
+                Bandit.UpdateItemsToSpawnAtDeath(zombie)
+            end
         end
     end
     if task.item then

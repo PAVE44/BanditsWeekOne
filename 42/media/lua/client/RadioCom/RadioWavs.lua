@@ -2,11 +2,11 @@ require "SoundFX/SoundFX"
 
 local debug = false
 
-local RadioWavs = {}
+RadioWavs = {}
 
 RadioWavs.soundCache = {}
 
-RadioWavs.files = {}
+RadioWavs.files = RadioWavs.files or {}
 -- Example
 -- RadioWavs.files[1] = "ZenitramJrMuricanaNumber"
 
@@ -34,10 +34,13 @@ function RadioWavs.PlaySound(_guid, device)
 
     local deviceData = device:getDeviceData()
     local sound = nil
-    local t = RadioWavs.getData(deviceData)
+    local ttt = {}
+    
+    local ttt2 = RadioWavs.getData(deviceData)
 
-    if t then
-        sound = t.sound
+    if ttt2 then
+        sound = ttt2.sound
+        ttt = ttt2
     else
         sound = SoundFX:new()
     end
@@ -94,22 +97,23 @@ function RadioWavs.PlaySound(_guid, device)
         sound:play( RadioWavs.files[_guid] )
     end
 
-    t = t or {}
-    t.device = device
-    t.deviceData = deviceData
-    t.channel = deviceData:getChannel()
-    t.sound = sound
+    ttt.device = device
+    ttt.deviceData = deviceData
+    ttt.channel = deviceData:getChannel()
+    ttt.sound = sound
 
     tickCounter2 = 200
 
-    table.insert( RadioWavs.soundCache, 1, t )
+    local test = RadioWavs.soundCache
+
+    table.insert( RadioWavs.soundCache, 1, ttt )
     if #RadioWavs.soundCache>RadioWavs.cacheSize then
-        for i=RadioWavs.cacheSize+1,#RadioWavs.soundCache do
+        for i=20,#RadioWavs.soundCache do
             table.remove(RadioWavs.soundCache,i)
         end
     end
 
-    return t
+    return ttt
 end
 
 
@@ -147,27 +151,6 @@ Events.OnDeviceText.Add( RadioWavs.OnDeviceText )
 function RadioWavs.OnDeviceText( _guid, _interactCodes, _x, _y, _z, _line, _device)
     local radio = _device;
 
-    -- HOTFIX: Retrocompatibility
-    --      > If using a version prior to 41.69, then use the old function parameters
-    --      > This prevents errors when using stable versus beta branch
-    local gameVersion = tonumber(tostring(getCore():getGameVersion()))
-    local minVersion = 41.69
-    if gameVersion <= minVersion then
-        local swap1 = _guid
-        local swap2 = _interactCodes
-        local swap3 = _x
-        local swap4 = _y
-        local swap5 = _z
-        local swap6 = _line
-        _interactCodes = swap1
-        _x = swap2
-        _y = swap3
-        _z = swap4
-        _line = swap5
-        radio = swap6
-        _guid = ""
-    end
-    
     -- Radio Device: Walkie Talkie
     if radio == nil then
         if (_x==-1 and _y==-1 and _z==-1) then
@@ -336,7 +319,9 @@ function RadioWavs.adjustSounds()
         p = getPlayer()
         X = p:getX()
         Y = p:getY()
+        
         --attract zombies
+        --[[
         for _,t in ipairs(RadioWavs.soundCache) do
             if RadioWavs.isPlaying(t) and t.deviceData:getHeadphoneType() == -1 and t.device == t.deviceData:getParent() then
                 local range = t.deviceData:getDeviceVolume() * t.sound.volumeModifier*2.5 * maxRange
@@ -347,6 +332,7 @@ function RadioWavs.adjustSounds()
                 end
             end
         end
+        ]]
         tickCounter2 = 0
     end
     if tickCounter1 < 5 then tickCounter1=tickCounter1+1 return end

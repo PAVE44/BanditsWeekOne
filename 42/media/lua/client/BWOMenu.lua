@@ -1,4 +1,12 @@
+local TAHeal = require("TimedActions/TAHeal")
+
 BWOMenu = BWOMenu or {}
+
+BWOMenu.HealPerson = function(player, square, bandit)
+    if luautils.walkAdj(player, square) then
+        ISTimedActionQueue.add(TAHeal:new(player, square, bandit))
+    end
+end
 
 BWOMenu.SpawnRoom = function(player, square, prgName)
 
@@ -64,7 +72,7 @@ BWOMenu.SpawnWave = function(player, square, prgName)
     elseif prgName == "Gardener" then
         bandit.outfit = BanditUtils.Choice({"Farmer"})
     elseif prgName == "Janitor" then
-        bandit.outfit = BanditUtils.Choice({"Hobbo"})
+        bandit.outfit = BanditUtils.Choice({"Sanitation"})
         bandit.weapons.melee = "Base.Broom"
     elseif prgName == "Medic" then
         bandit.outfit = BanditUtils.Choice({"Doctor"})
@@ -239,12 +247,82 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
 
                             
     local player = getPlayer()
-    print ("DIR: " .. player:getDirectionAngle())
+    -- print ("DIR: " .. player:getDirectionAngle())
     local fetch = ISWorldObjectContextMenu.fetchVars
     local square = fetch.clickedSquare
 
+    local zombie = square:getZombie()
+    if not zombie then
+        local squareN = square:getN()
+        if squareN then
+            zombie = squareN:getZombie()
+            if not zombie then
+                local squareNW = squareN:getW()
+                if squareNW then
+                    zombie = squareNW:getZombie()
+                end
+            end
+        end
+    end
+
+    if zombie and zombie:getVariableBoolean("Bandit") then
+        local health = zombie:getHealth()
+        if health < 0.8 or zombie:isCrawling() then
+            context:addOption("Heal Person", player, BWOMenu.HealPerson, square, zombie)
+        end
+    end
+
+    print ("-----------------")
+    local playerList = IsoPlayer.getPlayers()
+    for i=0, playerList:size()-1 do
+        local player = playerList:get(i)
+        print ("PLAYER")
+    end
+    print ("-----------------")
+
+    --[[
+    -- Add VHS_Retail to player's inventory
+    local item = player:getInventory():AddItem("VHS_Retail");
+    -- get media Data for the related tape name
+    local mediaData = getZomboidRadio():getRecordedMedia():getMediaData("04fe92cb-4a3b-4545-bdb9-7c1f0fb6e343")
+    -- set the media data to the item
+    item:setRecordedMediaData(mediaData)
+    -- Refresh the inventory
+    item:getContainer():setDrawDirty(true)]]
+
+    --[[
     BWOSquareLoader.Burn(square)
     
+    if BanditUtils.HasZoneType(square:getX(), square:getY(), square:getZ(), "Nav") then
+
+       local objects = square:getObjects()
+        for i=0, objects:size()-1 do
+            local object = objects:get(i)
+            local sprite = object:getSprite()
+            if sprite then
+                local spriteName = sprite:getName()
+                if spriteName:embodies("street") then
+                    
+                    local rn = ZombRand(3)
+                    local overlaySprite
+                    if rn < 2  then
+                        overlaySprite = "floors_overlay_street_01_" .. ZombRand(44)
+                    elseif rn == 2 then
+                        overlaySprite = "blends_streetoverlays_01_" .. ZombRand(32)
+                    end
+                    if overlaySprite then
+                        local attachments = object:getAttachedAnimSprite()
+                        if not attachments or attachments:size() == 0 then
+                            object:setAttachedAnimSprite(ArrayList.new())
+                        end
+                        object:getAttachedAnimSprite():add(getSprite(overlaySprite):newInstance())
+                    end
+                    break
+                end
+            end
+        end
+    end]]
+
     --[[local dummy = IsoObject.new(square, "explo_big_01_0", "")
     dummy:setSprite("explo_big_01_0")
     square:AddSpecialObject(dummy)
@@ -286,6 +364,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
     local player = getSpecificPlayer(playerID)
     print (player:getDescriptor():getProfession())
     if isDebugEnabled() or isAdmin() then
+        -- player:playSound("197ddd73-7662-41d5-81e0-63b83a58ab60")
         local eventsOption = context:addOption("BWO Event")
         local eventsMenu = context:getNew(context)
         context:addSubMenu(eventsOption, eventsMenu)
@@ -331,8 +410,26 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         if room then
             local roomName = room:getName()
             print ("ROOM: " .. roomName)
+            print ("HOME: " .. tostring(BWOBuildings.IsEventBuilding(room:getBuilding(), "home")))
         end
-            
+        
+        local objects = square:getObjects()
+        for i=0, objects:size()-1 do
+            local object = objects:get(i)
+            if instanceof(object, "IsoRadio") then
+                local isPlaying = false
+                local t = RadioWavs.getData(object:getDeviceData())
+                if t then
+                    isPlaying = RadioWavs.isPlaying(t)
+                end
+                if not isPlaying then
+                    local t = RadioWavs.PlaySound("3fee99ec-c8b6-4ebc-9f2f-116043153195", object)
+                    if t then
+                        print ("ok")
+                    end
+                end
+            end
+        end
     end
 end
 

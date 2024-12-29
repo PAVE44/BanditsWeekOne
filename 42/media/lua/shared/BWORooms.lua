@@ -112,12 +112,16 @@ BWORooms.tab = {
         isShop = true,
         occupations = {"securityguard"},
         outfits = {"Classy", "Generic02", "Generic03", "Generic04", "Generic05", "Security", "OfficeWorkerSkirt"},
-        femaleChance = 50
+        femaleChance = 0
     },
 
     bankstorage = {
         isStorage = true,
         occupations = {"securityguard"},
+        outfits = {"Security"},
+        hasPistolChance = 100,
+        pistolMagCount = 3,
+        melee = {"Base.Nightstick"}
     },
 
     bar = {
@@ -175,6 +179,7 @@ BWORooms.tab = {
     },
 
     bookstore = {
+        isShop = true,
         outfits = {"IT", "Student", "Teacher", "Generic04", "Generic05"},
         femaleChance = 45
     },
@@ -456,6 +461,13 @@ BWORooms.tab = {
         femaleChance = 50
     },
 
+    dining_crepe = {
+        isShop = true,
+        isRestaurant = true,
+        outfits = {"Generic02", "Generic03", "Classy", "Young", "Waiter_Dining"},
+        femaleChance = 50
+    },
+
     diningroom = {
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04"},
         melee = {"Base.SmashedBottle", "Base.Fork"},
@@ -536,6 +548,7 @@ BWORooms.tab = {
 
     factorystorage = {
         isStorage = true,
+        occupations = {"lumberjack", "metalworker", "constructionworker", "carpenter"}
     },
 
     farmstorage = {
@@ -560,6 +573,7 @@ BWORooms.tab = {
 
     fishingstorage = {
         isStorage = true,
+        occupations = {"fisherman"}
     },
 
     fossoil = {
@@ -574,6 +588,8 @@ BWORooms.tab = {
 
     furniturestorage = {
         isStorage = true,
+        occupations = {"carpenter"}
+        
     },
 
     furniturestore = {
@@ -666,7 +682,7 @@ BWORooms.tab = {
         isShop = true,
         occupations = {"veteran"},
         outfits = {"Veteran", "PrivateMilitia", "Generic03", "Thug", "Redneck"},
-        femaleChance = 50,
+        femaleChance = 0,
         
     },
 
@@ -674,6 +690,7 @@ BWORooms.tab = {
         isStorage = true,
         occupations = {"veteran"},
         outfits = {"Veteran"},
+        femaleChance = 0,
     },
 
     gym = {
@@ -879,11 +896,18 @@ BWORooms.tab = {
     },
 
     loggingfactory = {
+        outfits = {"Woodcut"},
+        melee = {"Base.WoodAxe"},
+    },
 
+    loggingwarehouse = {
+        outfits = {"Woodcut"},
+        melee = {"Base.WoodAxe"},
     },
 
     loggingtruck = {
-
+        outfits = {"Woodcut"},
+        melee = {"Base.WoodAxe"},
     },
 
     mapfactory = {
@@ -1237,6 +1261,9 @@ BWORooms.tab = {
         isStorage = true,
         occupations = {"securityguard"},
         outfits = {"Security"},
+        hasPistolChance = 100,
+        pistolMagCount = 3,
+        melee = {"Base.Nightstick"}
     },
 
     sewingstorage = {
@@ -1269,6 +1296,12 @@ BWORooms.tab = {
         isShop = true,
     },
 
+    spifforestaurant = {
+        isRestaurant = true,
+        outfits = {"Generic02", "Generic03", "Spiffo", "Young", "Waiter_Spiffo"},
+        femaleChance = 50
+    },
+
     spiffo_dining = {
         isRestaurant = true,
         outfits = {"Generic02", "Generic03", "Spiffo", "Young", "Waiter_Spiffo"},
@@ -1286,11 +1319,13 @@ BWORooms.tab = {
 
     spiffosstorage = {
         isStorage = true,
+        occupations = {"chef", "burgerflipper"},
     },
 
     sportstorage = {
         isShop = true,
         outfits = {"SportsFan", "StreetSports"},
+        occupations = {"fitnessInstructor"}, -- yes, "I" should be capitalized
     },
 
     sportstore = {
@@ -1364,6 +1399,7 @@ BWORooms.tab = {
 
     toolstorestorage = {
         isStorage = true,
+        occupations = {"repairman"},
     },
 
     toolstore = {
@@ -1561,7 +1597,6 @@ BWORooms.TakeIntention = function(room)
     elseif BWOBuildings.IsResidential(building) then 
         canTake = false
         shouldPay = false
-
     end
 
     return canTake, shouldPay

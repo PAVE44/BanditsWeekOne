@@ -59,7 +59,7 @@ end
 
 ZombiePrograms.Active.Main = function(bandit)
     local tasks = {}
-
+    -- if true then return {status=true, next="Main", tasks=tasks} end
     local id = BanditUtils.GetCharacterID(bandit)
     local world = getWorld()
     local cell = getCell()

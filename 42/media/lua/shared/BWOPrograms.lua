@@ -10,9 +10,7 @@ BanditPrograms.Symptoms = function(bandit)
     local hour = gameTime:getHour()
     local minute = gameTime:getMinutes()
 
-    local combined = math.abs(id) + (hour * 60) + minute
-    if combined > 1000000000 then combined = math.floor(combined / 100) end
-    local pseudoRandom = (combined * 137) % 60
+    local pseudoRandom = ZombRand(100)
 
     if BWOScheduler.SymptomLevel == 1 then
 
@@ -265,7 +263,7 @@ end
 BanditPrograms.Bench = function(bandit)
     local tasks = {}
 
-    if not BWOScheduler.SitBench then return tasks end
+    if not BWOScheduler.NPC.SitBench then return tasks end
 
     local id = BanditUtils.GetCharacterID(bandit)
     local gameTime = getGameTime()
@@ -273,7 +271,7 @@ BanditPrograms.Bench = function(bandit)
     local cell = bandit:getCell()
 
     local target = BWOObjects.FindGMD(bandit, "sittable")
-    if target.x and target.y and target.z and target.dist < 10 then
+    if target.x and target.y and target.z and target.dist < 14 then
         local square = cell:getGridSquare(target.x, target.y, target.z)
         if square and square:isOutside() and BanditUtils.LineClear(bandit, square) then
             local id = BanditUtils.GetCharacterID(bandit)
@@ -299,50 +297,53 @@ BanditPrograms.Bench = function(bandit)
                 end
 
                 if bench then
-                    local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
-                    if dist > 1.6 then
-                        table.insert(tasks, BanditUtils.GetMoveTask(0, square:getX() + 0.5, square:getY() + 0.5, square:getZ(), "Walk", dist, false))
-                        return tasks
-                    else
-                        local anim
-                        local sound
-                        local item
-                        local smoke = false
-                        local time = 200
-                        local right = false
-                        local left = false
-                        local r = math.floor(math.abs(id) / hour) % 7
-                        if r == 0 then
-                            anim = "SitInChair1"
-                        elseif r == 1 then
-                            anim = "SitInChair2"
-                        elseif r == 2 then
-                            anim = "SitInChairTalk"
-                        elseif r == 3 then
-                            anim = "SitInChairDrink"
-                            item = "Bandits.BeerBottle"
-                            sound = "DrinkingFromBottle"
-                            right = true
-                        elseif r == 4 then
-                            anim = "SitInChairEat"
-                            item = "Base.Fork"
-                            right = true
-                        elseif r == 5 then
-                            anim = "SitInChairSmoke"
-                            sound = "Smoke"
-                            smoke = true
-                            time = 400
-                        elseif r == 6 then
-                            anim = "SitInChairRead"
-                            sound = "PageFlipBook"
-                            item = "Bandits.Book"
-                            left = true
-                            time = 600
-                        end
+                    local asquare = AdjacentFreeTileFinder.Find(square, bandit)
+                    if asquare then
+                        local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
+                        if dist > 1.6 then
+                            table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX() + 0.5, asquare:getY() + 0.5, asquare:getZ(), "Walk", dist, false))
+                            return tasks
+                        else
+                            local anim
+                            local sound
+                            local item
+                            local smoke = false
+                            local time = 200
+                            local right = false
+                            local left = false
+                            local r = math.floor(math.abs(id) / hour) % 7
+                            if r == 0 then
+                                anim = "SitInChair1"
+                            elseif r == 1 then
+                                anim = "SitInChair2"
+                            elseif r == 2 then
+                                anim = "SitInChairTalk"
+                            elseif r == 3 then
+                                anim = "SitInChairDrink"
+                                item = "Bandits.BeerBottle"
+                                sound = "DrinkingFromBottle"
+                                right = true
+                            elseif r == 4 then
+                                anim = "SitInChairEat"
+                                item = "Base.Fork"
+                                right = true
+                            elseif r == 5 then
+                                anim = "SitInChairSmoke"
+                                sound = "Smoke"
+                                smoke = true
+                                time = 400
+                            elseif r == 6 then
+                                anim = "SitInChairRead"
+                                sound = "PageFlipBook"
+                                item = "Bandits.Book"
+                                left = true
+                                time = 600
+                            end
 
-                        local task = {action="SitInChair", anim=anim, sound=sound, item=item, left=left, right=right, x=square:getX(), y=square:getY(), z=square:getZ(), facing=facing, time=100}
-                        table.insert(tasks, task)
-                        return tasks
+                            local task = {action="SitInChair", anim=anim, sound=sound, item=item, left=left, right=right, x=square:getX(), y=square:getY(), z=square:getZ(), facing=facing, time=100}
+                            table.insert(tasks, task)
+                            return tasks
+                        end
                     end
                 end
             end

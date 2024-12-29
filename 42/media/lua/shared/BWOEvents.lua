@@ -11,37 +11,32 @@ local findVehicleSpot2 = function(sx, sy)
     local player = getPlayer()
     local px = player:getX()
     local py = player:getY()
-    local metaGrid = getWorld():getMetaGrid()
     local rmin = 20
     local rmax = 65
     local cell = getCell()
     for x=sx-rmax, sx+rmax, 5 do
         for y=sy-rmax, sy+rmax, 5 do
             if isInCircle(x, y, sx, sy, rmax) then
-                local zone = metaGrid:getZoneAt(x, y, 0)
-                if zone then
-                    local zoneType = zone:getType()
-                    if zoneType == "Nav" then
-                        local dist = BanditUtils.DistToManhattan(x, y, px, py)
-                        if dist > rmin then
-                            local square = getCell():getGridSquare(x, y, 0)
-                            if square then
-                                local gt = BanditUtils.GetGroundType(square)
-                                if gt == "street" then
-                                    local allFree = true
-                                    for dx=x-4, x+4 do
-                                        for dy=y-4, y+4 do
-                                            local dsquare = getCell():getGridSquare(dx, dy, 0)
-                                            if dsquare then
-                                                if not square:isFree(false) or square:getVehicleContainer() then
-                                                    allFree = false
-                                                end
+                if BanditUtils.HasZoneType(x, y, 0, "Nav") then
+                    local dist = BanditUtils.DistToManhattan(x, y, px, py)
+                    if dist > rmin then
+                        local square = getCell():getGridSquare(x, y, 0)
+                        if square then
+                            local gt = BanditUtils.GetGroundType(square)
+                            if gt == "street" then
+                                local allFree = true
+                                for dx=x-4, x+4 do
+                                    for dy=y-4, y+4 do
+                                        local dsquare = getCell():getGridSquare(dx, dy, 0)
+                                        if dsquare then
+                                            if not square:isFree(false) or square:getVehicleContainer() then
+                                                allFree = false
                                             end
                                         end
                                     end
-                                    if allFree then
-                                        return x, y
-                                    end
+                                end
+                                if allFree then
+                                    return x, y
                                 end
                             end
                         end
@@ -243,6 +238,23 @@ local addBoomBox = function(x, y, z, cassette)
     if isClient() then 
         radio:transmitCompleteItemToServer(); 
     end
+end
+
+local addRadio = function(x, y, z)
+    local cell = getCell()
+    local square = cell:getGridSquare(x, y, z)
+    if not square then return end
+
+    --local surfaceOffset = BanditUtils.GetSurfaceOffset(x, y, z)
+    -- local radioItem = square:AddWorldInventoryItem("appliances_radio_01_0", 0.5, 0.5, surfaceOffset)
+
+    local radio = IsoRadio.new(cell, square, getSprite("appliances_radio_01_0"))
+    square:AddTileObject(radio)
+    radio:getDeviceData():setIsTurnedOn(false)
+    radio:getDeviceData():setPower(0.5)
+    radio:getDeviceData():setDeviceVolume(4)
+    radio:getDeviceData():setHasBattery(true)
+
 end
 
 local arrivalSound = function(x, y, sound)
@@ -807,14 +819,14 @@ BWOEvents.Entertainer = function(params)
         if rnd == 0 then
             -- bandit.outfit = "AuthenticBiker"
             -- bandit.femaleChance = 50
-            -- bandit.weapons.melee = "Base.GuitarElectricRed"
+            -- bandit.weapons.melee = "Base.GuitarElectric"
             bandit.outfit = "Priest"
             bandit.femaleChance = 0
             icon = "media/ui/cross.png"
         elseif rnd == 1 then
             bandit.outfit = "Dean"
             bandit.femaleChance = 0
-            bandit.weapons.melee = "Base.GuitarElectricBassBlack"
+            bandit.weapons.melee = "Base.GuitarElectricBass"
         elseif rnd == 2 then
             -- bandit.outfit = "Rocker"
             -- bandit.femaleChance = 0
@@ -939,8 +951,13 @@ BWOEvents.BuildingParty = function(params)
     -- add boombox
     local square = counter:getSquare()
     if not boombox then
-        local cassette = BanditUtils.Choice({"Tsarcraft.CassetteBanditParty01", "Tsarcraft.CassetteBanditParty02", "Tsarcraft.CassetteBanditParty03", "Tsarcraft.CassetteBanditParty04", "Tsarcraft.CassetteBanditParty05"})
-        addBoomBox(square:getX(), square:getY(), square:getZ(), cassette)
+
+        -- true music version
+        -- local cassette = BanditUtils.Choice({"Tsarcraft.CassetteBanditParty01", "Tsarcraft.CassetteBanditParty02", "Tsarcraft.CassetteBanditParty03", "Tsarcraft.CassetteBanditParty04", "Tsarcraft.CassetteBanditParty05"})
+        -- addBoomBox(square:getX(), square:getY(), square:getZ(), cassette)
+
+        -- vanilla version
+        addRadio(square:getX(), square:getY(), square:getZ())
     end
 
     -- add beer to fridge
@@ -1068,7 +1085,7 @@ BWOEvents.CallCops = function(params)
         BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, params.x, params.y, color)
     end
 
-    BWOPopControl.Police.Cooldown = 30
+    BWOPopControl.Police.Cooldown = SandboxVars.BanditsWeekOne.PoliceCooldown -- 30
 end
 
 -- params: [x, y, hostile]
@@ -1117,7 +1134,7 @@ BWOEvents.CallSWAT = function(params)
     vparams.lightbar = true
     BWOScheduler.Add("VehiclesUpdate", vparams, 500)
 
-    BWOPopControl.SWAT.Cooldown = 120
+    BWOPopControl.SWAT.Cooldown = SandboxVars.BanditsWeekOne.SWATCooldown -- 120
 end
 
 -- params: [x, y]
@@ -1170,7 +1187,7 @@ BWOEvents.CallMedics = function(params)
         BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, params.x, params.y, color)
     end
 
-    BWOPopControl.Medics.Cooldown = 45
+    BWOPopControl.Medics.Cooldown = SandboxVars.BanditsWeekOne.MedicsCooldown -- 45
 end
 
 -- params: [x, y]
@@ -1215,7 +1232,7 @@ BWOEvents.CallHazmats = function(params)
     vparams.lightbar = true
     BWOScheduler.Add("VehiclesUpdate", vparams, 500)
 
-    BWOPopControl.Hazmats.Cooldown = 50
+    BWOPopControl.Hazmats.Cooldown = SandboxVars.BanditsWeekOne.HazmatCooldown -- 50
 end
 
 -- params: [x, y]
@@ -1264,7 +1281,7 @@ BWOEvents.CallFireman = function(params)
         BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, x, y, color)
     end
 
-    BWOPopControl.Fireman.Cooldown = 25
+    BWOPopControl.Fireman.Cooldown = SandboxVars.BanditsWeekOne.FiremanCooldown -- 25
 end
 
 -- bandits spawn groups

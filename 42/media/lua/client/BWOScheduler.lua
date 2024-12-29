@@ -12,6 +12,7 @@ BWOScheduler.WorldAge = 0
 -- flags tables
 BWOScheduler.World = {}
 BWOScheduler.NPC = {}
+BWOScheduler.Anarchy = {}
 
 -- schedule 
 local generateSchedule = function()
@@ -66,7 +67,6 @@ local generateSchedule = function()
     tab[66][39] = {"Criminals", {intensity=3}}
     tab[66][41] = {"Criminals", {intensity=3}}
     tab[69][14] = {"Defenders", {}}
-    tab[71][5]  = {"ProtestAll", {}}
     tab[71][21] = {"Defenders", {}}
     tab[72][2]  = {"Defenders", {}}
     tab[72][16] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
@@ -206,30 +206,33 @@ local generateSchedule = function()
     tab[136][12] = {"Army", {intensity=10}}
     tab[136][14] = {"Army", {intensity=10}}
     tab[138][2]  = {"Bandits", {intensity=3}}
-    tab[144][0]  = {"Siren", {}}
-    tab[144][8]  = {"BombRun", {intensity=6}}
-    tab[144][24] = {"BombRun", {intensity=20}}
-    tab[144][49] = {"BombRun", {intensity=18}}
-    tab[145][8]  = {"BombRun", {intensity=6}}
-    tab[145][24] = {"BombRun", {intensity=20}}
-    tab[145][49] = {"BombRun", {intensity=18}}
-    tab[146][8]  = {"BombRun", {intensity=6}}
-    tab[146][24] = {"BombRun", {intensity=20}}
-    tab[146][49] = {"BombRun", {intensity=18}}
-    tab[148][8]  = {"BombRun", {intensity=6}}
-    tab[148][24] = {"BombRun", {intensity=20}}
-    tab[148][49] = {"BombRun", {intensity=18}}
-    tab[150][8]  = {"BombRun", {intensity=6}}
-    tab[150][24] = {"BombRun", {intensity=20}}
-    tab[150][49] = {"BombRun", {intensity=18}}
-    tab[152][8]  = {"BombRun", {intensity=6}}
-    tab[152][24] = {"BombRun", {intensity=20}}
-    tab[152][49] = {"BombRun", {intensity=18}}
-    tab[154][8]  = {"BombRun", {intensity=6}}
-    tab[154][24] = {"BombRun", {intensity=20}}
-    tab[154][49] = {"BombRun", {intensity=18}}
-    tab[168][0]  = {"Siren", {}}
-    tab[168][9]  = {"FinalSolution", {}}
+    tab[149][2]  = {"ProtestAll", {}}
+
+    tab[166][0]  = {"Siren", {}}
+    tab[166][8]  = {"BombRun", {intensity=6}}
+    tab[166][24] = {"BombRun", {intensity=20}}
+    tab[166][49] = {"BombRun", {intensity=18}}
+    tab[166][8]  = {"BombRun", {intensity=6}}
+    tab[166][24] = {"BombRun", {intensity=20}}
+    tab[166][49] = {"BombRun", {intensity=18}}
+    tab[166][8]  = {"BombRun", {intensity=6}}
+    tab[166][24] = {"BombRun", {intensity=20}}
+    tab[166][49] = {"BombRun", {intensity=18}}
+    tab[166][8]  = {"BombRun", {intensity=6}}
+    tab[166][24] = {"BombRun", {intensity=20}}
+    tab[166][49] = {"BombRun", {intensity=18}}
+    
+    tab[166][8]  = {"BombRun", {intensity=6}}
+    tab[166][24] = {"BombRun", {intensity=20}}
+    tab[166][49] = {"BombRun", {intensity=18}}
+    tab[166][8]  = {"BombRun", {intensity=6}}
+    tab[166][24] = {"BombRun", {intensity=20}}
+    tab[166][49] = {"BombRun", {intensity=18}}
+    tab[166][8]  = {"BombRun", {intensity=6}}
+    tab[166][24] = {"BombRun", {intensity=20}}
+    tab[166][49] = {"BombRun", {intensity=18}}
+    tab[166][0]  = {"Siren", {}}
+    tab[166][9]  = {"FinalSolution", {}}
     return tab
 end
 
@@ -288,7 +291,7 @@ function BWOScheduler.MasterControl()
 
     -- controls if npcs will react to protests events
     BWOScheduler.NPC.ReactProtests = false
-    if BWOScheduler.WorldAge < 85 then BWOScheduler.NPC.ReactProtests = true end
+    if BWOScheduler.WorldAge < 154 then BWOScheduler.NPC.ReactProtests = true end
 
     -- controls if npcs will react to protests events
     BWOScheduler.NPC.ReactDeadBody = false
@@ -320,11 +323,25 @@ function BWOScheduler.MasterControl()
 
     -- controls when npcbarricade their homes
     BWOScheduler.NPC.Barricade = false
-    if BWOScheduler.WorldAge > 78 then BWOScheduler.NPC.Barricade = true end
+    if BWOScheduler.WorldAge > 72 then BWOScheduler.NPC.Barricade = true end
 
+    -- controls functionalities that diminish during the anarchy
+    BWOScheduler.Anarchy = {}
+
+    -- if buildings emit sounds like if they are operational (church / school)
+    BWOScheduler.Anarchy.BuildingOperational = true
+    if BWOScheduler.WorldAge > 72 then BWOScheduler.Anarchy.BuildingOperational = false end
+
+    -- controls if buying and earning is still possible
+    BWOScheduler.Anarchy.Transactions = true
+    if BWOScheduler.WorldAge > 80 then BWOScheduler.Anarchy.Transactions = false end
     
+    -- controls minor crime has consequences (breaking windows)
+    BWOScheduler.Anarchy.IllegalMinorCrime = true
+    if BWOScheduler.WorldAge > 100 then BWOScheduler.Anarchy.IllegalMinorCrime = false end
+
     -- building emmiters
-    if worldAge < 72 then
+    if BWOScheduler.Anarchy.BuildingOperational then
 
         -- church
         if hour >=6 and hour < 19 then
@@ -355,6 +372,44 @@ function BWOScheduler.MasterControl()
         end
     end
 
+    -- general sickness control
+    if worldAge < 34 then 
+        BWOScheduler.SymptomLevel = 0
+    elseif worldAge < 60 then
+        BWOScheduler.SymptomLevel = 1
+    elseif worldAge < 130 then
+        BWOScheduler.SymptomLevel = 2
+    elseif worldAge < 165 then
+        BWOScheduler.SymptomLevel = 3
+    elseif worldAge < 170 then
+        BWOScheduler.SymptomLevel = 4
+    else    
+        BWOScheduler.SymptomLevel = 5
+    end
+
+    -- general services control
+    BWOPopControl.Police.On = false
+    BWOPopControl.SWAT.On = false
+    BWOPopControl.Security.On = false
+    BWOPopControl.Medics.On = false
+    BWOPopControl.Hazmats.On = false
+    BWOPopControl.Fireman.On = false
+
+    if worldAge < 90 then
+        BWOPopControl.Medics.On = true
+    end
+
+    if worldAge < 120 then
+        BWOPopControl.Hazmats.On = true
+    end
+
+    if worldAge < 100 then
+        BWOPopControl.Police.On = true
+        BWOPopControl.SWAT.On = true
+        BWOPopControl.Security.On = true
+        BWOPopControl.Fireman.On = true
+    end
+
     -- schedule processing
     -- basic parameters for all events, will be enriched by event specific params
     local params ={}
@@ -374,28 +429,6 @@ function BWOScheduler.MasterControl()
         end
     end
 
-    -- general services control
-    BWOPopControl.Police.On = false
-    BWOPopControl.SWAT.On = false
-    BWOPopControl.Security.On = false
-    BWOPopControl.Medics.On = false
-    BWOPopControl.Hazmats.On = false
-    BWOPopControl.Fireman.On = false
-
-    if worldAge < 40 then
-        BWOPopControl.Medics.On = true
-    end
-
-    if worldAge < 72 then
-        BWOPopControl.Hazmats.On = true
-    end
-
-    if worldAge < 78 then
-        BWOPopControl.Police.On = true
-        BWOPopControl.SWAT.On = true
-        BWOPopControl.Security.On = true
-        BWOPopControl.Fireman.On = true
-    end
 end
 
 function BWOScheduler.Add(eventName, params, delay)

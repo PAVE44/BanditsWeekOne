@@ -1,5 +1,6 @@
 module Bandits
 {
+    
     sound 197ddd73-7662-41d5-81e0-63b83a58ab60 {
         category = Object, 
         clip { 
@@ -707,6 +708,125 @@ module Bandits
             distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
         } 
     }
+    sound 01e490f8-b213-4bb3-ae13-6733154f6e29 {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/cd83fb58-0289-4a2d-ae03-b6d99ee9b694/01e490f8-b213-4bb3-ae13-6733154f6e29.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound 09c957b1-395b-402a-a559-d2b3c08d80e0 {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/cd83fb58-0289-4a2d-ae03-b6d99ee9b694/09c957b1-395b-402a-a559-d2b3c08d80e0.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound 110917ea-71c3-4296-ac89-4b816112f945 {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/cd83fb58-0289-4a2d-ae03-b6d99ee9b694/110917ea-71c3-4296-ac89-4b816112f945.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound 1f2f1633-3bcb-4ae0-a1ce-c88ad0730adb {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/cd83fb58-0289-4a2d-ae03-b6d99ee9b694/1f2f1633-3bcb-4ae0-a1ce-c88ad0730adb.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound 3e593fe3-7ff3-4b1a-8deb-9ef7442e1317 {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/cd83fb58-0289-4a2d-ae03-b6d99ee9b694/3e593fe3-7ff3-4b1a-8deb-9ef7442e1317.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound 49e2f76f-dd4a-420a-a8ae-635ba31c0b8a {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/cd83fb58-0289-4a2d-ae03-b6d99ee9b694/49e2f76f-dd4a-420a-a8ae-635ba31c0b8a.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound 4c580b24-fa1f-4c10-acaf-fa9b2e44b9c1 {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/cd83fb58-0289-4a2d-ae03-b6d99ee9b694/4c580b24-fa1f-4c10-acaf-fa9b2e44b9c1.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound 618a695b-758e-43dd-98c3-6bc7af54cda6 {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/cd83fb58-0289-4a2d-ae03-b6d99ee9b694/618a695b-758e-43dd-98c3-6bc7af54cda6.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound 7e2ab305-61fb-482a-b1f3-c41bf0e9a3c3 {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/cd83fb58-0289-4a2d-ae03-b6d99ee9b694/7e2ab305-61fb-482a-b1f3-c41bf0e9a3c3.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound 91a6be88-61f7-43b2-9756-b0d76ded380c {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/cd83fb58-0289-4a2d-ae03-b6d99ee9b694/91a6be88-61f7-43b2-9756-b0d76ded380c.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound 9bf18c78-d899-422c-90d8-30219cbf11a0 {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/cd83fb58-0289-4a2d-ae03-b6d99ee9b694/9bf18c78-d899-422c-90d8-30219cbf11a0.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound 9d14c695-8f3d-45c8-b275-5872c280bb9f {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/cd83fb58-0289-4a2d-ae03-b6d99ee9b694/9d14c695-8f3d-45c8-b275-5872c280bb9f.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound abba8432-7376-43ed-94c0-ef230365d1d7 {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/cd83fb58-0289-4a2d-ae03-b6d99ee9b694/abba8432-7376-43ed-94c0-ef230365d1d7.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound b6063a85-dfa9-4d87-821f-ca0e1c779801 {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/cd83fb58-0289-4a2d-ae03-b6d99ee9b694/b6063a85-dfa9-4d87-821f-ca0e1c779801.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound d762ee71-1a32-42fc-9b48-a1880808297d {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/cd83fb58-0289-4a2d-ae03-b6d99ee9b694/d762ee71-1a32-42fc-9b48-a1880808297d.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound e6ef2432-a8ff-40f7-b9c9-f4fd4a4166fd {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/cd83fb58-0289-4a2d-ae03-b6d99ee9b694/e6ef2432-a8ff-40f7-b9c9-f4fd4a4166fd.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound f1ff70fa-ce46-4d53-baed-06ce26fa57dc {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/cd83fb58-0289-4a2d-ae03-b6d99ee9b694/f1ff70fa-ce46-4d53-baed-06ce26fa57dc.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
     sound 56bdf80b-f484-4a69-a82f-e582c9f8d56b {
         category = Object, 
         clip { 
@@ -1001,4 +1121,54 @@ module Bandits
             distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
         } 
     }
+    sound 6035004a-5c36-477f-8568-c92e5bb1941d {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/ff3fb7a1-d1ab-48cb-9a58-a6d33ef7b586/6035004a-5c36-477f-8568-c92e5bb1941d.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound 691475de-a722-4ac1-9cb6-ef2ab305f641 {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/ff3fb7a1-d1ab-48cb-9a58-a6d33ef7b586/691475de-a722-4ac1-9cb6-ef2ab305f641.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound 76d61a38-b337-4e5c-967b-069bc254a47f {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/ff3fb7a1-d1ab-48cb-9a58-a6d33ef7b586/76d61a38-b337-4e5c-967b-069bc254a47f.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound 910963fe-d4bb-4df8-b4ee-14e110f2c10e {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/ff3fb7a1-d1ab-48cb-9a58-a6d33ef7b586/910963fe-d4bb-4df8-b4ee-14e110f2c10e.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound 95af9764-85e3-4558-b28c-b384142bf91f {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/ff3fb7a1-d1ab-48cb-9a58-a6d33ef7b586/95af9764-85e3-4558-b28c-b384142bf91f.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound db276089-2c5b-45a5-92f1-28a1a3b0d0b9 {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/ff3fb7a1-d1ab-48cb-9a58-a6d33ef7b586/db276089-2c5b-45a5-92f1-28a1a3b0d0b9.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+    sound ea1cc656-1d3d-4f2a-850f-2615c9fbb5d9 {
+        category = Object, 
+        clip { 
+            file = media/sound/Broadcasts/BWORadio/ff3fb7a1-d1ab-48cb-9a58-a6d33ef7b586/ea1cc656-1d3d-4f2a-850f-2615c9fbb5d9.ogg, 
+            distanceMin = 5, distanceMax = 50, reverbMaxRange = 10, reverbFactor = 0.1, 
+        } 
+    }
+
 }

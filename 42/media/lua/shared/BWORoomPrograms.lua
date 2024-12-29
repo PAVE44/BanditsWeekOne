@@ -653,9 +653,9 @@ BWORoomPrograms.zippeestore = function(bandit, def)
 
         local enough
         if BWOScheduler.SymptomLevel == 0 then
-            enough = 4
+            enough = 2
         elseif BWOScheduler.SymptomLevel == 1 then
-            enough = 6
+            enough = 3
         elseif BWOScheduler.SymptomLevel == 2 then
             enough = 8
         elseif BWOScheduler.SymptomLevel == 3 then
@@ -1039,7 +1039,9 @@ BWORoomPrograms.restaurant = function(bandit, def)
 end
 
 BWORoomPrograms.dining = BWORoomPrograms.restaurant
+BWORoomPrograms.dining_crepe = BWORoomPrograms.restaurant
 BWORoomPrograms.spiffo_dining = BWORoomPrograms.restaurant
+BWORoomPrograms.spifforestaurant = BWORoomPrograms.restaurant
 BWORoomPrograms.pizzawhirled = BWORoomPrograms.restaurant
 BWORoomPrograms.jayschicken_dining = BWORoomPrograms.restaurant
 BWORoomPrograms.diningroom = BWORoomPrograms.restaurant

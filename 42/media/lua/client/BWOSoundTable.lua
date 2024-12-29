@@ -103,6 +103,23 @@ local function addSongs()
     RadioWavs.addSongs("65289d7e-9271-4111-9252-7eb09460d515","65289d7e-9271-4111-9252-7eb09460d515")
     RadioWavs.addSongs("b729f243-63cb-4880-833b-c09edee5f986","b729f243-63cb-4880-833b-c09edee5f986")
     RadioWavs.addSongs("efb6e619-d180-41b1-bede-b73f4ce5d9bc","efb6e619-d180-41b1-bede-b73f4ce5d9bc")
+    RadioWavs.addSongs("01e490f8-b213-4bb3-ae13-6733154f6e29","01e490f8-b213-4bb3-ae13-6733154f6e29")
+    RadioWavs.addSongs("09c957b1-395b-402a-a559-d2b3c08d80e0","09c957b1-395b-402a-a559-d2b3c08d80e0")
+    RadioWavs.addSongs("110917ea-71c3-4296-ac89-4b816112f945","110917ea-71c3-4296-ac89-4b816112f945")
+    RadioWavs.addSongs("1f2f1633-3bcb-4ae0-a1ce-c88ad0730adb","1f2f1633-3bcb-4ae0-a1ce-c88ad0730adb")
+    RadioWavs.addSongs("3e593fe3-7ff3-4b1a-8deb-9ef7442e1317","3e593fe3-7ff3-4b1a-8deb-9ef7442e1317")
+    RadioWavs.addSongs("49e2f76f-dd4a-420a-a8ae-635ba31c0b8a","49e2f76f-dd4a-420a-a8ae-635ba31c0b8a")
+    RadioWavs.addSongs("4c580b24-fa1f-4c10-acaf-fa9b2e44b9c1","4c580b24-fa1f-4c10-acaf-fa9b2e44b9c1")
+    RadioWavs.addSongs("618a695b-758e-43dd-98c3-6bc7af54cda6","618a695b-758e-43dd-98c3-6bc7af54cda6")
+    RadioWavs.addSongs("7e2ab305-61fb-482a-b1f3-c41bf0e9a3c3","7e2ab305-61fb-482a-b1f3-c41bf0e9a3c3")
+    RadioWavs.addSongs("91a6be88-61f7-43b2-9756-b0d76ded380c","91a6be88-61f7-43b2-9756-b0d76ded380c")
+    RadioWavs.addSongs("9bf18c78-d899-422c-90d8-30219cbf11a0","9bf18c78-d899-422c-90d8-30219cbf11a0")
+    RadioWavs.addSongs("9d14c695-8f3d-45c8-b275-5872c280bb9f","9d14c695-8f3d-45c8-b275-5872c280bb9f")
+    RadioWavs.addSongs("abba8432-7376-43ed-94c0-ef230365d1d7","abba8432-7376-43ed-94c0-ef230365d1d7")
+    RadioWavs.addSongs("b6063a85-dfa9-4d87-821f-ca0e1c779801","b6063a85-dfa9-4d87-821f-ca0e1c779801")
+    RadioWavs.addSongs("d762ee71-1a32-42fc-9b48-a1880808297d","d762ee71-1a32-42fc-9b48-a1880808297d")
+    RadioWavs.addSongs("e6ef2432-a8ff-40f7-b9c9-f4fd4a4166fd","e6ef2432-a8ff-40f7-b9c9-f4fd4a4166fd")
+    RadioWavs.addSongs("f1ff70fa-ce46-4d53-baed-06ce26fa57dc","f1ff70fa-ce46-4d53-baed-06ce26fa57dc")
     RadioWavs.addSongs("56bdf80b-f484-4a69-a82f-e582c9f8d56b","56bdf80b-f484-4a69-a82f-e582c9f8d56b")
     RadioWavs.addSongs("630a0724-7e37-440e-9116-93c517c0fed4","630a0724-7e37-440e-9116-93c517c0fed4")
     RadioWavs.addSongs("8d8d00dd-3c74-46e0-8765-64e6ece3ca0c","8d8d00dd-3c74-46e0-8765-64e6ece3ca0c")
@@ -145,9 +162,13 @@ local function addSongs()
     RadioWavs.addSongs("9e5c82c6-096c-4a05-ab31-7f0c79cea66a","9e5c82c6-096c-4a05-ab31-7f0c79cea66a")
     RadioWavs.addSongs("bea96cec-839a-4cfd-bb6c-1dc59d2e6d0d","bea96cec-839a-4cfd-bb6c-1dc59d2e6d0d")
     RadioWavs.addSongs("edeed0d4-d0ea-4d78-86e1-e1b14a9fe535","edeed0d4-d0ea-4d78-86e1-e1b14a9fe535")
-
-
-
+    RadioWavs.addSongs("6035004a-5c36-477f-8568-c92e5bb1941d","6035004a-5c36-477f-8568-c92e5bb1941d")
+    RadioWavs.addSongs("691475de-a722-4ac1-9cb6-ef2ab305f641","691475de-a722-4ac1-9cb6-ef2ab305f641")
+    RadioWavs.addSongs("76d61a38-b337-4e5c-967b-069bc254a47f","76d61a38-b337-4e5c-967b-069bc254a47f")
+    RadioWavs.addSongs("910963fe-d4bb-4df8-b4ee-14e110f2c10e","910963fe-d4bb-4df8-b4ee-14e110f2c10e")
+    RadioWavs.addSongs("95af9764-85e3-4558-b28c-b384142bf91f","95af9764-85e3-4558-b28c-b384142bf91f")
+    RadioWavs.addSongs("db276089-2c5b-45a5-92f1-28a1a3b0d0b9","db276089-2c5b-45a5-92f1-28a1a3b0d0b9")
+    RadioWavs.addSongs("ea1cc656-1d3d-4f2a-850f-2615c9fbb5d9","ea1cc656-1d3d-4f2a-850f-2615c9fbb5d9")
 
     -- sitcom
     RadioWavs.addSongs("d5bb9418-399c-43a4-82ce-aa3524f67f4c","d5bb9418-399c-43a4-82ce-aa3524f67f4c")
@@ -163,6 +184,18 @@ local function addSongs()
     RadioWavs.addSongs("317d4d95-cd0a-466d-b664-d97ffb0845dd","317d4d95-cd0a-466d-b664-d97ffb0845dd")
     RadioWavs.addSongs("77b2d173-b41d-46a4-9bc5-7b0fe75d8831","77b2d173-b41d-46a4-9bc5-7b0fe75d8831")
     RadioWavs.addSongs("b300307d-0ae2-43d8-9b67-cca513ef3a88","b300307d-0ae2-43d8-9b67-cca513ef3a88")
+
+    -- party
+    RadioWavs.addSongs("3fee99ec-c8b6-4ebc-9f2f-116043153195","3fee99ec-c8b6-4ebc-9f2f-116043153195")
+    RadioWavs.addSongs("0bc71c8a-f954-4dbf-aa09-ff09b015d6e2","0bc71c8a-f954-4dbf-aa09-ff09b015d6e2")
+    RadioWavs.addSongs("a08b44db-b3cb-46a1-b04c-633e8e5b2a37","a08b44db-b3cb-46a1-b04c-633e8e5b2a37")
+    RadioWavs.addSongs("38fe9b5a-e932-477c-a6b5-96b9e7ea84da","38fe9b5a-e932-477c-a6b5-96b9e7ea84da")
+    RadioWavs.addSongs("2a379a08-4428-42b0-ae3d-0fb41c34f74c","2a379a08-4428-42b0-ae3d-0fb41c34f74c")
+    RadioWavs.addSongs("2cc1e0e2-75ab-4ac3-9238-635813babc18","2cc1e0e2-75ab-4ac3-9238-635813babc18")
+    RadioWavs.addSongs("c688d4c8-dd7b-4d93-8e0f-c6cb5f488db2","c688d4c8-dd7b-4d93-8e0f-c6cb5f488db2")
+    RadioWavs.addSongs("22b4a025-6455-4c8d-b341-fd4f0f18836a","22b4a025-6455-4c8d-b341-fd4f0f18836a")
+
+    
 end
 
 

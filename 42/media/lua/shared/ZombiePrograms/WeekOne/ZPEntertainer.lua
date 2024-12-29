@@ -35,7 +35,7 @@ end
 
 ZombiePrograms.Entertainer.Main = function(bandit)
     local tasks = {}
-
+    -- if true then return {status=true, next="Main", tasks=tasks} end
     local id = BanditUtils.GetCharacterID(bandit)
     local bx = bandit:getX()
     local by = bandit:getY()
@@ -95,7 +95,7 @@ ZombiePrograms.Entertainer.Main = function(bandit)
 
     for o, tab in pairs(musicianTab) do
         if o == outfit then
-            local task = {action="TimeItemSound", x=bx, y=by, z=bz, event="entertainer", item=tab.item, left=true, anim=tab.anim, sound=tab.sound}
+            local task = {action="TimeEvent", x=bx, y=by, z=bz, event="entertainer", item=tab.item, left=true, anim=tab.anim, sound=tab.sound}
             table.insert(tasks, task)
             return {status=true, next="Main", tasks=tasks}
         end

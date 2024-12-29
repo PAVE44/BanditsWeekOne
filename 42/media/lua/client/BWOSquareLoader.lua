@@ -281,17 +281,8 @@ end
 BWOSquareLoader.Burn = function(square)
 
     square:BurnWalls(false)
-    
-    local metaGrid = getWorld():getMetaGrid()
-        
-    local zone = metaGrid:getZoneAt(square:getX(), square:getY(), square:getZ())
-    if not zone then return end
 
-    local zoneType = zone:getType()
-    if not zoneType then return end
-
-    
-    if zoneType == "Nav" then
+    if BanditUtils.HasZoneType(square:getX(), square:getY(), square:getZ(), "Nav") then
         local objects = square:getObjects()
         for i=0, objects:size()-1 do
             local object = objects:get(i)
@@ -299,17 +290,25 @@ BWOSquareLoader.Burn = function(square)
             if sprite then
                 local spriteName = sprite:getName()
                 if spriteName:embodies("street") then
-                    local attachments = object:getAttachedAnimSprite()
-                    if not attachments or attachments:size() == 0 then
-                        object:setAttachedAnimSprite(ArrayList.new())
+                    local rn = ZombRand(8)
+                    local overlaySprite
+                    if rn < 2  then
+                        overlaySprite = "floors_overlay_street_01_" .. ZombRand(44)
+                    elseif rn == 2 then
+                        overlaySprite = "blends_streetoverlays_01_" .. ZombRand(32)
                     end
-                    local overlaySprite = "floors_overlay_street_01_" .. ZombRand(44)
-                    object:getAttachedAnimSprite():add(getSprite(overlaySprite):newInstance())
+                    if overlaySprite then
+                        local attachments = object:getAttachedAnimSprite()
+                        if not attachments or attachments:size() == 0 then
+                            object:setAttachedAnimSprite(ArrayList.new())
+                        end
+                        object:getAttachedAnimSprite():add(getSprite(overlaySprite):newInstance())
+                    end
                     break
                 end
             end
         end
-    elseif zoneType == "TownZone" then
+    elseif BanditUtils.HasZoneType(square:getX(), square:getY(), square:getZ(), "TownZone") then
         local rnd = ZombRand(10)
         if rnd == 1 then
             local obj = IsoObject.new(square, "floors_burnt_01_1", "")
@@ -511,6 +510,10 @@ BWOSquareLoader.OnLoad = function(square)
             for _, nuke in pairs(nukes) do
                 if isInCircle(x, y, nuke.x, nuke.y, nuke.r) then
                     BWOSquareLoader.Burn(square)
+                    local vehicle = square:getVehicleContainer()
+                    if vehicle then
+                        BWOVehicles.Burn(vehicle)
+                    end
                 end
             end
             md.BWO.burnt = true
@@ -582,14 +585,23 @@ BWOSquareLoader.VehicleFixOrRemove = function()
     end
 
     for _, vehicle in pairs(toDelete) do
-        if isClient() then
-            sendClientCommand(getPlayer(), "vehicle", "remove", { vehicle = vehicle:getId() })
-        else
-            vehicle:permanentlyRemove()
-        end
+        vehicle:permanentlyRemove()
     end
+end
+
+BWOSquareLoader.OnNewFire = function(fire)
+    local params ={}
+    params.x = fire:getX()
+    params.y = fire:getY()
+    params.z = fire:getZ()
+    params.hostile = true
+    BWOScheduler.Add("CallFireman", params, 4800)
+
+    local args = {x=params.x, y=params.y, z=params.z, otype="fire", ttl=BanditUtils.GetTime()+25000}
+    sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
 end
 
 Events.LoadGridsquare.Add(BWOSquareLoader.OnLoad)
 Events.OnTick.Add(BWOSquareLoader.LocationEvents)
 Events.EveryOneMinute.Add(BWOSquareLoader.VehicleFixOrRemove)
+Events.OnNewFire.Add(BWOSquareLoader.OnNewFire)

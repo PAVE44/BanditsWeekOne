@@ -35,7 +35,7 @@ end
 
 ZombiePrograms.Fireman.Main = function(bandit)
     local tasks = {}
-
+    -- if true then return {status=true, next="Main", tasks=tasks} end
     local cell = bandit:getCell()
     local id = BanditUtils.GetCharacterID(bandit)
     local bx = bandit:getX()

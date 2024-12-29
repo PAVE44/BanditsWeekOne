@@ -613,6 +613,71 @@ module Bandits{
         } 
     }
 
+    sound BWOCarHorn1 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/car_horn_1.ogg,
+            distanceMin = 1, 
+            distanceMax = 25,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
+        } 
+    }
+
+    sound BWOCarHorn2 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/car_horn_2.ogg,
+            distanceMin = 1, 
+            distanceMax = 25,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
+        } 
+    }
+
+    sound BWOCarHorn3 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/car_horn_3.ogg,
+            distanceMin = 1, 
+            distanceMax = 25,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
+        } 
+    }
+
+    sound BWOCarHorn4 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/car_horn_4.ogg,
+            distanceMin = 1, 
+            distanceMax = 25,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
+        } 
+    }
+
+    sound BWOCarHorn5 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/car_horn_5.ogg,
+            distanceMin = 1, 
+            distanceMax = 25,
+            reverbFactor = 0.1, 
+            volume = 0.6, 
+        } 
+    }
+
     sound BWOTruthMale1 {
         category = Object, 
         loop = false,

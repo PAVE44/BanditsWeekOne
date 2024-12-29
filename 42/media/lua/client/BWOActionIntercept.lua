@@ -1,8 +1,6 @@
 BanditActionInterceptor = BanditActionInterceptor or {}
-
-local function predicateMoney(item)
-    return item:getType() == "Money"
-end
+BanditActionInterceptor.tick = 0
+BanditActionInterceptor.aimTime = 0
 
 local function activateWitness(character, min)
     local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer"}
@@ -112,31 +110,75 @@ local function activateTargets(character, min)
     end
 end
 
-BanditActionInterceptor.BWOTimedAction = function(data)
+local function onTimedAction(data)
 
-    if BWOScheduler.SymptomLevel >= 3 then return end
-    
+   
     local character = data.character
     if not character then return end
 
     local action = data.action:getMetaType()
     if not action then return end
 
-    -- illegal actions intercepted hre
-    if action == "ISSmashWindow" or action == "ISSmashVehicleWindow" or action == "ISHotwireVehicle" then
+    -- illegal actions intercepted here
+    if BWOScheduler.Anarchy.IllegalMinorCrime and action == "ISSmashWindow" or action == "ISSmashVehicleWindow" or action == "ISHotwireVehicle" then
         activateWitness(character, 15)
+        return
+    end
+
+    -- trash collecting and littering
+    if BWOScheduler.Anarchy.Transactions and action == "ISMoveablesAction" then
+        local mode = data.mode
+        local origSpriteName = data.origSpriteName
+        if mode and origSpriteName then
+            
+            if origSpriteName:embodies("trash") then
+
+                -- earn by collecting trash
+                if mode == "pickup" then
+                    BWOPlayer.Earn(character, 1)
+
+                -- littering
+                elseif mode == "place" then
+                    BWOPlayer.Pay(character, 1)
+                    activateWitness(character, 15)
+                end
+            end
+        end
+        return
+    end
+
+    -- extinguishing fire
+    if BWOScheduler.Anarchy.Transactions and action == "ISPutOutFire" then
+        local profession = character:getDescriptor():getProfession()
+        if profession == "fireofficer" then
+            BWOPlayer.Earn(character, 25)
+        end
     end
 end
 
-BanditActionInterceptor.BWOInventoryTransferAction = function(data)
+local function onInventoryTransferAction(data)
 
-    if BWOScheduler.SymptomLevel >= 3 then return end
+    if not BWOScheduler.Anarchy.Transactions then return end
 
     local character = data.character
     if not character then return end
 
+    local profession = character:getDescriptor():getProfession()
+
     local container = data.srcContainer
     if not container then return end
+
+    local destContainer = data.destContainer
+    local descContainerType = destContainer:getType()
+
+    local item = data.item
+    local itemType = item:getFullType()
+    local md = item:getModData()
+    if not md.BWO then
+        md.BWO = {} 
+        md.BWO.stolen = false
+        md.BWO.bought = false
+    end
 
     local object = container:getParent()
 
@@ -154,8 +196,21 @@ BanditActionInterceptor.BWOInventoryTransferAction = function(data)
             end
         end
 
-        -- this is when player puts something in, not take 
-        if instanceof(object, "IsoPlayer") then return end
+        -- selling
+        if instanceof(object, "IsoPlayer") then 
+
+            -- lumberjack
+            if not md.BWO.stolen then
+                if profession == "lumberjack" then
+                    if itemType == "Base.Log" and descContainerType == "logs" then
+                        BWOPlayer.Earn(character, 10)
+                    elseif itemType == "Base.Plank" and descContainerType == "crate" then
+                        BWOPlayer.Earn(character, 6)
+                    end
+                end
+            end
+            return
+        end
 
         square = object:getSquare()
     else
@@ -163,7 +218,6 @@ BanditActionInterceptor.BWOInventoryTransferAction = function(data)
     end
 
     -- transfering to non player containers is not buying
-    local destContainer = data.destContainer
     local destObject = destContainer:getCharacter()
     if not destObject then return end
 
@@ -186,37 +240,26 @@ BanditActionInterceptor.BWOInventoryTransferAction = function(data)
         local itemType = data.item:getFullType()
         local category = data.item:getDisplayCategory()
         local weight = data.item:getWeight()
-        local price = math.floor(weight * 10)
+        local price = math.floor(weight * SandboxVars.BanditsWeekOne.PriceMultiplier * 10)
         if price == 0 then price = 1 end
 
-        local inventory = character:getInventory()
-        local items = ArrayList.new()
+        md.BWO.bought = true
 
-        inventory:getAllEvalRecurse(predicateMoney, items)
-        if items:size() >= price then
-            character:addLineChatElement("Paid: -$" .. price .. ".00", 0, 1, 0)
-            for i=0, price do
-                inventory:RemoveOneOf("Money", true)
-            end
-        else
-            character:addLineChatElement("No money, item stolen!", 1, 0, 0)
-            activateWitness(character, 15)
-        end
+        BWOPlayer.Pay(character, price)
+
     elseif not canTake then
+        md.BWO.stolen = true
         activateWitness(character, 15)
     end
+
 end
 
-BanditActionInterceptor.tick = 0
-BanditActionInterceptor.aimTime = 0
-
-BanditActionInterceptor.OnPlayerUpdate = function(player)
-    if BWOScheduler.SymptomLevel >= 3 then return end
+local function onPlayerUpdate(player)
+    if not BWOScheduler.Anarchy.IllegalMinorCrime then return end
 
     if BanditActionInterceptor.tick > 15 then
         BanditActionInterceptor.tick = 0
     end
-    
 
     if BanditActionInterceptor.tick == 0 then
         if player:IsAiming() and not BanditPlayer.IsGhost(player)  then 
@@ -245,7 +288,6 @@ BanditActionInterceptor.OnPlayerUpdate = function(player)
             end
 
             if max then
-                print ("aimtime: " .. BanditActionInterceptor.aimTime .. " dist:" .. max)
                 if BanditActionInterceptor.aimTime > 4 then 
                     activateTargets(player, max)
                 end
@@ -261,6 +303,6 @@ end
 
 LuaEventManager.AddEvent("OnInventoryTransferActionPerform")
 
-Events.OnTimedActionPerform.Add(BanditActionInterceptor.BWOTimedAction)
-Events.OnInventoryTransferActionPerform.Add(BanditActionInterceptor.BWOInventoryTransferAction)
-Events.OnPlayerUpdate.Add(BanditActionInterceptor.OnPlayerUpdate)
+Events.OnTimedActionPerform.Add(onTimedAction)
+Events.OnInventoryTransferActionPerform.Add(onInventoryTransferAction)
+Events.OnPlayerUpdate.Add(onPlayerUpdate)

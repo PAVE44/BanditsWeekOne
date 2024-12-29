@@ -7,29 +7,35 @@ BWOVehicles.carChoices = {"Base.CarLights", "Base.CarLuxury", "Base.CarNormal", 
                           "Base.PickUpVan", "Base.PickUpVanLights", "Base.SUV", "Base.SmallCar", 
                           "Base.SportsCar", "Base.StepVan", "Base.Van"}
 
+-- order is important
 BWOVehicles.burnMap = {}
+
+BWOVehicles.burnMap["Base.CarLights"] = "Base.CarNormalBurnt"
+BWOVehicles.burnMap["Base.CarLuxury"] = "Base.LuxuryCarBurnt"
+BWOVehicles.burnMap["Base.NormalCarPolice"] = "Base.NormalCarBurntPolice"
 BWOVehicles.burnMap["Base.CarNormal"] = "Base.CarNormalBurnt"
-BWOVehicles.burnMap["Base.SmallCar"] = "Base.SmallCarBurnt"
+BWOVehicles.burnMap["Base.CarStationWagon"] = "Base.CarNormalBurnt"
+BWOVehicles.burnMap["Base.ModernCar"] = "Base.ModernCar02Burnt"
+BWOVehicles.burnMap["Base.ModernCar02"] = "Base.SmallCar02Burnt"
 BWOVehicles.burnMap["Base.SmallCar02"] = "Base.SmallCar02Burnt"
-BWOVehicles.burnMap["Base.OffRoad"] = "Base.OffRoadBurnt"
-BWOVehicles.burnMap["Base.Pickup"] = "Base.PickupBurnt"
-BWOVehicles.burnMap["Base.PickUpVan"] = "Base.PickUpVanBurnt"
+BWOVehicles.burnMap["Base.CarSmall02"] = "Base.SmallCar02Burnt"
+BWOVehicles.burnMap["Base.SmallCar"] = "Base.SmallCarBurnt"
+BWOVehicles.burnMap["Base.CarSmall"] = "Base.SmallCarBurnt"
 BWOVehicles.burnMap["Base.SportsCar"] = "Base.SportsCarBurnt"
-BWOVehicles.burnMap["Base.VanSeats"] = "Base.VanSeatsBurnt"
-BWOVehicles.burnMap["Base.Van"] = "Base.VanBurnt"
-BWOVehicles.burnMap["Base.ModernCar"] = "Base.ModernCarBurnt"
-BWOVehicles.burnMap["Base.ModernCar02"] = "Base.ModernCar02Burnt"
+BWOVehicles.burnMap["Base.OffRoad"] = "Base.OffRoadBurnt"
+BWOVehicles.burnMap["Base.LuxuryCar"] = "Base.LuxuryCarBurnt"
 BWOVehicles.burnMap["Base.SUV"] = "Base.SUVBurnt"
 BWOVehicles.burnMap["Base.Taxi"] = "Base.TaxiBurnt"
-BWOVehicles.burnMap["Base.Taxi2"] = "Base.TaxiBurnt"
-BWOVehicles.burnMap["Base.LuxuryCar"] = "Base.LuxuryCarBurnt"
-BWOVehicles.burnMap["Base.NormalCarPolice"] = "Base.NormalCarBurntPolice"
+BWOVehicles.burnMap["Base.PickUpVanLights"] = "Base.PickUpVanLightsBurnt"
+BWOVehicles.burnMap["Base.PickUpVan"] = "Base.PickUpVanBurnt"
 BWOVehicles.burnMap["Base.VanAmbulance"] = "Base.AmbulanceBurnt"
 BWOVehicles.burnMap["Base.VanRadio"] = "Base.VanRadioBurnt"
+BWOVehicles.burnMap["Base.VanSeats"] = "Base.VanSeatsBurnt"
+BWOVehicles.burnMap["Base.Van"] = "Base.VanBurnt"
+BWOVehicles.burnMap["Base.StepVan"] = "Base.VanBurnt" -- has no better alternative
 BWOVehicles.burnMap["Base.PickupSpecial"] = "Base.PickupSpecialBurnt"
-BWOVehicles.burnMap["Base.PickUpVanLights"] = "Base.PickUpVanLightsBurnt"
-BWOVehicles.burnMap["Base.PickUpVanLightsPolice"] = "Base.PickUpVanLightsBurnt"
-BWOVehicles.burnMap["Base.PickUpTruckLightsFire"] = "Base.PickupBurnt"
+BWOVehicles.burnMap["Base.PickUpTruck"] = "Base.PickupBurnt"
+BWOVehicles.burnMap["Base.Pickup"] = "Base.PickupBurnt"
 
 BWOVehicles.Register = function(vehicle)
     local id = vehicle:getId()
@@ -102,28 +108,30 @@ BWOVehicles.Burn = function(vehicle)
     local scriptName = vehicle:getScriptName()
     if scriptName:embodies("Burnt") then return end
 
-    if burnMap[scriptName] then
-        local ax = vehicle:getAngleX()
-        local ay = vehicle:getAngleY()
-        local az = vehicle:getAngleZ()
-        vehicle:permanentlyRemove()
+    for k, v in pairs(burnMap) do
+        if scriptName:embodies(k) then
+            local ax = vehicle:getAngleX()
+            local ay = vehicle:getAngleY()
+            local az = vehicle:getAngleZ()
+            vehicle:permanentlyRemove()
 
-        local vehicleBurnt = addVehicleDebug(burnMap[scriptName], IsoDirections.S, nil, vehicle:getSquare())
-        if vehicleBurnt then
-            for i = 0, vehicleBurnt:getPartCount() - 1 do
-                local container = vehicleBurnt:getPartByIndex(i):getItemContainer()
-                if container then
-                    container:removeAllItems()
+            local vehicleBurnt = addVehicleDebug(v, IsoDirections.S, nil, vehicle:getSquare())
+            if vehicleBurnt then
+                for i = 0, vehicleBurnt:getPartCount() - 1 do
+                    local container = vehicleBurnt:getPartByIndex(i):getItemContainer()
+                    if container then
+                        container:removeAllItems()
+                    end
                 end
+                vehicleBurnt:getModData().BWO = {}
+                vehicleBurnt:getModData().BWO.wasRepaired = true
+                vehicleBurnt:setAngles(ax, ay, az)
             end
-            vehicleBurnt:getModData().BWO = {}
-            vehicleBurnt:getModData().BWO.wasRepaired = true
-            vehicleBurnt:setAngles(ax, ay, az)
+            break
         end
-    else
-        print ("cannot burn" .. scriptName)
     end
 end
+
 BWOVehicles.FindSpawnPoint = function(player)
     
     -- detects orientation and width of the road
@@ -131,16 +139,14 @@ BWOVehicles.FindSpawnPoint = function(player)
         local res = {}
         res.valid = false
 
-        local metaGrid = getWorld():getMetaGrid()
-        
+  
         -- check in x
         local xlen = 0
         local xmin = math.huge
         local xmax = 0
         for i = -14, 14 do
             local dx = x + i
-            local zone = metaGrid:getZoneAt(dx, y, 0)
-            if zone and zone:getType() == "Nav" then 
+            if BanditUtils.HasZoneType(dx, y, 0, "Nav") then 
                 xlen = xlen + 1 
                 if dx < xmin then
                     xmin = dx
@@ -157,8 +163,7 @@ BWOVehicles.FindSpawnPoint = function(player)
         local ymax = 0
         for i = -14, 14 do
             local dy = y + i
-            local zone = metaGrid:getZoneAt(x, dy, 0)
-            if zone and zone:getType() == "Nav" then 
+            if BanditUtils.HasZoneType(x, dy, 0, "Nav") then 
                 ylen = ylen + 1
                 if dy < ymin then
                     ymin = dy
@@ -186,8 +191,6 @@ BWOVehicles.FindSpawnPoint = function(player)
             res.width = xlen
         end
 
-
-
         return res
     end
 
@@ -196,49 +199,44 @@ BWOVehicles.FindSpawnPoint = function(player)
         local res = {}
         res.valid = false
 
-        local metaGrid = getWorld():getMetaGrid()
-        local zone = metaGrid:getZoneAt(x, y, 0)
-        if zone then
-            local zoneType = zone:getType()
-            if zoneType == "Nav" then
-                local roadInfo = getInfo(x, y)
-                if roadInfo.valid then
-                    res.valid = true
-                    if roadInfo.orientation == "X" then
-                        res.toEast = {}
-                        res.toEast.x = x - 50
-                        res.toEast.y = roadInfo.max - 1
-                        res.toEast.dir = IsoDirections.E
-                        
-                        res.toWest = {}
-                        res.toWest.x = x + 50
-                        res.toWest.y = roadInfo.min + 2
-                        res.toWest.dir = IsoDirections.W
+        if BanditUtils.HasZoneType(x, y, 0, "Nav") then
+            local roadInfo = getInfo(x, y)
+            if roadInfo.valid then
+                res.valid = true
+                if roadInfo.orientation == "X" then
+                    res.toEast = {}
+                    res.toEast.x = x - 50
+                    res.toEast.y = roadInfo.max - 1
+                    res.toEast.dir = IsoDirections.E
+                    
+                    res.toWest = {}
+                    res.toWest.x = x + 50
+                    res.toWest.y = roadInfo.min + 2
+                    res.toWest.dir = IsoDirections.W
 
-                        for dx=x-50, x+50, 5 do
-                            local roadInfo = getInfo(dx, y)
-                            if not roadInfo.valid then
-                                res.valid = false
-                                break
-                            end
+                    for dx=x-50, x+50, 5 do
+                        local roadInfo = getInfo(dx, y)
+                        if not roadInfo.valid then
+                            res.valid = false
+                            break
                         end
-                    else
-                        res.toNorth = {}
-                        res.toNorth.x = roadInfo.max - 1
-                        res.toNorth.y = y + 50
-                        res.toNorth.dir = IsoDirections.N
-                        
-                        res.toSouth = {}
-                        res.toSouth.x = roadInfo.min + 2
-                        res.toSouth.y = y - 50
-                        res.toSouth.dir = IsoDirections.S
+                    end
+                else
+                    res.toNorth = {}
+                    res.toNorth.x = roadInfo.max - 1
+                    res.toNorth.y = y + 50
+                    res.toNorth.dir = IsoDirections.N
+                    
+                    res.toSouth = {}
+                    res.toSouth.x = roadInfo.min + 2
+                    res.toSouth.y = y - 50
+                    res.toSouth.dir = IsoDirections.S
 
-                        for dy=y-50, y+50, 5 do
-                            local roadInfo = getInfo(x, dy)
-                            if not roadInfo.valid then
-                                res.valid = false
-                                break
-                            end
+                    for dy=y-50, y+50, 5 do
+                        local roadInfo = getInfo(x, dy)
+                        if not roadInfo.valid then
+                            res.valid = false
+                            break
                         end
                     end
                 end
@@ -360,8 +358,8 @@ local AddVehicles = function()
 end
 
 local ManageVehicles = function(ticks)
+    -- if true then return end
     if ticks % 6 > 0 then return end
-
     
     local dirMap = BWOVehicles.dirMap
     local player = getPlayer()
@@ -372,6 +370,12 @@ local ManageVehicles = function(ticks)
             BWOVehicles.tab[id] = nil
             break
         end
+
+        if not vehicle:isSeatInstalled(0) then
+            BWOVehicles.tab[id] = nil
+            break
+        end
+        
         local square = vehicle:getSquare()
         if square then
 
@@ -382,14 +386,17 @@ local ManageVehicles = function(ticks)
             local driver = vehicle:getDriver()
             if driver then
                 if driver:isNPC() then 
-                    local dist = BanditUtils.DistTo(player:getX(), player:getY(), vehicle:getX(), vehicle:getY())
-                    if dist > 50 then
+                    local dist = BanditUtils.DistToManhattan(player:getX(), player:getY(), vehicle:getX(), vehicle:getY())
+                    if dist > 51 then
                         local seat = vehicle:getSeat(driver)
                         vehicle:clearPassenger(seat)
                         driver:setVehicle(nil)
                         driver:setCollidable(true)
-                        driver:removeFromSquare()
-                        driver:removeFromWorld()
+                        --driver:setHealth(0)
+                        driver:Kill(nil)
+                        driver:removeSaveFile()
+                        -- driver:removeFromSquare()
+                        --driver:removeFromWorld()
                         vehicle:permanentlyRemove()
                         BWOVehicles.tab[id] = nil
                         
@@ -411,12 +418,15 @@ local ManageVehicles = function(ticks)
                                 if not asquare:isFree(false) or asquare:isVehicleIntersecting() then
                                     shouldStop = true
                                     -- shouldAbandon = true
-                                elseif asquare:getZombie() or asquare:getPlayer() then
+                                elseif asquare:getZombie() or (asquare:getPlayer() and not asquare:getPlayer():isNPC()) then
                                     local emitter = vehicle:getEmitter()
-                                    if not emitter:isPlaying("VehicleHornStandard") then
-                                        emitter:playSound("VehicleHornStandard")
+                                    -- if not emitter:isPlaying("VehicleHornStandard") then
+                                    if not emitter:isPlaying("BWOCarHorn1") and not emitter:isPlaying("BWOCarHorn2") and 
+                                            not emitter:isPlaying("BWOCarHorn3") and not emitter:isPlaying("BWOCarHorn4") and 
+                                            not emitter:isPlaying("BWOCarHorn5") then
+                                        emitter:playSound("BWOCarHorn" .. (1 + ZombRand(5)))
                                     end
-                                    if BWOScheduler.SymptomLevel < 4 then
+                                    if BWOScheduler.SymptomLevel < 3 then
                                         shouldStop = true
                                     end
                                 end
@@ -430,10 +440,11 @@ local ManageVehicles = function(ticks)
 
                                         BWOVehicles.tab[id] = nil
 
+                                        --[[
                                         local emitter = vehicle:getEmitter()
                                         if emitter:isPlaying("VehicleHornStandard") then
                                             emitter:stopSoundByName("VehicleHornStandard")
-                                        end
+                                        end]]
 
                                         vehicle:shutOff()
                                         vehicle:setHeadlightsOn(false)
@@ -473,8 +484,6 @@ local ManageVehicles = function(ticks)
                                         table.insert(event.bandits, bandit)
                                         sendClientCommand(player, 'Commands', 'SpawnGroup', event)
 
-                                        
-
                                     end
                                     return
                                 end
@@ -486,7 +495,7 @@ local ManageVehicles = function(ticks)
                         end
                         if vehicle:isStopped() then
                             vehicle:setRegulator(true)
-                            vehicle:setRegulatorSpeed(30)
+                            vehicle:setRegulatorSpeed(30 * SandboxVars.BanditsWeekOne.VehiclesSpeed)
                         end
                     end
                 end
@@ -591,5 +600,6 @@ end
     
 
 ]]
+
 Events.OnTick.Add(ManageVehicles)
 Events.EveryOneMinute.Add(AddVehicles)

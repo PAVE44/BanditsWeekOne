@@ -79,3 +79,16 @@ function BanditUtils.GetSurfaceOffset(x, y, z)
 
     return squareSurfaceOffset / 96
 end
+
+function BanditUtils.HasZoneType(x, y, z, zoneType)
+    local zones = getZones(x, y, z)
+    if zones then
+		for i=0, zones:size()-1 do
+			local zone = zones:get(i)
+            if zone:getType() == zoneType then
+                return true
+            end
+        end
+    end
+    return false
+end

@@ -8,6 +8,7 @@ BWOEffects.Add = function(effect)
 end
 
 BWOEffects.Process = function()
+    
     if isServer() then return end
 
     BWOEffects.tick = BWOEffects.tick + 1

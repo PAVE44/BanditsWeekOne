@@ -629,6 +629,42 @@
           <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
         </BroadcastEntry>
 
+        <BroadcastEntry ID="a1c27a88-b393-470e-bba2-ce0febd6ece5" timestamp="8640" endstamp="8940" type="ActivateBroadcast" day="6" advertCat="none" isSegment="false" />
+
+        <BroadcastEntry ID="cd83fb58-0289-4a2d-ae03-b6d99ee9b694" timestamp="8940" endstamp="9480" type="ActivateBroadcast" day="6" advertCat="none" isSegment="false">
+          <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
+          <LineEntry ID="49e2f76f-dd4a-420a-a8ae-635ba31c0b8a" r="40" g="180" b="255" codes="GUID:49e2f76f-dd4a-420a-a8ae-635ba31c0b8a">${t:3.04}This afternoon, the president made a statement.</LineEntry>
+          <LineEntry ID="9d14c695-8f3d-45c8-b275-5872c280bb9f" r="40" g="180" b="255" codes="GUID:9d14c695-8f3d-45c8-b275-5872c280bb9f">${t:5.44}We are in history's darkest hours as of right now and nations from across the globe are watching us.</LineEntry>
+          <LineEntry ID="618a695b-758e-43dd-98c3-6bc7af54cda6" r="40" g="180" b="255" codes="GUID:618a695b-758e-43dd-98c3-6bc7af54cda6">${t:6.39}I ask all citizens to not panic, please have faith in first responders and peacekeeping forces.</LineEntry>
+          <LineEntry ID="91a6be88-61f7-43b2-9756-b0d76ded380c" r="40" g="180" b="255" codes="GUID:91a6be88-61f7-43b2-9756-b0d76ded380c">${t:5.58}The Knox Virus is in an inert state, giving scientists more time to rush a vaccine.</LineEntry>
+          <LineEntry ID="e6ef2432-a8ff-40f7-b9c9-f4fd4a4166fd" r="40" g="180" b="255" codes="GUID:e6ef2432-a8ff-40f7-b9c9-f4fd4a4166fd">${t:5.49}this Vaccine they call "Beta XLII" will soon but surely be underway,</LineEntry>
+          <LineEntry ID="abba8432-7376-43ed-94c0-ef230365d1d7" r="40" g="180" b="255" codes="GUID:abba8432-7376-43ed-94c0-ef230365d1d7">${t:5.81}we need to give them more time. But the acts of anarchy in our street remains a problem.</LineEntry>
+          <LineEntry ID="4c580b24-fa1f-4c10-acaf-fa9b2e44b9c1" r="40" g="180" b="255" codes="GUID:4c580b24-fa1f-4c10-acaf-fa9b2e44b9c1">${t:4.54}Tonight, a curfew will be put in place, we advise you to stay in your-</LineEntry>
+          <LineEntry ID="3e593fe3-7ff3-4b1a-8deb-9ef7442e1317" r="40" g="180" b="255" codes="GUID:3e593fe3-7ff3-4b1a-8deb-9ef7442e1317">${t:7.03}[img=music]</LineEntry>
+          <LineEntry ID="110917ea-71c3-4296-ac89-4b816112f945" r="40" g="180" b="255" codes="GUID:110917ea-71c3-4296-ac89-4b816112f945">${t:0.65}...</LineEntry>
+          <LineEntry ID="09c957b1-395b-402a-a559-d2b3c08d80e0" r="40" g="180" b="255" codes="GUID:09c957b1-395b-402a-a559-d2b3c08d80e0">${t:4.17}The following executive orders will be broadcast nationwide, </LineEntry>
+          <LineEntry ID="b6063a85-dfa9-4d87-821f-ca0e1c779801" r="40" g="180" b="255" codes="GUID:b6063a85-dfa9-4d87-821f-ca0e1c779801">${t:2.90}every station shall transmit this message.</LineEntry>
+          <LineEntry ID="f1ff70fa-ce46-4d53-baed-06ce26fa57dc" r="40" g="180" b="255" codes="GUID:f1ff70fa-ce46-4d53-baed-06ce26fa57dc">${t:3.49}Martial law has been enacted to the lower 48.</LineEntry>
+          <LineEntry ID="7e2ab305-61fb-482a-b1f3-c41bf0e9a3c3" r="40" g="180" b="255" codes="GUID:7e2ab305-61fb-482a-b1f3-c41bf0e9a3c3">${t:4.54}Starting from 6 pm to 6 am local time,</LineEntry>
+          <LineEntry ID="1f2f1633-3bcb-4ae0-a1ce-c88ad0730adb" r="40" g="180" b="255" codes="GUID:1f2f1633-3bcb-4ae0-a1ce-c88ad0730adb">${t:2.88}you are required to be inside your houses,</LineEntry>
+          <LineEntry ID="d762ee71-1a32-42fc-9b48-a1880808297d" r="40" g="180" b="255" codes="GUID:d762ee71-1a32-42fc-9b48-a1880808297d">${t:5.76}anyone caught outside will be questioned and/or detained by authorities or military forces.</LineEntry>
+          <LineEntry ID="9bf18c78-d899-422c-90d8-30219cbf11a0" r="40" g="180" b="255" codes="GUID:9bf18c78-d899-422c-90d8-30219cbf11a0">${t:6.08}this is without a doubt strict and burdening measures, but these steps are necessary to protect you.</LineEntry>
+          <LineEntry ID="01e490f8-b213-4bb3-ae13-6733154f6e29" r="40" g="180" b="255" codes="GUID:01e490f8-b213-4bb3-ae13-6733154f6e29">${t:7.11}If you caught the symptoms of the virus, quarantine yourself from others and avoid being outdoors.</LineEntry>
+          <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
+        </BroadcastEntry>
+
+        <BroadcastEntry ID="ff3fb7a1-d1ab-48cb-9a58-a6d33ef7b584" timestamp="9480" endstamp="10080" type="ActivateBroadcast" day="6" advertCat="none" isSegment="false">
+          <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
+          <LineEntry ID="691475de-a722-4ac1-9cb6-ef2ab305f641" r="40" g="180" b="255" codes="GUID:691475de-a722-4ac1-9cb6-ef2ab305f641">${t:4.76}We now have just received updates from the ongoing riot in Washington D.C.</LineEntry> 
+          <LineEntry ID="db276089-2c5b-45a5-92f1-28a1a3b0d0b9" r="40" g="180" b="255" codes="GUID:db276089-2c5b-45a5-92f1-28a1a3b0d0b9">${t:6.26}At least 7 demonstrators have contracted ill to Knox virus and transported away by ambulance.</LineEntry>
+          <LineEntry ID="910963fe-d4bb-4df8-b4ee-14e110f2c10e" r="40" g="180" b="255" codes="GUID:910963fe-d4bb-4df8-b4ee-14e110f2c10e">${t:6.31}People in Kansas City International Airport are quarantined after an ill individual bites another passenger,</LineEntry>
+          <LineEntry ID="6035004a-5c36-477f-8568-c92e5bb1941d" r="40" g="180" b="255" codes="GUID:6035004a-5c36-477f-8568-c92e5bb1941d">${t:2.09}the suspect is yet to be found.</LineEntry>
+          <LineEntry ID="ea1cc656-1d3d-4f2a-850f-2615c9fbb5d9" r="40" g="180" b="255" codes="GUID:ea1cc656-1d3d-4f2a-850f-2615c9fbb5d9">${t:0.69}...</LineEntry>
+          <LineEntry ID="76d61a38-b337-4e5c-967b-069bc254a47f" r="40" g="180" b="255" codes="GUID:76d61a38-b337-4e5c-967b-069bc254a47f">${t:2.83}Please be in your home from 6 pm until 6 am-</LineEntry>
+          <LineEntry ID="95af9764-85e3-4558-b28c-b384142bf91f" r="40" g="180" b="255" codes="GUID:95af9764-85e3-4558-b28c-b384142bf91f">${t:1.76}bzzzt...</LineEntry>
+          <LineEntry ID="197ddd73-7662-41d5-81e0-63b83a58ab60" r="255" g="0" b="255" codes="GUID:197ddd73-7662-41d5-81e0-63b83a58ab60">${t:5.00}[img=music]</LineEntry>
+        </BroadcastEntry>
+
       </ScriptEntry>
     </ChannelEntry>
     <ChannelEntry ID="56671a95-b43a-4588-8a3c-28d9f0f16937" name="Sitcom Channel" cat="Television" freq="241" startscript="main">
@@ -636,7 +672,7 @@
         <ExitOptions />
         <BroadcastEntry ID="8abd9cfa-8360-4391-9abd-bdb42e1d843d" timestamp="360" endstamp="600" type="ActivateBroadcast" day="0" advertCat="06336bb1-84ca-42e4-88a0-648c779e3c2f" isSegment="false">
           <LineEntry ID="a376d4b8-0d16-4138-9471-65ed0dee1c6f" r="255" g="0" b="255" codes="GUID:a376d4b8-0d16-4138-9471-65ed0dee1c6f">${t:11.47}[img=music][img=music][img=music]</LineEntry>
-          <LineEntry ID="d4e24866-7e1b-44a4-954f-87c9155f7ef9" r="255" g="0" b="255" codes="GUID:d4e24866-7e1b-44a4-954f-87c9155f7ef9">${t:68.54}[img=music][img=music][img=music]</LineEntry>
+          <LineEntry ID="d4e24866-7e1b-44a4-954f-87c9155f7ef9" r="255" g="0" b="255" codes="GUID:d4e24866-7e1b-44a4-954f-87c9155f7ef9">${t:59.99}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="3c8db4ad-cd97-4a8f-a513-da357a1919eb" r="255" g="0" b="255" codes="GUID:3c8db4ad-cd97-4a8f-a513-da357a1919eb">${t:17.23}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="ebb90650-640a-48cb-9f71-041b1a0dd1d8" r="255" g="0" b="255" codes="GUID:ebb90650-640a-48cb-9f71-041b1a0dd1d8">${t:29.43}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="1f531e49-cae9-4609-b9d2-2846b15912da" r="255" g="0" b="255" codes="GUID:1f531e49-cae9-4609-b9d2-2846b15912da">${t:11.45}[img=music][img=music][img=music]</LineEntry>
@@ -650,7 +686,7 @@
         </BroadcastEntry>
         <BroadcastEntry ID="6917c5ae-7951-4403-aeb2-7b9c334bd870" timestamp="600" endstamp="960" type="ActivateBroadcast" day="0" advertCat="06336bb1-84ca-42e4-88a0-648c779e3c2f" isSegment="false">
           <LineEntry ID="a376d4b8-0d16-4138-9471-65ed0dee1c6f" r="255" g="0" b="255" codes="GUID:a376d4b8-0d16-4138-9471-65ed0dee1c6f">${t:11.47}[img=music]</LineEntry>
-          <LineEntry ID="d4e24866-7e1b-44a4-954f-87c9155f7ef9" r="255" g="0" b="255" codes="GUID:d4e24866-7e1b-44a4-954f-87c9155f7ef9">${t:68.54}[img=music][img=music][img=music][img=music]</LineEntry>
+          <LineEntry ID="d4e24866-7e1b-44a4-954f-87c9155f7ef9" r="255" g="0" b="255" codes="GUID:d4e24866-7e1b-44a4-954f-87c9155f7ef9">${t:59.99}[img=music][img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="3c8db4ad-cd97-4a8f-a513-da357a1919eb" r="255" g="0" b="255" codes="GUID:3c8db4ad-cd97-4a8f-a513-da357a1919eb">${t:17.23}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="ebb90650-640a-48cb-9f71-041b1a0dd1d8" r="255" g="0" b="255" codes="GUID:ebb90650-640a-48cb-9f71-041b1a0dd1d8">${t:29.43}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="1f531e49-cae9-4609-b9d2-2846b15912da" r="255" g="0" b="255" codes="GUID:1f531e49-cae9-4609-b9d2-2846b15912da">${t:11.45}[img=music][img=music][img=music]</LineEntry>
@@ -664,7 +700,7 @@
         </BroadcastEntry>
         <BroadcastEntry ID="4845521c-f060-4431-ba66-86013090e9bf" timestamp="960" endstamp="1440" type="ActivateBroadcast" day="0" advertCat="06336bb1-84ca-42e4-88a0-648c779e3c2f" isSegment="false">
           <LineEntry ID="a376d4b8-0d16-4138-9471-65ed0dee1c6f" r="255" g="0" b="255" codes="GUID:a376d4b8-0d16-4138-9471-65ed0dee1c6f">${t:11.47}[img=music]</LineEntry>
-          <LineEntry ID="d4e24866-7e1b-44a4-954f-87c9155f7ef9" r="255" g="0" b="255" codes="GUID:d4e24866-7e1b-44a4-954f-87c9155f7ef9">${t:68.54}[img=music][img=music][img=music][img=music]</LineEntry>
+          <LineEntry ID="d4e24866-7e1b-44a4-954f-87c9155f7ef9" r="255" g="0" b="255" codes="GUID:d4e24866-7e1b-44a4-954f-87c9155f7ef9">${t:59.99}[img=music][img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="3c8db4ad-cd97-4a8f-a513-da357a1919eb" r="255" g="0" b="255" codes="GUID:3c8db4ad-cd97-4a8f-a513-da357a1919eb">${t:17.23}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="ebb90650-640a-48cb-9f71-041b1a0dd1d8" r="255" g="0" b="255" codes="GUID:ebb90650-640a-48cb-9f71-041b1a0dd1d8">${t:29.43}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="1f531e49-cae9-4609-b9d2-2846b15912da" r="255" g="0" b="255" codes="GUID:1f531e49-cae9-4609-b9d2-2846b15912da">${t:11.45}[img=music][img=music][img=music]</LineEntry>
@@ -676,9 +712,9 @@
           <LineEntry ID="b300307d-0ae2-43d8-9b67-cca513ef3a88" r="255" g="0" b="255" codes="GUID:b300307d-0ae2-43d8-9b67-cca513ef3a88">${t:29.61}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="095f1fff-5104-4abd-8117-4deb1a9d8cb8" r="255" g="0" b="255" codes="GUID:095f1fff-5104-4abd-8117-4deb1a9d8cb8">${t:32.71}[img=music][img=music][img=music]</LineEntry>
         </BroadcastEntry>
-        <BroadcastEntry ID="8abd9cfa-8360-4391-9abd-bdb42e1d843d" timestamp="1440" endstamp="1800" type="ActivateBroadcast" day="1" advertCat="06336bb1-84ca-42e4-88a0-648c779e3c2f" isSegment="false">
+        <BroadcastEntry ID="630ff6ce-3e8d-48eb-b0b4-1488243a1b90" timestamp="1440" endstamp="1800" type="ActivateBroadcast" day="1" advertCat="06336bb1-84ca-42e4-88a0-648c779e3c2f" isSegment="false">
           <LineEntry ID="a376d4b8-0d16-4138-9471-65ed0dee1c6f" r="255" g="0" b="255" codes="GUID:a376d4b8-0d16-4138-9471-65ed0dee1c6f">${t:11.47}[img=music][img=music][img=music]</LineEntry>
-          <LineEntry ID="d4e24866-7e1b-44a4-954f-87c9155f7ef9" r="255" g="0" b="255" codes="GUID:d4e24866-7e1b-44a4-954f-87c9155f7ef9">${t:68.54}[img=music][img=music][img=music]</LineEntry>
+          <LineEntry ID="d4e24866-7e1b-44a4-954f-87c9155f7ef9" r="255" g="0" b="255" codes="GUID:d4e24866-7e1b-44a4-954f-87c9155f7ef9">${t:59.99}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="3c8db4ad-cd97-4a8f-a513-da357a1919eb" r="255" g="0" b="255" codes="GUID:3c8db4ad-cd97-4a8f-a513-da357a1919eb">${t:17.23}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="ebb90650-640a-48cb-9f71-041b1a0dd1d8" r="255" g="0" b="255" codes="GUID:ebb90650-640a-48cb-9f71-041b1a0dd1d8">${t:29.43}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="1f531e49-cae9-4609-b9d2-2846b15912da" r="255" g="0" b="255" codes="GUID:1f531e49-cae9-4609-b9d2-2846b15912da">${t:11.45}[img=music][img=music][img=music]</LineEntry>
@@ -690,9 +726,9 @@
           <LineEntry ID="b300307d-0ae2-43d8-9b67-cca513ef3a88" r="255" g="0" b="255" codes="GUID:b300307d-0ae2-43d8-9b67-cca513ef3a88">${t:29.61}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="095f1fff-5104-4abd-8117-4deb1a9d8cb8" r="255" g="0" b="255" codes="GUID:095f1fff-5104-4abd-8117-4deb1a9d8cb8">${t:32.71}[img=music][img=music][img=music]</LineEntry>
         </BroadcastEntry>
-        <BroadcastEntry ID="6917c5ae-7951-4403-aeb2-7b9c334bd870" timestamp="1800" endstamp="2160" type="ActivateBroadcast" day="1" advertCat="06336bb1-84ca-42e4-88a0-648c779e3c2f" isSegment="false">
+        <BroadcastEntry ID="aceab179-a90f-49d3-9ce4-d7bb53f24a66" timestamp="1800" endstamp="2160" type="ActivateBroadcast" day="1" advertCat="06336bb1-84ca-42e4-88a0-648c779e3c2f" isSegment="false">
           <LineEntry ID="a376d4b8-0d16-4138-9471-65ed0dee1c6f" r="255" g="0" b="255" codes="GUID:a376d4b8-0d16-4138-9471-65ed0dee1c6f">${t:11.47}[img=music]</LineEntry>
-          <LineEntry ID="d4e24866-7e1b-44a4-954f-87c9155f7ef9" r="255" g="0" b="255" codes="GUID:d4e24866-7e1b-44a4-954f-87c9155f7ef9">${t:68.54}[img=music][img=music][img=music][img=music]</LineEntry>
+          <LineEntry ID="d4e24866-7e1b-44a4-954f-87c9155f7ef9" r="255" g="0" b="255" codes="GUID:d4e24866-7e1b-44a4-954f-87c9155f7ef9">${t:59.99}[img=music][img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="3c8db4ad-cd97-4a8f-a513-da357a1919eb" r="255" g="0" b="255" codes="GUID:3c8db4ad-cd97-4a8f-a513-da357a1919eb">${t:17.23}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="ebb90650-640a-48cb-9f71-041b1a0dd1d8" r="255" g="0" b="255" codes="GUID:ebb90650-640a-48cb-9f71-041b1a0dd1d8">${t:29.43}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="1f531e49-cae9-4609-b9d2-2846b15912da" r="255" g="0" b="255" codes="GUID:1f531e49-cae9-4609-b9d2-2846b15912da">${t:11.45}[img=music][img=music][img=music]</LineEntry>
@@ -704,9 +740,9 @@
           <LineEntry ID="b300307d-0ae2-43d8-9b67-cca513ef3a88" r="255" g="0" b="255" codes="GUID:b300307d-0ae2-43d8-9b67-cca513ef3a88">${t:29.61}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="095f1fff-5104-4abd-8117-4deb1a9d8cb8" r="255" g="0" b="255" codes="GUID:095f1fff-5104-4abd-8117-4deb1a9d8cb8">${t:32.71}[img=music][img=music][img=music]</LineEntry>
         </BroadcastEntry>
-        <BroadcastEntry ID="4845521c-f060-4431-ba66-86013090e9bf" timestamp="2160" endstamp="2880" type="ActivateBroadcast" day="1" advertCat="06336bb1-84ca-42e4-88a0-648c779e3c2f" isSegment="false">
+        <BroadcastEntry ID="d950a808-22b9-4c63-9850-82a99f87defa" timestamp="2160" endstamp="2880" type="ActivateBroadcast" day="1" advertCat="06336bb1-84ca-42e4-88a0-648c779e3c2f" isSegment="false">
           <LineEntry ID="a376d4b8-0d16-4138-9471-65ed0dee1c6f" r="255" g="0" b="255" codes="GUID:a376d4b8-0d16-4138-9471-65ed0dee1c6f">${t:11.47}[img=music]</LineEntry>
-          <LineEntry ID="d4e24866-7e1b-44a4-954f-87c9155f7ef9" r="255" g="0" b="255" codes="GUID:d4e24866-7e1b-44a4-954f-87c9155f7ef9">${t:68.54}[img=music][img=music][img=music][img=music]</LineEntry>
+          <LineEntry ID="d4e24866-7e1b-44a4-954f-87c9155f7ef9" r="255" g="0" b="255" codes="GUID:d4e24866-7e1b-44a4-954f-87c9155f7ef9">${t:59.99}[img=music][img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="3c8db4ad-cd97-4a8f-a513-da357a1919eb" r="255" g="0" b="255" codes="GUID:3c8db4ad-cd97-4a8f-a513-da357a1919eb">${t:17.23}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="ebb90650-640a-48cb-9f71-041b1a0dd1d8" r="255" g="0" b="255" codes="GUID:ebb90650-640a-48cb-9f71-041b1a0dd1d8">${t:29.43}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="1f531e49-cae9-4609-b9d2-2846b15912da" r="255" g="0" b="255" codes="GUID:1f531e49-cae9-4609-b9d2-2846b15912da">${t:11.45}[img=music][img=music][img=music]</LineEntry>
@@ -718,9 +754,9 @@
           <LineEntry ID="b300307d-0ae2-43d8-9b67-cca513ef3a88" r="255" g="0" b="255" codes="GUID:b300307d-0ae2-43d8-9b67-cca513ef3a88">${t:29.61}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="095f1fff-5104-4abd-8117-4deb1a9d8cb8" r="255" g="0" b="255" codes="GUID:095f1fff-5104-4abd-8117-4deb1a9d8cb8">${t:32.71}[img=music][img=music][img=music]</LineEntry>
         </BroadcastEntry>
-                <BroadcastEntry ID="8abd9cfa-8360-4391-9abd-bdb42e1d843d" timestamp="2880" endstamp="3240" type="ActivateBroadcast" day="2" advertCat="06336bb1-84ca-42e4-88a0-648c779e3c2f" isSegment="false">
+        <BroadcastEntry ID="96b73d18-2f83-49ee-882f-95c81ee3c002" timestamp="2880" endstamp="3240" type="ActivateBroadcast" day="2" advertCat="06336bb1-84ca-42e4-88a0-648c779e3c2f" isSegment="false">
           <LineEntry ID="a376d4b8-0d16-4138-9471-65ed0dee1c6f" r="255" g="0" b="255" codes="GUID:a376d4b8-0d16-4138-9471-65ed0dee1c6f">${t:11.47}[img=music][img=music][img=music]</LineEntry>
-          <LineEntry ID="d4e24866-7e1b-44a4-954f-87c9155f7ef9" r="255" g="0" b="255" codes="GUID:d4e24866-7e1b-44a4-954f-87c9155f7ef9">${t:68.54}[img=music][img=music][img=music]</LineEntry>
+          <LineEntry ID="d4e24866-7e1b-44a4-954f-87c9155f7ef9" r="255" g="0" b="255" codes="GUID:d4e24866-7e1b-44a4-954f-87c9155f7ef9">${t:59.99}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="3c8db4ad-cd97-4a8f-a513-da357a1919eb" r="255" g="0" b="255" codes="GUID:3c8db4ad-cd97-4a8f-a513-da357a1919eb">${t:17.23}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="ebb90650-640a-48cb-9f71-041b1a0dd1d8" r="255" g="0" b="255" codes="GUID:ebb90650-640a-48cb-9f71-041b1a0dd1d8">${t:29.43}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="1f531e49-cae9-4609-b9d2-2846b15912da" r="255" g="0" b="255" codes="GUID:1f531e49-cae9-4609-b9d2-2846b15912da">${t:11.45}[img=music][img=music][img=music]</LineEntry>
@@ -732,9 +768,9 @@
           <LineEntry ID="b300307d-0ae2-43d8-9b67-cca513ef3a88" r="255" g="0" b="255" codes="GUID:b300307d-0ae2-43d8-9b67-cca513ef3a88">${t:29.61}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="095f1fff-5104-4abd-8117-4deb1a9d8cb8" r="255" g="0" b="255" codes="GUID:095f1fff-5104-4abd-8117-4deb1a9d8cb8">${t:32.71}[img=music][img=music][img=music]</LineEntry>
         </BroadcastEntry>
-        <BroadcastEntry ID="6917c5ae-7951-4403-aeb2-7b9c334bd870" timestamp="3240" endstamp="3600" type="ActivateBroadcast" day="1" advertCat="06336bb1-84ca-42e4-88a0-648c779e3c2f" isSegment="false">
+        <BroadcastEntry ID="7c3519e1-cacb-4338-87b1-a19626be415b" timestamp="3240" endstamp="3600" type="ActivateBroadcast" day="2" advertCat="06336bb1-84ca-42e4-88a0-648c779e3c2f" isSegment="false">
           <LineEntry ID="a376d4b8-0d16-4138-9471-65ed0dee1c6f" r="255" g="0" b="255" codes="GUID:a376d4b8-0d16-4138-9471-65ed0dee1c6f">${t:11.47}[img=music]</LineEntry>
-          <LineEntry ID="d4e24866-7e1b-44a4-954f-87c9155f7ef9" r="255" g="0" b="255" codes="GUID:d4e24866-7e1b-44a4-954f-87c9155f7ef9">${t:68.54}[img=music][img=music][img=music][img=music]</LineEntry>
+          <LineEntry ID="d4e24866-7e1b-44a4-954f-87c9155f7ef9" r="255" g="0" b="255" codes="GUID:d4e24866-7e1b-44a4-954f-87c9155f7ef9">${t:59.99}[img=music][img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="3c8db4ad-cd97-4a8f-a513-da357a1919eb" r="255" g="0" b="255" codes="GUID:3c8db4ad-cd97-4a8f-a513-da357a1919eb">${t:17.23}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="ebb90650-640a-48cb-9f71-041b1a0dd1d8" r="255" g="0" b="255" codes="GUID:ebb90650-640a-48cb-9f71-041b1a0dd1d8">${t:29.43}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="1f531e49-cae9-4609-b9d2-2846b15912da" r="255" g="0" b="255" codes="GUID:1f531e49-cae9-4609-b9d2-2846b15912da">${t:11.45}[img=music][img=music][img=music]</LineEntry>
@@ -746,9 +782,9 @@
           <LineEntry ID="b300307d-0ae2-43d8-9b67-cca513ef3a88" r="255" g="0" b="255" codes="GUID:b300307d-0ae2-43d8-9b67-cca513ef3a88">${t:29.61}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="095f1fff-5104-4abd-8117-4deb1a9d8cb8" r="255" g="0" b="255" codes="GUID:095f1fff-5104-4abd-8117-4deb1a9d8cb8">${t:32.71}[img=music][img=music][img=music]</LineEntry>
         </BroadcastEntry>
-        <BroadcastEntry ID="4845521c-f060-4431-ba66-86013090e9bf" timestamp="3600" endstamp="4320" type="ActivateBroadcast" day="1" advertCat="06336bb1-84ca-42e4-88a0-648c779e3c2f" isSegment="false">
+        <BroadcastEntry ID="16e3e9fe-ba7a-48b4-be1d-616e0126ba5d" timestamp="3600" endstamp="4320" type="ActivateBroadcast" day="2" advertCat="06336bb1-84ca-42e4-88a0-648c779e3c2f" isSegment="false">
           <LineEntry ID="a376d4b8-0d16-4138-9471-65ed0dee1c6f" r="255" g="0" b="255" codes="GUID:a376d4b8-0d16-4138-9471-65ed0dee1c6f">${t:11.47}[img=music]</LineEntry>
-          <LineEntry ID="d4e24866-7e1b-44a4-954f-87c9155f7ef9" r="255" g="0" b="255" codes="GUID:d4e24866-7e1b-44a4-954f-87c9155f7ef9">${t:68.54}[img=music][img=music][img=music][img=music]</LineEntry>
+          <LineEntry ID="d4e24866-7e1b-44a4-954f-87c9155f7ef9" r="255" g="0" b="255" codes="GUID:d4e24866-7e1b-44a4-954f-87c9155f7ef9">${t:59.99}[img=music][img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="3c8db4ad-cd97-4a8f-a513-da357a1919eb" r="255" g="0" b="255" codes="GUID:3c8db4ad-cd97-4a8f-a513-da357a1919eb">${t:17.23}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="ebb90650-640a-48cb-9f71-041b1a0dd1d8" r="255" g="0" b="255" codes="GUID:ebb90650-640a-48cb-9f71-041b1a0dd1d8">${t:29.43}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="1f531e49-cae9-4609-b9d2-2846b15912da" r="255" g="0" b="255" codes="GUID:1f531e49-cae9-4609-b9d2-2846b15912da">${t:11.45}[img=music][img=music][img=music]</LineEntry>
@@ -759,6 +795,21 @@
           <LineEntry ID="77b2d173-b41d-46a4-9bc5-7b0fe75d8831" r="255" g="0" b="255" codes="GUID:77b2d173-b41d-46a4-9bc5-7b0fe75d8831">${t:59:99}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="b300307d-0ae2-43d8-9b67-cca513ef3a88" r="255" g="0" b="255" codes="GUID:b300307d-0ae2-43d8-9b67-cca513ef3a88">${t:29.61}[img=music][img=music][img=music]</LineEntry>
           <LineEntry ID="095f1fff-5104-4abd-8117-4deb1a9d8cb8" r="255" g="0" b="255" codes="GUID:095f1fff-5104-4abd-8117-4deb1a9d8cb8">${t:32.71}[img=music][img=music][img=music]</LineEntry>
+        </BroadcastEntry>
+      </ScriptEntry>
+    </ChannelEntry>
+    <ChannelEntry ID="49836f3a-ca16-4a85-9ec4-b85c31c07b81" name="Party Channel" cat="Radio" freq="98600" startscript="main">
+      <ScriptEntry ID="8b2ac3f1-1d04-4d51-9755-c3d57357ecd6" name="main" startdelay="0" timestampmode="Static" loopmin="1" loopmax="12">
+        <ExitOptions />
+        <BroadcastEntry ID="00e64d79-754d-42a3-9311-39607e7ef652" timestamp="0" endstamp="600" type="ActivateBroadcast" day="0" advertCat="none" isSegment="false">
+          <LineEntry ID="3fee99ec-c8b6-4ebc-9f2f-116043153195" r="255" g="0" b="255" codes="GUID:3fee99ec-c8b6-4ebc-9f2f-116043153195">${t:60.01}[img=music][img=music][img=music]</LineEntry>
+          <LineEntry ID="0bc71c8a-f954-4dbf-aa09-ff09b015d6e2" r="255" g="0" b="255" codes="GUID:0bc71c8a-f954-4dbf-aa09-ff09b015d6e2">${t:60.01}[img=music][img=music][img=music]</LineEntry>
+          <LineEntry ID="a08b44db-b3cb-46a1-b04c-633e8e5b2a37" r="255" g="0" b="255" codes="GUID:a08b44db-b3cb-46a1-b04c-633e8e5b2a37">${t:36.57}[img=music][img=music][img=music]</LineEntry>
+          <LineEntry ID="38fe9b5a-e932-477c-a6b5-96b9e7ea84da" r="255" g="0" b="255" codes="GUID:38fe9b5a-e932-477c-a6b5-96b9e7ea84da">${t:36.76}[img=music][img=music][img=music]</LineEntry>
+          <LineEntry ID="2a379a08-4428-42b0-ae3d-0fb41c34f74c" r="255" g="0" b="255" codes="GUID:2a379a08-4428-42b0-ae3d-0fb41c34f74c">${t:56.50}[img=music][img=music][img=music]</LineEntry>
+          <LineEntry ID="2cc1e0e2-75ab-4ac3-9238-635813babc18" r="255" g="0" b="255" codes="GUID:2cc1e0e2-75ab-4ac3-9238-635813babc18">${t:45.00}[img=music][img=music][img=music]</LineEntry>
+          <LineEntry ID="c688d4c8-dd7b-4d93-8e0f-c6cb5f488db2" r="255" g="0" b="255" codes="GUID:c688d4c8-dd7b-4d93-8e0f-c6cb5f488db2">${t:52.13}[img=music][img=music][img=music]</LineEntry>
+          <LineEntry ID="22b4a025-6455-4c8d-b341-fd4f0f18836a" r="255" g="0" b="255" codes="GUID:22b4a025-6455-4c8d-b341-fd4f0f18836a">${t:39.29}[img=music][img=music][img=music]</LineEntry>
         </BroadcastEntry>
       </ScriptEntry>
     </ChannelEntry>

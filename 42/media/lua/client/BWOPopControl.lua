@@ -210,13 +210,19 @@ BWOPopControl.InhabitantsSpawn = function(cnt)
     for i = 0, rooms:size() - 1 do
         local room = rooms:get(i)
         local def = room:getRoomDef()
+
         if def then
-            if math.abs(def:getX() - player:getX()) < 100 and math.abs(def:getX2() - player:getX()) < 100 and 
-               math.abs(def:getY() - player:getY()) < 100 and math.abs(def:getY2() - player:getY()) < 100 then
-                local roomSize = BWORooms.GetRoomSize(room)
-                local popMod = BWORooms.GetRoomPopMod(room)
-                cursor = cursor + math.floor(roomSize * popMod)
-                table.insert(roomPool, {room=room, cursor=cursor})
+            local building = room:getBuilding()
+            local buildingDef = building:getDef()
+            buildingDef:setAlarmed(false)
+            if not BWOBuildings.IsEventBuilding(building, "home") then
+                if math.abs(def:getX() - player:getX()) < 100 and math.abs(def:getX2() - player:getX()) < 100 and 
+                math.abs(def:getY() - player:getY()) < 100 and math.abs(def:getY2() - player:getY()) < 100 then
+                    local roomSize = BWORooms.GetRoomSize(room)
+                    local popMod = BWORooms.GetRoomPopMod(room)
+                    cursor = cursor + math.floor(roomSize * popMod)
+                    table.insert(roomPool, {room=room, cursor=cursor})
+                end
             end
         end
     end
@@ -460,69 +466,46 @@ BWOPopControl.UpdateCivs = function()
     BWOPopControl.StreetsNominal = 60
     BWOPopControl.InhabitantsNominal = 60
     BWOPopControl.SurvivorsNominal = 0
-    if BWOScheduler.WorldAge >= 52 and BWOScheduler.WorldAge < 55 then 
+
+    if BWOScheduler.WorldAge == 83 then -- occasional zombies
+        BWOPopControl.ZombieMax = 1
+    elseif BWOScheduler.WorldAge >= 91 and BWOScheduler.WorldAge < 94 then -- occasional zombies
         BWOPopControl.ZombieMax = 2
-    elseif BWOScheduler.WorldAge >= 72 and BWOScheduler.WorldAge < 79 then 
+    elseif BWOScheduler.WorldAge >= 105 and BWOScheduler.WorldAge < 108 then -- occasional zombies
         BWOPopControl.ZombieMax = 3
-        BWOPopControl.StreetsNominal = 90
-        BWOPopControl.InhabitantsNominal = 30
-    elseif BWOScheduler.WorldAge >= 79 and BWOScheduler.WorldAge < 91 then 
+    elseif BWOScheduler.WorldAge >= 114 and BWOScheduler.WorldAge < 117 then -- occasional zombies
+        BWOPopControl.ZombieMax = 4
+    elseif BWOScheduler.WorldAge >= 120 and BWOScheduler.WorldAge < 124 then -- occasional zombies
+        BWOPopControl.ZombieMax = 4
+    elseif BWOScheduler.WorldAge >= 136 and BWOScheduler.WorldAge < 138 then -- occasional zombies
         BWOPopControl.ZombieMax = 4
         BWOPopControl.StreetsNominal = 70
+        BWOPopControl.InhabitantsNominal = 50
+    elseif BWOScheduler.WorldAge == 150 then -- outbreak
+        BWOPopControl.ZombieMax = 4
+        BWOPopControl.StreetsNominal = 80
         BWOPopControl.InhabitantsNominal = 40
-    elseif BWOScheduler.WorldAge == 91 then
-        BWOPopControl.ZombieMax = 6
-    elseif BWOScheduler.WorldAge == 92 then
-        BWOPopControl.ZombieMax = 12
-        BWOPopControl.StreetsNominal = 54
-        BWOPopControl.InhabitantsNominal = 54
-    elseif BWOScheduler.WorldAge == 93 then
-        BWOPopControl.ZombieMax = 60
-        BWOPopControl.StreetsNominal = 20
-        BWOPopControl.InhabitantsNominal = 39
-        BWOPopControl.SurvivorsNominal = 1
-    elseif BWOScheduler.WorldAge == 94 then
-        BWOPopControl.ZombieMax = 100
-        BWOPopControl.StreetsNominal = 10
-        BWOPopControl.InhabitantsNominal = 28
         BWOPopControl.SurvivorsNominal = 2
-    elseif BWOScheduler.WorldAge == 95 then
-        BWOPopControl.ZombieMax = 200
-        BWOPopControl.StreetsNominal = 10
-        BWOPopControl.InhabitantsNominal = 20
+    elseif BWOScheduler.WorldAge == 151 then
+        BWOPopControl.ZombieMax = 8
+        BWOPopControl.StreetsNominal = 80
+        BWOPopControl.InhabitantsNominal = 40
         BWOPopControl.SurvivorsNominal = 3
-    elseif BWOScheduler.WorldAge == 96 then
-        BWOPopControl.ZombieMax = 400
-        BWOPopControl.StreetsNominal = 7
-        BWOPopControl.InhabitantsNominal = 14
-        BWOPopControl.SurvivorsNominal = 4
-    elseif BWOScheduler.WorldAge == 97 then
-        BWOPopControl.ZombieMax = 1000
-        BWOPopControl.StreetsNominal = 2
-        BWOPopControl.InhabitantsNominal = 10
+    elseif BWOScheduler.WorldAge == 152 then
+        BWOPopControl.ZombieMax = 16
+        BWOPopControl.StreetsNominal = 80
+        BWOPopControl.InhabitantsNominal = 40
         BWOPopControl.SurvivorsNominal = 5
-    elseif BWOScheduler.WorldAge == 98 then
-        BWOPopControl.ZombieMax = 1000
-        BWOPopControl.StreetsNominal = 1
-        BWOPopControl.InhabitantsNominal = 6
+    elseif BWOScheduler.WorldAge == 153 then
+        BWOPopControl.ZombieMax = 64
+        BWOPopControl.StreetsNominal = 70
+        BWOPopControl.InhabitantsNominal = 50
         BWOPopControl.SurvivorsNominal = 8
-    elseif BWOScheduler.WorldAge == 99 then
+    elseif BWOScheduler.WorldAge >= 154 then
         BWOPopControl.ZombieMax = 1000
-        BWOPopControl.StreetsNominal = 0
-        BWOPopControl.InhabitantsNominal = 4
-        BWOPopControl.SurvivorsNominal = 12
-    elseif BWOScheduler.WorldAge == 100 then
-        BWOPopControl.ZombieMax = 1000
-        BWOPopControl.StreetsNominal = 0
-        BWOPopControl.InhabitantsNominal = 2
-        BWOPopControl.SurvivorsNominal = 10
-    elseif BWOScheduler.WorldAge > 100 then
-        BWOPopControl.ZombieMax = 1000
-        BWOPopControl.StreetsNominal = 0
-        BWOPopControl.InhabitantsNominal = 0
-        BWOPopControl.SurvivorsNominal = 4
+        BWOPopControl.SurvivorsNominal = 5
     end
-
+    
     -- ADJUST: people on the streets
 
     -- count currently active civs
@@ -596,102 +579,6 @@ BWOPopControl.UpdateCivs = function()
 
 end
 
--- controls npc reaction to player violence
-BWOPopControl.CheckHostility = function(bandit, attacker)
-
-    if not attacker then return end
-
-    local player = getPlayer()
-
-    
-    -- attacking zombies is ok!
-    local brain = BanditBrain.Get(bandit)
-    if not bandit:getVariableBoolean("Bandit") then return end
-
-    -- killing bandits is ok!
-    if brain.clan > 0 then return end
-
-    -- to weak to respond
-    -- local infection = Bandit.GetInfection(bandit)
-    -- if infection > 0 then return end
-
-    -- who saw this changes program
-    local witnessList = BanditZombie.GetAllB()
-    for id, witness in pairs(witnessList) do
-        if not witness.brain.hostile then
-            local dist = math.sqrt(math.pow(bandit:getX() - witness.x, 2) + math.pow(bandit:getY() - witness.y, 2))
-            if dist < 15 then
-                local actor = BanditZombie.GetInstanceById(witness.id)
-                if actor:CanSee(bandit) then
-
-                    local params = {}
-                    params.x = bandit:getX()
-                    params.y = bandit:getY()
-                    params.z = bandit:getZ()
-
-                    local wasPlayerFault = false
-                    if instanceof(attacker, "IsoPlayer") and not attacker:isNPC() and brain.clan == 0 and brain.program.name ~= "Thief" then
-                        wasPlayerFault = true
-                        if brain.id ~= id then
-                            local outfit = bandit:getOutfitName()
-                            if outfit == "Police" then
-                                if BWOPopControl.SWAT.On then
-                                    params.hostile = true
-                                    BWOScheduler.Add("CallSWAT", params, 19500)
-                                end
-                            else
-                                if BWOPopControl.Police.On then
-                                    params.hostile = true
-                                    BWOScheduler.Add("CallCops", params, 12000)
-                                end
-                            end
-                        end
-                    else
-                        -- call friendly police
-                        if BWOPopControl.Police.On then
-                            params.hostile = false
-                            BWOScheduler.Add("CallCops", params, 12000)
-                        end
-                    end
-
-                    -- witnessing civilians need to change peaceful behavior to active
-                    local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal"}
-                    for _, prg in pairs(activatePrograms) do
-                        if witness.brain.program.name == prg then 
-                            local outfit = actor:getOutfitName()
-                            if outfit == "Police" or outfit == "Security" or outfit == "MallSecurity" or outfit == "ZSArmySpecialOps" then
-                                Bandit.ClearTasks(actor)
-                                Bandit.SetProgram(actor, "Police", {})
-                                if wasPlayerFault then
-                                    Bandit.SetHostile(actor, true)
-                                end
-                            else
-                                if ZombRand(4) > 0 then
-                                    Bandit.ClearTasks(actor)
-                                    Bandit.SetProgram(actor, "Active", {})
-                                    if wasPlayerFault and ZombRand(2) == 0 then
-                                        Bandit.SetHostile(actor, true)
-                                    end
-                                    Bandit.Say(actor, "SPOTTED")
-                                end
-                            end
-
-                            local brain = BanditBrain.Get(actor)
-                            if brain then
-                                local syncData = {}
-                                syncData.id = brain.id
-                                syncData.hostile = brain.hostile
-                                syncData.program = brain.program
-                                Bandit.ForceSyncPart(actor, syncData)
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end
-end
-
 local everyOneMinute = function ()
     BWOPopControl.UpdateCivs()
 end
@@ -703,75 +590,5 @@ local onTick = function(numTicks)
     end
 end
 
-local onHitZombie = function(zombie, attacker, bodyPartType, handWeapon)
-    BWOPopControl.CheckHostility(zombie, attacker)
-end
-
-local onZombieDead = function(zombie)
-
-    if not zombie:getVariableBoolean("Bandit") then return end
-        
-    local bandit = zombie
-
-    local attacker = bandit:getAttackedBy()
-    if not attacker then
-        attacker = bandit:getTarget()
-    end
-
-    BWOPopControl.CheckHostility(bandit, attacker)
-
-    -- register dead body
-    local args = {x=bandit:getX(), y=bandit:getY(), z=bandit:getZ()}
-    sendClientCommand(getPlayer(), 'Commands', 'DeadBodyAdd', args)
-
-    local params ={}
-    params.x = bandit:getX()
-    params.y = bandit:getY()
-    params.z = bandit:getZ()
-    params.hostile = false
-
-    -- call medics
-    if BWOPopControl.Medics.On then
-        BWOScheduler.Add("CallMedics", params, 15000)
-    elseif BWOPopControl.Hazmats.On then
-        BWOScheduler.Add("CallHazmats", params, 15500)
-    end
-
-    -- deprovision bandit (bandit main function is no longer doing that for clan 0)
-    Bandit.Say(bandit, "DEAD", true)
-
-    local id = BanditUtils.GetCharacterID(bandit)
-    local brain = BanditBrain.Get(bandit)
-
-    bandit:setUseless(false)
-    bandit:setReanim(false)
-    bandit:setVariable("Bandit", false)
-    bandit:setPrimaryHandItem(nil)
-    bandit:clearAttachedItems()
-    bandit:resetEquippedHandsModels()
-    -- bandit:getInventory():clear()
-
-    args = {}
-    args.id = id
-    sendClientCommand(getPlayer(), 'Commands', 'BanditRemove', args)
-    BanditBrain.Remove(bandit)
-end
-
-local onNewFire = function(fire)
-    local params ={}
-    params.x = fire:getX()
-    params.y = fire:getY()
-    params.z = fire:getZ()
-    params.hostile = true
-    BWOScheduler.Add("CallFireman", params, 4800)
-
-    local args = {x=params.x, y=params.y, z=params.z, otype="fire", ttl=BanditUtils.GetTime()+25000}
-    sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
-end
-
 Events.EveryOneMinute.Add(everyOneMinute)
 Events.OnTick.Add(onTick)
-Events.OnHitZombie.Add(onHitZombie)
-Events.OnZombieDead.Add(onZombieDead)
-Events.OnNewFire.Add(onNewFire)
-
