@@ -12,7 +12,7 @@ BanditClan.Civilians.name = "Civilians"
 BanditClan.Civilians.femaleChance = 40
 
 -- health ranges from 1 - 14. Higher values may produce unexpected results,
-BanditClan.Civilians.health = 2
+BanditClan.Civilians.health = 2.5
 
 -- if the bandit will eat player's body after death
 BanditClan.Civilians.eatBody = false
@@ -91,7 +91,7 @@ for i=1, 80 do
     table.insert(BanditClan.Civilians.Loot, BanditLoot.MakeItem("Base.Money", 22))
 end
 
-table.insert(BanditClan.Civilians.Loot, BanditLoot.MakeItem("Base.WaterBottleFull", 30))
+table.insert(BanditClan.Civilians.Loot, BanditLoot.MakeItem("Base.WaterBottle", 30))
 table.insert(BanditClan.Civilians.Loot, BanditLoot.MakeItem("Base.Gum", 5))
 table.insert(BanditClan.Civilians.Loot, BanditLoot.MakeItem("Base.Peppermint", 2))
 table.insert(BanditClan.Civilians.Loot, BanditLoot.MakeItem("Base.GummyWorms", 1))

@@ -32,19 +32,22 @@ function BanditCreator.MakeFromRoom(room)
         config.pistolMagCount = 3
     end
 
+    bandit.femaleChance = clan.femaleChance
+    if roomData.femaleChance then
+        bandit.femaleChance = roomData.femaleChance
+    end
+
     bandit.outfit = BanditUtils.Choice(clan.Outfits)
     if roomData.outfits then
         bandit.outfit = BanditUtils.Choice(roomData.outfits)
 
-        if bandit.outfit == "MallSecurity" then
+        if bandit.outfit == "MallSecurity" or bandit.outfit == "Security" then
             config.hasPistolChance = 100
             config.pistolMagCount = 2
+            bandit.femaleChance = 0
+        elseif bandit.outfit == "OfficeWorkerSkirt" then
+            bandit.femaleChance = 100
         end
-    end
-
-    bandit.femaleChance = clan.femaleChance
-    if roomData.femaleChance then
-        bandit.femaleChance = roomData.femaleChance
     end
 
     if roomData.hasPistolChance and roomData.pistolMagCount then

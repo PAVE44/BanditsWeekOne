@@ -37,6 +37,29 @@ BWOVehicles.burnMap["Base.PickupSpecial"] = "Base.PickupSpecialBurnt"
 BWOVehicles.burnMap["Base.PickUpTruck"] = "Base.PickupBurnt"
 BWOVehicles.burnMap["Base.Pickup"] = "Base.PickupBurnt"
 
+BWOVehicles.parts = {}
+BWOVehicles.parts[1] = "HeadlightLeft"
+BWOVehicles.parts[2] = "HeadlightRight"
+BWOVehicles.parts[3] = "HeadlightRearLeft"
+BWOVehicles.parts[4] = "HeadlightRight"
+BWOVehicles.parts[5] = "Windshield"
+BWOVehicles.parts[6] = "WindshieldRear"
+BWOVehicles.parts[7] = "WindowFrontRight"
+BWOVehicles.parts[8] = "WindowFrontLeft"
+BWOVehicles.parts[9] = "WindowRearRight"
+BWOVehicles.parts[10] = "WindowRearLeft"
+BWOVehicles.parts[11] = "WindowMiddleLeft"
+BWOVehicles.parts[12] = "WindowMiddleRight"
+BWOVehicles.parts[13] = "DoorFrontRight"
+BWOVehicles.parts[14] = "DoorFrontLeft"
+BWOVehicles.parts[15] = "DoorRearRight"
+BWOVehicles.parts[16] = "DoorRearLeft"
+BWOVehicles.parts[17] = "EngineDoor"
+BWOVehicles.parts[18] = "TireFrontRight"
+BWOVehicles.parts[19] = "TireFrontLeft"
+BWOVehicles.parts[20] = "TireRearLeft"
+BWOVehicles.parts[21] = "TireRearRight"
+
 BWOVehicles.Register = function(vehicle)
     local id = vehicle:getId()
     BWOVehicles.tab[id] = vehicle
@@ -332,6 +355,9 @@ end
 BWOVehicles.dirMap = dirMap
 
 local AddVehicles = function()
+
+    if BWOScheduler.WorldAge > 168 then return end
+    
     local gametime = getGameTime()
     local hour = gametime:getHour()
     local minute = gametime:getMinutes()
@@ -375,7 +401,7 @@ local ManageVehicles = function(ticks)
             BWOVehicles.tab[id] = nil
             break
         end
-        
+
         local square = vehicle:getSquare()
         if square then
 
@@ -395,8 +421,8 @@ local ManageVehicles = function(ticks)
                         --driver:setHealth(0)
                         driver:Kill(nil)
                         driver:removeSaveFile()
-                        -- driver:removeFromSquare()
-                        --driver:removeFromWorld()
+                        driver:removeFromSquare()
+                        driver:removeFromWorld()
                         vehicle:permanentlyRemove()
                         BWOVehicles.tab[id] = nil
                         
@@ -426,7 +452,7 @@ local ManageVehicles = function(ticks)
                                             not emitter:isPlaying("BWOCarHorn5") then
                                         emitter:playSound("BWOCarHorn" .. (1 + ZombRand(5)))
                                     end
-                                    if BWOScheduler.SymptomLevel < 3 then
+                                    if not BWOScheduler.NPC.Run then
                                         shouldStop = true
                                     end
                                 end

@@ -243,6 +243,10 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                     active = false
                 end
 
+                if partyOn then
+                    active = false
+                end
+
                 if active ~= ls:isActivated() then
                     local square = ls:getSquare()
                     if not square:isFree(false) then

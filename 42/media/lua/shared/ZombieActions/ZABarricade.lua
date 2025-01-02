@@ -65,7 +65,22 @@ ZombieActions.Barricade.onWorking = function(zombie, task)
         zombie:faceLocationF(task.fx, task.fy)
     end
 
-    if zombie:getBumpType() ~= task.anim then return true end
+    if task.time <= 0 then
+        return true
+    else
+        local bumpType = zombie:getBumpType()
+        if bumpType ~= task.anim then 
+            zombie:setBumpType(task.anim)
+
+            if task.sound then
+                local emitter = zombie:getEmitter()
+                if not emitter:isPlaying(task.sound) then
+                    emitter:playSound(task.sound)
+                end
+            end
+            
+        end
+    end
     return false
 end
 

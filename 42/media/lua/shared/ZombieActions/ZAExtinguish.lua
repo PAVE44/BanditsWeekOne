@@ -66,6 +66,7 @@ ZombieActions.Extinguish.onWorking = function(zombie, task)
             
         end
     end
+    return false
 end
 
 ZombieActions.Extinguish.onComplete = function(zombie, task)

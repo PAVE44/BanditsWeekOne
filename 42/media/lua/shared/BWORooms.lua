@@ -112,7 +112,7 @@ BWORooms.tab = {
         isShop = true,
         occupations = {"securityguard"},
         outfits = {"Classy", "Generic02", "Generic03", "Generic04", "Generic05", "Security", "OfficeWorkerSkirt"},
-        femaleChance = 0
+        femaleChance = 50
     },
 
     bankstorage = {
@@ -126,6 +126,12 @@ BWORooms.tab = {
 
     bar = {
         isRestaurant = true,
+        outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "Biker", "Punk"},
+    },
+
+    barcountertwiggy = {
+        isRestaurant = true,
+        outfits = {"Waiter_Classy"}
     },
 
     barbecuestore = {
@@ -311,7 +317,8 @@ BWORooms.tab = {
 
     cell = {
         occupations = {"securityguard", "policeofficer"},
-        outfits = {"Inmate"}
+        outfits = {"Inmate"},
+        femaleChance = 0
     },
 
     changeroom = {
@@ -919,7 +926,7 @@ BWORooms.tab = {
         occupations = {"mechanic"},
         outfits = {"Mechanic"},
         femaleChance = 0,
-        melee = {"Base.Wrench"}
+        melee = {"Base.Wrench", "Base.Ratchet"}
     },
 
     medclinic = {
@@ -1000,6 +1007,12 @@ BWORooms.tab = {
         isShop = true,
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "OfficeWorkerSkirt"},
         femaleChance = 50
+    },
+
+    movierentalxxx = {
+        isShop = true,
+        outfits = {"Thug"},
+        femaleChance = 0
     },
 
     musicstore = {
@@ -1577,8 +1590,13 @@ BWORooms.TakeIntention = function(room)
     local shouldPay = false
 
     local building = room:getBuilding()
+    local def = room:getRoomDef()
 
-    if BWOBuildings.IsEventBuilding(building, "party") then 
+    if def:getZ() < 0 then -- basements are separate buildings, it needs to be here to prevent player home basement to be treated as a a shop
+        canTake = true
+        shouldPay = false
+
+    elseif BWOBuildings.IsEventBuilding(building, "party") then 
         canTake = true
         shouldPay = false
 
@@ -1640,14 +1658,14 @@ BWORooms.GetRoomPopMod = function(room)
     elseif BWORooms.IsStorage(room) then
         popMod = 0.5
     elseif BWORooms.IsShop(room) then
-        if hour < 8 then
+        if hour < 7 then
             popMod = 0
         elseif hour < 10 then
-            popMod = 1
+            popMod = 1.5
         elseif hour < 19 then
-            popMod = 2.5
+            popMod = 3.5
         elseif hour < 20 then
-            popMod = 0.75
+            popMod = 1.75
         else
             popMod = 0
         end

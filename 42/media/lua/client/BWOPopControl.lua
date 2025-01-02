@@ -108,7 +108,7 @@ BWOPopControl.StreetsSpawn = function(cnt)
 
         local square = cell:getGridSquare(px + x, py + y, 0)
         if square then
-            if square:isOutside() then
+            if square:isOutside() and not BWOSquareLoader.IsInExclusion(square:getX(), square:getY()) then
                 local groundType = BanditUtils.GetGroundType(square) 
                 if groundType == "street" then
                     event.x = square:getX()
@@ -236,7 +236,7 @@ BWOPopControl.InhabitantsSpawn = function(cnt)
                 local spawnRoomDef = spawnRoom:getRoomDef()
                 if spawnRoomDef then
                     local spawnSquare = spawnRoomDef:getFreeSquare()
-                    if spawnSquare then
+                    if spawnSquare and spawnSquare:haveRoofFull() and not BWOSquareLoader.IsInExclusion(spawnSquare:getX(), spawnSquare:getY()) then
                         event.x = spawnSquare:getX()
                         event.y = spawnSquare:getY()
                         event.z = spawnSquare:getZ()
@@ -444,6 +444,8 @@ BWOPopControl.UpdateCivs = function()
             else
                 tab[prg] = 1
             end
+        else
+            totalz = totalz + 1
         end
     end
 
@@ -463,11 +465,13 @@ BWOPopControl.UpdateCivs = function()
 
     -- ADJUST: population nominals
     BWOPopControl.ZombieMax = 0
-    BWOPopControl.StreetsNominal = 60
-    BWOPopControl.InhabitantsNominal = 60
+    BWOPopControl.StreetsNominal = 50
+    BWOPopControl.InhabitantsNominal = 50
     BWOPopControl.SurvivorsNominal = 0
 
     if BWOScheduler.WorldAge == 83 then -- occasional zombies
+        BWOPopControl.ZombieMax = 1
+    elseif BWOScheduler.WorldAge == 86 then -- occasional zombies
         BWOPopControl.ZombieMax = 1
     elseif BWOScheduler.WorldAge >= 91 and BWOScheduler.WorldAge < 94 then -- occasional zombies
         BWOPopControl.ZombieMax = 2
@@ -479,31 +483,36 @@ BWOPopControl.UpdateCivs = function()
         BWOPopControl.ZombieMax = 4
     elseif BWOScheduler.WorldAge >= 136 and BWOScheduler.WorldAge < 138 then -- occasional zombies
         BWOPopControl.ZombieMax = 4
-        BWOPopControl.StreetsNominal = 70
-        BWOPopControl.InhabitantsNominal = 50
-    elseif BWOScheduler.WorldAge == 150 then -- outbreak
-        BWOPopControl.ZombieMax = 4
-        BWOPopControl.StreetsNominal = 80
+        BWOPopControl.StreetsNominal = 60
         BWOPopControl.InhabitantsNominal = 40
+    elseif BWOScheduler.WorldAge == 148 then -- outbreak
+        BWOPopControl.ZombieMax = 4
+        BWOPopControl.StreetsNominal = 70
+        BWOPopControl.InhabitantsNominal = 30
         BWOPopControl.SurvivorsNominal = 2
-    elseif BWOScheduler.WorldAge == 151 then
+    elseif BWOScheduler.WorldAge == 149 then
         BWOPopControl.ZombieMax = 8
         BWOPopControl.StreetsNominal = 80
-        BWOPopControl.InhabitantsNominal = 40
+        BWOPopControl.InhabitantsNominal = 20
         BWOPopControl.SurvivorsNominal = 3
-    elseif BWOScheduler.WorldAge == 152 then
+    elseif BWOScheduler.WorldAge == 150 then
         BWOPopControl.ZombieMax = 16
         BWOPopControl.StreetsNominal = 80
-        BWOPopControl.InhabitantsNominal = 40
+        BWOPopControl.InhabitantsNominal = 20
         BWOPopControl.SurvivorsNominal = 5
-    elseif BWOScheduler.WorldAge == 153 then
+    elseif BWOScheduler.WorldAge == 151 then
         BWOPopControl.ZombieMax = 64
         BWOPopControl.StreetsNominal = 70
-        BWOPopControl.InhabitantsNominal = 50
+        BWOPopControl.InhabitantsNominal = 30
         BWOPopControl.SurvivorsNominal = 8
-    elseif BWOScheduler.WorldAge >= 154 then
-        BWOPopControl.ZombieMax = 1000
+    elseif BWOScheduler.WorldAge >= 152 and BWOScheduler.WorldAge < 169 then
+        BWOPopControl.ZombieMax = 80
         BWOPopControl.SurvivorsNominal = 5
+    elseif BWOScheduler.WorldAge >= 169 then
+        BWOPopControl.ZombieMax = 1000
+        BWOPopControl.SurvivorsNominal = 0
+        BWOPopControl.InhabitantsNominal = 0
+        BWOPopControl.StreetsNominal = 0
     end
     
     -- ADJUST: people on the streets
@@ -513,7 +522,7 @@ BWOPopControl.UpdateCivs = function()
 
     -- count desired population of civs
     local nominal = BWOPopControl.StreetsNominal
-    local density = BanditScheduler.GetDensityScore(player, 120)
+    local density = BanditScheduler.GetDensityScore(player, 120) * 1.4
     local hourmod = getHourScore()
     local pop = nominal * density * hourmod * SandboxVars.BanditsWeekOne.StreetsPopMultiplier
     BWOPopControl.StreetsMax = pop
@@ -535,7 +544,7 @@ BWOPopControl.UpdateCivs = function()
 
     -- count desired population of civs
     local nominal = BWOPopControl.InhabitantsNominal
-    local density = BanditScheduler.GetDensityScore(player, 120)
+    -- local density = BanditScheduler.GetDensityScore(player, 120) * 1.2
     BWOPopControl.InhabitantsMax = nominal * density * SandboxVars.BanditsWeekOne.InhabitantsPopMultiplier
 
     -- count missing amount to spawn
@@ -573,8 +582,7 @@ BWOPopControl.UpdateCivs = function()
     print ("STREET: " .. BWOPopControl.StreetsCnt .. "/" .. BWOPopControl.StreetsMax)
     print ("SURVIVOR: " .. BWOPopControl.SurvivorsCnt .. "/" .. BWOPopControl.SurvivorsMax)
     print ("ZOMBIE: " .. totalz .. "/" .. BWOPopControl.ZombieMax)
-    print ("Total B/Z: " .. totalb .. "/" .. totalz)
-
+    print ("DENSITY SCORE:" .. density)
     print ("----------------------------------------")
 
 end

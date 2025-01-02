@@ -15,7 +15,7 @@ function TAHeal:start()
 
     if not self.bandit:isCrawling() then
         Bandit.ClearTasks(self.bandit)
-        local task = {action="TimeEvent", anim="Yes", x=self.character:getX(), y=self.character:getY(), time=400}
+        local task = {action="TimeEvent", anim="Yes", x=self.character:getX(), y=self.character:getY(), time=200}
         Bandit.AddTask(self.bandit, task)
     end
 end

@@ -3,8 +3,16 @@ local TAHeal = require("TimedActions/TAHeal")
 BWOMenu = BWOMenu or {}
 
 BWOMenu.HealPerson = function(player, square, bandit)
-    if luautils.walkAdj(player, square) then
+    local task = {action="TimeEvent", anim="Yes", x=bandit:getX(), y=bandit:getY(), time=400}
+    Bandit.AddTask(bandit, task)
+    if luautils.walkAdj(player, bandit:getSquare()) then
         ISTimedActionQueue.add(TAHeal:new(player, square, bandit))
+    end
+end
+
+BWOMenu.DisableLaunchSequence = function(player, square)
+    if luautils.walkAdj(player, square) then
+        ISTimedActionQueue.add(TADisableNuke:new(player, square))
     end
 end
 
@@ -92,6 +100,18 @@ end
 BWOMenu.FlushDeadbodies = function(player)
     local args = {a=1}
     sendClientCommand(getPlayer(), 'Commands', 'DeadBodyFlush', args)
+end
+
+BWOMenu.TestEmitter = function(player, square)
+    local effect = {}
+    effect.x = square:getX()
+    effect.y = square:getY()
+    effect.z = square:getZ()
+    effect.len = 300
+    effect.volume = 0.1
+    -- effect.sound = "ZSBuildingBaseAlert"
+    effect.light = {r=1, g=1, b=1, t=1}
+    BWOEmitter.Add(effect)
 end
 
 BWOMenu.EventArmy = function(player)
@@ -206,7 +226,13 @@ end
 
 BWOMenu.EventStart = function(player)
     local params = {}
-    BWOScheduler.Add("GetStartInventory", params, 100)
+    BWOScheduler.Add("Start", params, 100)
+end
+
+BWOMenu.EventStartDay = function(player)
+    local params = {}
+    params.day = "wednesday"
+    BWOScheduler.Add("StartDay", params, 100)
 end
 
 BWOMenu.EventPoliceRiot = function(player)
@@ -214,6 +240,12 @@ BWOMenu.EventPoliceRiot = function(player)
     params.intensity = 10
     params.hostile = true
     BWOScheduler.Add("PoliceRiot", params, 100)
+end
+
+BWOMenu.EventPower = function(player, on)
+    local params = {}
+    params.on = on
+    BWOScheduler.Add("SetHydroPower", params, 100)
 end
 
 BWOMenu.EventBikers = function(player)
@@ -236,17 +268,8 @@ end
 
 function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
 
-    --[[for k,v in pairs(Distributions[1]) do
-        print (k)
-    end]]
-
-
-    
-    
-
-
-                            
     local player = getPlayer()
+    local profession = player:getDescriptor():getProfession()
     -- print ("DIR: " .. player:getDirectionAngle())
     local fetch = ISWorldObjectContextMenu.fetchVars
     local square = fetch.clickedSquare
@@ -265,11 +288,17 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         end
     end
 
+    -- doctor healing
     if zombie and zombie:getVariableBoolean("Bandit") then
         local health = zombie:getHealth()
-        if health < 0.8 or zombie:isCrawling() then
+        if profession == "doctor" and health < 0.8 or zombie:isCrawling() then
             context:addOption("Heal Person", player, BWOMenu.HealPerson, square, zombie)
         end
+    end
+
+    -- disable nukes
+    if (square:getX() == 5571 or square:getX() == 5572 or square:getX() == 5573) and square:getY() == 12486  then
+        context:addOption("Disable Launch Sequence", player, BWOMenu.DisableLaunchSequence, square, zombie)
     end
 
     print ("-----------------")
@@ -386,8 +415,11 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         eventsMenu:addOption("Jetfighter Run", player, BWOMenu.EventJetFighterRun)
         eventsMenu:addOption("Nuke", player, BWOMenu.EventNuke)
         eventsMenu:addOption("Rolice Riot", player, BWOMenu.EventPoliceRiot)
+        eventsMenu:addOption("Power On", player, BWOMenu.EventPower, true)
+        eventsMenu:addOption("Power Off", player, BWOMenu.EventPower, false)
         eventsMenu:addOption("Protest", player, BWOMenu.EventProtest)
-        eventsMenu:addOption("Start event", player, BWOMenu.EventStart)
+        eventsMenu:addOption("Start", player, BWOMenu.EventStart)
+        eventsMenu:addOption("Start Day", player, BWOMenu.EventStartDay)
         
         local spawnOption = context:addOption("BWO Spawn")
         local spawnMenu = context:getNew(context)
@@ -405,10 +437,12 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         spawnMenu:addOption("Walker", player, BWOMenu.SpawnWave, square, "Walker")
         
         context:addOption("BWO Deadbodies: Flush", player, BWOMenu.FlushDeadbodies)
+        context:addOption("BWO Test Emitter", player, BWOMenu.TestEmitter, square)
         
         local room = square:getRoom()
         if room then
             local roomName = room:getName()
+            local def = room:getRoomDef()
             print ("ROOM: " .. roomName)
             print ("HOME: " .. tostring(BWOBuildings.IsEventBuilding(room:getBuilding(), "home")))
         end

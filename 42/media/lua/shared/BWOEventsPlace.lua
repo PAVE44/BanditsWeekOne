@@ -84,6 +84,42 @@ function BWOEventsPlace.ArmyGuards(params)
     end
 end
 
+function BWOEventsPlace.BaseDefenders(params)
+    config = {}
+    config.clanId = 15
+    config.hasRifleChance = 100
+    config.hasPistolChance = 100
+    config.rifleMagCount = 6
+    config.pistolMagCount = 3
+
+    local event = {}
+    event.hostile = true
+    event.occured = false
+    event.program = {}
+    event.program.name = "ArmyGuard"
+    event.program.stage = "Prepare"
+
+    event.x = params.x
+    event.y = params.y
+    event.bandits = {}
+    
+    local bandit = BanditCreator.MakeFromWave(config)
+
+    local intensity = 4
+    if intensity > 0 then
+        for i=1, intensity do
+            table.insert(event.bandits, bandit)
+        end
+        sendClientCommand(getPlayer(), 'Commands', 'SpawnGroup', event)
+    end
+
+    if SandboxVars.Bandits.General_ArrivalIcon then
+        local icon = "media/ui/raid.png"
+        local color = {r=1, g=0, b=0} -- red
+        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+    end
+end
+
 function BWOEventsPlace.CarMechanic(params)
 
     local cell = getCell()
@@ -92,7 +128,7 @@ function BWOEventsPlace.CarMechanic(params)
 
     local vtype = BanditUtils.Choice(BWOVehicles.carChoices)
 
-    local vehicle = addVehicleDebug(vtype, params.directions, nil, square)
+    local vehicle = addVehicleDebug(vtype, params.dir, nil, square)
     if not vehicle then return end
 
     --[[local vehicle = BaseVehicle.new(cell)
@@ -107,13 +143,13 @@ function BWOEventsPlace.CarMechanic(params)
     -- vehicle:addToWorld()
     -- vehicle:setRust(0)]]
 
-    if params.directions == IsoDirections.N then
+    if params.dir == IsoDirections.N then
         vehicle:setAngles(0, 180, 0)
-    elseif params.directions == IsoDirections.S then
+    elseif params.dir == IsoDirections.S then
         vehicle:setAngles(0, 0, 0)
-    elseif params.directions == IsoDirections.E then
+    elseif params.dir == IsoDirections.E then
         vehicle:setAngles(0, 90, 0)
-    elseif params.directions == IsoDirections.W then
+    elseif params.dir == IsoDirections.W then
         -- vehicle:setAngles(-125, -90, -125)
         vehicle:setAngles(0, -90, 0)
     end
@@ -129,18 +165,41 @@ function BWOEventsPlace.CarMechanic(params)
         vehicle:setX(params.x + params.dx)
     end
 
-    vehicle:getModData().BWO = {}
-    vehicle:getModData().BWO.wasRepaired = true
+    local md = vehicle:getModData()
+    md.BWO = {}
+    md.BWO.wasRepaired = true
+    md.BWO.client = true
+    md.BWO.parts = {}
     vehicle:repair()
     vehicle:setColor(0, 0, 0)
-    vehicle:setGeneralPartCondition(80, 100)
+    vehicle:setGeneralPartCondition(100, 100)
     vehicle:putKeyInIgnition(vehicle:createVehicleKey())
-    -- vehicle:tryStartEngine(true)
-    -- vehicle:engineDoStartingSuccess()
-    -- vehicle:engineDoRunning()
-    -- vehicle:setHeadlightsOn(true)
-    -- vehicle:setLightbarLightsMode(3)
 
+    for i = 1, 21 do
+        md.BWO.parts[i] = 100
+    end
+
+    for i = 1, 10 do
+        local partRandom = 1 + ZombRand(21)
+        local vehiclePart = vehicle:getPartById(BWOVehicles.parts[partRandom])
+        if vehiclePart then
+            local cond = 20 + ZombRand(40)
+            vehiclePart:setCondition(cond)
+            md.BWO.parts[partRandom] = cond
+        end
+    end
+
+end
+
+function BWOEventsPlace.Emitter(params)
+    local effect = {}
+    effect.x = params.x
+    effect.y = params.y
+    effect.z = params.z
+    effect.len = params.len --2460
+    effect.sound = params.sound -- "ZSBuildingBaseAlert"
+    effect.light = params.light -- {r=1, g=0, b=0, t=10}
+    BWOEmitter.Add(effect)
 end
 
 function BWOEventsPlace.AbandonedVehicle(params)

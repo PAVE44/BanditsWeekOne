@@ -246,26 +246,82 @@ addNuke(6350, 5430, 700) -- riverside
 addNuke(11740, 6900, 700) -- westpoint
 addNuke(2060, 5930, 700) -- westpoint
 
+-- mechanic cars - since b42 we can spawn cars in buildings - yay
+
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5467, y=9652, z=0, dir=IsoDirections.E}) -- riverside
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5467, y=9661, z=0, dir=IsoDirections.E}) -- riverside
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=10610, y=9405, z=0, dir=IsoDirections.E}) -- muldraugh
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=10610, y=9410, z=0, dir=IsoDirections.E}) -- muldraugh
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=10179, y=10936, z=0, dir=IsoDirections.W}) -- muldraugh
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=10179, y=10945, z=0, dir=IsoDirections.W}) -- muldraugh
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5430, y=5960, z=0, dir=IsoDirections.E}) -- riverside
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5430, y=5964, z=0, dir=IsoDirections.E}) -- riverside
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=8151, y=11322, z=0, dir=IsoDirections.W}) -- rosewood
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=8151, y=11331, z=0, dir=IsoDirections.W}) -- rosewood
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=11897, y=6809, z=0, dir=IsoDirections.N}) -- westpoint
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=12274, y=6927, z=0, dir=IsoDirections.W}) -- westpoint
+table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=12274, y=6934, z=0, dir=IsoDirections.W}) -- westpoint
+
+-- building emitters
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=13458, y=3043, z=0, len=110000, sound="ZSBuildingGigamart"}) -- gigamart lousville 
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=6505, y=5345, z=0, len=110000, sound="ZSBuildingGigamart"}) -- gigamart riverside
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=12024, y=6856, z=0, len=110000, sound="ZSBuildingGigamart"}) -- gigamart westpoint
+
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=6472, y=5266, z=0, len=42000, sound="ZSBuildingPharmabug"}) -- pharmabug riverside
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=13235, y=1284, z=0, len=42000, sound="ZSBuildingPharmabug"}) -- pharmabug lv
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=13120, y=2126, z=0, len=42000, sound="ZSBuildingPharmabug"}) -- pharmabug lv
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=11932, y=6804, z=0, len=42000, sound="ZSBuildingPharmabug"}) -- pharmabug westpoint
+
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=12228, y=3029, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=12998, y=3115, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=13065, y=1923, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=12660, y=1366, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=13523, y=1670, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=12520, y=1482, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=12646, y=2290, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=10604, y=9612, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market muldraugh
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=8088, y=11560, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market rosewood
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=13656, y=5764, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market valley station
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=11660, y=7067, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market west point
+
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=10619, y=10527, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- restaurant muldraugh
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=10605, y=10112, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- pizza whirled muldraugh
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=10647, y=9927, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- cafeteria muldraugh
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=10615, y=9646, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- spiffos muldraugh
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=10616, y=9565, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- jays muldraugh
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=10620, y=9513, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- pileocrepe muldraugh
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=12078, y=7076, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- burgers westpoint
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=11976, y=6812, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- spiffos westpoint
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=11930, y=6917, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- restaurant westpoint
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=11663, y=7085, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- pizza whirled westpoint
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=6395, y=5303, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- restaurant riverside
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=6189, y=5338, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- fancy restaurant riverside
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=6121, y=5303, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- spiffos riverside
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=5422, y=5914, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- diner riverside
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=7232, y=8202, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- burger joint doe valley
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=10103, y=12749, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- restaurant march ridge 
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=8076, y=11455, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- restaurant rosewood
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=8072, y=11344, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- spiffos rosewood
+
+-- MILITARY BASE FINALE SETUP
+
 -- exclusion zones
 table.insert(BWOSquareLoader.exclusions, {x1=5000, y1=12000, x2=6200, y2=13000}) -- military research lab
 
--- mechanic cars - abandoned idea because var cannot spawn inside auto repair shops
---[[
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5467, y=9652, z=0, directions=IsoDirections.E}) -- riverside
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5467, y=9661, z=0, directions=IsoDirections.E}) -- riverside
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=10608, y=9404, z=0, directions=IsoDirections.E}) -- muldraugh
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=10608, y=9409, z=0, directions=IsoDirections.E}) -- muldraugh
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=10180, y=10936, z=0, directions=IsoDirections.W}) -- muldraugh
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=10180, y=10945, z=0, directions=IsoDirections.W}) -- muldraugh
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5429, y=5960, z=0, directions=IsoDirections.E}) -- riverside
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5429, y=5964, z=0, directions=IsoDirections.E}) -- riverside
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=8151, y=11322, z=0, directions=IsoDirections.W}) -- rosewood
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=8151, y=11331, z=0, directions=IsoDirections.W}) -- rosewood
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=11897, y=6809, z=0, directions=IsoDirections.N}) -- westpoint
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=12283, y=6927, z=0, directions=IsoDirections.W}) -- westpoint
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=12283, y=6934, z=0, directions=IsoDirections.W}) -- westpoint
-]]
+-- alarm emitters
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=5572, y=12489, z=0, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- control room
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=5575, y=12473, z=0, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- entrance
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=5562, y=12464, z=0, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- back
 
+-- defender teams
+table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5572, y=12489, z=0, intensity = 2}) -- control room
+table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5582, y=12486, z=0, intensity = 3}) -- entrance in
+table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5582, y=12480, z=0, intensity = 3}) -- entrance in
+table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5586, y=12483, z=0, intensity = 2}) -- entrance out
+table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5573, y=12484, z=0, intensity = 1}) -- door
+table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5609, y=12483, z=0, intensity = 4}) -- gateway
+table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5833, y=12490, z=0, intensity = 2}) -- booth
+table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5831, y=12484, z=0, intensity = 3}) -- szlaban
 
 
 -- checks if a point is inside any exclusion zone
@@ -289,7 +345,7 @@ BWOSquareLoader.Burn = function(square)
             local sprite = object:getSprite()
             if sprite then
                 local spriteName = sprite:getName()
-                if spriteName:embodies("street") then
+                if spriteName and spriteName:embodies("street") then
                     local rn = ZombRand(8)
                     local overlaySprite
                     if rn < 2  then
@@ -429,7 +485,7 @@ BWOSquareLoader.OnLoad = function(square)
     end
 
     -- register global objects
-    if BWOScheduler.World.GlobalObjectAdder and square:isOutside() then
+    if BWOScheduler.World.GlobalObjectAdder then
         local spriteMap = {}
         spriteMap["location_business_bank_01_64"] = "atm"
         spriteMap["location_business_bank_01_65"] = "atm"
@@ -450,7 +506,7 @@ BWOSquareLoader.OnLoad = function(square)
         local objects = square:getObjects()
         for i=0, objects:size()-1 do
             local object = objects:get(i)
-            if instanceof(object, "IsoBarbecue") then
+            if instanceof(object, "IsoBarbecue") and square:isOutside() then
                 local args = {x=x, y=y, z=z, otype="barbecue"}
                 sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
                 break
@@ -459,7 +515,7 @@ BWOSquareLoader.OnLoad = function(square)
             local sprite = object:getSprite()
             if sprite then
                 local spriteName = sprite:getName()
-                if spriteMap[spriteName] then 
+                if spriteMap[spriteName] and square:isOutside() then 
                     local args = {x=x, y=y, z=z, otype=spriteMap[spriteName]}
                     sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
                     break
@@ -468,7 +524,7 @@ BWOSquareLoader.OnLoad = function(square)
                 local props = sprite:getProperties()
                 if props:Is("CustomName") then
                     local customName = props:Val("CustomName")
-                    if customNameMap[customName] then 
+                    if customNameMap[customName] and square:isOutside() then 
                         local args = {x=x, y=y, z=z, otype=customNameMap[customName]}
                         sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
                         break
@@ -477,14 +533,15 @@ BWOSquareLoader.OnLoad = function(square)
 
                 -- this makes npcs disregard windows for pathfinding
                 -- unfortunately will impact zombies aswell
-                if object:getType() == IsoObjectType.wall then
-                    if square:getWindow() then
+                if instanceof(object, "IsoWindow") then
+                    -- if square:getWindow() then
                         if props:Is(IsoFlagType.canPathN) then
                             props:UnSet(IsoFlagType.canPathN)
-                        elseif props:Is(IsoFlagType.canPathW) then
+                        end
+                        if props:Is(IsoFlagType.canPathW) then
                             props:UnSet(IsoFlagType.canPathW)
                         end
-                    end
+                    -- end
                 end
             end
 

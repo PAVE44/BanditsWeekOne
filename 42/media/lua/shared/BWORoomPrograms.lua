@@ -413,6 +413,92 @@ BWORoomPrograms.dinerkitchen = BWORoomPrograms.restaurantkitchen
 BWORoomPrograms.kitchen_crepe = BWORoomPrograms.restaurantkitchen
 BWORoomPrograms.burgerkitchen = BWORoomPrograms.restaurantkitchen
 
+BWORoomPrograms.barcountertwiggy = function(bandit, def)
+    local tasks = {}
+    local id = BanditUtils.GetCharacterID(bandit)
+    local gameTime = getGameTime()
+    local hour = gameTime:getHour()
+    local minute = gameTime:getMinutes()
+    local outfit = bandit:getOutfitName()
+    local m = (math.abs(id) % 3) * 2
+    
+    if (minute >= m and minute < m+3) or (minute >= m+20 and minute < m+23) or (minute >= m+40 and minute < m+43) then
+        local bar = BWOObjects.Find(bandit, def, "Bar")
+        if bar then
+            local square = bar:getSquare()
+            local asquare = AdjacentFreeTileFinder.Find(square, bandit)
+            if asquare then
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
+                if dist > 0.70 then
+                    table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
+                    return tasks
+                else
+                    local task = {action="FaceLocation", anim="Loot", sound="TIsnd_FoodM", x=square:getX(), y=square:getY(), z=square:getZ(), time=200}
+                    table.insert(tasks, task)
+                    return tasks
+                end
+            end
+        end
+    elseif (minute >= m+3 and minute < m+6) or (minute >= m+23 and minute < m+26) or (minute >= m+43 and minute < m+46) then
+        local sink = BWOObjects.Find(bandit, def, "Sink")
+        if sink then
+            local square = sink:getSquare()
+            local asquare = AdjacentFreeTileFinder.Find(square, bandit)
+            if asquare then
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
+                if dist > 0.70 then
+                    table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
+                    return tasks
+                else
+                    local task = {action="FaceLocation", anim="Loot", sound="GetWaterFromTap", x=square:getX(), y=square:getY(), z=square:getZ(), time=200}
+                    table.insert(tasks, task)
+                    return tasks
+                end
+            end
+        end
+    elseif (minute >= m+6 and minute < m+12) or (minute >= m+26 and minute < m+32) or (minute >= m+46 and minute < m+52) then
+        local counter = BWOObjects.Find(bandit, def, "Counter")
+        if counter then
+            local square = counter:getSquare()
+            local asquare = AdjacentFreeTileFinder.Find(square, bandit)
+            if asquare then
+                local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
+                if dist > 0.70 then
+                    table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
+                    return tasks
+                else
+                    local found = false
+                    local wobs = square:getWorldObjects()
+                    for i = 0, wobs:size()-1 do
+                        local witem = wobs:get(i)
+                        local item = witem:getItem()
+                        local itemType = item:getFullType()
+                        local category = item:getDisplayCategory()
+                        -- print ("ITEM:" .. itemType .. "X: " .. x .. "Y: " .. y)
+                        if itemType == "Base.BeerBottle" then 
+                            found = true 
+                            break
+                        end
+                    end
+
+                    if not found then
+                        -- local sound = BanditUtils.Choice({"TIsnd_Cooking", "TIsnd_CookingM"})
+                        -- local task = {action="FaceLocation", anim="Loot", sound=sound, x=square:getX(), y=square:getY(), z=square:getZ(), time=200}
+                        local task = {action="PlaceItem", x=square:getX(), fx=0.5, y=square:getY(), fy=0.5, z=square:getZ(), item="Base.BeerBottle", anim="Cashier"}
+                        table.insert(tasks, task)
+
+                        
+
+                        return tasks
+                    end
+                end
+            end
+        end
+    end
+
+    return tasks
+end
+
 BWORoomPrograms.church = function(bandit, def)
     local tasks = {}
     local id = BanditUtils.GetCharacterID(bandit)
@@ -975,6 +1061,11 @@ BWORoomPrograms.restaurant = function(bandit, def)
         table.insert(tasks, task)
         return tasks
 
+    elseif outfit == "Spiffo" then
+        local anim = BanditUtils.Choice({"DanceHipHop3", "DanceRaiseTheRoof"})
+        local task = {action="Time", anim=anim, time=500}
+        table.insert(tasks, task)
+        return tasks
     else
         local sittable
         sittable = BWOObjects.Find(bandit, def, "Seat")

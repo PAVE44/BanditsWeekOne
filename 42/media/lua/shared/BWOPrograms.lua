@@ -88,10 +88,13 @@ BanditPrograms.Symptoms = function(bandit)
                 local task = {action="Time", anim="FeelFeint", time=100}
                 table.insert(tasks, task)
                 return tasks
+            elseif rn == 17 then
+                Bandit.UpdateInfection(bandit, 200)
             else
                 local sound = "ZSVomit" .. (1 + ZombRand(4))
                 local task = {action="Vomit", anim="Vomit", sound=sound, time=100}
                 table.insert(tasks, task)
+
                 return tasks
             end
         end
@@ -155,7 +158,7 @@ BanditPrograms.Events = function(bandit)
                     anim = "Protest2"
                 elseif rnd == 2 then
                     anim = "Protest3"
-                    item = "AuthenticZClothing.Stop_Sign"
+                    item = "Base.BaseballBat"
                 else
                     anim = "Clap"
                 end

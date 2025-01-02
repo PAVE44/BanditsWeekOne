@@ -2,131 +2,26 @@ BanditActionInterceptor = BanditActionInterceptor or {}
 BanditActionInterceptor.tick = 0
 BanditActionInterceptor.aimTime = 0
 
-local function activateWitness(character, min)
-    local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer"}
-    local witnessList = BanditZombie.GetAllB()
-    for id, witness in pairs(witnessList) do
-        if not witness.brain.hostile then
-            local dist = math.sqrt(math.pow(character:getX() - witness.x, 2) + math.pow(character:getY() - witness.y, 2))
-            if dist < min then
-                local actor = BanditZombie.GetInstanceById(witness.id)
-                local canSee = actor:CanSee(character)
-                if canSee or dist < 3 then
-                    -- witnessing civilians need to change peaceful behavior to active
-                    
-                    for _, prg in pairs(activatePrograms) do
-                        if witness.brain.program.name == prg then
-                            Bandit.ClearTasks(actor)
-                            local outfit = actor:getOutfitName()
-                            if outfit == "Police" or outfit == "MallSecurity" or outfit == "ZSArmySpecialOps" then
-                                Bandit.SetProgram(actor, "Police", {})
-                                Bandit.SetHostile(actor, true)
-                                Bandit.Say(actor, "SPOTTED")
-                            else
-                                Bandit.SetProgram(actor, "Active", {})
-                                if ZombRand(5) == 0 then
-                                    Bandit.SetHostile(actor, true)
-                                    Bandit.Say(actor, "SPOTTED")
-                                else
-                                    if ZombRand(3) == 0 then
-                                        Bandit.Say(actor, "SPOTTED")
-                                    end
-                                end
-                            end
-                            
-                            local brain = BanditBrain.Get(actor)
-                            if brain then
-                                local syncData = {}
-                                syncData.id = brain.id
-                                syncData.hostile = brain.hostile
-                                syncData.program = brain.program
-                                Bandit.ForceSyncPart(actor, syncData)
-                            end
-                            
-                        end
-                    end
-                end
-            end
-        end
-    end
-end
-
-local function activateTargets(character, min)
-    local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal"}
-    local witnessList = BanditZombie.GetAllB()
-    local shouldActivate = true
-    local activateList = {}
-    for id, witness in pairs(witnessList) do
-    
-        local dist = math.sqrt(math.pow(character:getX() - witness.x, 2) + math.pow(character:getY() - witness.y, 2))
-        if dist < min then
-            if witness.brain.hostile then
-                shouldActivate = false
-                break
-            else
-                local actor = BanditZombie.GetInstanceById(witness.id)
-                local canSee1 = actor:CanSee(character)
-                local canSee2 = character:CanSee(actor)
-                if canSee1 and canSee2 then
-                    for _, prg in pairs(activatePrograms) do
-                        if witness.brain.program.name == prg then
-                            table.insert(activateList, actor)
-                        end
-                    end
-                end
-            end
-        end
-    end
-
-    if shouldActivate then
-        for _, actor in pairs(activateList) do
-            Bandit.ClearTasks(actor)
-            local outfit = actor:getOutfitName()
-            if outfit == "Police" or outfit == "MallSecurity" or outfit == "ZSArmySpecialOps" then
-                Bandit.SetProgram(actor, "Police", {})
-                Bandit.SetHostile(actor, true)
-                Bandit.Say(actor, "SPOTTED")
-            else
-                Bandit.SetProgram(actor, "Active", {})
-                if ZombRand(7) == 0 then
-                    Bandit.SetHostile(actor, true)
-                    Bandit.Say(actor, "SPOTTED")
-                else
-                    if ZombRand(3) == 0 then
-                        Bandit.Say(actor, "SPOTTED")
-                    end
-                end
-            end
-            
-            local brain = BanditBrain.Get(actor)
-            if brain then
-                local syncData = {}
-                syncData.id = brain.id
-                syncData.hostile = brain.hostile
-                syncData.program = brain.program
-                Bandit.ForceSyncPart(actor, syncData)
-            end
-        end
-    end
-end
-
 local function onTimedAction(data)
-
    
     local character = data.character
     if not character then return end
+
+    local profession = character:getDescriptor():getProfession()
 
     local action = data.action:getMetaType()
     if not action then return end
 
     -- illegal actions intercepted here
     if BWOScheduler.Anarchy.IllegalMinorCrime and action == "ISSmashWindow" or action == "ISSmashVehicleWindow" or action == "ISHotwireVehicle" then
-        activateWitness(character, 15)
+        BWOPlayer.ActivateWitness(character, 15)
         return
     end
 
+    if not BWOScheduler.Anarchy.Transactions then return end
+
     -- trash collecting and littering
-    if BWOScheduler.Anarchy.Transactions and action == "ISMoveablesAction" then
+    if action == "ISMoveablesAction" then
         local mode = data.mode
         local origSpriteName = data.origSpriteName
         if mode and origSpriteName then
@@ -140,19 +35,63 @@ local function onTimedAction(data)
                 -- littering
                 elseif mode == "place" then
                     BWOPlayer.Pay(character, 1)
-                    activateWitness(character, 15)
+                    BWOPlayer.ActivateWitness(character, 15)
                 end
             end
         end
         return
     end
 
-    -- extinguishing fire
-    if BWOScheduler.Anarchy.Transactions and action == "ISPutOutFire" then
-        local profession = character:getDescriptor():getProfession()
-        if profession == "fireofficer" then
+    -- fireman
+    if profession == "fireofficer" then
+        if action == "ISPutOutFire" then
+        
             BWOPlayer.Earn(character, 25)
         end
+        return
+    end
+
+    -- mechanic
+    if profession == "mechanics" then
+        if action == "ISFixVehiclePartAction" then
+        
+            local vehiclePart = data.vehiclePart
+            local vehicle = vehiclePart:getVehicle()
+            local md = vehicle:getModData()
+            if md.BWO and md.BWO.client then
+                local skill = character:getPerkLevel(Perks.MetalWelding)
+                BWOPlayer.Earn(character, skill * 5)
+            end
+        elseif action == "ISRepairEngine" then
+            local vehicle = data.vehicle
+            local md = vehicle:getModData()
+            if md.BWO and md.BWO.client then
+                local skill = character:getPerkLevel(Perks.Mechanics)
+                BWOPlayer.Earn(character, skill * 20)
+            end
+        elseif action == "ISInstallVehiclePart" then
+            local vehiclePart = data.part
+            local vehicle = vehiclePart:getVehicle()
+            local md = vehicle:getModData()
+            if md.BWO and md.BWO.client then
+                local id = vehiclePart:getScriptPart():getId()
+                local idx
+                for k, v in pairs(BWOVehicles.parts) do
+                    if id == v then
+                        idx = k
+                    end
+                end
+
+                if idx then
+                    local item = data.item
+                    local oldCondition = md.BWO.parts[idx]
+                    local newCondition = item:getCondition()
+                    BWOPlayer.Earn(character, math.ceil((newCondition - oldCondition) * item:getWeight() / 5))
+                    md.BWO.parts[idx] = newCondition
+                end
+            end
+        end
+        return
     end
 end
 
@@ -249,7 +188,7 @@ local function onInventoryTransferAction(data)
 
     elseif not canTake then
         md.BWO.stolen = true
-        activateWitness(character, 15)
+        BWOPlayer.ActivateWitness(character, 15)
     end
 
 end
@@ -276,6 +215,8 @@ local function onPlayerUpdate(player)
                     max = 3
                 elseif primaryItemType == WeaponType.onehanded then
                     max = 3
+                elseif primaryItemType == WeaponType.knife then
+                    max = 3
                 elseif primaryItemType == WeaponType.spear then
                     max = 3
                 elseif primaryItemType == WeaponType.twohanded then
@@ -289,7 +230,7 @@ local function onPlayerUpdate(player)
 
             if max then
                 if BanditActionInterceptor.aimTime > 4 then 
-                    activateTargets(player, max)
+                    BWOPlayer.ActivateTargets(player, max)
                 end
                 BanditActionInterceptor.aimTime = BanditActionInterceptor.aimTime + 1
             end

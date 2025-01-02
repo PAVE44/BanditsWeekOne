@@ -240,6 +240,18 @@ module Bandits{
         } 
     }
 
+    sound ZSDayStart {
+        category = Object, 
+        loop = false
+        is3D = true,
+        clip { 
+            file = media/sound/day_start.ogg, 
+            distanceMin = 1, 
+            distanceMax = 40, 
+            reverbFactor = 0.2, volume = 0.9,
+        } 
+    }
+
     sound ZSBuildingChurch {
         category = Object, 
         loop = false
@@ -261,6 +273,90 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 36, 
             reverbFactor = 0.2, volume = 0.4, 
+        } 
+    }
+
+    sound ZSBuildingGigamart {
+        category = Object, 
+        loop = false
+        is3D = true,
+        clip { 
+            file = media/sound/building_gigamart2.ogg, 
+            distanceMin = 1, 
+            distanceMax = 60, 
+            reverbFactor = 0.2, volume = 0.8, 
+        } 
+    }
+
+    sound ZSBuildingPharmabug {
+        category = Object, 
+        loop = false
+        is3D = true,
+        clip { 
+            file = media/sound/building_pharmabug2.ogg, 
+            distanceMin = 1, 
+            distanceMax = 40, 
+            reverbFactor = 0.2, volume = 0.8, 
+        } 
+    }
+
+    sound ZSBuildingZippee {
+        category = Object, 
+        loop = false
+        is3D = true,
+        clip { 
+            file = media/sound/building_zippee2.ogg, 
+            distanceMin = 1, 
+            distanceMax = 40, 
+            reverbFactor = 0.2, volume = 0.8, 
+        } 
+    }
+
+    sound ZSBuildingRestaurant {
+        category = Object, 
+        loop = false
+        is3D = true,
+        clip { 
+            file = media/sound/building_restaurant_generic2.ogg, 
+            distanceMin = 1, 
+            distanceMax = 40, 
+            reverbFactor = 0.2, volume = 0.8, 
+        } 
+    }
+
+    sound ZSCompProgress {
+        category = Object, 
+        loop = false
+        is3D = true,
+        clip { 
+            file = media/sound/comp_progress.ogg, 
+            distanceMin = 1, 
+            distanceMax = 10, 
+            reverbFactor = 0.2, volume = 0.8, 
+        } 
+    }
+
+    sound ZSCompSuccess {
+        category = Object, 
+        loop = false
+        is3D = true,
+        clip { 
+            file = media/sound/comp_success.ogg, 
+            distanceMin = 1, 
+            distanceMax = 10, 
+            reverbFactor = 0.2, volume = 0.8, 
+        } 
+    }
+
+    sound ZSBuildingBaseAlert {
+        category = Object, 
+        loop = false
+        is3D = true,
+        clip { 
+            file = media/sound/mb_alert.ogg, 
+            distanceMin = 1, 
+            distanceMax = 40, 
+            reverbFactor = 0.2, volume = 0.6, 
         } 
     }
 

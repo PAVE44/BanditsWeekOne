@@ -179,6 +179,7 @@ local explode = function(x, y)
 
         BWOTex.tex = getTexture("media/textures/blast_" .. tex .. ".png")
         BWOTex.speed = 0.05
+        BWOTex.mode = "full"
         local alpha = 1.2 - (dist / 40)
         if alpha > 1 then alpha = 1 end
         BWOTex.alpha = alpha
@@ -355,6 +356,14 @@ BWOEvents.Siren = function(params)
     addSound(getPlayer(), params.x, params.y, params.z, 150, 100)
 end
 
+BWOEvents.SetHydroPower = function(params)
+    getWorld():setHydroPowerOn(params.on)
+    if params.on == false then
+        local player = getPlayer()
+        player:playSound("WorldEventElectricityShutdown")
+    end
+end
+
 -- params: [x, y, sound]
 BWOEvents.ChopperAlert = function(params)
     BanditPlayer.WakeEveryone()
@@ -398,6 +407,26 @@ BWOEvents.Start = function(params)
         item:setName("Home Key")
         player:getInventory():AddItem(item)
 
+        -- profession items
+        local profession = player:getDescriptor():getProfession()
+        local professionItemType
+        if profession == "fireofficer" then
+            professionItemType = "Base.Extinguisher"
+        elseif profession == "mechanics" then
+            professionItemType = "Base.Wrench"
+        elseif profession == "lumberjack" then
+            professionItemType = "Base.Woodaxe"
+        elseif profession == "doctor" then
+            professionItemType = "Base.Scalpel"
+        elseif profession == "policeofficer" then
+            professionItemType = "Base.Nightstick"
+        end
+        
+        if professionItemType then
+            local professionItem = instanceItem(professionItemType)
+            player:getInventory():AddItem(professionItem)
+        end
+
         -- show home icon
         if SandboxVars.Bandits.General_ArrivalIcon then
             local x = buildingDef:getX()
@@ -416,6 +445,16 @@ BWOEvents.Start = function(params)
         local item = instanceItem("Base.Money")
         player:getInventory():AddItem(item)
     end
+end
+
+BWOEvents.StartDay = function(params)
+    local player = getPlayer()
+    player:playSound("ZSDayStart")
+    
+    BWOTex.tex = getTexture("media/textures/day_" .. params.day .. ".png")
+    BWOTex.speed = 0.011
+    BWOTex.mode = "center"
+    BWOTex.alpha = 2.4
 end
 
 -- params: [x, y]
@@ -581,6 +620,7 @@ BWOEvents.Nuke = function(params)
 
     BWOTex.speed = 0.018
     BWOTex.tex = getTexture("media/textures/mask_white.png")
+    BWOTex.mode = "full"
     BWOTex.alpha = 3
     player:playSound("DOKaboom")
 
@@ -612,6 +652,7 @@ BWOEvents.NukeDist = function(params)
 
     BWOTex.speed = 0.05
     BWOTex.tex = getTexture("media/textures/mask_white.png")
+    BWOTex.mode = "full"
     BWOTex.alpha = 1.1
     player:playSound("BWOKaboomDist")
 
@@ -654,14 +695,14 @@ BWOEvents.JetFighter = function(params)
                     local character = BanditZombie.GetInstanceById(id)
                     if character and character:isOutside() then
                         character:Hit(fakeItem, fakeZombie, 1 + ZombRand(20), false, 1, false)
-                        SwipeStatePlayer.splash(character, fakeItem, fakeZombie)
+                        -- SwipeStatePlayer.splash(character, fakeItem, fakeZombie)
                     end
                 end
 
                 if outside and params.x > x1 and params.x < x2 and params.y > y1 and params.y < y2 then
                     if ZombRand(4) == 0 then
                         getPlayer():Hit(fakeItem, fakeZombie, 0.8, false, 1, false)
-                        SwipeStatePlayer.splash(player, fakeItem, fakeZombie)
+                        -- SwipeStatePlayer.splash(player, fakeItem, fakeZombie)
                     end
                 end
 
@@ -907,6 +948,9 @@ BWOEvents.BuildingParty = function(params)
                     for i=0, objects:size()-1 do
                         local object = objects:get(i)
                         if instanceof(object, "IsoLightSwitch") then
+                            object:setCanBeModified(true)
+                            object:setActivated(false)
+                            object:setActive(false)
                             local lightList = object:getLights()
                             if lightList:size() > 0 then
                                 object:setBulbItemRaw("Base.LightBulbRed")
@@ -1008,10 +1052,10 @@ BWOEvents.BuildingParty = function(params)
 
             if bandit then
                 if ZombRand(2) == 0 then
-                    bandit.outfit = BanditUtils.Choice({"StripperBlack", "StripperNaked", "StripperPink", "AuthenticSexyBunny", "AuthenticSexyNurse", "DressShort", "Naked", "Party", "AuthenticRaveGirl", "AuthenticNightClub"})
+                    bandit.outfit = BanditUtils.Choice({"StripperBlack", "StripperNaked", "StripperPink", "DressShort", "Naked", "Party"})
                     bandit.femaleChance = 100
                 else
-                    bandit.outfit = BanditUtils.Choice({"Thug", "Party", "Young", "Stripper", "PoliceStripper", "FiremanStripper", "Naked", "AuthenticNightClub"})
+                    bandit.outfit = BanditUtils.Choice({"Thug", "Party", "Young", "Stripper", "PoliceStripper", "FiremanStripper", "Naked"})
                     bandit.femaleChance = 0
                 end
 

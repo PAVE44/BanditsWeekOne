@@ -184,6 +184,8 @@ local function addSongs()
     RadioWavs.addSongs("317d4d95-cd0a-466d-b664-d97ffb0845dd","317d4d95-cd0a-466d-b664-d97ffb0845dd")
     RadioWavs.addSongs("77b2d173-b41d-46a4-9bc5-7b0fe75d8831","77b2d173-b41d-46a4-9bc5-7b0fe75d8831")
     RadioWavs.addSongs("b300307d-0ae2-43d8-9b67-cca513ef3a88","b300307d-0ae2-43d8-9b67-cca513ef3a88")
+    RadioWavs.addSongs("1918b179-e6cc-4f43-aa6b-a7e1f24dd6d5","1918b179-e6cc-4f43-aa6b-a7e1f24dd6d5")
+    RadioWavs.addSongs("deaea1a0-7559-4875-93e2-19c507c16a6c","deaea1a0-7559-4875-93e2-19c507c16a6c")
 
     -- party
     RadioWavs.addSongs("3fee99ec-c8b6-4ebc-9f2f-116043153195","3fee99ec-c8b6-4ebc-9f2f-116043153195")
