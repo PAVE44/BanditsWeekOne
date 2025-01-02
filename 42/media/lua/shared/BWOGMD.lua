@@ -11,6 +11,7 @@ function InitBWOModData(isNewGame)
     if not globalData.DeadBodies then globalData.DeadBodies = {} end
     if not globalData.Objects then globalData.Objects = {} end
     if not globalData.EventBuildings then globalData.EventBuildings = {} end
+    if not globalData.Nukes then globalData.Nukes = {} end
     BWOGlobalData = globalData
 
 end

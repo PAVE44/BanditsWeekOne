@@ -242,8 +242,15 @@ local function onPlayerUpdate(player)
     BanditActionInterceptor.tick = BanditActionInterceptor.tick + 1
 end
 
+local function OnWeaponSwing(character, handWeapon)
+    if not BWOScheduler.Anarchy.IllegalMinorCrime then return end
+	if not instanceof(character, "IsoPlayer") then return end
+    BWOPlayer.ActivateTargets(character, 15)
+end
+
 LuaEventManager.AddEvent("OnInventoryTransferActionPerform")
 
 Events.OnTimedActionPerform.Add(onTimedAction)
 Events.OnInventoryTransferActionPerform.Add(onInventoryTransferAction)
 Events.OnPlayerUpdate.Add(onPlayerUpdate)
+Events.OnWeaponSwing.Add(OnWeaponSwing)

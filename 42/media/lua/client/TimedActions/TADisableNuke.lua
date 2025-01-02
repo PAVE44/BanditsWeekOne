@@ -25,7 +25,8 @@ function TADisableNuke:perform()
     self.character:stopOrTriggerSound(self.sound)
     local emitter = getWorld():getFreeEmitter(5572, 12486, 0)
     emitter:playSound("ZSCompSuccess")
-    BWOSquareLoader.nukes = {}
+    BWOServer.Commands.NukesDisable({confirm=true})
+    -- BWOSquareLoader.nukes = {}
     BWOEmitter.tab = {}
 
 	ISBaseTimedAction.perform(self)

@@ -598,7 +598,9 @@ BWOEvents.FinalSolution = function(params)
     params.y = py
     params.r = 80
 
-    local nukes = BWOSquareLoader.nukes
+    local gmd = GetBWOModData()
+    local nukes = gmd.Nukes
+    --local nukes = BWOSquareLoader.nukes
     if #nukes > 0 then
         player:playSound("BWOInstrumentOrgan")
         local ct = 100

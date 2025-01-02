@@ -21,6 +21,21 @@ BWOServer.Commands.ObjectRemove = function(player, args)
     gmd.Objects[args.otype][id] = nil
 end
 
+BWOServer.Commands.NukeAdd = function(player, args)
+    local gmd = GetBWOModData()
+    if not (args.x and args.y and args.r) then return end
+
+    local id = math.floor(args.x) .. "-" .. math.floor(args.y)
+
+    gmd.Nukes[id] = args
+end
+
+BWOServer.Commands.NukesDisable = function(player, args)
+    if args.confirm then
+        gmd.Nukes = {}
+    end
+end
+
 BWOServer.Commands.EventBuildingAdd = function(player, args)
     local gmd = GetBWOModData()
     if not (args.id and args.event) then return end

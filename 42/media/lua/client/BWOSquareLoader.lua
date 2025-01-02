@@ -10,7 +10,7 @@ BWOSquareLoader.remove = {}
 BWOSquareLoader.events = {}
 
 -- table of nuclear strike coordinates
-BWOSquareLoader.nukes = {}
+-- BWOSquareLoader.nukes = {}
 
 -- table of protest gathering point coordinates
 BWOSquareLoader.protests = {}
@@ -235,7 +235,8 @@ BWOSquareLoader.protests = protests
 
 -- nukes
 local addNuke = function(x, y, r)
-    table.insert(BWOSquareLoader.nukes, {x=x, y=y, r=r})
+    BWOServer.Commands.NukeAdd({x=x, y=y, r=r})
+    -- table.insert(BWOSquareLoader.nukes, {x=x, y=y, r=r})
 end
 
 addNuke(10800, 9800, 700) -- muldraugh
@@ -563,7 +564,9 @@ BWOSquareLoader.OnLoad = function(square)
         if not md.BWO then md.BWO = {} end
 
         if not md.BWO.burnt then
-            local nukes = BWOSquareLoader.nukes
+            local gmd = GetBWOModData()
+            local nukes = gmd.Nukes
+            -- local nukes = BWOSquareLoader.nukes
             for _, nuke in pairs(nukes) do
                 if isInCircle(x, y, nuke.x, nuke.y, nuke.r) then
                     BWOSquareLoader.Burn(square)
