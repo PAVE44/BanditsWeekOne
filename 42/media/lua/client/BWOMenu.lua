@@ -260,6 +260,12 @@ BWOMenu.EventCriminals = function(player)
     BWOScheduler.Add("Criminals", params, 100)
 end
 
+BWOMenu.EventDream = function(player)
+    local params = {}
+    params.night = 5
+    BWOScheduler.Add("Dream", params, 100)
+end
+
 BWOMenu.EventBandits = function(player)
     local params = {}
     params.intensity = 7
@@ -406,6 +412,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         eventsMenu:addOption("Bomb Drop", player, BWOMenu.EventBombDrop)
         eventsMenu:addOption("Bomb Run", player, BWOMenu.EventBombRun)
         eventsMenu:addOption("Criminals", player, BWOMenu.EventCriminals)
+        eventsMenu:addOption("Dream", player, BWOMenu.EventDream)
         eventsMenu:addOption("Entertainer", player, BWOMenu.EventEntertainer)
         eventsMenu:addOption("Final Solution", player, BWOMenu.EventFinalSolution)
         eventsMenu:addOption("Gas Drop", player, BWOMenu.EventGasDrop)
