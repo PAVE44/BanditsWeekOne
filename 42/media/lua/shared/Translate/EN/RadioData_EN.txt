@@ -12,6 +12,8 @@ RadioData_EN = {
     RD_77b2d173-b41d-46a4-9bc5-7b0fe75d8831 = "${t:59:99}[img=music][img=music][img=music]",
     RD_b300307d-0ae2-43d8-9b67-cca513ef3a88 = "${t:29.61}[img=music][img=music][img=music]",
     RD_095f1fff-5104-4abd-8117-4deb1a9d8cb8 = "${t:32.71}[img=music][img=music][img=music]",
+    RD_1918b179-e6cc-4f43-aa6b-a7e1f24dd6d5 = "${t:24.90}[img=music][img=music][img=music]",
+    RD_deaea1a0-7559-4875-93e2-19c507c16a6c = "${t:24.95}[img=music][img=music][img=music]",
 
     RD_3fee99ec-c8b6-4ebc-9f2f-116043153195 = "${t:60.01}[img=music][img=music][img=music]",
     RD_0bc71c8a-f954-4dbf-aa09-ff09b015d6e2 = "${t:60.01}[img=music][img=music][img=music]",

@@ -507,7 +507,7 @@ end
 local onPlayerUpdate = function(player)
 
     -- tick update
-    if BWOPlayer.tick > 15 then
+    if BWOPlayer.tick >= 32 then
         BWOPlayer.tick = 0
     end
 
@@ -520,7 +520,7 @@ local onPlayerUpdate = function(player)
     end
 
     -- intercepting player aiming
-    if BWOScheduler.Anarchy.IllegalMinorCrime and BWOPlayer.tick == 0 then
+    if BWOScheduler.Anarchy.IllegalMinorCrime and (BWOPlayer.tick == 0 or BWOPlayer.tick == 16) then
         if player:IsAiming() and not BanditPlayer.IsGhost(player)  then 
             local primaryItem = player:getPrimaryHandItem()
 
@@ -556,6 +556,51 @@ local onPlayerUpdate = function(player)
             end
         else
             BWOPlayer.aimTime = 0
+        end
+    end
+
+    -- fallout
+    if BWOScheduler.World.PostNuclearFallout and BWOPlayer.tick == 1 and player:getZ() >= 0 then
+
+        BWOTex.tex = getTexture("media/textures/fallout.png")
+        BWOTex.speed = 0.012
+        BWOTex.mode = "full"
+        BWOTex.alpha = 0.2
+
+        local immune = false
+        local suit = player:getWornItem("FullSuitHead")
+        if suit then
+            if suit:getFullType() == "Base.HazmatSuit" then 
+                immune = true 
+            end
+        end
+
+        if not immune then
+            local gmd = GetBWOModData()
+            local nukes = gmd.Nukes
+            for _, nuke in pairs(nukes) do
+                if isInCircle(player:getX(), player:getY(), nuke.x, nuke.y, nuke.r) then
+
+                    local bodyDamage = player:getBodyDamage()
+                    local stats = player:getStats()
+                    local sick = bodyDamage:getFoodSicknessLevel()
+                    local drunk = stats:getDrunkenness()
+                    local incSick = 1
+                    local incDrunk = 2
+                    if player:isOutSide() then
+                        incSick = incSick * 2
+                        incDrunk = incDrunk * 2
+                    end
+
+                    if sick < 70 then
+                        bodyDamage:setFoodSicknessLevel(sick + incSick)
+                    end
+
+                    if drunk < 90 then
+                        stats:setDrunkenness(drunk + incDrunk)
+                    end
+                end
+            end
         end
     end
 

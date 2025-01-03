@@ -338,8 +338,12 @@ function BWOScheduler.MasterControl()
 
     -- transforms the world appearance to simulate post-nuclear strike
     BWOScheduler.World.PostNuclearTransformator = false
-    if BWOScheduler.WorldAge >= 169 then BWOScheduler.World.PostNuclearTransformator = true end
+    if BWOScheduler.WorldAge >= 169 and BWOScheduler.WorldAge < 2330 then BWOScheduler.World.PostNuclearTransformator = true end
 
+    -- makes the player sick and drunk after nuclear explosions
+    BWOScheduler.World.PostNuclearFallout = false
+    if BWOScheduler.WorldAge >= 169 then BWOScheduler.World.PostNuclearFallout = true end
+    
     -- either fixes the car or removes burned or smashed cars for prepademic world
     BWOScheduler.World.VehicleFixer = false
     if BWOScheduler.WorldAge < 90 then BWOScheduler.World.VehicleFixer = true end
