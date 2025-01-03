@@ -588,8 +588,77 @@ BWOEvents.BombRun = function(params)
         end
     end
 end
+
 -- params: []
-BWOEvents.FinalSolution = function(params)
+BWOEvents.SetupNukes = function(params)
+
+    -- nukes
+    local addNuke = function(x, y, r)
+        BWOServer.Commands.NukeAdd(getPlayer(), {x=x, y=y, r=r})
+        -- table.insert(BWOSquareLoader.nukes, {x=x, y=y, r=r})
+    end
+
+    addNuke(10800, 9800, 700) -- muldraugh
+    addNuke(10040, 12760, 700) -- march ridge
+    addNuke(8160, 11550, 700) -- rosewood
+    addNuke(7267, 8320, 700) -- doe valley
+    addNuke(6350, 5430, 700) -- riverside
+    addNuke(11740, 6900, 700) -- westpoint
+    addNuke(2060, 5930, 700) -- westpoint
+
+end
+
+BWOEvents.Say = function(params)
+    local player = getPlayer()
+    local color = player:getSpeakColour()
+    player:addLineChatElement(params.txt, color:getR(), color:getG(), color:getB())
+end
+
+BWOEvents.Dream = function(params)
+
+    if params.night == 0 then
+        BWOScheduler.Add("Say", {txt="I had a strange dream."}, 0)
+        BWOScheduler.Add("Say", {txt="I was fiddling with an old radio, and I caught fragments of a broadcast. "}, 2000)
+        BWOScheduler.Add("Say", {txt="The voice was shaky, cutting in and out, "}, 4000)
+        BWOScheduler.Add("Say", {txt="but I remember hearing words like ‘emergency’ and ‘stay indoors.’"}, 6000)
+        BWOScheduler.Add("Say", {txt="The static grew louder, drowning out the rest."}, 8000)
+        BWOScheduler.Add("Say", {txt="... "}, 10000)
+    elseif params.night == 1 then
+        BWOScheduler.Add("Say", {txt="I was dreaming again."}, 0)
+        BWOScheduler.Add("Say", {txt="I was walking through a park."}, 2000)
+        BWOScheduler.Add("Say", {txt="I remember looking around, calling out, but my voice echoed back at me."}, 4000)
+        BWOScheduler.Add("Say", {txt="Suddenly I saw a stranger, trying to tell me something important."}, 6000)
+        BWOScheduler.Add("Say", {txt="... "}, 8000)
+    elseif params.night == 2 then
+        BWOScheduler.Add("Say", {txt="Another dream."}, 0)
+        BWOScheduler.Add("Say", {txt="The sky was overcast, and everything felt heavy, like before a storm."}, 2000)
+        BWOScheduler.Add("Say", {txt="In the distance, I saw this faint, flickering glow—maybe a fire?"}, 4000)
+        BWOScheduler.Add("Say", {txt="It didn’t feel comforting, though. I couldn’t tell why, but it made me want to walk the other way. "}, 6000)
+        BWOScheduler.Add("Say", {txt="Still, I couldn’t stop staring at it."}, 8000)
+    elseif params.night == 3 then
+        BWOScheduler.Add("Say", {txt="Dream again."}, 0)
+        BWOScheduler.Add("Say", {txt="I found myself inside a big building I didn’t recognize."}, 2000)
+        BWOScheduler.Add("Say", {txt="I saw red light flickering and heard a terrible noise."}, 4000)
+        BWOScheduler.Add("Say", {txt="Then I saw a man from my first dream. "}, 6000)
+        BWOScheduler.Add("Say", {txt="He took his sword and wanted to give it to me. "}, 8000)
+    elseif params.night == 4 then
+        BWOScheduler.Add("Say", {txt="His name is Michael... I saw him again in my dream."}, 0)
+        BWOScheduler.Add("Say", {txt="It didn’t feel like a dream at all this time. "}, 2000)
+        BWOScheduler.Add("Say", {txt="He gave me clear instructions to follow."}, 4000)
+        BWOScheduler.Add("Say", {txt="Military Base, that’s where I have to go. "}, 6000)
+        BWOScheduler.Add("Say", {txt="In the control room, I have to stop it. "}, 8000)
+    elseif params.night == 5 then
+        BWOScheduler.Add("Say", {txt="Military Base, that’s where I have to go. "}, 0)
+        BWOScheduler.Add("Say", {txt="In the control room, I have to stop it. "}, 2000)
+    elseif params.night == 6 then
+        BWOScheduler.Add("Say", {txt="Military Base, that’s where I have to go. "}, 0)
+        BWOScheduler.Add("Say", {txt="In the control room, I have to stop it. "}, 2000)
+        BWOScheduler.Add("Say", {txt="I feel that it’s urgent. "}, 4000)
+    end
+end
+
+-- params: []
+BWOEvents.FinalSolution = function(params2)
     local player = getPlayer()
     local px = player:getX()
     local py = player:getY()

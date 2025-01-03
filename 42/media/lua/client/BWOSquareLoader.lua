@@ -233,20 +233,6 @@ table.insert(protests, {x=12500, y=1571, z=0}) --police station / courthhouse
 
 BWOSquareLoader.protests = protests
 
--- nukes
-local addNuke = function(x, y, r)
-    BWOServer.Commands.NukeAdd({x=x, y=y, r=r})
-    -- table.insert(BWOSquareLoader.nukes, {x=x, y=y, r=r})
-end
-
-addNuke(10800, 9800, 700) -- muldraugh
-addNuke(10040, 12760, 700) -- march ridge
-addNuke(8160, 11550, 700) -- rosewood
-addNuke(7267, 8320, 700) -- doe valley
-addNuke(6350, 5430, 700) -- riverside
-addNuke(11740, 6900, 700) -- westpoint
-addNuke(2060, 5930, 700) -- westpoint
-
 -- mechanic cars - since b42 we can spawn cars in buildings - yay
 
 table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5467, y=9652, z=0, dir=IsoDirections.E}) -- riverside

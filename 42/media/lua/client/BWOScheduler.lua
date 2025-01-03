@@ -29,6 +29,9 @@ local generateSchedule = function()
     tab[0][1]  = {"StartDay", {day="thursday"}}
     tab[0][2]   = {"Start", {}}
     tab[0][3]   = {"RegisterBase", {}}
+    tab[0][4]   = {"SetupNukes", {}}
+    tab[0][5]   = {"SetupDreams", {}}
+    
     tab[2][22]  = {"ArmyPatrol", {intensity=9}}
     tab[4][15]  = {"Entertainer", {}}
     tab[5][44]  = {"ArmyPatrol", {intensity=9}}

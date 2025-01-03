@@ -1,5 +1,13 @@
 BWOPlayer = BWOPlayer or {}
 
+BWOPlayer.tick = 0
+
+-- time spent on aiming after aim start
+BWOPlayer.aimTime = 0
+
+-- a flag that get set when the player is sleeping to be later used as a pseudo trigger
+BWOPlayer.wasSleeping = false
+
 -- make npcs react to actual crime
 BWOPlayer.ActivateWitness = function(character, min)
     local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer"}
@@ -60,7 +68,7 @@ BWOPlayer.ActivateTargets = function(character, min)
     
         local dist = math.sqrt(math.pow(character:getX() - witness.x, 2) + math.pow(character:getY() - witness.y, 2))
         if dist < min then
-            if witness.brain.hostile then
+            if witness.brain.clan > 0 then
                 shouldActivate = false
                 break
             else
@@ -245,10 +253,12 @@ local checkHostility = function(bandit, attacker)
     end
 end
 
+-- detecting crime based on who got killed by player
 local onHitZombie = function(zombie, attacker, bodyPartType, handWeapon)
     checkHostility(zombie, attacker)
 end
 
+-- detecting crime based on who got hit by player
 local onZombieDead = function(zombie)
 
     if not zombie:getVariableBoolean("Bandit") then return end
@@ -299,5 +309,286 @@ local onZombieDead = function(zombie)
     BanditBrain.Remove(bandit)
 end
 
+--INTERCEPTORS
+
+-- intercepting player actions
+local onTimedAction = function(data)
+   
+    local character = data.character
+    if not character then return end
+
+    local profession = character:getDescriptor():getProfession()
+
+    local action = data.action:getMetaType()
+    if not action then return end
+
+    -- illegal actions intercepted here
+    if BWOScheduler.Anarchy.IllegalMinorCrime and action == "ISSmashWindow" or action == "ISSmashVehicleWindow" or action == "ISHotwireVehicle" then
+        BWOPlayer.ActivateWitness(character, 15)
+        return
+    end
+
+    if not BWOScheduler.Anarchy.Transactions then return end
+
+    -- trash collecting and littering
+    if action == "ISMoveablesAction" then
+        local mode = data.mode
+        local origSpriteName = data.origSpriteName
+        if mode and origSpriteName then
+            
+            if origSpriteName:embodies("trash") then
+
+                -- earn by collecting trash
+                if mode == "pickup" then
+                    BWOPlayer.Earn(character, 1)
+
+                -- littering
+                elseif mode == "place" then
+                    BWOPlayer.Pay(character, 1)
+                    BWOPlayer.ActivateWitness(character, 15)
+                end
+            end
+        end
+        return
+    end
+
+    -- fireman
+    if profession == "fireofficer" then
+        if action == "ISPutOutFire" then
+            BWOPlayer.Earn(character, 25)
+        end
+        return
+    end
+
+    -- mechanic
+    if profession == "mechanics" then
+        if action == "ISFixVehiclePartAction" then
+        
+            local vehiclePart = data.vehiclePart
+            local vehicle = vehiclePart:getVehicle()
+            local md = vehicle:getModData()
+            if md.BWO and md.BWO.client then
+                local skill = character:getPerkLevel(Perks.MetalWelding)
+                BWOPlayer.Earn(character, skill * 5)
+            end
+        elseif action == "ISRepairEngine" then
+            local vehicle = data.vehicle
+            local md = vehicle:getModData()
+            if md.BWO and md.BWO.client then
+                local skill = character:getPerkLevel(Perks.Mechanics)
+                BWOPlayer.Earn(character, skill * 20)
+            end
+        elseif action == "ISInstallVehiclePart" then
+            local vehiclePart = data.part
+            local vehicle = vehiclePart:getVehicle()
+            local md = vehicle:getModData()
+            if md.BWO and md.BWO.client then
+                local id = vehiclePart:getScriptPart():getId()
+                local idx
+                for k, v in pairs(BWOVehicles.parts) do
+                    if id == v then
+                        idx = k
+                    end
+                end
+
+                if idx then
+                    local item = data.item
+                    local oldCondition = md.BWO.parts[idx]
+                    local newCondition = item:getCondition()
+                    BWOPlayer.Earn(character, math.ceil((newCondition - oldCondition) * item:getWeight() / 5))
+                    md.BWO.parts[idx] = newCondition
+                end
+            end
+        end
+        return
+    end
+end
+
+-- inventory transfer player action needs to intercepted sparately to have access the necessary data
+local onInventoryTransferAction = function(data)
+
+    if not BWOScheduler.Anarchy.Transactions then return end
+
+    local character = data.character
+    if not character then return end
+
+    local profession = character:getDescriptor():getProfession()
+
+    local container = data.srcContainer
+    if not container then return end
+
+    local destContainer = data.destContainer
+    local descContainerType = destContainer:getType()
+
+    local item = data.item
+    local itemType = item:getFullType()
+    local md = item:getModData()
+    if not md.BWO then
+        md.BWO = {} 
+        md.BWO.stolen = false
+        md.BWO.bought = false
+    end
+
+    local object = container:getParent()
+
+    local square
+    if object then 
+        -- taking from trashcans is not buying
+        local sprite = object:getSprite()
+        if sprite then
+            local props = sprite:getProperties()
+            if props:Is("CustomName") then
+                local customName = props:Val("CustomName")
+                if customName == "Trash" or customName == "Garbage" then
+                    return
+                end
+            end
+        end
+
+        -- selling
+        if instanceof(object, "IsoPlayer") then 
+
+            -- lumberjack
+            if not md.BWO.stolen then
+                if profession == "lumberjack" then
+                    if itemType == "Base.Log" and descContainerType == "logs" then
+                        BWOPlayer.Earn(character, 10)
+                    elseif itemType == "Base.Plank" and descContainerType == "crate" then
+                        BWOPlayer.Earn(character, 6)
+                    end
+                end
+            end
+            return
+        end
+
+        square = object:getSquare()
+    else
+        square = character:getSquare()
+    end
+
+    -- transfering to non player containers is not buying
+    local destObject = destContainer:getCharacter()
+    if not destObject then return end
+
+    local room = square:getRoom()
+
+    -- you can take outside buildings or from vehicles
+    if not room then return end
+
+    local canTake, shouldPay = BWORooms.TakeIntention(room)
+
+    -- taking money is not buying
+    if data.item:getType() == "Money" then
+        canTake = false
+        shouldPay = false
+    end
+
+    if canTake then return end
+
+    if shouldPay then
+        local itemType = data.item:getFullType()
+        local category = data.item:getDisplayCategory()
+        local weight = data.item:getWeight()
+        local price = math.floor(weight * SandboxVars.BanditsWeekOne.PriceMultiplier * 10)
+        if price == 0 then price = 1 end
+
+        md.BWO.bought = true
+
+        BWOPlayer.Pay(character, price)
+
+    elseif not canTake then
+        md.BWO.stolen = true
+        BWOPlayer.ActivateWitness(character, 15)
+    end
+
+end
+
+-- other interceptors 
+local onPlayerUpdate = function(player)
+
+    -- tick update
+    if BWOPlayer.tick > 15 then
+        BWOPlayer.tick = 0
+    end
+
+    -- intercepting end of sleep
+    if not player:isAsleep() and BWOPlayer.wasSleeping then
+        BWOPlayer.wasSleeping = false
+        local params = {}
+        params.night = getGameTime():getNightsSurvived()
+        BWOScheduler.Add("Dream", params, 600)
+    end
+
+    -- intercepting player aiming
+    if BWOScheduler.Anarchy.IllegalMinorCrime and BWOPlayer.tick == 0 then
+        if player:IsAiming() and not BanditPlayer.IsGhost(player)  then 
+            local primaryItem = player:getPrimaryHandItem()
+
+            local max
+            if primaryItem and primaryItem:IsWeapon() then
+                local primaryItemType = WeaponType.getWeaponType(primaryItem)
+                if primaryItemType == WeaponType.firearm then
+                    max = 12
+                elseif primaryItemType == WeaponType.handgun then
+                    max = 8
+                elseif primaryItemType == WeaponType.heavy then
+                    max = 3
+                elseif primaryItemType == WeaponType.onehanded then
+                    max = 3
+                elseif primaryItemType == WeaponType.knife then
+                    max = 3
+                elseif primaryItemType == WeaponType.spear then
+                    max = 3
+                elseif primaryItemType == WeaponType.twohanded then
+                    max = 3
+                elseif primaryItemType == WeaponType.throwing then
+                    max = 12
+                elseif primaryItemType == WeaponType.chainsaw then
+                    max = 4
+                end
+            end
+
+            if max then
+                if BWOPlayer.aimTime > 4 then 
+                    BWOPlayer.ActivateTargets(player, max)
+                end
+                BWOPlayer.aimTime = BWOPlayer.aimTime + 1
+            end
+        else
+            BWOPlayer.aimTime = 0
+        end
+    end
+
+    BWOPlayer.tick = BWOPlayer.tick + 1
+end
+
+-- intercepting player swinging weapon
+local onWeaponSwing = function(character, handWeapon)
+    if not BWOScheduler.Anarchy.IllegalMinorCrime then return end
+	if not instanceof(character, "IsoPlayer") then return end
+
+    local primaryItemType = WeaponType.getWeaponType(handWeapon)
+    if primaryItemType == WeaponType.barehand  then return end
+
+    BWOPlayer.ActivateTargets(character, 15)
+end
+
+-- OTHER
+
+-- sleep detector to init dreams
+local everyHours = function()
+	local player = getPlayer()
+    if player:isAsleep() then
+        BWOPlayer.wasSleeping = true
+    end
+end
+
+LuaEventManager.AddEvent("OnInventoryTransferActionPerform")
+
 Events.OnHitZombie.Add(onHitZombie)
 Events.OnZombieDead.Add(onZombieDead)
+Events.OnTimedActionPerform.Add(onTimedAction)
+Events.OnInventoryTransferActionPerform.Add(onInventoryTransferAction)
+Events.OnPlayerUpdate.Add(onPlayerUpdate)
+Events.OnWeaponSwing.Add(onWeaponSwing)
+Events.EveryHours.Add(everyHours)
