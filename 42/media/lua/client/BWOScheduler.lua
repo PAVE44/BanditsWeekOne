@@ -220,7 +220,7 @@ local generateSchedule = function()
     tab[153][50] = {"GasRun", {intensity=4}}
 
     tab[154][25] = {"Army", {intensity=2}}
-    tab[154][26] = {"Inmates", {intensity = 12}}
+    tab[154][26] = {"Inmates", {intensity = 14}}
 
     tab[155][5]  = {"JetFighterRun", {intensity=1}}
     tab[155][15] = {"JetFighterRun", {intensity=1}}
