@@ -17,7 +17,7 @@ BWOScheduler.Anarchy = {}
 -- schedule 
 local generateSchedule = function()
     local tab = {}
-    for wa=0, 200 do
+    for wa=0, 400 do
         tab[wa] = {}
         for m=0, 59 do
             tab[wa][m] = {}
@@ -288,8 +288,21 @@ local generateSchedule = function()
     -- DAY 8 09.00
     tab[168][0]  = {"StartDay", {day="thursday"}}
     tab[168][4]  = {"Siren", {}}
-    tab[168][24] = {"FinalSolution", {}}
+    tab[168][40] = {"FinalSolution", {}}
     tab[168][29] = {"SetHydroPower", {on=false}}
+
+    -- late hazmat suit bandits will spawn only in fallout scenario
+    tab[176][25] = {"Scientists", {intensity=2}}
+    tab[189][12] = {"Scientists", {intensity=3}}
+    tab[211][44] = {"Scientists", {intensity=4}}
+    tab[235][3]  = {"Scientists", {intensity=3}}
+    tab[236][12] = {"Scientists", {intensity=3}}
+    tab[253][42] = {"Scientists", {intensity=7}}
+    tab[315][30] = {"Scientists", {intensity=3}}
+    tab[315][11] = {"Scientists", {intensity=4}}
+    tab[333][4]  = {"Scientists", {intensity=8}}
+    tab[376][4]  = {"Scientists", {intensity=8}}
+    tab[400][32] = {"Scientists", {intensity=12}}
 
     return tab
 end
@@ -315,7 +328,7 @@ function BWOScheduler.MasterControl()
     local worldAge = (day * 24 + hour) - (startDay * 24 + startHour)
     
     -- debug to jump to a certain hour
-    -- worldAge = worldAge -1
+    -- worldAge = worldAge + 166
 
     BWOScheduler.WorldAge = worldAge
     
@@ -494,7 +507,7 @@ function BWOScheduler.MasterControl()
     params.y = player:getY()
     params.z = player:getZ()
 
-    if worldAge < 200 then
+    if worldAge < 400 then
         local event = BWOScheduler.Schedule[worldAge][minute]
         if event[1] and event[2] then
             local eventName = event[1]

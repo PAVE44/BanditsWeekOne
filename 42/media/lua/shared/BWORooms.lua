@@ -448,8 +448,24 @@ BWORooms.tab = {
         pistolMagCount = 3,
     },
 
+    diner = {
+        isShop = true,
+        isRestaurant = true,
+        outfits = {"Generic02", "Generic03", "Classy", "Young", "Waiter_Dining"},
+        femaleChance = 50
+    },
+
     dinerbackroom = {
         isShop = true,
+    },
+
+    dinercounter = {
+        isRestaurant = true,
+        isKitchen = true,
+        occupations = {"chef", "burgerflipper"},
+        outfits = {"Cook_Generic", "Chef"},
+        melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
+        femaleChance = 10
     },
 
     dinerkitchen = {

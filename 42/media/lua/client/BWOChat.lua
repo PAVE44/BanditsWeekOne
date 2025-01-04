@@ -109,7 +109,7 @@ local function OnAddMessage(chatMessage, tabId)
         
         local allMatch = true
         for _, word in pairs(v.query) do
-            if not chatMessage::lower():embodies(word) then
+            if not chatMessage:lower():embodies(word) then
                 allMatch = false
                 break
             end

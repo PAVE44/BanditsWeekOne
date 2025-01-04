@@ -294,17 +294,33 @@ local spawnVehicle = function(x, y, vtype)
         end
     end
 
+    vehicle:repair()
+    vehicle:setTrunkLocked(true)
+    for i=0, vehicle:getMaxPassengers() - 1 do 
+        local part = vehicle:getPassengerDoor(i)
+        if part then 
+            local door = part:getDoor()
+            if door then
+                door:setLocked(true)
+            end
+        end
+    end
+
+    local key = vehicle:createVehicleKey()
+
     vehicle:getModData().BWO = {}
     vehicle:getModData().BWO.wasRepaired = true
     vehicle:repair()
     vehicle:setColor(0, 0, 0)
     vehicle:setGeneralPartCondition(80, 100)
-    vehicle:putKeyInIgnition(vehicle:createVehicleKey())
-    vehicle:tryStartEngine(true)
-    vehicle:engineDoStartingSuccess()
-    vehicle:engineDoRunning()
-    vehicle:setHeadlightsOn(true)
+    -- vehicle:putKeyInIgnition(key)
+    -- vehicle:tryStartEngine(true)
+    -- vehicle:engineDoStartingSuccess()
+    -- vehicle:engineDoRunning()
+    vehicle:setHeadlightsOn(false)
     vehicle:setLightbarLightsMode(3)
+
+    return key
 end
 
 -- params: [headlight(opt), lightbar(opt), alarm(opt)]
@@ -680,8 +696,13 @@ BWOEvents.FinalSolution = function(params2)
 
     local gmd = GetBWOModData()
     local nukes = gmd.Nukes
-    --local nukes = BWOSquareLoader.nukes
-    if #nukes > 0 then
+    
+    local cnt = 0
+    for _, nuke in pairs(nukes) do
+        cnt = cnt + 1
+    end
+
+    if cnt > 0 then
         player:playSound("BWOInstrumentOrgan")
         local ct = 100
         for _, nuke in pairs(nukes) do
@@ -1505,7 +1526,7 @@ BWOEvents.PoliceRiot = function(params)
 
         if SandboxVars.Bandits.General_ArrivalIcon then
             local icon = "media/ui/sheriff.png"
-            local color = {r=1, g=0, b=0} -- orange
+            local color = {r=1, g=0, b=0} -- red
             BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
         end
     end
@@ -1546,7 +1567,7 @@ BWOEvents.Criminals = function(params)
 
         if SandboxVars.Bandits.General_ArrivalIcon then
             local icon = "media/ui/raid.png"
-            local color = {r=1, g=0.5, b=0} -- orange
+            local color = {r=1, g=0, b=0} -- red
             BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
         end
     end
@@ -1587,7 +1608,7 @@ BWOEvents.Bandits = function(params)
 
         if SandboxVars.Bandits.General_ArrivalIcon then
             local icon = "media/ui/loot.png"
-            local color = {r=1, g=0.5, b=0} -- orange
+            local color = {r=1, g=0, b=0} -- red
             BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
         end
     end
@@ -1628,7 +1649,7 @@ BWOEvents.Bikers = function(params)
 
         if SandboxVars.Bandits.General_ArrivalIcon then
             local icon = "media/ui/loot.png"
-            local color = {r=1, g=0.5, b=0} -- orange
+            local color = {r=1, g=0, b=0} -- red
             BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
         end
     end
@@ -1669,7 +1690,7 @@ BWOEvents.Inmates = function(params)
 
         if SandboxVars.Bandits.General_ArrivalIcon then
             local icon = "media/ui/loot.png"
-            local color = {r=1, g=0.5, b=0} -- orange
+            local color = {r=1, g=0, b=0} -- red
             BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
         end
     end
@@ -1710,7 +1731,51 @@ BWOEvents.Asylum = function(params)
 
         if SandboxVars.Bandits.General_ArrivalIcon then
             local icon = "media/ui/loot.png"
-            local color = {r=1, g=0.5, b=0} -- orange
+            local color = {r=1, g=0, b=0} -- red
+            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+        end
+    end
+end
+
+-- params: [intensity]
+BWOEvents.Scientists = function(params)
+
+    if not BWOScheduler.World.PostNuclearFallout then return end
+
+    local player = getPlayer()
+
+    config = {}
+    config.clanId = 12
+    config.hasRifleChance = 70
+    config.hasPistolChance = 90
+    config.rifleMagCount = 3
+    config.pistolMagCount = 4
+
+    local event = {}
+    event.hostile = true
+    event.occured = false
+    event.program = {}
+    event.program.name = "Bandit"
+    event.program.stage = "Prepare"
+
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(50,55))
+    if spawnPoint then
+        event.x = spawnPoint.x
+        event.y = spawnPoint.y
+        event.bandits = {}
+        
+        local bandit = BanditCreator.MakeFromWave(config)
+        local intensity = params.intensity
+        if intensity > 0 then
+            for i=1, intensity do
+                table.insert(event.bandits, bandit)
+            end
+            sendClientCommand(player, 'Commands', 'SpawnGroup', event)
+        end
+
+        if SandboxVars.Bandits.General_ArrivalIcon then
+            local icon = "media/ui/raid.png"
+            local color = {r=1, g=0, b=0} -- red
             BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
         end
     end

@@ -191,6 +191,9 @@ addBarricadeSouth(6515, 6540, 5615)
 addBarricadeSouth(5872, 5888, 5460)
 addBarricadeWest(5385, 5394, 5710)
 
+-- military base
+addBarricadeEast(12478, 12491, 5823)
+
 -- remove fence in westpoint gunshop
 BWOSquareLoader.remove["12072-6759-0"] = {}
 BWOSquareLoader.remove["12072-6760-0"] = {}
@@ -322,6 +325,8 @@ BWOSquareLoader.IsInExclusion = function(x, y)
 end
 
 BWOSquareLoader.Burn = function(square)
+
+    if square:getZ() < 0 then return end
 
     square:BurnWalls(false)
 
@@ -609,7 +614,7 @@ BWOSquareLoader.VehicleFixOrRemove = function()
                 else
                     vehicle:repair()
                     vehicle:setTrunkLocked(true)
-                    for i=0, vehicle:getMaxPassengers() -1 do 
+                    for i=0, vehicle:getMaxPassengers() - 1 do 
                         local part = vehicle:getPassengerDoor(i)
                         if part then 
                             local door = part:getDoor()

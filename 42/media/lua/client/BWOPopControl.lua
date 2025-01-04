@@ -163,7 +163,7 @@ BWOPopControl.StreetsDespawn = function(cnt)
     for i = 0, zombieList:size() - 1 do
         local zombie = zombieList:get(i)
 
-        if zombie:getVariableBoolean("Bandit") then
+        if zombie and zombie:getVariableBoolean("Bandit") then
             local brain = BanditBrain.Get(zombie)
             local prg = brain.program.name
             
@@ -587,7 +587,7 @@ BWOPopControl.UpdateCivs = function()
 
 end
 
-local everyOneMinute = function ()
+local everyOneMinute = function()
     BWOPopControl.UpdateCivs()
 end
 
@@ -598,5 +598,21 @@ local onTick = function(numTicks)
     end
 end
 
+local OnBanditUpdate = function(bandit)
+    if not bandit:getVariableBoolean("Bandit") then return end
+
+    if BWOScheduler.World.PostNuclearFallout then
+        local outfit = bandit:getOutfitName()
+        if bandit:getZ() >= 0 and outfit ~= "HazardSuit" then
+            if bandit:isOutside() then
+                bandit:setHealth(bandit:getHealth() - 0.00020)
+            else
+                bandit:setHealth(bandit:getHealth() - 0.00010)
+            end
+        end
+    end
+end
+
 Events.EveryOneMinute.Add(everyOneMinute)
 Events.OnTick.Add(onTick)
+Events.OnZombieUpdate.Add(OnBanditUpdate)

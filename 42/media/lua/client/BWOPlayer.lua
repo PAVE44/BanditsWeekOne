@@ -13,7 +13,7 @@ BWOPlayer.ActivateWitness = function(character, min)
     local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer"}
     local witnessList = BanditZombie.GetAllB()
     for id, witness in pairs(witnessList) do
-        if not witness.brain.hostile then
+        if witness.brain.clan == 0 then
             local dist = math.sqrt(math.pow(character:getX() - witness.x, 2) + math.pow(character:getY() - witness.y, 2))
             if dist < min then
                 local actor = BanditZombie.GetInstanceById(witness.id)
@@ -30,8 +30,11 @@ BWOPlayer.ActivateWitness = function(character, min)
                                 Bandit.SetHostile(actor, true)
                                 Bandit.Say(actor, "SPOTTED")
                             else
+                                local r = 4
+                                if actor:isFemale() then r = 10 end
+
                                 Bandit.SetProgram(actor, "Active", {})
-                                if ZombRand(5) == 0 then
+                                if ZombRand(r) == 0 then
                                     Bandit.SetHostile(actor, true)
                                     Bandit.Say(actor, "SPOTTED")
                                 else
@@ -179,7 +182,7 @@ local checkHostility = function(bandit, attacker)
     -- who saw this changes program
     local witnessList = BanditZombie.GetAllB()
     for id, witness in pairs(witnessList) do
-        if not witness.brain.hostile then
+        if not witness.brain.hostile and witness.brain.clan == 0 then
             local dist = math.sqrt(math.pow(bandit:getX() - witness.x, 2) + math.pow(bandit:getY() - witness.y, 2))
             if dist < 15 then
                 local actor = BanditZombie.GetInstanceById(witness.id)
@@ -323,7 +326,7 @@ local onTimedAction = function(data)
     if not action then return end
 
     -- illegal actions intercepted here
-    if BWOScheduler.Anarchy.IllegalMinorCrime and action == "ISSmashWindow" or action == "ISSmashVehicleWindow" or action == "ISHotwireVehicle" then
+    if BWOScheduler.Anarchy.IllegalMinorCrime and action == "ISSmashWindow" or action == "ISSmashVehicleWindow" or action == "ISHotwireVehicle" or action == "ISTakeGasolineFromVehicle" then
         BWOPlayer.ActivateWitness(character, 15)
         return
     end
@@ -351,6 +354,27 @@ local onTimedAction = function(data)
         end
         return
     end
+
+    -- fuel
+    if action == "ISRefuelFromGasPump" then
+        if data.tankStart and data.tankTarget then
+            local amount = data.tankTarget - data.tankStart
+            local price = 1.11
+            local payment = math.floor(amount * price)
+            BWOPlayer.Pay(character, payment)
+        end
+    end
+
+    if action == "ISTakeFuel" then
+        if data.itemStart and data.itemTarget then
+            local amount = data.itemTarget - data.itemStart
+            local price = 1.11
+            local payment = math.floor(amount * price)
+            BWOPlayer.Pay(character, payment)
+        end
+    end
+
+    -- earning
 
     -- fireman
     if profession == "fireofficer" then
@@ -506,6 +530,11 @@ end
 -- other interceptors 
 local onPlayerUpdate = function(player)
 
+    local isInCircle = function(x, y, cx, cy, r)
+        local d2 = (x - cx) ^ 2 + (y - cy) ^ 2
+        return d2 <= r ^ 2
+    end
+
     -- tick update
     if BWOPlayer.tick >= 32 then
         BWOPlayer.tick = 0
@@ -563,9 +592,13 @@ local onPlayerUpdate = function(player)
     if BWOScheduler.World.PostNuclearFallout and BWOPlayer.tick == 1 and player:getZ() >= 0 then
 
         BWOTex.tex = getTexture("media/textures/fallout.png")
-        BWOTex.speed = 0.012
+        BWOTex.speed = 0.0005
         BWOTex.mode = "full"
-        BWOTex.alpha = 0.2
+
+        BWOTex.alpha = 0.3
+        if player:isOutside() then
+            BWOTex.alpha = 0.4
+        end
 
         local immune = false
         local suit = player:getWornItem("FullSuitHead")
@@ -587,12 +620,12 @@ local onPlayerUpdate = function(player)
                     local drunk = stats:getDrunkenness()
                     local incSick = 1
                     local incDrunk = 2
-                    if player:isOutSide() then
+                    if player:isOutside() then
                         incSick = incSick * 2
                         incDrunk = incDrunk * 2
                     end
 
-                    if sick < 70 then
+                    if sick < 160 then
                         bodyDamage:setFoodSicknessLevel(sick + incSick)
                     end
 
@@ -611,6 +644,7 @@ end
 local onWeaponSwing = function(character, handWeapon)
     if not BWOScheduler.Anarchy.IllegalMinorCrime then return end
 	if not instanceof(character, "IsoPlayer") then return end
+    if BanditPlayer.IsGhost(character) then return end
 
     local primaryItemType = WeaponType.getWeaponType(handWeapon)
     if primaryItemType == WeaponType.barehand  then return end

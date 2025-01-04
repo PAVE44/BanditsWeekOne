@@ -1071,6 +1071,10 @@ BWORoomPrograms.restaurant = function(bandit, def)
         sittable = BWOObjects.Find(bandit, def, "Seat")
 
         if not sittable then
+            sittable = BWOObjects.Find(bandit, def, "Seating")
+        end
+
+        if not sittable then
             sittable = BWOObjects.Find(bandit, def, "Chair")
         end
 

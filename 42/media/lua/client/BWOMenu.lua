@@ -282,13 +282,13 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
 
     local zombie = square:getZombie()
     if not zombie then
-        local squareN = square:getN()
-        if squareN then
-            zombie = squareN:getZombie()
+        local squareS = square:getS()
+        if squareS then
+            zombie = squareS:getZombie()
             if not zombie then
-                local squareNW = squareN:getW()
-                if squareNW then
-                    zombie = squareNW:getZombie()
+                local squareW = square:getW()
+                if squareW then
+                    zombie = squareW:getZombie()
                 end
             end
         end
