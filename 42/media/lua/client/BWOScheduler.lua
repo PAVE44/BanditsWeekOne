@@ -361,11 +361,47 @@ function BWOScheduler.MasterControl()
 
     -- removes objects that conflict stylistically with prepandemic world
     BWOScheduler.World.ObjectRemover = false
-    if BWOScheduler.WorldAge < 64 then BWOScheduler.World.ObjectRemover = true end
+    if BWOScheduler.WorldAge < 64 then 
+        BWOScheduler.World.ObjectRemover = true
+        getSandboxOptions():set("LockedHouses", 0)
+        getSandboxOptions():set("FoodLootNew", 2.0)
+        getSandboxOptions():set("CannedFoodLootNew", 2.0)
+        getSandboxOptions():set("LiteratureLootNew", 2.0)
+        getSandboxOptions():set("SurvivalGearsLootNew", 2.0)
+        getSandboxOptions():set("MedicalLootNew", 2.0)
+        getSandboxOptions():set("WeaponLootNew", 2.0)
+        getSandboxOptions():set("RangedWeaponLootNew", 1.2)
+        getSandboxOptions():set("AmmoLootNew", 2.4)
+        getSandboxOptions():set("MechanicsLootNew", 2.4)
+        getSandboxOptions():set("OtherLootNew", 2.0)
+        getSandboxOptions():set("ClothingLootNew", 2.0)
+        getSandboxOptions():set("ContainerLootNew", 2.0)
+        getSandboxOptions():set("MementoLootNew", 0.4)
+        getSandboxOptions():set("MediaLootNew", 0.8)
+        getSandboxOptions():set("CookwareLootNew", 2.0)
+        getSandboxOptions():set("MaterialLootNew", 1.6)
+        getSandboxOptions():set("FarmingLootNew", 1.6)
+        getSandboxOptions():set("ToolLootNew", 1.6)
+        getSandboxOptions():set("SurvivorHouseChance", 0)
+        getSandboxOptions():set("VehicleStoryChance", 0)
+        getSandboxOptions():set("ZoneStoryChance", 0)
+        getSandboxOptions():set("AnnotatedMapChance", 0)
+        getSandboxOptions():set("MaxFogIntensity", 0)
+        getSandboxOptions():set("TrafficJam", 0)
+        getSandboxOptions():set("CarSpawnRate", 5)
+        getSandboxOptions():set("MaximumRatIndex", 0)
+        getSandboxOptions():set("CarSpawnRate", 5)
+        getSandboxOptions():set("Helicopter", 0)
+    else
+        getSandboxOptions():resetToDefault()
+    end
 
     -- removed initial deadbodies
     BWOScheduler.World.DeadBodyRemover = false
-    if BWOScheduler.WorldAge < 48 then BWOScheduler.World.DeadBodyRemover = true end
+    if BWOScheduler.WorldAge < 48 then 
+        BWOScheduler.World.DeadBodyRemover = true
+        getSandboxOptions():set("MetaEvent", 0)
+    end
 
     -- registers certain exterior objects positions that npcs can interacts with
     BWOScheduler.World.GlobalObjectAdder = false
@@ -558,6 +594,33 @@ function BWOScheduler.CheckEvents()
         end
     end
 end
+
+-- this patches original bandits scheduler to shift days of bandit occurances by 7 days
+function BanditScheduler.GetWaveDataAll()
+    local waveCnt = 16
+    local waveData = {}
+    for i=1, waveCnt do
+        local wave = {}
+
+        wave.enabled = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_WaveEnabled"]
+        wave.friendlyChance = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_FriendlyChance"]
+        wave.enemyBehaviour = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_EnemyBehaviour"]
+        wave.firstDay = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_FirstDay"] + 7
+        wave.lastDay = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_LastDay"] + 7
+        wave.spawnDistance = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_SpawnDistance"]
+        wave.spawnHourlyChance = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_SpawnHourlyChance"]
+        wave.groupSize = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_GroupSize"]
+        wave.clanId = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_GroupName"]
+        wave.hasPistolChance = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_HasPistolChance"]
+        wave.pistolMagCount = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_PistolMagCount"]
+        wave.hasRifleChance = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_HasRifleChance"]
+        wave.rifleMagCount = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_RifleMagCount"]
+
+        table.insert(waveData, wave)
+    end
+    return waveData
+end
+
 
 Events.OnTick.Add(BWOScheduler.CheckEvents)
 Events.EveryOneMinute.Add(BWOScheduler.MasterControl)

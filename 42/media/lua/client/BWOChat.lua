@@ -145,6 +145,7 @@ table.insert(data, {query={"open", "window"}, res="I'm not opening it.", anim="N
 
 table.insert(data, {query={"leave", "you"}, res="I'm staying where I want to!"})
 table.insert(data, {query={"leave", "me"}, res="I thought you need me, but fine!", action="LEAVE"})
+table.insert(data, {query={"stop", "following", "me"}, res="I thought you need me, but fine!", action="LEAVE"})
 table.insert(data, {query={"stay", "here"}, res="I thought you need me, but fine!", action="LEAVE"})
 table.insert(data, {query={"go", "away"}, res="I thought you need me, but fine!", action="LEAVE"})
 table.insert(data, {query={"get", "lost"}, res="I'm staying where I want to!"})
