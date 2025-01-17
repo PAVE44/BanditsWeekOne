@@ -6,3 +6,4 @@ function ISInventoryTransferAction:perform()
     perform(self)
     triggerEvent("OnInventoryTransferActionPerform", self)
 end
+

@@ -8,6 +8,7 @@ Bandit.SoundTab.STREETCHAT1 = {prefix = "ZSStreetChat1_", chance = 100, randMax 
 Bandit.SoundTab.STREETCHAT2 = {prefix = "ZSStreetChat2_", chance = 100, randMax = 12, length = 4}
 Bandit.SoundTab.STREETCHAT3 = {prefix = "ZSStreetChat3_", chance = 100, randMax = 12, length = 4}
 Bandit.SoundTab.STREETCHATFINAL = {prefix = "ZSStreetChatFinal_", chance = 100, randMax = 4, length = 4}
+Bandit.SoundTab.REACTCRIME = {prefix = "BWOReactCrime_", chance = 100, randMax = 20, length = 4}
 
 
 Bandit.SoundStopList = Bandit.SoundStopList or {}

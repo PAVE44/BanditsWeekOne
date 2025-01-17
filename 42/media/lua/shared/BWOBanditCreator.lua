@@ -20,7 +20,7 @@ function BanditCreator.MakeFromRoom(room)
     -- default weapon config
     config = {}
     config.hasRifleChance = 0
-    config.hasPistolChance = 7
+    config.hasPistolChance = SandboxVars.BanditsWeekOne.InhabitantsPistolChance
     config.rifleMagCount = 0
     config.pistolMagCount = 3
     config.clanId = 0

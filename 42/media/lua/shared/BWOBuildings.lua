@@ -321,7 +321,7 @@ BWOBuildings.IsEventBuilding = function(building, event)
 end
 
 BWOBuildings.FindBuildingWithRoom = function(bsearch)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     local cell = player:getCell()
     local rooms = cell:getRoomList()
     local buildings = {}
@@ -329,7 +329,7 @@ BWOBuildings.FindBuildingWithRoom = function(bsearch)
         local room = rooms:get(i)
 
         local building = room:getBuilding()
-        if building and building:containsRoom(bsearch) then
+        if building and building:containsRoom(bsearch) and not BWOBuildings.IsEventBuilding(building, "home") then
             local def = building:getDef()
             if math.abs(def:getX() - player:getX()) < 100 and math.abs(def:getX2() - player:getX()) < 100 and 
                math.abs(def:getY() - player:getY()) < 100 and math.abs(def:getY2() - player:getY()) < 100 then

@@ -1,5 +1,10 @@
 VERSION = 1,
 
+option BanditsWeekOne.StartBabe = {
+    type = boolean, default = true,
+    page = BanditsWeekOne, translation = BanditsWeekOne.StartBabe,
+}
+
 option BanditsWeekOne.InhabitantsPopMultiplier = {
     type = double, min = 0, max = 4, default = 1,
     page = BanditsWeekOne, translation = BanditsWeekOne.InhabitantsPopMultiplier,
@@ -8,6 +13,26 @@ option BanditsWeekOne.InhabitantsPopMultiplier = {
 option BanditsWeekOne.StreetsPopMultiplier = {
     type = double, min = 0, max = 4, default = 1,
     page = BanditsWeekOne, translation = BanditsWeekOne.StreetsPopMultiplier,
+}
+
+option BanditsWeekOne.ArmyPopMultiplier = {
+    type = double, min = 0, max = 4, default = 1,
+    page = BanditsWeekOne, translation = BanditsWeekOne.ArmyPopMultiplier,
+}
+
+option BanditsWeekOne.BanditsPopMultiplier = {
+    type = double, min = 0, max = 4, default = 1,
+    page = BanditsWeekOne, translation = BanditsWeekOne.BanditsPopMultiplier,
+}
+
+option BanditsWeekOne.InhabitantsPistolChance = {
+    type = integer, min = 0, max = 100, default = 7,
+    page = BanditsWeekOne, translation = BanditsWeekOne.InhabitantsPistolChance,
+}
+
+option BanditsWeekOne.StreetsPistolChance = {
+    type = integer, min = 0, max = 100, default = 3,
+    page = BanditsWeekOne, translation = BanditsWeekOne.StreetsPistolChance,
 }
 
 option BanditsWeekOne.VehiclesMax = {
@@ -48,4 +73,14 @@ option BanditsWeekOne.FiremanCooldown = {
 option BanditsWeekOne.PriceMultiplier = {
     type = double, min = 0.1, max = 10, default = 1,
     page = BanditsWeekOne, translation = BanditsWeekOne.PriceMultiplier,
+}
+
+option BanditsWeekOne.PriceInflation = {
+    type = double, min = 0.0, max = 1000, default = 26,
+    page = BanditsWeekOne, translation = BanditsWeekOne.PriceInflation,
+}
+
+option BanditsWeekOne.EventFinalSolution = {
+    type = boolean, default = true,
+    page = BanditsWeekOne, translation = BanditsWeekOne.EventFinalSolution,
 }

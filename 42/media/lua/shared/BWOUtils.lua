@@ -83,12 +83,17 @@ end
 function BanditUtils.HasZoneType(x, y, z, zoneType)
     local zones = getZones(x, y, z)
     if zones then
-		for i=0, zones:size()-1 do
-			local zone = zones:get(i)
+        for i=0, zones:size()-1 do
+            local zone = zones:get(i)
             if zone:getType() == zoneType then
                 return true
             end
         end
     end
     return false
+end
+
+function BanditUtils.AddPriceInflation(price)
+    local day = math.floor(BWOScheduler.WorldAge / 24)
+    return math.floor(price * ((1 + SandboxVars.BanditsWeekOne.PriceInflation / 100) ^ day))
 end

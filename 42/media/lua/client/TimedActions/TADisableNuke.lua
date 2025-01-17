@@ -10,7 +10,7 @@ function TADisableNuke:update()
 end
 
 function TADisableNuke:start()
-    self.character:faceThisObject(self.square:getN())
+    -- self.character:faceThisObject(self.square:getW())
 	self:setActionAnim("Loot")
     self.sound = self.character:playSound("ZSCompProgress")
 
@@ -23,9 +23,9 @@ end
 
 function TADisableNuke:perform()
     self.character:stopOrTriggerSound(self.sound)
-    local emitter = getWorld():getFreeEmitter(5572, 12486, 0)
+    local emitter = getWorld():getFreeEmitter(5556, 12446, -16)
     emitter:playSound("ZSCompSuccess")
-    BWOServer.Commands.NukesDisable({confirm=true})
+    BWOServer.Commands.NukesDisable(self.character, {confirm=true})
     -- BWOSquareLoader.nukes = {}
     BWOEmitter.tab = {}
 

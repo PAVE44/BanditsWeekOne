@@ -142,15 +142,21 @@ ZombiePrograms.Postal.Main = function(bandit)
                 for i=0, objects:size()-1 do
                     local object = objects:get(i)
                     local container = object:getContainer()
-                    if container and container:isEmpty() then
-                        local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
-                        if dist > 0.8 then
-                            table.insert(tasks, BanditUtils.GetMoveTask(0, square:getX(), square:getY(), square:getZ(), "Walk", dist, false))
-                            return {status=true, next="Main", tasks=tasks}
-                        else
-                            local task = {action="PutInContainer", itemType="Base.Newspaper", anim="Loot", x=object:getX(), y=object:getY(), z=object:getZ()}
-                            table.insert(tasks, task)
-                            return {status=true, next="Main", tasks=tasks}
+                    if container then
+                        local npiList = ArrayList.new()
+                        container:getAllEvalRecurse(predicateNewspaper, npiList)
+                        local npiCnt = npiList:size()
+
+                        if npiCnt < 3 then
+                            local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
+                            if dist > 0.8 then
+                                table.insert(tasks, BanditUtils.GetMoveTask(0, square:getX(), square:getY(), square:getZ(), "Walk", dist, false))
+                                return {status=true, next="Main", tasks=tasks}
+                            else
+                                local task = {action="PutInContainer", itemType="Base.Newspaper", anim="Loot", x=object:getX(), y=object:getY(), z=object:getZ()}
+                                table.insert(tasks, task)
+                                return {status=true, next="Main", tasks=tasks}
+                            end
                         end
                     end
                 end

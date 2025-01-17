@@ -34,7 +34,7 @@ BanditPrograms.Symptoms = function(bandit)
         end
     elseif BWOScheduler.SymptomLevel == 2 then
         if pseudoRandom < 11 then
-            local rn = ZombRand(10)
+            local rn = ZombRand(11)
             if rn < 7 then
                 local sound
                 if bandit:isFemale() then
@@ -57,6 +57,10 @@ BanditPrograms.Symptoms = function(bandit)
                 local task = {action="Time", anim="PainStomach2", time=100}
                 table.insert(tasks, task)
                 return tasks
+            elseif rn == 10 then
+                local sound = "ZSVomit" .. (1 + ZombRand(4))
+                local task = {action="Vomit", anim="Vomit", sound=sound, time=100}
+                table.insert(tasks, task)
             end
         end
     elseif BWOScheduler.SymptomLevel == 3 then
@@ -147,7 +151,7 @@ BanditPrograms.Events = function(bandit)
                 return tasks
             elseif target.dist < 9 then
                 -- Bandit.Say(bandit, "ADMIRE")
-                local rnd = math.abs(id) % 3
+                local rnd = math.abs(id) % 4
 
                 local anim
                 local sound
@@ -156,9 +160,14 @@ BanditPrograms.Events = function(bandit)
                     anim = "Protest1"
                 elseif rnd == 1 then
                     anim = "Protest2"
+                    item = "Base.PaperSign"
                 elseif rnd == 2 then
                     anim = "Protest3"
-                    item = "Base.BaseballBat"
+                    item = "Base.StopSign"
+                elseif rnd == 3 then
+                    anim = "Protest1"
+                    -- anim = "Protest3"
+                    -- item = "Base.TruthSign"
                 else
                     anim = "Clap"
                 end
@@ -173,7 +182,7 @@ BanditPrograms.Events = function(bandit)
                     end
                 end
 
-                local task = {action="TimeItem", sound=sound, soundDistMax=12, anim=anim, item=item, x=target.x, y=target.y, z=target.z, time=200}
+                local task = {action="TimeItem", sound=sound, soundDistMax=12, anim=anim, left=true, item=item, x=target.x, y=target.y, z=target.z, time=200}
                 table.insert(tasks, task)
                 return tasks
             end
@@ -227,7 +236,7 @@ BanditPrograms.Events = function(bandit)
                     return tasks
                 else
                     local args = {x=target.x, y=target.y, z=target.z, otype="preacher"}
-                    sendClientCommand(getPlayer(), 'Commands', 'ObjectRemove', args)
+                    sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectRemove', args)
                 end
             end
         end
@@ -250,12 +259,12 @@ BanditPrograms.Events = function(bandit)
                     Bandit.Say(bandit, "ADMIRE")
                     local anim = "Clap"
                     local sound = "BWOClap" .. tostring(1 + ZombRand(13))
-                    local task = {action="TimeEvent", sound=sound, soundDistMax=12, anim=anim, x=target.x, y=target.y, z=target.z, time=400}
+                    local task = {action="TimeEvent", sound=sound, soundDistMax=12, anim=anim, x=target.x, y=target.y, z=target.z, time=200}
                     table.insert(tasks, task)
                     return tasks
                 else
                     local args = {x=target.x, y=target.y, z=target.z, otype="entertainer"}
-                    sendClientCommand(getPlayer(), 'Commands', 'ObjectRemove', args)
+                    sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectRemove', args)
                 end
             end
         end
@@ -328,7 +337,6 @@ BanditPrograms.Bench = function(bandit)
                                 right = true
                             elseif r == 4 then
                                 anim = "SitInChairEat"
-                                item = "Base.Fork"
                                 right = true
                             elseif r == 5 then
                                 anim = "SitInChairSmoke"
@@ -503,7 +511,7 @@ BanditPrograms.FollowRoad = function(bandit, walkType)
         end
     end
 
-    local playerVehicle = getPlayer():getVehicle()
+    local playerVehicle = getSpecificPlayer(0):getVehicle()
     if playerVehicle and not playerVehicle:isStopped() then
         vehicleList[playerVehicle:getId()] = playerVehicle
     end

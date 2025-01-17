@@ -1,7 +1,7 @@
 BWOTex = BWOTex or {}
 
 BWOTex.tex = getTexture("media/textures/blast_n.png")
-BWOTex.alpha = 0.9
+BWOTex.alpha = 0.4
 BWOTex.speed = 0.05
 BWOTex.mode = "full"
 BWOTex.screenWidth = getCore():getScreenWidth()

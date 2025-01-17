@@ -55,6 +55,13 @@ end
 BWOMenu.SpawnWave = function(player, square, prgName)
     config = {}
     config.clanId = 0
+
+    if prgName == "Babe" then
+        config.clanId = 1
+    --elseif prgName == "Thief" or prgName == "Vandal" then
+    --    config.clanId = 13
+    end
+    
     config.hasRifleChance = 0
     config.hasPistolChance = 0
     config.rifleMagCount = 0
@@ -73,7 +80,8 @@ BWOMenu.SpawnWave = function(player, square, prgName)
     local bandit = BanditCreator.MakeFromWave(config)
 
     if prgName == "Walker" then
-        bandit.outfit = BanditUtils.Choice({"Generic02", "Generic01"})
+        bandit.outfit = BanditUtils.Choice({"BWORainGeneric03"})
+        bandit.femaleChance = 50
     elseif prgName == "Fireman" then
         bandit.outfit = BanditUtils.Choice({"FiremanFullSuit"})
         bandit.weapons.melee = "Base.Axe"
@@ -91,6 +99,15 @@ BWOMenu.SpawnWave = function(player, square, prgName)
         bandit.outfit = BanditUtils.Choice({"StreetSports", "AuthenticJogger", "AuthenticFitnessInstructor"})
     elseif prgName == "Vandal" then
         bandit.outfit = BanditUtils.Choice({"Bandit"})
+    elseif prgName == "Babe" then
+        bandit.outfit = BanditUtils.Choice({"BWOYoung", "BWOCow", "BWOLeather"})
+        bandit.accuracyBoost = 2
+        bandit.femaleChance = 92
+        if player:isFemale() then
+            bandit.femaleChance = 8
+        end
+        bandit.health = 8
+        bandit.weapons.melee = "Base.BareHands"
     end
     table.insert(event.bandits, bandit)
 
@@ -99,7 +116,7 @@ end
 
 BWOMenu.FlushDeadbodies = function(player)
     local args = {a=1}
-    sendClientCommand(getPlayer(), 'Commands', 'DeadBodyFlush', args)
+    sendClientCommand(getSpecificPlayer(0), 'Commands', 'DeadBodyFlush', args)
 end
 
 BWOMenu.TestEmitter = function(player, square)
@@ -110,7 +127,7 @@ BWOMenu.TestEmitter = function(player, square)
     effect.len = 300
     effect.volume = 0.1
     -- effect.sound = "ZSBuildingBaseAlert"
-    effect.light = {r=1, g=1, b=1, t=1}
+    effect.light = {r=1, g=1, b=0.7, t=1}
     BWOEmitter.Add(effect)
 end
 
@@ -185,6 +202,14 @@ BWOMenu.EventFinalSolution = function(player)
     BWOScheduler.Add("FinalSolution", params, 100)
 end
 
+BWOMenu.EventFliers = function(player)
+    local params = {}
+    params.x = player:getX()
+    params.y = player:getY()
+    params.z = player:getZ()
+    BWOScheduler.Add("ChopperFliers", params, 100)
+end
+
 BWOMenu.EventEntertainer = function(player)
     local params ={}
     params.x = player:getX()
@@ -222,6 +247,16 @@ BWOMenu.EventProtest = function(player)
     params.y = player:getY()
     params.z = player:getZ()
     BWOScheduler.Add("Protest", params, 100)
+end
+
+BWOMenu.EventReanimate = function(player)
+    local params = {}
+    params.x = player:getX()
+    params.y = player:getY()
+    params.z = player:getZ()
+    params.r = 50
+    params.chance = 100
+    BWOScheduler.Add("Reanimate", params, 100)
 end
 
 BWOMenu.EventStart = function(player)
@@ -272,9 +307,15 @@ BWOMenu.EventBandits = function(player)
     BWOScheduler.Add("Bandits", params, 100)
 end
 
+BWOMenu.EventThieves = function(player)
+    local params = {}
+    params.intensity = 2
+    BWOScheduler.Add("Thieves", params, 100)
+end
+
 function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
 
-    local player = getPlayer()
+    local player = getSpecificPlayer(playerID)
     local profession = player:getDescriptor():getProfession()
     -- print ("DIR: " .. player:getDirectionAngle())
     local fetch = ISWorldObjectContextMenu.fetchVars
@@ -297,23 +338,29 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
     -- doctor healing
     if zombie and zombie:getVariableBoolean("Bandit") then
         local health = zombie:getHealth()
-        if profession == "doctor" and health < 0.8 or zombie:isCrawling() then
+        if (profession == "doctor" or profession == "nurse") and health < 0.8 or zombie:isCrawling() then
             context:addOption("Heal Person", player, BWOMenu.HealPerson, square, zombie)
         end
     end
 
     -- disable nukes
+    --[[
     if (square:getX() == 5571 or square:getX() == 5572 or square:getX() == 5573) and square:getY() == 12486  then
-        context:addOption("Disable Launch Sequence", player, BWOMenu.DisableLaunchSequence, square, zombie)
+        context:addOption("Disable Launch Sequence", player, BWOMenu.DisableLaunchSequence, square)
+    end
+    ]]  
+
+    if square:getZ() == -16  and square:getX() == 5556 and (square:getY() == 12445 or square:getY() == 12446 or square:getY() == 12447)  then
+        context:addOption("Disable Launch Sequence", player, BWOMenu.DisableLaunchSequence, square)
     end
 
-    print ("-----------------")
-    local playerList = IsoPlayer.getPlayers()
-    for i=0, playerList:size()-1 do
-        local player = playerList:get(i)
-        print ("PLAYER")
+    local vehicle = square:getVehicleContainer()
+    if vehicle then
+        local md = vehicle:getModData()
     end
-    print ("-----------------")
+
+    local gmd = GetBWOModData()
+    local nukes = gmd.Nukes
 
     --[[
     -- Add VHS_Retail to player's inventory
@@ -415,6 +462,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         eventsMenu:addOption("Dream", player, BWOMenu.EventDream)
         eventsMenu:addOption("Entertainer", player, BWOMenu.EventEntertainer)
         eventsMenu:addOption("Final Solution", player, BWOMenu.EventFinalSolution)
+        eventsMenu:addOption("Fliers", player, BWOMenu.EventFliers)
         eventsMenu:addOption("Gas Drop", player, BWOMenu.EventGasDrop)
         eventsMenu:addOption("Gas Run", player, BWOMenu.EventGasRun)
         eventsMenu:addOption("House Party", player, BWOMenu.EventParty)
@@ -425,13 +473,16 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         eventsMenu:addOption("Power On", player, BWOMenu.EventPower, true)
         eventsMenu:addOption("Power Off", player, BWOMenu.EventPower, false)
         eventsMenu:addOption("Protest", player, BWOMenu.EventProtest)
+        eventsMenu:addOption("Reanimate", player, BWOMenu.EventReanimate)
         eventsMenu:addOption("Start", player, BWOMenu.EventStart)
         eventsMenu:addOption("Start Day", player, BWOMenu.EventStartDay)
+        eventsMenu:addOption("Thieves", player, BWOMenu.EventThieves)
         
         local spawnOption = context:addOption("BWO Spawn")
         local spawnMenu = context:getNew(context)
         context:addSubMenu(spawnOption, spawnMenu)
         
+        spawnMenu:addOption("Babe", player, BWOMenu.SpawnWave, square, "Babe")
         spawnMenu:addOption("Fireman", player, BWOMenu.SpawnWave, square, "Fireman")
         spawnMenu:addOption("Gardener", player, BWOMenu.SpawnWave, square, "Gardener")
         spawnMenu:addOption("Inhabitant", player, BWOMenu.SpawnRoom, square, "Inhabitant")

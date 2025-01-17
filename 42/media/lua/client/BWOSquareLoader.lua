@@ -299,10 +299,10 @@ table.insert(BWOSquareLoader.events, {phase="Emitter", x=8072, y=11344, z=0, len
 table.insert(BWOSquareLoader.exclusions, {x1=5000, y1=12000, x2=6200, y2=13000}) -- military research lab
 
 -- alarm emitters
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=5572, y=12489, z=0, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- control room
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=5572, y=12489, z=0, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- fake control room
 table.insert(BWOSquareLoader.events, {phase="Emitter", x=5575, y=12473, z=0, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- entrance
 table.insert(BWOSquareLoader.events, {phase="Emitter", x=5562, y=12464, z=0, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- back
-
+table.insert(BWOSquareLoader.events, {phase="Emitter", x=5556, y=12446, z=-16, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- real control room
 -- defender teams
 table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5572, y=12489, z=0, intensity = 2}) -- control room
 table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5582, y=12486, z=0, intensity = 3}) -- entrance in
@@ -312,6 +312,7 @@ table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5573, y=12484, z=
 table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5609, y=12483, z=0, intensity = 4}) -- gateway
 table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5833, y=12490, z=0, intensity = 2}) -- booth
 table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5831, y=12484, z=0, intensity = 3}) -- szlaban
+-- table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5558, y=12447, z=-16, intensity = 3}) -- underground armory
 
 
 -- checks if a point is inside any exclusion zone
@@ -329,6 +330,9 @@ BWOSquareLoader.Burn = function(square)
     if square:getZ() < 0 then return end
 
     square:BurnWalls(false)
+    local md = square:getModData()
+    if not md.BWO then md.BWO = {} end
+    md.BWO.burnt = true
 
     if BanditUtils.HasZoneType(square:getX(), square:getY(), square:getZ(), "Nav") then
         local objects = square:getObjects()
@@ -466,7 +470,7 @@ BWOSquareLoader.OnLoad = function(square)
         local id = x .. "-" .. y .. "-" .. z
         if corpse and not gmd.DeadBodies[id] then
             -- local args = {x=x, y=y, z=z}
-            -- sendClientCommand(getPlayer(), 'Commands', 'DeadBodyAdd', args)
+            -- sendClientCommand(getSpecificPlayer(0), 'Commands', 'DeadBodyAdd', args)
             square:removeCorpse(corpse, true)
             -- sq:AddWorldInventoryItem(corpse:getItem(), 0.5, 0.5, 0)
         end
@@ -500,7 +504,7 @@ BWOSquareLoader.OnLoad = function(square)
             local object = objects:get(i)
             if instanceof(object, "IsoBarbecue") and square:isOutside() then
                 local args = {x=x, y=y, z=z, otype="barbecue"}
-                sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
+                sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectAdd', args)
                 break
             end
 
@@ -509,7 +513,7 @@ BWOSquareLoader.OnLoad = function(square)
                 local spriteName = sprite:getName()
                 if spriteMap[spriteName] and square:isOutside() then 
                     local args = {x=x, y=y, z=z, otype=spriteMap[spriteName]}
-                    sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
+                    sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectAdd', args)
                     break
                 end
 
@@ -518,7 +522,7 @@ BWOSquareLoader.OnLoad = function(square)
                     local customName = props:Val("CustomName")
                     if customNameMap[customName] and square:isOutside() then 
                         local args = {x=x, y=y, z=z, otype=customNameMap[customName]}
-                        sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
+                        sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectAdd', args)
                         break
                     end
                 end
@@ -577,7 +581,7 @@ BWOSquareLoader.LocationEvents = function(ticks)
     if ticks % 10 > 0 then return end
 
     local tab = BWOSquareLoader.events
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     local cell = getCell()
     for i, event in pairs(tab) do
         local square = cell:getGridSquare(event.x, event.y, event.z)
@@ -609,7 +613,7 @@ BWOSquareLoader.VehicleFixOrRemove = function()
             if not md.BWO.wasRepaired then
                 local scriptName = vehicle:getScriptName()
                 local engine = vehicle:getPartById("Engine")
-                if scriptName:embodies("Burnt") or scriptName:embodies("Smashed") or (engine and engine:getCondition() < 50) then
+                if scriptName:embodies("Burnt") or scriptName:embodies("Smashed") or not engine or engine:getCondition() < 50 then
                     table.insert(toDelete, vehicle)
                 else
                     vehicle:repair()
@@ -649,7 +653,7 @@ BWOSquareLoader.OnNewFire = function(fire)
     BWOScheduler.Add("CallFireman", params, 4800)
 
     local args = {x=params.x, y=params.y, z=params.z, otype="fire", ttl=BanditUtils.GetTime()+25000}
-    sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
+    sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectAdd', args)
 end
 
 Events.LoadGridsquare.Add(BWOSquareLoader.OnLoad)

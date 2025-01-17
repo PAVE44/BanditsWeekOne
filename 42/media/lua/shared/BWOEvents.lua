@@ -8,7 +8,7 @@ local isInCircle = function(x, y, cx, cy, r)
 end
 
 local findVehicleSpot2 = function(sx, sy)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     local px = player:getX()
     local py = player:getY()
     local rmin = 20
@@ -111,7 +111,7 @@ local explode = function(x, y)
         return sounds[1 + ZombRand(#sounds)]
     end
     
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
 
     -- bomb sound
     local sound = getSound()
@@ -249,6 +249,14 @@ local addRadio = function(x, y, z)
     --local surfaceOffset = BanditUtils.GetSurfaceOffset(x, y, z)
     -- local radioItem = square:AddWorldInventoryItem("appliances_radio_01_0", 0.5, 0.5, surfaceOffset)
 
+    local objects = square:getObjects()
+    for i=0, objects:size()-1 do
+        local object = objects:get(i)
+        if instanceof(object, "IsoRadio") then
+            return
+        end
+    end
+
     local radio = IsoRadio.new(cell, square, getSprite("appliances_radio_01_0"))
     square:AddTileObject(radio)
     radio:getDeviceData():setIsTurnedOn(false)
@@ -259,7 +267,7 @@ local addRadio = function(x, y, z)
 end
 
 local arrivalSound = function(x, y, sound)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     local arrivalSoundX
     local arrivalSoundY
     if x < player:getX() then 
@@ -329,7 +337,7 @@ BWOEvents.VehiclesUpdate = function(params)
     
     for i=0, vehicleList:size()-1 do
         local vehicle = vehicleList:get(i)
-        if vehicle then
+        if vehicle and not vehicle:getDriver() then
 
             if params.headlights then
                 vehicle:setHeadlightsOn(true)
@@ -345,9 +353,9 @@ BWOEvents.VehiclesUpdate = function(params)
                 end
             end
 
-            if params.alarm  then
+            if params.alarm then
                 if not vehicle:hasLightbar() then
-                    addSound(getPlayer(), vehicle:getX(), vehicle:getY(), vehicle:getZ(), 150, 100)
+                    addSound(getSpecificPlayer(0), vehicle:getX(), vehicle:getY(), vehicle:getZ(), 150, 100)
                     BanditPlayer.WakeEveryone()
                     vehicle:setAlarmed(true)
                     vehicle:triggerAlarm()
@@ -369,14 +377,18 @@ BWOEvents.Siren = function(params)
     local emitter = getWorld():getFreeEmitter(params.x + 10, params.y - 20, 0)
     emitter:playAmbientSound("DOSiren2")
     emitter:setVolumeAll(0.9)
-    addSound(getPlayer(), params.x, params.y, params.z, 150, 100)
+    addSound(getSpecificPlayer(0), params.x, params.y, params.z, 150, 100)
 end
 
 -- params: [on]
 BWOEvents.SetHydroPower = function(params)
+    local day = getSandboxOptions():getElecShutModifier()
+    if day > 0 and day < 8 then return end
+
     getWorld():setHydroPowerOn(params.on)
     if params.on == false then
-        local player = getPlayer()
+        BWOEmitter.tab = {}
+        local player = getSpecificPlayer(0)
         player:playSound("WorldEventElectricityShutdown")
     end
 end
@@ -391,7 +403,7 @@ BWOEvents.WeatherStorm = function(params)
 end
 
 BWOEvents.Say = function(params)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     local color = player:getSpeakColour()
     player:addLineChatElement(params.txt, color:getR(), color:getG(), color:getB())
 end
@@ -399,43 +411,72 @@ end
 BWOEvents.Dream = function(params)
 
     if params.night == 0 then
-        BWOScheduler.Add("Say", {txt="I had a strange dream."}, 0)
-        BWOScheduler.Add("Say", {txt="I was fiddling with an old radio, and I caught fragments of a broadcast. "}, 2000)
-        BWOScheduler.Add("Say", {txt="The voice was shaky, cutting in and out, "}, 4000)
-        BWOScheduler.Add("Say", {txt="but I remember hearing words like ‘emergency’ and ‘stay indoors.’"}, 6000)
-        BWOScheduler.Add("Say", {txt="The static grew louder, drowning out the rest."}, 8000)
-        BWOScheduler.Add("Say", {txt="... "}, 10000)
+        BWOScheduler.Add("Say", {txt="I had a strange dream."}, 2000)
+        BWOScheduler.Add("Say", {txt="I was fiddling with an old radio, and I caught fragments of a broadcast. "}, 4000)
+        BWOScheduler.Add("Say", {txt="The voice was shaky, cutting in and out, "}, 6000)
+        BWOScheduler.Add("Say", {txt="but I remember hearing words like ‘emergency’ and ‘stay indoors.’"}, 8000)
+        BWOScheduler.Add("Say", {txt="The static grew louder, drowning out the rest."}, 10000)
+        BWOScheduler.Add("Say", {txt="... "}, 12000)
     elseif params.night == 1 then
-        BWOScheduler.Add("Say", {txt="I was dreaming again."}, 0)
-        BWOScheduler.Add("Say", {txt="I was walking through a park."}, 2000)
-        BWOScheduler.Add("Say", {txt="I remember looking around, calling out, but my voice echoed back at me."}, 4000)
-        BWOScheduler.Add("Say", {txt="Suddenly I saw a stranger, trying to tell me something important."}, 6000)
-        BWOScheduler.Add("Say", {txt="... "}, 8000)
+        BWOScheduler.Add("Say", {txt="I was dreaming again."}, 2000)
+        BWOScheduler.Add("Say", {txt="I was walking through a park."}, 4000)
+        BWOScheduler.Add("Say", {txt="I remember looking around, calling out, but my voice echoed back at me."}, 6000)
+        BWOScheduler.Add("Say", {txt="Suddenly I saw a stranger, trying to tell me something important."}, 8000)
+        BWOScheduler.Add("Say", {txt="... "}, 10000)
     elseif params.night == 2 then
-        BWOScheduler.Add("Say", {txt="Another dream."}, 0)
-        BWOScheduler.Add("Say", {txt="The sky was overcast, and everything felt heavy, like before a storm."}, 2000)
-        BWOScheduler.Add("Say", {txt="In the distance, I saw this faint, flickering glow—maybe a fire?"}, 4000)
-        BWOScheduler.Add("Say", {txt="It didn’t feel comforting, though. I couldn’t tell why, but it made me want to walk the other way. "}, 6000)
-        BWOScheduler.Add("Say", {txt="Still, I couldn’t stop staring at it."}, 8000)
+        BWOScheduler.Add("Say", {txt="Another dream."}, 2000)
+        BWOScheduler.Add("Say", {txt="The sky was overcast, and everything felt heavy, like before a storm."}, 4000)
+        BWOScheduler.Add("Say", {txt="In the distance, I saw this faint, flickering glow—maybe a fire?"}, 6000)
+        BWOScheduler.Add("Say", {txt="It didn’t feel comforting, though. I couldn’t tell why, but it made me want to walk the other way. "}, 8000)
+        BWOScheduler.Add("Say", {txt="Still, I couldn’t stop staring at it."}, 10000)
     elseif params.night == 3 then
-        BWOScheduler.Add("Say", {txt="Dream again."}, 0)
-        BWOScheduler.Add("Say", {txt="I found myself inside a big building I didn’t recognize."}, 2000)
-        BWOScheduler.Add("Say", {txt="I saw red light flickering and heard a terrible noise."}, 4000)
-        BWOScheduler.Add("Say", {txt="Then I saw a man from my first dream. "}, 6000)
-        BWOScheduler.Add("Say", {txt="He took his sword and wanted to give it to me. "}, 8000)
+        BWOScheduler.Add("Say", {txt="Dream again."}, 2000)
+        BWOScheduler.Add("Say", {txt="I found myself inside a big building I didn’t recognize."}, 4000)
+        BWOScheduler.Add("Say", {txt="I saw red light flickering and heard a terrible noise."}, 6000)
+        BWOScheduler.Add("Say", {txt="Then I saw a man from my first dream. "}, 8000)
+        BWOScheduler.Add("Say", {txt="He took his sword and wanted to give it to me. "}, 10000)
     elseif params.night == 4 then
-        BWOScheduler.Add("Say", {txt="His name is Michael... I saw him again in my dream."}, 0)
-        BWOScheduler.Add("Say", {txt="It didn’t feel like a dream at all this time. "}, 2000)
-        BWOScheduler.Add("Say", {txt="He gave me clear instructions to follow."}, 4000)
-        BWOScheduler.Add("Say", {txt="Military Base, that’s where I have to go. "}, 6000)
-        BWOScheduler.Add("Say", {txt="In the control room, I have to stop it. "}, 8000)
+        BWOScheduler.Add("Say", {txt="His name is Michael... I saw him again in my dream."}, 2000)
+        BWOScheduler.Add("Say", {txt="It didn’t feel like a dream at all this time. "}, 4000)
+        BWOScheduler.Add("Say", {txt="He gave me clear instructions to follow."}, 6000)
+        BWOScheduler.Add("Say", {txt="Military Base, that’s where I have to go. "}, 8000)
+        BWOScheduler.Add("Say", {txt="In the control room, I have to stop it. "}, 10000)
     elseif params.night == 5 then
-        BWOScheduler.Add("Say", {txt="Military Base, that’s where I have to go. "}, 0)
-        BWOScheduler.Add("Say", {txt="In the control room, I have to stop it. "}, 2000)
+        BWOScheduler.Add("Say", {txt="Military Base, that’s where I have to go. "}, 3000)
+        BWOScheduler.Add("Say", {txt="In the control room, floor -16, I have to stop it. "}, 6000)
     elseif params.night == 6 then
-        BWOScheduler.Add("Say", {txt="Military Base, that’s where I have to go. "}, 0)
-        BWOScheduler.Add("Say", {txt="In the control room, I have to stop it. "}, 2000)
-        BWOScheduler.Add("Say", {txt="I feel that it’s urgent. "}, 4000)
+        BWOScheduler.Add("Say", {txt="Military Base, that’s where I have to go. "}, 4000)
+        BWOScheduler.Add("Say", {txt="In the control room, I have to stop it. "}, 9000)
+        BWOScheduler.Add("Say", {txt="I feel that it’s urgent. "}, 12000)
+    end
+end
+
+BWOEvents.Reanimate = function(params)
+    local cell = getCell()
+    local age = getGameTime():getWorldAgeHours()
+    for z = -1, 2 do
+        for x = -params.r, params.r do
+            for y = -params.r, params.r do
+                local square = cell:getGridSquare(params.x + x, params.y + y, params.z + z)
+                if square then
+                    local body = square:getDeadBody()
+                    if body then
+
+                        -- we found one body, but there my be more bodies on that square and we need to check all
+                        local objects = square:getStaticMovingObjects()
+                        for i=0, objects:size()-1 do
+                            local object = objects:get(i)
+                            if instanceof (object, "IsoDeadBody") then
+                                local r = ZombRand(100)
+                                if r < params.chance then
+                                    object:setReanimateTime(age + ZombRandFloat(0.1, 0.7)) -- now plus 6 - 42 minutes
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
     end
 end
 
@@ -445,12 +486,51 @@ BWOEvents.ChopperAlert = function(params)
     local emitter = getWorld():getFreeEmitter(params.x, params.y, 0)
     emitter:playAmbientSound(params.sound)
     emitter:setVolumeAll(0.9)
-    addSound(getPlayer(), params.x, params.y, params.z, 150, 100)
+    addSound(getSpecificPlayer(0), params.x, params.y, params.z, 150, 100)
+end
+
+-- params: [x, y, sound]
+BWOEvents.ChopperFliers = function(params)
+    
+    if not SandboxVars.BanditsWeekOne.EventFinalSolution then return end
+
+    BanditPlayer.WakeEveryone()
+    local emitter = getWorld():getFreeEmitter(params.x, params.y, 0)
+    emitter:playAmbientSound("ZSAttack_Chopper_1")
+    emitter:setVolumeAll(0.9)
+    addSound(getSpecificPlayer(0), params.x, params.y, params.z, 150, 100)
+    BWOScheduler.Add("ChopperFliersStage2", params, 10000)
+    BWOScheduler.Add("ChopperFliersStage2", params, 12000)
+    BWOScheduler.Add("ChopperFliersStage2", params, 13600)
+end
+
+BWOEvents.ChopperFliersStage2 = function(params)
+
+    if not SandboxVars.BanditsWeekOne.EventFinalSolution then return end
+
+    local cell = getCell()
+    for y=-80, 80 do
+        for x=-80, 80 do
+            if ZombRand(50) == 1 then
+                for z=8, 0, -1 do
+                    local square = cell:getGridSquare(params.x + x, params.y + y, z)
+                    if square and square:isOutside() then
+                        local item = instanceItem("Base.Flier")
+                        item:setName("Flier: CDC URGENT PUBLIC NOTICE")
+                        local md = item:getModData()
+                        md.printMedia = "CDC1"
+                        square:AddWorldInventoryItem(item, ZombRandFloat(0.2, 0.8), ZombRandFloat(0.2, 0.8), 0)
+                        break
+                    end
+                end
+            end
+        end
+    end
 end
 
 -- params: [icon]
 BWOEvents.RegisterBase = function(params)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     local building = player:getBuilding()
     if building then
         local buildingDef = building:getDef()
@@ -466,7 +546,7 @@ end
 
 -- params: []
 BWOEvents.Start = function(params)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     local building = player:getBuilding()
     if building then
         local buildingDef = building:getDef()
@@ -484,22 +564,38 @@ BWOEvents.Start = function(params)
 
         -- profession items
         local profession = player:getDescriptor():getProfession()
-        local professionItemType
+        local professionItemTypeList
+        local professionSubItemTypeList
         if profession == "fireofficer" then
-            professionItemType = "Base.Extinguisher"
+            professionItemTypeList = {"Base.Axe", "Base.Extinguisher"}
+        elseif profession == "parkranger" then
+            professionItemTypeList = {"Base.Bag_SurvivorBag"}
         elseif profession == "mechanics" then
-            professionItemType = "Base.Wrench"
+            professionSubItemTypeList = {"Base.Wrench", "Base.TireIron", "Base.Ratchet", "Base.Jack", "Base.LightBulbBox"}
+            professionItemTypeList = {"Base.Toolbox_Mechanic"}
         elseif profession == "lumberjack" then
-            professionItemType = "Base.Woodaxe"
+            professionItemTypeList = {"Base.Woodaxe"}
         elseif profession == "doctor" then
-            professionItemType = "Base.Scalpel"
+            professionSubItemTypeList = {"Base.Bandage", "Base.Bandage", "Base.Bandage", "Base.Bandage", "Base.AlcoholWipes", "Base.SutureNeedle", "Base.SutureNeedle", "Base.Tweezers"}
+            professionItemTypeList = {"Base.Bag_Satchel_Medical"}
         elseif profession == "policeofficer" then
-            professionItemType = "Base.Nightstick"
+            professionItemTypeList = {"Base.Nightstick"}
+        elseif profession == "veteran" then
+            professionItemTypeList = {"Base.HuntingRifle", "Base.308Box"}
         end
         
-        if professionItemType then
-            local professionItem = instanceItem(professionItemType)
-            player:getInventory():AddItem(professionItem)
+        if professionItemTypeList then
+            for _, professionItemType in pairs(professionItemTypeList) do
+                local professionItem = instanceItem(professionItemType)
+                if professionSubItemTypeList then
+                    local container = professionItem:getItemContainer()
+                    for _, professionSubItemType in pairs(professionSubItemTypeList) do
+                        local professionSubItem = instanceItem(professionSubItemType)
+                        container:AddItem(professionSubItem)
+                    end
+                end
+                player:getInventory():AddItem(professionItem)
+            end
         end
 
         -- show home icon
@@ -520,11 +616,46 @@ BWOEvents.Start = function(params)
         local item = instanceItem("Base.Money")
         player:getInventory():AddItem(item)
     end
+
+    -- spawn babe
+    if SandboxVars.BanditsWeekOne.StartBabe then
+        config = {}
+        config.clanId = 1
+        config.hasRifleChance = 0
+        config.hasPistolChance = 100
+        config.rifleMagCount = 0
+        config.pistolMagCount = 3
+
+        local event = {}
+        event.hostile = false
+        event.occured = false
+        event.program = {}
+        event.program.name = "Babe"
+        event.program.stage = "Prepare"
+
+        event.x = player:getX() + 1
+        event.y = player:getY() + 1
+        event.bandits = {}
+        
+        local bandit = BanditCreator.MakeFromWave(config)
+        bandit.accuracyBoost = 2
+        bandit.femaleChance = 92
+        if player:isFemale() then
+            bandit.femaleChance = 8
+        end
+
+        bandit.health = 8
+        bandit.outfit = BanditUtils.Choice({"BWOYoung", "BWOCow", "BWOLeather"})
+        bandit.weapons.melee = "Base.BareHands"
+
+        table.insert(event.bandits, bandit)
+        sendClientCommand(player, 'Commands', 'SpawnGroup', event)
+    end
 end
 
 -- params: [day]
 BWOEvents.StartDay = function(params)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     player:playSound("ZSDayStart")
     
     BWOTex.tex = getTexture("media/textures/day_" .. params.day .. ".png")
@@ -552,7 +683,7 @@ end
 
 -- params: []
 BWOEvents.Arson = function(params)
-    local building = BWOBuildings.FindBuildingDist(getPlayer(), 35, 50)
+    local building = BWOBuildings.FindBuildingDist(getSpecificPlayer(0), 35, 50)
     if building then
 
         local room = building:getRandomRoom()
@@ -670,7 +801,7 @@ BWOEvents.SetupNukes = function(params)
 
     -- nukes
     local addNuke = function(x, y, r)
-        BWOServer.Commands.NukeAdd(getPlayer(), {x=x, y=y, r=r})
+        BWOServer.Commands.NukeAdd(getSpecificPlayer(0), {x=x, y=y, r=r})
         -- table.insert(BWOSquareLoader.nukes, {x=x, y=y, r=r})
     end
 
@@ -680,13 +811,18 @@ BWOEvents.SetupNukes = function(params)
     addNuke(7267, 8320, 700) -- doe valley
     addNuke(6350, 5430, 700) -- riverside
     addNuke(11740, 6900, 700) -- westpoint
-    addNuke(2060, 5930, 700) -- westpoint
+    addNuke(2060, 5930, 700) -- brandenburg
+    addNuke(646, 9734, 600) -- ekron
+    addNuke(2336, 14294, 800) -- irvington
 
 end
 
 -- params: []
 BWOEvents.FinalSolution = function(params2)
-    local player = getPlayer()
+
+    if not SandboxVars.BanditsWeekOne.EventFinalSolution then return end
+
+    local player = getSpecificPlayer(0)
     local px = player:getX()
     local py = player:getY()
     local params = {}
@@ -721,7 +857,10 @@ end
 
 -- params: [x, y, outside]
 BWOEvents.Nuke = function(params)
-    local player = getPlayer()
+
+    if not SandboxVars.BanditsWeekOne.EventFinalSolution then return end
+
+    local player = getSpecificPlayer(0)
 
     BWOTex.speed = 0.018
     BWOTex.tex = getTexture("media/textures/mask_white.png")
@@ -753,7 +892,10 @@ end
 
 -- params: [x, y, outside]
 BWOEvents.NukeDist = function(params)
-    local player = getPlayer()
+
+    if not SandboxVars.BanditsWeekOne.EventFinalSolution then return end
+
+    local player = getSpecificPlayer(0)
 
     BWOTex.speed = 0.05
     BWOTex.tex = getTexture("media/textures/mask_white.png")
@@ -806,7 +948,7 @@ BWOEvents.JetFighter = function(params)
 
                 if outside and params.x > x1 and params.x < x2 and params.y > y1 and params.y < y2 then
                     if ZombRand(4) == 0 then
-                        getPlayer():Hit(fakeItem, fakeZombie, 0.8, false, 1, false)
+                        getSpecificPlayer(0):Hit(fakeItem, fakeZombie, 0.8, false, 1, false)
                         -- SwipeStatePlayer.splash(player, fakeItem, fakeZombie)
                     end
                 end
@@ -918,7 +1060,7 @@ end
 -- params: [x, y, z]
 BWOEvents.Protest = function(params)
     local args = {x=params.x, y=params.y, z=params.z, otype="protest"}
-    sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
+    sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectAdd', args)
 
     if SandboxVars.Bandits.General_ArrivalIcon then
         local icon = "media/ui/protests.png"
@@ -929,7 +1071,7 @@ end
 
 -- params: [eid(opt)]
 BWOEvents.Entertainer = function(params)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
 
     config = {}
     config.clanId = 0
@@ -958,7 +1100,7 @@ BWOEvents.Entertainer = function(params)
         if params.eid then
             rnd = params.eid
         else
-            rnd = ZombRand(10)
+            rnd = 1 + ZombRand(4)
         end
 
         -- rnd = 9
@@ -1024,7 +1166,7 @@ end
 
 -- params: []
 BWOEvents.BuildingParty = function(params)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
 
     local house = BWOBuildings.FindBuildingWithRoom("bedroom")
     if not house then return end
@@ -1157,10 +1299,10 @@ BWOEvents.BuildingParty = function(params)
 
             if bandit then
                 if ZombRand(2) == 0 then
-                    bandit.outfit = BanditUtils.Choice({"StripperBlack", "StripperNaked", "StripperPink", "DressShort", "Naked", "Party"})
+                    bandit.outfit = BanditUtils.Choice({"StripperBlack", "StripperNaked", "StripperPink", "DressShort", "BWOAnimal", "Party"})
                     bandit.femaleChance = 100
                 else
-                    bandit.outfit = BanditUtils.Choice({"Thug", "Party", "Young", "Stripper", "PoliceStripper", "FiremanStripper", "Naked"})
+                    bandit.outfit = BanditUtils.Choice({"Thug", "Party", "Young", "Stripper", "PoliceStripper", "FiremanStripper", "BWOAnimal"})
                     bandit.femaleChance = 0
                 end
 
@@ -1184,13 +1326,23 @@ end
 
 -- params: [x, y, hostile]
 BWOEvents.CallCops = function(params)
+
+    if not BWOPopControl.Police.On then return end
     if BWOPopControl.Police.Cooldown > 0 then return end
 
+    local player = getSpecificPlayer(0)
     local x, y = findVehicleSpot2(params.x, params.y)
     if not x or not y then return end
 
-    spawnVehicle (x, y, "Base.PickUpVanLightsPolice")
-    arrivalSound(x, y, "ZSPoliceCar1")
+    local vehicleCount = player:getCell():getVehicles():size()
+    if vehicleCount < 8 then
+        spawnVehicle (x, y, "Base.PickUpVanLightsPolice")
+        arrivalSound (x, y, "ZSPoliceCar1")
+
+        local vparams = {}
+        vparams.lightbar = true
+        BWOScheduler.Add("VehiclesUpdate", vparams, 500)
+    end
 
     config = {}
     config.clanId = 0
@@ -1217,11 +1369,8 @@ BWOEvents.CallCops = function(params)
     table.insert(event.bandits, bandit)
     table.insert(event.bandits, bandit)
             
-    sendClientCommand(getPlayer(), 'Commands', 'SpawnGroup', event)
+    sendClientCommand(getSpecificPlayer(0), 'Commands', 'SpawnGroup', event)
 
-    local vparams = {}
-    vparams.lightbar = true
-    BWOScheduler.Add("VehiclesUpdate", vparams, 500)
 
     if SandboxVars.Bandits.General_ArrivalIcon then
         local icon = "media/ui/sheriff.png"
@@ -1239,14 +1388,24 @@ end
 
 -- params: [x, y, hostile]
 BWOEvents.CallSWAT = function(params)
+
+    if not BWOPopControl.SWAT.On then return end
     if BWOPopControl.SWAT.Cooldown > 0 then return end
 
+    local player = getSpecificPlayer(0)
     local x, y = findVehicleSpot2(params.x, params.y)
     if not x or not y then return end
 
-    spawnVehicle (x, y, "Base.PickUpVanLightsPolice")
-    arrivalSound(x, y, "ZSPoliceCar1")
+    local vehicleCount = player:getCell():getVehicles():size()
+    if vehicleCount < 8 then
+        spawnVehicle (x, y, "Base.PickUpVanLightsPolice")
+        arrivalSound(x, y, "ZSPoliceCar1")
 
+        local vparams = {}
+        vparams.lightbar = true
+        BWOScheduler.Add("VehiclesUpdate", vparams, 500)
+    end
+    
     config = {}
     config.clanId = 0
     config.hasRifleChance = 100
@@ -1277,25 +1436,31 @@ BWOEvents.CallSWAT = function(params)
     table.insert(event.bandits, bandit)
     table.insert(event.bandits, bandit)
             
-    sendClientCommand(getPlayer(), 'Commands', 'SpawnGroup', event)
-
-    local vparams = {}
-    vparams.lightbar = true
-    BWOScheduler.Add("VehiclesUpdate", vparams, 500)
+    sendClientCommand(getSpecificPlayer(0), 'Commands', 'SpawnGroup', event)
 
     BWOPopControl.SWAT.Cooldown = SandboxVars.BanditsWeekOne.SWATCooldown -- 120
 end
 
 -- params: [x, y]
 BWOEvents.CallMedics = function(params)
+    
+    if not BWOPopControl.Medics.On then return end
     if BWOPopControl.Medics.Cooldown > 0 then return end
 
+    local player = getSpecificPlayer(0)
     local x, y = findVehicleSpot2(params.x, params.y)
     if not x or not y then return end
 
-    spawnVehicle (x, y, "Base.VanAmbulance")
-    arrivalSound(x, y, "ZSPoliceCar1")
+    local vehicleCount = player:getCell():getVehicles():size()
+    if vehicleCount < 8 then
+        spawnVehicle (x, y, "Base.VanAmbulance")
+        arrivalSound(x, y, "ZSPoliceCar1")
 
+        local vparams = {}
+        vparams.lightbar = true
+        BWOScheduler.Add("VehiclesUpdate", vparams, 500)
+    end
+  
     config = {}
     config.clanId = 0
     config.hasRifleChance = 0
@@ -1322,13 +1487,8 @@ BWOEvents.CallMedics = function(params)
     bandit2.outfit = "AmbulanceDriver"
     bandit2.weapons.melee = "Base.Scalpel"
     table.insert(event.bandits, bandit2)
-
             
-    sendClientCommand(getPlayer(), 'Commands', 'SpawnGroup', event)
-    
-    local vparams = {}
-    vparams.lightbar = true
-    BWOScheduler.Add("VehiclesUpdate", vparams, 500)
+    sendClientCommand(getSpecificPlayer(0), 'Commands', 'SpawnGroup', event)
 
     if SandboxVars.Bandits.General_ArrivalIcon then
         local icon = "media/ui/medics.png"
@@ -1342,13 +1502,22 @@ end
 -- params: [x, y]
 BWOEvents.CallHazmats = function(params)
 
+    if not BWOPopControl.Hazmats.On then return end
     if BWOPopControl.Hazmats.Cooldown > 0 then return end
 
+    local player = getSpecificPlayer(0)
     local x, y = findVehicleSpot2(params.x, params.y)
     if not x or not y then return end
 
-    spawnVehicle (x, y, "Base.VanAmbulance")
-    arrivalSound(x, y, "ZSPoliceCar1")
+    local vehicleCount = player:getCell():getVehicles():size()
+    if vehicleCount < 8 then
+        spawnVehicle (x, y, "Base.VanAmbulance")
+        arrivalSound(x, y, "ZSPoliceCar1")
+
+        local vparams = {}
+        vparams.lightbar = true
+        BWOScheduler.Add("VehiclesUpdate", vparams, 500)
+    end
 
     config = {}
     config.clanId = 0
@@ -1375,24 +1544,30 @@ BWOEvents.CallHazmats = function(params)
     table.insert(event.bandits, bandit)
     table.insert(event.bandits, bandit)
             
-    sendClientCommand(getPlayer(), 'Commands', 'SpawnGroup', event)
-
-    local vparams = {}
-    vparams.lightbar = true
-    BWOScheduler.Add("VehiclesUpdate", vparams, 500)
+    sendClientCommand(getSpecificPlayer(0), 'Commands', 'SpawnGroup', event)
 
     BWOPopControl.Hazmats.Cooldown = SandboxVars.BanditsWeekOne.HazmatCooldown -- 50
 end
 
 -- params: [x, y]
 BWOEvents.CallFireman = function(params)
+    
+    if not BWOPopControl.Fireman.On then return end
     if BWOPopControl.Fireman.Cooldown > 0 then return end
 
+    local player = getSpecificPlayer(0)
     local x, y = findVehicleSpot2(params.x, params.y)
     if not x or not y then return end
 
-    spawnVehicle (x, y, "Base.PickUpTruckLightsFire")
-    arrivalSound(x, y, "ZSPoliceCar1")
+    local vehicleCount = player:getCell():getVehicles():size()
+    if vehicleCount < 8 then
+        spawnVehicle (x, y, "Base.PickUpTruckLightsFire")
+        arrivalSound(x, y, "ZSPoliceCar1")
+
+        local vparams = {}
+        vparams.lightbar = true
+        BWOScheduler.Add("VehiclesUpdate", vparams, 500)
+    end
 
     config = {}
     config.clanId = 0
@@ -1417,12 +1592,9 @@ BWOEvents.CallFireman = function(params)
     table.insert(event.bandits, bandit)
     table.insert(event.bandits, bandit)
     table.insert(event.bandits, bandit)
+    table.insert(event.bandits, bandit)
             
-    sendClientCommand(getPlayer(), 'Commands', 'SpawnGroup', event)
-
-    local vparams = {}
-    vparams.lightbar = true
-    BWOScheduler.Add("VehiclesUpdate", vparams, 500)
+    sendClientCommand(getSpecificPlayer(0), 'Commands', 'SpawnGroup', event)
 
     if SandboxVars.Bandits.General_ArrivalIcon then
         local icon = "media/ui/crew.png"
@@ -1437,19 +1609,19 @@ end
 
 -- params: []
 BWOEvents.Defenders = function(params)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     BanditScheduler.SpawnDefenders(player, 50, 70)
 end
 
 -- params: [intensity]
 BWOEvents.Thieves = function(params)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
 
     local base = BanditPlayerBase.GetBase(player)
     if not base then return end
 
     config = {}
-    config.clanId = 13
+    config.clanId = 0
     config.hasRifleChance = 0
     config.hasPistolChance = 70
     config.rifleMagCount = 0
@@ -1469,29 +1641,29 @@ BWOEvents.Thieves = function(params)
         event.bandits = {}
         
         local bandit = BanditCreator.MakeFromWave(config)
-        local intensity = params.intensity
+        local intensity = math.floor(params.intensity * SandboxVars.BanditsWeekOne.BanditsPopMultiplier)
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)
             end
             sendClientCommand(player, 'Commands', 'SpawnGroup', event)
-        end
 
-        if SandboxVars.Bandits.General_ArrivalIcon then
-            local icon = "media/ui/thief.png"
-            local color = {r=1, g=1, b=0.5} -- yellow
-            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
-        end
-
-        if SandboxVars.Bandits.General_ArrivalWakeUp then
-            BanditPlayer.WakeEveryone()
+            if SandboxVars.Bandits.General_ArrivalIcon then
+                local icon = "media/ui/thief.png"
+                local color = {r=1, g=1, b=0.5} -- yellow
+                BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            end
+    
+            if SandboxVars.Bandits.General_ArrivalWakeUp then
+                BanditPlayer.WakeEveryone()
+            end
         end
     end
 end
 
 -- params: [intensity, hostile]
 BWOEvents.PoliceRiot = function(params)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
 
     config = {}
     config.clanId = 6
@@ -1534,7 +1706,7 @@ end
 
 -- params: [intensity]
 BWOEvents.Criminals = function(params)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
 
     config = {}
     config.clanId = 4
@@ -1557,25 +1729,25 @@ BWOEvents.Criminals = function(params)
         event.bandits = {}
         
         local bandit = BanditCreator.MakeFromWave(config)
-        local intensity = params.intensity
+        local intensity = math.floor(params.intensity * SandboxVars.BanditsWeekOne.BanditsPopMultiplier)
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)
             end
             sendClientCommand(player, 'Commands', 'SpawnGroup', event)
-        end
 
-        if SandboxVars.Bandits.General_ArrivalIcon then
-            local icon = "media/ui/raid.png"
-            local color = {r=1, g=0, b=0} -- red
-            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            if SandboxVars.Bandits.General_ArrivalIcon then
+                local icon = "media/ui/raid.png"
+                local color = {r=1, g=0, b=0} -- red
+                BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            end
         end
     end
 end
 
 -- params: [intensity]
 BWOEvents.Bandits = function(params)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
 
     config = {}
     config.clanId = 13
@@ -1598,25 +1770,25 @@ BWOEvents.Bandits = function(params)
         event.bandits = {}
         
         local bandit = BanditCreator.MakeFromWave(config)
-        local intensity = params.intensity
+        local intensity = math.floor(params.intensity * SandboxVars.BanditsWeekOne.BanditsPopMultiplier)
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)
             end
             sendClientCommand(player, 'Commands', 'SpawnGroup', event)
-        end
 
-        if SandboxVars.Bandits.General_ArrivalIcon then
-            local icon = "media/ui/loot.png"
-            local color = {r=1, g=0, b=0} -- red
-            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            if SandboxVars.Bandits.General_ArrivalIcon then
+                local icon = "media/ui/loot.png"
+                local color = {r=1, g=0, b=0} -- red
+                BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            end
         end
     end
 end
 
 -- params: [intensity]
 BWOEvents.Bikers = function(params)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
 
     config = {}
     config.clanId = 9
@@ -1639,25 +1811,25 @@ BWOEvents.Bikers = function(params)
         event.bandits = {}
         
         local bandit = BanditCreator.MakeFromWave(config)
-        local intensity = params.intensity
+        local intensity = math.floor(params.intensity * SandboxVars.BanditsWeekOne.BanditsPopMultiplier)
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)
             end
             sendClientCommand(player, 'Commands', 'SpawnGroup', event)
-        end
 
-        if SandboxVars.Bandits.General_ArrivalIcon then
-            local icon = "media/ui/loot.png"
-            local color = {r=1, g=0, b=0} -- red
-            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            if SandboxVars.Bandits.General_ArrivalIcon then
+                local icon = "media/ui/loot.png"
+                local color = {r=1, g=0, b=0} -- red
+                BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            end
         end
     end
 end
 
 -- params: [intensity]
 BWOEvents.Inmates = function(params)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
 
     config = {}
     config.clanId = 5
@@ -1680,25 +1852,25 @@ BWOEvents.Inmates = function(params)
         event.bandits = {}
         
         local bandit = BanditCreator.MakeFromWave(config)
-        local intensity = params.intensity
+        local intensity = math.floor(params.intensity * SandboxVars.BanditsWeekOne.BanditsPopMultiplier)
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)
             end
             sendClientCommand(player, 'Commands', 'SpawnGroup', event)
-        end
 
-        if SandboxVars.Bandits.General_ArrivalIcon then
-            local icon = "media/ui/loot.png"
-            local color = {r=1, g=0, b=0} -- red
-            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            if SandboxVars.Bandits.General_ArrivalIcon then
+                local icon = "media/ui/loot.png"
+                local color = {r=1, g=0, b=0} -- red
+                BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            end
         end
     end
 end
 
 -- params: [intensity]
 BWOEvents.Asylum = function(params)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
 
     config = {}
     config.clanId = 2
@@ -1721,18 +1893,18 @@ BWOEvents.Asylum = function(params)
         event.bandits = {}
         
         local bandit = BanditCreator.MakeFromWave(config)
-        local intensity = params.intensity
+        local intensity = math.floor(params.intensity * SandboxVars.BanditsWeekOne.BanditsPopMultiplier)
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)
             end
             sendClientCommand(player, 'Commands', 'SpawnGroup', event)
-        end
 
-        if SandboxVars.Bandits.General_ArrivalIcon then
-            local icon = "media/ui/loot.png"
-            local color = {r=1, g=0, b=0} -- red
-            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            if SandboxVars.Bandits.General_ArrivalIcon then
+                local icon = "media/ui/loot.png"
+                local color = {r=1, g=0, b=0} -- red
+                BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            end
         end
     end
 end
@@ -1742,7 +1914,7 @@ BWOEvents.Scientists = function(params)
 
     if not BWOScheduler.World.PostNuclearFallout then return end
 
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
 
     config = {}
     config.clanId = 12
@@ -1783,7 +1955,7 @@ end
 
 -- params: [intensity]
 BWOEvents.Army = function(params)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
 
     config = {}
     config.clanId = 16
@@ -1806,25 +1978,25 @@ BWOEvents.Army = function(params)
         event.bandits = {}
         
         local bandit = BanditCreator.MakeFromWave(config)
-        local intensity = params.intensity
+        local intensity = math.floor(params.intensity * SandboxVars.BanditsWeekOne.ArmyPopMultiplier)
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)
             end
             sendClientCommand(player, 'Commands', 'SpawnGroup', event)
-        end
 
-        if SandboxVars.Bandits.General_ArrivalIcon then
-            local icon = "media/ui/raid.png"
-            local color = {r=0, g=1, b=0} -- green
-            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            if SandboxVars.Bandits.General_ArrivalIcon then
+                local icon = "media/ui/raid.png"
+                local color = {r=0, g=1, b=0} -- green
+                BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            end
         end
     end
 end
 
 -- params: [intensity]
 BWOEvents.ArmyPatrol = function(params)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
 
     config = {}
     config.clanId = 0
@@ -1851,21 +2023,21 @@ BWOEvents.ArmyPatrol = function(params)
         bandit.accuracyBoost = 1.6
         bandit.femaleChance = 0
         bandit.health = 6
-        bandit.outfit = "ZSArmySpecialOps"
+        bandit.outfit = "ArmyCamoGreen"
         bandit.weapons.melee = "Base.HuntingKnife"
 
-        local intensity = params.intensity
+        local intensity = math.floor(params.intensity * SandboxVars.BanditsWeekOne.ArmyPopMultiplier)
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)
             end
             sendClientCommand(player, 'Commands', 'SpawnGroup', event)
-        end
 
-        if SandboxVars.Bandits.General_ArrivalIcon then
-            local icon = "media/ui/raid.png"
-            local color = {r=0, g=1, b=0} -- green
-            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            if SandboxVars.Bandits.General_ArrivalIcon then
+                local icon = "media/ui/raid.png"
+                local color = {r=0, g=1, b=0} -- green
+                BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            end
         end
     end
 end

@@ -3,5 +3,6 @@ poster=poster.png
 id=BanditsWeekOne
 description=Immerses you in the first week before the apocalypse
 require=\Bandits
+incompatible=\BanditsDayOne
 pack=effects
 author=Slayer

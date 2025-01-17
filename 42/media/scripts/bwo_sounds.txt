@@ -248,7 +248,7 @@ module Bandits{
             file = media/sound/day_start.ogg, 
             distanceMin = 1, 
             distanceMax = 40, 
-            reverbFactor = 0.2, volume = 0.9,
+            reverbFactor = 0.2, volume = 0.8,
         } 
     }
 
@@ -295,8 +295,8 @@ module Bandits{
         clip { 
             file = media/sound/building_pharmabug2.ogg, 
             distanceMin = 1, 
-            distanceMax = 40, 
-            reverbFactor = 0.2, volume = 0.8, 
+            distanceMax = 30, 
+            reverbFactor = 0.2, volume = 0.6, 
         } 
     }
 
@@ -307,8 +307,8 @@ module Bandits{
         clip { 
             file = media/sound/building_zippee2.ogg, 
             distanceMin = 1, 
-            distanceMax = 40, 
-            reverbFactor = 0.2, volume = 0.8, 
+            distanceMax = 30, 
+            reverbFactor = 0.2, volume = 0.6, 
         } 
     }
 
@@ -319,8 +319,8 @@ module Bandits{
         clip { 
             file = media/sound/building_restaurant_generic2.ogg, 
             distanceMin = 1, 
-            distanceMax = 40, 
-            reverbFactor = 0.2, volume = 0.8, 
+            distanceMax = 30, 
+            reverbFactor = 0.2, volume = 0.2, 
         } 
     }
 
@@ -379,7 +379,7 @@ module Bandits{
         clip { 
             file = media/sound/police_car_1.wav, 
             distanceMin = 1, 
-            distanceMax = 100, 
+            distanceMax = 70, 
             reverbFactor = 0.2, volume = 0.4, 
         } 
     }
@@ -404,7 +404,7 @@ module Bandits{
             file = media/sound/cough_male_1.wav, 
             distanceMin = 1, 
             distanceMax = 7, 
-            reverbFactor = 0.1, volume = 0.2, 
+            reverbFactor = 0.1, volume = 0.1, 
         } 
     }
 
@@ -416,7 +416,7 @@ module Bandits{
             file = media/sound/cough_male_2.wav, 
             distanceMin = 1, 
             distanceMax = 7, 
-            reverbFactor = 0.1, volume = 0.2, 
+            reverbFactor = 0.1, volume = 0.1, 
         } 
     }
 
@@ -428,7 +428,7 @@ module Bandits{
             file = media/sound/cough_male_3.wav, 
             distanceMin = 1, 
             distanceMax = 7, 
-            reverbFactor = 0.1, volume = 0.2, 
+            reverbFactor = 0.1, volume = 0.1, 
         } 
     }
 
@@ -440,7 +440,7 @@ module Bandits{
             file = media/sound/cough_male_4.wav, 
             distanceMin = 1, 
             distanceMax = 7, 
-            reverbFactor = 0.1, volume = 0.2, 
+            reverbFactor = 0.1, volume = 0.1, 
         } 
     }
 
@@ -452,7 +452,7 @@ module Bandits{
             file = media/sound/cough_female_1.wav, 
             distanceMin = 1, 
             distanceMax = 7, 
-            reverbFactor = 0.1, volume = 0.2, 
+            reverbFactor = 0.1, volume = 0.1, 
         } 
     }
 
@@ -464,7 +464,7 @@ module Bandits{
             file = media/sound/cough_female_2.wav, 
             distanceMin = 1, 
             distanceMax = 7, 
-            reverbFactor = 0.1, volume = 0.2, 
+            reverbFactor = 0.1, volume = 0.1, 
         } 
     }
 
@@ -476,7 +476,7 @@ module Bandits{
             file = media/sound/cough_female_3.wav, 
             distanceMin = 1, 
             distanceMax = 7, 
-            reverbFactor = 0.1, volume = 0.2, 
+            reverbFactor = 0.1, volume = 0.1, 
         } 
     }
 
@@ -488,7 +488,7 @@ module Bandits{
             file = media/sound/cough_female_4.wav, 
             distanceMin = 1, 
             distanceMax = 7, 
-            reverbFactor = 0.1, volume = 0.2, 
+            reverbFactor = 0.1, volume = 0.1, 
         } 
     }
 
@@ -500,7 +500,7 @@ module Bandits{
             file = media/sound/vomit_1.wav, 
             distanceMin = 1, 
             distanceMax = 7, 
-            reverbFactor = 0.1, volume = 0.2, 
+            reverbFactor = 0.1, volume = 0.1, 
         } 
     }
 
@@ -512,7 +512,7 @@ module Bandits{
             file = media/sound/vomit_2.wav, 
             distanceMin = 1, 
             distanceMax = 7, 
-            reverbFactor = 0.1, volume = 0.2, 
+            reverbFactor = 0.1, volume = 0.1, 
         } 
     }
 
@@ -524,7 +524,7 @@ module Bandits{
             file = media/sound/vomit_3.wav, 
             distanceMin = 1, 
             distanceMax = 7, 
-            reverbFactor = 0.1, volume = 0.2, 
+            reverbFactor = 0.1, volume = 0.1, 
         } 
     }
 
@@ -536,7 +536,7 @@ module Bandits{
             file = media/sound/vomit_4.wav, 
             distanceMin = 1, 
             distanceMax = 7, 
-            reverbFactor = 0.1, volume = 0.2, 
+            reverbFactor = 0.1, volume = 0.1, 
         } 
     }
 
@@ -549,7 +549,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 13,
             reverbFactor = 0.1, 
-            volume = 0.6, 
+            volume = 0.5, 
         } 
     }
 
@@ -562,7 +562,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 13,
             reverbFactor = 0.1, 
-            volume = 0.6, 
+            volume = 0.5, 
         } 
     }
 
@@ -575,7 +575,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 13,
             reverbFactor = 0.1, 
-            volume = 0.6, 
+            volume = 0.5, 
         } 
     }
 
@@ -588,7 +588,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 13,
             reverbFactor = 0.1, 
-            volume = 0.6, 
+            volume = 0.5, 
         } 
     }
 
@@ -601,7 +601,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 13,
             reverbFactor = 0.1, 
-            volume = 0.6, 
+            volume = 0.5, 
         } 
     }
 
@@ -614,7 +614,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 13,
             reverbFactor = 0.1, 
-            volume = 0.6, 
+            volume = 0.5, 
         } 
     }
 
@@ -627,7 +627,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 13,
             reverbFactor = 0.1, 
-            volume = 0.6, 
+            volume = 0.5, 
         } 
     }
 
@@ -640,7 +640,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 13,
             reverbFactor = 0.1, 
-            volume = 0.6, 
+            volume = 0.5, 
         } 
     }
 
@@ -653,7 +653,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 13,
             reverbFactor = 0.1, 
-            volume = 0.6, 
+            volume = 0.5, 
         } 
     }
 
@@ -666,7 +666,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 13,
             reverbFactor = 0.1, 
-            volume = 0.6, 
+            volume = 0.5, 
         } 
     }
 
@@ -679,7 +679,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 13,
             reverbFactor = 0.1, 
-            volume = 0.6, 
+            volume = 0.5, 
         } 
     }
 
@@ -692,7 +692,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 13,
             reverbFactor = 0.1, 
-            volume = 0.6, 
+            volume = 0.5, 
         } 
     }
 
@@ -705,7 +705,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 13,
             reverbFactor = 0.1, 
-            volume = 0.6, 
+            volume = 0.5, 
         } 
     }
 
@@ -718,7 +718,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 25,
             reverbFactor = 0.1, 
-            volume = 0.6, 
+            volume = 0.5, 
         } 
     }
 
@@ -731,7 +731,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 25,
             reverbFactor = 0.1, 
-            volume = 0.6, 
+            volume = 0.5, 
         } 
     }
 
@@ -780,7 +780,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_male_1.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -790,7 +790,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_male_2.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -800,7 +800,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_male_3.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -810,7 +810,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_male_4.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -820,7 +820,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_male_5.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -840,7 +840,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_male_7.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -850,7 +850,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_male_8.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -860,7 +860,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_male_9.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -880,7 +880,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_male_11.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -900,7 +900,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_male_13.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -910,7 +910,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_male_14.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -920,7 +920,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_male_15.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -930,7 +930,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_male_16.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -940,7 +940,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_male_17.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -960,7 +960,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_female_1.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -970,7 +970,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_female_2.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -980,7 +980,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_female_3.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -990,7 +990,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_female_4.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -1000,7 +1000,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_female_5.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -1010,7 +1010,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_female_6.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -1020,7 +1020,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_female_7.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -1030,7 +1030,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_female_8.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -1040,7 +1040,7 @@ module Bandits{
         is3D = true,
         clip { 
             file = media/sound/truth_female_9.ogg,
-            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.4, 
+            distanceMin = 1, distanceMax = 30, reverbFactor = 0.1, volume = 0.3, 
         } 
     }
 
@@ -1053,7 +1053,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 16,
             reverbFactor = 0.1, 
-            volume = 0.6, 
+            volume = 0.1, 
         } 
     }
 
@@ -1093,7 +1093,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 14,
             reverbFactor = 0.1, 
-            volume = 0.7, 
+            volume = 0.4, 
         } 
     }
 
@@ -1106,7 +1106,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 15,
             reverbFactor = 0.1, 
-            volume = 0.7, 
+            volume = 0.4, 
         } 
     }
 
@@ -1119,7 +1119,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 28,
             reverbFactor = 0.1, 
-            volume = 0.6, 
+            volume = 0.4, 
         } 
     }
 
@@ -1132,7 +1132,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 28,
             reverbFactor = 0.1, 
-            volume = 0.6, 
+            volume = 0.4, 
         } 
     }
 
@@ -1145,7 +1145,7 @@ module Bandits{
             distanceMin = 1, 
             distanceMax = 28,
             reverbFactor = 0.1, 
-            volume = 0.6, 
+            volume = 0.5, 
         } 
     }
 

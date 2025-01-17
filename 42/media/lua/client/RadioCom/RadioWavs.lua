@@ -64,7 +64,7 @@ function RadioWavs.PlaySound(_guid, device)
             local vehicle = vehiclePart:getVehicle()
             if vehicle then
                 sound:setEmitter( vehicle:getEmitter() ) -- use car's emitter, car radios don't have one
-                if vehicle == getPlayer():getVehicle() then -- player is in the car
+                if vehicle == getSpecificPlayer(0):getVehicle() then -- player is in the car
                     sound:set3D(false)
                     sound:setVolumeModifier(0.4)
                 else
@@ -316,7 +316,7 @@ function RadioWavs.adjustSounds()
     if tickCounter2 < 1000 then 
         tickCounter2=tickCounter2+1
     else
-        p = getPlayer()
+        p = getSpecificPlayer(0)
         X = p:getX()
         Y = p:getY()
         
@@ -339,7 +339,7 @@ function RadioWavs.adjustSounds()
     tickCounter1 = 0
 
 
-    p = getPlayer()
+    p = getSpecificPlayer(0)
     X = p:getX()
     Y = p:getY()
     highestVolume = 0
@@ -374,14 +374,16 @@ function RadioWavs.adjustSounds()
             if t.deviceData:isInventoryDevice() then
                 highestVolume = 1
             else
-                distanceToRadio = IsoUtils.DistanceManhatten(t.device:getX(), t.device:getY(), X, Y)
-                if distanceToRadio < maxRange then
-                    dropoffRange = (maxRange-minRange)*0.2 + t.deviceData:getDeviceVolume() * t.sound.volumeModifier*2.5 * (maxRange-minRange)*0.8
-                    volumeModifier = (minRange + dropoffRange - distanceToRadio) / dropoffRange
-                    if volumeModifier < 0 then volumeModifier = 0 end
-                    t.sound:setVolume(t.deviceData:getDeviceVolume() * volumeModifier)
-                    finalVolume = t.deviceData:getDeviceVolume() * t.sound.volumeModifier * volumeModifier
-                    if finalVolume > highestVolume then highestVolume = finalVolume end
+                if t.device and t.device:getX() and t.device:getY() then
+                    distanceToRadio = IsoUtils.DistanceManhatten(t.device:getX(), t.device:getY(), X, Y)
+                    if distanceToRadio < maxRange then
+                        dropoffRange = (maxRange-minRange)*0.2 + t.deviceData:getDeviceVolume() * t.sound.volumeModifier*2.5 * (maxRange-minRange)*0.8
+                        volumeModifier = (minRange + dropoffRange - distanceToRadio) / dropoffRange
+                        if volumeModifier < 0 then volumeModifier = 0 end
+                        t.sound:setVolume(t.deviceData:getDeviceVolume() * volumeModifier)
+                        finalVolume = t.deviceData:getDeviceVolume() * t.sound.volumeModifier * volumeModifier
+                        if finalVolume > highestVolume then highestVolume = finalVolume end
+                    end
                 end
             end
         end

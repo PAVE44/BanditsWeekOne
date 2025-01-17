@@ -118,7 +118,6 @@ BWORoomPrograms.livingroom = function(bandit, def)
                     right = true
                 elseif r == 4 then
                     anim = "SitInChairEat"
-                    item = "Base.Fork"
                     right = true
                 elseif r == 5 then
                     anim = "SitInChairSmoke"
@@ -1308,7 +1307,6 @@ BWORoomPrograms.bar = function(bandit, def)
                         right = true
                     elseif r == 4 then
                         anim = "SitInChairEat"
-                        item = "Base.Fork"
                         right = true
                     elseif r == 5 then
                         anim = "SitInChairSmoke"

@@ -43,8 +43,8 @@ ZombieActions.Heal.onComplete = function(zombie, task)
             
             -- unregister dead body
             local args = {x=corpse:getX(), y=corpse:getY(), z=corpse:getZ()}
-            -- sendClientCommand(getPlayer(), 'Commands', 'DeadBodyRemove', args)
-            BWOServer.Commands.DeadBodyRemove(getPlayer(), args)
+            -- sendClientCommand(getSpecificPlayer(0), 'Commands', 'DeadBodyRemove', args)
+            BWOServer.Commands.DeadBodyRemove(getSpecificPlayer(0), args)
         end
     end
     return true

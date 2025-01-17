@@ -86,8 +86,8 @@ ZombiePrograms.Entertainer.Main = function(bandit)
     -- musicians
     local musicianTab = {}
     -- playTab.AuthenticBiker = {item="Base.GuitarElectricRed",       anim="InstrumentGuitarElectric", sound=nil}
-    musicianTab.Dean           = {item="Base.GuitarElectricBassBlack", anim="InstrumentGuitarBass",     sound="BWOInstrumentBassGuitar1"}
-    musicianTab.Rocker             = {item="Base.GuitarElectricBassBlack", anim="InstrumentGuitarBass",     sound="BWOInstrumentBassGuitar1"}
+    musicianTab.Dean           = {item="Base.GuitarElectric", anim="InstrumentGuitarBass",     sound="BWOInstrumentBassGuitar1"}
+    musicianTab.Rocker             = {item="Base.GuitarElectric", anim="InstrumentGuitarBass",     sound="BWOInstrumentBassGuitar1"}
     -- playTab.Rocker         = {item="Base.GuitarAcoustic",          anim="InstrumentGuitarAcoustic", sound=nil}
     musicianTab.Joan           = {item="Base.Violin",                  anim="InstrumentViolin",         sound="BWOInstrumentViolinPaganini"}
     musicianTab.John           = {item="Base.Saxophone",               anim="InstrumentSaxophone",      sound="BWOInstrumentSax" .. tostring((math.abs(id) % 3) + 1)}

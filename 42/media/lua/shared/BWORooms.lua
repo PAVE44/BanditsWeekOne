@@ -280,7 +280,7 @@ BWORooms.tab = {
     },
 
     campingstorage = {
-        isStorage = true,
+        isShop = true,
     },
 
     candystorage = {
@@ -595,7 +595,7 @@ BWORooms.tab = {
     },
 
     fishingstorage = {
-        isStorage = true,
+        isShop = true,
         occupations = {"fisherman"}
     },
 
@@ -1129,6 +1129,12 @@ BWORooms.tab = {
         femaleChance = 50
     },
 
+    pizzawhirledcounter = {
+        isRestaurant = true,
+        outfits = {"Waiter_PizzaWhirled"},
+        femaleChance = 50
+    },
+
     plazastore1 = {
 
     },
@@ -1550,7 +1556,7 @@ BWORooms.IsIntrusion = function(room)
     -- available professions types: 
     -- unemployed, fireofficer, policeofficer, parkranger, constructionworker, securityguard, carpenter, burglar, chef, farmer, fisherman
     -- doctor, veteran, nurse, lumberjack, fitnessinstructor, burgerflipper, electrician, metalworker, mechanics
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     local profession = player:getDescriptor():getProfession()
     local building = room:getBuilding()
     local roomName = room:getName()
@@ -1601,12 +1607,14 @@ BWORooms.IsIntrusion = function(room)
     return isIntrusion
 end
 
-BWORooms.TakeIntention = function(room)
+BWORooms.TakeIntention = function(room, customName)
     local canTake = false
     local shouldPay = false
 
     local building = room:getBuilding()
     local def = room:getRoomDef()
+    local player = getSpecificPlayer(0)
+    local profession = player:getDescriptor():getProfession()
 
     if def:getZ() < 0 then -- basements are separate buildings, it needs to be here to prevent player home basement to be treated as a a shop
         canTake = true
@@ -1631,6 +1639,30 @@ BWORooms.TakeIntention = function(room)
     elseif BWOBuildings.IsResidential(building) then 
         canTake = false
         shouldPay = false
+
+    elseif customName == "Trash" or customName == "Garbage" or customName == "Bin" then
+        canTake = true
+        shouldPay = false
+    
+    elseif customName == "Machine" then
+        canTake = false
+        shouldPay = true
+    
+    end
+
+    -- exceptions
+    local name = room:getName()
+    local tab = BWORooms.tab
+    local data = BWORooms.tab[name]
+    if data then
+        if data.occupations then
+            for _, occupation in pairs(data.occupations) do
+                if profession == occupation then
+                    canTake = true
+                    break
+                end
+            end
+        end
     end
 
     return canTake, shouldPay

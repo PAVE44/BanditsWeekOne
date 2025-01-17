@@ -78,26 +78,11 @@ end
 
 -- npc on streets spawner
 BWOPopControl.StreetsSpawn = function(cnt)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     local cell = player:getCell()
+    local cm = getWorld():getClimateManager()
+    local rainIntensity = cm:getRainIntensity()
     local px, py = player:getX(), player:getY()
-
-    config = {}
-    config.clanId = 0
-    config.hasRifleChance = 0
-    config.hasPistolChance = 3
-    config.rifleMagCount = 0
-    config.pistolMagCount = 1
-
-    local event = {}
-    event.hostile = false
-    event.occured = false
-    event.program = {}
-    event.program.name = "Walker"
-    event.program.stage = "Prepare"
-    event.bandits = {}
-
-    local bandit = BanditCreator.MakeFromWave(config)
 
     for i = 1, cnt do
         local x = 35 + ZombRand(25)
@@ -111,37 +96,73 @@ BWOPopControl.StreetsSpawn = function(cnt)
             if square:isOutside() and not BWOSquareLoader.IsInExclusion(square:getX(), square:getY()) then
                 local groundType = BanditUtils.GetGroundType(square) 
                 if groundType == "street" then
+                    config = {}
+                    config.clanId = 0
+                    config.hasRifleChance = 0
+                    config.hasPistolChance = SandboxVars.BanditsWeekOne.StreetsPistolChance
+                    config.rifleMagCount = 0
+                    config.pistolMagCount = 1
+                
+                    local event = {}
                     event.x = square:getX()
                     event.y = square:getY()
+                    event.hostile = false
+                    event.occured = false
+                    event.program = {}
+                    event.program.name = "Walker"
+                    event.program.stage = "Prepare"
+                    event.bandits = {}
+                
+                    local bandit
                     local rnd = ZombRand(100)
                     if rnd < 4 then
+                        bandit = BanditCreator.MakeFromWave(config)
+                        bandit.weapons.melee = "Base.BareHands"
                         bandit.outfit = BanditUtils.Choice({"StreetSports"})
                         event.program.name = "Runner"
                         event.program.stage = "Prepare"
                     elseif rnd < 8 then 
+                        bandit = BanditCreator.MakeFromWave(config)
+                        bandit.weapons.melee = "Base.BareHands"
                         bandit.outfit = BanditUtils.Choice({"Postal"})
                         event.program.name = "Postal"
                         event.program.stage = "Prepare"
                     elseif rnd < 13 then 
+                        bandit = BanditCreator.MakeFromWave(config)
+                        bandit.weapons.melee = "Base.BareHands"
                         bandit.outfit = BanditUtils.Choice({"Farmer"})
                         event.program.name = "Gardener"
                         event.program.stage = "Prepare"
                     elseif rnd < 16 then 
+                        bandit = BanditCreator.MakeFromWave(config)
+                        bandit.weapons.melee = "Base.BareHands"
                         bandit.outfit = BanditUtils.Choice({"Sanitation"})
                         bandit.weapons.melee = "Base.Broom"
                         event.program.name = "Janitor"
                         event.program.stage = "Prepare"
                     elseif rnd < 17 then 
+                        -- config.clanId = 0
+                        bandit = BanditCreator.MakeFromWave(config)
+                        bandit.weapons.melee = "Base.BareHands"
                         bandit.outfit = BanditUtils.Choice({"Bandit"})
                         bandit.weapons.melee = "Base.Crowbar"
                         event.program.name = "Vandal"
                         event.program.stage = "Prepare"
                     else
-                        bandit.outfit = BanditUtils.Choice({"Generic05", "Generic04", "Generic03", "Generic02", "Generic01"})
+                        bandit = BanditCreator.MakeFromWave(config)
+                        bandit.weapons.melee = "Base.BareHands"
+                        if rainIntensity > 0.02 then
+                            bandit.outfit = BanditUtils.Choice({"BWORainGeneric01", "BWORainGeneric02", "BWORainGeneric03"})
+                        else
+                            bandit.outfit = BanditUtils.Choice({"Generic05", "Generic04", "Generic03", "Generic02", "Generic01",
+                                                                "BWOCow", "BWOYoung", "BWOLeather", "BWOFormal"})
+                        end
+
                         event.program.name = "Walker"
                         event.program.stage = "Prepare"
+
                     end
-                    bandit.weapons.melee = "Base.BareHands"
+                    
                     table.insert(event.bandits, bandit)
                     sendClientCommand(player, 'Commands', 'SpawnGroup', event)
                 end
@@ -152,7 +173,7 @@ end
 
 -- npc on streets despawner
 BWOPopControl.StreetsDespawn = function(cnt)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     local cell = player:getCell()
     local px = player:getX()
     local py = player:getY()
@@ -199,7 +220,7 @@ BWOPopControl.InhabitantsSpawn = function(cnt)
     event.program.stage = "Prepare"
     
 
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     local cell = player:getCell()
     local px, py = player:getX(), player:getY()
     local rooms = cell:getRoomList()
@@ -216,7 +237,7 @@ BWOPopControl.InhabitantsSpawn = function(cnt)
             local buildingDef = building:getDef()
             buildingDef:setAlarmed(false)
             if not BWOBuildings.IsEventBuilding(building, "home") then
-                if math.abs(def:getX() - player:getX()) < 100 and math.abs(def:getX2() - player:getX()) < 100 and 
+                if def:getZ() >=0 and math.abs(def:getX() - player:getX()) < 100 and math.abs(def:getX2() - player:getX()) < 100 and 
                 math.abs(def:getY() - player:getY()) < 100 and math.abs(def:getY2() - player:getY()) < 100 then
                     local roomSize = BWORooms.GetRoomSize(room)
                     local popMod = BWORooms.GetRoomPopMod(room)
@@ -259,7 +280,7 @@ end
 
 -- npcs in buildings despawner
 BWOPopControl.InhabitantsDespawn = function(cnt)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     local cell = player:getCell()
     local px = player:getX()
     local py = player:getY()
@@ -297,7 +318,7 @@ end
 -- survivors spawner
 BWOPopControl.SurvivorsSpawn = function(missing)
 
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
 
     config = {}
     config.clanId = 0
@@ -331,7 +352,7 @@ end
 
 -- survivors despawner
 BWOPopControl.SurvivorsDespawn = function(cnt)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     local cell = player:getCell()
     local px = player:getX()
     local py = player:getY()
@@ -402,7 +423,7 @@ BWOPopControl.UpdateCivs = function()
         return hmap[hour]
     end
 
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     local px = player:getX()
     local py = player:getY()
 
@@ -478,36 +499,38 @@ BWOPopControl.UpdateCivs = function()
     elseif BWOScheduler.WorldAge >= 105 and BWOScheduler.WorldAge < 108 then -- occasional zombies
         BWOPopControl.ZombieMax = 3
     elseif BWOScheduler.WorldAge >= 114 and BWOScheduler.WorldAge < 117 then -- occasional zombies
-        BWOPopControl.ZombieMax = 4
-    elseif BWOScheduler.WorldAge >= 120 and BWOScheduler.WorldAge < 124 then -- occasional zombies
-        BWOPopControl.ZombieMax = 4
-    elseif BWOScheduler.WorldAge >= 136 and BWOScheduler.WorldAge < 138 then -- occasional zombies
-        BWOPopControl.ZombieMax = 4
-        BWOPopControl.StreetsNominal = 60
-        BWOPopControl.InhabitantsNominal = 40
-    elseif BWOScheduler.WorldAge == 148 then -- outbreak
-        BWOPopControl.ZombieMax = 4
-        BWOPopControl.StreetsNominal = 70
-        BWOPopControl.InhabitantsNominal = 30
-        BWOPopControl.SurvivorsNominal = 2
-    elseif BWOScheduler.WorldAge == 149 then
+        BWOPopControl.ZombieMax = 3
+    elseif BWOScheduler.WorldAge >= 120 and BWOScheduler.WorldAge < 128 then -- occasional zombies
         BWOPopControl.ZombieMax = 8
-        BWOPopControl.StreetsNominal = 80
+    elseif BWOScheduler.WorldAge == 128  then -- outbreak
+        BWOPopControl.ZombieMax = 70
+        BWOPopControl.StreetsNominal = 55
+        BWOPopControl.InhabitantsNominal = 40
+    elseif BWOScheduler.WorldAge == 129 then 
+        BWOPopControl.ZombieMax = 70
+        BWOPopControl.StreetsNominal = 60
+        BWOPopControl.InhabitantsNominal = 25
+        BWOPopControl.SurvivorsNominal = 2
+    elseif BWOScheduler.WorldAge == 130 then
+        BWOPopControl.ZombieMax = 70
+        BWOPopControl.StreetsNominal = 65
         BWOPopControl.InhabitantsNominal = 20
         BWOPopControl.SurvivorsNominal = 3
-    elseif BWOScheduler.WorldAge == 150 then
-        BWOPopControl.ZombieMax = 16
-        BWOPopControl.StreetsNominal = 80
-        BWOPopControl.InhabitantsNominal = 20
-        BWOPopControl.SurvivorsNominal = 5
-    elseif BWOScheduler.WorldAge == 151 then
-        BWOPopControl.ZombieMax = 64
+    elseif BWOScheduler.WorldAge == 131 then
+        BWOPopControl.ZombieMax = 70
         BWOPopControl.StreetsNominal = 70
-        BWOPopControl.InhabitantsNominal = 30
-        BWOPopControl.SurvivorsNominal = 8
-    elseif BWOScheduler.WorldAge >= 152 and BWOScheduler.WorldAge < 169 then
-        BWOPopControl.ZombieMax = 80
+        BWOPopControl.InhabitantsNominal = 15
         BWOPopControl.SurvivorsNominal = 5
+    elseif BWOScheduler.WorldAge == 132 then
+        BWOPopControl.ZombieMax = 70
+        BWOPopControl.StreetsNominal = 65
+        BWOPopControl.InhabitantsNominal = 15
+        BWOPopControl.SurvivorsNominal = 8
+    elseif BWOScheduler.WorldAge >= 133 and BWOScheduler.WorldAge < 170 then
+        BWOPopControl.ZombieMax = 1000
+        BWOPopControl.InhabitantsNominal = 4
+        BWOPopControl.StreetsNominal = 1
+        BWOPopControl.SurvivorsNominal = 6
     elseif BWOScheduler.WorldAge >= 169 then
         BWOPopControl.ZombieMax = 1000
         BWOPopControl.SurvivorsNominal = 0
@@ -576,14 +599,16 @@ BWOPopControl.UpdateCivs = function()
     end
 
     -- debug report:
-    print ("----------- POPULATION STATS -----------")
-    print ("WORLD AGE: " .. BWOScheduler.WorldAge .. "(" .. ((BWOScheduler.WorldAge+9) * 60) .. ")" .. " SYMPTOM LVL:" .. BWOScheduler.SymptomLevel)
-    print ("INHAB: " .. BWOPopControl.InhabitantsCnt .. "/" .. BWOPopControl.InhabitantsMax)
-    print ("STREET: " .. BWOPopControl.StreetsCnt .. "/" .. BWOPopControl.StreetsMax)
-    print ("SURVIVOR: " .. BWOPopControl.SurvivorsCnt .. "/" .. BWOPopControl.SurvivorsMax)
-    print ("ZOMBIE: " .. totalz .. "/" .. BWOPopControl.ZombieMax)
-    print ("DENSITY SCORE:" .. density)
-    print ("----------------------------------------")
+    if isDebugEnabled() or isAdmin() then
+        print ("----------- POPULATION STATS -----------")
+        print ("WORLD AGE: " .. BWOScheduler.WorldAge .. "(" .. ((BWOScheduler.WorldAge+9) * 60) .. ")" .. " SYMPTOM LVL:" .. BWOScheduler.SymptomLevel)
+        print ("INHAB: " .. BWOPopControl.InhabitantsCnt .. "/" .. BWOPopControl.InhabitantsMax)
+        print ("STREET: " .. BWOPopControl.StreetsCnt .. "/" .. BWOPopControl.StreetsMax)
+        print ("SURVIVOR: " .. BWOPopControl.SurvivorsCnt .. "/" .. BWOPopControl.SurvivorsMax)
+        print ("ZOMBIE: " .. totalz .. "/" .. BWOPopControl.ZombieMax)
+        print ("DENSITY SCORE:" .. density)
+        print ("----------------------------------------")
+    end
 
 end
 
@@ -599,15 +624,28 @@ local onTick = function(numTicks)
 end
 
 local OnBanditUpdate = function(bandit)
+
+    local isInCircle = function(x, y, cx, cy, r)
+        local d2 = (x - cx) ^ 2 + (y - cy) ^ 2
+        return d2 <= r ^ 2
+    end
+
     if not bandit:getVariableBoolean("Bandit") then return end
 
     if BWOScheduler.World.PostNuclearFallout then
         local outfit = bandit:getOutfitName()
-        if bandit:getZ() >= 0 and outfit ~= "HazardSuit" then
-            if bandit:isOutside() then
-                bandit:setHealth(bandit:getHealth() - 0.00020)
-            else
-                bandit:setHealth(bandit:getHealth() - 0.00010)
+        local gmd = GetBWOModData()
+        local nukes = gmd.Nukes
+        for _, nuke in pairs(nukes) do
+            if isInCircle(bandit:getX(), bandit:getY(), nuke.x, nuke.y, nuke.r) then
+                if bandit:getZ() >= 0 and outfit ~= "HazardSuit" then
+                    if bandit:isOutside() then
+                        bandit:setHealth(bandit:getHealth() - 0.0020)
+                    else
+                        bandit:setHealth(bandit:getHealth() - 0.0010)
+                    end
+                end
+                break
             end
         end
     end

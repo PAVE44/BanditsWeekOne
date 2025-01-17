@@ -28,7 +28,7 @@ function TAHeal:perform()
     self.bandit:setHealth(2)
     self.bandit:setCrawler(false)
 
-    BWOPlayer.Earn(self.character, 100)
+    BWOPlayer.Earn(self.character, 50)
 	ISBaseTimedAction.perform(self)
 end
 

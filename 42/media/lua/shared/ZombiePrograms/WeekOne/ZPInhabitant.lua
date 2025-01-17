@@ -76,6 +76,14 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
     -- print ("INHABITANT 1: " .. (getTimestampMs() - ts))
     
     if room then
+
+        -- leave player house
+        local base = BanditPlayerBase.GetBase(bandit)
+        if base then
+            table.insert(tasks, BanditUtils.GetMoveTask(endurance, bandit:getX()-10, bandit:getY()-10, 0, "Run", 12, false))
+            return {status=true, next="Defend", tasks=tasks}
+        end
+        
         local def = room:getRoomDef()
         local roomName = room:getName()
 
@@ -167,7 +175,7 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
 
                 if boombox then
 
-                    if hour >= 19 or hour < 5 then 
+                    if hour >= 19 or hour < 7 then 
                         partyOn = true
                     end
 
@@ -202,7 +210,7 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                                                                       "c688d4c8-dd7b-4d93-8e0f-c6cb5f488db2", 
                                                                       "22b4a025-6455-4c8d-b341-fd4f0f18836a"})
 
-                                    local task = {action="TelevisionToggle", on=true, channel=98600, volume=0.9, music=music, anim="Loot", x=square:getX(), y=square:getY(), z=square:getZ(), time=100}
+                                    local task = {action="TelevisionToggle", on=true, channel=98600, volume=0.7, music=music, anim="Loot", x=square:getX(), y=square:getY(), z=square:getZ(), time=100}
                                     table.insert(tasks, task)
                                     return {status=true, next="Main", tasks=tasks}
                                 end
@@ -221,7 +229,8 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                         else
                             -- local anim = BanditUtils.Choice({"DanceHipHop3", "DanceLocking", "DanceShuffling", "DanceArmsHipHop", "DanceGandy", "DanceHouseDancing", "DanceRaiseTheRoof", "DanceRobotOne", "DanceRobotTwo", "DanceSnake"})
                             -- local anim = BanditUtils.Choice({"DanceHipHop1", "DanceHipHop2", "DanceHipHop3", "DanceRaiseTheRoof", "DanceBoogaloo", "DanceBodyWave", "DanceRibPops", "DanceShimmy"})
-                            local anim = BanditUtils.Choice({"DanceHipHop3", "DanceRaiseTheRoof"})
+                            -- local anim = BanditUtils.Choice({"DanceHipHop3", "DanceRaiseTheRoof"})
+                            local anim = BanditUtils.Choice({"DanceHipHop3", "DanceRaiseTheRoof", "Dance1", "Dance2", "Dance3", "Dance4"})
                             local task = {action="Time", anim=anim, time=500}
                             table.insert(tasks, task)
                             return {status=true, next="Main", tasks=tasks}

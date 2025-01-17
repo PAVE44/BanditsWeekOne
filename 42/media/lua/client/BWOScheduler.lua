@@ -26,19 +26,18 @@ local generateSchedule = function()
     
     -- {eventName, {params}}
     -- DAY 1 09.00
-    tab[0][1]  = {"StartDay", {day="thursday"}}
-    tab[0][2]   = {"Start", {}}
+    tab[0][1]   = {"Start", {}}
+    tab[0][2]   = {"StartDay", {day="friday"}}
     tab[0][3]   = {"RegisterBase", {}}
     tab[0][4]   = {"SetupNukes", {}}
-    tab[0][5]   = {"SetupDreams", {}}
     
     tab[2][22]  = {"ArmyPatrol", {intensity=9}}
     tab[4][15]  = {"Entertainer", {}}
     tab[5][44]  = {"ArmyPatrol", {intensity=9}}
     tab[6][35]  = {"Entertainer", {}}
     tab[7][15]  = {"Entertainer", {}}
-    tab[8][5]   = {"Defenders", {occupation="policeofficer"}}
-    tab[8][5]   = {"Arson", {occupation="fireofficer"}}
+    tab[8][5]   = {"Defenders", {profession="policeofficer"}}
+    tab[8][5]   = {"Arson", {profession="fireofficer"}}
 
     tab[11][12] = {"BuildingParty", {}}
     tab[12][30] = {"BuildingParty", {}}
@@ -51,7 +50,7 @@ local generateSchedule = function()
     tab[19][43] = {"Thieves", {intensity=3}}
     
     -- DAY 2 09.00
-    tab[24][0]  = {"StartDay", {day="friday"}}
+    tab[24][0]  = {"StartDay", {day="saturday"}}
     tab[24][15] = {"Entertainer", {}}
     tab[25][44] = {"ArmyPatrol", {intensity=12}}
     tab[26][20] = {"Entertainer", {}}
@@ -65,13 +64,13 @@ local generateSchedule = function()
     tab[37][5]  = {"BuildingParty", {}}
     tab[37][25] = {"BuildingParty", {}}
     tab[39][2]  = {"BuildingParty", {}}
-    tab[39][14] = {"Defenders", {occupation="policeofficer"}}
-    tab[39][14] = {"Arson", {occupation="fireofficer"}}
+    tab[39][14] = {"Defenders", {profession="policeofficer"}}
+    tab[39][14] = {"Arson", {profession="fireofficer"}}
     tab[42][6]  = {"RegisterBase", {}}
     tab[42][7]  = {"Thieves", {intensity=4}}
 
     -- DAY 3 09.00
-    tab[48][0]  = {"StartDay", {day="saturday"}}
+    tab[48][0]  = {"StartDay", {day="sunday"}}
     tab[51][9]  = {"ChopperAlert", {sound="BWOChopper"}}
     tab[52][5]  = {"ChopperAlert", {sound="BWOChopper"}}
     tab[52][11] = {"Criminals", {intensity=2}}
@@ -89,7 +88,7 @@ local generateSchedule = function()
     tab[71][21] = {"Defenders", {}}
 
     -- DAY 4 09.00
-    tab[72][0]  = {"StartDay", {day="sunday"}}
+    tab[72][0]  = {"StartDay", {day="monday"}}
     tab[72][2]  = {"Defenders", {}}
     tab[76][7]  = {"Defenders", {}}
     tab[76][57] = {"Defenders", {}}
@@ -126,7 +125,7 @@ local generateSchedule = function()
     tab[95][37] = {"Criminals", {intensity=4}}
 
     -- DAY 5 09.00
-    tab[96][0]  = {"StartDay", {day="monday"}}
+    tab[96][0]  = {"StartDay", {day="tuesday"}}
     tab[96][15] = {"Army", {intensity=8}}
     tab[97][2]  = {"Defenders", {}}
     tab[97][3]  = {"Bikers", {intensity=12}}
@@ -154,22 +153,38 @@ local generateSchedule = function()
     tab[117][15] = {"Thieves", {intensity=6}}
 
     -- DAY 6 09.00
-    tab[120][0]  = {"StartDay", {day="tuesday"}}
+    tab[120][0]  = {"StartDay", {day="wednesday"}}
+    
+    tab[121][2]  = {"ProtestAll", {}}
+    tab[121][16] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
+    tab[121][45] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
+    tab[122][0]  = {"Siren", {}}
+    tab[122][11] = {"PoliceRiot", {intensity=12, hostile=true}}
+    tab[122][12] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
+    tab[122][15] = {"PoliceRiot", {intensity=12, hostile=true}}
+    tab[122][17] = {"PoliceRiot", {intensity=12, hostile=true}}
+    tab[122][44] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
+    tab[123][27] = {"Arson", {}}
+    tab[123][33] = {"Criminals", {intensity=4}}
+    tab[123][39] = {"Criminals", {intensity=4}}
+    tab[123][41] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
+    tab[123][45] = {"PoliceRiot", {intensity=12, hostile=true}}
+
+    tab[124][1]  = {"ChopperFliers", {}}
     tab[125][2]  = {"Arson", {}}
     tab[125][3]  = {"Asylum", {intensity=12}}
     tab[125][5]  = {"Arson", {}}
-    tab[128][14] = {"Army", {intensity=12}}
     tab[128][16] = {"Arson", {}}
     tab[128][27] = {"Arson", {}}
     tab[130][0]  = {"Siren", {}}
-    tab[130][25] = {"Army", {intensity=12}}
 
     tab[132][0]  = {"Siren", {}}
-    tab[132][11] = {"Army", {intensity=12}}
-
+    
+    tab[133][6]  = {"Reanimate", {r=80, chance=100}}
+    tab[134][40] = {"Army", {intensity=12}}
     tab[135][0]  = {"Bandits", {intensity=4}}
-    tab[135][1] = {"SetHydroPower", {on=false}}
-    tab[135][2] = {"SetHydroPower", {on=true}}
+    tab[135][1]  = {"SetHydroPower", {on=false}}
+    tab[135][2]  = {"SetHydroPower", {on=true}}
     tab[135][8]  = {"SetHydroPower", {on=false}}
     tab[135][10] = {"Bandits", {intensity=4}}
     tab[135][20] = {"Bandits", {intensity=4}}
@@ -182,45 +197,29 @@ local generateSchedule = function()
     tab[138][2]  = {"Bandits", {intensity=3}}
 
     -- DAY 7 09.00
-    tab[144][0]  = {"StartDay", {day="wednesday"}}
-
-    tab[147][2]  = {"ProtestAll", {}}
-    tab[147][16] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
-    tab[147][45] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
-    tab[147][0]  = {"Siren", {}}
-    tab[148][11] = {"PoliceRiot", {intensity=12, hostile=true}}
-    tab[148][12] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
-    tab[148][15] = {"PoliceRiot", {intensity=12, hostile=true}}
-    tab[148][17] = {"PoliceRiot", {intensity=12, hostile=true}}
-    tab[148][44] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
-    tab[149][27] = {"Arson", {}}
-    tab[149][33] = {"Criminals", {intensity=4}}
-    tab[149][39] = {"Criminals", {intensity=4}}
-    tab[149][41] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
-    tab[149][45] = {"PoliceRiot", {intensity=12, hostile=true}}
-
-    tab[150][0]  = {"Siren", {}}
-    tab[150][5]  = {"JetFighterRun", {intensity=1}}
-    tab[150][25] = {"JetFighterRun", {intensity=1}}
-    tab[150][45] = {"JetFighterRun", {intensity=1}}
-    tab[150][54] = {"Army", {intensity=5}}
-
-    tab[151][8]  = {"GasRun", {intensity=4}}
-    tab[151][24] = {"GasRun", {intensity=4}}
-    tab[151][28] = {"Army", {intensity=5}}
-    tab[151][49] = {"GasRun", {intensity=4}}
-    tab[152][8]  = {"GasRun", {intensity=4}}
-    tab[152][9]  = {"Army", {intensity=10}}
-    tab[152][50] = {"Bandits", {intensity=5}}
-    tab[152][24] = {"GasRun", {intensity=4}}
-    tab[152][49] = {"GasRun", {intensity=6}}
-    tab[153][8]  = {"Defenders", {}}
-    tab[153][12] = {"GasRun", {intensity=8}}
-    tab[153][24] = {"GasRun", {intensity=6}}
+    tab[144][0]  = {"StartDay", {day="thursday"}}
+    tab[145][6] = {"Army", {intensity=5}}
+    tab[145][17] = {"Army", {intensity=5}}
+    tab[146][0]  = {"Siren", {}}
+    tab[146][5]  = {"JetFighterRun", {intensity=1}}
+    tab[146][25] = {"JetFighterRun", {intensity=1}}
+    tab[146][45] = {"JetFighterRun", {intensity=1}}
+    tab[147][8]  = {"JetFighterRun", {intensity=1}}
+    tab[147][24] = {"JetFighterRun", {intensity=1}}
+    tab[147][28] = {"Army", {intensity=5}}
+    tab[147][49] = {"JetFighterRun", {intensity=1}}
+    tab[150][8]  = {"JetFighterRun", {intensity=1}}
+    tab[150][9]  = {"Army", {intensity=10}}
+    tab[150][50] = {"Bandits", {intensity=5}}
+    tab[150][24] = {"JetFighterRun", {intensity=1}}
+    tab[150][49] = {"JetFighterRun", {intensity=1}}
+    tab[152][8]  = {"Defenders", {}}
+    tab[152][12] = {"JetFighterRun", {intensity=1}}
+    tab[152][24] = {"JetFighterRun", {intensity=1}}
     tab[153][44] = {"Army", {intensity=5}}
     tab[153][45] = {"Bandits", {intensity=5}}
-    tab[153][46] = {"Army", {intensity=5}}
-    tab[153][50] = {"GasRun", {intensity=4}}
+    tab[153][46] = {"Army", {intensity=1}}
+    tab[153][50] = {"JetFighterRun", {intensity=1}}
 
     tab[154][25] = {"Army", {intensity=2}}
     tab[154][26] = {"Inmates", {intensity = 14}}
@@ -233,10 +232,10 @@ local generateSchedule = function()
     tab[155][25] = {"JetFighterRun", {intensity=1}}
     tab[155][26] = {"Army", {intensity=10}}
 
-    tab[156][5]  = {"GasRun", {intensity=8}}
+    tab[156][5]  = {"JetFighterRun", {intensity=1}}
     tab[156][10] = {"Bandits", {intensity=12}}
-    tab[156][15] = {"GasRun", {intensity=10}}
-    tab[156][25] = {"GasRun", {intensity=8}}
+    tab[156][15] = {"JetFighterRun", {intensity=1}}
+    tab[156][25] = {"JetFighterRun", {intensity=1}}
     tab[156][26] = {"Army", {intensity=10}}
 
     tab[158][0]  = {"Siren", {}}
@@ -284,12 +283,13 @@ local generateSchedule = function()
     tab[164][13] = {"SetHydroPower", {on=true}}
     tab[164][24] = {"BombRun", {intensity=20}}
     tab[164][49] = {"BombRun", {intensity=18}}
+    tab[165][2]  = {"ChopperFliers", {}}
 
     -- DAY 8 09.00
-    tab[168][0]  = {"StartDay", {day="thursday"}}
+    tab[168][0]  = {"StartDay", {day="friday"}}
     tab[168][4]  = {"Siren", {}}
-    tab[168][40] = {"FinalSolution", {}}
-    tab[168][29] = {"SetHydroPower", {on=false}}
+    tab[168][30] = {"FinalSolution", {}}
+    tab[168][34] = {"SetHydroPower", {on=false}}
 
     -- late hazmat suit bandits will spawn only in fallout scenario
     tab[176][25] = {"Scientists", {intensity=2}}
@@ -311,7 +311,28 @@ BWOScheduler.Schedule = generateSchedule()
 
 function BWOScheduler.MasterControl()
 
-    local player = getPlayer()
+    local function daysInMonth(month)
+        local daysPerMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+        return daysPerMonth[month]
+    end
+    
+    local function calculateHourDifference(startHour, startDay, startMonth, startYear, hour, day, month, year)
+        local startTotalHours = startHour + (startDay - 1) * 24
+        for m = 1, startMonth - 1 do
+            startTotalHours = startTotalHours + daysInMonth(m) * 24
+        end
+        startTotalHours = startTotalHours + (startYear * 365 * 24) 
+    
+        local totalHours = hour + (day - 1) * 24
+        for m = 1, month - 1 do
+            totalHours = totalHours + daysInMonth(m) * 24
+        end
+        totalHours = totalHours + (year * 365 * 24) 
+    
+        return totalHours - startTotalHours
+    end
+
+    local player = getSpecificPlayer(0)
     local gametime = getGameTime()
 
     local startHour = gametime:getStartTimeOfDay()
@@ -319,16 +340,17 @@ function BWOScheduler.MasterControl()
     local startMonth = gametime:getStartMonth()
     local startYear = gametime:getStartYear()
 
-    local day = gametime:getDay()
     local hour = gametime:getHour()
+    local day = gametime:getDay()
     local minute = gametime:getMinutes()
     local month = gametime:getMonth()
     local year = gametime:getYear()
 
-    local worldAge = (day * 24 + hour) - (startDay * 24 + startHour)
+    -- worldAge is counter in hours
+    local worldAge = calculateHourDifference(startHour, startDay, startMonth, startYear, hour, day, month, year)
     
     -- debug to jump to a certain hour
-    -- worldAge = worldAge + 166
+    -- worldAge = worldAge + 96
 
     BWOScheduler.WorldAge = worldAge
     
@@ -351,11 +373,16 @@ function BWOScheduler.MasterControl()
 
     -- transforms the world appearance to simulate post-nuclear strike
     BWOScheduler.World.PostNuclearTransformator = false
-    if BWOScheduler.WorldAge >= 169 and BWOScheduler.WorldAge < 2330 then BWOScheduler.World.PostNuclearTransformator = true end
+    if SandboxVars.BanditsWeekOne.EventFinalSolution and BWOScheduler.WorldAge >= 169 and BWOScheduler.WorldAge < 2330 then BWOScheduler.World.PostNuclearTransformator = true end
 
     -- makes the player sick and drunk after nuclear explosions
     BWOScheduler.World.PostNuclearFallout = false
-    if BWOScheduler.WorldAge >= 169 then BWOScheduler.World.PostNuclearFallout = true end
+    if SandboxVars.BanditsWeekOne.EventFinalSolution and BWOScheduler.WorldAge >= 171 and BWOScheduler.WorldAge < 2330 then 
+        BWOScheduler.World.PostNuclearFallout = true 
+        if getWorld():isHydroPowerOn() then
+            getWorld():setHydroPowerOn(false)
+        end
+    end
     
     -- either fixes the car or removes burned or smashed cars for prepademic world
     BWOScheduler.World.VehicleFixer = false
@@ -366,7 +393,7 @@ function BWOScheduler.MasterControl()
 
     -- controls if npcs will react to protests events
     BWOScheduler.NPC.ReactProtests = false
-    if BWOScheduler.WorldAge < 154 then BWOScheduler.NPC.ReactProtests = true end
+    if BWOScheduler.WorldAge < 129 then BWOScheduler.NPC.ReactProtests = true end
 
     -- controls if npcs will react to protests events
     BWOScheduler.NPC.ReactDeadBody = false
@@ -394,7 +421,7 @@ function BWOScheduler.MasterControl()
 
     -- controls when npc start running instead of walking by default, also cars not stopping
     BWOScheduler.NPC.Run = false
-    if BWOScheduler.WorldAge > 80 then BWOScheduler.NPC.Run = true end
+    if BWOScheduler.WorldAge > 90 then BWOScheduler.NPC.Run = true end
 
     -- controls when npcbarricade their homes
     BWOScheduler.NPC.Barricade = false
@@ -413,7 +440,7 @@ function BWOScheduler.MasterControl()
     
     -- controls minor crime has consequences (breaking windows)
     BWOScheduler.Anarchy.IllegalMinorCrime = true
-    if BWOScheduler.WorldAge > 100 then BWOScheduler.Anarchy.IllegalMinorCrime = false end
+    if BWOScheduler.WorldAge > 110 then BWOScheduler.Anarchy.IllegalMinorCrime = false end
 
     -- building emmiters
     if BWOScheduler.Anarchy.BuildingOperational then
@@ -445,21 +472,6 @@ function BWOScheduler.MasterControl()
                 end
             end
         end
-
-        -- gigamart
-        --[[
-        if hour >=8 and hour < 24 then
-            if minute == 0 then
-                local shop = BWOBuildings.FindBuildingWithRoom("gigamart")
-                if shop then
-                    local def = shop:getDef()
-                    local emitter = getWorld():getFreeEmitter((def:getX() + def:getX2()) / 2, (def:getY() + def:getY2()) / 2, 0)
-                    emitter:setVolumeAll(0.8)
-                    emitter:playSound("ZSBuildingGigamart")
-                end
-            end
-        end
-        ]]
     end
 
     -- general sickness control
@@ -467,11 +479,11 @@ function BWOScheduler.MasterControl()
         BWOScheduler.SymptomLevel = 0
     elseif worldAge < 60 then
         BWOScheduler.SymptomLevel = 1
-    elseif worldAge < 130 then
+    elseif worldAge < 100 then
         BWOScheduler.SymptomLevel = 2
-    elseif worldAge < 151 then
+    elseif worldAge < 132 then
         BWOScheduler.SymptomLevel = 3
-    elseif worldAge < 153 then
+    elseif worldAge == 132 then
         BWOScheduler.SymptomLevel = 4
     else    
         BWOScheduler.SymptomLevel = 5
@@ -493,7 +505,7 @@ function BWOScheduler.MasterControl()
         BWOPopControl.Hazmats.On = true
     end
 
-    if worldAge < 100 then
+    if worldAge < 110 then
         BWOPopControl.Police.On = true
         BWOPopControl.SWAT.On = true
         BWOPopControl.Security.On = true
@@ -531,13 +543,13 @@ end
 
 -- event processor
 function BWOScheduler.CheckEvents()
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     local ct = BanditUtils.GetTime()
     for i, event in pairs(BWOScheduler.Events) do
         if event.start < ct then
             if BWOEvents[event.phase] then
                 local profession = player:getDescriptor():getProfession()
-                if not event.profession or event.profession == profession then
+                if not event.params.profession or event.params.profession == profession then
                     BWOEvents[event.phase](event.params)
                 end
             end

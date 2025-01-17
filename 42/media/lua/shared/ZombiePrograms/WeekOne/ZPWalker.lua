@@ -27,6 +27,22 @@ ZombiePrograms.Walker.Prepare = function(bandit)
     local cell = getCell()
     local cm = world:getClimateManager()
     local dls = cm:getDayLightStrength()
+    local id = BanditUtils.GetCharacterID(bandit)
+    local weapons = Bandit.GetWeapons(bandit)
+
+    if math.abs(id) % 13 == 0 and not bandit:isFemale() then
+        local brain = BanditBrain.Get(bandit)
+        brain.bag = "Briefcase"
+        local fakeItem = instanceItem("Base.Briefcase")
+        --local fakeItem = instanceItem("Base.Briefcase")
+        --local fakeItem = instanceItem("Base.Flightcase")
+        --local fakeItem = instanceItem("Base.Cooler")
+        bandit:setPrimaryHandItem(fakeItem)
+    elseif math.abs(id) % 5 == 0 and bandit:isFemale() then
+        weapons.melee = "Base.PurseWeapon"
+        local task = {action="Equip", itemPrimary=weapons.melee}
+        table.insert(tasks, task)
+    end
 
     Bandit.ForceStationary(bandit, false)
 

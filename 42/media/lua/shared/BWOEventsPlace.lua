@@ -74,7 +74,7 @@ function BWOEventsPlace.ArmyGuards(params)
         for i=1, intensity do
             table.insert(event.bandits, bandit)
         end
-        sendClientCommand(getPlayer(), 'Commands', 'SpawnGroup', event)
+        sendClientCommand(getSpecificPlayer(0), 'Commands', 'SpawnGroup', event)
     end
 
     if SandboxVars.Bandits.General_ArrivalIcon then
@@ -110,7 +110,7 @@ function BWOEventsPlace.BaseDefenders(params)
         for i=1, intensity do
             table.insert(event.bandits, bandit)
         end
-        sendClientCommand(getPlayer(), 'Commands', 'SpawnGroup', event)
+        sendClientCommand(getSpecificPlayer(0), 'Commands', 'SpawnGroup', event)
     end
 
     if SandboxVars.Bandits.General_ArrivalIcon then

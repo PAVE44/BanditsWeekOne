@@ -31,6 +31,7 @@ BWOServer.Commands.NukeAdd = function(player, args)
 end
 
 BWOServer.Commands.NukesDisable = function(player, args)
+    local gmd = GetBWOModData()
     if args.confirm then
         gmd.Nukes = {}
     end
@@ -70,7 +71,7 @@ BWOServer.Commands.AddEffect = function(player, args)
 end
 
 BWOServer.Commands.Nuke = function(player, args)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     local cell = player:getCell()
     local px = args.x
     local py = args.y

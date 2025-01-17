@@ -40,7 +40,7 @@ ZombieActions.Extinguish.onStart = function(zombie, task)
     effect2.b = 0.97
 
     if isClient() then
-        sendClientCommand(getPlayer(), 'Schedule', 'AddEffect', effect2)
+        sendClientCommand(getSpecificPlayer(0), 'Schedule', 'AddEffect', effect2)
     else
         table.insert(BanditEffects.tab, effect2)
     end]]
@@ -77,8 +77,8 @@ ZombieActions.Extinguish.onComplete = function(zombie, task)
             square:stopFire()
             local args = {x=task.x, y=task.y, z=task.z, otype="fire"}
             -- bugged dunno why
-            -- sendClientCommand(getPlayer(), 'Commands', 'ObjectRemove', args)
-            BWOServer.Commands.ObjectRemove(getPlayer(), args)
+            -- sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectRemove', args)
+            BWOServer.Commands.ObjectRemove(getSpecificPlayer(0), args)
 
             if BWOScheduler.Anarchy.Transactions then
                 BWOPlayer.Earn(zombie, 20)

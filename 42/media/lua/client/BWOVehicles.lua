@@ -379,7 +379,7 @@ local AddVehicles = function()
     end
     
     if cnt < max then
-        BWOVehicles.FindSpawnPoint(getPlayer())
+        BWOVehicles.FindSpawnPoint(getSpecificPlayer(0))
     end
 end
 
@@ -388,7 +388,7 @@ local ManageVehicles = function(ticks)
     if ticks % 6 > 0 then return end
     
     local dirMap = BWOVehicles.dirMap
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     local vehicleList = BWOVehicles.tab
     for id, vehicle in pairs(vehicleList) do
         local controller = vehicle:getController()
@@ -461,6 +461,9 @@ local ManageVehicles = function(ticks)
                                     -- vehicle:setForceBrake()
                                     vehicle:setRegulatorSpeed(0)
                                     vehicle:setRegulator(false)
+                                    -- vehicle:setBraking(true)
+                                    -- vehicle:setBrakingForce(100)
+
 
                                     if shouldAbandon and vehicle:isStopped() then
 
@@ -520,6 +523,7 @@ local ManageVehicles = function(ticks)
                             emitter:stopSoundByName("VehicleHornStandard")
                         end
                         if vehicle:isStopped() then
+                            -- vehicle:setBraking(false)
                             vehicle:setRegulator(true)
                             vehicle:setRegulatorSpeed(30 * SandboxVars.BanditsWeekOne.VehiclesSpeed)
                         end

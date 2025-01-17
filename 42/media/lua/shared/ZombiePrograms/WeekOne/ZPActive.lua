@@ -34,8 +34,8 @@ ZombiePrograms.Active.Prepare = function(bandit)
     Bandit.ForceStationary(bandit, false)
     Bandit.SetWeapons(bandit, weapons)
 
-    bandit:setPrimaryHandItem(nil)
-    bandit:setSecondaryHandItem(nil)
+    -- bandit:setPrimaryHandItem(nil)
+    -- bandit:setSecondaryHandItem(nil)
 
     local secondary
     if SandboxVars.Bandits.General_CarryTorches and dls < 0.3 then
@@ -47,7 +47,7 @@ ZombiePrograms.Active.Prepare = function(bandit)
         table.insert(tasks, task1)
     end
 
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     local px, py = player:getX(), player:getY()
     local anim = BanditUtils.Choice({"Spooked1", "Spooked2"})
     local task2 = {action="TimeFace", anim=anim, x=px, y=py, time=100}
