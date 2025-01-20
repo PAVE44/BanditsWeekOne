@@ -25,7 +25,7 @@ BWOPlayer.ActivateWitness = function(character, min)
                         if witness.brain.program.name == prg then
                             Bandit.ClearTasks(actor)
                             local outfit = actor:getOutfitName()
-                            if outfit == "Police" or outfit == "MallSecurity" or outfit == "ZSArmySpecialOps" or outfit == "BWOMilitaryOfficer" then
+                            if outfit == "Police" or outfit == "MallSecurity" or outfit == "ArmyCamoGreen" or outfit == "ZSArmySpecialOps" or outfit == "BWOMilitaryOfficer" then
                                 Bandit.SetProgram(actor, "Police", {})
                                 Bandit.SetHostile(actor, true)
                                 Bandit.Say(actor, "SPOTTED")
@@ -119,7 +119,7 @@ BWOPlayer.ActivateTargets = function(character, min, severity)
     for _, actor in pairs(activateList) do
         Bandit.ClearTasks(actor)
         local outfit = actor:getOutfitName()
-        if outfit == "Police" or outfit == "MallSecurity" or outfit == "ZSArmySpecialOps" or outfit == "BWOMilitaryOfficer" then
+        if outfit == "Police" or outfit == "MallSecurity" or outfit == "ArmyCamoGreen" or outfit == "ZSArmySpecialOps" or outfit == "BWOMilitaryOfficer" then
             Bandit.SetProgram(actor, "Police", {})
             if not wasLegal then
                 if severity == 2 then
@@ -256,7 +256,7 @@ local checkHostility = function(bandit, attacker)
                     for _, prg in pairs(activatePrograms) do
                         if witness.brain.program.name == prg then 
                             local outfit = actor:getOutfitName()
-                            if outfit == "Police" or outfit == "Security" or outfit == "MallSecurity" or outfit == "ZSArmySpecialOps" then
+                            if outfit == "Police" or outfit == "Security" or outfit == "MallSecurity" or outfit == "ZSArmySpecialOps" or outfit == "ArmyCamoGreen"  then
                                 Bandit.ClearTasks(actor)
                                 Bandit.SetProgram(actor, "Police", {})
                                 if wasPlayerFault then
