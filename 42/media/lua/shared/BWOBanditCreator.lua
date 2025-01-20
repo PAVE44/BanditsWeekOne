@@ -1,9 +1,8 @@
 BanditCreator = BanditCreator or {}
 
 function BanditCreator.MakeFromRoom(room)
-    local roomData = BWORooms.Get(room)
-    local roomName = room:getName()
 
+    local roomData = BWORooms.Get(room)
     if not roomData then return end
 
     local bandit = {}
@@ -74,22 +73,6 @@ function BanditCreator.MakeFromRoom(room)
     end
 
     bandit.loot = BanditCreator.MakeLoot(clan.Loot)
-
-    --[[
-    local building = room:getBuilding()
-    if building:containsRoom("firestorage") then
-        bandit.outfit = "Fireman"
-        bandit.weapons.melee = "Base.Axe"
-    elseif building:containsRoom("church") then
-        if ZombRand(20) == 1 then
-            bandit.outfit = "Priest"
-            bandit.femaleChance = 0
-        else
-            bandit.outfit = BanditUtils.Choice({"Classy", "AuthenticElderly", "AuthenticFuneralFormal", "AuthenticFuneralCoat"})
-        end
-        bandit.weapons.melee = "Base.BareHands"
-    end
-    ]]
 
     return bandit
 end

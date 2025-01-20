@@ -35,6 +35,7 @@ BWOMenu.SpawnRoom = function(player, square, prgName)
 
     local room = square:getRoom()
     if room then
+        local name = room:getName()
         local roomDef = room:getRoomDef()
         if roomDef then
             local spawnSquare = roomDef:getFreeSquare()
@@ -220,6 +221,8 @@ end
 
 BWOMenu.EventParty = function (player)
     local params = {}
+    params.roomName = "bedroom"
+    params.intensity = 8
     BWOScheduler.Add("BuildingParty", params, 100)
 end
 
@@ -443,9 +446,19 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         end
     end]]
 
-    local player = getSpecificPlayer(playerID)
-    print (player:getDescriptor():getProfession())
+    -- local player = getSpecificPlayer(playerID)
+    -- print (player:getDescriptor():getProfession())
+
+    local base = BanditPlayerBase.GetBase(player)
+
     if isDebugEnabled() or isAdmin() then
+
+        local density = BanditScheduler.GetDensityScore(player, 120) * 1.4
+        print ("DENSITY: " .. density)
+
+        local density2 = BWOBuildings.GetDensityScore(player, 120) / 4000
+        print ("DENSITY2: " .. density2)
+
         -- player:playSound("197ddd73-7662-41d5-81e0-63b83a58ab60")
         local eventsOption = context:addOption("BWO Event")
         local eventsMenu = context:getNew(context)
@@ -501,8 +514,15 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         if room then
             local roomName = room:getName()
             local def = room:getRoomDef()
+            local occupantsCnt = BWORooms.GetRoomCurrPop(room)
+            local occupantsMax = BWORooms.GetRoomMaxPop(room)
+            local roomSize = BWORooms.GetRoomSize(room)
+            local popMod = BWORooms.GetRoomPopMod(room)
             print ("ROOM: " .. roomName)
+            print ("SIZE: " .. roomSize)
             print ("HOME: " .. tostring(BWOBuildings.IsEventBuilding(room:getBuilding(), "home")))
+            print ("POP: " .. occupantsCnt .. "/" .. occupantsMax .. " (" .. popMod .. ")")
+
         end
         
         local objects = square:getObjects()

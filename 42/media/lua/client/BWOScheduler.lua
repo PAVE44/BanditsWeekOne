@@ -39,13 +39,13 @@ local generateSchedule = function()
     tab[8][5]   = {"Defenders", {profession="policeofficer"}}
     tab[8][5]   = {"Arson", {profession="fireofficer"}}
 
-    tab[11][12] = {"BuildingParty", {}}
-    tab[12][30] = {"BuildingParty", {}}
-    tab[13][5]  = {"BuildingParty", {}}
-    tab[13][25] = {"BuildingParty", {}}
-    tab[15][5]  = {"BuildingParty", {}}
-    tab[15][25] = {"BuildingParty", {}}
-    tab[16][58] = {"BuildingParty", {}}
+    tab[11][12] = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    tab[12][30] = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    tab[13][5]  = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    tab[13][25] = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    tab[15][5]  = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    tab[15][25] = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    tab[16][58] = {"BuildingParty", {roomName="bedroom", intensity=8}}
     tab[19][42] = {"RegisterBase", {}}
     tab[19][43] = {"Thieves", {intensity=3}}
     
@@ -59,11 +59,11 @@ local generateSchedule = function()
     tab[27][8]  = {"ArmyPatrol", {intensity=12}}
     tab[28][33] = {"Entertainer", {}}
     tab[30][33] = {"ArmyPatrol", {intensity=9}}
-    tab[35][20] = {"BuildingParty", {}}
-    tab[36][10] = {"BuildingParty", {}}
-    tab[37][5]  = {"BuildingParty", {}}
-    tab[37][25] = {"BuildingParty", {}}
-    tab[39][2]  = {"BuildingParty", {}}
+    tab[35][20] = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    tab[36][10] = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    tab[37][5]  = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    tab[37][25] = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    tab[39][2]  = {"BuildingParty", {roomName="bedroom", intensity=8}}
     tab[39][14] = {"Defenders", {profession="policeofficer"}}
     tab[39][14] = {"Arson", {profession="fireofficer"}}
     tab[42][6]  = {"RegisterBase", {}}
@@ -79,8 +79,8 @@ local generateSchedule = function()
     tab[54][30] = {"Arson", {}}
     tab[55][11] = {"Criminals", {intensity=2}}
     tab[58][33] = {"Criminals", {intensity=3}}
-    tab[59][44] = {"BuildingParty", {}}
-    tab[59][55] = {"BuildingParty", {}}
+    tab[59][44] = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    tab[59][55] = {"BuildingParty", {roomName="bedroom", intensity=8}}
     tab[63][30] = {"Criminals", {intensity=4}}
     tab[66][39] = {"Criminals", {intensity=3}}
     tab[66][41] = {"Criminals", {intensity=3}}
@@ -332,6 +332,84 @@ function BWOScheduler.MasterControl()
         return totalHours - startTotalHours
     end
 
+    local function adjustSandboxVar(k, v)
+        getSandboxOptions():set(k, v)
+        SandboxVars[k] = v
+    end
+
+    local function preSandboxVars()
+        adjustSandboxVar("DamageToPlayerFromHitByACar", 3)
+        adjustSandboxVar("MetaEvent", 1)
+        adjustSandboxVar("LockedHouses", 1)
+        adjustSandboxVar("MaximumLooted", 0)
+        adjustSandboxVar("FoodLootNew", 3.0)
+        adjustSandboxVar("CannedFoodLootNew", 3.0)
+        adjustSandboxVar("LiteratureLootNew", 3.0)
+        adjustSandboxVar("SurvivalGearsLootNew", 2.0)
+        adjustSandboxVar("MedicalLootNew", 2.4)
+        adjustSandboxVar("WeaponLootNew", 2.0)
+        adjustSandboxVar("RangedWeaponLootNew", 1.2)
+        adjustSandboxVar("AmmoLootNew", 3.2)
+        adjustSandboxVar("MechanicsLootNew", 2.4)
+        adjustSandboxVar("OtherLootNew", 2.0)
+        adjustSandboxVar("ClothingLootNew", 3.0)
+        adjustSandboxVar("ContainerLootNew", 3.0)
+        adjustSandboxVar("MementoLootNew", 0.4)
+        adjustSandboxVar("MediaLootNew", 1.2)
+        adjustSandboxVar("CookwareLootNew", 2.2)
+        adjustSandboxVar("MaterialLootNew", 1.6)
+        adjustSandboxVar("FarmingLootNew", 1.6)
+        adjustSandboxVar("ToolLootNew", 1.6)
+        adjustSandboxVar("SurvivorHouseChance", 1)
+        adjustSandboxVar("VehicleStoryChance", 1)
+        adjustSandboxVar("ZoneStoryChance", 1)
+        adjustSandboxVar("AnnotatedMapChance", 1)
+        adjustSandboxVar("MaxFogIntensity", 4)
+        adjustSandboxVar("TrafficJam", false)
+        adjustSandboxVar("CarSpawnRate", 5)
+        adjustSandboxVar("MaximumRatIndex", 0)
+        adjustSandboxVar("Helicopter", 1)
+        getSandboxOptions():applySettings()
+        --IsoWorld.parseDistributions()
+        ItemPickerJava.InitSandboxLootSettings()
+    end
+
+    local function postSandboxVars()
+        adjustSandboxVar("DamageToPlayerFromHitByACar", 3)
+        adjustSandboxVar("MetaEvent", 2)
+        adjustSandboxVar("LockedHouses", 4)
+        adjustSandboxVar("MaximumLooted", 70)
+        adjustSandboxVar("FoodLootNew", 0.2)
+        adjustSandboxVar("CannedFoodLootNew", 0.3)
+        adjustSandboxVar("LiteratureLootNew", 0.4)
+        adjustSandboxVar("SurvivalGearsLootNew", 0.3)
+        adjustSandboxVar("MedicalLootNew", 0.4)
+        adjustSandboxVar("WeaponLootNew", 0.4)
+        adjustSandboxVar("RangedWeaponLootNew", 0.4)
+        adjustSandboxVar("AmmoLootNew", 0.7)
+        adjustSandboxVar("MechanicsLootNew", 0.4)
+        adjustSandboxVar("OtherLootNew", 0.4)
+        adjustSandboxVar("ClothingLootNew", 0.4)
+        adjustSandboxVar("ContainerLootNew", 0.4)
+        adjustSandboxVar("MementoLootNew", 0.4)
+        adjustSandboxVar("MediaLootNew", 0.4)
+        adjustSandboxVar("CookwareLootNew", 0.4)
+        adjustSandboxVar("MaterialLootNew", 0.4)
+        adjustSandboxVar("FarmingLootNew", 0.4)
+        adjustSandboxVar("ToolLootNew", 0.4)
+        adjustSandboxVar("SurvivorHouseChance", 6)
+        adjustSandboxVar("VehicleStoryChance", 4)
+        adjustSandboxVar("ZoneStoryChance", 4)
+        adjustSandboxVar("AnnotatedMapChance", 3)
+        adjustSandboxVar("MaxFogIntensity", 1)
+        adjustSandboxVar("TrafficJam", true)
+        adjustSandboxVar("CarSpawnRate", 3)
+        adjustSandboxVar("MaximumRatIndex", 50)
+        adjustSandboxVar("Helicopter", 2)
+        getSandboxOptions():applySettings()
+        --IsoWorld.parseDistributions()
+        ItemPickerJava.InitSandboxLootSettings()
+    end
     local player = getSpecificPlayer(0)
     local gametime = getGameTime()
 
@@ -360,48 +438,21 @@ function BWOScheduler.MasterControl()
     BWOScheduler.World = {}
 
     -- removes objects that conflict stylistically with prepandemic world
+    
     BWOScheduler.World.ObjectRemover = false
     if BWOScheduler.WorldAge < 64 then 
         BWOScheduler.World.ObjectRemover = true
-        getSandboxOptions():set("LockedHouses", 0)
-        getSandboxOptions():set("FoodLootNew", 2.0)
-        getSandboxOptions():set("CannedFoodLootNew", 2.0)
-        getSandboxOptions():set("LiteratureLootNew", 2.0)
-        getSandboxOptions():set("SurvivalGearsLootNew", 2.0)
-        getSandboxOptions():set("MedicalLootNew", 2.0)
-        getSandboxOptions():set("WeaponLootNew", 2.0)
-        getSandboxOptions():set("RangedWeaponLootNew", 1.2)
-        getSandboxOptions():set("AmmoLootNew", 2.4)
-        getSandboxOptions():set("MechanicsLootNew", 2.4)
-        getSandboxOptions():set("OtherLootNew", 2.0)
-        getSandboxOptions():set("ClothingLootNew", 2.0)
-        getSandboxOptions():set("ContainerLootNew", 2.0)
-        getSandboxOptions():set("MementoLootNew", 0.4)
-        getSandboxOptions():set("MediaLootNew", 0.8)
-        getSandboxOptions():set("CookwareLootNew", 2.0)
-        getSandboxOptions():set("MaterialLootNew", 1.6)
-        getSandboxOptions():set("FarmingLootNew", 1.6)
-        getSandboxOptions():set("ToolLootNew", 1.6)
-        getSandboxOptions():set("SurvivorHouseChance", 0)
-        getSandboxOptions():set("VehicleStoryChance", 0)
-        getSandboxOptions():set("ZoneStoryChance", 0)
-        getSandboxOptions():set("AnnotatedMapChance", 0)
-        getSandboxOptions():set("MaxFogIntensity", 0)
-        getSandboxOptions():set("TrafficJam", 0)
-        getSandboxOptions():set("CarSpawnRate", 5)
-        getSandboxOptions():set("MaximumRatIndex", 0)
-        getSandboxOptions():set("CarSpawnRate", 5)
-        getSandboxOptions():set("Helicopter", 0)
+        
+        preSandboxVars()
+        -- local test = getSandboxOptions():getOptionByName("CarSpawnRate"):asConfigOption():getValueAsLuaString()
+        -- local test2 = SandboxVars.CarSpawnRate
     else
-        getSandboxOptions():resetToDefault()
+        postSandboxVars()
     end
 
     -- removed initial deadbodies
     BWOScheduler.World.DeadBodyRemover = false
-    if BWOScheduler.WorldAge < 48 then 
-        BWOScheduler.World.DeadBodyRemover = true
-        getSandboxOptions():set("MetaEvent", 0)
-    end
+    if BWOScheduler.WorldAge < 48 then BWOScheduler.World.DeadBodyRemover = true end
 
     -- registers certain exterior objects positions that npcs can interacts with
     BWOScheduler.World.GlobalObjectAdder = false

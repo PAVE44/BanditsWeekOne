@@ -206,3 +206,7 @@ function BWOEventsPlace.AbandonedVehicle(params)
     local vtype = BanditUtils.Choice(BWOVehicles.carChoices)
     spawnVehicle(params.x, params.y, params.dir, vtype)
 end
+
+function BWOEventsPlace.BuildingParty(params)
+    BWOEvents.BuildingParty(params)
+end

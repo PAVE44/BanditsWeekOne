@@ -198,6 +198,9 @@ addBarricadeEast(12478, 12491, 5823)
 BWOSquareLoader.remove["12072-6759-0"] = {}
 BWOSquareLoader.remove["12072-6760-0"] = {}
 
+-- outofgas signs
+BWOSquareLoader.remove["10615-9768-0"] = {}
+
 -- protests
 local protests = {}
 table.insert(protests, {x=10590, y=10670, z=0}) --muldraugh n blockade
@@ -292,6 +295,11 @@ table.insert(BWOSquareLoader.events, {phase="Emitter", x=7232, y=8202, z=0, len=
 table.insert(BWOSquareLoader.events, {phase="Emitter", x=10103, y=12749, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- restaurant march ridge 
 table.insert(BWOSquareLoader.events, {phase="Emitter", x=8076, y=11455, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- restaurant rosewood
 table.insert(BWOSquareLoader.events, {phase="Emitter", x=8072, y=11344, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- spiffos rosewood
+
+-- non-stop party buildings
+
+-- LV strip club
+table.insert(BWOSquareLoader.events, {phase="BuildingParty", x=12320, y=1279, z=0, intensity=10, roomName="stripclub"})
 
 -- MILITARY BASE FINALE SETUP
 

@@ -24,6 +24,7 @@ table.insert(data, {query={"nice", "meeting"}, res="Nice to meet you too!"})
 table.insert(data, {query={"what", "your", "name"}, res="I'm %NAME."})
 table.insert(data, {query={"who", "are", "you"}, res="I'm %NAME."})
 table.insert(data, {query={"how", "are", "you"}, res="%MOOD", anim="PainHead"})
+table.insert(data, {query={"how", "you", "feel"}, res="%MOOD", anim="PainHead"})
 table.insert(data, {query={"are", "you", "sick"}, res="%MOOD", anim="PainHead"})
 table.insert(data, {query={"are", "you", "ok"}, res="%MOOD", anim="PainHead"})
 table.insert(data, {query={"are", "you", "okay"}, res="%MOOD", anim="PainHead"})
@@ -123,6 +124,7 @@ table.insert(data, {query={"what", "the", "hell"}, res="Can't you see that every
 
 -- giving intructions
 table.insert(data, {query={"can", "stop"}, res="Sorry, I'm in a hurry!", anim="No"})
+table.insert(data, {query={"can", "buy"}, res="Sorry, it's not for sale!", anim="No"})
 table.insert(data, {query={"stop", "please"}, res="Sorry, I'm in a hurry!", anim="No"})
 table.insert(data, {query={"can", "wait"}, res="Sorry, I'm in a hurry!", anim="No"})
 table.insert(data, {query={"wait", "me"}, res="Sorry, I'm in a hurry!", anim="No"})
@@ -194,6 +196,8 @@ table.insert(data, {query={"have", "a", "drink"}, res="Sure! Let's go!", anim="C
 table.insert(data, {query={"buy", "drink"}, res="Sure! Let's go!", anim="Clap", action="JOIN"})
 table.insert(data, {query={"take", "coffee"}, res="Sure! Let's go!", anim="Yes", action="JOIN"})
 table.insert(data, {query={"buy", "coffee"}, res="Sure! Let's go!", anim="Yes", action="JOIN"})
+table.insert(data, {query={"i", "love", "you"}, res="I'm sure you do!", anim="Yes"})
+table.insert(data, {query={"i", "like", "you"}, res="I'm sure you do!", anim="Yes"})
 
 -- cover you eyes
 table.insert(data, {query={"will", "shoot"}, res="F**k off!", action="HOSTILE"})
@@ -213,6 +217,7 @@ table.insert(data, {query={"you", "are"}, res="Maybe I am"})
 table.insert(data, {query={"gunshots"}, res="Must be the military?"})
 table.insert(data, {query={"weather"}, res="%RAIN. %SNOW"})
 table.insert(data, {query={"how", "much"}, res="A lot."})
+table.insert(data, {query={"nice"}, res="Thank you!"})
 
 BWOChat = {}
 

@@ -1168,7 +1168,7 @@ end
 BWOEvents.BuildingParty = function(params)
     local player = getSpecificPlayer(0)
 
-    local house = BWOBuildings.FindBuildingWithRoom("bedroom")
+    local house = BWOBuildings.FindBuildingWithRoom(params.roomName)
     if not house then return end
 
     local cell = player:getCell()
@@ -1213,7 +1213,7 @@ BWOEvents.BuildingParty = function(params)
                                 local props = sprite:getProperties()
                                 if props:Is("CustomName") then
                                     local name = props:Val("CustomName")
-                                    if name == "Boombox" then
+                                    if name == "Radio" then
                                         boombox = object
                                     elseif name == "Low Table" then
                                         counter = object
@@ -1287,7 +1287,7 @@ BWOEvents.BuildingParty = function(params)
     event.program.stage = "Prepare"
     local room = square:getRoom()
     local roomDef = room:getRoomDef()
-    local pop = 8
+    local pop = params.intensity
     for i=1, pop do
         local spawnSquare = roomDef:getFreeSquare()
         if spawnSquare then
@@ -1319,6 +1319,8 @@ BWOEvents.BuildingParty = function(params)
         BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, (bx + bx2) / 2, (by + by2) / 2, color)
     end
 end
+
+
 
 -- spawn groups
 
@@ -1424,7 +1426,8 @@ BWOEvents.CallSWAT = function(params)
     event.bandits = {}
             
     local bandit = BanditCreator.MakeFromWave(config)
-    bandit.outfit = "ZSPoliceSpecialOps"
+    --bandit.outfit = "ZSPoliceSpecialOps"
+    bandit.outfit = "Police_SWAT"
     bandit.accuracyBoost = 1.3
     bandit.femaleChance = 0
     bandit.weapons.melee = "Base.Nightstick"
@@ -1927,7 +1930,7 @@ BWOEvents.Scientists = function(params)
     event.hostile = true
     event.occured = false
     event.program = {}
-    event.program.name = "Bandit"
+    event.program.name = "Looter"
     event.program.stage = "Prepare"
 
     local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(50,55))

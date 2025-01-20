@@ -212,6 +212,8 @@ end
 -- npcs in buildings spawner
 BWOPopControl.InhabitantsSpawn = function(cnt)
 
+    local ts = getTimestampMs()
+
     local event = {}
     event.hostile = false
     event.occured = false
@@ -233,18 +235,27 @@ BWOPopControl.InhabitantsSpawn = function(cnt)
         local def = room:getRoomDef()
 
         if def then
+                    
             local building = room:getBuilding()
             local buildingDef = building:getDef()
             buildingDef:setAlarmed(false)
+            
             if not BWOBuildings.IsEventBuilding(building, "home") then
+                
                 if def:getZ() >=0 and math.abs(def:getX() - player:getX()) < 100 and math.abs(def:getX2() - player:getX()) < 100 and 
                 math.abs(def:getY() - player:getY()) < 100 and math.abs(def:getY2() - player:getY()) < 100 then
+
                     local roomSize = BWORooms.GetRoomSize(room)
-                    local popMod = BWORooms.GetRoomPopMod(room)
-                    cursor = cursor + math.floor(roomSize * popMod)
-                    table.insert(roomPool, {room=room, cursor=cursor})
+                    local popMod = 1 -- lags: BWORooms.GetRoomPopMod(room)
+                    if popMod > 0 then
+                        local cursorStart = cursor
+                        cursor = cursor + math.floor(roomSize ^ 1.2)
+                        table.insert(roomPool, {room=room, cursorStart=cursorStart, cursorEnd=cursor})
+                    end
                 end
+                
             end
+            
         end
     end
 
@@ -252,23 +263,30 @@ BWOPopControl.InhabitantsSpawn = function(cnt)
     for i = 1, cnt do
         local rnd = ZombRand(cursor)
         for _, rp in pairs(roomPool) do
-            if rnd < rp.cursor then
+            if rnd >= rp.cursorStart and rnd < rp.cursorEnd then
                 local spawnRoom = rp.room
-                local spawnRoomDef = spawnRoom:getRoomDef()
-                if spawnRoomDef then
-                    local spawnSquare = spawnRoomDef:getFreeSquare()
-                    if spawnSquare and spawnSquare:haveRoofFull() and not BWOSquareLoader.IsInExclusion(spawnSquare:getX(), spawnSquare:getY()) then
-                        event.x = spawnSquare:getX()
-                        event.y = spawnSquare:getY()
-                        event.z = spawnSquare:getZ()
-                        local dist = BanditUtils.DistTo(px, py, event.x, event.y)
-                        if dist > 30 and dist < 80 then
-                            event.bandits = {}
-                            local bandit = BanditCreator.MakeFromRoom(spawnRoom)
-                            if bandit then
-                                table.insert(event.bandits, bandit)
-                                sendClientCommand(player, 'Commands', 'SpawnGroup', event)
-                                break
+
+                local occupantsCnt = BWORooms.GetRoomCurrPop(rp.room)
+                local occupantsMax = BWORooms.GetRoomMaxPop(rp.room)
+
+                if occupantsCnt < occupantsMax then
+
+                    local spawnRoomDef = spawnRoom:getRoomDef()
+                    if spawnRoomDef then
+                        local spawnSquare = spawnRoomDef:getFreeSquare()
+                        if spawnSquare and spawnSquare:haveRoofFull() and not BWOSquareLoader.IsInExclusion(spawnSquare:getX(), spawnSquare:getY()) then
+                            event.x = spawnSquare:getX()
+                            event.y = spawnSquare:getY()
+                            event.z = spawnSquare:getZ()
+                            local dist = BanditUtils.DistTo(px, py, event.x, event.y)
+                            if dist > 30 and dist < 80 then
+                                event.bandits = {}
+                                local bandit = BanditCreator.MakeFromRoom(spawnRoom)
+                                if bandit then
+                                    table.insert(event.bandits, bandit)
+                                    sendClientCommand(player, 'Commands', 'SpawnGroup', event)
+                                    break
+                                end
                             end
                         end
                     end
@@ -276,6 +294,8 @@ BWOPopControl.InhabitantsSpawn = function(cnt)
             end
         end
     end
+
+    -- print ("--------------- IS: " .. getTimestampMs() - ts)
 end
 
 -- npcs in buildings despawner
@@ -486,8 +506,8 @@ BWOPopControl.UpdateCivs = function()
 
     -- ADJUST: population nominals
     BWOPopControl.ZombieMax = 0
-    BWOPopControl.StreetsNominal = 50
-    BWOPopControl.InhabitantsNominal = 50
+    BWOPopControl.StreetsNominal = 30
+    BWOPopControl.InhabitantsNominal = 100
     BWOPopControl.SurvivorsNominal = 0
 
     if BWOScheduler.WorldAge == 83 then -- occasional zombies
@@ -504,26 +524,26 @@ BWOPopControl.UpdateCivs = function()
         BWOPopControl.ZombieMax = 8
     elseif BWOScheduler.WorldAge == 128  then -- outbreak
         BWOPopControl.ZombieMax = 70
-        BWOPopControl.StreetsNominal = 55
-        BWOPopControl.InhabitantsNominal = 40
+        BWOPopControl.StreetsNominal = 45
+        BWOPopControl.InhabitantsNominal = 50
     elseif BWOScheduler.WorldAge == 129 then 
         BWOPopControl.ZombieMax = 70
-        BWOPopControl.StreetsNominal = 60
-        BWOPopControl.InhabitantsNominal = 25
+        BWOPopControl.StreetsNominal = 50
+        BWOPopControl.InhabitantsNominal = 40
         BWOPopControl.SurvivorsNominal = 2
     elseif BWOScheduler.WorldAge == 130 then
         BWOPopControl.ZombieMax = 70
-        BWOPopControl.StreetsNominal = 65
-        BWOPopControl.InhabitantsNominal = 20
+        BWOPopControl.StreetsNominal = 55
+        BWOPopControl.InhabitantsNominal = 30
         BWOPopControl.SurvivorsNominal = 3
     elseif BWOScheduler.WorldAge == 131 then
         BWOPopControl.ZombieMax = 70
-        BWOPopControl.StreetsNominal = 70
+        BWOPopControl.StreetsNominal = 60
         BWOPopControl.InhabitantsNominal = 15
         BWOPopControl.SurvivorsNominal = 5
     elseif BWOScheduler.WorldAge == 132 then
         BWOPopControl.ZombieMax = 70
-        BWOPopControl.StreetsNominal = 65
+        BWOPopControl.StreetsNominal = 55
         BWOPopControl.InhabitantsNominal = 15
         BWOPopControl.SurvivorsNominal = 8
     elseif BWOScheduler.WorldAge >= 133 and BWOScheduler.WorldAge < 170 then
@@ -545,7 +565,9 @@ BWOPopControl.UpdateCivs = function()
 
     -- count desired population of civs
     local nominal = BWOPopControl.StreetsNominal
-    local density = BanditScheduler.GetDensityScore(player, 120) * 1.4
+    -- local density = BanditScheduler.GetDensityScore(player, 120) * 1.4
+    local density = BWOBuildings.GetDensityScore(player, 120) / 8000
+    if density > 2.5 then density = 2.5 end
     local hourmod = getHourScore()
     local pop = nominal * density * hourmod * SandboxVars.BanditsWeekOne.StreetsPopMultiplier
     BWOPopControl.StreetsMax = pop
@@ -568,7 +590,7 @@ BWOPopControl.UpdateCivs = function()
     -- count desired population of civs
     local nominal = BWOPopControl.InhabitantsNominal
     -- local density = BanditScheduler.GetDensityScore(player, 120) * 1.2
-    BWOPopControl.InhabitantsMax = nominal * density * SandboxVars.BanditsWeekOne.InhabitantsPopMultiplier
+    BWOPopControl.InhabitantsMax = nominal * SandboxVars.BanditsWeekOne.InhabitantsPopMultiplier
 
     -- count missing amount to spawn
     local missing = BWOPopControl.InhabitantsMax - BWOPopControl.InhabitantsCnt

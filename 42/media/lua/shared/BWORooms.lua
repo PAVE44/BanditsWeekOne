@@ -582,6 +582,9 @@ BWORooms.tab = {
 
     firestorage = {
         isStorage = true,
+        outfits = {"FiremanFullSuit", "Fireman"},
+        melee = {"Base.BareHands", "Base.Axe"},
+        femaleChance = 0,
         occupations = {"fireofficer"}
     },
 
@@ -640,7 +643,6 @@ BWORooms.tab = {
     },
 
     gas2go = {
-        isStorage = true,
         outfits = {"Gas2Go"}
     },
 
@@ -783,6 +785,14 @@ BWORooms.tab = {
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
         femaleChance = 10
     },
+
+    interrogationroom = {
+        occupations = {"policeofficer"},
+        outfits = {"Police"},
+        hasPistolChance = 100,
+        pistolMagCount = 3,
+        melee = {"Base.Nightstick"}
+    }, 
 
     italianrestaurant = {
         isShop = true,
@@ -1157,6 +1167,25 @@ BWORooms.tab = {
         melee = {"Base.Nightstick"}
     },
 
+    policegunstorage = {
+        isStorage = true,
+        occupations = {"policeofficer"},
+        outfits = {"Police"},
+        hasRifleChance = 70,
+        rifleMagCount = 2,
+        hasPistolChance = 100,
+        pistolMagCount = 3,
+        melee = {"Base.Nightstick"}
+    },
+
+    policehall = {
+        occupations = {"policeofficer"},
+        outfits = {"Police"},
+        hasPistolChance = 100,
+        pistolMagCount = 3,
+        melee = {"Base.Nightstick"}
+    }, 
+
     policelocker = {
         isStorage = true,
         occupations = {"policeofficer"},
@@ -1211,6 +1240,11 @@ BWORooms.tab = {
     },
 
     prisoncells = {
+        occupations = {"securityguard", "policeofficer"},
+        outfits = {"Inmate"}
+    },
+
+    prisoncell = {
         occupations = {"securityguard", "policeofficer"},
         outfits = {"Inmate"}
     },
@@ -1294,7 +1328,7 @@ BWORooms.tab = {
     
     security = {
         isStorage = true,
-        occupations = {"securityguard"},
+        occupations = {"securityguard", "policeofficer"},
         outfits = {"Security"},
         hasPistolChance = 100,
         pistolMagCount = 3,
@@ -1369,7 +1403,7 @@ BWORooms.tab = {
     },
 
     storageunit = {
-
+        isEmpty = true,
     },
 
     storage = {
@@ -1382,7 +1416,13 @@ BWORooms.tab = {
     },
 
     stripclub = {
+        outfits = {"Generic02", "Generic03", "Classy", "Young", "StripperBlack", "StripperNaked", "StripperPink", "PoliceStripper", "FiremanStripper", "BWOAnimal"},
+        femaleChance = 40
+    },
 
+    stripclubvip = {
+        outfits = {"Generic02", "Generic03", "Classy", "Young", "StripperBlack", "StripperNaked", "StripperPink", "PoliceStripper", "FiremanStripper", "BWOAnimal"},
+        femaleChance = 40
     },
 
     sushidining = {
@@ -1495,8 +1535,30 @@ BWORooms.tab = {
     },
 }
 
+BWORooms.GetRealRoomName = function(room)
+    -- overwrites for buildings which are not zoned properly
+    local name
+    local building = room:getBuilding()
+    if building:containsRoom("firestorage") then
+        name = "firestorage"
+    elseif building:containsRoom("church") then
+        name = "church"
+    elseif building:containsRoom("stripclub") then
+        name = "stripclub"
+    elseif building:containsRoom("daycare") then
+        name = "daycare"
+    elseif building:containsRoom("bar") then
+        name = "bar"
+    else
+        name = room:getName()
+    end
+    return name
+end
+
 BWORooms.Get = function(room)
-    local name = room:getName()
+
+    local name = BWORooms.GetRealRoomName(room)
+
     local data = BWORooms.tab[name]
     return data
 end
@@ -1559,7 +1621,6 @@ BWORooms.IsIntrusion = function(room)
     local player = getSpecificPlayer(0)
     local profession = player:getDescriptor():getProfession()
     local building = room:getBuilding()
-    local roomName = room:getName()
 
     -- instrusions
     local isIntrusion = false
@@ -1572,7 +1633,7 @@ BWORooms.IsIntrusion = function(room)
     end
 
     -- exceptions
-    local name = room:getName()
+    local name = BWORooms.GetRealRoomName(room)
     local tab = BWORooms.tab
     local data = BWORooms.tab[name]
     if data then
@@ -1643,15 +1704,15 @@ BWORooms.TakeIntention = function(room, customName)
     elseif customName == "Trash" or customName == "Garbage" or customName == "Bin" then
         canTake = true
         shouldPay = false
-    
+
     elseif customName == "Machine" then
         canTake = false
         shouldPay = true
-    
+
     end
 
     -- exceptions
-    local name = room:getName()
+    local name = BWORooms.GetRealRoomName(room)
     local tab = BWORooms.tab
     local data = BWORooms.tab[name]
     if data then
@@ -1672,6 +1733,38 @@ BWORooms.GetRoomSize = function(room)
     local roomDef = room:getRoomDef()
     local size = (roomDef:getX2() - roomDef:getX()) * (roomDef:getY2() - roomDef:getY())
     return size
+end
+
+BWORooms.GetRoomCurrPop = function(room)
+    local roomDef = room:getRoomDef()
+    local rx1 = roomDef:getX()
+    local rx2 = roomDef:getX2()
+    local ry1 = roomDef:getY()
+    local ry2 = roomDef:getY2()
+
+    --[[local squareList = room:getSquares()
+    for i=0, squareList:size()-1 do
+        local square = squareList:get(i)
+
+    end]]
+
+    local banditList = BanditZombie.GetAllB()
+    local cnt = 0
+    for id, bandit in pairs(banditList) do
+        if bandit.x >= rx1 and bandit.x <= rx2 and bandit.y >= ry1 and bandit.y <= ry2 then
+            cnt = cnt + 1
+        end
+    end
+    return cnt
+end
+
+BWORooms.GetRoomMaxPop = function(room)
+    local size = BWORooms.GetRoomSize(room)
+    if size < 12 then
+        return 1
+    else
+        return math.floor(size / 12)
+    end
 end
 
 BWORooms.GetRoomPopMod = function(room)
@@ -1718,13 +1811,13 @@ BWORooms.GetRoomPopMod = function(room)
             popMod = 0
         end
         if BWOScheduler.SymptomLevel == 1 then
-            popMod = 1.3
+            popMod = popMod * 1.3
         elseif BWOScheduler.SymptomLevel == 2 then
-            popMod = 2
+            popMod = popMod * 2
         elseif BWOScheduler.SymptomLevel == 3 then
-            popMod = 3
+            popMod = popMod * 3
         elseif BWOScheduler.SymptomLevel == 4 then
-            popMod = 0.8
+            popMod = popMod * 0.8
         end
 
     elseif BWORooms.IsRestaurant(room) then
@@ -1745,7 +1838,7 @@ BWORooms.GetRoomPopMod = function(room)
             popMod = popMod * 0.5
         end
     elseif BWORooms.IsEmpty(room) then
-        popMod = 0.1
+        popMod = 0
     elseif BWORooms.IsMedical(room) then
         if BWOScheduler.SymptomLevel == 1 then
             popMod = 1.5
