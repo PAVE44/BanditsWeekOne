@@ -70,20 +70,18 @@ ZombieActions.Extinguish.onWorking = function(zombie, task)
 end
 
 ZombieActions.Extinguish.onComplete = function(zombie, task)
-    if ZombRand(2) == 0 then
-        local cell = getCell()
-        local square = cell:getGridSquare(task.x, task.y, task.z)
-        if square then
-            square:stopFire()
-            local args = {x=task.x, y=task.y, z=task.z, otype="fire"}
-            -- bugged dunno why
-            -- sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectRemove', args)
-            BWOServer.Commands.ObjectRemove(getSpecificPlayer(0), args)
+    local cell = getCell()
+    local square = cell:getGridSquare(task.x, task.y, task.z)
+    if square then
+        square:stopFire()
+        local args = {x=task.x, y=task.y, z=task.z, otype="fire"}
+        -- bugged dunno why
+        -- sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectRemove', args)
+        BWOServer.Commands.ObjectRemove(getSpecificPlayer(0), args)
 
-            if BWOScheduler.Anarchy.Transactions then
-                BWOPlayer.Earn(zombie, 20)
-                Bandit.UpdateItemsToSpawnAtDeath(zombie)
-            end
+        if BWOScheduler.Anarchy.Transactions then
+            BWOPlayer.Earn(zombie, 20)
+            Bandit.UpdateItemsToSpawnAtDeath(zombie)
         end
     end
     if task.item then

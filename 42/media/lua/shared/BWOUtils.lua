@@ -51,6 +51,34 @@ function BanditUtils.GetClosestBanditLocationProgram(character, programs)
     return result
 end
 
+function BanditUtils.GetClosestBanditVehicle(vehicle)
+    local result = {}
+
+    result.dist = math.huge
+    result.x = false
+    result.y = false
+    result.z = false
+    result.id = false
+    
+    local vx, vy = vehicle:getX(), vehicle:getY()
+
+    local zombieList = BanditZombie.GetAllB()
+    for id, zombie in pairs(zombieList) do
+        if math.abs(zombie.x - vx) < 60 or math.abs(zombie.y - vy) < 60 then
+            local dist = BanditUtils.DistTo(vx, vy, zombie.x, zombie.y)
+            if dist < result.dist then
+                result.dist = dist
+                result.x = zombie.x
+                result.y = zombie.y
+                result.z = zombie.z
+                result.id = zombie.id
+            end
+        end
+    end
+
+    return result
+end
+
 function BanditUtils.LineClear(obj1, obj2)
     local cell = obj1:getCell()
     local x1, y1, z1 = obj1:getX(), obj1:getY(), obj1:getZ()

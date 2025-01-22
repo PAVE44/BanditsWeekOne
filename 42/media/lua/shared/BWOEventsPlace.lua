@@ -84,6 +84,41 @@ function BWOEventsPlace.ArmyGuards(params)
     end
 end
 
+function BWOEventsPlace.GunshopGuard(params)
+    config = {}
+    config.clanId = 0
+    config.hasRifleChance = 100
+    config.hasPistolChance = 100
+    config.rifleMagCount = 6
+    config.pistolMagCount = 3
+
+    local event = {}
+    event.hostile = false
+    event.occured = false
+    event.program = {}
+    event.program.name = "ArmyGuard"
+    event.program.stage = "Prepare"
+
+    event.x = params.x
+    event.y = params.y
+    event.bandits = {}
+    
+    local bandit = BanditCreator.MakeFromWave(config)
+    bandit.accuracyBoost = 1.6
+    bandit.femaleChance = 0
+    bandit.health = 6
+    bandit.outfit = "Veteran"
+    bandit.weapons.melee = "Base.HuntingKnife"
+
+    local intensity = 2
+    if intensity > 0 then
+        for i=1, intensity do
+            table.insert(event.bandits, bandit)
+        end
+        sendClientCommand(getSpecificPlayer(0), 'Commands', 'SpawnGroup', event)
+    end
+end
+
 function BWOEventsPlace.BaseDefenders(params)
     config = {}
     config.clanId = 15

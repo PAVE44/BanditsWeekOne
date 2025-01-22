@@ -301,6 +301,11 @@ table.insert(BWOSquareLoader.events, {phase="Emitter", x=8072, y=11344, z=0, len
 -- LV strip club
 table.insert(BWOSquareLoader.events, {phase="BuildingParty", x=12320, y=1279, z=0, intensity=10, roomName="stripclub"})
 
+-- GUNSHOP GUARDS
+table.insert(BWOSquareLoader.events, {phase="GunshopGuard", x=12065, y=6762, z=0})
+
+
+
 -- MILITARY BASE FINALE SETUP
 
 -- exclusion zones
@@ -625,6 +630,8 @@ BWOSquareLoader.VehicleFixOrRemove = function()
                     table.insert(toDelete, vehicle)
                 else
                     vehicle:repair()
+                    vehicle:removeKeyFromDoor()
+                    vehicle:removeKeyFromIgnition()
                     vehicle:setTrunkLocked(true)
                     for i=0, vehicle:getMaxPassengers() - 1 do 
                         local part = vehicle:getPassengerDoor(i)
@@ -641,6 +648,24 @@ BWOSquareLoader.VehicleFixOrRemove = function()
                         local max = gasTank:getContainerCapacity() * 0.8
                         gasTank:setContainerContentAmount(ZombRandFloat(0, max))
                     end
+
+                    local key = vehicle:getCurrentKey()
+                    if not key then 
+                        key = vehicle:createVehicleKey()
+                    end
+
+                    if key then
+                        local result = BanditUtils.GetClosestBanditVehicle(vehicle)
+                        if result.id then
+                            local bandit = BanditZombie.GetInstanceById(result.id)
+                            if bandit then
+                                local inventory = bandit:getInventory()
+                                inventory:AddItem(key)
+                                Bandit.UpdateItemsToSpawnAtDeath(bandit)
+                            end
+                        end
+                    end
+
                     md.BWO.wasRepaired = true
                 end
             end
