@@ -3,6 +3,7 @@ Sandbox_EN = {
     Sandbox_BanditsWeekOne = "Bandits Week One"
 
     Sandbox_BanditsWeekOne.StartBabe = "Start with a babe"
+    Sandbox_BanditsWeekOne.StartRide = "Start with a ride (possibility depends on spawn location)"
     Sandbox_BanditsWeekOne.InhabitantsPopMultiplier = "NPC Inhabitants number multiplier"
     Sandbox_BanditsWeekOne.StreetsPopMultiplier = "NPC Streets number multiplier"
     Sandbox_BanditsWeekOne.ArmyPopMultiplier = "NPC Army number multiplier"

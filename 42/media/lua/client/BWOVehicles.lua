@@ -73,7 +73,8 @@ BWOVehicles.VehicleSpawn = function(x, y, dir, btype)
 
         if square:isVehicleIntersecting() then return end
 
-        --local vehicle = addVehicleDebug(btype, dir, nil, square)
+        --local vehicle --= addVehicleDebug(btype, dir, nil, square)
+
         local vehicle = addVehicle(btype, square:getX(), square:getY(), square:getZ())
         if vehicle then
             for i = 0, vehicle:getPartCount() - 1 do

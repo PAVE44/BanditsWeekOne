@@ -581,8 +581,6 @@ local onInventoryTransferAction = function(data)
 
         -- selling
         if instanceof(object, "IsoPlayer") then 
-
-            -- lumberjack
             if not md.BWO.stolen then
                 if profession == "lumberjack" then
                     if itemType == "Base.Log" and descContainerType == "logs" then
@@ -591,6 +589,22 @@ local onInventoryTransferAction = function(data)
                     elseif itemType == "Base.Plank" and descContainerType == "crate" then
                         BWOPlayer.Earn(character, 6)
                         md.BWO.stolen = true
+                    end
+                elseif profession == "fisherman" then
+                    local room = destContainer:getSquare():getRoom()
+                    if room and BWORooms.IsKitchen(room) and (BWORooms.IsRestaurant(room) or BWORooms.IsShop(room)) then
+                        if descContainerType == "fridge" or descContainerType == "freezer" then
+                            local fishOptions = {"Base.SmallmouthBass", "Base.LargemouthBass", "Base.SpottedBass", "Base.StripedBass", "Base.WhiteBass", "Base.BlueCatfish", "Base.ChannelCatfish", "Base.FlatheadCatfish", "Base.RedearSunfish", "Base.Crayfish", "Base.BlackCrappie", "Base.WhiteCrappie", "Base.Paddlefish", "Base.YellowPerch", "Base.Pike", "Base.Panfish", "Base.Trout"}
+                            for _, fishOption in pairs(fishOptions) do
+                                if itemType == fishOption then
+                                    local weight = item:getActualWeight()
+                                    local price = math.floor(weight * SandboxVars.BanditsWeekOne.PriceMultiplier * 4)
+                                    BWOPlayer.Earn(character, price)
+                                    md.BWO.stolen = true
+                                    break
+                                end
+                            end
+                        end
                     end
                 end
             end
@@ -633,7 +647,7 @@ local onInventoryTransferAction = function(data)
     if shouldPay then
         local itemType = data.item:getFullType()
         local category = data.item:getDisplayCategory()
-        local weight = data.item:getWeight()
+        local weight = data.item:getActualWeight()
         local price = BanditUtils.AddPriceInflation(weight * SandboxVars.BanditsWeekOne.PriceMultiplier * 10)
         if price == 0 then price = 1 end
 

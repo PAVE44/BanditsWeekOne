@@ -292,7 +292,8 @@ local spawnVehicle = function(x, y, vtype)
     local square = getCell():getGridSquare(x, y, 0)
     if not square then return end
 
-    local vehicle = addVehicleDebug(vtype, IsoDirections.S, nil, square)
+    --local vehicle = addVehicleDebug(vtype, IsoDirections.S, nil, square)
+    local vehicle = addVehicle(vtype, square:getX(), square:getY(), square:getZ())
     if not vehicle then return end
 
     for i = 0, vehicle:getPartCount() - 1 do
@@ -314,8 +315,6 @@ local spawnVehicle = function(x, y, vtype)
         end
     end
 
-    local key = vehicle:createVehicleKey()
-
     vehicle:getModData().BWO = {}
     vehicle:getModData().BWO.wasRepaired = true
     vehicle:repair()
@@ -325,10 +324,17 @@ local spawnVehicle = function(x, y, vtype)
     -- vehicle:tryStartEngine(true)
     -- vehicle:engineDoStartingSuccess()
     -- vehicle:engineDoRunning()
+
+    local gasTank = vehicle:getPartById("GasTank")
+    if gasTank then
+        local max = gasTank:getContainerCapacity() * 0.6
+        gasTank:setContainerContentAmount(ZombRandFloat(0, max))
+    end
+
     vehicle:setHeadlightsOn(false)
     vehicle:setLightbarLightsMode(3)
 
-    return key
+    return vehicle
 end
 
 -- params: [headlight(opt), lightbar(opt), alarm(opt)]
@@ -547,6 +553,7 @@ end
 -- params: []
 BWOEvents.Start = function(params)
     local player = getSpecificPlayer(0)
+    local cell = getCell()
     local building = player:getBuilding()
     if building then
         local buildingDef = building:getDef()
@@ -561,42 +568,6 @@ BWOEvents.Start = function(params)
         item:setKeyId(keyId)
         item:setName("Home Key")
         player:getInventory():AddItem(item)
-
-        -- profession items
-        local profession = player:getDescriptor():getProfession()
-        local professionItemTypeList
-        local professionSubItemTypeList
-        if profession == "fireofficer" then
-            professionItemTypeList = {"Base.Axe", "Base.Extinguisher"}
-        elseif profession == "parkranger" then
-            professionItemTypeList = {"Base.Bag_SurvivorBag"}
-        elseif profession == "mechanics" then
-            professionSubItemTypeList = {"Base.Wrench", "Base.TireIron", "Base.Ratchet", "Base.Jack", "Base.LightBulbBox"}
-            professionItemTypeList = {"Base.Toolbox_Mechanic"}
-        elseif profession == "lumberjack" then
-            professionItemTypeList = {"Base.Woodaxe"}
-        elseif profession == "doctor" then
-            professionSubItemTypeList = {"Base.Bandage", "Base.Bandage", "Base.Bandage", "Base.Bandage", "Base.AlcoholWipes", "Base.SutureNeedle", "Base.SutureNeedle", "Base.Tweezers"}
-            professionItemTypeList = {"Base.Bag_Satchel_Medical"}
-        elseif profession == "policeofficer" then
-            professionItemTypeList = {"Base.Nightstick"}
-        elseif profession == "veteran" then
-            professionItemTypeList = {"Base.HuntingRifle", "Base.308Box"}
-        end
-        
-        if professionItemTypeList then
-            for _, professionItemType in pairs(professionItemTypeList) do
-                local professionItem = instanceItem(professionItemType)
-                if professionSubItemTypeList then
-                    local container = professionItem:getItemContainer()
-                    for _, professionSubItemType in pairs(professionSubItemTypeList) do
-                        local professionSubItem = instanceItem(professionSubItemType)
-                        container:AddItem(professionSubItem)
-                    end
-                end
-                player:getInventory():AddItem(professionItem)
-            end
-        end
 
         -- show home icon
         if SandboxVars.Bandits.General_ArrivalIcon then
@@ -615,6 +586,43 @@ BWOEvents.Start = function(params)
     for i=1, 25 + ZombRand(60) do
         local item = instanceItem("Base.Money")
         player:getInventory():AddItem(item)
+    end
+
+    
+    -- profession items
+    local profession = player:getDescriptor():getProfession()
+    local professionItemTypeList
+    local professionSubItemTypeList
+    if profession == "fireofficer" then
+        professionItemTypeList = {"Base.Axe", "Base.Extinguisher"}
+    elseif profession == "parkranger" then
+        professionItemTypeList = {"Base.Bag_SurvivorBag"}
+    elseif profession == "mechanics" then
+        professionSubItemTypeList = {"Base.Wrench", "Base.TireIron", "Base.Ratchet", "Base.Jack", "Base.LightBulbBox"}
+        professionItemTypeList = {"Base.Toolbox_Mechanic"}
+    elseif profession == "lumberjack" then
+        professionItemTypeList = {"Base.Woodaxe"}
+    elseif profession == "doctor" then
+        professionSubItemTypeList = {"Base.Bandage", "Base.Bandage", "Base.Bandage", "Base.Bandage", "Base.AlcoholWipes", "Base.SutureNeedle", "Base.SutureNeedle", "Base.Tweezers"}
+        professionItemTypeList = {"Base.Bag_Satchel_Medical"}
+    elseif profession == "policeofficer" then
+        professionItemTypeList = {"Base.Nightstick"}
+    elseif profession == "veteran" then
+        professionItemTypeList = {"Base.HuntingRifle", "Base.308Box"}
+    end
+    
+    if professionItemTypeList then
+        for _, professionItemType in pairs(professionItemTypeList) do
+            local professionItem = instanceItem(professionItemType)
+            if professionSubItemTypeList then
+                local container = professionItem:getItemContainer()
+                for _, professionSubItemType in pairs(professionSubItemTypeList) do
+                    local professionSubItem = instanceItem(professionSubItemType)
+                    container:AddItem(professionSubItem)
+                end
+            end
+            player:getInventory():AddItem(professionItem)
+        end
     end
 
     -- spawn babe
@@ -650,6 +658,84 @@ BWOEvents.Start = function(params)
 
         table.insert(event.bandits, bandit)
         sendClientCommand(player, 'Commands', 'SpawnGroup', event)
+    end
+
+    -- spawn vehicle if there is a spot
+    if SandboxVars.BanditsWeekOne.StartRide then
+        local px = player:getX()
+        local py = player:getY()
+        local zone
+        local distMin = math.huge
+        for x = -40, 40 do
+            for y =-40, 40 do
+                local testZone = getVehicleZoneAt(px + x, py + y, 0)
+                if testZone then
+                    local zx = testZone:getX()
+                    local zy = testZone:getY()
+
+                    local dist = BanditUtils.DistTo(px, py, zx, zy)
+                    if dist < distMin then
+                        zone = testZone
+                        distMin = dist
+                    end
+                end
+            end
+        end
+
+        -- check if vehicle is already there
+        if zone then
+            local x1 = zone:getX()
+            local y1 = zone:getY()
+            local w = zone:getWidth()
+            local h = zone:getHeight()
+            local x2 = x1 + w
+            local y2 = y1 + h
+
+            local vehicle
+            for x=x1, x2 do
+                for y=y1, y2 do
+                    local square = cell:getGridSquare(x, y, 0)
+                    if square then
+                        local testVehicle = square:getVehicleContainer() 
+                        if testVehicle then
+                            vehicle = testVehicle
+                        end
+                    end
+                end
+            end
+
+            if not vehicle then
+                local sx
+                local sy
+                local dir
+                if w > h then
+                    sx = x1 + 3.5
+                    sy = y1 + 2
+                    dir = "E"
+                else
+                    sx = x1 + 2
+                    sy = y1 + 3.5
+                    dir = "S"
+                end
+                
+                local vehicle = spawnVehicle(sx, sy, "Base.SmallCar")
+                if vehicle then
+                    if dir == "S" then
+                        vehicle:setAngles(0, 0, 0)
+                    elseif dir == "E" then
+                        vehicle:setAngles(0, 90, 0)
+                    end
+
+                    local key = vehicle:getCurrentKey()
+                    if not key then 
+                        key = vehicle:createVehicleKey()
+                    end
+
+                    local inventory = player:getInventory()
+                    player:getInventory():AddItem(key)
+                end
+            end
+        end
     end
 end
 

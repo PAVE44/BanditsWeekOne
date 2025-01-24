@@ -5,6 +5,11 @@ option BanditsWeekOne.StartBabe = {
     page = BanditsWeekOne, translation = BanditsWeekOne.StartBabe,
 }
 
+option BanditsWeekOne.StartRide = {
+    type = boolean, default = false,
+    page = BanditsWeekOne, translation = BanditsWeekOne.StartRide,
+}
+
 option BanditsWeekOne.InhabitantsPopMultiplier = {
     type = double, min = 0, max = 4, default = 1,
     page = BanditsWeekOne, translation = BanditsWeekOne.InhabitantsPopMultiplier,

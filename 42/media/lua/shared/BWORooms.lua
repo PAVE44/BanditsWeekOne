@@ -1563,6 +1563,16 @@ BWORooms.Get = function(room)
     return data
 end
 
+BWORooms.IsKitchen = function(room)
+    local name = room:getName()
+    local data = BWORooms.tab[name]
+    if data and data.isKitchen then 
+        return true
+    else
+        return false
+    end 
+end
+
 BWORooms.IsShop = function(room)
     local name = room:getName()
     local data = BWORooms.tab[name]
