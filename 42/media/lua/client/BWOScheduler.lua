@@ -337,81 +337,68 @@ function BWOScheduler.MasterControl()
         SandboxVars[k] = v
     end
 
-    local function preSandboxVars()
+    local function adjustSandboxVars()
         adjustSandboxVar("DamageToPlayerFromHitByACar", 3)
-        adjustSandboxVar("MetaEvent", 1)
-        adjustSandboxVar("LockedHouses", 1)
-        adjustSandboxVar("KeyLootNew", 0)
-        adjustSandboxVar("MaximumLooted", 0)
-        adjustSandboxVar("FoodLootNew", 2.2)
-        adjustSandboxVar("CannedFoodLootNew", 2.2)
-        adjustSandboxVar("LiteratureLootNew", 2.2)
-        adjustSandboxVar("SurvivalGearsLootNew", 2.0)
-        adjustSandboxVar("MedicalLootNew", 2.0)
-        adjustSandboxVar("WeaponLootNew", 2.0)
-        adjustSandboxVar("RangedWeaponLootNew", 1.2)
-        adjustSandboxVar("AmmoLootNew", 3.1)
-        adjustSandboxVar("MechanicsLootNew", 2.6)
-        adjustSandboxVar("OtherLootNew", 2.0)
-        adjustSandboxVar("ClothingLootNew", 2.8)
-        adjustSandboxVar("ContainerLootNew", 2.8)
-        adjustSandboxVar("MementoLootNew", 0.4)
-        adjustSandboxVar("MediaLootNew", 1.2)
-        adjustSandboxVar("CookwareLootNew", 2.2)
-        adjustSandboxVar("MaterialLootNew", 1.6)
-        adjustSandboxVar("FarmingLootNew", 1.6)
-        adjustSandboxVar("ToolLootNew", 1.6)
-        adjustSandboxVar("SurvivorHouseChance", 1)
-        adjustSandboxVar("VehicleStoryChance", 1)
-        adjustSandboxVar("ZoneStoryChance", 1)
-        adjustSandboxVar("AnnotatedMapChance", 1)
-        adjustSandboxVar("MaxFogIntensity", 4)
-        adjustSandboxVar("TrafficJam", false)
-        adjustSandboxVar("CarSpawnRate", 5)
-        adjustSandboxVar("MaximumRatIndex", 0)
-        adjustSandboxVar("Helicopter", 1)
+        if BWOScheduler.WorldAge <= 64 then
+            adjustSandboxVar("SurvivorHouseChance", 1)
+            adjustSandboxVar("VehicleStoryChance", 1)
+            adjustSandboxVar("MetaEvent", 1)
+            adjustSandboxVar("LockedHouses", 1)
+            adjustSandboxVar("ZoneStoryChance", 1)
+            adjustSandboxVar("AnnotatedMapChance", 1)
+            adjustSandboxVar("MaxFogIntensity", 4)
+            adjustSandboxVar("TrafficJam", false)
+            adjustSandboxVar("CarSpawnRate", 5)
+            adjustSandboxVar("MaximumRatIndex", 0)
+            adjustSandboxVar("Helicopter", 1)
+
+            local vars = {}
+            -- lerp
+            table.insert (vars, {"KeyLootNew", 0, 0.3})
+            table.insert (vars, {"MaximumLooted", 0, 70})
+            table.insert (vars, {"FoodLootNew", 1.4, 0.3})
+            table.insert (vars, {"CannedFoodLootNew", 1.2, 0.3})
+            table.insert (vars, {"LiteratureLootNew", 1.2, 0.3})
+            table.insert (vars, {"SurvivalGearsLootNew", 1.2, 0.3})
+            table.insert (vars, {"MedicalLootNew", 1.2, 0.3})
+            table.insert (vars, {"WeaponLootNew", 1.2, 0.3})
+            table.insert (vars, {"RangedWeaponLootNew", 1.2, 0.3})
+            table.insert (vars, {"AmmoLootNew", 1.6, 0.5})
+            table.insert (vars, {"MechanicsLootNew", 1.2, 0.3})
+            table.insert (vars, {"OtherLootNew", 1.2, 0.3})
+            table.insert (vars, {"ClothingLootNew", 1.2, 0.3})
+            table.insert (vars, {"ContainerLootNew", 1.2, 0.3})
+            table.insert (vars, {"MementoLootNew", 1.2, 0.3})
+            table.insert (vars, {"MediaLootNew", 1.2, 0.3})
+            table.insert (vars, {"CookwareLootNew", 1.2, 0.3})
+            table.insert (vars, {"MaterialLootNew", 1.2, 0.3})
+            table.insert (vars, {"FarmingLootNew", 1.2, 0.3})
+            table.insert (vars, {"ToolLootNew", 1.2, 0.3})
+    
+            local t = BWOScheduler.WorldAge / 64
+            for _, var in pairs(vars) do
+                local val = (var[3] - var[2]) * t + var[2]
+                adjustSandboxVar(var[1], val)
+            end
+        else
+            adjustSandboxVar("SurvivorHouseChance", 6)
+            adjustSandboxVar("VehicleStoryChance", 4)
+            adjustSandboxVar("MetaEvent", 2)
+            adjustSandboxVar("LockedHouses", 4)
+            adjustSandboxVar("ZoneStoryChance", 4)
+            adjustSandboxVar("AnnotatedMapChance", 3)
+            adjustSandboxVar("MaxFogIntensity", 1)
+            adjustSandboxVar("TrafficJam", true)
+            adjustSandboxVar("CarSpawnRate", 3)
+            adjustSandboxVar("MaximumRatIndex", 50)
+            adjustSandboxVar("Helicopter", 2)
+        end
+        
         getSandboxOptions():applySettings()
         --IsoWorld.parseDistributions()
         ItemPickerJava.InitSandboxLootSettings()
     end
 
-    local function postSandboxVars()
-        adjustSandboxVar("DamageToPlayerFromHitByACar", 3)
-        adjustSandboxVar("MetaEvent", 2)
-        adjustSandboxVar("LockedHouses", 4)
-        adjustSandboxVar("KeyLootNew", 0.2)
-        adjustSandboxVar("MaximumLooted", 70)
-        adjustSandboxVar("FoodLootNew", 0.4)
-        adjustSandboxVar("CannedFoodLootNew", 0.5)
-        adjustSandboxVar("LiteratureLootNew", 0.2)
-        adjustSandboxVar("SurvivalGearsLootNew", 0.2)
-        adjustSandboxVar("MedicalLootNew", 0.2)
-        adjustSandboxVar("WeaponLootNew", 0.2)
-        adjustSandboxVar("RangedWeaponLootNew", 0.2)
-        adjustSandboxVar("AmmoLootNew", 0.5)
-        adjustSandboxVar("MechanicsLootNew", 0.2)
-        adjustSandboxVar("OtherLootNew", 0.2)
-        adjustSandboxVar("ClothingLootNew", 0.2)
-        adjustSandboxVar("ContainerLootNew", 0.2)
-        adjustSandboxVar("MementoLootNew", 0.2)
-        adjustSandboxVar("MediaLootNew", 0.2)
-        adjustSandboxVar("CookwareLootNew", 0.6)
-        adjustSandboxVar("MaterialLootNew", 0.2)
-        adjustSandboxVar("FarmingLootNew", 0.2)
-        adjustSandboxVar("ToolLootNew", 0.2)
-        adjustSandboxVar("SurvivorHouseChance", 6)
-        adjustSandboxVar("VehicleStoryChance", 4)
-        adjustSandboxVar("ZoneStoryChance", 4)
-        adjustSandboxVar("AnnotatedMapChance", 3)
-        adjustSandboxVar("MaxFogIntensity", 1)
-        adjustSandboxVar("TrafficJam", true)
-        adjustSandboxVar("CarSpawnRate", 3)
-        adjustSandboxVar("MaximumRatIndex", 50)
-        adjustSandboxVar("Helicopter", 2)
-        getSandboxOptions():applySettings()
-        --IsoWorld.parseDistributions()
-        ItemPickerJava.InitSandboxLootSettings()
-    end
     local player = getSpecificPlayer(0)
     local gametime = getGameTime()
 
@@ -434,6 +421,8 @@ function BWOScheduler.MasterControl()
 
     BWOScheduler.WorldAge = worldAge
     
+    adjustSandboxVars()
+    
     -- set flags based on world age that control various aspects of the game
 
     -- world flags
@@ -442,14 +431,8 @@ function BWOScheduler.MasterControl()
     -- removes objects that conflict stylistically with prepandemic world
     
     BWOScheduler.World.ObjectRemover = false
-    if BWOScheduler.WorldAge < 64 then 
+    if BWOScheduler.WorldAge <= 64 then 
         BWOScheduler.World.ObjectRemover = true
-        
-        preSandboxVars()
-        -- local test = getSandboxOptions():getOptionByName("CarSpawnRate"):asConfigOption():getValueAsLuaString()
-        -- local test2 = SandboxVars.CarSpawnRate
-    else
-        postSandboxVars()
     end
 
     -- removed initial deadbodies

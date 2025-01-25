@@ -643,6 +643,10 @@ BWOSquareLoader.VehicleFixOrRemove = function()
                         end
                     end
 
+                    if ZombRand(12) == 0 then
+                        vehicle:addKeyToGloveBox()
+                    end
+
                     local gasTank = vehicle:getPartById("GasTank")
                     if gasTank then
                         local max = gasTank:getContainerCapacity() * 0.8

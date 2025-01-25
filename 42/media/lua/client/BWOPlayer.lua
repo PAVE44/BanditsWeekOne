@@ -374,6 +374,14 @@ local onZombieDead = function(zombie)
         end
     end
 
+    if brain.keyand ZombRand(3) == 1 then
+        local item = instanceItem("Base.Key1")
+        item:setKeyId(brain.key)
+        item:setName("Building Key")
+        bandit:getInventory():AddItem(item)
+        Bandit.UpdateItemsToSpawnAtDeath(bandit)
+    end
+
     --[[ wont work because of clan=1
     if brain.program.name == "Babe" then
         local color = player:getSpeakColour()

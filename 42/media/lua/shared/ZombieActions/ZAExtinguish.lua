@@ -25,6 +25,8 @@ ZombieActions.Extinguish.onStart = function(zombie, task)
 
     table.insert(BWOEffects.tab, effect)
 
+    
+
     --[[
     local effect2 = {}
     effect2.x = zombie:getX()
@@ -49,6 +51,13 @@ ZombieActions.Extinguish.onStart = function(zombie, task)
 end
 
 ZombieActions.Extinguish.onWorking = function(zombie, task)
+
+    local cell = getCell()
+    local square = cell:getGridSquare(task.x, task.y, task.z)
+    if not square:haveFire() then
+        return true
+    end
+
     zombie:faceLocation(task.x, task.y)
     if task.time <= 0 then
         return true

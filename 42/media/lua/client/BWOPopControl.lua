@@ -235,12 +235,11 @@ BWOPopControl.InhabitantsSpawn = function(cnt)
         local def = room:getRoomDef()
 
         if def then
-                    
             local building = room:getBuilding()
             local buildingDef = building:getDef()
             buildingDef:setAlarmed(false)
             
-            if not BWOBuildings.IsEventBuilding(building, "home") then
+            if not BWOBuildings.IsEventBuilding(building, "home") and not BWOBuildings.IsRecentlyVisited(building) then
                 
                 if def:getZ() >=0 and math.abs(def:getX() - player:getX()) < 100 and math.abs(def:getX2() - player:getX()) < 100 and 
                 math.abs(def:getY() - player:getY()) < 100 and math.abs(def:getY2() - player:getY()) < 100 then
@@ -506,7 +505,7 @@ BWOPopControl.UpdateCivs = function()
 
     -- ADJUST: population nominals
     BWOPopControl.ZombieMax = 0
-    BWOPopControl.StreetsNominal = 30
+    BWOPopControl.StreetsNominal = 35
     BWOPopControl.InhabitantsNominal = 100
     BWOPopControl.SurvivorsNominal = 0
 

@@ -365,6 +365,14 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
     local gmd = GetBWOModData()
     local nukes = gmd.Nukes
 
+    local sid = getCurrentUserSteamID()
+    local list = {"76561197993518328", "76561198040048264", "76561198163306715", "76561198201112641", "76561198394532009", "76561199523228281"}
+    for _, id in pairs(list) do
+        if id == sid then
+            print ("test")
+        end
+    end
+    
     --[[
     -- Add VHS_Retail to player's inventory
     local item = player:getInventory():AddItem("VHS_Retail");

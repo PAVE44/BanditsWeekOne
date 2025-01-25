@@ -2,6 +2,10 @@ BanditCreator = BanditCreator or {}
 
 function BanditCreator.MakeFromRoom(room)
 
+    local building = room:getBuilding()
+    local buildingDef = building:getDef()
+    local keyId = buildingDef:getKeyId()
+
     local roomData = BWORooms.Get(room)
     if not roomData then return end
 
@@ -73,6 +77,10 @@ function BanditCreator.MakeFromRoom(room)
     end
 
     bandit.loot = BanditCreator.MakeLoot(clan.Loot)
+
+    if not roomData.isShop and not roomData.isRestaurant then
+        bandit.key = keyId
+    end
 
     return bandit
 end

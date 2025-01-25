@@ -105,6 +105,21 @@ BWOBuildings.IsEventBuilding = function(building, event)
     return false
 end
 
+BWOBuildings.IsRecentlyVisited = function(building)
+    local buildingDef = building:getDef()
+    local bid = BanditUtils.GetBuildingID(buildingDef)
+    local gmd = GetBanditModData()
+    if gmd.VisitedBuildings and gmd.VisitedBuildings[bid] then
+        local now = getGameTime():getWorldAgeHours()
+        local lastVisit = gmd.VisitedBuildings[bid]
+        local coolDown = 4 * 24
+        if now - coolDown < lastVisit then
+            return true
+        end
+    end
+    return false
+end
+
 BWOBuildings.FindBuildingWithRoom = function(bsearch)
     local player = getSpecificPlayer(0)
     local cell = player:getCell()
