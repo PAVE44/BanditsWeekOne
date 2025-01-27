@@ -528,6 +528,8 @@ local ManageVehicles = function(ticks)
                             -- vehicle:setBraking(false)
                             vehicle:setRegulator(true)
                             vehicle:setRegulatorSpeed(30 * SandboxVars.BanditsWeekOne.VehiclesSpeed)
+                            -- vehicle:setCurrentSteering(-72) -- does not work
+                            local test = vehicle:getCurrentSteering()   
                         end
                     end
                 end

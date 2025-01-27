@@ -408,7 +408,7 @@ ZombiePrograms.Inhabitant.Defend = function(bandit)
     local outOfAmmo = Bandit.IsOutOfAmmo(bandit)
     local hands = bandit:getVariableString("BanditPrimaryType")
  
-    local walkType = "Run"
+    local walkType = "WalkAim"
     if hands == "rifle" or hands =="handgun" then
         walkType = "WalkAim"
     end

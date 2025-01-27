@@ -301,9 +301,11 @@ local onZombieDead = function(zombie)
     BWOPlayer.aimTime = -20
 
     if not zombie:getVariableBoolean("Bandit") then return end
-    
+
     local player = getSpecificPlayer(0)
     local bandit = zombie
+
+    Bandit.Say(bandit, "DEAD", true)
 
     local attacker = bandit:getAttackedBy()
     if not attacker then
@@ -330,7 +332,7 @@ local onZombieDead = function(zombie)
     end
 
     -- deprovision bandit (bandit main function is no longer doing that for clan 0)
-    Bandit.Say(bandit, "DEAD", true)
+
 
     local id = BanditUtils.GetCharacterID(bandit)
     local brain = BanditBrain.Get(bandit)
@@ -374,7 +376,7 @@ local onZombieDead = function(zombie)
         end
     end
 
-    if brain.keyand ZombRand(3) == 1 then
+    if brain.key and ZombRand(3) == 1 then
         local item = instanceItem("Base.Key1")
         item:setKeyId(brain.key)
         item:setName("Building Key")
@@ -793,6 +795,19 @@ local onPlayerUpdate = function(player)
     BWOPlayer.tick = BWOPlayer.tick + 1
 end
 
+-- de-hostile civs for new player
+local function onPlayerDeath(player)
+    local civList = BanditZombie.GetAllB()
+    for id, civ in pairs(civList) do
+        if civ.brain.clan == 0 and civ.brain.hostile then
+            local actor = BanditZombie.GetInstanceById(civ.id)
+            if actor then
+                Bandit.SetHostile(actor, false)
+            end
+        end
+    end
+end
+
 -- intercepting player swinging weapon
 local onWeaponSwing = function(character, handWeapon)
     if not BWOScheduler.Anarchy.IllegalMinorCrime then return end
@@ -870,9 +885,11 @@ Events.OnTimedActionPerform.Add(onTimedAction)
 Events.OnFitnessActionExeLooped.Add(onFitnessActionExeLooped)
 Events.OnInventoryTransferActionPerform.Add(onInventoryTransferAction)
 Events.OnPlayerUpdate.Add(onPlayerUpdate)
+Events.OnPlayerDeath.Add(onPlayerDeath)
 Events.OnWeaponSwing.Add(onWeaponSwing)
 Events.EveryHours.Add(everyHours)
 Events.EveryOneMinute.Add(everyOneMinute)
+
 
 
 

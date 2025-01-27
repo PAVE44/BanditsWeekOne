@@ -444,6 +444,7 @@ BWORooms.tab = {
 
     detectiveoffice = {
         outfits = {"Detective"},
+        occupations = {"policeofficer"},
         hasPistolChance = 100,
         pistolMagCount = 3,
     },
@@ -788,7 +789,7 @@ BWORooms.tab = {
 
     interrogationroom = {
         occupations = {"policeofficer"},
-        outfits = {"Police"},
+        outfits = {"Police", "Detective"},
         hasPistolChance = 100,
         pistolMagCount = 3,
         melee = {"Base.Nightstick"}
@@ -1152,7 +1153,7 @@ BWORooms.tab = {
     policearchive = {
         isStorage = true,
         occupations = {"policeofficer"},
-        outfits = {"Police"},
+        outfits = {"Police", "Detective"},
         hasPistolChance = 100,
         pistolMagCount = 3,
         melee = {"Base.Nightstick"}
@@ -1161,7 +1162,7 @@ BWORooms.tab = {
     policegarage = {
         isStorage = true,
         occupations = {"policeofficer"},
-        outfits = {"Police"},
+        outfits = {"Police", "Detective"},
         hasPistolChance = 100,
         pistolMagCount = 3,
         melee = {"Base.Nightstick"}
@@ -1197,7 +1198,7 @@ BWORooms.tab = {
 
     policeoffice = {
         occupations = {"policeofficer"},
-        outfits = {"Police"},
+        outfits = {"Police", "Detective"},
         hasPistolChance = 100,
         pistolMagCount = 3,
         melee = {"Base.Nightstick"}
