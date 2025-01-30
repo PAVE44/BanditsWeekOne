@@ -57,16 +57,20 @@ BWOMenu.SpawnWave = function(player, square, prgName)
     config = {}
     config.clanId = 0
 
-    if prgName == "Babe" then
-        config.clanId = 1
-    --elseif prgName == "Thief" or prgName == "Vandal" then
-    --    config.clanId = 13
-    end
-    
     config.hasRifleChance = 0
     config.hasPistolChance = 0
     config.rifleMagCount = 0
     config.pistolMagCount = 0
+
+    if prgName == "Babe" then
+        config.clanId = 1
+        config.hasRifleChance = 100
+        config.hasPistolChance = 100
+        config.rifleMagCount = 3
+        config.pistolMagCount = 3
+    end
+    
+
 
     local event = {}
     event.hostile = false
@@ -456,7 +460,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         local density = BanditScheduler.GetDensityScore(player, 120) * 1.4
         print ("DENSITY: " .. density)
 
-        local density2 = BWOBuildings.GetDensityScore(player, 120) / 4000
+        local density2 = BWOBuildings.GetDensityScore(player, 120) / 6000
         print ("DENSITY2: " .. density2)
 
         -- player:playSound("197ddd73-7662-41d5-81e0-63b83a58ab60")
@@ -512,6 +516,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         
         local room = square:getRoom()
         if room then
+            local bid = room:getBuilding():getID()
             local roomName = room:getName()
             local def = room:getRoomDef()
             local occupantsCnt = BWORooms.GetRoomCurrPop(room)

@@ -19,6 +19,8 @@ table.insert(data, {query={"thx"}, res="You are welcome!"})
 table.insert(data, {query={"howdy"}, res="How do you do?"})
 table.insert(data, {query={"nice", "meet"}, res="Nice to meet you too!"})
 table.insert(data, {query={"nice", "meeting"}, res="Nice to meet you too!"})
+table.insert(data, {query={"i", "love", "you"}, res="Of course you do."})
+table.insert(data, {query={"i", "like", "you"}, res="Of course you do."})
 
 -- personal questions
 table.insert(data, {query={"what", "your", "name"}, res="I'm %NAME."})
@@ -29,6 +31,8 @@ table.insert(data, {query={"are", "you", "sick"}, res="%MOOD", anim="PainHead"})
 table.insert(data, {query={"are", "you", "ok"}, res="%MOOD", anim="PainHead"})
 table.insert(data, {query={"are", "you", "okay"}, res="%MOOD", anim="PainHead"})
 table.insert(data, {query={"are", "you", "alright"}, res="%MOOD", anim="PainHead"})
+table.insert(data, {query={"are", "you", "sick"}, res="%MOOD", anim="PainHead"})
+table.insert(data, {query={"are", "you", "infected"}, res="No, are you?"})
 table.insert(data, {query={"how", "old", "you"}, res="Oh I have just respawned recently!"})
 table.insert(data, {query={"where", "you", "from"}, res="I'm from %CITY."})
 table.insert(data, {query={"where", "am", "i"}, res="You're in %CITY."})
@@ -92,6 +96,14 @@ table.insert(data, {query={"you", "die"}, res="I hope you are wrong."})
 table.insert(data, {query={"what", "in", "briefcase"}, res="Nothing you should know about!"})
 
 table.insert(data, {query={"where", "are", "you", "going"}, res="I go where fate takes me."})
+
+table.insert(data, {query={"what", "you", "holding"}, res="%WEAPONS"})
+table.insert(data, {query={"what", "weapon"}, res="%WEAPONS"})
+table.insert(data, {query={"do", "you", "weapon"}, res="%WEAPONS"})
+table.insert(data, {query={"have", "you", "weapon"}, res="%WEAPONS"})
+table.insert(data, {query={"what", "gun"}, res="%WEAPONS"})
+table.insert(data, {query={"do", "you", "gun"}, res="%WEAPONS"})
+table.insert(data, {query={"have", "you", "gun"}, res="%WEAPONS"})
 
 -- questions about the world
 table.insert(data, {query={"is", "weather"}, res="%RAIN. %SNOW"})
@@ -213,7 +225,12 @@ table.insert(data, {query={"ass"}, res="Cursing is the devil's speech."})
 table.insert(data, {query={"bitch"}, res="F**k you!", action="HOSTILE"})
 
 -- fallbacks to say something very generic
-table.insert(data, {query={"you", "are"}, res="Maybe I am"})
+table.insert(data, {query={"you", "are"}, res="Maybe I am."})
+table.insert(data, {query={"am", "I"}, res="Maybe you are."})
+table.insert(data, {query={"can", "we"}, res="We should not."})
+table.insert(data, {query={"can", "I"}, res="I don't know if you can."})
+table.insert(data, {query={"do", "we"}, res="I think we don't."})
+table.insert(data, {query={"do", "you"}, res="I think I don't."})
 table.insert(data, {query={"gunshots"}, res="Must be the military?"})
 table.insert(data, {query={"weather"}, res="%RAIN. %SNOW"})
 table.insert(data, {query={"how", "much"}, res="A lot."})
@@ -255,6 +272,23 @@ BWOChat.Say = function(chatMessage)
         return false
     end
 
+    local getWeapons = function(bandit)
+        local weapons = Bandit.GetWeapons(bandit)
+        local txt = "I have "
+        txt = txt .. weapons.melee:match("%.([^%.]+)$")
+        
+        if weapons.primary.name then
+            txt = txt .. " and " .. weapons.primary.name:match("%.([^%.]+)$")
+        end
+
+        if weapons.secondary.name then
+            txt = txt .. " and " .. weapons.secondary.name:match("%.([^%.]+)$")
+        end
+        
+        txt = txt .. "."
+        return txt
+    end
+
     local player = getSpecificPlayer(0)
     local color = player:getSpeakColour()
     player:addLineChatElement(chatMessage, color:getR(), color:getG(), color:getB())
@@ -286,6 +320,7 @@ BWOChat.Say = function(chatMessage)
                 local intrusion = isIntrusion(bandit) and "NOT welcome" or "very welcome"
                 local temperature = math.floor(cm:getTemperature())
                 local mood = getMood()
+                local weapons = getWeapons(bandit)
 
                 Bandit.ClearTasks(bandit)
 
@@ -335,6 +370,7 @@ BWOChat.Say = function(chatMessage)
                     res = res:replace("%TEMPERATURE", temperature)
                     res = res:replace("%INTRUSION", intrusion)
                     res = res:replace("%MOOD", mood)
+                    res = res:replace("%WEAPONS", weapons)
                     bandit:addLineChatElement(res, colors.r, colors.g, colors.b)
                 end
 

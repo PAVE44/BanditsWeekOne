@@ -769,25 +769,28 @@ end
 
 -- params: []
 BWOEvents.Arson = function(params)
+    local player = getSpecificPlayer(0)
+    local density = BWOBuildings.GetDensityScore(player, 120) / 6000
+    if density < 0.3 then return end
+
     local building = BWOBuildings.FindBuildingDist(getSpecificPlayer(0), 35, 50)
-    if building then
+    if not building then return end
 
-        local room = building:getRandomRoom()
-        if room then
-            local square = room:getRandomSquare()
-            if square then
-                explode(square:getX(), square:getY())
-                local vparams = {}
-                vparams.alarm = true
-                BWOScheduler.Add("VehiclesUpdate", vparams, 500)
+    local room = building:getRandomRoom()
+    if not room then return end
 
-                if SandboxVars.Bandits.General_ArrivalIcon then
-                    local icon = "media/ui/arson.png"
-                    local color = {r=1, g=0, b=0} -- red
-                    BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, square:getX(), square:getY(), color)
-                end
-            end
-        end
+    local square = room:getRandomSquare()
+    if not square then return end
+
+    explode(square:getX(), square:getY())
+    local vparams = {}
+    vparams.alarm = true
+    BWOScheduler.Add("VehiclesUpdate", vparams, 500)
+
+    if SandboxVars.Bandits.General_ArrivalIcon then
+        local icon = "media/ui/arson.png"
+        local color = {r=1, g=0, b=0} -- red
+        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, square:getX(), square:getY(), color)
     end
 end
 
@@ -1730,7 +1733,12 @@ BWOEvents.Thieves = function(params)
         event.bandits = {}
         
         local bandit = BanditCreator.MakeFromWave(config)
-        local intensity = math.floor(params.intensity * SandboxVars.BanditsWeekOne.BanditsPopMultiplier)
+        
+        local density = BWOBuildings.GetDensityScore(player, 120) / 6000
+        if density > 1.5 then density = 1.5 end
+
+        local intensity = math.floor(params.intensity * density * SandboxVars.BanditsWeekOne.BanditsPopMultiplier + 0.4)
+
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)
@@ -1778,6 +1786,12 @@ BWOEvents.PoliceRiot = function(params)
         bandit.outfit = "PoliceRiot"
         bandit.femaleChance = 0
         local intensity = params.intensity
+
+        local density = BWOBuildings.GetDensityScore(player, 120) / 6000
+        if density > 1.5 then density = 1.5 end
+
+        local intensity = math.floor(params.intensity * density)
+
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)
@@ -1818,7 +1832,12 @@ BWOEvents.Criminals = function(params)
         event.bandits = {}
         
         local bandit = BanditCreator.MakeFromWave(config)
-        local intensity = math.floor(params.intensity * SandboxVars.BanditsWeekOne.BanditsPopMultiplier)
+
+        local density = BWOBuildings.GetDensityScore(player, 120) / 6000
+        if density > 1.5 then density = 1.5 end
+
+        local intensity = math.floor(params.intensity * density * SandboxVars.BanditsWeekOne.BanditsPopMultiplier + 0.4)
+
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)
@@ -1859,7 +1878,12 @@ BWOEvents.Bandits = function(params)
         event.bandits = {}
         
         local bandit = BanditCreator.MakeFromWave(config)
-        local intensity = math.floor(params.intensity * SandboxVars.BanditsWeekOne.BanditsPopMultiplier)
+
+        local density = BWOBuildings.GetDensityScore(player, 120) / 6000
+        if density > 1.5 then density = 1.5 end
+
+        local intensity = math.floor(params.intensity * density * SandboxVars.BanditsWeekOne.BanditsPopMultiplier + 0.4)
+
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)
@@ -1900,7 +1924,12 @@ BWOEvents.Bikers = function(params)
         event.bandits = {}
         
         local bandit = BanditCreator.MakeFromWave(config)
-        local intensity = math.floor(params.intensity * SandboxVars.BanditsWeekOne.BanditsPopMultiplier)
+
+        local density = BWOBuildings.GetDensityScore(player, 120) / 6000
+        if density > 1.5 then density = 1.5 end
+
+        local intensity = math.floor(params.intensity * density * SandboxVars.BanditsWeekOne.BanditsPopMultiplier + 0.4)
+
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)
@@ -1941,7 +1970,12 @@ BWOEvents.Inmates = function(params)
         event.bandits = {}
         
         local bandit = BanditCreator.MakeFromWave(config)
-        local intensity = math.floor(params.intensity * SandboxVars.BanditsWeekOne.BanditsPopMultiplier)
+
+        local density = BWOBuildings.GetDensityScore(player, 120) / 6000
+        if density > 1.5 then density = 1.5 end
+
+        local intensity = math.floor(params.intensity * density * SandboxVars.BanditsWeekOne.BanditsPopMultiplier + 0.4)
+
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)
@@ -1982,7 +2016,12 @@ BWOEvents.Asylum = function(params)
         event.bandits = {}
         
         local bandit = BanditCreator.MakeFromWave(config)
-        local intensity = math.floor(params.intensity * SandboxVars.BanditsWeekOne.BanditsPopMultiplier)
+
+        local density = BWOBuildings.GetDensityScore(player, 120) / 6000
+        if density > 1.5 then density = 1.5 end
+
+        local intensity = math.floor(params.intensity * density * SandboxVars.BanditsWeekOne.BanditsPopMultiplier + 0.4)
+
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)
@@ -2026,7 +2065,12 @@ BWOEvents.Scientists = function(params)
         event.bandits = {}
         
         local bandit = BanditCreator.MakeFromWave(config)
-        local intensity = params.intensity
+
+        local density = BWOBuildings.GetDensityScore(player, 120) / 6000
+        if density > 1.5 then density = 1.5 end
+
+        local intensity = math.floor(params.intensity * density * SandboxVars.BanditsWeekOne.BanditsPopMultiplier + 0.4)
+
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)
@@ -2067,7 +2111,12 @@ BWOEvents.Army = function(params)
         event.bandits = {}
         
         local bandit = BanditCreator.MakeFromWave(config)
-        local intensity = math.floor(params.intensity * SandboxVars.BanditsWeekOne.ArmyPopMultiplier)
+        
+        local density = BWOBuildings.GetDensityScore(player, 120) / 6000
+        if density > 1.5 then density = 1.5 end
+
+        local intensity = math.floor(params.intensity * density * SandboxVars.BanditsWeekOne.ArmyPopMultiplier)
+
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)
@@ -2115,7 +2164,11 @@ BWOEvents.ArmyPatrol = function(params)
         bandit.outfit = "ArmyCamoGreen"
         bandit.weapons.melee = "Base.HuntingKnife"
 
-        local intensity = math.floor(params.intensity * SandboxVars.BanditsWeekOne.ArmyPopMultiplier)
+        local density = BWOBuildings.GetDensityScore(player, 120) / 6000
+        if density > 1.5 then density = 1.5 end
+
+        local intensity = math.floor(params.intensity * density * SandboxVars.BanditsWeekOne.ArmyPopMultiplier)
+
         if intensity > 0 then
             for i=1, intensity do
                 table.insert(event.bandits, bandit)
