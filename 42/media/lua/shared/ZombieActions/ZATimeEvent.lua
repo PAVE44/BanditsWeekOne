@@ -9,7 +9,7 @@ ZombieActions.TimeEvent.onStart = function(zombie, task)
     end
 
     if task.item then
-        local fakeItem = instanceItem(task.item)
+        local fakeItem = BanditCompatibility.InstanceItem(task.item)
         if not task.left then
             zombie:setPrimaryHandItem(fakeItem)
         end

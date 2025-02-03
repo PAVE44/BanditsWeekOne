@@ -1017,7 +1017,7 @@ BWORoomPrograms.restaurant = function(bandit, def)
                                                 elseif roomName == "pizzawhirled" then
                                                     item = BanditUtils.Choice({"Base.Pizza"})
                                                 else
-                                                    item = BanditUtils.Choice({"Base.Perogies", "Base.PotatoPancakes", "Base.EggOmlette", "Base.MeatDumpling", "Base.TofuFried", "Base.ShrimpFriedCraft", "Base.FishOnionRings", "Base.FishFried", "Base.ChickenFried", "Base.Burrito", "Base.Burger", "Base.Fries", "farming.Salad", "Base.CakeChocolate", "Base.CakeCarrot", "Base.CakeCheeseCake"}) 
+                                                    item = BanditUtils.Choice({"Base.Perogies", "Base.PotatoPancakes", "Base.EggOmlette", "Base.MeatDumpling", "Base.TofuFried", "Base.ShrimpFriedCraft", "Base.FriedOnionRings", "Base.FishFried", "Base.ChickenFried", "Base.Burrito", "Base.Burger", "Base.Fries", "farming.Salad", "Base.CakeChocolate", "Base.CakeCarrot", "Base.CakeCheeseCake"}) 
                                                 end
                                                 break
                                             end

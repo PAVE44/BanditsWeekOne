@@ -239,6 +239,63 @@
         </m_items>
     </m_MaleOutfits>
 
+    <m_MaleOutfits> <!-- BWOBomber -->
+        <m_Name>BWOBomber</m_Name>
+        <m_Guid>d2d14521-9b48-44ac-bf1f-b3008c940c78</m_Guid>
+        <m_Top>false</m_Top>
+        <m_Pants>false</m_Pants>
+        <m_AllowPantsHue>false</m_AllowPantsHue>
+        <m_AllowTopTint>false</m_AllowTopTint>
+        <m_AllowTShirtDecal>false</m_AllowTShirtDecal>
+        <m_items>
+            <itemGUID>efcd54b1-4c6f-4548-af75-99e46606978c</itemGUID> <!-- longjohns crafted burlap -->
+        </m_items>
+        <m_items>
+            <probability>0.7</probability>
+            <itemGUID>32aaf521-a582-445d-9933-cdd0ae9f62c5</itemGUID> <!-- hat burlap-->
+            <subItems>
+                <itemGUID>b94937b0-9103-400a-84ba-e30b444ebead</itemGUID> <!-- sack burlap -->
+            </subItems>
+        </m_items>
+        <m_items>
+            <itemGUID>f8add3d3-cfb2-4d2f-b9a4-7eec4297be0b</itemGUID> <!-- wood armor -->
+        </m_items>
+        <m_items>
+            <itemGUID>39218742-f989-4e82-8cf8-464e7161788f</itemGUID> <!-- ammo strap -->
+        </m_items>
+        <m_items>
+            <itemGUID>08bd00de-753f-4b2c-8150-fb4cd9c97a39</itemGUID> <!-- trousers camo desert new-->
+            <subItems>
+                <itemGUID>99314140-4709-46ec-be31-5e8441089845</itemGUID> <!-- shorts camo desert new -->
+            </subItems>
+            <subItems>
+                <itemGUID>2424958a-64aa-4494-aeba-ad05a08d5917</itemGUID> <!-- trousers camo urban -->
+            </subItems>
+            <subItems>
+                <itemGUID>360606f0-f556-43b3-83be-0040dcc28443</itemGUID> <!-- shorts camo urban -->
+            </subItems>
+        </m_items>
+        <m_items>
+            <itemGUID>227cb2d5-05a5-44ed-872d-ac4ca16e80bc</itemGUID> <!-- army boots -->
+            <subItems>
+                <itemGUID>1ed51bf2-67e5-41d9-b50d-92f42483868a</itemGUID> <!-- army boots desert -->
+            </subItems>
+        </m_items>
+        <m_items>
+            <probability>0.3</probability>
+            <itemGUID>5fc22466-2942-4ba1-8c33-2a8528b73021</itemGUID> <!--watches -->
+            <subItems>
+                <itemGUID>ce1a8520-7120-432e-8a3a-aa7b3094f0bb</itemGUID>
+            </subItems>
+            <subItems>
+                <itemGUID>c7cc655b-284a-4087-85a6-d7c116385fb0</itemGUID>
+            </subItems>
+            <subItems>
+                <itemGUID>0383956a-3fbd-4001-9749-69e2ba70b134</itemGUID>
+            </subItems>
+        </m_items>
+    </m_MaleOutfits>
+
     <m_FemaleOutfits> <!-- BWOCow -->
         <m_Name>BWOCow</m_Name>
         <m_Guid>3575b05a-7f4b-40d4-a7a9-806ab4c77575</m_Guid>

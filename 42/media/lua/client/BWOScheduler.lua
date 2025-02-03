@@ -81,6 +81,7 @@ local generateSchedule = function()
     tab[58][33] = {"Criminals", {intensity=3}}
     tab[59][44] = {"BuildingParty", {roomName="bedroom", intensity=8}}
     tab[59][55] = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    tab[59][56] = {"Shahids", {intensity=2}}
     tab[63][30] = {"Criminals", {intensity=4}}
     tab[66][39] = {"Criminals", {intensity=3}}
     tab[66][41] = {"Criminals", {intensity=3}}
@@ -92,7 +93,7 @@ local generateSchedule = function()
     tab[72][2]  = {"Defenders", {}}
     tab[76][7]  = {"Defenders", {}}
     tab[76][57] = {"Defenders", {}}
-    tab[77][22] = {"Arson", {}}
+    tab[77][22] = {"Shahids", {intensity=1}}
     tab[77][33] = {"Criminals", {intensity=4}}
     tab[77][39] = {"Criminals", {intensity=4}}
     tab[78][51] = {"Defenders", {}}
@@ -162,6 +163,7 @@ local generateSchedule = function()
     tab[122][11] = {"PoliceRiot", {intensity=12, hostile=true}}
     tab[122][12] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
     tab[122][15] = {"PoliceRiot", {intensity=12, hostile=true}}
+    tab[122][16] = {"Shahids", {intensity=1}}
     tab[122][17] = {"PoliceRiot", {intensity=12, hostile=true}}
     tab[122][44] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
     tab[123][27] = {"Arson", {}}
@@ -349,31 +351,10 @@ function BWOScheduler.MasterControl()
             adjustSandboxVar("MaxFogIntensity", 4)
             adjustSandboxVar("TrafficJam", false)
             adjustSandboxVar("CarSpawnRate", 5)
-            adjustSandboxVar("MaximumRatIndex", 0)
             adjustSandboxVar("Helicopter", 1)
 
-            local vars = {}
+            local vars = BWOCompatibility.GetSandboxOptionVars()
             -- lerp
-            table.insert (vars, {"KeyLootNew", 0, 0.3})
-            table.insert (vars, {"MaximumLooted", 0, 70})
-            table.insert (vars, {"FoodLootNew", 1.4, 0.3})
-            table.insert (vars, {"CannedFoodLootNew", 1.2, 0.3})
-            table.insert (vars, {"LiteratureLootNew", 1.2, 0.3})
-            table.insert (vars, {"SurvivalGearsLootNew", 1.2, 0.3})
-            table.insert (vars, {"MedicalLootNew", 1.2, 0.3})
-            table.insert (vars, {"WeaponLootNew", 1.2, 0.3})
-            table.insert (vars, {"RangedWeaponLootNew", 1.2, 0.3})
-            table.insert (vars, {"AmmoLootNew", 1.6, 0.5})
-            table.insert (vars, {"MechanicsLootNew", 1.2, 0.3})
-            table.insert (vars, {"OtherLootNew", 1.2, 0.3})
-            table.insert (vars, {"ClothingLootNew", 1.2, 0.3})
-            table.insert (vars, {"ContainerLootNew", 1.2, 0.3})
-            table.insert (vars, {"MementoLootNew", 1.2, 0.3})
-            table.insert (vars, {"MediaLootNew", 1.2, 0.3})
-            table.insert (vars, {"CookwareLootNew", 1.2, 0.3})
-            table.insert (vars, {"MaterialLootNew", 1.2, 0.3})
-            table.insert (vars, {"FarmingLootNew", 1.2, 0.3})
-            table.insert (vars, {"ToolLootNew", 1.2, 0.3})
     
             local t = BWOScheduler.WorldAge / 64
             for _, var in pairs(vars) do
@@ -390,7 +371,6 @@ function BWOScheduler.MasterControl()
             adjustSandboxVar("MaxFogIntensity", 1)
             adjustSandboxVar("TrafficJam", true)
             adjustSandboxVar("CarSpawnRate", 3)
-            adjustSandboxVar("MaximumRatIndex", 50)
             adjustSandboxVar("Helicopter", 2)
         end
         
@@ -417,7 +397,7 @@ function BWOScheduler.MasterControl()
     local worldAge = calculateHourDifference(startHour, startDay, startMonth, startYear, hour, day, month, year)
     
     -- debug to jump to a certain hour
-    -- worldAge = worldAge + 96
+    -- worldAge = worldAge + 167
 
     BWOScheduler.WorldAge = worldAge
     

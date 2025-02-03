@@ -68,9 +68,9 @@ BWOMenu.SpawnWave = function(player, square, prgName)
         config.hasPistolChance = 100
         config.rifleMagCount = 3
         config.pistolMagCount = 3
+    elseif prgName == "Shahid" then
+        config.clanId = 11
     end
-    
-
 
     local event = {}
     event.hostile = false
@@ -85,7 +85,7 @@ BWOMenu.SpawnWave = function(player, square, prgName)
     local bandit = BanditCreator.MakeFromWave(config)
 
     if prgName == "Walker" then
-        bandit.outfit = BanditUtils.Choice({"BWORainGeneric03"})
+        bandit.outfit = BanditUtils.Choice({"BWORainGeneric01", "BWORainGeneric02", "BWORainGeneric03"})
         bandit.femaleChance = 50
     elseif prgName == "Fireman" then
         bandit.outfit = BanditUtils.Choice({"FiremanFullSuit"})
@@ -104,7 +104,18 @@ BWOMenu.SpawnWave = function(player, square, prgName)
         bandit.outfit = BanditUtils.Choice({"StreetSports", "AuthenticJogger", "AuthenticFitnessInstructor"})
     elseif prgName == "Vandal" then
         bandit.outfit = BanditUtils.Choice({"Bandit"})
+    elseif prgName == "Shahid" then
+        event.hostile = true
+        bandit.femaleChance = 0
+        bandit.skinTexture = "MaleBody03a"
+        bandit.hairStyle = "Fabian"
+        bandit.hairColor = {r=0, g=0, b=0}
+        bandit.beardStyle = "Long"
+        bandit.beardColor = {r=0, g=0, b=0}
+
+        bandit.outfit = BanditUtils.Choice({"BWOBomber"})
     elseif prgName == "Babe" then
+        bandit.permanent = true
         bandit.outfit = BanditUtils.Choice({"BWOYoung", "BWOCow", "BWOLeather"})
         bandit.accuracyBoost = 2
         bandit.femaleChance = 92
@@ -215,11 +226,12 @@ BWOMenu.EventFliers = function(player)
     BWOScheduler.Add("ChopperFliers", params, 100)
 end
 
-BWOMenu.EventEntertainer = function(player)
+BWOMenu.EventEntertainer = function(player, eid)
     local params ={}
     params.x = player:getX()
     params.y = player:getY()
     params.z = player:getZ()
+    params.eid = eid
     BWOScheduler.Add("Entertainer", params, 100)
 end
 
@@ -320,13 +332,19 @@ BWOMenu.EventThieves = function(player)
     BWOScheduler.Add("Thieves", params, 100)
 end
 
+BWOMenu.EventShahids = function(player)
+    local params = {}
+    params.intensity = 1
+    BWOScheduler.Add("Shahids", params, 100)
+end
+
 function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
 
     local player = getSpecificPlayer(playerID)
     local profession = player:getDescriptor():getProfession()
     -- print ("DIR: " .. player:getDirectionAngle())
-    local fetch = ISWorldObjectContextMenu.fetchVars
-    local square = fetch.clickedSquare
+
+    local square = BanditCompatibility.GetClickedSquare()
 
     local zombie = square:getZombie()
     if not zombie then
@@ -357,8 +375,14 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
     end
     ]]  
 
-    if square:getZ() == -16  and square:getX() == 5556 and (square:getY() == 12445 or square:getY() == 12446 or square:getY() == 12447)  then
-        context:addOption("Disable Launch Sequence", player, BWOMenu.DisableLaunchSequence, square)
+    if BanditCompatibility.GetGameVersion() >= 42 then
+        if square:getZ() == -16 and square:getX() == 5556 and (square:getY() == 12445 or square:getY() == 12446 or square:getY() == 12447)  then
+            context:addOption("Disable Launch Sequence", player, BWOMenu.DisableLaunchSequence, square)
+        end
+    else
+        if square:getZ() == 0 and square:getX() == 5572 and square:getY() == 12486 then
+            context:addOption("Disable Launch Sequence", player, BWOMenu.DisableLaunchSequence, square)
+        end
     end
 
     local vehicle = square:getVehicleContainer()
@@ -477,7 +501,19 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         eventsMenu:addOption("Bomb Run", player, BWOMenu.EventBombRun)
         eventsMenu:addOption("Criminals", player, BWOMenu.EventCriminals)
         eventsMenu:addOption("Dream", player, BWOMenu.EventDream)
-        eventsMenu:addOption("Entertainer", player, BWOMenu.EventEntertainer)
+
+        local entertainerOption = eventsMenu:addOption("Entertainer")
+        local entertainerMenu = context:getNew(context)
+        eventsMenu:addSubMenu(entertainerOption, entertainerMenu)
+
+        entertainerMenu:addOption("Priest", player, BWOMenu.EventEntertainer, 0)
+        entertainerMenu:addOption("Guitarist", player, BWOMenu.EventEntertainer, 1)
+        entertainerMenu:addOption("Violinist", player, BWOMenu.EventEntertainer, 2)
+        entertainerMenu:addOption("Saxophonist", player, BWOMenu.EventEntertainer, 3)
+        entertainerMenu:addOption("Breakdancer", player, BWOMenu.EventEntertainer, 4)
+        entertainerMenu:addOption("Clown 1", player, BWOMenu.EventEntertainer, 5)
+        entertainerMenu:addOption("Clown 2", player, BWOMenu.EventEntertainer, 6)
+
         eventsMenu:addOption("Final Solution", player, BWOMenu.EventFinalSolution)
         eventsMenu:addOption("Fliers", player, BWOMenu.EventFliers)
         eventsMenu:addOption("Gas Drop", player, BWOMenu.EventGasDrop)
@@ -491,6 +527,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         eventsMenu:addOption("Power Off", player, BWOMenu.EventPower, false)
         eventsMenu:addOption("Protest", player, BWOMenu.EventProtest)
         eventsMenu:addOption("Reanimate", player, BWOMenu.EventReanimate)
+        eventsMenu:addOption("Shahid", player, BWOMenu.EventShahids)
         eventsMenu:addOption("Start", player, BWOMenu.EventStart)
         eventsMenu:addOption("Start Day", player, BWOMenu.EventStartDay)
         eventsMenu:addOption("Thieves", player, BWOMenu.EventThieves)
@@ -507,6 +544,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         spawnMenu:addOption("Medic", player, BWOMenu.SpawnWave, square, "Medic")
         spawnMenu:addOption("Postal", player, BWOMenu.SpawnWave, square, "Postal")
         spawnMenu:addOption("Runner", player, BWOMenu.SpawnWave, square, "Runner")
+        spawnMenu:addOption("Shahid", player, BWOMenu.SpawnWave, square, "Shahid")
         spawnMenu:addOption("Survivor", player, BWOMenu.SpawnWave, square, "Survivor")
         spawnMenu:addOption("Vandal", player, BWOMenu.SpawnWave, square, "Vandal")
         spawnMenu:addOption("Walker", player, BWOMenu.SpawnWave, square, "Walker")

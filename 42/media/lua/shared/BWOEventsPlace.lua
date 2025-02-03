@@ -10,6 +10,7 @@ local spawnVehicle = function(x, y, dir, vtype)
     if square:getVehicleContainer() then return end
 
     local vehicle = addVehicleDebug(vtype, dir, nil, square)
+    
     if not vehicle then return end
 
     --[[
@@ -205,7 +206,7 @@ function BWOEventsPlace.CarMechanic(params)
     md.BWO.wasRepaired = true
     md.BWO.client = true
     md.BWO.parts = {}
-    vehicle:repair()
+    BWOVehicles.Repair(vehicle)
     vehicle:setColor(0, 0, 0)
     vehicle:setGeneralPartCondition(100, 100)
     vehicle:putKeyInIgnition(vehicle:createVehicleKey())

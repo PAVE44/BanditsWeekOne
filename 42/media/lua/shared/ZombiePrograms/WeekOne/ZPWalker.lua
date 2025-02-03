@@ -33,10 +33,10 @@ ZombiePrograms.Walker.Prepare = function(bandit)
     if math.abs(id) % 13 == 0 and not bandit:isFemale() then
         local brain = BanditBrain.Get(bandit)
         brain.bag = "Briefcase"
-        local fakeItem = instanceItem("Base.Briefcase")
-        --local fakeItem = instanceItem("Base.Briefcase")
-        --local fakeItem = instanceItem("Base.Flightcase")
-        --local fakeItem = instanceItem("Base.Cooler")
+        local fakeItem = BanditCompatibility.InstanceItem("Base.Briefcase")
+        --local fakeItem = BanditCompatibility.InstanceItem("Base.Briefcase")
+        --local fakeItem = BanditCompatibility.InstanceItem("Base.Flightcase")
+        --local fakeItem = BanditCompatibility.InstanceItem("Base.Cooler")
         bandit:setPrimaryHandItem(fakeItem)
     elseif math.abs(id) % 5 == 0 and bandit:isFemale() then
         weapons.melee = "Base.PurseWeapon"

@@ -13,7 +13,7 @@ end
 
 ZombieActions.PlaceItem.onComplete = function(zombie, task)
     if task.item and BanditUtils.IsController(zombie) then
-        local item = instanceItem(task.item)
+        local item = BanditCompatibility.InstanceItem(task.item)
         if item then
             local square = getCell():getGridSquare(task.x, task.y, task.z)
             if square then

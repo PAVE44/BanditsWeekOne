@@ -18,6 +18,19 @@ function BanditUtils.In(needle, haystack)
     return false
 end
 
+function BanditUtils.GetAllBanditByProgram(programs)
+    local result = {}
+    local zombieList = BanditZombie.GetAllB()
+    for id, zombie in pairs(zombieList) do
+        for _, program in pairs(programs) do
+            if zombie.brain.program.name == program then
+                table.insert(result, zombie)
+            end
+        end
+    end
+    return result
+end
+
 function BanditUtils.GetClosestBanditLocationProgram(character, programs)
     local result = {}
     local cid = BanditUtils.GetCharacterID(character)

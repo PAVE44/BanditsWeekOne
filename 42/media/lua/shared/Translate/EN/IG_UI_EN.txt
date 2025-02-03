@@ -17,7 +17,7 @@ IGUI_EN = {
     IGUI_Bandits_Speech_BWOReactCrime_Male_1_16 = "Please! Have mercy!",
     IGUI_Bandits_Speech_BWOReactCrime_Male_1_17 = "What've you done!",
     IGUI_Bandits_Speech_BWOReactCrime_Male_1_18 = "Someone call the police!",
-    IGUI_Bandits_Speech_BWOReactCrime_Male_1_19 = "Run! They've got crazy!"
+    IGUI_Bandits_Speech_BWOReactCrime_Male_1_19 = "Run! They've got crazy!",
     IGUI_Bandits_Speech_BWOReactCrime_Male_1_20 = "You're a monster!",
 
     IGUI_Bandits_Speech_BWOReactCrime_Male_2_1 = "Call 911!",
@@ -59,7 +59,7 @@ IGUI_EN = {
     IGUI_Bandits_Speech_BWOReactCrime_Male_3_16 = "Please! Have mercy!",
     IGUI_Bandits_Speech_BWOReactCrime_Male_3_17 = "What've you done!",
     IGUI_Bandits_Speech_BWOReactCrime_Male_3_18 = "Someone call the police!",
-    IGUI_Bandits_Speech_BWOReactCrime_Male_3_19 = "Run! They've got crazy!"
+    IGUI_Bandits_Speech_BWOReactCrime_Male_3_19 = "Run! They've got crazy!",
     IGUI_Bandits_Speech_BWOReactCrime_Male_3_20 = "You're a monster!",
 
     IGUI_Bandits_Speech_BWOReactCrime_Male_4_1 = "Call 911!",
@@ -101,7 +101,7 @@ IGUI_EN = {
     IGUI_Bandits_Speech_BWOReactCrime_Female_3_16 = "Please! Have mercy!",
     IGUI_Bandits_Speech_BWOReactCrime_Female_3_17 = "What've you done!",
     IGUI_Bandits_Speech_BWOReactCrime_Female_3_18 = "Someone call the police!",
-    IGUI_Bandits_Speech_BWOReactCrime_Female_3_19 = "Run! They've got crazy!"
+    IGUI_Bandits_Speech_BWOReactCrime_Female_3_19 = "Run! They've got crazy!",
     IGUI_Bandits_Speech_BWOReactCrime_Female_3_20 = "You're a monster!",
 
     IGUI_Bandits_Speech_ZSAdmire_Male_1_1 = "Very cool!",

@@ -230,7 +230,13 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                             -- local anim = BanditUtils.Choice({"DanceHipHop3", "DanceLocking", "DanceShuffling", "DanceArmsHipHop", "DanceGandy", "DanceHouseDancing", "DanceRaiseTheRoof", "DanceRobotOne", "DanceRobotTwo", "DanceSnake"})
                             -- local anim = BanditUtils.Choice({"DanceHipHop1", "DanceHipHop2", "DanceHipHop3", "DanceRaiseTheRoof", "DanceBoogaloo", "DanceBodyWave", "DanceRibPops", "DanceShimmy"})
                             -- local anim = BanditUtils.Choice({"DanceHipHop3", "DanceRaiseTheRoof"})
-                            local anim = BanditUtils.Choice({"DanceHipHop3", "DanceRaiseTheRoof", "Dance1", "Dance2", "Dance3", "Dance4"})
+                            local anim
+                            if BanditCompatibility.GetGameVersion() >= 42 then
+                                anim = BanditUtils.Choice({"DanceHipHop3", "DanceRaiseTheRoof", "Dance1", "Dance2", "Dance3", "Dance4"})
+                            else
+                                anim = BanditUtils.Choice({"DanceGandy", "DanceHouseDancing", "DanceShuffling", "DanceRaiseTheRoof", "Dance1", "Dance2", "Dance3", "Dance4"})
+                            end
+
                             local task = {action="Time", anim=anim, time=500}
                             table.insert(tasks, task)
                             return {status=true, next="Main", tasks=tasks}

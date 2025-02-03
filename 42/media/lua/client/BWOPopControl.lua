@@ -2,7 +2,7 @@ BWOPopControl = BWOPopControl or {}
 
 -- population control
 BWOPopControl.ZombieMax = 0
-BWOPopControl.ZombieCnt = 0
+BWOPopControl.ZombieCnt = 1000
 
 BWOPopControl.SurvivorsCnt = 0
 BWOPopControl.SurvivorsNominal = 0
@@ -179,32 +179,22 @@ BWOPopControl.StreetsDespawn = function(cnt)
     local py = player:getY()
 
     local removePrg = {"Walker", "Runner", "Postal", "Entertainer", "Janitor", "Medic", "Gardener", "Vandal"}
-    local zombieList = cell:getZombieList()
-    
-    for i = 0, zombieList:size() - 1 do
-        local zombie = zombieList:get(i)
+    local zombieList = BanditUtils.GetAllBanditByProgram(removePrg)
 
-        if zombie and zombie:getVariableBoolean("Bandit") then
-            local brain = BanditBrain.Get(zombie)
-            local prg = brain.program.name
-            
-            for _, prg in pairs(removePrg) do
-                if prg == brain.program.name then
-                    local zx = zombie:getX()
-                    local zy = zombie:getY()
-                    local dist = BanditUtils.DistTo(px, py, zx, zy)
-                    
-                    if dist > 50 then
-                        zombie:removeFromSquare()
-                        zombie:removeFromWorld()
-                        args = {}
-                        args.id = brain.id
-                        sendClientCommand(player, 'Commands', 'BanditRemove', args)
-                        i = i + 1
-                        if i >= cnt then return end
-                    end
-                end
-            end
+    for k, zombie in pairs(zombieList) do
+        local zx = zombie.x
+        local zy = zombie.y
+        local dist = BanditUtils.DistTo(px, py, zx, zy)
+        
+        if dist > 50 then
+            local zombieObj = BanditZombie.GetInstanceById(zombie.id)
+            zombieObj:removeFromSquare()
+            zombieObj:removeFromWorld()
+            args = {}
+            args.id = zombie.id
+            sendClientCommand(player, 'Commands', 'BanditRemove', args)
+            i = i + 1
+            if i >= cnt then break end
         end
     end
 end
@@ -273,7 +263,7 @@ BWOPopControl.InhabitantsSpawn = function(cnt)
                     local spawnRoomDef = spawnRoom:getRoomDef()
                     if spawnRoomDef then
                         local spawnSquare = spawnRoomDef:getFreeSquare()
-                        if spawnSquare and spawnSquare:haveRoofFull() and not BWOSquareLoader.IsInExclusion(spawnSquare:getX(), spawnSquare:getY()) then
+                        if spawnSquare and BanditCompatibility.HaveRoofFull(spawnSquare) and not BWOSquareLoader.IsInExclusion(spawnSquare:getX(), spawnSquare:getY()) then
                             event.x = spawnSquare:getX()
                             event.y = spawnSquare:getY()
                             event.z = spawnSquare:getZ()
@@ -305,31 +295,21 @@ BWOPopControl.InhabitantsDespawn = function(cnt)
     local py = player:getY()
 
     local removePrg = {"Inhabitant", "Medic", "Janitor", "Entertainer"}
-    local zombieList = cell:getZombieList()
-
-    for i = 0, zombieList:size() - 1 do
-        local zombie = zombieList:get(i)
-
-        if zombie and zombie:getVariableBoolean("Bandit") then
-            local brain = BanditBrain.Get(zombie)
-            
-            for _, prg in pairs(removePrg) do
-                if prg == brain.program.name then
-                    local zx = zombie:getX()
-                    local zy = zombie:getY()
-                    local dist = BanditUtils.DistTo(px, py, zx, zy)
-                    
-                    if dist > 50 then
-                        zombie:removeFromSquare()
-                        zombie:removeFromWorld()
-                        args = {}
-                        args.id = brain.id
-                        sendClientCommand(player, 'Commands', 'BanditRemove', args)
-                        i = i + 1
-                        if i >= cnt then return end
-                    end
-                end
-            end
+    local zombieList = BanditUtils.GetAllBanditByProgram(removePrg)
+    for k, zombie in pairs(zombieList) do
+        local zx = zombie.x
+        local zy = zombie.y
+        local dist = BanditUtils.DistTo(px, py, zx, zy)
+        
+        if dist > 50 then
+            local zombieObj = BanditZombie.GetInstanceById(zombie.id)
+            zombieObj:removeFromSquare()
+            zombieObj:removeFromWorld()
+            args = {}
+            args.id = zombie.id
+            sendClientCommand(player, 'Commands', 'BanditRemove', args)
+            i = i + 1
+            if i >= cnt then break end
         end
     end
 end
@@ -377,32 +357,21 @@ BWOPopControl.SurvivorsDespawn = function(cnt)
     local py = player:getY()
 
     local removePrg = {"Survivor"}
-    local zombieList = cell:getZombieList()
-    
-    for i = 0, zombieList:size() - 1 do
-        local zombie = zombieList:get(i)
-
-        if zombie:getVariableBoolean("Bandit") then
-            local brain = BanditBrain.Get(zombie)
-            local prg = brain.program.name
-            
-            for _, prg in pairs(removePrg) do
-                if prg == brain.program.name then
-                    local zx = zombie:getX()
-                    local zy = zombie:getY()
-                    local dist = BanditUtils.DistTo(px, py, zx, zy)
-                    
-                    if dist > 50 then
-                        zombie:removeFromSquare()
-                        zombie:removeFromWorld()
-                        args = {}
-                        args.id = brain.id
-                        sendClientCommand(player, 'Commands', 'BanditRemove', args)
-                        i = i + 1
-                        if i >= cnt then return end
-                    end
-                end
-            end
+    local zombieList = BanditUtils.GetAllBanditByProgram(removePrg)
+    for k, zombie in pairs(zombieList) do
+        local zx = zombie.x
+        local zy = zombie.y
+        local dist = BanditUtils.DistTo(px, py, zx, zy)
+        
+        if dist > 50 then
+            local zombieObj = BanditZombie.GetInstanceById(zombie.id)
+            zombieObj:removeFromSquare()
+            zombieObj:removeFromWorld()
+            args = {}
+            args.id = zombie.id
+            sendClientCommand(player, 'Commands', 'BanditRemove', args)
+            i = i + 1
+            if i >= cnt then break end
         end
     end
 end

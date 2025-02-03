@@ -73,9 +73,7 @@ BWOVehicles.VehicleSpawn = function(x, y, dir, btype)
 
         if square:isVehicleIntersecting() then return end
 
-        --local vehicle --= addVehicleDebug(btype, dir, nil, square)
-
-        local vehicle = addVehicle(btype, square:getX(), square:getY(), square:getZ())
+        local vehicle = BWOCompatibility.AddVehicle(btype, dir, square)
         if vehicle then
             for i = 0, vehicle:getPartCount() - 1 do
                 local container = vehicle:getPartByIndex(i):getItemContainer()
@@ -85,7 +83,7 @@ BWOVehicles.VehicleSpawn = function(x, y, dir, btype)
             end
             vehicle:getModData().BWO = {}
             vehicle:getModData().BWO.wasRepaired = true
-            vehicle:repair()
+            BWOVehicles.Repair(vehicle)
             vehicle:setColor(ZombRandFloat(0, 1), ZombRandFloat(0, 1), ZombRandFloat(0, 1))
             vehicle:setAlarmed(false)
             vehicle:setGeneralPartCondition(100, 80)
@@ -128,6 +126,27 @@ BWOVehicles.VehicleSpawn = function(x, y, dir, btype)
     end
 end
 
+BWOVehicles.Repair = function(vehicle)
+    -- we cant use vehicle:replair() because it will add armor to ki5 vehicles
+
+    for i = 0, vehicle:getPartCount() - 1 do
+        local part = vehicle:getPartByIndex(i)
+        local area = part:getArea()
+
+        if area and not area:embodies("Armor") then
+            local cond = 70 + ZombRand(40)
+            if cond > 100 then cond = 100 end
+            part:setCondition(cond)
+        end
+    end
+
+    local gasTank = vehicle:getPartById("GasTank")
+    if gasTank then
+        local max = gasTank:getContainerCapacity() * 0.7
+        gasTank:setContainerContentAmount(ZombRandFloat(0, max))
+    end
+end
+
 BWOVehicles.Burn = function(vehicle)
     local burnMap = BWOVehicles.burnMap
     local scriptName = vehicle:getScriptName()
@@ -140,7 +159,7 @@ BWOVehicles.Burn = function(vehicle)
             local az = vehicle:getAngleZ()
             vehicle:permanentlyRemove()
 
-            local vehicleBurnt = addVehicleDebug(v, IsoDirections.S, nil, vehicle:getSquare())
+            local vehicleBurnt = BWOCompatibility.AddVehicle(v, IsoDirections.S, vehicle:getSquare())
             if vehicleBurnt then
                 for i = 0, vehicleBurnt:getPartCount() - 1 do
                     local container = vehicleBurnt:getPartByIndex(i):getItemContainer()

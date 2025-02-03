@@ -65,7 +65,7 @@ local findBombSpot = function (px, py, outside)
                 local cnt = 0
                 local killList = {}
                 for id, zombie in pairs(zombieList) do
-                    if zombie.x > x1 and zombie.x < x2 and zombie.y > y1 and zombie.y < y2 then
+                    if zombie.x >= x1 and zombie.x < x2 and zombie.y >= y1 and zombie.y < y2 then
                         if not zombie.isBandit then
                             cnt = cnt + 1
                         end
@@ -189,7 +189,7 @@ local explode = function(x, y)
     BanditBaseGroupPlacements.Junk (x-4, y-4, 0, 6, 8, 3)
 
     -- damage to zombies, players are safe
-    local fakeItem = instanceItem("Base.RollingPin")
+    local fakeItem = BanditCompatibility.InstanceItem("Base.RollingPin")
     local cell = getCell()
     for dx=x-3, x+5 do
         for dy=y-3, y+4 do
@@ -232,7 +232,7 @@ local addBoomBox = function(x, y, z, cassette)
     end
 
     -- local cassetteItem = InventoryItemFactory.CreateItem("Tsarcraft.CassetteDepecheModePersonalJesus(1989)")
-    local cassetteItem = instanceItem(cassette)
+    local cassetteItem = BanditCompatibility.InstanceItem(cassette)
     radio:getModData().tcmusic.mediaItem = cassetteItem:getType()
     radio:transmitModData()
 
@@ -292,8 +292,7 @@ local spawnVehicle = function(x, y, vtype)
     local square = getCell():getGridSquare(x, y, 0)
     if not square then return end
 
-    --local vehicle = addVehicleDebug(vtype, IsoDirections.S, nil, square)
-    local vehicle = addVehicle(vtype, square:getX(), square:getY(), square:getZ())
+    local vehicle = BWOCompatibility.AddVehicle(vtype, IsoDirections.S, square)
     if not vehicle then return end
 
     for i = 0, vehicle:getPartCount() - 1 do
@@ -303,7 +302,7 @@ local spawnVehicle = function(x, y, vtype)
         end
     end
 
-    vehicle:repair()
+    BWOVehicles.Repair(vehicle)
     vehicle:setTrunkLocked(true)
     for i=0, vehicle:getMaxPassengers() - 1 do 
         local part = vehicle:getPassengerDoor(i)
@@ -317,9 +316,8 @@ local spawnVehicle = function(x, y, vtype)
 
     vehicle:getModData().BWO = {}
     vehicle:getModData().BWO.wasRepaired = true
-    vehicle:repair()
     vehicle:setColor(0, 0, 0)
-    vehicle:setGeneralPartCondition(80, 100)
+    -- vehicle:setGeneralPartCondition(80, 100)
     -- vehicle:putKeyInIgnition(key)
     -- vehicle:tryStartEngine(true)
     -- vehicle:engineDoStartingSuccess()
@@ -371,6 +369,12 @@ BWOEvents.VehiclesUpdate = function(params)
     end
 end
 
+-- fixme
+BWOEvents.Explode = function(x, y)
+    explode(x, y)
+end
+
+
 -- params: [x, y, sound]
 BWOEvents.Sound = function(params)
     local emitter = getWorld():getFreeEmitter(params.x, params.y, 0)
@@ -416,6 +420,8 @@ end
 
 BWOEvents.Dream = function(params)
 
+    if not SandboxVars.BanditsWeekOne.EventFinalSolution then return end
+
     if params.night == 0 then
         BWOScheduler.Add("Say", {txt="I had a strange dream."}, 2000)
         BWOScheduler.Add("Say", {txt="I was fiddling with an old radio, and I caught fragments of a broadcast. "}, 4000)
@@ -449,7 +455,11 @@ BWOEvents.Dream = function(params)
         BWOScheduler.Add("Say", {txt="In the control room, I have to stop it. "}, 10000)
     elseif params.night == 5 then
         BWOScheduler.Add("Say", {txt="Military Base, that’s where I have to go. "}, 3000)
-        BWOScheduler.Add("Say", {txt="In the control room, floor -16, I have to stop it. "}, 6000)
+        if BanditCompatibility.GetGameVersion() >= 42 then
+            BWOScheduler.Add("Say", {txt="In the control room, floor -16, I have to stop it. "}, 6000)
+        else
+            BWOScheduler.Add("Say", {txt="In the control room, ground floor, I have to stop it. "}, 6000)
+        end
     elseif params.night == 6 then
         BWOScheduler.Add("Say", {txt="Military Base, that’s where I have to go. "}, 4000)
         BWOScheduler.Add("Say", {txt="In the control room, I have to stop it. "}, 9000)
@@ -517,14 +527,11 @@ BWOEvents.ChopperFliersStage2 = function(params)
     local cell = getCell()
     for y=-80, 80 do
         for x=-80, 80 do
-            if ZombRand(50) == 1 then
+            if ZombRand(65) == 1 then
                 for z=8, 0, -1 do
                     local square = cell:getGridSquare(params.x + x, params.y + y, z)
                     if square and square:isOutside() then
-                        local item = instanceItem("Base.Flier")
-                        item:setName("Flier: CDC URGENT PUBLIC NOTICE")
-                        local md = item:getModData()
-                        md.printMedia = "CDC1"
+                        local item = BWOCompatibility.GetFlier()
                         square:AddWorldInventoryItem(item, ZombRandFloat(0.2, 0.8), ZombRandFloat(0.2, 0.8), 0)
                         break
                     end
@@ -564,7 +571,7 @@ BWOEvents.Start = function(params)
         sendClientCommand(player, 'Commands', 'EventBuildingAdd', args)
 
         -- generate home key
-        local item = instanceItem("Base.Key1")
+        local item = BanditCompatibility.InstanceItem("Base.Key1")
         item:setKeyId(keyId)
         item:setName("Home Key")
         player:getInventory():AddItem(item)
@@ -584,10 +591,9 @@ BWOEvents.Start = function(params)
 
     -- give some starting cash
     for i=1, 25 + ZombRand(60) do
-        local item = instanceItem("Base.Money")
+        local item = BanditCompatibility.InstanceItem("Base.Money")
         player:getInventory():AddItem(item)
     end
-
     
     -- profession items
     local profession = player:getDescriptor():getProfession()
@@ -613,11 +619,11 @@ BWOEvents.Start = function(params)
     
     if professionItemTypeList then
         for _, professionItemType in pairs(professionItemTypeList) do
-            local professionItem = instanceItem(professionItemType)
+            local professionItem = BanditCompatibility.InstanceItem(professionItemType)
             if professionSubItemTypeList then
                 local container = professionItem:getItemContainer()
                 for _, professionSubItemType in pairs(professionSubItemTypeList) do
-                    local professionSubItem = instanceItem(professionSubItemType)
+                    local professionSubItem = BanditCompatibility.InstanceItem(professionSubItemType)
                     container:AddItem(professionSubItem)
                 end
             end
@@ -646,6 +652,7 @@ BWOEvents.Start = function(params)
         event.bandits = {}
         
         local bandit = BanditCreator.MakeFromWave(config)
+        bandit.permanent = true
         bandit.accuracyBoost = 2
         bandit.femaleChance = 92
         if player:isFemale() then
@@ -737,6 +744,7 @@ BWOEvents.Start = function(params)
             end
         end
     end
+    BWOScheduler.Add("Say", {txt="TIP: Press \"T\" to chat with other people."}, 8000)
 end
 
 -- params: [day]
@@ -822,7 +830,7 @@ BWOEvents.BombDrop = function(params)
 
     -- where it hits
     local x, y = findBombSpot(params.x, params.y, params.outside)
-
+    -- local x, y = params.x, params.y
     -- strike only in urban area
     local zone = getWorld():getMetaGrid():getZoneAt(x, y, 0)
     if zone then
@@ -835,7 +843,7 @@ BWOEvents.BombDrop = function(params)
             BanditBaseGroupPlacements.Junk (x-4, y-4, 0, 6, 8, 3)
 
             -- damage to zombies, players are safe
-            local fakeItem = instanceItem("Base.RollingPin")
+            local fakeItem = BanditCompatibility.InstanceItem("Base.RollingPin")
             local cell = getCell()
             for dx=x-3, x+5 do
                 for dy=y-3, y+4 do
@@ -900,9 +908,13 @@ BWOEvents.SetupNukes = function(params)
     addNuke(7267, 8320, 700) -- doe valley
     addNuke(6350, 5430, 700) -- riverside
     addNuke(11740, 6900, 700) -- westpoint
-    addNuke(2060, 5930, 700) -- brandenburg
     addNuke(646, 9734, 600) -- ekron
-    addNuke(2336, 14294, 800) -- irvington
+    addNuke(12980, 2256, 1200) -- LV
+
+    if BanditCompatibility.GetGameVersion() >= 42 then
+        addNuke(2060, 5930, 700) -- brandenburg
+        addNuke(2336, 14294, 800) -- irvington
+    end
 
 end
 
@@ -1025,7 +1037,7 @@ BWOEvents.JetFighter = function(params)
             end
 
             if cnt >= 10 then
-                local fakeItem = instanceItem("Base.AssaultRifle")
+                local fakeItem = BanditCompatibility.InstanceItem("Base.AssaultRifle")
                 local fakeZombie = getCell():getFakeZombieForHit()
                 for id, zombie in pairs(killList) do
                     local character = BanditZombie.GetInstanceById(id)
@@ -1107,6 +1119,7 @@ BWOEvents.GasDrop = function(params)
     if BWOSquareLoader.IsInExclusion(params.x, params.y) then return end
 
     local x, y = findBombSpot(params.x, params.y, params.outside)
+    -- local x, y = params.x, params.y
     local svec = {}
     table.insert(svec, {x=-3, y=-1})
     table.insert(svec, {x=3, y=1})
@@ -1189,14 +1202,15 @@ BWOEvents.Entertainer = function(params)
         if params.eid then
             rnd = params.eid
         else
-            rnd = 1 + ZombRand(4)
+            if BanditCompatibility.GetGameVersion() >= 42 then
+                rnd = ZombRand(4)
+            else
+                rnd = ZombRand(4) --7
+            end
         end
 
         -- rnd = 9
         if rnd == 0 then
-            -- bandit.outfit = "AuthenticBiker"
-            -- bandit.femaleChance = 50
-            -- bandit.weapons.melee = "Base.GuitarElectric"
             bandit.outfit = "Priest"
             bandit.femaleChance = 0
             icon = "media/ui/cross.png"
@@ -1205,42 +1219,24 @@ BWOEvents.Entertainer = function(params)
             bandit.femaleChance = 0
             bandit.weapons.melee = "Base.GuitarElectricBass"
         elseif rnd == 2 then
-            -- bandit.outfit = "Rocker"
-            -- bandit.femaleChance = 0
-            -- bandit.weapons.melee = "Base.GuitarAcoustic"
-            bandit.outfit = "Priest"
-            bandit.femaleChance = 0
-            icon = "media/ui/cross.png"
-        elseif rnd == 3 then
             bandit.outfit = "Joan"
             bandit.femaleChance = 100
             bandit.weapons.melee = "Base.Violin"
-        elseif rnd == 4 then
+        elseif rnd == 3 then
             bandit.outfit = "John"
             bandit.femaleChance = 0
             bandit.weapons.melee = "Base.Saxophone"
-        elseif rnd == 5 then
-            -- bandit.outfit = "Duke"
-            -- bandit.femaleChance = 0
-            -- bandit.weapons.melee = "Base.Flute"
-            bandit.outfit = "Priest"
-            bandit.femaleChance = 0
-            icon = "media/ui/cross.png"
-        elseif rnd == 6 then
+        elseif rnd == 4 then
             bandit.outfit = "Young"
             bandit.femaleChance = 0
             local cassette = "Tsarcraft.CassetteBanditBreakdance01"
             addBoomBox(event.x, event.y, 0, cassette)
-        elseif rnd == 7 then
+        elseif rnd == 5 then
             bandit.outfit = "AuthenticClown"
             bandit.femaleChance = 0
-        elseif rnd == 8 then
+        elseif rnd == 6 then
             bandit.outfit = "AuthenticClownObese"
             bandit.femaleChance = 0
-        elseif rnd == 9 then
-            bandit.outfit = "Priest"
-            bandit.femaleChance = 0
-            icon = "media/ui/cross.png"
         end
 
         table.insert(event.bandits, bandit)
@@ -1284,8 +1280,8 @@ BWOEvents.BuildingParty = function(params)
                     for i=0, objects:size()-1 do
                         local object = objects:get(i)
                         if instanceof(object, "IsoLightSwitch") then
-                            object:setCanBeModified(true)
-                            object:setActivated(false)
+                            -- object:setCanBeModified(true) --b42
+                            -- object:setActivated(false) --b42
                             object:setActive(false)
                             local lightList = object:getLights()
                             if lightList:size() > 0 then
@@ -1357,10 +1353,10 @@ BWOEvents.BuildingParty = function(params)
     if otable then
         local tableSquare = otable:getSquare()
         local surfaceOffset = BanditUtils.GetSurfaceOffset(tableSquare:getX(), tableSquare:getY(), tableSquare:getZ())
-        local item1 = instanceItem("Base.PizzaWhole")
+        local item1 = BanditCompatibility.InstanceItem("Base.PizzaWhole")
         tableSquare:AddWorldInventoryItem(item1, 0.6, 0.6, surfaceOffset)
         
-        local item2 = instanceItem("Base.Wine2")
+        local item2 = BanditCompatibility.InstanceItem("Base.Wine2")
         tableSquare:AddWorldInventoryItem(item2, 0.2, 0.2, surfaceOffset)
     end
 
@@ -1515,8 +1511,13 @@ BWOEvents.CallSWAT = function(params)
     event.bandits = {}
             
     local bandit = BanditCreator.MakeFromWave(config)
-    --bandit.outfit = "ZSPoliceSpecialOps"
-    bandit.outfit = "Police_SWAT"
+
+    if BanditCompatibility.GetGameVersion() >= 42 then
+        bandit.outfit = "Police_SWAT"
+    else
+        bandit.outfit = "ZSPoliceSpecialOps"
+    end
+    
     bandit.accuracyBoost = 1.3
     bandit.femaleChance = 0
     bandit.weapons.melee = "Base.Nightstick"
@@ -1825,7 +1826,7 @@ BWOEvents.Criminals = function(params)
     event.program.name = "Bandit"
     event.program.stage = "Prepare"
 
-    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(40,45))
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(45,55))
     if spawnPoint then
         event.x = spawnPoint.x
         event.y = spawnPoint.y
@@ -1871,7 +1872,7 @@ BWOEvents.Bandits = function(params)
     event.program.name = "Bandit"
     event.program.stage = "Prepare"
 
-    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(40,45))
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(45,60))
     if spawnPoint then
         event.x = spawnPoint.x
         event.y = spawnPoint.y
@@ -2070,6 +2071,57 @@ BWOEvents.Scientists = function(params)
         if density > 1.5 then density = 1.5 end
 
         local intensity = math.floor(params.intensity * density * SandboxVars.BanditsWeekOne.BanditsPopMultiplier + 0.4)
+
+        if intensity > 0 then
+            for i=1, intensity do
+                table.insert(event.bandits, bandit)
+            end
+            sendClientCommand(player, 'Commands', 'SpawnGroup', event)
+        end
+
+        if SandboxVars.Bandits.General_ArrivalIcon then
+            local icon = "media/ui/raid.png"
+            local color = {r=1, g=0, b=0} -- red
+            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+        end
+    end
+end
+
+-- params: [intensity]
+BWOEvents.Shahids = function(params)
+
+    local player = getSpecificPlayer(0)
+
+    config = {}
+    config.clanId = 11
+    config.hasRifleChance = 0
+    config.hasPistolChance = 0
+    config.rifleMagCount = 0
+    config.pistolMagCount = 0
+
+    local event = {}
+    event.hostile = true
+    event.occured = false
+    event.program = {}
+    event.program.name = "Shahid"
+    event.program.stage = "Prepare"
+
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(45,55))
+    if spawnPoint then
+        event.x = spawnPoint.x
+        event.y = spawnPoint.y
+        event.bandits = {}
+        
+        local bandit = BanditCreator.MakeFromWave(config)
+        bandit.femaleChance = 0
+        bandit.skinTexture = "MaleBody03a"
+        bandit.hairStyle = "Fabian"
+        bandit.hairColor = {r=0, g=0, b=0}
+        bandit.beardStyle = "Long"
+        bandit.beardColor = {r=0, g=0, b=0}
+        bandit.outfit = "BWOBomber"
+        
+        local intensity = params.intensity
 
         if intensity > 0 then
             for i=1, intensity do

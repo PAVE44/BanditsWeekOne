@@ -82,7 +82,7 @@ ZombiePrograms.Gardener.Main = function(bandit)
     inventory:getAllEvalRecurse(predicateWateringCan, npiList)
     local npiCnt = npiList:size()
     if npiCnt == 0 then
-        local item = instanceItem("Bandits.WateringCan")
+        local item = BanditCompatibility.InstanceItem("Bandits.WateringCan")
         inventory:AddItem(item)
         Bandit.UpdateItemsToSpawnAtDeath(bandit)
     end

@@ -315,7 +315,11 @@ table.insert(BWOSquareLoader.exclusions, {x1=5000, y1=12000, x2=6200, y2=13000})
 table.insert(BWOSquareLoader.events, {phase="Emitter", x=5572, y=12489, z=0, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- fake control room
 table.insert(BWOSquareLoader.events, {phase="Emitter", x=5575, y=12473, z=0, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- entrance
 table.insert(BWOSquareLoader.events, {phase="Emitter", x=5562, y=12464, z=0, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- back
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=5556, y=12446, z=-16, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- real control room
+
+if BanditCompatibility.GetGameVersion() >= 42 then
+    table.insert(BWOSquareLoader.events, {phase="Emitter", x=5556, y=12446, z=-16, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- real control room
+end
+
 -- defender teams
 table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5572, y=12489, z=0, intensity = 2}) -- control room
 table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5582, y=12486, z=0, intensity = 3}) -- entrance in
@@ -324,7 +328,8 @@ table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5586, y=12483, z=
 table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5573, y=12484, z=0, intensity = 1}) -- door
 table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5609, y=12483, z=0, intensity = 4}) -- gateway
 table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5833, y=12490, z=0, intensity = 2}) -- booth
-table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5831, y=12484, z=0, intensity = 3}) -- szlaban
+table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5831, y=12484, z=0, intensity = 4}) -- szlaban
+table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5530, y=12489, z=0, intensity = 5}) -- back
 -- table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5558, y=12447, z=-16, intensity = 3}) -- underground armory
 
 
@@ -629,7 +634,7 @@ BWOSquareLoader.VehicleFixOrRemove = function()
                 if scriptName:embodies("Burnt") or scriptName:embodies("Smashed") or not engine or engine:getCondition() < 50 then
                     table.insert(toDelete, vehicle)
                 else
-                    vehicle:repair()
+                    BWOVehicles.Repair(vehicle)
                     vehicle:removeKeyFromDoor()
                     vehicle:removeKeyFromIgnition()
                     vehicle:setTrunkLocked(true)
@@ -645,12 +650,6 @@ BWOSquareLoader.VehicleFixOrRemove = function()
 
                     if ZombRand(12) == 0 then
                         vehicle:addKeyToGloveBox()
-                    end
-
-                    local gasTank = vehicle:getPartById("GasTank")
-                    if gasTank then
-                        local max = gasTank:getContainerCapacity() * 0.8
-                        gasTank:setContainerContentAmount(ZombRandFloat(0, max))
                     end
 
                     local key = vehicle:getCurrentKey()

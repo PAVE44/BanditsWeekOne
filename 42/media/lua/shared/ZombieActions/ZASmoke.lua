@@ -2,7 +2,7 @@ ZombieActions = ZombieActions or {}
 
 ZombieActions.Smoke = {}
 ZombieActions.Smoke.onStart = function(zombie, task)
-    local fakeItem = instanceItem("Bandits.Cigarette")
+    local fakeItem = BanditCompatibility.InstanceItem("Bandits.Cigarette")
     zombie:setSecondaryHandItem(fakeItem)
 
     return true

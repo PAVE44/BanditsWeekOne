@@ -77,7 +77,7 @@ BWOEffects.Process = function()
                     -- method b41
                     -- effect.object:setSprite(IsoSprite.new())
                     -- effect.object:getSprite():LoadFramesNoDirPageSimple("media/textures/FX/" .. effect.name .. "/" .. frameStr .. ".png")
-                    effect.object:setAlpha(0.2)
+                    -- effect.object:setAlpha(0.2)
                     if effect.colors then
                         effect.object:setCustomColor(effect.colors.r, effect.colors.g, effect.colors.b, effect.colors.a)
                     end

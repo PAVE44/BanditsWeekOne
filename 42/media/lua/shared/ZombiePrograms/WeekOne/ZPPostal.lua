@@ -85,7 +85,7 @@ ZombiePrograms.Postal.Main = function(bandit)
     local npiCnt = npiList:size()
     if npiCnt == 0 then
         for i=0, 20 do
-            local item = instanceItem("Base.Newspaper")
+            local item = BanditCompatibility.InstanceItem("Base.Newspaper")
             inventory:AddItem(item)
         end
         Bandit.UpdateItemsToSpawnAtDeath(bandit)

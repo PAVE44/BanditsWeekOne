@@ -154,7 +154,7 @@ end
 BWOPlayer.Earn = function(character, cnt)
     local inventory = character:getInventory()
     for i=1, cnt do
-        local item = instanceItem("Base.Money")
+        local item = BanditCompatibility.InstanceItem("Base.Money")
         inventory:AddItem(item)
     end
     character:addLineChatElement("Earn: +$" .. cnt .. ".00", 0, 1, 0)
@@ -347,7 +347,7 @@ local onZombieDead = function(zombie)
 
     if brain.bag then
         if brain.bag == "Briefcase" then
-            local bag = instanceItem("Base.Briefcase")
+            local bag = BanditCompatibility.InstanceItem("Base.Briefcase")
             local bagContainer = bag:getItemContainer()
             if bagContainer then
                 local rn = ZombRand(3)
@@ -357,16 +357,19 @@ local onZombieDead = function(zombie)
                         bagContainer:AddItem(money)
                     end
                 elseif rn == 1 then
-                    local c1 = instanceItem("Base.Corset_Black")
-                    local c2 = instanceItem("Base.StockingsBlack")
-                    local c3 = instanceItem("Base.Hat_PeakedCapYacht")
+                    local c1 = BanditCompatibility.InstanceItem("Base.Corset_Black")
+                    local c2 = BanditCompatibility.InstanceItem("Base.StockingsBlack")
+                    local c3 = BanditCompatibility.InstanceItem("Base.Hat_PeakedCapArmy")
                     bagContainer:AddItem(c1)
                     bagContainer:AddItem(c2)
                     bagContainer:AddItem(c3)
                 elseif rn == 2 then
-                    local c1 = instanceItem("Base.Machete")
-                    local c2 = instanceItem("Base.Hat_HalloweenMaskVampire")
-                    local c3 = instanceItem("Base.BlackRobe")
+                    local c1 = BanditCompatibility.InstanceItem("Base.Machete")
+
+                    if BanditCompatibility.GetGameVersion() >= 42 then
+                        local c2 = BanditCompatibility.InstanceItem("Base.Hat_HalloweenMaskVampire")
+                        local c3 = BanditCompatibility.InstanceItem("Base.BlackRobe")
+                    end
                     bagContainer:AddItem(c1)
                     bagContainer:AddItem(c2)
                     bagContainer:AddItem(c3)
@@ -377,7 +380,7 @@ local onZombieDead = function(zombie)
     end
 
     if brain.key and ZombRand(3) == 1 then
-        local item = instanceItem("Base.Key1")
+        local item = BanditCompatibility.InstanceItem("Base.Key1")
         item:setKeyId(brain.key)
         item:setName("Building Key")
         bandit:getInventory():AddItem(item)
@@ -604,7 +607,13 @@ local onInventoryTransferAction = function(data)
                     local room = destContainer:getSquare():getRoom()
                     if room and BWORooms.IsKitchen(room) and (BWORooms.IsRestaurant(room) or BWORooms.IsShop(room)) then
                         if descContainerType == "fridge" or descContainerType == "freezer" then
-                            local fishOptions = {"Base.SmallmouthBass", "Base.LargemouthBass", "Base.SpottedBass", "Base.StripedBass", "Base.WhiteBass", "Base.BlueCatfish", "Base.ChannelCatfish", "Base.FlatheadCatfish", "Base.RedearSunfish", "Base.Crayfish", "Base.BlackCrappie", "Base.WhiteCrappie", "Base.Paddlefish", "Base.YellowPerch", "Base.Pike", "Base.Panfish", "Base.Trout"}
+                            local fishOptions = {"Base.Bass", "Base.SmallmouthBass", "Base.LargemouthBass", "Base.SpottedBass", "Base.StripedBass", "Base.WhiteBass", 
+                                                 "Base.Catfish", "Base.BlueCatfish", "Base.ChannelCatfish", "Base.FlatheadCatfish", 
+                                                 "Base.Panfish", "Base.RedearSunfish", "Base.Crayfish", 
+                                                 "Base.Crappie", "Base.BlackCrappie", "Base.WhiteCrappie", 
+                                                 "Base.Perch", "Base.Paddlefish", "Base.YellowPerch", 
+                                                 "Base.Pike", "Base.Trout"}
+
                             for _, fishOption in pairs(fishOptions) do
                                 if itemType == fishOption then
                                     local weight = item:getActualWeight()

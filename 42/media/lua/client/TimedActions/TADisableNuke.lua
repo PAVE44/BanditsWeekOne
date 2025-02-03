@@ -23,7 +23,12 @@ end
 
 function TADisableNuke:perform()
     self.character:stopOrTriggerSound(self.sound)
-    local emitter = getWorld():getFreeEmitter(5556, 12446, -16)
+    local emitter
+    if BanditCompatibility.GetGameVersion() >= 42 then
+        emitter = getWorld():getFreeEmitter(5556, 12446, -16)
+    else
+        emitter = getWorld():getFreeEmitter(5572, 12486, 0)
+    end
     emitter:playSound("ZSCompSuccess")
     BWOServer.Commands.NukesDisable(self.character, {confirm=true})
     -- BWOSquareLoader.nukes = {}
