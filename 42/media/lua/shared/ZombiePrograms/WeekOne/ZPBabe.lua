@@ -220,3 +220,63 @@ ZombiePrograms.Babe.Follow = function(bandit)
 
     return {status=true, next="Follow", tasks=tasks}
 end
+
+ZombiePrograms.Babe.Guard = function(bandit)
+    local tasks = {}
+
+    local action = ZombRand(7)
+
+    if action == 0 then
+        local task = {action="Time", anim="ShiftWeight", time=200}
+        table.insert(tasks, task)
+    elseif action == 1 then
+        local task = {action="Time", anim="Cough", time=200}
+        table.insert(tasks, task)
+    elseif action == 2 then
+        local task = {action="Time", anim="ChewNails", time=200}
+        table.insert(tasks, task)
+    elseif action == 3 then
+        local task = {action="Time", anim="Smoke", time=200}
+        table.insert(tasks, task)
+        table.insert(tasks, task)
+        table.insert(tasks, task)
+    elseif action == 4 then
+        local task = {action="Time", anim="PullAtCollar", time=200}
+        table.insert(tasks, task)
+    elseif action == 5 then
+        local task = {action="Time", anim="Sneeze", time=200}
+        table.insert(tasks, task)
+        addSound(getPlayer(), bandit:getX(), bandit:getY(), bandit:getZ(), 7, 60)
+    elseif action == 6 then
+        local task = {action="Time", anim="WipeBrow", time=200}
+        table.insert(tasks, task)
+    elseif action == 7 then
+        local task = {action="Time", anim="WipeHead", time=200}
+        table.insert(tasks, task)
+    end
+    return {status=true, next="Guard", tasks=tasks}
+end
+
+ZombiePrograms.Babe.Base = function(bandit)
+    local tasks = {}
+
+    local brain = BanditBrain.Get(bandit)
+    local bx = bandit:getX()
+    local by = bandit:getY()
+
+    local hx = brain.bornCoords.x
+    local hy = brain.bornCoords.y
+    local hz = brain.bornCoords.z
+    
+    local walkType = "Walk"
+    local endurance = 0
+
+    local dist = BanditUtils.DistTo(bx, by, hx, hy)
+    if dist > 2 then
+        table.insert(tasks, BanditUtils.GetMoveTask(endurance, hx, hy, hz, walkType, dist, false))
+        return {status=true, next="Base", tasks=tasks}
+    else
+        return {status=true, next="Guard", tasks=tasks}
+    end
+    return {status=true, next="Base", tasks=tasks}
+end

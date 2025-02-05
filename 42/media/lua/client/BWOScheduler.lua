@@ -335,6 +335,17 @@ function BWOScheduler.MasterControl()
     end
 
     local function adjustSandboxVar(k, v)
+
+        -- b41
+        -- Sandbox_Rarity_option1 = "None (not recommended)",
+        -- Sandbox_Rarity_option2 = "Insanely Rare",
+        -- Sandbox_Rarity_option3 = "Extremely Rare",
+        -- Sandbox_Rarity_option4 = "Rare",
+        -- Sandbox_Rarity_option5 = "Normal",
+        -- Sandbox_Rarity_option6 = "Common",
+        -- Sandbox_Rarity_option7 = "Abundant",
+
+
         getSandboxOptions():set(k, v)
         SandboxVars[k] = v
     end
@@ -352,14 +363,15 @@ function BWOScheduler.MasterControl()
             adjustSandboxVar("TrafficJam", false)
             adjustSandboxVar("CarSpawnRate", 5)
             adjustSandboxVar("Helicopter", 1)
-
-            local vars = BWOCompatibility.GetSandboxOptionVars()
+            
             -- lerp
-    
-            local t = BWOScheduler.WorldAge / 64
-            for _, var in pairs(vars) do
-                local val = (var[3] - var[2]) * t + var[2]
-                adjustSandboxVar(var[1], val)
+            if BanditCompatibility.GetGameVersion() >= 42 then
+                local vars = BWOCompatibility.GetSandboxOptionVars()
+                local t = BWOScheduler.WorldAge / 64
+                for _, var in pairs(vars) do
+                    local val = (var[3] - var[2]) * t + var[2]
+                    adjustSandboxVar(var[1], val)
+                end
             end
         else
             adjustSandboxVar("SurvivorHouseChance", 6)

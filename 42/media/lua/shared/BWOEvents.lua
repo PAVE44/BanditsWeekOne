@@ -567,7 +567,7 @@ BWOEvents.Start = function(params)
         local keyId = buildingDef:getKeyId()
 
         -- register player home
-        local args = {id=keyId, event="home"}
+        local args = {id=keyId, event="home", x=(buildingDef:getX() + buildingDef:getX2()) / 2, y=(buildingDef:getY() + buildingDef:getY2()) / 2}
         sendClientCommand(player, 'Commands', 'EventBuildingAdd', args)
 
         -- generate home key
@@ -1360,7 +1360,7 @@ BWOEvents.BuildingParty = function(params)
         tableSquare:AddWorldInventoryItem(item2, 0.2, 0.2, surfaceOffset)
     end
 
-    local args = {id=id, event="party"}
+    local args = {id=id, event="party", x=(bx + bx2) / 2, y=(by + by2) / 2}
     sendClientCommand(player, 'Commands', 'EventBuildingAdd', args)
 
     -- inhabitants

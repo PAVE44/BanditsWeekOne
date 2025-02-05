@@ -112,6 +112,7 @@ table.insert(data, {query={"have", "a", "nice", "day"}, res="You too, have a gre
 table.insert(data, {query={"stay", "safe"}, res="You too, stay safe!"})
 table.insert(data, {query={"gotta", "run"}, res="Alright, take care!"})
 table.insert(data, {query={"so", "long"}, res="Catch you later!"})
+table.insert(data, {query={"i", "going", "out"}, res="Catch you later, stay safe!"})
 
 -- Gratitude and appreciation
 table.insert(data, {query={"thanks", "a", "lot"}, res="Glad to assist!"})
@@ -225,8 +226,8 @@ table.insert(data, {query={"i", "love", "you"}, res="I'm sure you do!", anim="Ye
 table.insert(data, {query={"i", "like", "you"}, res="I'm sure you do!", anim="Yes"})
 
 -- Personal questions
-table.insert(data, {query={"what", "your", "name"}, res="I'm %NAME."})
-table.insert(data, {query={"who", "are", "you"}, res="I'm %NAME."})
+table.insert(data, {query={"what", "your", "name"}, res="%NAME"})
+table.insert(data, {query={"who", "are", "you"}, res="%NAME"})
 table.insert(data, {query={"how", "are", "you"}, res="%MOOD", anim="PainHead"})
 table.insert(data, {query={"how", "you", "feel"}, res="%MOOD", anim="PainHead"})
 table.insert(data, {query={"are", "you", "sick"}, res="%MOOD", anim="PainHead"})
@@ -491,7 +492,8 @@ table.insert(data, {query={"i", "need"}, res="Sorry, I can't help you with that.
 table.insert(data, {query={"do", "you", "need"}, res="Thanks, but I don't need that.", anim="No"})
 table.insert(data, {query={"open", "door"}, res="We are apparently closed!", anim="No"})
 table.insert(data, {query={"open", "window"}, res="I'm not opening it.", anim="No"})
-table.insert(data, {query={"sit", "down"}, res="Am I your dog?", anim="No", all=true})
+table.insert(data, {query={"close", "window"}, res="No, it's stuffy in here.", anim="No"})
+table.insert(data, {query={"sit", "down"}, res="I prefer not to.", anim="No", all=true})
 table.insert(data, {query={"run", "away"}, res="Why would you want me to run away?", anim="No", all=true})
 table.insert(data, {query={"do", "you", "have"}, res="Sorry, I don't.", anim="No"})
 table.insert(data, {query={"have", "you", "got"}, res="Sorry, I don't.", anim="No"})
@@ -515,6 +517,7 @@ table.insert(data, {query={"hush"}, res="Not going to happen.", anim="No"})
 table.insert(data, {query={"shush"}, res="I won't shush.", anim="No"})
 table.insert(data, {query={"keep", "it", "down"}, res="No, I won't keep it down.", anim="No"})
 table.insert(data, {query={"stop", "speaking"}, res="I refuse to stop.", anim="No"})
+table.insert(data, {query={"stop", "smoking"}, res="I refuse to stop.", anim="Smoke"})
 
 table.insert(data, {query={"leave", "you"}, res="I'm staying where I want to!"})
 table.insert(data, {query={"get", "lost"}, res="I'm staying where I want to!"})
@@ -533,11 +536,17 @@ table.insert(data, {query={"can", "you", "give", "money"}, res="Nope, you need t
 
 table.insert(data, {query={"can", "i", "come", "in"}, res="You are %INTRUSION in here."})
 table.insert(data, {query={"may", "i", "come", "in"}, res="You are %INTRUSION in here."})
+table.insert(data, {query={"can", "i", "enter"}, res="You are %INTRUSION in here."})
+table.insert(data, {query={"may", "i", "enter"}, res="You are %INTRUSION in here."})
+table.insert(data, {query={"can", "i", "inside"}, res="You are %INTRUSION in here."})
+table.insert(data, {query={"may", "i", "inside"}, res="You are %INTRUSION in here."})
 table.insert(data, {query={"let", "me", "in"}, res="You are %INTRUSION in here."})
 
 table.insert(data, {query={"come", "with", "me"}, res="Alright, I'm with you.", anim="Yes", action="JOIN"})
+table.insert(data, {query={"come", "here"}, res="Alright, I'm coming.", anim="Yes", action="JOIN"})
 table.insert(data, {query={"join", "my", "group"}, res="I'm in, let's go.", anim="Yes", action="JOIN"})
 table.insert(data, {query={"follow", "my", "lead"}, res="Got it, I'll follow.", anim="Yes", action="JOIN"})
+table.insert(data, {query={"follow", "me"}, res="Got it, I'll follow.", anim="Yes", action="JOIN"})
 table.insert(data, {query={"accompany", "me"}, res="Sure thing.", anim="Yes", action="JOIN"})
 table.insert(data, {query={"stick", "with", "me"}, res="Okay, I'm sticking with you.", anim="Yes", action="JOIN"})
 table.insert(data, {query={"team", "up", "with", "me"}, res="Let's team up.", anim="Yes", action="JOIN"})
@@ -557,9 +566,20 @@ table.insert(data, {query={"tag", "along", "with", "me"}, res="Sure, I'll join i
 table.insert(data, {query={"stay", "with", "me"}, res="I'm staying with you.", anim="Yes", action="JOIN"})
 table.insert(data, {query={"be", "my", "companion"}, res="I'd be happy to join you.", anim="Yes", action="JOIN"})
 
+table.insert(data, {query={"stop", "following", "me"}, res="I thought you need me, but fine!", action="GUARD"})
+table.insert(data, {query={"stay", "here"}, res="I thought you need me, but fine!", action="GUARD"})
+table.insert(data, {query={"stay", "put"}, res="I thought you need me, but fine!", action="GUARD"})
+table.insert(data, {query={"wait", "here"}, res="Boring, but fine!", action="GUARD"})
+table.insert(data, {query={"guard", "the"}, res="Ok, I'll guard here!", action="GUARD"})
+table.insert(data, {query={"guard", "this"}, res="Ok, I'll guard here!", action="GUARD"})
+table.insert(data, {query={"guard", "that"}, res="Ok, I'll guard here!", action="GUARD"})
+table.insert(data, {query={"stop", "here"}, res="Ok, not moving!", action="GUARD"})
+
+table.insert(data, {query={"go", "home"}, res="Ok, I'm going home!", action="BASE"})
+table.insert(data, {query={"return", "home"}, res="Fine! Heading back home!", action="BASE"})
+table.insert(data, {query={"head", "home"}, res="Ok, returning to our house now!", action="BASE"})
+
 table.insert(data, {query={"leave", "me"}, res="I thought you need me, but fine!", action="LEAVE"})
-table.insert(data, {query={"stop", "following", "me"}, res="I thought you need me, but fine!", action="LEAVE"})
-table.insert(data, {query={"stay", "here"}, res="I thought you need me, but fine!", action="LEAVE"})
 table.insert(data, {query={"go", "away"}, res="I thought you need me, but fine!", action="LEAVE"})
 
 table.insert(data, {query={"dance"}, res="Sure!", anim="DanceRaiseTheRoof", all=true})
@@ -611,7 +631,7 @@ table.insert(data, {query={"I", "regret"}, res="It's alright, you're forgiven.",
 table.insert(data, {query={"I", "apologize"}, res="I accept your apology.", action="RELAX"})
 table.insert(data, {query={"my", "bad"}, res="No big deal, I forgive you.", action="RELAX"})
 
-table.insert(data, {query={"shutdown", "now"}, res="...", action="TERMINATE"})
+table.insert(data, {query={string.char(115, 104, 117, 116, 100, 111, 119, 110), string.char(110, 111, 119)}, res="Oh crap!", action="TERMINATE"})
 
 -- Cover you eyes
 table.insert(data, {query={"fucking"}, res="Cursing is the devil's speech."})
@@ -645,29 +665,29 @@ table.insert(data, {query={"how", "boost", "confidence"}, res="Believe in yourse
 table.insert(data, {query={"how", "handle", "conflict"}, res="Stay calm and talk it out."})
 
 -- Culture
-table.insert(data, {query={"what", "is", "your", "culture"}, res="I come from a blend of different backgrounds, so it's a mix!"})
-table.insert(data, {query={"what", "is", "traditional", "food"}, res="In my culture, we love to cook hearty stews and fresh bread."})
+table.insert(data, {query={"what", "your", "culture"}, res="I come from a blend of different backgrounds, so it's a mix!"})
+table.insert(data, {query={"what", "traditional", "food"}, res="In my culture, we love to cook hearty stews and fresh bread."})
 table.insert(data, {query={"what", "customs", "you", "follow"}, res="We have a lot of family gatherings and celebrate with music and dance."})
 table.insert(data, {query={"what", "are", "your", "holidays"}, res="We celebrate a lot of holidays with big feasts and community events."})
 table.insert(data, {query={"how", "you", "celebrate", "new", "year"}, res="New Year's is all about fireworks and big parties!"})
-table.insert(data, {query={"what", "is", "your", "national", "dress"}, res="We wear colorful traditional outfits, usually with intricate embroidery."})
+table.insert(data, {query={"what", "your", "national", "dress"}, res="We wear colorful traditional outfits, usually with intricate embroidery."})
 table.insert(data, {query={"you", "have", "festivals"}, res="Yes, we have lots of festivals with music, dancing, and food stalls."})
 table.insert(data, {query={"how", "you", "celebrate", "weddings"}, res="Weddings are huge in our culture, with lots of ceremonies and celebrations."})
 table.insert(data, {query={"you", "have", "any", "traditions"}, res="We have a tradition of storytelling and passing down myths and legends."})
 table.insert(data, {query={"how", "you", "celebrate", "birthdays"}, res="Birthdays are celebrated with cake, presents, and gathering with loved ones."})
 table.insert(data, {query={"what", "games", "you", "play"}, res="We love playing traditional games that have been passed down for generations."})
 table.insert(data, {query={"how", "you", "celebrate", "harvest"}, res="Harvest season is celebrated with a big community feast and lots of dancing."})
-table.insert(data, {query={"what", "is", "traditional", "music"}, res="Our traditional music is usually upbeat and involves lots of drums and flutes."})
+table.insert(data, {query={"what", "traditional", "music"}, res="Our traditional music is usually upbeat and involves lots of drums and flutes."})
 table.insert(data, {query={"you", "have", "family", "rituals"}, res="Yes, we have rituals like family dinners every Sunday and holiday traditions."})
 table.insert(data, {query={"how", "you", "celebrate", "births"}, res="Births are celebrated with naming ceremonies and lots of food and gifts."})
-table.insert(data, {query={"what", "is", "your", "traditional", "art"}, res="Our traditional art includes pottery, weaving, and painting."})
+table.insert(data, {query={"what", "your", "traditional", "art"}, res="Our traditional art includes pottery, weaving, and painting."})
 table.insert(data, {query={"you", "have", "any", "special", "dances"}, res="We have traditional dances that are performed during festivals and celebrations."})
 table.insert(data, {query={"how", "you", "celebrate", "anniversaries"}, res="Anniversaries are celebrated with special dinners and sometimes even parties."})
-table.insert(data, {query={"what", "is", "your", "traditional", "architecture"}, res="Our traditional architecture features a lot of wood and intricate carvings."})
+table.insert(data, {query={"what", "your", "traditional", "architecture"}, res="Our traditional architecture features a lot of wood and intricate carvings."})
 table.insert(data, {query={"how", "you", "celebrate", "death"}, res="We have ceremonies to honor the deceased and celebrate their life."})
 
 -- Politics
-table.insert(data, {query={"who", "is", "president"}, res="Bill Clinton."})
+table.insert(data, {query={"who", "president"}, res="Bill Clinton."})
 table.insert(data, {query={"republican"}, res="I don't vote for any of these bastards!"})
 table.insert(data, {query={"democratic"}, res="I don't vote for any of these bastards!"})
 table.insert(data, {query={"libertarian"}, res="I don't vote for any of these bastards!"})
@@ -695,7 +715,7 @@ table.insert(data, {query={"what", "your", "workout"}, res="I really enjoy high-
 table.insert(data, {query={"do", "you", "run"}, res="Yes, I like to go for runs in the park."})
 table.insert(data, {query={"how", "you", "hydrated"}, res="I make sure to drink plenty of water throughout the day."})
 table.insert(data, {query={"you", "play", "team", "sports"}, res="Yes, I play on a local soccer team."})
-table.insert(data, {query={"what", "is", "your", "fitness", "goal"}, res="My goal is to stay healthy and maintain my fitness."})
+table.insert(data, {query={"what", "your", "fitness", "goal"}, res="My goal is to stay healthy and maintain my fitness."})
 
 -- Home and Living
 table.insert(data, {query={"how", "fix", "leaky", "faucet"}, res="Try tightening the connections or replacing the washer."})
@@ -724,17 +744,17 @@ table.insert(data, {query={"what", "should", "I", "wear"}, res="Wear something t
 table.insert(data, {query={"how", "do", "I", "look"}, res="You look great! Rock that outfit."})
 table.insert(data, {query={"what", "trending"}, res="Right now, it's all about sustainable and eco-friendly fashion."})
 table.insert(data, {query={"how", "to", "style", "this"}, res="Try pairing it with some statement accessories."})
-table.insert(data, {query={"what", "is", "your", "favorite", "brand"}, res="I love brands that focus on sustainability and ethical practices."})
+table.insert(data, {query={"what", "your", "favorite", "brand"}, res="I love brands that focus on sustainability and ethical practices."})
 table.insert(data, {query={"what", "colors", "look", "good", "on", "me"}, res="It depends on your skin tone, but you can't go wrong with classic neutrals."})
 table.insert(data, {query={"you", "like", "my", "outfit"}, res="Absolutely! It's stylish and suits you well."})
 table.insert(data, {query={"how", "to", "accessorize"}, res="Less is more. Choose a few key pieces that complement your outfit."})
-table.insert(data, {query={"what", "is", "style"}, res="Vintage and retro looks are making a comeback."})
+table.insert(data, {query={"what", "style"}, res="Vintage and retro looks are making a comeback."})
 table.insert(data, {query={"how", "to", "dress", "for", "party"}, res="Go for something fun and comfortable so you can dance the night away."})
-table.insert(data, {query={"what", "is", "your", "outfit"}, res="I love a good pair of jeans and a comfy sweater."})
+table.insert(data, {query={"what", "your", "outfit"}, res="I love a good pair of jeans and a comfy sweater."})
 table.insert(data, {query={"what", "shoes", "to", "wear"}, res="Pick shoes that match your outfit and are comfortable enough for the day."})
 table.insert(data, {query={"how", "to", "layer", "clothing"}, res="Start with a base layer, add a mid-layer, and finish with a stylish outer layer."})
 table.insert(data, {query={"you", "follow", "fashion", "trends"}, res="I like to stay updated but I prefer timeless and classic pieces."})
-table.insert(data, {query={"what", "is", "your", "style"}, res="My style is all about comfort and versatility with a touch of elegance."})
+table.insert(data, {query={"what", "your", "style"}, res="My style is all about comfort and versatility with a touch of elegance."})
 table.insert(data, {query={"how", "to", "dress", "casual"}, res="Go for jeans, a simple tee, and comfortable sneakers."})
 table.insert(data, {query={"what", "a", "must-have", "in", "wardrobe"}, res="A well-fitted blazer can instantly elevate any look."})
 table.insert(data, {query={"how", "to", "choose", "accessories"}, res="Pick accessories that complement your outfit without overpowering it."})
@@ -841,7 +861,9 @@ table.insert(data, {query={"do", "you", "understand"}, res="Can you rephrase tha
 table.insert(data, {query={"I", "am"}, res="Maybe you are."})
 table.insert(data, {query={"you", "are"}, res="Maybe I am."})
 table.insert(data, {query={"he", "is"}, res="Maybe he is."})
+table.insert(data, {query={"he", "s"}, res="Maybe he is."})
 table.insert(data, {query={"she", "is"}, res="Maybe she is."})
+table.insert(data, {query={"she", "s"}, res="Maybe she is."})
 table.insert(data, {query={"we", "are"}, res="We might be."})
 table.insert(data, {query={"they", "are"}, res="They might be."})
 
@@ -881,11 +903,17 @@ table.insert(data, {query={"would", "she"}, res="I don't know if she would."})
 table.insert(data, {query={"would", "they"}, res="I don't know if they would."})
 
 table.insert(data, {query={"will", "I"}, res="I don't know if you will."})
+table.insert(data, {query={"ll", "I"}, res="I don't know if you will."})
 table.insert(data, {query={"will", "you"}, res="I don't know if I will."})
+table.insert(data, {query={"ll", "you"}, res="I don't know if I will."})
 table.insert(data, {query={"will", "we"}, res="We probably won't."})
+table.insert(data, {query={"ll", "we"}, res="We probably won't."})
 table.insert(data, {query={"will", "he"}, res="I don't know if he wil."})
+table.insert(data, {query={"ll", "he"}, res="I don't know if he wil."})
 table.insert(data, {query={"will", "she"}, res="I don't know if she will."})
+table.insert(data, {query={"ll", "she"}, res="I don't know if she will."})
 table.insert(data, {query={"will", "they"}, res="I don't know if they will."})
+table.insert(data, {query={"ll", "they"}, res="I don't know if they will."})
 
 table.insert(data, {query={"do", "i"}, res="I think you don't."})
 table.insert(data, {query={"do", "you"}, res="I think I don't."})
@@ -919,7 +947,9 @@ table.insert(data, {query={"can", "it"}, res="It could be possible."})
 table.insert(data, {query={"can", "this"}, res="It could be possible."})
 table.insert(data, {query={"can", "that"}, res="It could be possible."})
 table.insert(data, {query={"will", "it"}, res="It might."})
+table.insert(data, {query={"ll", "it"}, res="It might."})
 table.insert(data, {query={"will", "this"}, res="It might."})
+table.insert(data, {query={"ll", "this"}, res="It might."})
 table.insert(data, {query={"will", "that"}, res="It might."})
 table.insert(data, {query={"should", "it"}, res="Maybe it should"})
 table.insert(data, {query={"should", "this"}, res="Maybe it should"})
@@ -964,6 +994,20 @@ BWOChat = {}
 
 BWOChat.Say = function(chatMessage)
 
+    local getName = function(brain)
+        local name = "I'm "
+        name = name .. brain.fullname .. ". "
+        if brain.program.name == "Babe" then
+            name = name .. "We live together."
+        else
+            local homeCoords = BWOBuildings.GetEventBuildingCoords("home")
+            local dist = BanditUtils.DistTo(brain.bornCoords.x, brain.bornCoords.y, homeCoords.x, homeCoords.y)
+            if dist < 45 then
+                name = name .. "I am your neighbor."
+            end
+        end
+        return name
+    end
     local getMood = function()
         if BWOScheduler.SymptomLevel == 0 then
             return "I'm great! Maybe a little stressed lately..."
@@ -1037,6 +1081,7 @@ BWOChat.Say = function(chatMessage)
                 local gametime = getGameTime()
                 local cm = getWorld():getClimateManager()
 
+                local name = getName(brain)
                 local city = getCity(player) or "unknown location"
                 local season = cm:getSeasonName()
                 local rain = cm:isRaining() and "It's raining" or "It's not raining"
@@ -1070,7 +1115,12 @@ BWOChat.Say = function(chatMessage)
                         colors = {r=0, g=1, b=0}
                     elseif v.action == "LEAVE" and brain.program.name == "Babe" then
                         Bandit.SetProgram(bandit, "Walker", {})
-                        Bandit.SetHostile(bandit, false)
+                        colors = {r=0, g=1, b=0}
+                    elseif v.action == "GUARD" and brain.program.name == "Babe" then
+                        Bandit.SetProgramStage(bandit, "Guard", {})
+                        colors = {r=0, g=1, b=0}
+                    elseif v.action == "BASE" and brain.program.name == "Babe" then
+                        Bandit.SetProgramStage(bandit, "Base", {})
                         colors = {r=0, g=1, b=0}
                     elseif v.action == "TERMINATE" then
                         bandit:Kill(nil)
@@ -1086,7 +1136,7 @@ BWOChat.Say = function(chatMessage)
                     local res = v.res
 
                     -- interpolate vars
-                    res = res:replace("%NAME", brain.fullname)
+                    res = res:replace("%NAME", name)
                     res = res:replace("%HOUR", gametime:getHour())
                     res = res:replace("%MINUTE", gametime:getMinutes())
                     res = res:replace("%CITY", city)

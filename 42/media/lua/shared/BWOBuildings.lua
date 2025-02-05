@@ -105,6 +105,16 @@ BWOBuildings.IsEventBuilding = function(building, event)
     return false
 end
 
+BWOBuildings.GetEventBuildingCoords = function(event)
+    local gmd = GetBWOModData()
+    for key, eb in pairs(gmd.EventBuildings) do
+        if eb.event == event then
+            return {x=eb.x, y=eb.y}
+        end
+    end
+    return false
+end
+
 BWOBuildings.IsRecentlyVisited = function(building)
     local buildingDef = building:getDef()
     local bid = BanditUtils.GetBuildingID(buildingDef)
