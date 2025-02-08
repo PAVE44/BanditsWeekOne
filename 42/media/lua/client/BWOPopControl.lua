@@ -263,7 +263,7 @@ BWOPopControl.InhabitantsSpawn = function(cnt)
                     local spawnRoomDef = spawnRoom:getRoomDef()
                     if spawnRoomDef then
                         local spawnSquare = spawnRoomDef:getFreeSquare()
-                        if spawnSquare and BanditCompatibility.HaveRoofFull(spawnSquare) and not BWOSquareLoader.IsInExclusion(spawnSquare:getX(), spawnSquare:getY()) then
+                        if spawnSquare and not spawnSquare:getZombie() and not spawnSquare:isOutside() and spawnSquare:isFree(false) and BanditCompatibility.HaveRoofFull(spawnSquare) and not BWOSquareLoader.IsInExclusion(spawnSquare:getX(), spawnSquare:getY()) then
                             event.x = spawnSquare:getX()
                             event.y = spawnSquare:getY()
                             event.z = spawnSquare:getZ()

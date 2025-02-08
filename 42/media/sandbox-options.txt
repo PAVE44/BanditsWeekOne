@@ -6,7 +6,7 @@ option BanditsWeekOne.StartBabe = {
 }
 
 option BanditsWeekOne.StartRide = {
-    type = boolean, default = false,
+    type = boolean, default = true,
     page = BanditsWeekOne, translation = BanditsWeekOne.StartRide,
 }
 

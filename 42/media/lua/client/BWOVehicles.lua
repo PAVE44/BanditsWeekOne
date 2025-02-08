@@ -182,7 +182,6 @@ BWOVehicles.FindSpawnPoint = function(player)
     local getInfo = function(x, y)
         local res = {}
         res.valid = false
-
   
         -- check in x
         local xlen = 0
@@ -318,7 +317,7 @@ BWOVehicles.FindSpawnPoint = function(player)
     local res = list[1]
     if res.valid then
         local x, y, dir
-        local btype = BanditUtils.Choice(BWOVehicles.carChoices)
+        local btype = BWOCompatibility.GetCarType(BanditUtils.Choice(BWOVehicles.carChoices))
         if res.toNorth and res.toSouth then
             if ZombRand(2) == 0 then
                 x = res.toNorth.x
@@ -557,13 +556,6 @@ local ManageVehicles = function(ticks)
                 npcAesthetics:setForename("Driver")
                 npcAesthetics:setSurname("Driver")
                 npcAesthetics:dressInNamedOutfit("Police")
-
-                local npcVisuals = npcAesthetics:getHumanVisual()
-                npcVisuals:setHairModel("OverEye")
-
-                local hairColor = ImmutableColor.new(0, 0, 0)
-                npcVisuals:setHairColor(hairColor)
-                npcVisuals:setSkinTextureIndex(1)
 
                 local driver = IsoPlayer.new(cell, npcAesthetics, square:getX(), square:getY(), square:getZ())
 

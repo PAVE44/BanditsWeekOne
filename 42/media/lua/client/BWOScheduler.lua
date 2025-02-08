@@ -271,9 +271,10 @@ local generateSchedule = function()
     tab[161][51] = {"SetHydroPower", {on=false}}
     tab[161][58] = {"SetHydroPower", {on=true}}
 
-    tab[162][8]  = {"BombRun", {intensity=6}}
+    tab[162][8]  = {"JetFighterRun", {intensity=1}}
     tab[162][24] = {"BombRun", {intensity=20}}
     tab[162][49] = {"BombRun", {intensity=18}}
+    tab[162][68] = {"JetFighterRun", {intensity=1}}
     tab[162][50] = {"SetHydroPower", {on=false}}
     tab[162][51] = {"SetHydroPower", {on=true}}
     tab[163][8]  = {"BombRun", {intensity=6}}
@@ -409,7 +410,7 @@ function BWOScheduler.MasterControl()
     local worldAge = calculateHourDifference(startHour, startDay, startMonth, startYear, hour, day, month, year)
     
     -- debug to jump to a certain hour
-    -- worldAge = worldAge + 167
+    -- worldAge = worldAge + 110
 
     BWOScheduler.WorldAge = worldAge
     
@@ -434,6 +435,22 @@ function BWOScheduler.MasterControl()
     -- registers certain exterior objects positions that npcs can interacts with
     BWOScheduler.World.GlobalObjectAdder = false
     if BWOScheduler.WorldAge < 90 then BWOScheduler.World.GlobalObjectAdder = true end
+
+    -- adds human corpses to simulate struggles outside of player cell
+    BWOScheduler.World.DeadBodyAdderDensity = 0
+    if BWOScheduler.WorldAge > 2330 then
+        BWOScheduler.World.DeadBodyAdderDensity = 0
+    elseif BWOScheduler.WorldAge >= 1200 then
+        BWOScheduler.World.DeadBodyAdderDensity = 0.012
+    elseif BWOScheduler.WorldAge >= 170 then
+        BWOScheduler.World.DeadBodyAdderDensity = 0.034
+    elseif BWOScheduler.WorldAge >= 150 then
+        BWOScheduler.World.DeadBodyAdderDensity = 0.024
+    elseif BWOScheduler.WorldAge >= 130 then
+        BWOScheduler.World.DeadBodyAdderDensity = 0.016
+    elseif BWOScheduler.WorldAge >= 110 then
+        BWOScheduler.World.DeadBodyAdderDensity = 0.008
+    end
 
     -- transforms the world appearance to simulate post-nuclear strike
     BWOScheduler.World.PostNuclearTransformator = false

@@ -368,13 +368,6 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         end
     end
 
-    -- disable nukes
-    --[[
-    if (square:getX() == 5571 or square:getX() == 5572 or square:getX() == 5573) and square:getY() == 12486  then
-        context:addOption("Disable Launch Sequence", player, BWOMenu.DisableLaunchSequence, square)
-    end
-    ]]  
-
     if BanditCompatibility.GetGameVersion() >= 42 then
         if square:getZ() == -16 and square:getX() == 5556 and (square:getY() == 12445 or square:getY() == 12446 or square:getY() == 12447)  then
             context:addOption("Disable Launch Sequence", player, BWOMenu.DisableLaunchSequence, square)
@@ -384,100 +377,6 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
             context:addOption("Disable Launch Sequence", player, BWOMenu.DisableLaunchSequence, square)
         end
     end
-
-    local vehicle = square:getVehicleContainer()
-    if vehicle then
-        local md = vehicle:getModData()
-    end
-
-    local gmd = GetBWOModData()
-    local nukes = gmd.Nukes
-
-    --[[
-    -- Add VHS_Retail to player's inventory
-    local item = player:getInventory():AddItem("VHS_Retail");
-    -- get media Data for the related tape name
-    local mediaData = getZomboidRadio():getRecordedMedia():getMediaData("04fe92cb-4a3b-4545-bdb9-7c1f0fb6e343")
-    -- set the media data to the item
-    item:setRecordedMediaData(mediaData)
-    -- Refresh the inventory
-    item:getContainer():setDrawDirty(true)]]
-
-    --[[
-    BWOSquareLoader.Burn(square)
-    
-    if BanditUtils.HasZoneType(square:getX(), square:getY(), square:getZ(), "Nav") then
-
-       local objects = square:getObjects()
-        for i=0, objects:size()-1 do
-            local object = objects:get(i)
-            local sprite = object:getSprite()
-            if sprite then
-                local spriteName = sprite:getName()
-                if spriteName:embodies("street") then
-                    
-                    local rn = ZombRand(3)
-                    local overlaySprite
-                    if rn < 2  then
-                        overlaySprite = "floors_overlay_street_01_" .. ZombRand(44)
-                    elseif rn == 2 then
-                        overlaySprite = "blends_streetoverlays_01_" .. ZombRand(32)
-                    end
-                    if overlaySprite then
-                        local attachments = object:getAttachedAnimSprite()
-                        if not attachments or attachments:size() == 0 then
-                            object:setAttachedAnimSprite(ArrayList.new())
-                        end
-                        object:getAttachedAnimSprite():add(getSprite(overlaySprite):newInstance())
-                    end
-                    break
-                end
-            end
-        end
-    end]]
-
-    --[[local dummy = IsoObject.new(square, "explo_big_01_0", "")
-    dummy:setSprite("explo_big_01_0")
-    square:AddSpecialObject(dummy)
-    dummy:setSprite("explo_big_01_0")]]
-
-    --[[local effect = {}
-    effect.x = square:getX()
-    effect.y = square:getY()
-    effect.z = 0
-    effect.offset = 300
-    effect.poison = true
-    effect.colors = {r=0.1, g=0.7, b=0.2, a=0.2}
-    effect.name = "mist_01"
-    effect.frameCnt = 60
-    effect.frameRnd = true
-    effect.repCnt = 10
-    table.insert(BWOEffects.tab, effect)]]
-
-    --[[
-    BWOVehicles.FindSpawnPoint(player)
-    local vehicle = square:getVehicleContainer()
-    if vehicle then
-        -- NORTH x: -180 y: z: 180
-        -- SOUTH x: 0 y: 0 z: 0
-        -- EAST x: -125 y: 90 z: 125
-        -- WEST x: -125, y: -90, z: -125
-        print ("X:" .. vehicle:getAngleX() .. " Y: ".. vehicle:getAngleY() .. " Z: " .. vehicle:getAngleZ())
-        local radioPart = vehicle:getPartById("Radio")
-        if radioPart then
-            local dd = radioPart:getDeviceData()
-            if dd then
-                dd:setIsTurnedOn(true)
-                dd:setChannel(98400)
-                dd:setDeviceVolume(1)
-            end
-        end
-    end]]
-
-    -- local player = getSpecificPlayer(playerID)
-    -- print (player:getDescriptor():getProfession())
-
-    local base = BanditPlayerBase.GetBase(player)
 
     if isDebugEnabled() or isAdmin() then
 
@@ -566,24 +465,6 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
             print ("HOME: " .. tostring(BWOBuildings.IsEventBuilding(room:getBuilding(), "home")))
             print ("POP: " .. occupantsCnt .. "/" .. occupantsMax .. " (" .. popMod .. ")")
 
-        end
-        
-        local objects = square:getObjects()
-        for i=0, objects:size()-1 do
-            local object = objects:get(i)
-            if instanceof(object, "IsoRadio") then
-                local isPlaying = false
-                local t = RadioWavs.getData(object:getDeviceData())
-                if t then
-                    isPlaying = RadioWavs.isPlaying(t)
-                end
-                if not isPlaying then
-                    local t = RadioWavs.PlaySound("3fee99ec-c8b6-4ebc-9f2f-116043153195", object)
-                    if t then
-                        print ("ok")
-                    end
-                end
-            end
         end
     end
 end

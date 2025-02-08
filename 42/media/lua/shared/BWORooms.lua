@@ -1788,15 +1788,15 @@ BWORooms.GetRoomPopMod = function(room)
     
     if BWOBuildings.IsResidential(building) then 
         if hour < 6 then
-            popMod = 2
+            popMod = 1.7
         elseif hour < 17 then
-            popMod = 0.5
+            popMod = 0.4
         elseif hour < 19 then
-            popMod = 0.75
+            popMod = 0.65
         elseif hour < 21 then
-            popMod = 1.2
+            popMod = 1.0
         else
-            popMod = 1.6
+            popMod = 1.4
         end
         if BWOScheduler.SymptomLevel == 1 then
             popMod = 1.2

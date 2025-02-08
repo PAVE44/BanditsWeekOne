@@ -83,6 +83,61 @@ ZombiePrograms.Babe.Follow = function(bandit)
         endurance = 0
     end 
    
+    -- fake npc in vehicle 
+    if vehicle and vehicle:isDriver(master) then
+        bandit:addLineChatElement("Wait for me!", 0, 1, 0)
+        if dist < 3.5 then
+            local brain = BanditBrain.Get(bandit)
+            
+            local seat = 1
+            if vehicle:isSeatInstalled(seat) and not vehicle:isSeatOccupied(seat) then
+                brain.inVehicle = true
+
+                local npcAesthetics = SurvivorFactory.CreateSurvivor(SurvivorType.Neutral, false)
+                npcAesthetics:setForename("Driver")
+                npcAesthetics:setSurname("Driver")
+                npcAesthetics:dressInNamedOutfit("Police")
+
+                -- invisible fake driver that replaces babe
+                local square = bandit:getSquare()
+                local driver = IsoPlayer.new(cell, npcAesthetics, square:getX(), square:getY(), square:getZ())
+
+                driver:setSceneCulled(false)
+                driver:setNPC(true)
+                driver:setGodMod(true)
+                driver:setInvisible(true)
+                driver:setGhostMode(true)
+                driver:getModData().BWOBID = brain.id
+                master:addLineChatElement("I'm in!", 0, 1, 0)
+
+                local vx = driver:getForwardDirection():getX()
+                local vy = driver:getForwardDirection():getY()
+                local forwardVector = Vector3f.new(vx, vy, 0)
+                
+                if vehicle:getChunk() then
+                    vehicle:setPassenger(seat, driver, forwardVector)
+                    driver:setVehicle(vehicle)
+                    driver:setCollidable(false)
+                end
+
+                master:playSound("VehicleDoorOpen")
+                bandit:removeFromSquare()
+                bandit:removeFromWorld()
+                
+            end
+        end
+    else
+        local bvehicle = bandit:getVehicle()
+        if bvehicle then
+            print ("EXIT VEH")
+            -- After exiting the vehicle, the companion is in the ongroundstate.
+            -- Additionally he is under the car. This is fixed in BanditUpdate loop. 
+            bandit:setVariable("BanditImmediateAnim", true)
+            bvehicle:exit(bandit)
+            bandit:playSound("VehicleDoorClose")
+        end
+    end
+
     -- Babe intention is to generally stay with the player
     -- however, if the enemy is close, the babe should engage
     -- but only if player is not too far, kind of a proactive defense.

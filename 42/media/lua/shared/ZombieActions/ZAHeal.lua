@@ -14,7 +14,7 @@ ZombieActions.Heal.onWorking = function(zombie, task)
             zombie:setBumpType("CPRStart")
         elseif task.stage < 20 then
             zombie:setBumpType("CPRLoop")
-            zombie:addLineChatElement(tostring(task.stage - 1), 0, 1, 0)
+            -- zombie:addLineChatElement(tostring(task.stage - 1), 0, 1, 0)
         else
             zombie:setBumpType("CPREnd")
         end

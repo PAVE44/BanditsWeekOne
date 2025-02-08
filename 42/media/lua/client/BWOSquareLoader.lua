@@ -304,8 +304,6 @@ table.insert(BWOSquareLoader.events, {phase="BuildingParty", x=12320, y=1279, z=
 -- GUNSHOP GUARDS
 table.insert(BWOSquareLoader.events, {phase="GunshopGuard", x=12065, y=6762, z=0})
 
-
-
 -- MILITARY BASE FINALE SETUP
 
 -- exclusion zones
@@ -331,7 +329,6 @@ table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5833, y=12490, z=
 table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5831, y=12484, z=0, intensity = 4}) -- szlaban
 table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5530, y=12489, z=0, intensity = 5}) -- back
 -- table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5558, y=12447, z=-16, intensity = 3}) -- underground armory
-
 
 -- checks if a point is inside any exclusion zone
 BWOSquareLoader.IsInExclusion = function(x, y)
@@ -460,6 +457,30 @@ BWOSquareLoader.OnLoad = function(square)
         return d2 <= r * r
     end
 
+    function bxor(a, b)
+        local result = 0
+        local bitval = 1
+        while a > 0 or b > 0 do
+            local abit, bbit = a % 2, b % 2
+            if abit ~= bbit then
+                result = result + bitval
+            end
+            a = math.floor(a / 2)
+            b = math.floor(b / 2)
+            bitval = bitval * 2
+        end
+        return result
+    end
+    
+    function hash(x, y, seed)
+        return (bxor(x * 73856093, bxor(y * 19349663, seed * 83492791))) % 1000000
+    end
+    
+    function shouldPlaceCorpse(x, y, density, seed)
+        local threshold = density * 1000000  -- Scale density to hash range
+        return hash(x, y, seed) < threshold
+    end
+
 	local x = square:getX()
     local y = square:getY()
     local z = square:getZ()
@@ -498,6 +519,7 @@ BWOSquareLoader.OnLoad = function(square)
         end
     end
 
+    
     -- register global objects
     if BWOScheduler.World.GlobalObjectAdder then
         local spriteMap = {}
@@ -569,6 +591,57 @@ BWOSquareLoader.OnLoad = function(square)
                     end
                 end
             end
+        end
+    end
+
+    -- dead body placer
+    if BWOScheduler.World.DeadBodyAdderDensity and BWOScheduler.World.DeadBodyAdderDensity > 0 then
+        if not md.BWO then md.BWO = {} end
+
+        if not md.BWO.dbs then
+            local seed = 12345
+            if BanditUtils.HasZoneType(x, y, z, "TownZone") then
+                local density = BWOScheduler.World.DeadBodyAdderDensity
+
+                local zone = square:getZone()
+                local multiplier = 0
+                if zone then
+                    local zoneType = zone:getType()
+                    if zoneType then
+                        if zoneType == "TownZone" or zoneType == "TrailerPark" then
+                            multiplier = 1
+                        elseif zoneType == "Farm" or zoneType == "Ranch" then
+                            multiplier = 0.6
+                        elseif zoneType == "Nav" then
+                            multiplier = 0.3
+                        elseif zoneType == "Vegitation" then
+                            multiplier = 0.1
+                        end
+                    end
+                end
+                density = density * multiplier
+
+                if not square:isOutside() then density = density * 8 end
+
+                if density > 0 and shouldPlaceCorpse(x, y, density, seed) then
+                    local outfit = BanditUtils.Choice({"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "Generic05", "Classy", "IT", "Student", "Teacher", "Police", "Young"})
+                    local zombieList = BanditCompatibility.AddZombiesInOutfit(x, y, z, outfit, 50, false, false, false, false, false, false, 2)
+                    for i=0, zombieList:size()-1 do
+                        -- print ("place body at x:" .. x .. " y:" .. y)
+                        local zombie = zombieList:get(i)
+                        local banditVisuals = zombie:getHumanVisual()
+                        local id = BanditUtils.GetCharacterID(zombie)
+                        local r = 1 + math.abs(id) % 5 
+                        if zombie:isFemale() then
+                            banditVisuals:setSkinTextureName("FemaleBody0" .. tostring(r))
+                        else
+                            banditVisuals:setSkinTextureName("MaleBody0" .. tostring(r))
+                        end
+                        zombie:Kill(nil)
+                    end
+                end
+            end
+            md.BWO.dbs = true
         end
     end
 

@@ -85,3 +85,14 @@ BWOCompatibility.AddVehicle = function(btype, dir, square)
     end
     return vehicle
 end
+
+BWOCompatibility.GetCarType = function(carType)
+    if getGameVersion() < 42 then
+        local map = {}
+        map["Base.StepVan_LouisvilleSWAT"] = "Base.PickUpVanLightsPolice"
+        if map[carType] then
+            return map[carType]
+        end
+    end
+    return carType
+end

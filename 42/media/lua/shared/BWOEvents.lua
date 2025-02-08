@@ -560,6 +560,7 @@ end
 -- params: []
 BWOEvents.Start = function(params)
     local player = getSpecificPlayer(0)
+    local profession = player:getDescriptor():getProfession()
     local cell = getCell()
     local building = player:getBuilding()
     if building then
@@ -596,7 +597,6 @@ BWOEvents.Start = function(params)
     end
     
     -- profession items
-    local profession = player:getDescriptor():getProfession()
     local professionItemTypeList
     local professionSubItemTypeList
     if profession == "fireofficer" then
@@ -725,22 +725,33 @@ BWOEvents.Start = function(params)
                     dir = "S"
                 end
                 
-                local vehicle = spawnVehicle(sx, sy, "Base.SmallCar")
+                local carType = "Base.SmallCar"
+                if profession == "fireofficer" then
+                    carType = "PickUpTruckLightsFire"
+                elseif profession == "policeofficer" then
+                    carType = "PickUpVanLightsPolice"
+                elseif profession == "mechanics" then
+                    carType = "SportsCar"
+                end
+
+                vehicle = spawnVehicle(sx, sy, BWOCompatibility.GetCarType(carType))
                 if vehicle then
                     if dir == "S" then
                         vehicle:setAngles(0, 0, 0)
                     elseif dir == "E" then
                         vehicle:setAngles(0, 90, 0)
                     end
-
-                    local key = vehicle:getCurrentKey()
-                    if not key then 
-                        key = vehicle:createVehicleKey()
-                    end
-
-                    local inventory = player:getInventory()
-                    player:getInventory():AddItem(key)
                 end
+            end
+
+            if vehicle then
+                local key = vehicle:getCurrentKey()
+                if not key then 
+                    key = vehicle:createVehicleKey()
+                end
+
+                local inventory = player:getInventory()
+                player:getInventory():AddItem(key)
             end
         end
     end
@@ -1423,7 +1434,7 @@ BWOEvents.CallCops = function(params)
 
     local vehicleCount = player:getCell():getVehicles():size()
     if vehicleCount < 8 then
-        spawnVehicle (x, y, "Base.PickUpVanLightsPolice")
+        spawnVehicle (x, y, BWOCompatibility.GetCarType("Base.PickUpVanLightsPolice"))
         arrivalSound (x, y, "ZSPoliceCar1")
 
         local vparams = {}
@@ -1485,7 +1496,7 @@ BWOEvents.CallSWAT = function(params)
 
     local vehicleCount = player:getCell():getVehicles():size()
     if vehicleCount < 8 then
-        spawnVehicle (x, y, "Base.PickUpVanLightsPolice")
+        spawnVehicle (x, y, BWOCompatibility.GetCarType("Base.StepVan_LouisvilleSWAT"))
         arrivalSound(x, y, "ZSPoliceCar1")
 
         local vparams = {}
@@ -1546,7 +1557,7 @@ BWOEvents.CallMedics = function(params)
 
     local vehicleCount = player:getCell():getVehicles():size()
     if vehicleCount < 8 then
-        spawnVehicle (x, y, "Base.VanAmbulance")
+        spawnVehicle (x, y, BWOCompatibility.GetCarType("Base.VanAmbulance"))
         arrivalSound(x, y, "ZSPoliceCar1")
 
         local vparams = {}
@@ -1604,7 +1615,7 @@ BWOEvents.CallHazmats = function(params)
 
     local vehicleCount = player:getCell():getVehicles():size()
     if vehicleCount < 8 then
-        spawnVehicle (x, y, "Base.VanAmbulance")
+        spawnVehicle (x, y, BWOCompatibility.GetCarType("Base.VanAmbulance"))
         arrivalSound(x, y, "ZSPoliceCar1")
 
         local vparams = {}
@@ -1654,7 +1665,7 @@ BWOEvents.CallFireman = function(params)
 
     local vehicleCount = player:getCell():getVehicles():size()
     if vehicleCount < 8 then
-        spawnVehicle (x, y, "Base.PickUpTruckLightsFire")
+        spawnVehicle (x, y, BWOCompatibility.GetCarType("Base.PickUpTruckLightsFire"))
         arrivalSound(x, y, "ZSPoliceCar1")
 
         local vparams = {}

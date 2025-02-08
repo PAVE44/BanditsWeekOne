@@ -251,6 +251,13 @@ local checkHostility = function(bandit, attacker)
                         end
                     end
 
+                    -- call medics
+                    if BWOPopControl.Medics.On then
+                        BWOScheduler.Add("CallMedics", params, 15000)
+                    elseif BWOPopControl.Hazmats.On then
+                        BWOScheduler.Add("CallHazmats", params, 15500)
+                    end
+
                     -- witnessing civilians need to change peaceful behavior to active
                     local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal"}
                     for _, prg in pairs(activatePrograms) do
@@ -323,13 +330,6 @@ local onZombieDead = function(zombie)
     params.y = bandit:getY()
     params.z = bandit:getZ()
     params.hostile = false
-
-    -- call medics
-    if BWOPopControl.Medics.On then
-        BWOScheduler.Add("CallMedics", params, 15000)
-    elseif BWOPopControl.Hazmats.On then
-        BWOScheduler.Add("CallHazmats", params, 15500)
-    end
 
     -- deprovision bandit (bandit main function is no longer doing that for clan 0)
 
@@ -885,6 +885,81 @@ local everyOneMinute = function()
 
 end
 
+local function OnExitVehicle(character)
+    if not instanceof(character, "IsoPlayer") then return end
+
+    local gmd = GetBanditModData()
+    if not gmd.Queue then return end
+
+    local cache = BanditZombie.CacheLightB
+    if not cache then return end
+
+    local cell = character:getCell()
+    local cx = character:getX()
+    local cy = character:getY()
+
+    local player = getSpecificPlayer(0)
+    local px = player:getX()
+    local py = player:getY()
+
+    -- stupid trugger doesnt even have vehicle the player is exiting from
+    -- need to look for it
+    for x = cx - 5, cx + 5 do
+        for y = cy - 5, cy + 5 do
+            local square = cell:getGridSquare(x, y, 0)
+            if square then
+                local vehicle = square:getVehicleContainer()
+
+                if vehicle then
+                    local passenger = vehicle:getCharacter(1)
+                    if passenger and instanceof(passenger, "IsoPlayer") and passenger:isNPC() then
+                        local bid = passenger:getModData().BWOBID
+                        for id, gmdBrain in pairs(gmd.Queue) do
+                            if gmdBrain.id == bid and gmdBrain.permanent and gmdBrain.inVehicle then
+                                if not cache[id] then
+                                    local newx = px
+                                    local newy = py
+                                    local part = vehicle:getPartById("SeatFrontRight")
+                                    if part then
+                                        newx = part:getX()
+                                        newy = part:getY()
+                                    end
+
+                                    gmdBrain.bornCoords.x = newx
+                                    gmdBrain.bornCoords.y = newy
+                                    gmdBrain.bornCoords.z = 0
+                                    gmdBrain.inVehicle = false
+                                    sendClientCommand(player, 'Commands', 'SpawnRestore', gmdBrain)
+                                    
+                                    local seat = vehicle:getSeat(passenger)
+                                    vehicle:clearPassenger(seat)
+                                    passenger:setVehicle(nil)
+                                    passenger:setCollidable(true)
+                                    passenger:Kill(nil)
+                                    passenger:removeSaveFile()
+                                    passenger:removeFromSquare()
+                                    passenger:removeFromWorld()
+
+                                    local doorPart = vehicle:getPartById("DoorFrontRight")
+                                    if doorPart then
+                                        local door = doorPart:getDoor()
+                                        if door then
+                                            door:setOpen(false)
+                                        end
+                                    end
+
+                                    return
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+
 LuaEventManager.AddEvent("OnFitnessActionExeLooped")
 LuaEventManager.AddEvent("OnInventoryTransferActionPerform")
 
@@ -898,6 +973,7 @@ Events.OnPlayerDeath.Add(onPlayerDeath)
 Events.OnWeaponSwing.Add(onWeaponSwing)
 Events.EveryHours.Add(everyHours)
 Events.EveryOneMinute.Add(everyOneMinute)
+Events.OnExitVehicle.Add(OnExitVehicle)
 
 
 
