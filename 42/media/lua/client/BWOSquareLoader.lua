@@ -200,6 +200,8 @@ BWOSquareLoader.remove["12072-6760-0"] = {}
 
 -- outofgas signs
 BWOSquareLoader.remove["10615-9768-0"] = {}
+BWOSquareLoader.remove["10615-9766-0"] = {}
+BWOSquareLoader.remove["10642-10628-0"] = {}
 
 -- protests
 local protests = {}
@@ -391,6 +393,24 @@ BWOSquareLoader.Burn = function(square)
     end
 end
 
+local spriteMap = {}
+spriteMap["location_business_bank_01_64"] = "atm"
+spriteMap["location_business_bank_01_65"] = "atm"
+spriteMap["location_business_bank_01_66"] = "atm"
+spriteMap["location_business_bank_01_67"] = "atm"
+spriteMap["street_decoration_01_18"] = "mailbox"
+spriteMap["street_decoration_01_19"] = "mailbox"
+spriteMap["street_decoration_01_20"] = "mailbox"
+spriteMap["street_decoration_01_21"] = "mailbox"
+BWOSquareLoader.spriteMap = spriteMap
+
+local customNameMap = {}
+customNameMap["Flowerbed"] = "flowerbed"
+customNameMap["Trash"] = "trash"
+customNameMap["Bench"] = "sittable"
+customNameMap["Chair"] = "sittable"
+BWOSquareLoader.customNameMap = customNameMap
+
 -- updates square to implement prepandemic world and manage add/remove objects
 BWOSquareLoader.OnLoad = function(square)
 
@@ -481,22 +501,29 @@ BWOSquareLoader.OnLoad = function(square)
         return hash(x, y, seed) < threshold
     end
 
+    local map = BWOSquareLoader.map
+    local remove = BWOSquareLoader.remove
+    local spriteMap = BWOSquareLoader.spriteMap
+    local customNameMap = BWOSquareLoader.customNameMap
+
 	local x = square:getX()
     local y = square:getY()
     local z = square:getZ()
     local md = square:getModData()
+    if not md.BWO then md.BWO = {} end
+
     local id = x .. "-" .. y .. "-" .. z
 
     -- spawn map objects
-    if BWOSquareLoader.map[id] then
+    if map[id] then
         clearObjects(square)
-        addObject(square, BWOSquareLoader.map[id])
+        addObject(square, map[id])
         BWOSquareLoader.map[id] = nil
     end
 
     -- remove map objects
     if BWOScheduler.World.ObjectRemover then
-        if BWOSquareLoader.remove[id] then
+        if remove[id] then
             clearObjects(square)
             BWOSquareLoader.remove[id] = nil
         end
@@ -518,38 +545,34 @@ BWOSquareLoader.OnLoad = function(square)
             square:removeBlood(false, false)
         end
     end
-
     
-    -- register global objects
-    if BWOScheduler.World.GlobalObjectAdder then
-        local spriteMap = {}
-        spriteMap["location_business_bank_01_64"] = "atm"
-        spriteMap["location_business_bank_01_65"] = "atm"
-        spriteMap["location_business_bank_01_66"] = "atm"
-        spriteMap["location_business_bank_01_67"] = "atm"
-        spriteMap["street_decoration_01_18"] = "mailbox"
-        spriteMap["street_decoration_01_19"] = "mailbox"
-        spriteMap["street_decoration_01_20"] = "mailbox"
-        spriteMap["street_decoration_01_21"] = "mailbox"
+    local objects = square:getObjects()
+    for i=0, objects:size()-1 do
+        local object = objects:get(i)
+        local sprite = object:getSprite()
+        if sprite then
+            local props = sprite:getProperties()
 
-        local customNameMap = {}
-        customNameMap["Flowerbed"] = "flowerbed"
-        customNameMap["Trash"] = "trash"
-        customNameMap["Bench"] = "sittable"
-        customNameMap["Chair"] = "sittable"
-        -- customNameMap["Machine"] = "machine"
+            -- register global objects
+            if BWOScheduler.World.GlobalObjectAdder then
 
-        local objects = square:getObjects()
-        for i=0, objects:size()-1 do
-            local object = objects:get(i)
-            if instanceof(object, "IsoBarbecue") and square:isOutside() then
-                local args = {x=x, y=y, z=z, otype="barbecue"}
-                sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectAdd', args)
-                break
-            end
+                if instanceof(object, "IsoBarbecue") and square:isOutside() then
+                    local args = {x=x, y=y, z=z, otype="barbecue"}
+                    sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectAdd', args)
+                    break
+                end
 
-            local sprite = object:getSprite()
-            if sprite then
+                local attachments = object:getAttachedAnimSprite()
+                if attachments then
+                    for i=0, attachments:size()-1 do
+                        local attachment = attachments:get(i)
+                        if attachment and (attachment:getName():embodies("blood") or attachment:getName():embodies("grime")) then
+                            object:clearAttachedAnimSprite()
+                            break
+                        end
+                    end
+                end
+
                 local spriteName = sprite:getName()
                 if spriteMap[spriteName] and square:isOutside() then 
                     local args = {x=x, y=y, z=z, otype=spriteMap[spriteName]}
@@ -557,7 +580,6 @@ BWOSquareLoader.OnLoad = function(square)
                     break
                 end
 
-                local props = sprite:getProperties()
                 if props:Is("CustomName") then
                     local customName = props:Val("CustomName")
                     if customNameMap[customName] and square:isOutside() then 
@@ -569,25 +591,26 @@ BWOSquareLoader.OnLoad = function(square)
 
                 -- this makes npcs disregard windows for pathfinding
                 -- unfortunately will impact zombies aswell
-                if instanceof(object, "IsoWindow") then
-                    -- if square:getWindow() then
-                        if props:Is(IsoFlagType.canPathN) then
-                            props:UnSet(IsoFlagType.canPathN)
-                        end
-                        if props:Is(IsoFlagType.canPathW) then
-                            props:UnSet(IsoFlagType.canPathW)
-                        end
-                    -- end
+                if instanceof(object, "IsoWindow") or instanceof(object, "IsoWindowFrame") then
+                    if props:Is(IsoFlagType.canPathN) then
+                        props:UnSet(IsoFlagType.canPathN)
+                    end
+                    if props:Is(IsoFlagType.canPathW) then
+                        props:UnSet(IsoFlagType.canPathW)
+                    end
+                    
+                    props:UnSet(IsoFlagType.WindowN)
+                    props:UnSet(IsoFlagType.WindowW)
                 end
-            end
-
-            local attachments = object:getAttachedAnimSprite()
-            if attachments then
-                for i=0, attachments:size()-1 do
-                    local attachment = attachments:get(i)
-                    if attachment and attachment:getName():embodies("blood") then
-                        object:clearAttachedAnimSprite()
-                        break
+            else
+                -- restore window behavior
+                if instanceof(object, "IsoWindow") or instanceof(object, "IsoWindowFrame") then
+                    if props:Is(IsoFlagType.cutN) then
+                        props:Set(IsoFlagType.canPathN)
+                        props:Set(IsoFlagType.WindowN)
+                    elseif props:Is(IsoFlagType.cutW) then
+                        props:Set(IsoFlagType.canPathW)
+                        props:Set(IsoFlagType.WindowW)
                     end
                 end
             end
@@ -596,7 +619,6 @@ BWOSquareLoader.OnLoad = function(square)
 
     -- dead body placer
     if BWOScheduler.World.DeadBodyAdderDensity and BWOScheduler.World.DeadBodyAdderDensity > 0 then
-        if not md.BWO then md.BWO = {} end
 
         if not md.BWO.dbs then
             local seed = 12345
@@ -641,14 +663,11 @@ BWOSquareLoader.OnLoad = function(square)
                     end
                 end
             end
-            md.BWO.dbs = true
         end
     end
 
     -- post nuke world destroyer
     if BWOScheduler.World.PostNuclearTransformator then
-        if not md.BWO then md.BWO = {} end
-
         if not md.BWO.burnt then
             local gmd = GetBWOModData()
             local nukes = gmd.Nukes
@@ -665,6 +684,7 @@ BWOSquareLoader.OnLoad = function(square)
             md.BWO.burnt = true
         end
     end
+    md.BWO.dbs = true
 end
 
 -- spawns location events when player is near

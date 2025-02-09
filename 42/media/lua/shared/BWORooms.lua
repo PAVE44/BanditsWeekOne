@@ -918,7 +918,7 @@ BWORooms.tab = {
     },
 
     lobby = {
-
+        isShop = true,
     },
 
     locker = {

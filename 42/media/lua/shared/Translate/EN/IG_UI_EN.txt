@@ -154,6 +154,14 @@ IGUI_EN = {
     IGUI_Bandits_Speech_ZSStreetChat2_Male_1_11 = "Very strange.",
     IGUI_Bandits_Speech_ZSStreetChat2_Male_1_12 = "I feel anxious and nervous.",
 
+    IGUI_Bandits_Speech_ZSStreetChatHealth_Male_1_1 = "Are you okay?",
+    IGUI_Bandits_Speech_ZSStreetChatHealth_Male_1_2 = "You should see a doctor!",
+    IGUI_Bandits_Speech_ZSStreetChatHealth_Male_1_3 = "You look like mess!",
+
+    IGUI_Bandits_Speech_ZSStreetChatBlood_Male_1_1 = "Is that blood on you?",
+    IGUI_Bandits_Speech_ZSStreetChatBlood_Male_1_2 = "Is that blood or ketchup?",
+    IGUI_Bandits_Speech_ZSStreetChatBlood_Male_1_3 = "You look like mess!",
+
     IGUI_Bandits_Speech_ZSStreetChatFinal_Male_1_1 = "What is that light?",
     IGUI_Bandits_Speech_ZSStreetChatFinal_Male_1_2 = "Oh my Lord!",
     IGUI_Bandits_Speech_ZSStreetChatFinal_Male_1_3 = "Hide now!",
@@ -209,6 +217,14 @@ IGUI_EN = {
     IGUI_Bandits_Speech_ZSStreetChat2_Male_2_11 = "It's all so strange.",
     IGUI_Bandits_Speech_ZSStreetChat2_Male_2_12 = "It's just a cough.",
 
+    IGUI_Bandits_Speech_ZSStreetChatHealth_Male_2_1 = "Are you injured?",
+    IGUI_Bandits_Speech_ZSStreetChatHealth_Male_2_2 = "You should go to hospital!",
+    IGUI_Bandits_Speech_ZSStreetChatHealth_Male_2_3 = "You look like shit!",
+
+    IGUI_Bandits_Speech_ZSStreetChatBlood_Male_2_1 = "Are you covered in blood?",
+    IGUI_Bandits_Speech_ZSStreetChatBlood_Male_2_2 = "Why are you covered in blood?",
+    IGUI_Bandits_Speech_ZSStreetChatBlood_Male_2_3 = "You look like you are having a bad day!",
+
     IGUI_Bandits_Speech_ZSStreetChatFinal_Male_2_1 = "Where is that light coming from?",
     IGUI_Bandits_Speech_ZSStreetChatFinal_Male_2_2 = "Oh my God!",
     IGUI_Bandits_Speech_ZSStreetChatFinal_Male_2_3 = "It's too late!",
@@ -263,6 +279,14 @@ IGUI_EN = {
     IGUI_Bandits_Speech_ZSStreetChat2_Male_3_10 = "We should group and approach the soldiers together!",
     IGUI_Bandits_Speech_ZSStreetChat2_Male_3_11 = "I'm too tired for this!",
     IGUI_Bandits_Speech_ZSStreetChat2_Male_3_12 = "It's just a cough.",
+
+    IGUI_Bandits_Speech_ZSStreetChatHealth_Male_3_1 = "Do you need help?",
+    IGUI_Bandits_Speech_ZSStreetChatHealth_Male_3_2 = "You need medical attention!",
+    IGUI_Bandits_Speech_ZSStreetChatHealth_Male_3_3 = "What happened to you!",
+
+    IGUI_Bandits_Speech_ZSStreetChatBlood_Male_3_1 = "Are you covered in blood?",
+    IGUI_Bandits_Speech_ZSStreetChatBlood_Male_3_2 = "What happened to you?",
+    IGUI_Bandits_Speech_ZSStreetChatBlood_Male_3_3 = "Is that your blood?",
 
     IGUI_Bandits_Speech_ZSStreetChatFinal_Male_3_1 = "What's going on?",
     IGUI_Bandits_Speech_ZSStreetChatFinal_Male_3_2 = "Can you hear that?",
@@ -320,6 +344,14 @@ IGUI_EN = {
     IGUI_Bandits_Speech_ZSStreetChat2_Male_4_11 = "This is very suspicious.",
     IGUI_Bandits_Speech_ZSStreetChat2_Male_4_12 = "I feel anxious, something's going to happen soon.",
 
+    IGUI_Bandits_Speech_ZSStreetChatHealth_Male_4_1 = "Rough day?",
+    IGUI_Bandits_Speech_ZSStreetChatHealth_Male_4_2 = "We need a doctor here!",
+    IGUI_Bandits_Speech_ZSStreetChatHealth_Male_4_3 = "You should visit a doctor!",
+
+    IGUI_Bandits_Speech_ZSStreetChatBlood_Male_4_1 = "You're all covered in blood! You need help?",
+    IGUI_Bandits_Speech_ZSStreetChatBlood_Male_4_2 = "What happened?",
+    IGUI_Bandits_Speech_ZSStreetChatBlood_Male_4_3 = "Shit, you're a mess!",
+
     IGUI_Bandits_Speech_ZSStreetChatFinal_Male_4_1 = "What is that light?",
     IGUI_Bandits_Speech_ZSStreetChatFinal_Male_4_2 = "Downstairs!",
     IGUI_Bandits_Speech_ZSStreetChatFinal_Male_4_3 = "Hide now!",
@@ -374,6 +406,14 @@ IGUI_EN = {
     IGUI_Bandits_Speech_ZSStreetChat2_Female_3_10 = "This is bad.",
     IGUI_Bandits_Speech_ZSStreetChat2_Female_3_11 = "Wherever I go I see people coughing.",
     IGUI_Bandits_Speech_ZSStreetChat2_Female_3_12 = "Some say it will pass.",
+
+    IGUI_Bandits_Speech_ZSStreetChatHealth_Female_3_1 = "Do you need medical attention?",
+    IGUI_Bandits_Speech_ZSStreetChatHealth_Female_3_2 = "Are you okay?",
+    IGUI_Bandits_Speech_ZSStreetChatHealth_Female_3_3 = "You should visit a doctor!",
+
+    IGUI_Bandits_Speech_ZSStreetChatBlood_Female_3_1 = "Is that blood or ketchup?",
+    IGUI_Bandits_Speech_ZSStreetChatBlood_Female_3_2 = "Why are you covered in blood?",
+    IGUI_Bandits_Speech_ZSStreetChatBlood_Female_3_3 = "Having a bad day probably?",
 
     IGUI_Bandits_Speech_ZSStreetChatFinal_Female_3_1 = "Get to the basement!",
     IGUI_Bandits_Speech_ZSStreetChatFinal_Female_3_2 = "Quick! Hide inside!",

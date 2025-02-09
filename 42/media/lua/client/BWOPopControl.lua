@@ -474,7 +474,7 @@ BWOPopControl.UpdateCivs = function()
 
     -- ADJUST: population nominals
     BWOPopControl.ZombieMax = 0
-    BWOPopControl.StreetsNominal = 35
+    BWOPopControl.StreetsNominal = 41
     BWOPopControl.InhabitantsNominal = 100
     BWOPopControl.SurvivorsNominal = 0
 

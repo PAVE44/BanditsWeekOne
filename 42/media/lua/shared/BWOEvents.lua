@@ -1200,7 +1200,7 @@ BWOEvents.Entertainer = function(params)
     event.program.name = "Entertainer"
     event.program.stage = "Prepare"
 
-    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(28,35))
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(28, 35))
     if spawnPoint then
         event.x = spawnPoint.x
         event.y = spawnPoint.y
@@ -1738,7 +1738,7 @@ BWOEvents.Thieves = function(params)
     event.program.name = "Thief"
     event.program.stage = "Prepare"
 
-    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(40,45))
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(50, 55))
     if spawnPoint then
         event.x = spawnPoint.x
         event.y = spawnPoint.y
@@ -1788,7 +1788,7 @@ BWOEvents.PoliceRiot = function(params)
     event.program.name = "RiotPolice"
     event.program.stage = "Prepare"
 
-    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(40,45))
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(40, 45))
     if spawnPoint then
         event.x = spawnPoint.x
         event.y = spawnPoint.y
@@ -1837,7 +1837,7 @@ BWOEvents.Criminals = function(params)
     event.program.name = "Bandit"
     event.program.stage = "Prepare"
 
-    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(45,55))
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(60, 85))
     if spawnPoint then
         event.x = spawnPoint.x
         event.y = spawnPoint.y
@@ -1883,7 +1883,7 @@ BWOEvents.Bandits = function(params)
     event.program.name = "Bandit"
     event.program.stage = "Prepare"
 
-    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(45,60))
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(60, 85))
     if spawnPoint then
         event.x = spawnPoint.x
         event.y = spawnPoint.y
@@ -1929,7 +1929,7 @@ BWOEvents.Bikers = function(params)
     event.program.name = "Looter"
     event.program.stage = "Prepare"
 
-    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(40,45))
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(60, 85))
     if spawnPoint then
         event.x = spawnPoint.x
         event.y = spawnPoint.y
@@ -1975,7 +1975,7 @@ BWOEvents.Inmates = function(params)
     event.program.name = "Looter"
     event.program.stage = "Prepare"
 
-    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(40,45))
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(50, 75))
     if spawnPoint then
         event.x = spawnPoint.x
         event.y = spawnPoint.y
@@ -2021,7 +2021,7 @@ BWOEvents.Asylum = function(params)
     event.program.name = "Looter"
     event.program.stage = "Prepare"
 
-    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(40,45))
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(50, 75))
     if spawnPoint then
         event.x = spawnPoint.x
         event.y = spawnPoint.y
@@ -2070,7 +2070,7 @@ BWOEvents.Scientists = function(params)
     event.program.name = "Looter"
     event.program.stage = "Prepare"
 
-    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(50,55))
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(60, 85))
     if spawnPoint then
         event.x = spawnPoint.x
         event.y = spawnPoint.y
@@ -2117,7 +2117,7 @@ BWOEvents.Shahids = function(params)
     event.program.name = "Shahid"
     event.program.stage = "Prepare"
 
-    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(45,55))
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(45, 55))
     if spawnPoint then
         event.x = spawnPoint.x
         event.y = spawnPoint.y
@@ -2167,7 +2167,7 @@ BWOEvents.Army = function(params)
     event.program.name = "Police"
     event.program.stage = "Prepare"
 
-    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(40,45))
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(45, 60))
     if spawnPoint then
         event.x = spawnPoint.x
         event.y = spawnPoint.y
@@ -2213,7 +2213,7 @@ BWOEvents.ArmyPatrol = function(params)
     event.program.name = "Patrol"
     event.program.stage = "Prepare"
 
-    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(40,45))
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(40, 47))
     if spawnPoint then
         event.x = spawnPoint.x
         event.y = spawnPoint.y

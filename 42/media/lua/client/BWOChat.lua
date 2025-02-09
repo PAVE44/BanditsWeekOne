@@ -1109,7 +1109,7 @@ BWOChat.Say = function(chatMessage)
                 local recognized = true
                 if v.action then
                     if v.action == "HOSTILE" then
-                        Bandit.SetProgram(bandit, "Bandit", {})
+                        Bandit.SetProgram(bandit, "Active", {})
                         Bandit.SetHostile(bandit, true)
                         colors = {r=1, g=0, b=0}
                     elseif v.action == "JOIN" then

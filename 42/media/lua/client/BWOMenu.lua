@@ -338,6 +338,14 @@ BWOMenu.EventShahids = function(player)
     BWOScheduler.Add("Shahids", params, 100)
 end
 
+BWOMenu.EventStorm = function(player)
+    local params = {}
+    params.len = 1440
+    BWOScheduler.Add("WeatherStorm", params, 1000)
+end
+
+
+
 function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
 
     local player = getSpecificPlayer(playerID)
@@ -429,6 +437,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         eventsMenu:addOption("Shahid", player, BWOMenu.EventShahids)
         eventsMenu:addOption("Start", player, BWOMenu.EventStart)
         eventsMenu:addOption("Start Day", player, BWOMenu.EventStartDay)
+        eventsMenu:addOption("Storm", player, BWOMenu.EventStorm)
         eventsMenu:addOption("Thieves", player, BWOMenu.EventThieves)
         
         local spawnOption = context:addOption("BWO Spawn")

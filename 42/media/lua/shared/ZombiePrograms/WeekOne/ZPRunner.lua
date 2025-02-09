@@ -85,8 +85,12 @@ ZombiePrograms.Runner.Main = function(bandit)
     end
 
     -- fallback
-    local task = {action="Time", anim="Shrug", time=200}
-    table.insert(tasks, task)
+    local subTasks = BanditPrograms.FallbackAction(bandit)
+    if #subTasks > 0 then
+        for _, subTask in pairs(subTasks) do
+            table.insert(tasks, subTask)
+        end
+    end
     
     return {status=true, next="Main", tasks=tasks}
 end

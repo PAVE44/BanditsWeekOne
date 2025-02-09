@@ -237,8 +237,8 @@ ZombiePrograms.Walker.Main = function(bandit)
     -- interact with players and other npcs
     -- dont do it on the street tho
     if BWOScheduler.SymptomLevel < 3 then
-        local groundType = BanditUtils.GetGroundType(bandit:getSquare())
-        if groundType ~= "street" then
+        --local groundType = BanditUtils.GetGroundType(bandit:getSquare())
+        --if groundType ~= "street" then
             local subTasks = BanditPrograms.Talk(bandit)
             if #subTasks > 0 then
                 for _, subTask in pairs(subTasks) do
@@ -246,7 +246,7 @@ ZombiePrograms.Walker.Main = function(bandit)
                 end
                 return {status=true, next="Main", tasks=tasks}
             end
-        end
+        --end
     end
     -- print ("WALKER 10: " .. (getTimestampMs() - ts))
 
@@ -274,8 +274,12 @@ ZombiePrograms.Walker.Main = function(bandit)
     -- print ("WALKER 12: " .. (getTimestampMs() - ts))
 
     -- fallback
-    local task = {action="Time", anim="Shrug", time=200}
-    table.insert(tasks, task)
+    local subTasks = BanditPrograms.FallbackAction(bandit)
+    if #subTasks > 0 then
+        for _, subTask in pairs(subTasks) do
+            table.insert(tasks, subTask)
+        end
+    end
 
     -- print ("WALKER 13: " .. (getTimestampMs() - ts))
     return {status=true, next="Main", tasks=tasks}

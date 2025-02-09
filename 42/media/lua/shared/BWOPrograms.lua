@@ -421,6 +421,48 @@ BanditPrograms.ATM = function(bandit)
     return tasks
 end
 
+BanditPrograms.FallbackAction = function(bandit)
+    local tasks = {}
+    local action = ZombRand(50)
+
+    if action == 0 then
+        local task = {action="Time", anim="ShiftWeight", time=200}
+        table.insert(tasks, task)
+    elseif action == 1 then
+        local task = {action="Time", anim="ChewNails", time=200}
+        table.insert(tasks, task)
+    elseif action == 2 then
+        local task = {action="Time", anim="Smoke", time=200}
+        table.insert(tasks, task)
+        table.insert(tasks, task)
+        table.insert(tasks, task)
+    elseif action == 3 then
+        local task = {action="Time", anim="PullAtCollar", time=200}
+        table.insert(tasks, task)
+    elseif action == 4 then
+        local task = {action="Time", anim="Sneeze", time=200}
+        table.insert(tasks, task)
+        addSound(getPlayer(), bandit:getX(), bandit:getY(), bandit:getZ(), 7, 60)
+    elseif action == 5 then
+        local task = {action="Time", anim="WipeBrow", time=200}
+        table.insert(tasks, task)
+    elseif action == 6 then
+        local task = {action="Time", anim="WipeHead", time=200}
+        table.insert(tasks, task)
+    elseif action == 7 then
+        if BWOScheduler.WorldAge < 34 then
+            Bandit.Say(bandit, "STREETCHAT1")
+        else
+            Bandit.Say(bandit, "STREETCHAT2")
+        end
+        local anim = BanditUtils.Choice({"Talk1", "Talk2", "Talk3", "Talk4", "Talk5"})
+        local task = {action="Time", anim=anim, time=200}
+        table.insert(tasks, task)
+    end
+
+    return tasks
+end
+
 BanditPrograms.Talk = function(bandit)
     local tasks = {}
 
@@ -430,18 +472,33 @@ BanditPrograms.Talk = function(bandit)
     local neighborPlayer = BanditUtils.GetClosestPlayerLocation(bandit, true)
 
     local neighbor = neighborBandit
+    local minDist = 3
+    local blood
+    local health
     if neighborPlayer.dist < neighborBandit.dist then
         neighbor = neighborPlayer
+        minDist = 5
+        local player = BanditPlayer.GetPlayerById(neighbor.id)
+        local bodyDamage = player:getBodyDamage()
+        blood = player:getTotalBlood()
+        health = bodyDamage:getOverallBodyHealth()
+
     end
 
-    if neighbor.dist < 3 then
+    if neighbor.dist < minDist then
         local square = getCell():getGridSquare(neighbor.x, neighbor.y, neighbor.z)
         if square and BanditUtils.LineClear(bandit, square) then
             if ZombRand(2) == 0 then
-                if BWOScheduler.WorldAge < 34 then
-                    Bandit.Say(bandit, "STREETCHAT1")
+                if health and health < 50 then
+                    Bandit.Say(bandit, "STREETCHATHEALTH")
+                elseif blood and blood > 0 then
+                    Bandit.Say(bandit, "STREETCHATBLOOD")
                 else
-                    Bandit.Say(bandit, "STREETCHAT2")
+                    if BWOScheduler.WorldAge < 34 then
+                        Bandit.Say(bandit, "STREETCHAT1")
+                    else
+                        Bandit.Say(bandit, "STREETCHAT2")
+                    end
                 end
 
                 local anim = BanditUtils.Choice({"WaveHi", "Yes", "No", "Talk1", "Talk2", "Talk3", "Talk4", "Talk5"})

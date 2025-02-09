@@ -410,7 +410,7 @@ function BWOScheduler.MasterControl()
     local worldAge = calculateHourDifference(startHour, startDay, startMonth, startYear, hour, day, month, year)
     
     -- debug to jump to a certain hour
-    -- worldAge = worldAge + 110
+    -- worldAge = worldAge + 151
 
     BWOScheduler.WorldAge = worldAge
     
@@ -441,15 +441,15 @@ function BWOScheduler.MasterControl()
     if BWOScheduler.WorldAge > 2330 then
         BWOScheduler.World.DeadBodyAdderDensity = 0
     elseif BWOScheduler.WorldAge >= 1200 then
-        BWOScheduler.World.DeadBodyAdderDensity = 0.012
+        BWOScheduler.World.DeadBodyAdderDensity = 0.01
     elseif BWOScheduler.WorldAge >= 170 then
-        BWOScheduler.World.DeadBodyAdderDensity = 0.034
+        BWOScheduler.World.DeadBodyAdderDensity = 0.025
     elseif BWOScheduler.WorldAge >= 150 then
-        BWOScheduler.World.DeadBodyAdderDensity = 0.024
+        BWOScheduler.World.DeadBodyAdderDensity = 0.02
     elseif BWOScheduler.WorldAge >= 130 then
-        BWOScheduler.World.DeadBodyAdderDensity = 0.016
+        BWOScheduler.World.DeadBodyAdderDensity = 0.015
     elseif BWOScheduler.WorldAge >= 110 then
-        BWOScheduler.World.DeadBodyAdderDensity = 0.008
+        BWOScheduler.World.DeadBodyAdderDensity = 0.005
     end
 
     -- transforms the world appearance to simulate post-nuclear strike
@@ -650,8 +650,8 @@ function BanditScheduler.GetWaveDataAll()
         wave.enabled = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_WaveEnabled"]
         wave.friendlyChance = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_FriendlyChance"]
         wave.enemyBehaviour = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_EnemyBehaviour"]
-        wave.firstDay = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_FirstDay"] + 7
-        wave.lastDay = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_LastDay"] + 7
+        wave.firstDay = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_FirstDay"] + 67
+        wave.lastDay = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_LastDay"] + 67
         wave.spawnDistance = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_SpawnDistance"]
         wave.spawnHourlyChance = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_SpawnHourlyChance"]
         wave.groupSize = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_GroupSize"]
