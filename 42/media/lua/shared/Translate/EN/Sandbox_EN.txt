@@ -2,6 +2,14 @@ Sandbox_EN = {
 
     Sandbox_BanditsWeekOne = "Bandits Week One"
 
+    Sandbox_BanditsWeekOne.StartTime = "Time before finale"
+    Sandbox_BanditsWeekOne.StartTime_option1 = "One week (recommended)"    
+    Sandbox_BanditsWeekOne.StartTime_option2 = "Two weeks"
+    Sandbox_BanditsWeekOne.StartTime_option3 = "One month"
+    Sandbox_BanditsWeekOne.StartTime_option4 = "Three months"
+    Sandbox_BanditsWeekOne.StartTime_option5 = "One year"
+    Sandbox_BanditsWeekOne.StartTime_option6 = "Ten years"
+
     Sandbox_BanditsWeekOne.StartBabe = "Start with a babe"
     Sandbox_BanditsWeekOne.StartRide = "Start with a ride (possibility depends on spawn location)"
     Sandbox_BanditsWeekOne.InhabitantsPopMultiplier = "NPC Inhabitants number multiplier"

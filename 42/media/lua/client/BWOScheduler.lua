@@ -14,6 +14,16 @@ BWOScheduler.World = {}
 BWOScheduler.NPC = {}
 BWOScheduler.Anarchy = {}
 
+-- world age time shift depending on sandbox tart date
+waShiftMap = {}
+table.insert(waShiftMap, 0) -- week before
+table.insert(waShiftMap, 168) -- 2 weeks before
+table.insert(waShiftMap, 504) -- 4 weeks before
+table.insert(waShiftMap, 1848) -- 12 weeks before
+table.insert(waShiftMap, 8760) -- year before
+table.insert(waShiftMap, 87432) -- 10 years before
+BWOScheduler.waShiftMap = waShiftMap
+
 -- schedule 
 local generateSchedule = function()
     local tab = {}
@@ -28,7 +38,7 @@ local generateSchedule = function()
     -- DAY 1 09.00
     tab[0][1]   = {"Start", {}}
     tab[0][2]   = {"StartDay", {day="friday"}}
-    tab[0][3]   = {"RegisterBase", {}}
+    tab[0][3]   = {"BuildingHome", {addRadio=true}}
     tab[0][4]   = {"SetupNukes", {}}
     
     tab[2][22]  = {"ArmyPatrol", {intensity=9}}
@@ -46,7 +56,7 @@ local generateSchedule = function()
     tab[15][5]  = {"BuildingParty", {roomName="bedroom", intensity=8}}
     tab[15][25] = {"BuildingParty", {roomName="bedroom", intensity=8}}
     tab[16][58] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[19][42] = {"RegisterBase", {}}
+    tab[19][42] = {"BuildingHome", {addRadio=false}}
     tab[19][43] = {"Thieves", {intensity=3}}
     
     -- DAY 2 09.00
@@ -66,7 +76,7 @@ local generateSchedule = function()
     tab[39][2]  = {"BuildingParty", {roomName="bedroom", intensity=8}}
     tab[39][14] = {"Defenders", {profession="policeofficer"}}
     tab[39][14] = {"Arson", {profession="fireofficer"}}
-    tab[42][6]  = {"RegisterBase", {}}
+    tab[42][6]  = {"BuildingHome", {addRadio=false}}
     tab[42][7]  = {"Thieves", {intensity=4}}
 
     -- DAY 3 09.00
@@ -101,7 +111,7 @@ local generateSchedule = function()
     tab[79][15] = {"Criminals", {intensity=3}}
     tab[79][55] = {"Arson", {}}
     tab[80][41] = {"Defenders", {}}
-    tab[83][35] = {"RegisterBase", {}}
+    tab[83][35] = {"BuildingHome", {addRadio=false}}
     tab[83][36] = {"Thieves", {intensity=4}}
     tab[83][2]  = {"ChopperAlert", {sound="BWOChopper"}}
     tab[83][33] = {"ChopperAlert", {sound="BWOChopper"}}
@@ -113,7 +123,7 @@ local generateSchedule = function()
     tab[88][47] = {"Criminals", {intensity=6}}
     tab[89][35] = {"Defenders", {}}
     tab[89][52] = {"Arson", {}}
-    tab[89][58] = {"RegisterBase", {}}
+    tab[89][58] = {"BuildingHome", {addRadio=false}}
     tab[89][59] = {"Thieves", {intensity=5}}
     tab[90][6]  = {"Defenders", {}}
     tab[91][4]  = {"Arson", {}}
@@ -149,7 +159,7 @@ local generateSchedule = function()
     tab[113][38] = {"Bandits", {intensity=5}}
     tab[113][39] = {"Bandits", {intensity=2}}
     tab[116][15] = {"Defenders", {}}
-    tab[116][16] = {"RegisterBase", {}}
+    tab[116][16] = {"BuildingHome", {addRadio=false}}
     tab[116][17] = {"Thieves", {intensity=6}}
     tab[117][15] = {"Thieves", {intensity=6}}
 
@@ -408,7 +418,15 @@ function BWOScheduler.MasterControl()
 
     -- worldAge is counter in hours
     local worldAge = calculateHourDifference(startHour, startDay, startMonth, startYear, hour, day, month, year)
-    
+
+    -- adjust worldage depending on the start time
+    local waShiftMap = BWOScheduler.waShiftMap
+    local startTimeOption = SandboxVars.BanditsWeekOne.StartTime
+    local waShift = wawaShiftMapShift[startTimeOption]
+    if waShift then
+        worldAge = worldAge - waShift
+    end 
+
     -- debug to jump to a certain hour
     -- worldAge = worldAge + 151
 

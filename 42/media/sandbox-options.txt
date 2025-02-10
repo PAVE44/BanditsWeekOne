@@ -1,5 +1,10 @@
 VERSION = 1,
 
+option BanditsWeekOne.StartTime  = {
+    type = enum, numValues=6, default = 1,
+    page = BanditsWeekOne, translation = BanditsWeekOne.StartTime, valueTranslation=BanditsWeekOne.StartTime,
+}
+
 option BanditsWeekOne.StartBabe = {
     type = boolean, default = true,
     page = BanditsWeekOne, translation = BanditsWeekOne.StartBabe,

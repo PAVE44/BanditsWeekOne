@@ -1261,6 +1261,80 @@ BWOEvents.Entertainer = function(params)
 end
 
 -- params: []
+BWOEvents.BuildingHome = function(params)
+    local player = getSpecificPlayer(0)
+    local building = player:getBuilding()
+    if not building then return end
+
+    local buildingDef = building:getDef()
+    local x = buildingDef:getX()
+    local y = buildingDef:getY()
+    local x2 = buildingDef:getX2()
+    local y2 = buildingDef:getY2()
+
+    local args = {x=x, y=y, x2=x2, y2=y2}
+    sendClientCommand(player, 'Commands', 'BaseUpdate', args)
+
+    local bx = def:getX()
+    local bx2 = def:getX2()
+    local by = def:getY()
+    local by2 = def:getY2()
+
+    local otableNames = {"Low Table", "Counter", "Oak Round Table", "Light Round Table", "Table"}
+    local otable
+    local radio
+    for x=bx, bx2 do
+        for y=by, by2 do
+            local square = cell:getGridSquare(x, y, 0)
+            if square then
+                local room = square:getRoom()
+                if room then
+                    local roomName = room:getName()
+                    local objects = square:getObjects()
+                    for i=0, objects:size()-1 do
+                        local object = objects:get(i)
+
+                        if roomName ~= "bathroom" and roomName ~= "bedroom" then
+                            local sprite = object:getSprite()
+                            if sprite then
+                                local props = sprite:getProperties()
+                                if props:Is("CustomName") then
+                                    local name = props:Val("CustomName")
+                                    if name == "Radio" then
+                                        radio = object
+                                    end
+                                    for _, oTableName in pairs(otableNames) do
+                                        if name ==  oTableName then
+                                            counter = object
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    if counter then
+        if not radio and params.addRadio then
+            local square = counter:getSquare()
+            radio = addRadio(square:getX(), square:getY(), square:getZ())
+        end
+
+        if radio then
+            local dd = radioPart:getDeviceData()
+            if dd then
+                dd:setIsTurnedOn(true)
+                dd:setChannel(98400)
+                dd:setDeviceVolume(0.9)
+            end
+        end
+    end
+end
+
+-- params: []
 BWOEvents.BuildingParty = function(params)
     local player = getSpecificPlayer(0)
 
