@@ -659,6 +659,9 @@ table.insert(data, {query={"ass"}, res="Cursing is the devil's speech."})
 table.insert(data, {query={"i", "will", "shoot"}, res="Fuck off!", action="HOSTILE"})
 table.insert(data, {query={"i", "will", "kill"}, res="Fuck off!", action="HOSTILE"})
 table.insert(data, {query={"i", "will", "hit"}, res="Fuck off!", action="HOSTILE"})
+table.insert(data, {query={"i", "will", "use", "force"}, res="Fuck off!", action="HOSTILE"})
+table.insert(data, {query={"i", "will", "attack"}, res="Fuck off!", action="HOSTILE"})
+table.insert(data, {query={"i", "will", "beat"}, res="Fuck off!", action="HOSTILE"})
 table.insert(data, {query={"suck"}, res="Fuck off!", action="HOSTILE"})
 table.insert(data, {query={"fag"}, res="Fuck off!", action="HOSTILE"})
 table.insert(data, {query={"fuck"}, res="Fuck you!", action="HOSTILE"})
@@ -1033,15 +1036,28 @@ BWOChat.Say = function(chatMessage)
         end
         return name
     end
+
     local getMood = function()
         if BWOScheduler.SymptomLevel == 0 then
-            return "I'm great! Maybe a little stressed lately..."
+            local opts = {"I'm great! Maybe a little stressed lately...",
+                          "I'm good, thanks! But some people around behave strangly...",
+                          "Excellent, how are you?"}
+            return BanditUtils.Choice(opts)
         elseif BWOScheduler.SymptomLevel == 1 then
-            return "I'm doing fine.. just a slight headache..."
+            local opts = {"I'm doing fine.. just a slight headache...",
+                          "I'm fine, having headache though...",
+                          "I have a headache and nausea..."}
+            return BanditUtils.Choice(opts)
         elseif BWOScheduler.SymptomLevel == 2 then
-            return "Not so well honestly, I have terrible cough..."
+            local opts = {"Not so well honestly, I have terrible cough...",
+                          "Honestly not so good, I have to admit...",
+                          "I have a very bad cough and nausea..."}
+            return BanditUtils.Choice(opts)
         elseif BWOScheduler.SymptomLevel >= 3 then
-            return "Oh I'm really sick!"
+            local opts = {"Oh I'm really sick!",
+                          "Yesterday I was okay, but today I feel terrible!",
+                          "I have never felt that bad in my life..."}
+            return BanditUtils.Choice(opts)
         end
     end
 
@@ -1069,7 +1085,7 @@ BWOChat.Say = function(chatMessage)
         local weapons = Bandit.GetWeapons(bandit)
         local txt = "I have "
         txt = txt .. weapons.melee:match("%.([^%.]+)$")
-        
+
         if weapons.primary.name then
             txt = txt .. " and " .. weapons.primary.name:match("%.([^%.]+)$")
         end
@@ -1077,7 +1093,7 @@ BWOChat.Say = function(chatMessage)
         if weapons.secondary.name then
             txt = txt .. " and " .. weapons.secondary.name:match("%.([^%.]+)$")
         end
-        
+
         txt = txt .. "."
         return txt
     end
@@ -1088,7 +1104,7 @@ BWOChat.Say = function(chatMessage)
 
 	for k, v in pairs(data) do
         local query = v.query
-        
+
         local allMatch = true
         for _, word in pairs(v.query) do
             if not chatMessage:lower():hasword(word) then
@@ -1096,7 +1112,7 @@ BWOChat.Say = function(chatMessage)
                 break
             end
         end
-        
+
         if allMatch then
             local player = getSpecificPlayer(0)
             local target = BanditUtils.GetClosestBanditLocationProgram(player, {"Walker", "Runner", "Inhabitant", "Active", "Babe"})

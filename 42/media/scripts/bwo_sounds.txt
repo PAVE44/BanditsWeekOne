@@ -1,24 +1,48 @@
 module Bandits{
 
-    sound DOAmbientGuns {
+    sound BWOAmbientGuns {
         category = Object, 
         loop = false,
         is3D = true,
         clip { 
-            file = media/sound/day_one_ambient_guns.wav, 
+            file = media/sound/ambient_guns.wav, 
             distanceMax = 100,
             reverbFactor = 0.1, 
             volume = 1, 
         } 
     }
 
-    sound DOAmbientGunsFar {
+    sound BWOAmbientGunsFar {
         category = Object, 
         loop = false,
         is3D = true,
         clip { 
-            file = media/sound/day_one_ambient_guns_far.wav, 
+            file = media/sound/ambient_guns_far.wav, 
             distanceMax = 100,
+            reverbFactor = 0.1, 
+            volume = 1, 
+        } 
+    }
+
+    sound BWOAmbientRadiationLeft {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/ambient_radiation.ogg, 
+            distanceMax = 140,
+            reverbFactor = 0.1, 
+            volume = 1, 
+        } 
+    }
+
+    sound BWOAmbientRadiationRight {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/ambient_radiation.ogg, 
+            distanceMax = 140,
             reverbFactor = 0.1, 
             volume = 1, 
         } 

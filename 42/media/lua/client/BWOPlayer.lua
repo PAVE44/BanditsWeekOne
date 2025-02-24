@@ -20,7 +20,7 @@ BWOPlayer.ActivateWitness = function(character, min)
                 local canSee = actor:CanSee(character)
                 if canSee or dist < 3 then
                     -- witnessing civilians need to change peaceful behavior to active
-                    
+
                     for _, prg in pairs(activatePrograms) do
                         if witness.brain.program.name == prg then
                             Bandit.ClearTasks(actor)
@@ -39,7 +39,7 @@ BWOPlayer.ActivateWitness = function(character, min)
                                 end
                                 Bandit.Say(actor, "REACTCRIME")
                             end
-                            
+
                             local brain = BanditBrain.Get(actor)
                             if brain then
                                 local syncData = {}
@@ -48,7 +48,6 @@ BWOPlayer.ActivateWitness = function(character, min)
                                 syncData.program = brain.program
                                 Bandit.ForceSyncPart(actor, syncData)
                             end
-                            
                         end
                     end
                 end
@@ -68,7 +67,6 @@ BWOPlayer.ActivateExcercise = function(character, min)
                 local actor = BanditZombie.GetInstanceById(witness.id)
                 local canSee = actor:CanSee(character)
                 if canSee or dist < 3 then
-                    
                     for _, prg in pairs(activatePrograms) do
                         if witness.brain.program.name == prg then
                             if not Bandit.HasTaskType(actor, "PushUp") then
@@ -96,7 +94,6 @@ BWOPlayer.ActivateTargets = function(character, min, severity)
     local wasLegal = false
     local activateList = {}
     for id, witness in pairs(witnessList) do
-    
         local dist = math.sqrt(math.pow(character:getX() - witness.x, 2) + math.pow(character:getY() - witness.y, 2))
         if dist < min then
             if (witness.brain.clan > 0 and witness.brain.hostile) or witness.brain.program.name == "Thief" or witness.brain.program.name == "Vandal" then
@@ -138,7 +135,7 @@ BWOPlayer.ActivateTargets = function(character, min, severity)
                 Bandit.Say(actor, "REACTCRIME")
             end
         end
-        
+
         local brain = BanditBrain.Get(actor)
         if brain then
             local syncData = {}
@@ -188,7 +185,7 @@ local checkHostility = function(bandit, attacker)
     if not attacker then return end
 
     local player = getSpecificPlayer(0)
-    
+
     -- attacking zombies is ok!
     local brain = BanditBrain.Get(bandit)
     if not bandit:getVariableBoolean("Bandit") then return end
@@ -207,7 +204,7 @@ local checkHostility = function(bandit, attacker)
     -- defending in your home is ok
     local base = BanditPlayerBase.GetBase(attacker)
     if base and instanceof(attacker, "IsoPlayer") and not attacker:isNPC() then return end
-    
+ 
     -- to weak to respond
     -- local infection = Bandit.GetInfection(bandit)
     -- if infection > 0 then return end
@@ -298,7 +295,7 @@ end
 
 -- detecting crime based on who got killed by player
 local onHitZombie = function(zombie, attacker, bodyPartType, handWeapon)
-    BWOPlayer.aimTime = -20
+    BWOPlayer.aimTime = -25
     checkHostility(zombie, attacker)
 
     local brain = BanditBrain.Get(zombie)
@@ -312,7 +309,7 @@ end
 -- detecting crime based on who got hit by player
 local onZombieDead = function(zombie)
 
-    BWOPlayer.aimTime = -20
+    BWOPlayer.aimTime = -25
 
     if not zombie:getVariableBoolean("Bandit") then return end
 
@@ -339,7 +336,7 @@ local onZombieDead = function(zombie)
     params.hostile = false
 
     -- deprovision bandit (bandit main function is no longer doing that for clan 0)
-    
+
     bandit:setUseless(false)
     bandit:setReanim(false)
     bandit:setVariable("Bandit", false)
@@ -368,14 +365,13 @@ local onZombieDead = function(zombie)
                     bagContainer:AddItem(c3)
                 elseif rn == 2 then
                     local c1 = BanditCompatibility.InstanceItem("Base.Machete")
-
+                    bagContainer:AddItem(c1)
                     if BanditCompatibility.GetGameVersion() >= 42 then
                         local c2 = BanditCompatibility.InstanceItem("Base.Hat_HalloweenMaskVampire")
                         local c3 = BanditCompatibility.InstanceItem("Base.BlackRobe")
+                        bagContainer:AddItem(c2)
+                        bagContainer:AddItem(c3)
                     end
-                    bagContainer:AddItem(c1)
-                    bagContainer:AddItem(c2)
-                    bagContainer:AddItem(c3)
                 end
                 bandit:getSquare():AddWorldInventoryItem(bag, ZombRandFloat(0.2, 0.8), ZombRandFloat(0.2, 0.8), 0)
             end
@@ -778,47 +774,57 @@ local onPlayerUpdate = function(player)
 
         local gmd = GetBWOModData()
         local nukes = gmd.Nukes
+        local isRadiation = false
         for _, nuke in pairs(nukes) do
             if isInCircle(player:getX(), player:getY(), nuke.x, nuke.y, nuke.r) then
 
-                BWOTex.tex = getTexture("media/textures/fallout.png")
-                BWOTex.speed = 0.0005
-                BWOTex.mode = "full"
-        
-                local maxAlpha = 0.3
-                if player:isOutside() then
-                    maxAlpha = 0.4
-                end
-                if BWOTex.alpha < maxAlpha then
-                    BWOTex.alpha = BWOTex.alpha + 0.02
-                end
-
-                if BWOTex.alpha > maxAlpha + 0.1 then
-                    BWOTex.alpha = 0.4
-                end
-
-                if not immune then
-                    local bodyDamage = player:getBodyDamage()
-                    local stats = player:getStats()
-                    local sick = bodyDamage:getFoodSicknessLevel()
-                    local drunk = stats:getDrunkenness()
-                    local incSick = 1
-                    local incDrunk = 2
-                    if player:isOutside() then
-                        incSick = incSick * 2
-                        incDrunk = incDrunk * 2
-                    end
-
-                    if sick < 160 then
-                        bodyDamage:setFoodSicknessLevel(sick + incSick)
-                    end
-
-                    if drunk < 90 then
-                        stats:setDrunkenness(drunk + incDrunk)
-                    end
-                end
-                break
+                isRadiation = true
+                break 
             end
+        end
+
+        if isRadiation then
+
+            BWOTex.tex = getTexture("media/textures/fallout.png")
+            BWOTex.speed = 0.0005
+            BWOTex.mode = "full"
+
+            local maxAlpha = 0.3
+            if player:isOutside() then
+                maxAlpha = 0.4
+            end
+            if BWOTex.alpha < maxAlpha then
+                BWOTex.alpha = BWOTex.alpha + 0.02
+            end
+
+            if BWOTex.alpha > maxAlpha + 0.1 then
+                BWOTex.alpha = 0.4
+            end
+
+            if not immune then
+                local bodyDamage = player:getBodyDamage()
+                local stats = player:getStats()
+                local sick = bodyDamage:getFoodSicknessLevel()
+                local drunk = stats:getDrunkenness()
+                local incSick = 1
+                local incDrunk = 2
+                if player:isOutside() then
+                    incSick = incSick * 2
+                    incDrunk = incDrunk * 2
+                end
+
+                if sick < 170 then
+                    bodyDamage:setFoodSicknessLevel(sick + incSick)
+                end
+
+                if drunk < 90 then
+                    stats:setDrunkenness(drunk + incDrunk)
+                end
+            end
+
+            BWOAmbience.Enable("radiation")
+        else
+            BWOAmbience.Disable("radiation")
         end
     end
 

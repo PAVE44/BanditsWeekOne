@@ -8,7 +8,7 @@ BWOEffects.Add = function(effect)
 end
 
 BWOEffects.Process = function()
-    
+
     if isServer() then return end
 
     BWOEffects.tick = BWOEffects.tick + 1
@@ -44,7 +44,7 @@ BWOEffects.Process = function()
                 effect.object = dummy
 
             end
-            
+
             if effect.frame > effect.frameCnt and effect.rep >= effect.repCnt then
                 square:RemoveTileObject(effect.object)
                 BWOEffects.tab[i] = nil
@@ -57,10 +57,10 @@ BWOEffects.Process = function()
                 -- local frameStr = string.format("%03d", effect.frame)
                 -- local alpha = 0.1-- (effect.repCnt - effect.rep + 1) / effect.repCnt
                 local sprite = effect.object:getSprite()
-                
+
                 if sprite then
                     local spriteName = effect.name .. "_" .. (effect.frame - 1)
-                    
+
                     -- method 1
                     effect.object:setSprite(spriteName)
 
@@ -82,7 +82,7 @@ BWOEffects.Process = function()
                         effect.object:setCustomColor(effect.colors.r, effect.colors.g, effect.colors.b, effect.colors.a)
                     end
                     effect.frame = effect.frame + 1
-                    
+
                     if effect.poison then
                         -- effect.object:setCustomColor(0.1,0.7,0.2, alpha)
                         if effect.frame % 10 == 1 then

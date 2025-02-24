@@ -756,7 +756,8 @@ BWOEvents.Start = function(params)
             end
         end
     end
-    BWOScheduler.Add("Say", {txt="TIP: Press \"T\" to chat with other people."}, 8000)
+    BWOScheduler.Add("Say", {txt="TIP: Press \"T\" to chat with other people."}, 11000)
+    -- BWOScheduler.Add("Say", {txt="TIP: Press \"T\" to chat with other people."}, 41000)
 end
 
 -- params: [day]
