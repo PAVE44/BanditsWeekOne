@@ -54,16 +54,20 @@ ZombiePrograms.ArmyGuard.Main = function(bandit)
         return {status=true, next="Prepare", tasks=tasks}
     end
 
+    local mindist = 2.5
     if Bandit.IsHostile(bandit) then
-        local closestPlayer = BanditUtils.GetClosestPlayerLocation(bandit, false)
-        if closestPlayer.dist < 50 then
-            Bandit.Say(bandit, "SPOTTED")
-            Bandit.ClearTasks(bandit)
-            Bandit.SetProgram(bandit, "Bandit", {})
-            Bandit.ForceStationary(bandit, false)
-            return {status=true, next="Prepare", tasks=tasks}
-        end
+        mindist = 50
     end
+    local closestPlayer = BanditUtils.GetClosestPlayerLocation(bandit, false)
+    if closestPlayer.dist < mindist then
+        Bandit.Say(bandit, "SPOTTED")
+        Bandit.ClearTasks(bandit)
+        Bandit.SetProgram(bandit, "Bandit", {})
+        Bandit.SetHostile(bandit, true)
+        Bandit.ForceStationary(bandit, false)
+        return {status=true, next="Prepare", tasks=tasks}
+    end
+
 
     local subTasks = BanditPrograms.Idle(bandit)
     if #subTasks > 0 then

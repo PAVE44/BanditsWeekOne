@@ -20,7 +20,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
-        femaleChance = 10
+        femaleChance = 10,
+        income = 1
     },
 
     arenakitchenstorage = {
@@ -88,7 +89,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan"},
-        femaleChance = 30
+        femaleChance = 30,
+        income = 1
     },
 
     bandkitchen = {
@@ -97,7 +99,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan"},
-        femaleChance = 30
+        femaleChance = 30,
+        income = 1
     },
 
     bandlivingroom = {
@@ -121,7 +124,8 @@ BWORooms.tab = {
         outfits = {"Security"},
         hasPistolChance = 100,
         pistolMagCount = 3,
-        melee = {"Base.Nightstick"}
+        melee = {"Base.Nightstick"},
+        income = 2
     },
 
     bar = {
@@ -143,7 +147,8 @@ BWORooms.tab = {
     barkitchen = {
         isRestaurant = true,
         isKitchen = true,
-        occupations = {"chef", "burgerflipper"}
+        occupations = {"chef", "burgerflipper"},
+        income = 1
     },
 
     barstorage = {
@@ -212,7 +217,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
-        femaleChance = 30
+        femaleChance = 30,
+        income = 1
     },
 
     burgerstorage = {
@@ -249,7 +255,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan"},
-        femaleChance = 30
+        femaleChance = 30,
+        income = 1
     },
 
     cafeteria = {
@@ -264,7 +271,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
-        femaleChance = 30
+        femaleChance = 30,
+        income = 1
     },
 
     camerastore = {
@@ -305,7 +313,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
-        femaleChance = 10
+        femaleChance = 10,
+        income = 1
     },
 
     catfish_dining = {
@@ -331,7 +340,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
-        femaleChance = 10
+        femaleChance = 10,
+        income = 1
     },
 
     chineserestaurant = {
@@ -357,6 +367,7 @@ BWORooms.tab = {
         isShop = true,
         isMedical = true,
         outfits = {"Nurse", "Doctor", "HospitalPatient"},
+        income = 1
     },
 
     clothesstore = {
@@ -424,7 +435,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
-        femaleChance = 10
+        femaleChance = 10,
+        income = 1
     },
 
     dentiststorage = {
@@ -447,6 +459,7 @@ BWORooms.tab = {
         occupations = {"policeofficer"},
         hasPistolChance = 100,
         pistolMagCount = 3,
+        income = 1
     },
 
     diner = {
@@ -466,7 +479,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
-        femaleChance = 10
+        femaleChance = 10,
+        income = 1
     },
 
     dinerkitchen = {
@@ -475,7 +489,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
-        femaleChance = 10
+        femaleChance = 10,
+        income = 1
     },
 
     dining = {
@@ -521,7 +536,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
-        femaleChance = 10
+        femaleChance = 10,
+        income = 1
     },
 
     donut_kitchenstorage = {
@@ -545,7 +561,8 @@ BWORooms.tab = {
 
     electronicsstorage = {
         isStorage = true,
-        occupations = {"electrician"}
+        occupations = {"electrician"},
+        income = 2
     },
 
     electronicsstore = {
@@ -572,13 +589,15 @@ BWORooms.tab = {
 
     factorystorage = {
         isStorage = true,
-        occupations = {"lumberjack", "metalworker", "constructionworker", "carpenter"}
+        occupations = {"lumberjack", "metalworker", "constructionworker", "carpenter"},
+        income = 2
     },
 
     farmstorage = {
         isStorage = true,
         occupations = {"farmer"},
         outfits = {"Farmer"},
+        income = 1
     },
 
     firestorage = {
@@ -586,7 +605,8 @@ BWORooms.tab = {
         outfits = {"FiremanFullSuit", "Fireman"},
         melee = {"Base.BareHands", "Base.Axe"},
         femaleChance = 0,
-        occupations = {"fireofficer"}
+        occupations = {"fireofficer"},
+        income = 1
     },
 
     fishchipskitchen = {
@@ -595,7 +615,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
-        femaleChance = 10
+        femaleChance = 10,
+        income = 1
     },
 
     fishingstorage = {
@@ -615,14 +636,15 @@ BWORooms.tab = {
 
     furniturestorage = {
         isStorage = true,
-        occupations = {"carpenter"}
-        
+        occupations = {"carpenter"},
+        income = 2
     },
 
     furniturestore = {
         isShop = true,
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "OfficeWorkerSkirt"},
-        femaleChance = 50
+        femaleChance = 50,
+        income = 2
     },
 
     garage = {
@@ -691,7 +713,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
-        femaleChance = 10
+        femaleChance = 10,
+        income = 1
     },
 
     grocery = {
@@ -775,7 +798,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife"},
-        femaleChance = 10
+        femaleChance = 10,
+        income = 1
     },
 
     italiankitchen = {
@@ -784,7 +808,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
-        femaleChance = 10
+        femaleChance = 10,
+        income = 1
     },
 
     interrogationroom = {
@@ -792,7 +817,8 @@ BWORooms.tab = {
         outfits = {"Police", "Detective"},
         hasPistolChance = 100,
         pistolMagCount = 3,
-        melee = {"Base.Nightstick"}
+        melee = {"Base.Nightstick"},
+        income = 1
     }, 
 
     italianrestaurant = {
@@ -818,7 +844,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
-        femaleChance = 10
+        femaleChance = 10,
+        income = 1
     },
 
     jewelrystorage = {
@@ -856,7 +883,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan"},
-        femaleChance = 30
+        femaleChance = 30,
+        income = 1
     },
 
     kitchenwares = {
@@ -932,16 +960,19 @@ BWORooms.tab = {
     loggingfactory = {
         outfits = {"Woodcut"},
         melee = {"Base.WoodAxe"},
+        income = 1
     },
 
     loggingwarehouse = {
         outfits = {"Woodcut"},
         melee = {"Base.WoodAxe"},
+        income = 1
     },
 
     loggingtruck = {
         outfits = {"Woodcut"},
         melee = {"Base.WoodAxe"},
+        income = 1
     },
 
     mapfactory = {
@@ -953,7 +984,8 @@ BWORooms.tab = {
         occupations = {"mechanic"},
         outfits = {"Mechanic"},
         femaleChance = 0,
-        melee = {"Base.Wrench", "Base.Ratchet"}
+        melee = {"Base.Wrench", "Base.Ratchet"},
+        income = 1
     },
 
     medclinic = {
@@ -961,6 +993,7 @@ BWORooms.tab = {
         isMedical = true,
         occupations = {"doctor", "nurse"},
         outfits = {"Nurse", "Doctor", "HospitalPatient"},
+        income = 1
     },
 
     medical = {
@@ -968,6 +1001,7 @@ BWORooms.tab = {
         isMedical = true,
         occupations = {"doctor", "nurse"},
         outfits = {"Nurse", "Doctor", "HospitalPatient"},
+        income = 1
     },
 
     medicaloffice = {
@@ -975,6 +1009,7 @@ BWORooms.tab = {
         isMedical = true,
         occupations = {"doctor", "nurse"},
         outfits = {"Nurse", "Doctor", "HospitalPatient"},
+        income = 1
     },
 
     medicalclinic = {
@@ -982,6 +1017,7 @@ BWORooms.tab = {
         isMedical = true,
         occupations = {"doctor", "nurse"},
         outfits = {"Nurse", "Doctor", "HospitalPatient"},
+        income = 1
     },
 
     medicalstorage = {
@@ -1015,7 +1051,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
-        femaleChance = 10
+        femaleChance = 10,
+        income = 1
     },
 
     motelroom = {
@@ -1131,7 +1168,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.RollingPin", "Base.RollingPin", "Base.RollingPin"},
-        femaleChance = 10
+        femaleChance = 10,
+        income = 1
     },
 
     pizzawhirled = {
@@ -1156,7 +1194,8 @@ BWORooms.tab = {
         outfits = {"Police", "Detective"},
         hasPistolChance = 100,
         pistolMagCount = 3,
-        melee = {"Base.Nightstick"}
+        melee = {"Base.Nightstick"},
+        income = 1
     },
 
     policegarage = {
@@ -1201,7 +1240,8 @@ BWORooms.tab = {
         outfits = {"Police", "Detective"},
         hasPistolChance = 100,
         pistolMagCount = 3,
-        melee = {"Base.Nightstick"}
+        melee = {"Base.Nightstick"},
+        income = 1
     }, 
 
     policegunstorage = {
@@ -1238,22 +1278,26 @@ BWORooms.tab = {
         isStorage = true,
         occupations = {"farmer"},
         outfits = {"Farmer"},
+        income = 1
     },
 
     prisoncells = {
         occupations = {"securityguard", "policeofficer"},
-        outfits = {"Inmate"}
+        outfits = {"Inmate"},
+        income = 1
     },
 
     prisoncell = {
         occupations = {"securityguard", "policeofficer"},
-        outfits = {"Inmate"}
+        outfits = {"Inmate"},
+        income = 1
     },
 
     producestorage = {
         isStorage = true,
         occupations = {"farmer"},
         outfits = {"Farmer"},
+        income = 1
     },
 
     radiofactory = {
@@ -1266,7 +1310,8 @@ BWORooms.tab = {
 
     radiostorage = {
         isStorage = true,
-        occupations = {"electrician"}
+        occupations = {"electrician"},
+        income = 3
     },
 
     recreation = {
@@ -1297,7 +1342,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.RollingPin", "Base.RollingPin", "Base.RollingPin"},
-        femaleChance = 10
+        femaleChance = 10,
+        income = 1
     },
 
     restaurantstorage = {
@@ -1320,7 +1366,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.RollingPin", "Base.RollingPin", "Base.RollingPin"},
-        femaleChance = 10
+        femaleChance = 10,
+        income = 1
     },
 
     secondaryclassroom = {
@@ -1333,7 +1380,8 @@ BWORooms.tab = {
         outfits = {"Security"},
         hasPistolChance = 100,
         pistolMagCount = 3,
-        melee = {"Base.Nightstick"}
+        melee = {"Base.Nightstick"},
+        income = 1
     },
 
     sewingstorage = {
@@ -1384,7 +1432,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.RollingPin", "Base.RollingPin", "Base.RollingPin"},
-        femaleChance = 10
+        femaleChance = 10,
+        income = 1
     },
 
     spiffosstorage = {
@@ -1438,7 +1487,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.RollingPin", "Base.RollingPin", "Base.RollingPin"},
-        femaleChance = 0
+        femaleChance = 0,
+        income = 1
     },
 
     tacokitchen = {
@@ -1447,7 +1497,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.RollingPin", "Base.RollingPin", "Base.RollingPin"},
-        femaleChance = 15
+        femaleChance = 15,
+        income = 1
     },
 
     theatre = {
@@ -1460,7 +1511,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.RollingPin", "Base.RollingPin", "Base.RollingPin"},
-        femaleChance = 10
+        femaleChance = 10,
+        income = 1
     },
 
     theatrestorage = {
@@ -1476,6 +1528,7 @@ BWORooms.tab = {
     toolstorestorage = {
         isStorage = true,
         occupations = {"repairman"},
+        income = 1
     },
 
     toolstore = {
@@ -1511,7 +1564,8 @@ BWORooms.tab = {
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.RollingPin", "Base.RollingPin", "Base.RollingPin"},
-        femaleChance = 10
+        femaleChance = 10,
+        income = 1
     },
 
     whiskeybottling = {

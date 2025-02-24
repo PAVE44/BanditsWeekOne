@@ -7,41 +7,32 @@ local getGameVersion = function()
 end
 
 BWOCompatibility.GetSandboxOptionVars = function(square)
+    
+    if getGameVersion()< 42 then return end
     local vars = {}
-    if getGameVersion() >= 42 then
-        table.insert (vars, {"KeyLootNew", 0, 0.3})
-        table.insert (vars, {"MaximumLooted", 0, 70})
-        table.insert (vars, {"FoodLootNew", 1.4, 0.3})
-        table.insert (vars, {"CannedFoodLootNew", 1.2, 0.3})
-        table.insert (vars, {"LiteratureLootNew", 1.2, 0.3})
-        table.insert (vars, {"SurvivalGearsLootNew", 1.2, 0.3})
-        table.insert (vars, {"MedicalLootNew", 1.2, 0.3})
-        table.insert (vars, {"WeaponLootNew", 1.2, 0.3})
-        table.insert (vars, {"RangedWeaponLootNew", 1.2, 0.3})
-        table.insert (vars, {"AmmoLootNew", 1.6, 0.5})
-        table.insert (vars, {"MechanicsLootNew", 1.2, 0.3})
-        table.insert (vars, {"OtherLootNew", 1.2, 0.3})
-        table.insert (vars, {"ClothingLootNew", 1.2, 0.3})
-        table.insert (vars, {"ContainerLootNew", 1.2, 0.3})
-        table.insert (vars, {"MementoLootNew", 1.2, 0.3})
-        table.insert (vars, {"MediaLootNew", 1.2, 0.3})
-        table.insert (vars, {"CookwareLootNew", 1.2, 0.3})
-        table.insert (vars, {"MaterialLootNew", 1.2, 0.3})
-        table.insert (vars, {"FarmingLootNew", 1.2, 0.3})
-        table.insert (vars, {"ToolLootNew", 1.2, 0.3})
-        table.insert (vars, {"MaximumRatIndex", 0, 50})
-    else
-        table.insert (vars, {"FoodLoot", 1.4, 0.3})
-        table.insert (vars, {"CannedFoodLoot", 1.2, 0.3})
-        table.insert (vars, {"LiteratureLoot", 1.2, 0.3})
-        table.insert (vars, {"SurvivalGearsLoot", 1.2, 0.3})
-        table.insert (vars, {"MedicalLoot", 1.2, 0.3})
-        table.insert (vars, {"WeaponLoot", 1.2, 0.3})
-        table.insert (vars, {"RangedWeaponLoot", 1.2, 0.3})
-        table.insert (vars, {"AmmoLoot", 1.6, 0.5})
-        table.insert (vars, {"MechanicsLoot", 1.2, 0.3})
-        table.insert (vars, {"OtherLoot", 1.2, 0.3})
-    end
+    local gmd = GetBWOModData()
+    local orig = gmd.Sandbox
+
+    table.insert (vars, {"KeyLootNew", 0, orig.KeyLootNew})
+    table.insert (vars, {"FoodLootNew", 1.4, orig.FoodLootNew})
+    table.insert (vars, {"CannedFoodLootNew", 1.2, orig.CannedFoodLootNew})
+    table.insert (vars, {"LiteratureLootNew", 1.2, orig.LiteratureLootNew})
+    table.insert (vars, {"SurvivalGearsLootNew", 1.2, orig.SurvivalGearsLootNew})
+    table.insert (vars, {"MedicalLootNew", 1.2, orig.MedicalLootNew})
+    table.insert (vars, {"WeaponLootNew", 1.2, orig.WeaponLootNew})
+    table.insert (vars, {"RangedWeaponLootNew", 1.2, orig.RangedWeaponLootNew})
+    table.insert (vars, {"AmmoLootNew", 1.6, orig.AmmoLootNew})
+    table.insert (vars, {"MechanicsLootNew", 1.2, orig.MechanicsLootNew})
+    table.insert (vars, {"OtherLootNew", 1.2, orig.OtherLootNew})
+    table.insert (vars, {"ClothingLootNew", 1.2, orig.ClothingLootNew})
+    table.insert (vars, {"ContainerLootNew", 1.2, orig.ContainerLootNew})
+    table.insert (vars, {"MementoLootNew", 1.2, orig.MementoLootNew})
+    table.insert (vars, {"MediaLootNew", 1.2, orig.MediaLootNew})
+    table.insert (vars, {"CookwareLootNew", 1.2, orig.CookwareLootNew})
+    table.insert (vars, {"MaterialLootNew", 1.2, orig.MaterialLootNew})
+    table.insert (vars, {"FarmingLootNew", 1.2, orig.FarmingLootNew})
+    table.insert (vars, {"ToolLootNew", 1.2, orig.ToolLootNew})
+    table.insert (vars, {"MaximumRatIndex", 0, orig.MaximumRatIndex})
     return vars
 end
 

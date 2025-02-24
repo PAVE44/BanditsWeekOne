@@ -198,10 +198,24 @@ addBarricadeEast(12478, 12491, 5823)
 BWOSquareLoader.remove["12072-6759-0"] = {}
 BWOSquareLoader.remove["12072-6760-0"] = {}
 
--- outofgas signs
-BWOSquareLoader.remove["10615-9768-0"] = {}
-BWOSquareLoader.remove["10615-9766-0"] = {}
-BWOSquareLoader.remove["10642-10628-0"] = {}
+-- remove fence in brandenburg gunshop
+BWOSquareLoader.remove["2048-5832-0"] = {}
+BWOSquareLoader.remove["2048-5833-0"] = {}
+
+-- remove fence in irvington gunshop
+BWOSquareLoader.remove["1774-14789-0"] = {}
+BWOSquareLoader.remove["1775-14789-0"] = {}
+
+-- remove fence in LV gunshops
+BWOSquareLoader.remove["12360-1718-0"] = {}
+BWOSquareLoader.remove["13596-1533-0"] = {}
+BWOSquareLoader.remove["13597-1533-0"] = {}
+BWOSquareLoader.remove["13598-1533-0"] = {}
+
+-- outofgas signs (they are added programatically, so cant remove them that way)
+-- BWOSquareLoader.remove["10615-9768-0"] = {}
+-- BWOSquareLoader.remove["10615-9766-0"] = {}
+-- BWOSquareLoader.remove["10642-10628-0"] = {}
 
 -- protests
 local protests = {}
@@ -411,105 +425,128 @@ customNameMap["Bench"] = "sittable"
 customNameMap["Chair"] = "sittable"
 BWOSquareLoader.customNameMap = customNameMap
 
--- updates square to implement prepandemic world and manage add/remove objects
-BWOSquareLoader.OnLoad = function(square)
+local clearObjects = function(square)
+    local objects = square:getObjects()
+    local destroyList = {}
+    local legalSprites = {}
+    table.insert(legalSprites, "fencing_01_88")
+    table.insert(legalSprites, "fencing_01_90")
+    table.insert(legalSprites, "fencing_01_90")
+    table.insert(legalSprites, "fencing_01_91")
+    table.insert(legalSprites, "carpentry_02_13")
+    table.insert(legalSprites, "carpentry_02_12")
+    table.insert(legalSprites, "fencing_01_96")
 
-    local clearObjects = function(square)
-        local objects = square:getObjects()
-        local destroyList = {}
-        local legalSprites = {}
-        table.insert(legalSprites, "fencing_01_88")
-        table.insert(legalSprites, "fencing_01_90")
-        table.insert(legalSprites, "fencing_01_90")
-        table.insert(legalSprites, "fencing_01_91")
-        table.insert(legalSprites, "carpentry_02_13")
-        table.insert(legalSprites, "carpentry_02_12")
-        table.insert(legalSprites, "fencing_01_96")
-    
-        for i=0, objects:size()-1 do
-            local object = objects:get(i)
-            if object then
-                local sprite = object:getSprite()
-                if sprite then 
-                    local spriteName = sprite:getName()
-                    local spriteProps = sprite:getProperties()
-    
-                    local isSolidFloor = spriteProps:Is(IsoFlagType.solidfloor)
-                    local isAttachedFloor = spriteProps:Is(IsoFlagType.attachedFloor)
-    
-                    isLegalSprite = false
-                    --[[
-                    for _, sp in pairs(legalSprites) do
-                        if sp == spriteName then
-                            isLegalSprite = true
-                            break
-                        end
+    for i=0, objects:size()-1 do
+        local object = objects:get(i)
+        if object then
+            local sprite = object:getSprite()
+            if sprite then 
+                local spriteName = sprite:getName()
+                local spriteProps = sprite:getProperties()
+
+                local isSolidFloor = spriteProps:Is(IsoFlagType.solidfloor)
+                local isAttachedFloor = spriteProps:Is(IsoFlagType.attachedFloor)
+
+                isLegalSprite = false
+                --[[
+                for _, sp in pairs(legalSprites) do
+                    if sp == spriteName then
+                        isLegalSprite = true
+                        break
                     end
-                    ]]
-    
-                    if not isSolidFloor and not isLegalSprite then
-                        table.insert(destroyList, object)
-                    end
+                end
+                ]]
+
+                if not isSolidFloor and not isLegalSprite then
+                    table.insert(destroyList, object)
                 end
             end
         end
-    
-        for k, obj in pairs(destroyList) do
-            if isClient() then
-                sledgeDestroy(obj);
-            else
-                square:transmitRemoveItemFromSquare(obj)
+    end
+
+    for k, obj in pairs(destroyList) do
+        if isClient() then
+            sledgeDestroy(obj);
+        else
+            square:transmitRemoveItemFromSquare(obj)
+        end
+    end
+end
+
+local addObject = function(square, objectList)
+    for _, sprite in pairs(objectList) do
+        local obj = IsoObject.new(square, sprite, "")
+        square:AddSpecialObject(obj)
+        obj:transmitCompleteItemToServer()
+        print ("added")
+    end
+end
+
+local isInCircle = function(x, y, cx, cy, r)
+    local d2 = ((x - cx) * (x - cx)) + ((y - cy) * (y - cy))
+    return d2 <= r * r
+end
+
+local bxor =function(a, b)
+    local result = 0
+    local bitval = 1
+    while a > 0 or b > 0 do
+        local abit, bbit = a % 2, b % 2
+        if abit ~= bbit then
+            result = result + bitval
+        end
+        a = math.floor(a / 2)
+        b = math.floor(b / 2)
+        bitval = bitval * 2
+    end
+    return result
+end
+
+local hash = function(x, y, seed)
+    return (bxor(x * 73856093, bxor(y * 19349663, seed * 83492791))) % 1000000
+end
+
+local shouldPlace = function(x, y, density, seed)
+    local threshold = density * 1000000  -- Scale density to hash range
+    return hash(x, y, seed) < threshold
+end
+
+
+-- setups player vicinity area upon game start
+BWOSquareLoader.SetupWorld = function()
+    local player = getSpecificPlayer(0)
+    local hours = player:getHoursSurvived()
+    if hours > 0.2 then return end
+
+    local cell = getCell()
+    local px, py = player:getX(), player:getY()
+
+    BWOScheduler.World.ObjectRemover = true
+    BWOScheduler.World.DeadBodyRemover = true
+    BWOScheduler.World.GlobalObjectAdder = true
+
+    for z=0, 2 do
+        for y=-150, 150 do
+            for x=-150, 150 do
+                local square = cell:getGridSquare(px + x, py + y, z)
+                if square then
+                    BWOSquareLoader.OnLoad(square)
+                end
             end
         end
     end
+end
 
-    local addObject = function(square, objectList)
-        for _, sprite in pairs(objectList) do
-            local obj = IsoObject.new(square, sprite, "")
-            square:AddSpecialObject(obj)
-            obj:transmitCompleteItemToServer()
-            print ("added")
-        end
-    end
-
-    local isInCircle = function(x, y, cx, cy, r)
-        local d2 = ((x - cx) * (x - cx)) + ((y - cy) * (y - cy))
-        return d2 <= r * r
-    end
-
-    function bxor(a, b)
-        local result = 0
-        local bitval = 1
-        while a > 0 or b > 0 do
-            local abit, bbit = a % 2, b % 2
-            if abit ~= bbit then
-                result = result + bitval
-            end
-            a = math.floor(a / 2)
-            b = math.floor(b / 2)
-            bitval = bitval * 2
-        end
-        return result
-    end
-    
-    function hash(x, y, seed)
-        return (bxor(x * 73856093, bxor(y * 19349663, seed * 83492791))) % 1000000
-    end
-    
-    function shouldPlaceCorpse(x, y, density, seed)
-        local threshold = density * 1000000  -- Scale density to hash range
-        return hash(x, y, seed) < threshold
-    end
-
+-- updates square to implement prepandemic world and manage add/remove objects
+BWOSquareLoader.OnLoad = function(square)
     local map = BWOSquareLoader.map
     local remove = BWOSquareLoader.remove
     local spriteMap = BWOSquareLoader.spriteMap
     local customNameMap = BWOSquareLoader.customNameMap
+    local scheduler = BWOScheduler.World
 
-	local x = square:getX()
-    local y = square:getY()
-    local z = square:getZ()
-    local md = square:getModData()
+	local x, y, z, md = square:getX(), square:getY(), square:getZ(), square:getModData()
     if not md.BWO then md.BWO = {} end
 
     local id = x .. "-" .. y .. "-" .. z
@@ -522,7 +559,7 @@ BWOSquareLoader.OnLoad = function(square)
     end
 
     -- remove map objects
-    if BWOScheduler.World.ObjectRemover then
+    if scheduler.ObjectRemover then
         if remove[id] then
             clearObjects(square)
             BWOSquareLoader.remove[id] = nil
@@ -530,7 +567,7 @@ BWOSquareLoader.OnLoad = function(square)
     end
 
     -- remove deadbodies
-    if BWOScheduler.World.DeadBodyRemover then
+    if scheduler.DeadBodyRemover then
         local corpse = square:getDeadBody()
         local gmd = GetBWOModData()
         local id = x .. "-" .. y .. "-" .. z
@@ -554,7 +591,7 @@ BWOSquareLoader.OnLoad = function(square)
             local props = sprite:getProperties()
 
             -- register global objects
-            if BWOScheduler.World.GlobalObjectAdder then
+            if scheduler.GlobalObjectAdder then
 
                 if instanceof(object, "IsoBarbecue") and square:isOutside() then
                     local args = {x=x, y=y, z=z, otype="barbecue"}
@@ -618,12 +655,11 @@ BWOSquareLoader.OnLoad = function(square)
     end
 
     -- dead body placer
-    if BWOScheduler.World.DeadBodyAdderDensity and BWOScheduler.World.DeadBodyAdderDensity > 0 then
-
+    if scheduler.DeadBodyAdderDensity and scheduler.DeadBodyAdderDensity > 0 then
         if not md.BWO.dbs then
             local seed = 12345
             if BanditUtils.HasZoneType(x, y, z, "TownZone") then
-                local density = BWOScheduler.World.DeadBodyAdderDensity
+                local density = scheduler.DeadBodyAdderDensity
 
                 local zone = square:getZone()
                 local multiplier = 0
@@ -645,7 +681,7 @@ BWOSquareLoader.OnLoad = function(square)
 
                 if not square:isOutside() then density = density * 8 end
 
-                if density > 0 and shouldPlaceCorpse(x, y, density, seed) then
+                if density > 0 and shouldPlace(x, y, density, seed) then
                     local outfit = BanditUtils.Choice({"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "Generic05", "Classy", "IT", "Student", "Teacher", "Police", "Young"})
                     local zombieList = BanditCompatibility.AddZombiesInOutfit(x, y, z, outfit, 50, false, false, false, false, false, false, 2)
                     for i=0, zombieList:size()-1 do
@@ -665,9 +701,56 @@ BWOSquareLoader.OnLoad = function(square)
             end
         end
     end
+    md.BWO.dbs = true
+
+    -- bombing simulator
+    --[[
+    if scheduler.Bombing and scheduler.Bombing > 0 then
+        if not md.BWO.bs and not square:haveFire() then
+            local seed = 13248
+            if BanditUtils.HasZoneType(x, y, z, "TownZone") then
+                -- cumulated bombing intensity is 300
+                -- expected max density is 0.005
+                -- 300 / x = 0.005
+                local density = scheduler.Bombing / 60000
+
+                local zone = square:getZone()
+                local multiplier = 0
+                if zone then
+                    local zoneType = zone:getType()
+                    if zoneType then
+                        if zoneType == "TownZone" or zoneType == "TrailerPark" then
+                            multiplier = 1
+                        elseif zoneType == "Farm" or zoneType == "Ranch" then
+                            multiplier = 0.6
+                        elseif zoneType == "Nav" then
+                            multiplier = 0.3
+                        elseif zoneType == "Vegitation" then
+                            multiplier = 0.1
+                        end
+                    end
+                end
+                density = density * multiplier
+
+                if not square:isOutside() then density = density * 8 end
+
+                if density > 0 and shouldPlace(x, y, density, seed) then
+                    if isClient() then
+                        local args = {x=x, y=y, z=0}
+                        sendClientCommand('object', 'addExplosionOnSquare', args)
+                    else
+                        IsoFireManager.explode(getCell(), square, 100)
+                    end
+                    BanditBaseGroupPlacements.Junk (x-4, y-4, 0, 6, 8, 3)
+                end
+            end
+        end
+    end
+    md.BWO.bs = true
+    ]]
 
     -- post nuke world destroyer
-    if BWOScheduler.World.PostNuclearTransformator then
+    if scheduler.PostNuclearTransformator then
         if not md.BWO.burnt then
             local gmd = GetBWOModData()
             local nukes = gmd.Nukes
@@ -684,7 +767,6 @@ BWOSquareLoader.OnLoad = function(square)
             md.BWO.burnt = true
         end
     end
-    md.BWO.dbs = true
 end
 
 -- spawns location events when player is near
@@ -789,3 +871,4 @@ Events.LoadGridsquare.Add(BWOSquareLoader.OnLoad)
 Events.OnTick.Add(BWOSquareLoader.LocationEvents)
 Events.EveryOneMinute.Add(BWOSquareLoader.VehicleFixOrRemove)
 Events.OnNewFire.Add(BWOSquareLoader.OnNewFire)
+Events.OnGameStart.Add(BWOSquareLoader.SetupWorld)

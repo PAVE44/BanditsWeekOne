@@ -300,6 +300,13 @@ end
 local onHitZombie = function(zombie, attacker, bodyPartType, handWeapon)
     BWOPlayer.aimTime = -20
     checkHostility(zombie, attacker)
+
+    local brain = BanditBrain.Get(zombie)
+    if brain and brain.program.name == "Shahid" then
+        zombie:Kill(nil)
+        BWOEvents.Explode(zombie:getX(), zombie:getY())
+    end
+
 end
 
 -- detecting crime based on who got hit by player
@@ -332,11 +339,7 @@ local onZombieDead = function(zombie)
     params.hostile = false
 
     -- deprovision bandit (bandit main function is no longer doing that for clan 0)
-
-
-    local id = BanditUtils.GetCharacterID(bandit)
-    local brain = BanditBrain.Get(bandit)
-
+    
     bandit:setUseless(false)
     bandit:setReanim(false)
     bandit:setVariable("Bandit", false)
@@ -344,7 +347,7 @@ local onZombieDead = function(zombie)
     bandit:clearAttachedItems()
     bandit:resetEquippedHandsModels()
     -- bandit:getInventory():clear()
-
+    local brain = BanditBrain.Get(zombie)
     if brain.bag then
         if brain.bag == "Briefcase" then
             local bag = BanditCompatibility.InstanceItem("Base.Briefcase")
@@ -394,7 +397,7 @@ local onZombieDead = function(zombie)
     end]]
 
     args = {}
-    args.id = id
+    args.id = brain.id
     sendClientCommand(getSpecificPlayer(0), 'Commands', 'BanditRemove', args)
     BanditBrain.Remove(bandit)
 end
@@ -402,7 +405,7 @@ end
 --INTERCEPTORS
 
 -- intercepting player actions
-local onTimedAction = function(data)
+local onTimedActionPerform = function(data)
    
     local character = data.character
     if not character then return end
@@ -534,6 +537,24 @@ local onTimedAction = function(data)
                     BWOPlayer.Earn(character, 25)
                 end
             end
+        end
+    end
+end
+
+local onTimedActionStop  = function(data)
+    local character = data.character
+    if not character then return end
+
+    local action = data.action:getMetaType()
+    if not action then return end
+
+    -- fuel
+    if action == "ISRefuelFromGasPump" then
+        if data.tankStart and data.amountSent then
+            local amount = data.amountSent - data.tankStart
+            local price = BanditUtils.AddPriceInflation(1.11)
+            local payment = math.floor(amount * price)
+            BWOPlayer.Pay(character, payment)
         end
     end
 end
@@ -879,13 +900,34 @@ local everyOneMinute = function()
         end
     end
 
+    -- room based time based income
+    local square = player:getSquare()
+    local room = square:getRoom()
+    if room then
+        local name = BWORooms.GetRealRoomName(room)
+        local tab = BWORooms.tab
+        local data = BWORooms.tab[name]
+        if data then
+            if data.income then
+                if data.occupations then
+                    for _, occupation in pairs(data.occupations) do
+                        if profession == occupation then
+                            payment = data.income
+                            break
+                        end
+                    end
+                end
+            end
+        end
+    end
+
     if payment then
         BWOPlayer.Earn(player, payment)
     end
 
-end
+end 
 
-local function OnExitVehicle(character)
+local function onExitVehicle(character)
     if not instanceof(character, "IsoPlayer") then return end
 
     local gmd = GetBanditModData()
@@ -935,10 +977,13 @@ local function OnExitVehicle(character)
                                     vehicle:clearPassenger(seat)
                                     passenger:setVehicle(nil)
                                     passenger:setCollidable(true)
-                                    passenger:Kill(nil)
-                                    passenger:removeSaveFile()
+                                    passenger:setX(passenger:getX() + 20)
+                                    passenger:setY(passenger:getY() + 20)
                                     passenger:removeFromSquare()
                                     passenger:removeFromWorld()
+                                    passenger:removeSaveFile()
+                                    -- passenger:Kill(nil)
+                                    
 
                                     local doorPart = vehicle:getPartById("DoorFrontRight")
                                     if doorPart then
@@ -962,10 +1007,13 @@ end
 
 LuaEventManager.AddEvent("OnFitnessActionExeLooped")
 LuaEventManager.AddEvent("OnInventoryTransferActionPerform")
+-- LuaEventManager.AddEvent("OnTimedActionPerform")
+LuaEventManager.AddEvent("OnTimedActionStop")
 
 Events.OnHitZombie.Add(onHitZombie)
 Events.OnZombieDead.Add(onZombieDead)
-Events.OnTimedActionPerform.Add(onTimedAction)
+Events.OnTimedActionPerform.Add(onTimedActionPerform)
+Events.OnTimedActionStop.Add(onTimedActionStop)
 Events.OnFitnessActionExeLooped.Add(onFitnessActionExeLooped)
 Events.OnInventoryTransferActionPerform.Add(onInventoryTransferAction)
 Events.OnPlayerUpdate.Add(onPlayerUpdate)
@@ -973,7 +1021,7 @@ Events.OnPlayerDeath.Add(onPlayerDeath)
 Events.OnWeaponSwing.Add(onWeaponSwing)
 Events.EveryHours.Add(everyHours)
 Events.EveryOneMinute.Add(everyOneMinute)
-Events.OnExitVehicle.Add(OnExitVehicle)
+Events.OnExitVehicle.Add(onExitVehicle)
 
 
 

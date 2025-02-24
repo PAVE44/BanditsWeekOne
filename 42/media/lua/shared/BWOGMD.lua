@@ -8,10 +8,12 @@ function InitBWOModData(isNewGame)
         ModData.request("BanditWeekOne")
     end
     
+    if not globalData.QueryCache then globalData.QueryCache = {} end
     if not globalData.DeadBodies then globalData.DeadBodies = {} end
     if not globalData.Objects then globalData.Objects = {} end
     if not globalData.EventBuildings then globalData.EventBuildings = {} end
     if not globalData.Nukes then globalData.Nukes = {} end
+    if not globalData.Sandbox then globalData.Sandbox = {} end
     BWOGlobalData = globalData
 
 end

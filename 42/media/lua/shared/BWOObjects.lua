@@ -5,137 +5,129 @@ local function predicateAll(item)
     return true
 end
 
+-- ram cache for found iso objects
+BWOObjects.QueryCache = {}
 
 -- this is a collection of functions resonsible for finding a particular map object that is required
 -- by various npc programs
 
-BWOObjects.Find = function (bandit, def, objName)
-    local cell = getCell()
-    local bid = BanditUtils.GetCharacterID(bandit)
-    local bx = bandit:getX()
-    local by = bandit:getY()
-    local bz = bandit:getZ()
-    local foundDist = math.huge
-    local foundObj
-
-    local x1 = def:getX()
-    local x2 = def:getX2()
-    local y1 = def:getY()
-    local y2 = def:getY2()
-    local size = (x2 - x1) * (y2 - y1)
-
-    if size > 196 then
-        x1 = bx - 14
-        x2 = bx + 14
-        y1 = by - 14
-        y2 = by + 14
-
-        if x1 < def:getX() then x1 = def:getX() end
-        if x2 > def:getX2() then x2 = def:getX2() end
-        if y1 < def:getY() then y1 = def:getY() end
-        if y2 > def:getY2() then y2 = def:getY2() end
-    end
-
-    for x=x1, x2 do
-        for y=y1, y2 do
-            local square = cell:getGridSquare(x, y, def:getZ())
-            if square then
-                local zombie = square:getZombie()
-                
-                -- skip objects that are already occupied by other character
-                local taken = false
-                local chrs = square:getMovingObjects()
-                for i=0, chrs:size()-1 do
-                    local chr = chrs:get(i)
-                    if instanceof(chr, "IsoZombie") and BanditUtils.GetCharacterID(chr) == bid then
-                        taken = false
-                    else
-                        taken = true
-                        break
-                    end
-                end
-
-                if not taken then
-                    local objects = square:getObjects()
-                    for i=0, objects:size()-1 do
-                        local object = objects:get(i)
-                        local sprite = object:getSprite()
-                        if sprite then
-                            local props = sprite:getProperties()
-                            if props:Is("CustomName") then
-                                local name = props:Val("CustomName")
-                                if name == objName then
-                                    local dist = BanditUtils.DistTo(x, y, bx, by)
-                                    if dist < foundDist then
-                                        foundObj = object
-                                        foundDist = dist
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end
-            end
+local isTaken = function(square, bid)
+    -- skip objects that are already occupied by other character
+    local taken = false
+    local chrs = square:getMovingObjects()
+    for i=0, chrs:size()-1 do
+        local chr = chrs:get(i)
+        if instanceof(chr, "IsoZombie") and BanditUtils.GetZombieID(chr) == bid then
+            taken = false
+        else
+            taken = true
+            break
         end
     end
-    return foundObj
+    return taken
 end
 
-BWOObjects.FindFull = function (bandit, def, objName)
-    local cell = getCell()
-    local bid = BanditUtils.GetCharacterID(bandit)
-    local bx = bandit:getX()
-    local by = bandit:getY()
-    local bz = bandit:getZ()
-    local foundDist = math.huge
-    local foundObj
-
-    local x1 = def:getX()
-    local x2 = def:getX2()
-    local y1 = def:getY()
-    local y2 = def:getY2()
-    local size = (x2 - x1) * (y2 - y1)
-
-    if size > 196 then
-        x1 = bx - 14
-        x2 = bx + 14
-        y1 = by - 14
-        y2 = by + 14
-
-        if x1 < def:getX() then x1 = def:getX() end
-        if x2 > def:getX2() then x2 = def:getX2() end
-        if y1 < def:getY() then y1 = def:getY() end
-        if y2 > def:getY2() then y2 = def:getY2() end
+local getObj = function(square, objName)
+    local objects = square:getObjects()
+    for i=0, objects:size()-1 do
+        local object = objects:get(i)
+        local sprite = object:getSprite()
+        if sprite then
+            local props = sprite:getProperties()
+            if props:Is("CustomName") then
+                local name = props:Val("CustomName")
+                if name == objName then
+                    return object
+                end
+            end
+        end
     end
+end
 
-    for x=x1, x2 do
-        for y=y1, y2 do
-            local square = cell:getGridSquare(x, y, def:getZ())
-            if square then
-                local objects = square:getObjects()
-                for i=0, objects:size()-1 do
-                    local object = objects:get(i)
-                    local sprite = object:getSprite()
-                    if sprite then
-                        local props = sprite:getProperties()
-                        if props:Is("CustomName") then
-                            local name = props:Val("CustomName")
-                            if not objName or name == objName then
-                                local container = object:getContainer()
-                                if container and not container:isEmpty() then
-                                    local dist = BanditUtils.DistTo(x, y, bx, by)
-                                    if dist < foundDist then
-                                        foundObj = object
-                                        foundDist = dist
-                                    end
-                                end
-                            end
-                        end
+local geFullContainer = function(square, objName)
+    local objects = square:getObjects()
+    for i=0, objects:size()-1 do
+        local object = objects:get(i)
+        local sprite = object:getSprite()
+        if sprite then
+            local props = sprite:getProperties()
+            if props:Is("CustomName") then
+                local name = props:Val("CustomName")
+                if not objName or name == objName then
+                    local container = object:getContainer()
+                    if container and not container:isEmpty() then
+                        return object
                     end
                 end
             end
         end
     end
+end
+
+BWOObjects.Find = function (bandit, def, objName, mode)
+
+    local cell = getCell()
+    local player = getSpecificPlayer(0)
+    local bid = BanditUtils.GetZombieID(bandit)
+    local bx, by, bz = bandit:getX(), bandit:getY(), bandit:getZ()
+
+    local x1, x2 = def:getX(), def:getX2()
+    local y1, y2 = def:getY(), def:getY2()
+    local z = def:getZ()
+
+    local dir = x1 .. "-" .. y1
+    local query = x1 .. "-" .. x2 .. "-" .. y1 .. "-" .. y2 .. "-" .. z .. "-" .. tostring(objName) .. "-" .. tostring(mode)
+    local cache = BWOObjects.QueryCache
+
+    -- Check cache for previous results
+    local cacheDir = cache[dir]
+    if cacheDir then
+        local cachedQuery = cacheDir[query]
+        if cachedQuery and cachedQuery.valid >= getTimestampMs() then
+            if cachedQuery.empty then return end  -- Cached empty result, return immediately
+
+            local result = cachedQuery.result
+            if result.x and result.y and result.z then
+                local square = cell:getGridSquare(result.x, result.y, result.z)
+                if square and not isTaken(square, bid) then
+                    local obj = (mode == "ContainerFull") and geFullContainer(square, objName) or getObj(square, objName)
+                    if obj then return obj end
+                end
+            end
+        end
+    end
+
+    -- No valid cache, initializing new entry
+    if not cacheDir then cache[dir] = {} end
+    cache[dir][query] = { empty = true, valid = getTimestampMs() + 50000, result = {} }
+
+    -- Limit search range for large rooms
+    local size = (x2 - x1) * (y2 - y1)
+    if size > 196 then
+        x1, x2 = math.max(bx - 14, def:getX()), math.min(bx + 14, def:getX2())
+        y1, y2 = math.max(by - 14, def:getY()), math.min(by + 14, def:getY2())
+    end
+
+    -- Search for the closest object
+    local foundDist, foundObj, foundX, foundY = math.huge
+    for x = x1, x2 do
+        for y = y1, y2 do
+            local square = cell:getGridSquare(x, y, z)
+            if square and not isTaken(square, bid) then
+                local obj = (mode == "ContainerFull") and geFullContainer(square, objName) or getObj(square, objName)
+                if obj then
+                    local dx, dy = x - bx, y - by
+                    local dist = dx * dx + dy * dy  -- Squared distance for efficiency
+                    if dist < foundDist then
+                        foundObj, foundDist, foundX, foundY = obj, dist, x, y
+                        cache[dir][query].empty = false
+                        cache[dir][query].result = { x = x, y = y, z = z }
+                    end
+                end
+            end
+        end
+    end
+
     return foundObj
 end
 
@@ -209,10 +201,29 @@ BWOObjects.FindBarricadable = function (bandit, def)
     local bx = bandit:getX()
     local by = bandit:getY()
     local bz = bandit:getZ()
+
+    local x1 = def:getX()
+    local x2 = def:getX2()
+    local y1 = def:getY()
+    local y2 = def:getY2()
+    local size = (x2 - x1) * (y2 - y1)
+
+    if size > 144 then
+        x1 = bx - 12
+        x2 = bx + 12
+        y1 = by - 12
+        y2 = by + 12
+
+        if x1 < def:getX() then x1 = def:getX() end
+        if x2 > def:getX2() then x2 = def:getX2() end
+        if y1 < def:getY() then y1 = def:getY() end
+        if y2 > def:getY2() then y2 = def:getY2() end
+    end
+
     local foundDist = math.huge
     local foundObj
-    for x=def:getX(), def:getX2() + 1 do
-        for y=def:getY(), def:getY2() + 1 do
+    for x=x1, x2 + 1 do
+        for y=y1, y2 + 1 do
             local square = cell:getGridSquare(x, y, def:getZ())
             if square then
                 local zombie = square:getZombie()
@@ -263,8 +274,26 @@ BWOObjects.FindExteriorDoor = function (bandit, def)
     local foundDist = math.huge
     local foundObj
     local cnt = 0
-    for x=def:getX(), def:getX2() + 1 do
-        for y=def:getY(), def:getY2() + 1 do
+
+    local x1 = def:getX()
+    local x2 = def:getX2()
+    local y1 = def:getY()
+    local y2 = def:getY2()
+    local size = (x2 - x1) * (y2 - y1)
+    if size > 144 then
+        x1 = bx - 12
+        x2 = bx + 12
+        y1 = by - 12
+        y2 = by + 12
+
+        if x1 < def:getX() then x1 = def:getX() end
+        if x2 > def:getX2() then x2 = def:getX2() end
+        if y1 < def:getY() then y1 = def:getY() end
+        if y2 > def:getY2() then y2 = def:getY2() end
+    end
+
+    for x=x1, x2 + 1 do
+        for y=y1, y2 + 1 do
             local square = cell:getGridSquare(x, y, def:getZ())
             if square then
                 local door = square:getIsoDoor()
@@ -283,30 +312,21 @@ BWOObjects.FindExteriorDoor = function (bandit, def)
     return foundObj
 end
 
-BWOObjects.FindLightSwitch = function (bandit, def)
-    local cell = getCell()
-    local bid = BanditUtils.GetCharacterID(bandit)
+BWOObjects.FindLightSwitch = function (bandit, room)
+    local lss = room:getLightSwitches()
     local bx = bandit:getX()
     local by = bandit:getY()
     local bz = bandit:getZ()
     local foundDist = math.huge
     local foundObj
-    for x=def:getX(), def:getX2() do
-        for y=def:getY(), def:getY2() do
-            local square = cell:getGridSquare(x, y, def:getZ())
-            if square and not square:isOutside() then
-                local objects = square:getObjects()
-                for i=0, objects:size()-1 do
-                    local object = objects:get(i)
-                    if instanceof(object, "IsoLightSwitch") then
-                        local dist = math.sqrt(math.pow(x - bx, 2) + math.pow(y - by, 2))
-                        if dist < foundDist then
-                            foundObj = object
-                            foundDist = dist
-                        end
-                    end
-                end
-            end
+
+    for i=0, lss:size()-1 do
+        local ls = lss:get(i)
+        local x, y = ls:getX(), ls:getY()
+        local dist = math.sqrt(math.pow(x - bx, 2) + math.pow(y - by, 2))
+        if dist < foundDist then
+            foundObj = ls
+            foundDist = dist
         end
     end
     return foundObj

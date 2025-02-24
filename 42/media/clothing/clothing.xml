@@ -1,5 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <outfitManager>
+
+    <m_MaleOutfits> <!-- BWOHammer -->
+        <m_Name>BWOHammer</m_Name>
+        <m_Guid>d494f727-0083-4103-abe1-c6dd0a8d51c2</m_Guid>
+        <m_Top>false</m_Top>
+        <m_Pants>false</m_Pants>
+        <m_AllowPantsHue>false</m_AllowPantsHue>
+        <m_AllowTopTint>false</m_AllowTopTint>
+        <m_AllowTShirtDecal>false</m_AllowTShirtDecal>
+        <m_items>
+            <itemGUID>3ecbd0ed-beef-4532-9823-c2a9437e8484</itemGUID> <!-- biochemical mask -->
+        </m_items>
+        <m_items>
+            <itemGUID>baec3522-a05d-4b62-ac11-24898d50f5f5</itemGUID> <!-- gloves fingerless black -->
+        </m_items>
+        <m_items>
+            <itemGUID>7f907c3c-9d6f-46c6-8e93-6f74526ef7cc</itemGUID> <!-- leather pants-->
+        </m_items>
+        <m_items>
+            <itemGUID>227cb2d5-05a5-44ed-872d-ac4ca16e80bc</itemGUID> <!-- army boots --> 
+        </m_items>
+        <m_items>
+            <itemGUID>264e5345-105f-40a3-8ac0-48bf3e91ffd4</itemGUID> <!-- ammostrap shells --> 
+        </m_items>
+
+        <m_items>
+            <itemGUID>be0d059f-53af-47f6-b026-c545ce4f5276</itemGUID> <!-- ShinKneeGuardSpike_L --> 
+        </m_items>
+        <m_items>
+            <itemGUID>641f0bf3-2544-4f34-9938-c20e6d9a347a</itemGUID> <!-- ShinKneeGuardSpike_R --> 
+        </m_items>
+        <m_items>
+            <itemGUID>2b6d8850-e3bb-40be-b412-4269b99bb108</itemGUID> <!-- Shoulderpad_ArticulatedSpike_L --> 
+        </m_items>
+        <m_items>
+            <itemGUID>8cb951c9-fb2a-43de-90f0-30ab2884f48d</itemGUID> <!-- Shoulderpad_ArticulatedSpike_R --> 
+        </m_items>
+
+        
+        <m_items>
+            <probability>0.3</probability>
+            <itemGUID>5fc22466-2942-4ba1-8c33-2a8528b73021</itemGUID> <!--watches -->
+            <subItems>
+                <itemGUID>ce1a8520-7120-432e-8a3a-aa7b3094f0bb</itemGUID>
+            </subItems>
+            <subItems>
+                <itemGUID>c7cc655b-284a-4087-85a6-d7c116385fb0</itemGUID>
+            </subItems>
+            <subItems>
+                <itemGUID>0383956a-3fbd-4001-9749-69e2ba70b134</itemGUID>
+            </subItems>
+        </m_items>
+    </m_MaleOutfits>
+
     <m_MaleOutfits> <!-- BWOCow -->
         <m_Name>BWOCow</m_Name>
         <m_Guid>751d0455-584e-4195-8173-f280fb0c0737</m_Guid>

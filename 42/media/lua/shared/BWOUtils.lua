@@ -135,6 +135,8 @@ function BanditUtils.HasZoneType(x, y, z, zoneType)
 end
 
 function BanditUtils.AddPriceInflation(price)
-    local day = math.floor(BWOScheduler.WorldAge / 24)
+    local wa = BWOScheduler.WorldAge
+    if wa < 0 then wa = 0 end
+    local day = math.floor(wa / 24)
     return math.floor(price * ((1 + SandboxVars.BanditsWeekOne.PriceInflation / 100) ^ day))
 end

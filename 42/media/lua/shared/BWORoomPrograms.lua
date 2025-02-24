@@ -754,7 +754,9 @@ BWORoomPrograms.zippeestore = function(bandit, def)
             return tasks
         end
 
-        local rack = BWOObjects.FindFull(bandit, def)
+        -- local rack = BWOObjects.FindFull(bandit, def)
+        local rack = BWOObjects.Find(bandit, def, nil, "ContainerFull")
+        
         if rack then
             local items = ArrayList.new()
             local container = rack:getContainer()

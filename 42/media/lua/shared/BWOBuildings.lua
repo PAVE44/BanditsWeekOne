@@ -201,22 +201,38 @@ BWOBuildings.FindBuildingDist = function(character, min, max)
     end
 end
 
+BWOBuildings.DensityScoreCache = {}
+
 BWOBuildings.GetDensityScore = function(character, radius)
+    -- local ts = getTimestampMs()
     local px, py = character:getX(), character:getY()
+
+    local sx = math.floor(px / 25)
+    local sy = math.floor(py / 25)
+    local id = sx .. "-" .. sy
+    local cache = BWOBuildings.DensityScoreCache
+    if cache[id] then return cache[id] end
+
     local cell = character:getCell()
     local rooms = cell:getRoomList()
+    -- local buildings = cell:getBuildings():size()
     local total = 0
+    print ("rooms: " .. rooms:size())
+
     for i = 0, rooms:size() - 1 do
         local room = rooms:get(i)
         local roomDef = room:getRoomDef()
+        local x1, y1, x2, y2 = roomDef:getX(), roomDef:getY(), roomDef:getX2(), roomDef:getY2()
 
-        local cx = (roomDef:getX() + roomDef:getX2()) / 2
-        local cy = (roomDef:getY() + roomDef:getY2()) / 2
-
-        if BanditUtils.DistToManhattan(px, py, cx, cy) <= radius then
-            local size = (roomDef:getX2() - roomDef:getX()) * (roomDef:getY2() - roomDef:getY())
+        local cx = (x1 + x2) / 2
+        local cy = (y1 + y2) / 2
+        
+        if math.abs(px - cx) + math.abs(py - cy) <= radius then
+            local size = (x2 - x1) * (y2 - y1)
             total = total + size
         end
     end
+    BWOBuildings.DensityScoreCache[id] = total
+    -- print ("GetDensityScore: " .. (getTimestampMs() - ts))
     return total
 end

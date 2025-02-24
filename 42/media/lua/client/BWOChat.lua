@@ -47,6 +47,7 @@ table.insert(data, {query={"habari"}, res="Hello! How are things?"})  -- Swahili
 table.insert(data, {query={"szia"}, res="Hi! How have you been?"})  -- Hungarian
 table.insert(data, {query={"ahoj"}, res="Hello! How's it going?"})  -- Czech
 table.insert(data, {query={"hei"}, res="Hi! What's new?"})  -- Finnish
+
 -- Time-based greetings
 table.insert(data, {query={"good", "morning"}, res="Morning!", anim="WaveHi"})
 table.insert(data, {query={"good", "afternoon"}, res="Afternoon!", anim="WaveHi"})
@@ -102,10 +103,8 @@ table.insert(data, {query={"see", "you", "soon"}, res="Looking forward to it!", 
 table.insert(data, {query={"have", "a", "good", "one"}, res="You too, take care!"})
 table.insert(data, {query={"it", "was", "nice", "meeting", "you"}, res="The pleasure was mine!"})
 table.insert(data, {query={"see", "you", "later"}, res="Catch you later!", anim="WaveHi"})
-table.insert(data, {query={"so", "long"}, res="Take it easy!"})
 table.insert(data, {query={"till", "next", "time"}, res="See you next time!"})
 table.insert(data, {query={"i", "must", "leave"}, res="Alright, farewell!"})
-table.insert(data, {query={"goodbye", "for", "now"}, res="Goodbye for now, take care!"})
 table.insert(data, {query={"be", "seeing", "you"}, res="Be seeing you!"})
 table.insert(data, {query={"i", "have", "to", "go"}, res="Got it, see you later!"})
 table.insert(data, {query={"have", "a", "nice", "day"}, res="You too, have a great day!"})
@@ -162,6 +161,8 @@ table.insert(data, {query={"you", "sharp"}, res="Thanks! I try to stay on point.
 table.insert(data, {query={"you", "creative"}, res="I appreciate that! Creativity is key."})
 table.insert(data, {query={"you", "thoughtful"}, res="Thank you, I do my best to be considerate."})
 table.insert(data, {query={"you", "hardworking"}, res="Thanks! I believe in dedication."})
+table.insert(data, {query={"you", "sexy"}, res="Oh boy, I hear that a lot..."})
+table.insert(data, {query={"you", "hot"}, res="Oh boy, I hear that a lot..."})
 
 
 -- Food-related
@@ -228,11 +229,11 @@ table.insert(data, {query={"i", "like", "you"}, res="I'm sure you do!", anim="Ye
 -- Personal questions
 table.insert(data, {query={"what", "your", "name"}, res="%NAME"})
 table.insert(data, {query={"who", "are", "you"}, res="%NAME"})
-table.insert(data, {query={"how", "are", "you"}, res="%MOOD", anim="PainHead"})
 table.insert(data, {query={"how", "you", "feel"}, res="%MOOD", anim="PainHead"})
 table.insert(data, {query={"are", "you", "sick"}, res="%MOOD", anim="PainHead"})
 table.insert(data, {query={"are", "you", "ok"}, res="%MOOD", anim="PainHead"})
 table.insert(data, {query={"are", "you", "okay"}, res="%MOOD", anim="PainHead"})
+table.insert(data, {query={"are", "you", "hurt"}, res="%MOOD", anim="PainHead"})
 table.insert(data, {query={"are", "you", "alright"}, res="%MOOD", anim="PainHead"})
 table.insert(data, {query={"are", "you", "infected"}, res="No, are you?"})
 table.insert(data, {query={"are", "you", "hungry"}, res="Funny. I ate recently, but I am hungry again."})
@@ -300,7 +301,7 @@ table.insert(data, {query={"favorite", "place", "to", "visit"}, res="The beach!"
 table.insert(data, {query={"favorite", "instrument"}, res="Piano!"})
 table.insert(data, {query={"favorite", "board", "game"}, res="Monopoly!"})
 table.insert(data, {query={"favorite", "outdoor", "activity"}, res="Hiking!"})
-table.insert(data, {query={"favorite", "car"}, res="Tesla Model S!"})
+table.insert(data, {query={"favorite", "car"}, res="Ford Sierra!"})
 table.insert(data, {query={"favorite", "flower"}, res="Roses!"})
 table.insert(data, {query={"favorite", "pizza", "topping"}, res="Pepperoni!"})
 table.insert(data, {query={"favorite", "vacation"}, res="Hawaii!"})
@@ -415,6 +416,12 @@ table.insert(data, {query={"is", "snowing"}, res="%SNOW."})
 table.insert(data, {query={"what", "season"}, res="It's %SEASON."})
 table.insert(data, {query={"what", "temperature"}, res="It's about %TEMPERATURE degrees outside."})
 table.insert(data, {query={"what", "time"}, res="It's %HOUR:%MINUTE."})
+table.insert(data, {query={"tell", "me", "time"}, res="It's %HOUR:%MINUTE."})
+table.insert(data, {query={"may", "know", "time"}, res="It's %HOUR:%MINUTE."})
+table.insert(data, {query={"got", "the", "time"}, res="It's %HOUR:%MINUTE."})
+table.insert(data, {query={"got", "time", "on", "you"}, res="It's %HOUR:%MINUTE."})
+table.insert(data, {query={"what's", "the", "time"}, res="It's %HOUR:%MINUTE."})
+table.insert(data, {query={"whats", "the", "time"}, res="It's %HOUR:%MINUTE."})
 table.insert(data, {query={"what", "hour"}, res="It's %HOUR:%MINUTE."})
 table.insert(data, {query={"what", "year", "is", "it"}, res="It's 1993. That's a strange question!"})
 table.insert(data, {query={"where", "is"}, res="Sorry, I don't know where it is.", anim="No"})
@@ -523,6 +530,9 @@ table.insert(data, {query={"shush"}, res="I won't shush.", anim="No"})
 table.insert(data, {query={"keep", "it", "down"}, res="No, I won't keep it down.", anim="No"})
 table.insert(data, {query={"stop", "speaking"}, res="I refuse to stop.", anim="No"})
 table.insert(data, {query={"stop", "smoking"}, res="I refuse to stop.", anim="Smoke"})
+table.insert(data, {query={"drop", "your"}, res="I'm not dropping anything!", anim="No"})
+table.insert(data, {query={"drop", "it"}, res="I'm not dropping anything!", anim="No"})
+table.insert(data, {query={"drop", "that"}, res="I'm not dropping anything!", anim="No"})
 
 table.insert(data, {query={"leave", "you"}, res="I'm staying where I want to!"})
 table.insert(data, {query={"get", "lost"}, res="I'm staying where I want to!"})
@@ -570,8 +580,12 @@ table.insert(data, {query={"walk", "beside", "me"}, res="Okay, walking with you.
 table.insert(data, {query={"tag", "along", "with", "me"}, res="Sure, I'll join in.", anim="Yes", action="JOIN"})
 table.insert(data, {query={"stay", "with", "me"}, res="I'm staying with you.", anim="Yes", action="JOIN"})
 table.insert(data, {query={"be", "my", "companion"}, res="I'd be happy to join you.", anim="Yes", action="JOIN"})
+table.insert(data, {query={"lets", "go"}, res="Ok, let's do it!", anim="Yes", action="JOIN"})
+table.insert(data, {query={"let's", "go"}, res="Ok, let's do it!", anim="Yes", action="JOIN"})
 
 table.insert(data, {query={"stop", "following", "me"}, res="I thought you need me, but fine!", action="GUARD"})
+table.insert(data, {query={"dont", "follow", "me"}, res="I thought you need me, but fine!", action="GUARD"})
+table.insert(data, {query={"don't", "follow", "me"}, res="I thought you need me, but fine!", action="GUARD"})
 table.insert(data, {query={"stay", "here"}, res="I thought you need me, but fine!", action="GUARD"})
 table.insert(data, {query={"stay", "put"}, res="I thought you need me, but fine!", action="GUARD"})
 table.insert(data, {query={"wait", "here"}, res="Boring, but fine!", action="GUARD"})
@@ -601,6 +615,7 @@ table.insert(data, {query={"give", "applause"}, res="Of course!", anim="Clap", a
 table.insert(data, {query={"can", "you", "clap"}, res="Absolutely!", anim="Clap", all=true})
 table.insert(data, {query={"clap", "along"}, res="Let's clap together!", anim="Clap", all=true})
 table.insert(data, {query={"show", "some", "applause"}, res="Sure, here it is!", anim="Clap", all=true})
+table.insert(data, {query={"bravo"}, res="Bravo!", anim="Clap", all=true})
 
 table.insert(data, {query={"hands", "up"}, res="Ok!", anim="Surrender", all=true})
 table.insert(data, {query={"robbery"}, res="Ok!", anim="Surrender", all=true})
@@ -647,6 +662,7 @@ table.insert(data, {query={"i", "will", "hit"}, res="Fuck off!", action="HOSTILE
 table.insert(data, {query={"suck"}, res="Fuck off!", action="HOSTILE"})
 table.insert(data, {query={"fag"}, res="Fuck off!", action="HOSTILE"})
 table.insert(data, {query={"fuck"}, res="Fuck you!", action="HOSTILE"})
+table.insert(data, {query={"fucker"}, res="Fuck you!", action="HOSTILE"})
 table.insert(data, {query={"dick"}, res="You're a pussy ass bitch!!", action="HOSTILE"})
 table.insert(data, {query={"pussy"}, res="The fuck did you say to me little bitch?!", action="HOSTILE"})
 table.insert(data, {query={"undress"}, res="Leave me the fuck alone pervert!", action="HOSTILE"})
@@ -966,6 +982,7 @@ table.insert(data, {query={"would", "it"}, res="It might be considered."})
 table.insert(data, {query={"would", "this"}, res="It might be considered."})
 table.insert(data, {query={"would", "that"}, res="It might be considered."})
 
+table.insert(data, {query={"how", "are", "you"}, res="%MOOD", anim="PainHead"})
 table.insert(data, {query={"how", "much"}, res="A lot."})
 table.insert(data, {query={"how", "many"}, res="A lot."})
 table.insert(data, {query={"how", "far"}, res="I don't know how far, sorry."})
@@ -996,6 +1013,7 @@ table.insert(data, {query={"criminals"}, res="Criminals? That's really terrible!
 table.insert(data, {query={"apocalypse"}, res="Apocalypse? You are crazy!"})
 table.insert(data, {query={"zombie"}, res="A zombie? You are crazy!"})
 table.insert(data, {query={"zombies"}, res="Zombies? You are crazy!"})
+table.insert(data, {query={"test"}, res="test!"})
 
 BWOChat = {}
 
@@ -1115,6 +1133,7 @@ BWOChat.Say = function(chatMessage)
                     elseif v.action == "JOIN" then
                         Bandit.SetProgram(bandit, "Babe", {})
                         Bandit.SetHostile(bandit, false)
+                        brain.permanent = true
                         colors = {r=0, g=1, b=0}
                     elseif v.action == "RELAX" and brain.program.name == "Active" then
                         Bandit.SetProgram(bandit, "Walker", {})
@@ -1166,12 +1185,58 @@ end
 -- Events.OnAddMessage.Add(OnAddMessage)
 
 local function onKeyPressed(keynum)
-    if keynum == Keyboard.KEY_T then
-        print ("T pressed")
+    local options = PZAPI.ModOptions:getOptions("BanditsWeekOne")
+    local key = options:getOption("TALK"):getValue()
+
+    if keynum == key then
         local ui = BWOChatPanel:new(0, 0, 300, 200, getSpecificPlayer(0))
         ui:initialise()
         ui:addToUIManager()
     end
 end
 
+local function onEmote(character, emote)
+    local emote2txt = {}
+
+    emote2txt["wavehi"] = BanditUtils.Choice({"Hello!", "Hey!", "Hi!", "Greetings!", "Howdy!"})
+
+    emote2txt["wavebye"] = BanditUtils.Choice({"Bye!", "See you!", "Take Care!", "Farewell!", "Later!", "Peace out!", "Goodbye!", 
+                                               "So long!", "I'm off!", "See you soon!", "Time to go.", "Have a good one!",
+                                               "Till next time!", "I must leave", "Be seeing you", "Have a nice day",
+                                               "Stay safe!", "Gotta run!", ""
+                                                })
+
+    emote2txt["clap"] = BanditUtils.Choice({"Let's give applause!", "Bravo!"})
+
+    emote2txt["thankyou"] = BanditUtils.Choice({"I appreaciate it!", "Many thanks!", "Thank you so much!", "Thanks a million!",
+                                                "I owe you one!", "Big thanks!", "So grateful!", "Forever grateful!", "Deep gratitude!",
+                                                "You save the day!", "Couldn't thank yu  enough", "Much thanks!"})
+
+    emote2txt["insult"] = BanditUtils.Choice({"Fuck you!", "You're such a bitch!", "Asshole!", "What a pussy!", "Fucking asshole!", "You look like a bitch!",
+                                              "Go kiss a cow's cunt!", "Go drown in a lake of diet coke you neutered asshole.",
+                                              "If a zombie was looking for brains, he'd walk right by you.", 
+                                              "Are you always this stupid, or is this a special occasion?", 
+                                              "You have a face for radio, moron.", "Are you always this stupid or is today a special occasion?",
+                                              "If ugly were a crime, you'd get a life sentence.", "You're so fat, you could sell shade."})
+
+    emote2txt["surrender"] = BanditUtils.Choice({"Forgive me!", "Sorry everyone!", "My apologies", "I beg your pardon!", "My bad!"})
+
+    emote2txt["stop"] = BanditUtils.Choice({"Can you stop?", "Stop please!", "Can you wait?"})
+
+    emote2txt["followme"] = BanditUtils.Choice({"Come with me!", "Follow my lead!", "Follow me!", "Accompany me",
+                                                "Stick with me", "Team up with me!", "Come along", "Walk with me",
+                                                "Tag along", "Be with me", "Follow my path", "Accompany my journey!", "Sitck by me",
+                                                "Team up together!", "Walk beside me", "Stay with me", "Be my companion",
+                                                "Let's go!"})
+
+    if emote2txt[emote] then
+        BWOChat.Say(emote2txt[emote])
+    end
+end
+
+
+LuaEventManager.AddEvent("OnEmote")
+
 Events.OnKeyPressed.Add(onKeyPressed)
+Events.OnEmote.Add(onEmote)
+

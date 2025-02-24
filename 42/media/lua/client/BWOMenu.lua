@@ -235,6 +235,12 @@ BWOMenu.EventEntertainer = function(player, eid)
     BWOScheduler.Add("Entertainer", params, 100)
 end
 
+BWOMenu.EventHome = function (player)
+    local params = {}
+    params.addRadio = true
+    BWOScheduler.Add("BuildingHome", params, 100)
+end
+
 BWOMenu.EventParty = function (player)
     local params = {}
     params.roomName = "bedroom"
@@ -296,6 +302,14 @@ BWOMenu.EventPoliceRiot = function(player)
     BWOScheduler.Add("PoliceRiot", params, 100)
 end
 
+BWOMenu.EventPlaneCrash = function(player)
+    local params = {}
+    params.x = player:getX()
+    params.y = player:getY()
+    params.z = player:getZ()
+    BWOScheduler.Add("PlaneCrash", params, 100)
+end
+
 BWOMenu.EventPower = function(player, on)
     local params = {}
     params.on = on
@@ -338,6 +352,12 @@ BWOMenu.EventShahids = function(player)
     BWOScheduler.Add("Shahids", params, 100)
 end
 
+BWOMenu.EventHammerBrothers = function(player)
+    local params = {}
+    params.intensity = 2
+    BWOScheduler.Add("HammerBrothers", params, 100)
+end
+
 BWOMenu.EventStorm = function(player)
     local params = {}
     params.len = 1440
@@ -347,6 +367,7 @@ end
 
 
 function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
+
 
     local player = getSpecificPlayer(playerID)
     local profession = player:getDescriptor():getProfession()
@@ -425,11 +446,14 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         eventsMenu:addOption("Fliers", player, BWOMenu.EventFliers)
         eventsMenu:addOption("Gas Drop", player, BWOMenu.EventGasDrop)
         eventsMenu:addOption("Gas Run", player, BWOMenu.EventGasRun)
+        eventsMenu:addOption("Hammer Brothers", player, BWOMenu.EventHammerBrothers)
+        eventsMenu:addOption("House Register", player, BWOMenu.EventHome)
         eventsMenu:addOption("House Party", player, BWOMenu.EventParty)
         eventsMenu:addOption("Jetfighter", player, BWOMenu.EventJetFighter)
         eventsMenu:addOption("Jetfighter Run", player, BWOMenu.EventJetFighterRun)
         eventsMenu:addOption("Nuke", player, BWOMenu.EventNuke)
         eventsMenu:addOption("Rolice Riot", player, BWOMenu.EventPoliceRiot)
+        eventsMenu:addOption("Plane Crash", player, BWOMenu.EventPlaneCrash, true)
         eventsMenu:addOption("Power On", player, BWOMenu.EventPower, true)
         eventsMenu:addOption("Power Off", player, BWOMenu.EventPower, false)
         eventsMenu:addOption("Protest", player, BWOMenu.EventProtest)

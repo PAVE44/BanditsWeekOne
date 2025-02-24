@@ -46,16 +46,17 @@ BWOPopControl.Zombie = function()
     if BWOPopControl.ZombieMax >= 400 then return end
 
     local fakeZombie = getCell():getFakeZombieForHit()
-    local zombieList = BanditZombie.GetAllZ()
+    local zombieList = BanditZombie.CacheLightZ
     local gmd = GetBanditModData()
 
+    --[[
     local ccnt = 0
     for k, v in pairs(gmd.Queue) do
         ccnt = ccnt + 1
-    end
+    end]]
 
     local cnt = 0
-    BWOPopControl.ZombieCnt = 0
+    local zcnt = 0
     for id, z in pairs(zombieList) do
         cnt = cnt + 1
         local test = BWOPopControl
@@ -71,9 +72,10 @@ BWOPopControl.Zombie = function()
                 sendClientCommand(player, 'Commands', 'BanditRemove', args)
             end
         else
-            BWOPopControl.ZombieCnt = BWOPopControl.ZombieCnt + 1
+            zcnt = zcnt + 1
         end
     end
+    BWOPopControl.ZombieCnt = zcnt
 end
 
 -- npc on streets spawner
@@ -411,6 +413,7 @@ BWOPopControl.UpdateCivs = function()
         return hmap[hour]
     end
 
+    local ts = getTimestampMs()
     local player = getSpecificPlayer(0)
     local px = player:getX()
     local py = player:getY()
@@ -457,7 +460,7 @@ BWOPopControl.UpdateCivs = function()
             totalz = totalz + 1
         end
     end
-
+    
     -- ADJUST cooldowns 
     if BWOPopControl.Police.Cooldown > 0 then
         BWOPopControl.Police.Cooldown = BWOPopControl.Police.Cooldown - 1
@@ -475,7 +478,7 @@ BWOPopControl.UpdateCivs = function()
     -- ADJUST: population nominals
     BWOPopControl.ZombieMax = 0
     BWOPopControl.StreetsNominal = 41
-    BWOPopControl.InhabitantsNominal = 100
+    BWOPopControl.InhabitantsNominal = 80
     BWOPopControl.SurvivorsNominal = 0
 
     if BWOScheduler.WorldAge == 83 then -- occasional zombies
@@ -539,8 +542,9 @@ BWOPopControl.UpdateCivs = function()
     local hourmod = getHourScore()
     local pop = nominal * density * hourmod * SandboxVars.BanditsWeekOne.StreetsPopMultiplier
     BWOPopControl.StreetsMax = pop
-
+    
     -- count missing amount to spawn
+    -- ts = getTimestampMs()
     local missing = BWOPopControl.StreetsMax - BWOPopControl.StreetsCnt
     if missing > 20 then missing = 20 end
     if missing > 0 then
@@ -549,9 +553,9 @@ BWOPopControl.UpdateCivs = function()
         local surplus = -missing
         BWOPopControl.StreetsDespawn(surplus)
     end
-
+    -- print ("POPCONTROL STREET: " .. (getTimestampMs() - ts))
     -- ADJUST: inhabitants (civs in buildings)
-
+    
     -- count currently active civs
     BWOPopControl.InhabitantsCnt = tab.Inhabitant
 
@@ -561,6 +565,7 @@ BWOPopControl.UpdateCivs = function()
     BWOPopControl.InhabitantsMax = nominal * SandboxVars.BanditsWeekOne.InhabitantsPopMultiplier
 
     -- count missing amount to spawn
+    --ts = getTimestampMs()
     local missing = BWOPopControl.InhabitantsMax - BWOPopControl.InhabitantsCnt
     if missing > 20 then missing = 20 end
     if missing > 0 then
@@ -569,6 +574,7 @@ BWOPopControl.UpdateCivs = function()
         local surplus = -missing
         BWOPopControl.InhabitantsDespawn(surplus)
     end
+    --print ("POPCONTROL INHAB: " .. (getTimestampMs() - ts))
     
     -- ADJUST: survivors (first organized immune civs)
     -- count currently active civs
@@ -579,6 +585,7 @@ BWOPopControl.UpdateCivs = function()
     BWOPopControl.SurvivorsMax = nominal
 
     -- count missing amount to spawn
+    --ts = getTimestampMs()
     local missing = BWOPopControl.SurvivorsMax - BWOPopControl.SurvivorsCnt
     if missing > 4 then missing = 4 end
     if missing > 0 then
@@ -587,7 +594,8 @@ BWOPopControl.UpdateCivs = function()
         local surplus = -missing
         BWOPopControl.SurvivorsDespawn(surplus)
     end
-
+    --print ("POPCONTROL SURV: " .. (getTimestampMs() - ts))
+    
     -- debug report:
     if isDebugEnabled() or isAdmin() then
         print ("----------- POPULATION STATS -----------")

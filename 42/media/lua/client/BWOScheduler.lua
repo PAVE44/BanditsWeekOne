@@ -36,7 +36,7 @@ local generateSchedule = function()
     
     -- {eventName, {params}}
     -- DAY 1 09.00
-    tab[0][1]   = {"Start", {}}
+    -- tab[0][1]   = {"Start", {}}
     tab[0][2]   = {"StartDay", {day="friday"}}
     tab[0][3]   = {"BuildingHome", {addRadio=true}}
     tab[0][4]   = {"SetupNukes", {}}
@@ -251,7 +251,7 @@ local generateSchedule = function()
     tab[156][26] = {"Army", {intensity=10}}
 
     tab[158][0]  = {"Siren", {}}
-    tab[158][8]  = {"BombRun", {intensity=6}}
+    tab[158][8]  = {"BombRun", {intensity=4}}
     tab[156][9]  = {"Bandits", {intensity=9}}
     tab[158][24] = {"BombRun", {intensity=20}}
     tab[158][49] = {"BombRun", {intensity=18}}
@@ -297,6 +297,7 @@ local generateSchedule = function()
     tab[164][24] = {"BombRun", {intensity=20}}
     tab[164][49] = {"BombRun", {intensity=18}}
     tab[165][2]  = {"ChopperFliers", {}}
+    tab[167][4]  = {"HammerBrothers", {intensity=2}}
 
     -- DAY 8 09.00
     tab[168][0]  = {"StartDay", {day="friday"}}
@@ -321,6 +322,22 @@ local generateSchedule = function()
 end
 
 BWOScheduler.Schedule = generateSchedule()
+
+function BWOScheduler.StoreSandboxVars()
+    local gmd = GetBWOModData()
+    local orig = gmd.Sandbox
+
+    storeVars = {"KeyLootNew", "MaximumLooted", "FoodLootNew", "CannedFoodLootNew", "LiteratureLootNew", "SurvivalGearsLootNew",
+                 "MedicalLootNew", "WeaponLootNew", "RangedWeaponLootNew", "AmmoLootNew", "MechanicsLootNew",
+                 "OtherLootNew", "ClothingLootNew", "ContainerLootNew", "MementoLootNew", "MediaLootNew",
+                 "CookwareLootNew", "MaterialLootNew", "FarmingLootNew", "ToolLootNew", "MaximumRatIndex",
+                 "SurvivorHouseChance", "VehicleStoryChance", "MetaEvent", "LockedHouses", "ZoneStoryChance", "AnnotatedMapChance",
+                 "MaxFogIntensity", "TrafficJam", "CarSpawnRate", "Helicopter", "FireSpread"}
+
+    for _, k in pairs(storeVars) do
+        gmd.Sandbox[k] = gmd.Sandbox[k] or SandboxVars[k]
+    end
+end
 
 function BWOScheduler.MasterControl()
 
@@ -362,6 +379,8 @@ function BWOScheduler.MasterControl()
     end
 
     local function adjustSandboxVars()
+        local gmd = GetBWOModData()
+        local orig = gmd.Sandbox
         adjustSandboxVar("DamageToPlayerFromHitByACar", 3)
         if BWOScheduler.WorldAge <= 64 then
             adjustSandboxVar("SurvivorHouseChance", 1)
@@ -374,6 +393,7 @@ function BWOScheduler.MasterControl()
             adjustSandboxVar("TrafficJam", false)
             adjustSandboxVar("CarSpawnRate", 5)
             adjustSandboxVar("Helicopter", 1)
+            adjustSandboxVar("FireSpread", false)
             
             -- lerp
             if BanditCompatibility.GetGameVersion() >= 42 then
@@ -385,16 +405,17 @@ function BWOScheduler.MasterControl()
                 end
             end
         else
-            adjustSandboxVar("SurvivorHouseChance", 6)
-            adjustSandboxVar("VehicleStoryChance", 4)
-            adjustSandboxVar("MetaEvent", 2)
-            adjustSandboxVar("LockedHouses", 4)
-            adjustSandboxVar("ZoneStoryChance", 4)
-            adjustSandboxVar("AnnotatedMapChance", 3)
-            adjustSandboxVar("MaxFogIntensity", 1)
-            adjustSandboxVar("TrafficJam", true)
-            adjustSandboxVar("CarSpawnRate", 3)
-            adjustSandboxVar("Helicopter", 2)
+            adjustSandboxVar("SurvivorHouseChance", gmd.Sandbox["SurvivorHouseChance"])
+            adjustSandboxVar("VehicleStoryChance", gmd.Sandbox["VehicleStoryChance"])
+            adjustSandboxVar("MetaEvent", gmd.Sandbox["MetaEvent"])
+            adjustSandboxVar("LockedHouses", gmd.Sandbox["LockedHouses"])
+            adjustSandboxVar("ZoneStoryChance", gmd.Sandbox["ZoneStoryChance"])
+            adjustSandboxVar("AnnotatedMapChance", gmd.Sandbox["AnnotatedMapChance"])
+            adjustSandboxVar("MaxFogIntensity", gmd.Sandbox["MaxFogIntensity"])
+            adjustSandboxVar("TrafficJam", gmd.Sandbox["TrafficJam"])
+            adjustSandboxVar("CarSpawnRate", gmd.Sandbox["CarSpawnRate"])
+            adjustSandboxVar("Helicopter", gmd.Sandbox["Helicopter"])
+            adjustSandboxVar("FireSpread", gmd.Sandbox["FireSpread"])
         end
         
         getSandboxOptions():applySettings()
@@ -404,6 +425,7 @@ function BWOScheduler.MasterControl()
 
     local player = getSpecificPlayer(0)
     local gametime = getGameTime()
+    -- local ts = getTimestampMs()
 
     local startHour = gametime:getStartTimeOfDay()
     local startDay = gametime:getStartDay()
@@ -422,9 +444,13 @@ function BWOScheduler.MasterControl()
     -- adjust worldage depending on the start time
     local waShiftMap = BWOScheduler.waShiftMap
     local startTimeOption = SandboxVars.BanditsWeekOne.StartTime
-    local waShift = wawaShiftMapShift[startTimeOption]
+    local waShift = waShiftMap[startTimeOption]
     if waShift then
         worldAge = worldAge - waShift
+
+        -- need to manually insert start at the actual start
+        BWOScheduler.Schedule[-waShift] = BWOScheduler.Schedule[-waShift] or {}
+        BWOScheduler.Schedule[-waShift][1] = {"Start", {}}
     end 
 
     -- debug to jump to a certain hour
@@ -461,14 +487,16 @@ function BWOScheduler.MasterControl()
     elseif BWOScheduler.WorldAge >= 1200 then
         BWOScheduler.World.DeadBodyAdderDensity = 0.01
     elseif BWOScheduler.WorldAge >= 170 then
-        BWOScheduler.World.DeadBodyAdderDensity = 0.025
+        BWOScheduler.World.DeadBodyAdderDensity = 0.021
     elseif BWOScheduler.WorldAge >= 150 then
-        BWOScheduler.World.DeadBodyAdderDensity = 0.02
+        BWOScheduler.World.DeadBodyAdderDensity = 0.018
     elseif BWOScheduler.WorldAge >= 130 then
-        BWOScheduler.World.DeadBodyAdderDensity = 0.015
+        BWOScheduler.World.DeadBodyAdderDensity = 0.014
     elseif BWOScheduler.WorldAge >= 110 then
         BWOScheduler.World.DeadBodyAdderDensity = 0.005
     end
+
+    BWOScheduler.World.Bombing = 0
 
     -- transforms the world appearance to simulate post-nuclear strike
     BWOScheduler.World.PostNuclearTransformator = false
@@ -619,17 +647,18 @@ function BWOScheduler.MasterControl()
     params.z = player:getZ()
 
     if worldAge < 400 then
-        local event = BWOScheduler.Schedule[worldAge][minute]
-        if event[1] and event[2] then
-            local eventName = event[1]
-            local eventParams = event[2]
-            for k, v in pairs(eventParams) do
-                params[k] = v
+        if BWOScheduler.Schedule[worldAge] then
+            local event = BWOScheduler.Schedule[worldAge][minute]
+            if event and event[1] and event[2] then
+                local eventName = event[1]
+                local eventParams = event[2]
+                for k, v in pairs(eventParams) do
+                    params[k] = v
+                end
+                BWOScheduler.Add(eventName, params, 100)
             end
-            BWOScheduler.Add(eventName, params, 100)
         end
     end
-
 end
 
 function BWOScheduler.Add(eventName, params, delay)
@@ -666,7 +695,6 @@ function BanditScheduler.GetWaveDataAll()
         local wave = {}
 
         wave.enabled = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_WaveEnabled"]
-        wave.friendlyChance = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_FriendlyChance"]
         wave.enemyBehaviour = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_EnemyBehaviour"]
         wave.firstDay = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_FirstDay"] + 67
         wave.lastDay = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_LastDay"] + 67
@@ -684,6 +712,7 @@ function BanditScheduler.GetWaveDataAll()
     return waveData
 end
 
-
 Events.OnTick.Add(BWOScheduler.CheckEvents)
 Events.EveryOneMinute.Add(BWOScheduler.MasterControl)
+Events.OnGameStart.Add(BWOScheduler.StoreSandboxVars)
+
