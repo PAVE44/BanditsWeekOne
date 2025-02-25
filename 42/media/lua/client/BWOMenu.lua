@@ -135,16 +135,12 @@ BWOMenu.FlushDeadbodies = function(player)
     sendClientCommand(getSpecificPlayer(0), 'Commands', 'DeadBodyFlush', args)
 end
 
-BWOMenu.TestEmitter = function(player, square)
-    local effect = {}
-    effect.x = square:getX()
-    effect.y = square:getY()
-    effect.z = square:getZ()
-    effect.len = 300
-    effect.volume = 0.1
-    -- effect.sound = "ZSBuildingBaseAlert"
-    effect.light = {r=1, g=1, b=0.7, t=1}
-    BWOEmitter.Add(effect)
+BWOMenu.Ambience = function(player, status)
+    if status then
+        BWOAmbience.Enable("radiation")
+    else
+        BWOAmbience.Disable("radiation")
+    end
 end
 
 BWOMenu.EventArmy = function(player)
@@ -482,7 +478,8 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         spawnMenu:addOption("Walker", player, BWOMenu.SpawnWave, square, "Walker")
         
         context:addOption("BWO Deadbodies: Flush", player, BWOMenu.FlushDeadbodies)
-        context:addOption("BWO Test Emitter", player, BWOMenu.TestEmitter, square)
+        context:addOption("BWO Ambience On", player, BWOMenu.Ambience, true)
+        context:addOption("BWO Ambience Off", player, BWOMenu.Ambience, false)
         
         local room = square:getRoom()
         if room then

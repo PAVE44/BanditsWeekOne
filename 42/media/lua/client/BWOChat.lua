@@ -229,6 +229,7 @@ table.insert(data, {query={"i", "like", "you"}, res="I'm sure you do!", anim="Ye
 -- Personal questions
 table.insert(data, {query={"what", "your", "name"}, res="%NAME"})
 table.insert(data, {query={"who", "are", "you"}, res="%NAME"})
+table.insert(data, {query={"how", "are", "you"}, res="%MOOD", anim="PainHead"})
 table.insert(data, {query={"how", "you", "feel"}, res="%MOOD", anim="PainHead"})
 table.insert(data, {query={"are", "you", "sick"}, res="%MOOD", anim="PainHead"})
 table.insert(data, {query={"are", "you", "ok"}, res="%MOOD", anim="PainHead"})
@@ -985,7 +986,6 @@ table.insert(data, {query={"would", "it"}, res="It might be considered."})
 table.insert(data, {query={"would", "this"}, res="It might be considered."})
 table.insert(data, {query={"would", "that"}, res="It might be considered."})
 
-table.insert(data, {query={"how", "are", "you"}, res="%MOOD", anim="PainHead"})
 table.insert(data, {query={"how", "much"}, res="A lot."})
 table.insert(data, {query={"how", "many"}, res="A lot."})
 table.insert(data, {query={"how", "far"}, res="I don't know how far, sorry."})

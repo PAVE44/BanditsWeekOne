@@ -6,8 +6,8 @@ BWOAmbience.tick = 0
 radiation = {}
 radiation.name = "BWOAmbientRadiation"
 radiation.mode = "Radial"
-radiation.fadeIn = 200
-radiation.fadeOut = 200
+radiation.fadeIn = 400
+radiation.fadeOut = 400
 radiation.fadeTo = 1
 radiation.radius = 10
 radiation.status = false
@@ -64,11 +64,11 @@ BWOAmbience.Process = function()
         if sound.mode == "Radial" then
 
             -- regiter emitter pair for deep stereo ambience
-            local dist = sound.dist
-            local lx = px - dist
-            local ly = py + dist
-            local rx = px + dist
-            local ry = py - dist
+            local radius = sound.radius
+            local lx = px - radius
+            local ly = py + radius
+            local rx = px + radius
+            local ry = py - radius
             local left = sound.name .. "Left"
             local right = sound.name .. "Right"
 
@@ -128,7 +128,7 @@ BWOAmbience.Process = function()
             end
         end
 
-        if sound.mnode == "Fixed" then
+        if sound.mode == "Fixed" then
             if sound.status then
                 if not sound.emitter then
                     sound.emitter = world:getFreeEmitter(sound.x, sound.y, sound.z)

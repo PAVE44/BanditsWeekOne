@@ -29,7 +29,7 @@ module Bandits{
         loop = false,
         is3D = true,
         clip { 
-            file = media/sound/ambient_radiation.ogg, 
+            file = media/sound/ambient_radiation_left.ogg, 
             distanceMax = 140,
             reverbFactor = 0.1, 
             volume = 1, 
@@ -41,7 +41,19 @@ module Bandits{
         loop = false,
         is3D = true,
         clip { 
-            file = media/sound/ambient_radiation.ogg, 
+            file = media/sound/ambient_radiation_right.ogg, 
+            distanceMax = 140,
+            reverbFactor = 0.1, 
+            volume = 1, 
+        } 
+    }
+
+    sound BWOAmbientHorn {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/ambient_horn.ogg, 
             distanceMax = 140,
             reverbFactor = 0.1, 
             volume = 1, 
