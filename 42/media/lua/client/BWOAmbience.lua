@@ -46,13 +46,11 @@ BWOAmbience.SetPos = function(name, x, y, z)
     end
 end
 
-BWOAmbience.Process = function()
+BWOAmbience.Process = function(player)
 
     if isServer() then return end
 
     local world = getWorld()
-
-    local player = getSpecificPlayer(0)
     local px, py, pz = player:getX(), player:getY(), player:getZ()
 
     for _, sound in pairs(BWOAmbience.sounds) do
@@ -171,4 +169,4 @@ BWOAmbience.Process = function()
     end
 end
 
-Events.OnTick.Add(BWOAmbience.Process)
+Events.OnPlayerUpdate.Add(BWOAmbience.Process)

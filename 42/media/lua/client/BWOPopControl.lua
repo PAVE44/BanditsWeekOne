@@ -272,7 +272,16 @@ BWOPopControl.InhabitantsSpawn = function(cnt)
                             local dist = BanditUtils.DistTo(px, py, event.x, event.y)
                             if dist > 30 and dist < 80 then
                                 event.bandits = {}
-                                local bandit = BanditCreator.MakeFromRoom(spawnRoom)
+                                local bandit
+                                local zombieType = ItemPickerJava.getSquareZombiesType(spawnSquare)
+                                if zombieType then
+                                    bandit = BanditCreator.MakeFromZombieZone(zombieType)
+                                end
+
+                                if not bandit then
+                                    bandit = BanditCreator.MakeFromRoom(spawnRoom)
+                                end
+                                
                                 if bandit then
                                     table.insert(event.bandits, bandit)
                                     sendClientCommand(player, 'Commands', 'SpawnGroup', event)

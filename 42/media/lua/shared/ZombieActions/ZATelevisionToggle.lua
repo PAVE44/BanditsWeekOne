@@ -29,13 +29,10 @@ ZombieActions.TelevisionToggle.onComplete = function(zombie, task)
                         dd:setDeviceVolume(task.volume)
                     end
                     if task.music then
-                        local isPlaying = false
-                        local t = RadioWavs.getData(dd)
-                        if t then
-                            isPlaying = RadioWavs.isPlaying(t)
-                        end
+                        local isPlaying = BWORadio.IsPlaying(object)
+
                         if not isPlaying then
-                            RadioWavs.PlaySound(task.music, object)
+                            BWORadio.PlaySound(object, task.music)
                         end
                     end
                 end

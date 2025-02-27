@@ -6,6 +6,10 @@ function MainScreen:prerender()
     mainScreenPrerender(self)
 
     if self.ingame then return end
+    
+    if isIngameState() then return end
+    
+    if getPlayer() then return end
 
     local options = PZAPI.ModOptions:getOptions("BanditsWeekOne")
     local musicIdx = options:getOption("INTROMUSIC"):getValue()

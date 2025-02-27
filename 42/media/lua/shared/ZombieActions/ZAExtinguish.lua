@@ -16,14 +16,13 @@ ZombieActions.Extinguish.onStart = function(zombie, task)
     effect.x = task.x
     effect.y = task.y
     effect.z = task.z
-    effect.offset = 300
-    effect.name = "mist_01"
+    effect.size = 600
+    effect.name = "mist"
     effect.frameCnt = 60
-    effect.frameRnd = false
     effect.repCnt = 2
     effect.colors = {r=0.9, g=0.9, b=1.0, a=0.2}
 
-    table.insert(BWOEffects.tab, effect)
+    table.insert(BWOEffects2.tab, effect)
 
     
 

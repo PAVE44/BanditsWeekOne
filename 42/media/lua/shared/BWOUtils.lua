@@ -134,6 +134,17 @@ function BanditUtils.HasZoneType(x, y, z, zoneType)
     return false
 end
 
+function BanditUtils.GetZombieZone(x, y, z)
+    local zones = getWorld():getMetaGrid():getZonesAt(x, y, z)
+    for i=0, zones:size()-1 do
+        local zone = zones:get(i)
+        local ztype = zone:getType() -- ZombiesType
+        if ztype == "ZombiesType" then
+            return zone:getName()
+        end
+    end
+end
+
 function BanditUtils.AddPriceInflation(price)
     local wa = BWOScheduler.WorldAge
     if wa < 0 then wa = 0 end

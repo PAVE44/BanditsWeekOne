@@ -194,11 +194,8 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                     if partyOn then
                         local dd = boombox:getDeviceData()
                         local ch = dd:getChannel()
-                        local isPlaying = false
-                        local t = RadioWavs.getData(dd)
-                        if t then
-                            isPlaying = RadioWavs.isPlaying(t)
-                        end
+                        local isPlaying = BWORadio.IsPlaying(boombox)
+
                         if not dd:getIsTurnedOn() or dd:getChannel() ~= 98600 or not isPlaying then -- true music version: or not boombox:getModData().tcmusic.isPlaying then
                             local square = boombox:getSquare()
                             local asquare = AdjacentFreeTileFinder.Find(square, bandit)

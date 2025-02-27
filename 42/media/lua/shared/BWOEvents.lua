@@ -135,6 +135,8 @@ local explode = function(x, y)
     end
     
     -- blast tex
+
+    --[[
     local effect = {}
     effect.x = square:getX()
     effect.y = square:getY()
@@ -142,7 +144,17 @@ local explode = function(x, y)
     effect.offset = 320
     effect.name = "explo_big_01"
     effect.frameCnt = 17
-    table.insert(BWOEffects.tab, effect)
+    table.insert(BWOEffects.tab, effect)]]
+
+    local effect = {}
+    effect.x = square:getX()
+    effect.y = square:getY()
+    effect.z = square:getZ()
+    effect.size = 640
+    effect.colors = {r=0.1, g=0.7, b=0.2, a=0.2}
+    effect.name = "explobig"
+    effect.frameCnt = 17
+    table.insert(BWOEffects2.tab, effect)
     
     -- light blast
     local colors = {r=1.0, g=0.5, b=0.5}
@@ -910,10 +922,8 @@ end
 -- params: []
 BWOEvents.SetupNukes = function(params)
 
-    -- nukes
     local addNuke = function(x, y, r)
         BWOServer.Commands.NukeAdd(getSpecificPlayer(0), {x=x, y=y, r=r})
-        -- table.insert(BWOSquareLoader.nukes, {x=x, y=y, r=r})
     end
 
     addNuke(10800, 9800, 700) -- muldraugh
@@ -929,6 +939,85 @@ BWOEvents.SetupNukes = function(params)
         addNuke(2060, 5930, 700) -- brandenburg
         addNuke(2336, 14294, 800) -- irvington
     end
+
+end
+
+BWOEvents.SetupPlaceEvents = function(params)
+
+    local addPlaceEvent = function(args)
+        BWOServer.Commands.PlaceEventAdd(getSpecificPlayer(0), args)
+    end
+
+    -- muldrough road blocks
+    addPlaceEvent({phase="ArmyGuards", x=10592, y=10675, z=0})
+
+    for i = 0, 14 do
+        addPlaceEvent({phase="AbandonedVehicle", x=10587, y=10660 - (i * 6), z=0, dir=IsoDirections.S})
+    end
+
+    for i = 0, 3 do
+        addPlaceEvent({phase="AbandonedVehicle", x=10597, y=10685 + (i * 6), z=0, dir=IsoDirections.N})
+    end
+
+    addPlaceEvent({phase="ArmyGuards", x=10790, y=10706, z=0})
+    addPlaceEvent({phase="ArmyGuards", x=11091, y=9317, z=0})
+    addPlaceEvent({phase="ArmyGuards", x=10962, y=8932, z=0})
+    addPlaceEvent({phase="ArmyGuards", x=10591, y=9152, z=0})
+
+    for i = 0, 4 do
+        addPlaceEvent({phase="AbandonedVehicle", x=10587, y=9140 - (i * 6), z=0, dir=IsoDirections.S})
+    end
+
+    for i = 0, 10 do
+        addPlaceEvent({phase="AbandonedVehicle", x=10597, y=9153 + (i * 6), z=0, dir=IsoDirections.N})
+    end
+
+    addPlaceEvent({phase="ArmyGuards", x=10579, y=9736, z=0})
+
+    -- march ridge road blocks
+    addPlaceEvent({phase="ArmyGuards", x=10361, y=12419, z=0})
+    addPlaceEvent({phase="ArmyGuards", x=10363, y=12397, z=0})
+
+    -- dixie
+    addPlaceEvent({phase="ArmyGuards", x=11405, y=8764, z=0})
+    addPlaceEvent({phase="ArmyGuards", x=11643, y=8694, z=0})
+
+    -- westpoint
+    addPlaceEvent({phase="ArmyGuards", x=11753, y=7182, z=0})
+    addPlaceEvent({phase="ArmyGuards", x=11708, y=7147, z=0})
+    addPlaceEvent({phase="ArmyGuards", x=11094, y=6900, z=0})
+    addPlaceEvent({phase="ArmyGuards", x=12165, y=7182, z=0})
+    addPlaceEvent({phase="ArmyGuards", x=12166, y=6899, z=0})
+
+    -- riverside
+    -- fixme - we need other cities too
+
+    -- mechanic cars - since b42 we can spawn cars in buildings - yay
+    addPlaceEvent({phase="CarMechanic", x=5467, y=9652, z=0, dir=IsoDirections.E}) -- riverside
+    addPlaceEvent({phase="CarMechanic", x=5467, y=9661, z=0, dir=IsoDirections.E}) -- riverside
+    addPlaceEvent({phase="CarMechanic", x=10610, y=9405, z=0, dir=IsoDirections.E}) -- muldraugh
+    addPlaceEvent({phase="CarMechanic", x=10610, y=9410, z=0, dir=IsoDirections.E}) -- muldraugh
+    addPlaceEvent({phase="CarMechanic", x=10179, y=10936, z=0, dir=IsoDirections.W}) -- muldraugh
+    addPlaceEvent({phase="CarMechanic", x=10179, y=10945, z=0, dir=IsoDirections.W}) -- muldraugh
+    addPlaceEvent({phase="CarMechanic", x=5430, y=5960, z=0, dir=IsoDirections.E}) -- riverside
+    addPlaceEvent({phase="CarMechanic", x=5430, y=5964, z=0, dir=IsoDirections.E}) -- riverside
+    addPlaceEvent({phase="CarMechanic", x=8151, y=11322, z=0, dir=IsoDirections.W}) -- rosewood
+    addPlaceEvent({phase="CarMechanic", x=8151, y=11331, z=0, dir=IsoDirections.W}) -- rosewood
+    addPlaceEvent({phase="CarMechanic", x=11897, y=6809, z=0, dir=IsoDirections.N}) -- westpoint
+    addPlaceEvent({phase="CarMechanic", x=12274, y=6927, z=0, dir=IsoDirections.W}) -- westpoint
+    addPlaceEvent({phase="CarMechanic", x=12274, y=6934, z=0, dir=IsoDirections.W}) -- westpoint
+
+    -- defender teams
+    addPlaceEvent({phase="BaseDefenders", x=5572, y=12489, z=0, intensity = 2}) -- control room
+    addPlaceEvent({phase="BaseDefenders", x=5582, y=12486, z=0, intensity = 3}) -- entrance in
+    addPlaceEvent({phase="BaseDefenders", x=5582, y=12480, z=0, intensity = 3}) -- entrance in
+    addPlaceEvent({phase="BaseDefenders", x=5586, y=12483, z=0, intensity = 2}) -- entrance out
+    addPlaceEvent({phase="BaseDefenders", x=5573, y=12484, z=0, intensity = 1}) -- door
+    addPlaceEvent({phase="BaseDefenders", x=5609, y=12483, z=0, intensity = 4}) -- gateway
+    addPlaceEvent({phase="BaseDefenders", x=5833, y=12490, z=0, intensity = 2}) -- booth
+    addPlaceEvent({phase="BaseDefenders", x=5831, y=12484, z=0, intensity = 4}) -- szlaban
+    addPlaceEvent({phase="BaseDefenders", x=5530, y=12489, z=0, intensity = 5}) -- back
+    -- addPlaceEvent({phase="BaseDefenders", x=5558, y=12447, z=-16, intensity = 3}) -- underground armory
 
 end
 
@@ -1141,7 +1230,7 @@ BWOEvents.GasDrop = function(params)
     table.insert(svec, {x=1, y=3})
 
     for _, v in pairs(svec) do
-        local effect = {}
+        --[[local effect = {}
         effect.x = x + v.x
         effect.y = y + v.y
         effect.z = 0
@@ -1152,7 +1241,19 @@ BWOEvents.GasDrop = function(params)
         effect.frameCnt = 60
         effect.frameRnd = true
         effect.repCnt = 10
-        table.insert(BWOEffects.tab, effect)
+        table.insert(BWOEffects.tab, effect)]]
+
+        local effect = {}
+        effect.x = x + v.x
+        effect.y = y + v.y
+        effect.z = 0
+        effect.size = 600
+        effect.poison = true
+        effect.colors = {r=0.1, g=0.7, b=0.2, a=0.2}
+        effect.name = "mist"
+        effect.frameCnt = 60
+        effect.repCnt = 9
+        table.insert(BWOEffects2.tab, effect)
     end
 
     local colors = {r=0.2, g=1.0, b=0.3}

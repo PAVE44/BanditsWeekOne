@@ -8,7 +8,7 @@ local function onTick()
     if BWORadio.tick >= 4 then
         BWORadio.tick = 0
     end
-    if BWOEffects.tick > 0 then return end
+    if BWORadio.tick > 0 then return end
 
     local cache = BWORadio.cache
     local timeMultiplier = UIManager.getSpeedControls():getCurrentGameSpeed()
@@ -39,6 +39,11 @@ local function onTick()
                     end
                 end
                 v.started = true
+            else
+                if not v.emitter:isPlaying(v.sound) then
+                    BWORadio.cache[k] = nil
+                    return
+                end
             end
 
             local deviceData = v.device:getDeviceData()
@@ -80,6 +85,10 @@ local function onDeviceText(guid, codes, x, y, z, text, device)
     local sound = getGUID(codes)
     if not sound then return end
 
+    BWORadio.PlaySound(device, sound)
+end
+
+local getEmitter = function(device)
     local world = getWorld()
     local deviceData = device:getDeviceData()
 
@@ -98,11 +107,40 @@ local function onDeviceText(guid, codes, x, y, z, text, device)
     end
                
     if not emitter then
+        local x, y, z = device:getX(), device:getY(), device:getZ()
         emitter = world:getFreeEmitter(x, y, z)
         id = x .. "-" .. y .. "-" .. z
     end
 
+    return emitter, id
+end
+
+BWORadio.PlaySound = function(device, sound)
+    local emitter, id = getEmitter(device)
     BWORadio.cache[id] = {device=device, vehicle=vehicle, emitter=emitter, sound=sound, ts=getTimestampMs()}
+end
+
+BWORadio.IsPlaying = function(device)
+    local x, y, z = device:getX(), device:getY(), device:getZ()
+    local id = x .. "-" .. y .. "-" .. z
+    if BWORadio.cache[id] then
+        return true
+    else
+        return false
+    end
+end
+
+BWORadio.IsPlayingSound = function(device, sound)
+    local emitter, id = getEmitter(device)
+    if emitter and sound then 
+        if emitter:isPlaying(sound) then
+            return true
+        else
+            return false
+        end
+    else
+        return false
+    end
 end
 
 Events.OnDeviceText.Add(onDeviceText)

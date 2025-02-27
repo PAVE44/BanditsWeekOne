@@ -13,6 +13,7 @@ function InitBWOModData(isNewGame)
     if not globalData.Objects then globalData.Objects = {} end
     if not globalData.EventBuildings then globalData.EventBuildings = {} end
     if not globalData.Nukes then globalData.Nukes = {} end
+    if not globalData.PlaceEvents then globalData.PlaceEvents = {} end
     if not globalData.Sandbox then globalData.Sandbox = {} end
     BWOGlobalData = globalData
 

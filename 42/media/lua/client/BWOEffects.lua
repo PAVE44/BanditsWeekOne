@@ -21,7 +21,7 @@ BWOEffects.Process = function()
     local cell = getCell()
     for i, effect in pairs(BWOEffects.tab) do
 
-        local square = cell:getOrCreateGridSquare(effect.x, effect.y, effect.z+1)
+        local square = cell:getGridSquare(effect.x, effect.y, effect.z)
         if square then
 
             if not effect.repCnt then effect.repCnt = 1 end
@@ -29,12 +29,20 @@ BWOEffects.Process = function()
 
             if not effect.frame then 
 
-                local dummy = IsoObject.new(square, "")
+                -- local dummy = IsoObject.new(square, "")
+                local dummy = IsoObject.new(square, "carpentry_01_24", "")
 
-                dummy:setOffsetX(effect.offset)
-                dummy:setOffsetY(effect.offset)
-                -- square:AddTileObject(dummy)
-                square:AddSpecialObject(dummy)
+                -- dummy:setOffsetX(effect.offset)
+                -- dummy:setOffsetY(effect.offset)
+                square:AddTileObject(dummy)
+                --- square:AddSpecialObject(dummy)
+                dummy:setCustomColor(1,1,1,0)
+
+                local smokeTintMod = ColorInfo.new(0.95, 0.95, 0.85, 0.55)
+                dummy:AttachAnim("Smoke", "01", 4, 0.2, -14, 58, true, 0, false, 0.7, smokeTintMod)
+                -- local anim = dummy:getAttachedAnimSprite():get(0)
+                -- anim:SetAlpha(0.55)
+
                 if effect.frameRnd then
                     effect.frame = 1 + ZombRand(effect.frameCnt)
                 else
@@ -57,18 +65,23 @@ BWOEffects.Process = function()
                 -- local frameStr = string.format("%03d", effect.frame)
                 -- local alpha = 0.1-- (effect.repCnt - effect.rep + 1) / effect.repCnt
                 local sprite = effect.object:getSprite()
+                -- local sprite = IsoSprite.new()
 
                 if sprite then
                     local spriteName = effect.name .. "_" .. (effect.frame - 1)
+                    -- local spriteName = "blends_natural_01_22"
+                    -- local spriteName = "explo_big_01_10"
 
                     -- method 1
-                    effect.object:setSprite(spriteName)
+                    
+                    -- effect.object:setSprite(spriteName)
 
                     -- method 2
                     -- effect.object:setOverlaySprite(spriteName)
                     -- effect.object:setAttachedAnimSprite(ArrayList.new())
 
                     -- method 3
+                    -- effect.object:clearAttachedAnimSprite()
                     -- effect.object:getAttachedAnimSprite():add(getSprite(spriteName):newInstance())
 
                     -- method 4
@@ -79,7 +92,7 @@ BWOEffects.Process = function()
                     -- effect.object:getSprite():LoadFramesNoDirPageSimple("media/textures/FX/" .. effect.name .. "/" .. frameStr .. ".png")
                     -- effect.object:setAlpha(0.2)
                     if effect.colors then
-                        effect.object:setCustomColor(effect.colors.r, effect.colors.g, effect.colors.b, effect.colors.a)
+                        -- effect.object:setCustomColor(effect.colors.r, effect.colors.g, effect.colors.b, effect.colors.a)
                     end
                     effect.frame = effect.frame + 1
 

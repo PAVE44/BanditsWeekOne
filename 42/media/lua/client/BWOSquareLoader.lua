@@ -6,12 +6,6 @@ BWOSquareLoader.map = {}
 -- table for objects to be removed from the map
 BWOSquareLoader.remove = {}
 
--- table of coordinates of location based events
-BWOSquareLoader.events = {}
-
--- table of nuclear strike coordinates
--- BWOSquareLoader.nukes = {}
-
 -- table of protest gathering point coordinates
 BWOSquareLoader.protests = {}
 
@@ -124,66 +118,25 @@ end
 
 -- muldrough road blocks
 addBarricadeSouth(10576, 10602, 10679)
-table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=10592, y=10675, z=0})
-
-for i = 0, 14 do
-    table.insert(BWOSquareLoader.events, {phase="AbandonedVehicle", x=10587, y=10660 - (i * 6), z=0, dir=IsoDirections.S}) 
-end
-
-for i = 0, 3 do
-    table.insert(BWOSquareLoader.events, {phase="AbandonedVehicle", x=10597, y=10685 + (i * 6), z=0, dir=IsoDirections.N})
-end
-
 addBarricadeSouth(10775, 10805, 10715)
-table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=10790, y=10706, z=0})
-
 addBarricadeWest(9306, 9329, 11097)
-table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=11091, y=9317, z=0})
-
 addBarricadeNorth(10950, 10970, 8928)
-table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=10962, y=8932, z=0})
-
 addBarricadeNorth(10570, 10608, 9148)
-table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=10591, y=9152, z=0})
-
-for i = 0, 4 do
-    table.insert(BWOSquareLoader.events, {phase="AbandonedVehicle", x=10587, y=9140 - (i * 6), z=0, dir=IsoDirections.S}) 
-end
-
-for i = 0, 10 do
-    table.insert(BWOSquareLoader.events, {phase="AbandonedVehicle", x=10597, y=9153 + (i * 6), z=0, dir=IsoDirections.N})
-end
-
 addBarricadeEast(9726, 9744, 10576)
-table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=10579, y=9736, z=0})
 
 -- march ridge road blocks
 addBarricadeNorth(10345, 10380, 12414)
-table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=10361, y=12419, z=0})
-table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=10363, y=12397, z=0})
 
 -- dixie
 addBarricadeWest(8750, 8776, 11400)
-table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=11405, y=8764, z=0})
-
 addBarricadeNorth(11628, 11656, 8690)
-table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=11643, y=8694, z=0})
 
 -- westpoint
 addBarricadeSouth(11680, 11750, 7157)
-table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=11753, y=7182, z=0})
-
 addBarricadeWest(7157, 7200, 11750)
-table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=11708, y=7147, z=0})
-
 addBarricadeWest(6890, 6925, 11090)
-table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=11094, y=6900, z=0})
-
 addBarricadeEast(7159, 7205, 12172)
-table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=12165, y=7182, z=0})
-
 addBarricadeEast(6890, 6908, 12172)
-table.insert(BWOSquareLoader.events, {phase="ArmyGuards", x=12166, y=6899, z=0})
 
 -- riverside
 addBarricadeEast(5440, 5500, 7000)
@@ -216,6 +169,9 @@ BWOSquareLoader.remove["13598-1533-0"] = {}
 -- BWOSquareLoader.remove["10615-9768-0"] = {}
 -- BWOSquareLoader.remove["10615-9766-0"] = {}
 -- BWOSquareLoader.remove["10642-10628-0"] = {}
+
+-- exclusion zones
+table.insert(BWOSquareLoader.exclusions, {x1=5000, y1=12000, x2=6200, y2=13000}) -- military research lab
 
 -- protests
 local protests = {}
@@ -254,97 +210,6 @@ table.insert(protests, {x=13220, y=3105, z=0}) --police station
 table.insert(protests, {x=12500, y=1571, z=0}) --police station / courthhouse
 
 BWOSquareLoader.protests = protests
-
--- mechanic cars - since b42 we can spawn cars in buildings - yay
-
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5467, y=9652, z=0, dir=IsoDirections.E}) -- riverside
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5467, y=9661, z=0, dir=IsoDirections.E}) -- riverside
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=10610, y=9405, z=0, dir=IsoDirections.E}) -- muldraugh
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=10610, y=9410, z=0, dir=IsoDirections.E}) -- muldraugh
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=10179, y=10936, z=0, dir=IsoDirections.W}) -- muldraugh
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=10179, y=10945, z=0, dir=IsoDirections.W}) -- muldraugh
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5430, y=5960, z=0, dir=IsoDirections.E}) -- riverside
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=5430, y=5964, z=0, dir=IsoDirections.E}) -- riverside
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=8151, y=11322, z=0, dir=IsoDirections.W}) -- rosewood
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=8151, y=11331, z=0, dir=IsoDirections.W}) -- rosewood
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=11897, y=6809, z=0, dir=IsoDirections.N}) -- westpoint
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=12274, y=6927, z=0, dir=IsoDirections.W}) -- westpoint
-table.insert(BWOSquareLoader.events, {phase="CarMechanic", x=12274, y=6934, z=0, dir=IsoDirections.W}) -- westpoint
-
--- building emitters
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=13458, y=3043, z=0, len=110000, sound="ZSBuildingGigamart"}) -- gigamart lousville 
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=6505, y=5345, z=0, len=110000, sound="ZSBuildingGigamart"}) -- gigamart riverside
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=12024, y=6856, z=0, len=110000, sound="ZSBuildingGigamart"}) -- gigamart westpoint
-
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=6472, y=5266, z=0, len=42000, sound="ZSBuildingPharmabug"}) -- pharmabug riverside
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=13235, y=1284, z=0, len=42000, sound="ZSBuildingPharmabug"}) -- pharmabug lv
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=13120, y=2126, z=0, len=42000, sound="ZSBuildingPharmabug"}) -- pharmabug lv
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=11932, y=6804, z=0, len=42000, sound="ZSBuildingPharmabug"}) -- pharmabug westpoint
-
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=12228, y=3029, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=12998, y=3115, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=13065, y=1923, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=12660, y=1366, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=13523, y=1670, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=12520, y=1482, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=12646, y=2290, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=10604, y=9612, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market muldraugh
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=8088, y=11560, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market rosewood
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=13656, y=5764, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market valley station
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=11660, y=7067, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market west point
-
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=10619, y=10527, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- restaurant muldraugh
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=10605, y=10112, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- pizza whirled muldraugh
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=10647, y=9927, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- cafeteria muldraugh
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=10615, y=9646, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- spiffos muldraugh
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=10616, y=9565, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- jays muldraugh
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=10620, y=9513, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- pileocrepe muldraugh
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=12078, y=7076, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- burgers westpoint
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=11976, y=6812, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- spiffos westpoint
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=11930, y=6917, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- restaurant westpoint
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=11663, y=7085, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- pizza whirled westpoint
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=6395, y=5303, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- restaurant riverside
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=6189, y=5338, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- fancy restaurant riverside
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=6121, y=5303, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- spiffos riverside
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=5422, y=5914, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- diner riverside
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=7232, y=8202, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- burger joint doe valley
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=10103, y=12749, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- restaurant march ridge 
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=8076, y=11455, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- restaurant rosewood
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=8072, y=11344, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- spiffos rosewood
-
--- non-stop party buildings
-
--- LV strip club
-table.insert(BWOSquareLoader.events, {phase="BuildingParty", x=12320, y=1279, z=0, intensity=10, roomName="stripclub"})
-
--- GUNSHOP GUARDS
-table.insert(BWOSquareLoader.events, {phase="GunshopGuard", x=12065, y=6762, z=0})
-
--- MILITARY BASE FINALE SETUP
-
--- exclusion zones
-table.insert(BWOSquareLoader.exclusions, {x1=5000, y1=12000, x2=6200, y2=13000}) -- military research lab
-
--- alarm emitters
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=5572, y=12489, z=0, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- fake control room
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=5575, y=12473, z=0, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- entrance
-table.insert(BWOSquareLoader.events, {phase="Emitter", x=5562, y=12464, z=0, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- back
-
-if BanditCompatibility.GetGameVersion() >= 42 then
-    table.insert(BWOSquareLoader.events, {phase="Emitter", x=5556, y=12446, z=-16, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- real control room
-end
-
--- defender teams
-table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5572, y=12489, z=0, intensity = 2}) -- control room
-table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5582, y=12486, z=0, intensity = 3}) -- entrance in
-table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5582, y=12480, z=0, intensity = 3}) -- entrance in
-table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5586, y=12483, z=0, intensity = 2}) -- entrance out
-table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5573, y=12484, z=0, intensity = 1}) -- door
-table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5609, y=12483, z=0, intensity = 4}) -- gateway
-table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5833, y=12490, z=0, intensity = 2}) -- booth
-table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5831, y=12484, z=0, intensity = 4}) -- szlaban
-table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5530, y=12489, z=0, intensity = 5}) -- back
--- table.insert(BWOSquareLoader.events, {phase="BaseDefenders", x=5558, y=12447, z=-16, intensity = 3}) -- underground armory
 
 -- checks if a point is inside any exclusion zone
 BWOSquareLoader.IsInExclusion = function(x, y)
@@ -551,19 +416,23 @@ BWOSquareLoader.OnLoad = function(square)
 
     local id = x .. "-" .. y .. "-" .. z
 
-    -- spawn map objects
-    if map[id] then
-        clearObjects(square)
-        addObject(square, map[id])
-        BWOSquareLoader.map[id] = nil
-    end
-
-    -- remove map objects
-    if scheduler.ObjectRemover then
-        if remove[id] then
+    if not md.BWO.omod then
+         -- spawn map objects
+        if map[id] then
             clearObjects(square)
-            BWOSquareLoader.remove[id] = nil
+            addObject(square, map[id])
+            BWOSquareLoader.map[id] = nil
         end
+
+        -- remove map objects
+        if scheduler.ObjectRemover  then
+            if remove[id] then
+                clearObjects(square)
+                BWOSquareLoader.remove[id] = nil
+                
+            end
+        end
+        md.BWO.omod = true
     end
 
     -- remove deadbodies
@@ -773,7 +642,10 @@ end
 BWOSquareLoader.LocationEvents = function(ticks)
     if ticks % 10 > 0 then return end
 
-    local tab = BWOSquareLoader.events
+    local gmd = GetBWOModData()
+    local tab = gmd.PlaceEvents
+
+    -- local tab = BWOSquareLoader.events
     local player = getSpecificPlayer(0)
     local cell = getCell()
     for i, event in pairs(tab) do
@@ -783,7 +655,7 @@ BWOSquareLoader.LocationEvents = function(ticks)
                 if BWOEventsPlace[event.phase] then
                     BWOEventsPlace[event.phase](event)
                 end
-                table.remove(BWOSquareLoader.events, i)
+                BWOServer.Commands.PlaceEventRemove(getSpecificPlayer(0), event)
                 break
             end
         end

@@ -44,6 +44,7 @@ BWOEmitter.Process = function()
                         else
                             effect.emitter:setVolumeAll(0.2)
                         end
+                        effect.emitter:tick()
 
                         effect.emitter:playSound(effect.sound)
                     end

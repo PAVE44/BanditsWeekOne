@@ -33,6 +33,7 @@ BWORooms.tab = {
 
     armyhanger = {
         isStorage = true,
+        occupations = {"veteran"},
         outfits = {"ArmyCamoGreen"},
         hairStyles = {"Bald", "Fresh", "Demi", "FlatTop", "MohawkShort"},
         femaleChance = 0,
@@ -45,6 +46,7 @@ BWORooms.tab = {
 
     armystorage = {
         isStorage = true,
+        occupations = {"veteran"},
         outfits = {"ArmyCamoGreen"},
         hairStyles = {"Bald", "Fresh", "Demi", "FlatTop", "MohawkShort"},
         femaleChance = 0,
@@ -61,6 +63,7 @@ BWORooms.tab = {
 
     armytent = {
         isStorage = true,
+        occupations = {"veteran"},
         outfits = {"ArmyCamoGreen"},
         hairStyles = {"Bald", "Fresh", "Demi", "FlatTop", "MohawkShort"},
         femaleChance = 0,

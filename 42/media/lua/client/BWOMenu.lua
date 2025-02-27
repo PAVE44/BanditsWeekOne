@@ -143,6 +143,32 @@ BWOMenu.Ambience = function(player, status)
     end
 end
 
+BWOMenu.AddEffect = function(player, square)
+    --[[
+    local effect = {}
+    effect.x = square:getX()
+    effect.y = square:getY()
+    effect.z = square:getZ()
+    effect.size = 600
+    effect.poison = true
+    effect.colors = {r=0.1, g=0.7, b=0.2, a=0.2}
+    effect.name = "mist"
+    effect.frameCnt = 60
+    effect.repCnt = 2
+    table.insert(BWOEffects2.tab, effect)
+    ]]
+
+    local effect = {}
+    effect.x = square:getX()
+    effect.y = square:getY()
+    effect.z = square:getZ()
+    effect.size = 640
+    effect.colors = {r=0.1, g=0.7, b=0.2, a=0.2}
+    effect.name = "explobig"
+    effect.frameCnt = 17
+    table.insert(BWOEffects2.tab, effect)
+end
+
 BWOMenu.EventArmy = function(player)
     local params = {}
     params.intensity = 12
@@ -405,11 +431,11 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
 
     if isDebugEnabled() or isAdmin() then
 
-        local density = BanditScheduler.GetDensityScore(player, 120) * 1.4
-        print ("DENSITY: " .. density)
+        -- local density = BanditScheduler.GetDensityScore(player, 120) * 1.4
+        -- print ("DENSITY: " .. density)
 
-        local density2 = BWOBuildings.GetDensityScore(player, 120) / 6000
-        print ("DENSITY2: " .. density2)
+        -- local density2 = BWOBuildings.GetDensityScore(player, 120) / 6000
+        -- print ("DENSITY2: " .. density2)
 
         -- player:playSound("197ddd73-7662-41d5-81e0-63b83a58ab60")
         local eventsOption = context:addOption("BWO Event")
@@ -480,6 +506,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         context:addOption("BWO Deadbodies: Flush", player, BWOMenu.FlushDeadbodies)
         context:addOption("BWO Ambience On", player, BWOMenu.Ambience, true)
         context:addOption("BWO Ambience Off", player, BWOMenu.Ambience, false)
+        context:addOption("BWO Add Effect", player, BWOMenu.AddEffect, square)
         
         local room = square:getRoom()
         if room then

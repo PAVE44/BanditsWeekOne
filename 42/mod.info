@@ -5,5 +5,4 @@ description=Immerses you in the first week before the apocalypse
 author=Slayer
 require=\Bandits
 incompatible=\BanditsDayOne
-pack=SimonMDsTiles
-tiledef=SimonMDsTiles 3337
+pack=effects

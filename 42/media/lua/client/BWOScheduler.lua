@@ -40,6 +40,7 @@ local generateSchedule = function()
     tab[0][2]   = {"StartDay", {day="friday"}}
     tab[0][3]   = {"BuildingHome", {addRadio=true}}
     tab[0][4]   = {"SetupNukes", {}}
+    tab[0][5]   = {"SetupPlaceEvents", {}}
     
     tab[2][22]  = {"ArmyPatrol", {intensity=9}}
     tab[4][15]  = {"Entertainer", {}}
@@ -339,6 +340,77 @@ function BWOScheduler.StoreSandboxVars()
     end
 end
 
+function BWOScheduler.RestoreRepeatingPlaceEvents()
+
+    local addPlaceEvent = function(args)
+        BWOServer.Commands.PlaceEventAdd(getSpecificPlayer(0), args)
+    end
+
+    -- building emitters
+    addPlaceEvent({phase="Emitter", x=13458, y=3043, z=0, len=110000, sound="ZSBuildingGigamart"}) -- gigamart lousville 
+    addPlaceEvent({phase="Emitter", x=6505, y=5345, z=0, len=110000, sound="ZSBuildingGigamart"}) -- gigamart riverside
+    addPlaceEvent({phase="Emitter", x=12024, y=6856, z=0, len=110000, sound="ZSBuildingGigamart"}) -- gigamart westpoint
+
+    addPlaceEvent({phase="Emitter", x=6472, y=5266, z=0, len=42000, sound="ZSBuildingPharmabug"}) -- pharmabug riverside
+    addPlaceEvent({phase="Emitter", x=13235, y=1284, z=0, len=42000, sound="ZSBuildingPharmabug"}) -- pharmabug lv
+    addPlaceEvent({phase="Emitter", x=13120, y=2126, z=0, len=42000, sound="ZSBuildingPharmabug"}) -- pharmabug lv
+    addPlaceEvent({phase="Emitter", x=11932, y=6804, z=0, len=42000, sound="ZSBuildingPharmabug"}) -- pharmabug westpoint
+
+    addPlaceEvent({phase="Emitter", x=12228, y=3029, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
+    addPlaceEvent({phase="Emitter", x=12998, y=3115, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
+    addPlaceEvent({phase="Emitter", x=13065, y=1923, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
+    addPlaceEvent({phase="Emitter", x=12660, y=1366, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
+    addPlaceEvent({phase="Emitter", x=13523, y=1670, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
+    addPlaceEvent({phase="Emitter", x=12520, y=1482, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
+    addPlaceEvent({phase="Emitter", x=12646, y=2290, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market lv
+    addPlaceEvent({phase="Emitter", x=10604, y=9612, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market muldraugh
+    addPlaceEvent({phase="Emitter", x=8088, y=11560, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market rosewood
+    addPlaceEvent({phase="Emitter", x=13656, y=5764, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market valley station
+    addPlaceEvent({phase="Emitter", x=11660, y=7067, z=0, len=62000, sound="ZSBuildingZippee"}) -- zippee market west point
+
+    addPlaceEvent({phase="Emitter", x=10619, y=10527, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- restaurant muldraugh
+    addPlaceEvent({phase="Emitter", x=10605, y=10112, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- pizza whirled muldraugh
+    addPlaceEvent({phase="Emitter", x=10647, y=9927, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- cafeteria muldraugh
+    addPlaceEvent({phase="Emitter", x=10615, y=9646, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- spiffos muldraugh
+    addPlaceEvent({phase="Emitter", x=10616, y=9565, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- jays muldraugh
+    addPlaceEvent({phase="Emitter", x=10620, y=9513, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- pileocrepe muldraugh
+    addPlaceEvent({phase="Emitter", x=12078, y=7076, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- burgers westpoint
+    addPlaceEvent({phase="Emitter", x=11976, y=6812, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- spiffos westpoint
+    addPlaceEvent({phase="Emitter", x=11930, y=6917, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- restaurant westpoint
+    addPlaceEvent({phase="Emitter", x=11663, y=7085, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- pizza whirled westpoint
+    addPlaceEvent({phase="Emitter", x=6395, y=5303, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- restaurant riverside
+    addPlaceEvent({phase="Emitter", x=6189, y=5338, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- fancy restaurant riverside
+    addPlaceEvent({phase="Emitter", x=6121, y=5303, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- spiffos riverside
+    addPlaceEvent({phase="Emitter", x=5422, y=5914, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- diner riverside
+    addPlaceEvent({phase="Emitter", x=7232, y=8202, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- burger joint doe valley
+    addPlaceEvent({phase="Emitter", x=10103, y=12749, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- restaurant march ridge 
+    addPlaceEvent({phase="Emitter", x=8076, y=11455, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- restaurant rosewood
+    addPlaceEvent({phase="Emitter", x=8072, y=11344, z=0, len=73700, sound="ZSBuildingRestaurant"}) -- spiffos rosewood
+
+    -- LV strip club
+    addPlaceEvent({phase="BuildingParty", x=12320, y=1279, z=0, intensity=10, roomName="stripclub"})
+
+    -- GUNSHOP GUARDS
+    addPlaceEvent({phase="GunshopGuard", x=12065, y=6762, z=0})
+
+    -- alarm emitters (only if nukes are active)
+    local gmd = GetBWOModData()
+    local ncnt = 0
+    for _, nuke in pairs(gmd.Nukes) do
+        ncnt = ncnt + 1
+    end
+
+    if ncnt > 0 then
+        addPlaceEvent({phase="Emitter", x=5572, y=12489, z=0, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- fake control room
+        addPlaceEvent({phase="Emitter", x=5575, y=12473, z=0, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- entrance
+        addPlaceEvent({phase="Emitter", x=5562, y=12464, z=0, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- back
+
+        if BanditCompatibility.GetGameVersion() >= 42 then
+            addPlaceEvent({phase="Emitter", x=5556, y=12446, z=-16, len=2460, sound="ZSBuildingBaseAlert", light={r=1, g=0, b=0, t=10}}) -- real control room
+        end
+    end
+end
+
 function BWOScheduler.MasterControl()
 
     local function daysInMonth(month)
@@ -582,6 +654,7 @@ function BWOScheduler.MasterControl()
                     local y = (def:getY() + def:getY2()) / 2
                     local emitter = getWorld():getFreeEmitter(x, y, 0)
                     emitter:setVolumeAll(0.5)
+                    emitter:tick()
                     emitter:playSound("ZSBuildingChurch")
                 end
             end
@@ -595,6 +668,7 @@ function BWOScheduler.MasterControl()
                     local def = school:getDef()
                     local emitter = getWorld():getFreeEmitter((def:getX() + def:getX2()) / 2, (def:getY() + def:getY2()) / 2, 0)
                     emitter:setVolumeAll(0.8)
+                    emitter:tick()
                     emitter:playSound("ZSBuildingSchool")
                 end
             end
@@ -715,4 +789,4 @@ end
 Events.OnTick.Add(BWOScheduler.CheckEvents)
 Events.EveryOneMinute.Add(BWOScheduler.MasterControl)
 Events.OnGameStart.Add(BWOScheduler.StoreSandboxVars)
-
+Events.OnGameStart.Add(BWOScheduler.RestoreRepeatingPlaceEvents)

@@ -84,3 +84,34 @@ function BanditCreator.MakeFromRoom(room)
 
     return bandit
 end
+
+function BanditCreator.MakeFromZombieZone(name)
+    local defs = ZombiesZoneDefinition[name]
+    if not defs then return end
+
+    local selected
+    local sum = 0
+    for k, v in pairs(defs) do
+        if v.chance then
+            sum = sum + v.chance
+        end
+    end
+
+    local r = 1 + ZombRand(sum)
+
+    local csum = 0
+    for k, v in pairs(defs) do
+        if v.chance then
+            csum = csum + v.chance
+            if r <= csum then
+                selected = v
+                break
+            end
+        end
+    end
+
+    if selected then
+        
+    end
+    print (outfit)
+end
