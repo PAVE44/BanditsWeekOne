@@ -10,7 +10,7 @@ BWOPlayer.wasSleeping = false
 
 -- make npcs react to actual crime
 BWOPlayer.ActivateWitness = function(character, min)
-    local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer"}
+    local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal", "Medic", "Fireman"}
     local braveList = {"Police", "MallSecurity", "ArmyCamoGreen", "ArmyCamoDesert", "ArmyInstructor", "ZSArmySpecialOps", "BWOMilitaryOfficer"}
     local witnessList = BanditZombie.GetAllB()
     for id, witness in pairs(witnessList) do
@@ -64,40 +64,9 @@ BWOPlayer.ActivateWitness = function(character, min)
     end
 end
 
-BWOPlayer.ActivateExcercise = function(character, min)
-    local activatePrograms = {"Walker", "Runner", "Inhabitant"}
-    local witnessList = BanditZombie.GetAllB()
-    local cnt = 0
-    for id, witness in pairs(witnessList) do
-        if witness.brain.clan == 0 then
-            local dist = math.sqrt(math.pow(character:getX() - witness.x, 2) + math.pow(character:getY() - witness.y, 2))
-            if dist < min then
-                local actor = BanditZombie.GetInstanceById(witness.id)
-                local canSee = actor:CanSee(character)
-                if canSee or dist < 3 then
-                    for _, prg in pairs(activatePrograms) do
-                        if witness.brain.program.name == prg then
-                            if not Bandit.HasTaskType(actor, "PushUp") then
-                                Bandit.ClearTasks(actor)
-                                local task = {action="PushUp", time=2000}
-                                Bandit.AddTask(actor, task)
-                                cnt = cnt + 1
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end
-
-    if cnt > 0 then
-        BWOPlayer.Earn(character, cnt)
-    end
-end
-
 -- make npcs react to threat possibility (player aiming or swinging weapon)
 BWOPlayer.ActivateTargets = function(character, min, severity)
-    local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal"}
+    local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal", "Medic", "Fireman"}
     local braveList = {"Police", "MallSecurity", "ArmyCamoGreen", "ArmyCamoDesert", "ArmyInstructor", "ZSArmySpecialOps", "BWOMilitaryOfficer"}
     local witnessList = BanditZombie.GetAllB()
     local wasLegal = false
@@ -160,6 +129,37 @@ BWOPlayer.ActivateTargets = function(character, min, severity)
             syncData.program = brain.program
             Bandit.ForceSyncPart(actor, syncData)
         end
+    end
+end
+
+BWOPlayer.ActivateExcercise = function(character, min)
+    local activatePrograms = {"Walker", "Runner", "Inhabitant"}
+    local witnessList = BanditZombie.GetAllB()
+    local cnt = 0
+    for id, witness in pairs(witnessList) do
+        if witness.brain.clan == 0 then
+            local dist = math.sqrt(math.pow(character:getX() - witness.x, 2) + math.pow(character:getY() - witness.y, 2))
+            if dist < min then
+                local actor = BanditZombie.GetInstanceById(witness.id)
+                local canSee = actor:CanSee(character)
+                if canSee or dist < 3 then
+                    for _, prg in pairs(activatePrograms) do
+                        if witness.brain.program.name == prg then
+                            if not Bandit.HasTaskType(actor, "PushUp") then
+                                Bandit.ClearTasks(actor)
+                                local task = {action="PushUp", time=2000}
+                                Bandit.AddTask(actor, task)
+                                cnt = cnt + 1
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    if cnt > 0 then
+        BWOPlayer.Earn(character, cnt)
     end
 end
 

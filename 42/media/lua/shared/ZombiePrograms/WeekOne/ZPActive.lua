@@ -69,6 +69,7 @@ ZombiePrograms.Active.Main = function(bandit)
     local dls = cm:getDayLightStrength()
     local outOfAmmo = Bandit.IsOutOfAmmo(bandit)
     local hands = bandit:getVariableString("BanditPrimaryType")
+    local outfit = bandit:getOutfitName()
  
     local walkType = "Run"
     if hands == "rifle" or hands =="handgun" then
@@ -142,10 +143,29 @@ ZombiePrograms.Active.Main = function(bandit)
 
     -- no targets, relax
     if target.dist > 30 then
-        if bandit:isOutside() then
-            Bandit.SetProgram(bandit, "Walker", {})
+
+        relaxMap = {}
+        relaxMap["StreetSports"] = "Runner"
+        relaxMap["Postal"] = "Postal"
+        relaxMap["Farmer"] = "Gardener"
+        relaxMap["Sanitation"] = "Janitor"
+        relaxMap["Bandit"] = "Vandal"
+        relaxMap["Police"] = "Patrol"
+        relaxMap["MallSecurity"] = "Patrol"
+        relaxMap["ArmyCamoGreen"] = "Patrol"
+        relaxMap["ArmyCamoDesert"] = "Patrol"
+        relaxMap["ArmyInstructor"] = "Patrol"
+        relaxMap["ZSArmySpecialOps"] = "ArmyGuard"
+        relaxMap["BWOMilitaryOfficer"] = "Patrol"
+
+        if relaxmap[outfit] then
+            Bandit.SetProgram(bandit, relaxmap[outfit], {})
         else
-            Bandit.SetProgram(bandit, "Inhabitant", {})
+            if bandit:isOutside() then
+                Bandit.SetProgram(bandit, "Walker", {})
+            else
+                Bandit.SetProgram(bandit, "Inhabitant", {})
+            end
         end
 
         local brain = BanditBrain.Get(bandit)
