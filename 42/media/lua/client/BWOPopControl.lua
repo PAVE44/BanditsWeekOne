@@ -97,7 +97,7 @@ BWOPopControl.StreetsSpawn = function(cnt)
         if square then
             if square:isOutside() and not BWOSquareLoader.IsInExclusion(square:getX(), square:getY()) then
                 local groundType = BanditUtils.GetGroundType(square) 
-                if groundType == "street" then
+                if true or groundType == "street" then
                     config = {}
                     config.clanId = 0
                     config.hasRifleChance = 0
@@ -116,53 +116,68 @@ BWOPopControl.StreetsSpawn = function(cnt)
                     event.bandits = {}
                 
                     local bandit
-                    local rnd = ZombRand(100)
-                    if rnd < 4 then
+
+                    local zombieType = ItemPickerJava.getSquareZombiesType(square)
+                    if zombieType and zombieType == "Army" then
+                        config.hasRifleChance = 100
+                        config.hasPistolChance = 100
+                        config.rifleMagCount = 4 + ZombRand(3)
+                        config.pistolMagCount = 2 + ZombRand(2)
                         bandit = BanditCreator.MakeFromWave(config)
-                        bandit.weapons.melee = "Base.BareHands"
-                        bandit.outfit = BanditUtils.Choice({"StreetSports"})
-                        event.program.name = "Runner"
-                        event.program.stage = "Prepare"
-                    elseif rnd < 8 then 
-                        bandit = BanditCreator.MakeFromWave(config)
-                        bandit.weapons.melee = "Base.BareHands"
-                        bandit.outfit = BanditUtils.Choice({"Postal"})
-                        event.program.name = "Postal"
-                        event.program.stage = "Prepare"
-                    elseif rnd < 13 then 
-                        bandit = BanditCreator.MakeFromWave(config)
-                        bandit.weapons.melee = "Base.BareHands"
-                        bandit.outfit = BanditUtils.Choice({"Farmer"})
-                        event.program.name = "Gardener"
-                        event.program.stage = "Prepare"
-                    elseif rnd < 16 then 
-                        bandit = BanditCreator.MakeFromWave(config)
-                        bandit.weapons.melee = "Base.BareHands"
-                        bandit.outfit = BanditUtils.Choice({"Sanitation"})
-                        bandit.weapons.melee = "Base.Broom"
-                        event.program.name = "Janitor"
-                        event.program.stage = "Prepare"
-                    elseif rnd < 17 then 
-                        -- config.clanId = 0
-                        bandit = BanditCreator.MakeFromWave(config)
-                        bandit.weapons.melee = "Base.BareHands"
-                        bandit.outfit = BanditUtils.Choice({"Bandit"})
-                        bandit.weapons.melee = "Base.Crowbar"
-                        event.program.name = "Vandal"
+                        bandit.weapons.melee = "Base.HuntingKnife"
+                        bandit.outfit = BanditUtils.Choice({"ArmyCamoGreen", "ArmyInstructor", "ArmyCamoDesert"})
+                        bandit.femaleChance = 0
+                        event.program.name = "Patrol"
                         event.program.stage = "Prepare"
                     else
-                        bandit = BanditCreator.MakeFromWave(config)
-                        bandit.weapons.melee = "Base.BareHands"
-                        if rainIntensity > 0.02 then
-                            bandit.outfit = BanditUtils.Choice({"BWORainGeneric01", "BWORainGeneric02", "BWORainGeneric03"})
+                        
+                        local rnd = ZombRand(100)
+                        if rnd < 4 then
+                            bandit = BanditCreator.MakeFromWave(config)
+                            bandit.weapons.melee = "Base.BareHands"
+                            bandit.outfit = BanditUtils.Choice({"StreetSports"})
+                            event.program.name = "Runner"
+                            event.program.stage = "Prepare"
+                        elseif rnd < 8 then 
+                            bandit = BanditCreator.MakeFromWave(config)
+                            bandit.weapons.melee = "Base.BareHands"
+                            bandit.outfit = BanditUtils.Choice({"Postal"})
+                            event.program.name = "Postal"
+                            event.program.stage = "Prepare"
+                        elseif rnd < 13 then 
+                            bandit = BanditCreator.MakeFromWave(config)
+                            bandit.weapons.melee = "Base.BareHands"
+                            bandit.outfit = BanditUtils.Choice({"Farmer"})
+                            event.program.name = "Gardener"
+                            event.program.stage = "Prepare"
+                        elseif rnd < 16 then 
+                            bandit = BanditCreator.MakeFromWave(config)
+                            bandit.weapons.melee = "Base.BareHands"
+                            bandit.outfit = BanditUtils.Choice({"Sanitation"})
+                            bandit.weapons.melee = "Base.Broom"
+                            event.program.name = "Janitor"
+                            event.program.stage = "Prepare"
+                        elseif rnd < 17 then 
+                            -- config.clanId = 0
+                            bandit = BanditCreator.MakeFromWave(config)
+                            bandit.weapons.melee = "Base.BareHands"
+                            bandit.outfit = BanditUtils.Choice({"Bandit"})
+                            bandit.weapons.melee = "Base.Crowbar"
+                            event.program.name = "Vandal"
+                            event.program.stage = "Prepare"
                         else
-                            bandit.outfit = BanditUtils.Choice({"Generic05", "Generic04", "Generic03", "Generic02", "Generic01",
-                                                                "BWOCow", "BWOYoung", "BWOLeather", "BWOFormal"})
+                            bandit = BanditCreator.MakeFromWave(config)
+                            bandit.weapons.melee = "Base.BareHands"
+                            if rainIntensity > 0.02 then
+                                bandit.outfit = BanditUtils.Choice({"BWORainGeneric01", "BWORainGeneric02", "BWORainGeneric03"})
+                            else
+                                bandit.outfit = BanditUtils.Choice({"Generic05", "Generic04", "Generic03", "Generic02", "Generic01",
+                                                                    "BWOCow", "BWOYoung", "BWOLeather", "BWOFormal"})
+                            end
+
+                            event.program.name = "Walker"
+                            event.program.stage = "Prepare"
                         end
-
-                        event.program.name = "Walker"
-                        event.program.stage = "Prepare"
-
                     end
                     
                     table.insert(event.bandits, bandit)
@@ -273,15 +288,15 @@ BWOPopControl.InhabitantsSpawn = function(cnt)
                             if dist > 30 and dist < 80 then
                                 event.bandits = {}
                                 local bandit
-                                local zombieType = ItemPickerJava.getSquareZombiesType(spawnSquare)
+                                --[[local zombieType = ItemPickerJava.getSquareZombiesType(spawnSquare)
                                 if zombieType then
                                     bandit = BanditCreator.MakeFromZombieZone(zombieType)
-                                end
+                                end]]
 
                                 if not bandit then
                                     bandit = BanditCreator.MakeFromRoom(spawnRoom)
                                 end
-                                
+
                                 if bandit then
                                     table.insert(event.bandits, bandit)
                                     sendClientCommand(player, 'Commands', 'SpawnGroup', event)
@@ -444,6 +459,7 @@ BWOPopControl.UpdateCivs = function()
     tab.Inhabitant = 0
     tab.Janitor = 0
     tab.Medic = 0
+    tab.Patrol = 0
     tab.Police = 0
     tab.Postal = 0
     tab.RiotPolice = 0
@@ -486,7 +502,7 @@ BWOPopControl.UpdateCivs = function()
 
     -- ADJUST: population nominals
     BWOPopControl.ZombieMax = 0
-    BWOPopControl.StreetsNominal = 41
+    BWOPopControl.StreetsNominal = 50
     BWOPopControl.InhabitantsNominal = 80
     BWOPopControl.SurvivorsNominal = 0
 
@@ -504,21 +520,21 @@ BWOPopControl.UpdateCivs = function()
         BWOPopControl.ZombieMax = 8
     elseif BWOScheduler.WorldAge == 128  then -- outbreak
         BWOPopControl.ZombieMax = 70
-        BWOPopControl.StreetsNominal = 45
+        BWOPopControl.StreetsNominal = 53
         BWOPopControl.InhabitantsNominal = 50
     elseif BWOScheduler.WorldAge == 129 then 
         BWOPopControl.ZombieMax = 70
-        BWOPopControl.StreetsNominal = 50
+        BWOPopControl.StreetsNominal = 56
         BWOPopControl.InhabitantsNominal = 40
         BWOPopControl.SurvivorsNominal = 2
     elseif BWOScheduler.WorldAge == 130 then
         BWOPopControl.ZombieMax = 70
-        BWOPopControl.StreetsNominal = 55
+        BWOPopControl.StreetsNominal = 59
         BWOPopControl.InhabitantsNominal = 30
         BWOPopControl.SurvivorsNominal = 3
     elseif BWOScheduler.WorldAge == 131 then
         BWOPopControl.ZombieMax = 70
-        BWOPopControl.StreetsNominal = 60
+        BWOPopControl.StreetsNominal = 62
         BWOPopControl.InhabitantsNominal = 15
         BWOPopControl.SurvivorsNominal = 5
     elseif BWOScheduler.WorldAge == 132 then
@@ -541,7 +557,7 @@ BWOPopControl.UpdateCivs = function()
     -- ADJUST: people on the streets
 
     -- count currently active civs
-    BWOPopControl.StreetsCnt = tab.Walker + tab.Runner + tab.Postal + tab.Gardener + tab.Janitor + tab.Entertainer + tab.Vandal
+    BWOPopControl.StreetsCnt = tab.Walker + tab.Runner + tab.Patrol + tab.Postal + tab.Gardener + tab.Janitor + tab.Entertainer + tab.Vandal
 
     -- count desired population of civs
     local nominal = BWOPopControl.StreetsNominal

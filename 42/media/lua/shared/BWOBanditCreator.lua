@@ -143,7 +143,7 @@ function BanditCreator.MakeFromZombieZone(name)
             end
         end
 
-        if selected == "Army" then
+        if name == "Army" then
             config.hasRifleChance = 80
             config.hasPistolChance = 100
             config.rifleMagCount = 2 + ZombRand(4)

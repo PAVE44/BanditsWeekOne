@@ -11,6 +11,7 @@ BWOPlayer.wasSleeping = false
 -- make npcs react to actual crime
 BWOPlayer.ActivateWitness = function(character, min)
     local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer"}
+    local braveList = {"Police", "MallSecurity", "ArmyCamoGreen", "ArmyCamoDesert", "ArmyInstructor", "ZSArmySpecialOps", "BWOMilitaryOfficer"}
     local witnessList = BanditZombie.GetAllB()
     for id, witness in pairs(witnessList) do
         if witness.brain.clan == 0 then
@@ -25,7 +26,14 @@ BWOPlayer.ActivateWitness = function(character, min)
                         if witness.brain.program.name == prg then
                             Bandit.ClearTasks(actor)
                             local outfit = actor:getOutfitName()
-                            if outfit == "Police" or outfit == "MallSecurity" or outfit == "ArmyCamoGreen" or outfit == "ZSArmySpecialOps" or outfit == "BWOMilitaryOfficer" then
+                            local brave = false
+                            for _, v in pairs(braveList) do
+                                if v == outfit then
+                                    brave = true
+                                    break
+                                end
+                            end
+                            if brave then
                                 Bandit.SetProgram(actor, "Police", {})
                                 Bandit.SetHostile(actor, true)
                                 Bandit.Say(actor, "SPOTTED")
@@ -90,6 +98,7 @@ end
 -- make npcs react to threat possibility (player aiming or swinging weapon)
 BWOPlayer.ActivateTargets = function(character, min, severity)
     local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal"}
+    local braveList = {"Police", "MallSecurity", "ArmyCamoGreen", "ArmyCamoDesert", "ArmyInstructor", "ZSArmySpecialOps", "BWOMilitaryOfficer"}
     local witnessList = BanditZombie.GetAllB()
     local wasLegal = false
     local activateList = {}
@@ -116,7 +125,14 @@ BWOPlayer.ActivateTargets = function(character, min, severity)
     for _, actor in pairs(activateList) do
         Bandit.ClearTasks(actor)
         local outfit = actor:getOutfitName()
-        if outfit == "Police" or outfit == "MallSecurity" or outfit == "ArmyCamoGreen" or outfit == "ZSArmySpecialOps" or outfit == "BWOMilitaryOfficer" then
+        local brave = false
+        for _, v in pairs(braveList) do
+            if v == outfit then
+                brave = true
+                break
+            end
+        end
+        if brave then
             Bandit.SetProgram(actor, "Police", {})
             if not wasLegal then
                 if severity == 2 then
