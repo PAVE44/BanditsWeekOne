@@ -1,5 +1,5 @@
-Lematts = {}
-Lematts.EN =  {}
+Lemmats = {}
+Lemmats.EN =  {}
 
 local lemmats = {}
 lemmats["first"] = "1"
@@ -41761,4 +41761,4 @@ lemmats["zucchinis"] = "zucchini"
 lemmats["Zulus"] = "Zulu"
 lemmats["zygotes"] = "zygote"
 
-Lematts.EN = lemmats
+Lemmats.EN = lemmats

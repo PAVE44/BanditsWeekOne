@@ -151,15 +151,22 @@ ZombiePrograms.Active.Main = function(bandit)
         relaxMap["Sanitation"] = "Janitor"
         relaxMap["Bandit"] = "Vandal"
         relaxMap["Police"] = "Patrol"
+        relaxMap["Police_SWAT"] = "Patrol"
+        relaxMap["ZSPoliceSpecialOps"] = "Patrol"
         relaxMap["MallSecurity"] = "Patrol"
         relaxMap["ArmyCamoGreen"] = "Patrol"
         relaxMap["ArmyCamoDesert"] = "Patrol"
         relaxMap["ArmyInstructor"] = "Patrol"
         relaxMap["ZSArmySpecialOps"] = "ArmyGuard"
         relaxMap["BWOMilitaryOfficer"] = "Patrol"
+        relaxMap["Doctor"] = "Medic"
+        relaxMap["AmbulanceDriver"] = "Medic"
+        relaxMap["HazardSuit"] = "Medic"
+        relaxMap["Fireman"] = "Fireman"
+        relaxMap["FiremanFullSuit"] = "Fireman"
 
-        if relaxmap[outfit] then
-            Bandit.SetProgram(bandit, relaxmap[outfit], {})
+        if relaxMap[outfit] then
+            Bandit.SetProgram(bandit, relaxMap[outfit], {})
         else
             if bandit:isOutside() then
                 Bandit.SetProgram(bandit, "Walker", {})

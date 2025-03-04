@@ -10,7 +10,7 @@ BWOPlayer.wasSleeping = false
 
 -- make npcs react to actual crime
 BWOPlayer.ActivateWitness = function(character, min)
-    local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal", "Medic", "Fireman"}
+    local activatePrograms = {"Patrol", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal", "Medic", "Fireman"}
     local braveList = {"Police", "MallSecurity", "ArmyCamoGreen", "ArmyCamoDesert", "ArmyInstructor", "ZSArmySpecialOps", "BWOMilitaryOfficer"}
     local witnessList = BanditZombie.GetAllB()
     for id, witness in pairs(witnessList) do
@@ -66,7 +66,7 @@ end
 
 -- make npcs react to threat possibility (player aiming or swinging weapon)
 BWOPlayer.ActivateTargets = function(character, min, severity)
-    local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal", "Medic", "Fireman"}
+    local activatePrograms = {"Patrol", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal", "Medic", "Fireman"}
     local braveList = {"Police", "MallSecurity", "ArmyCamoGreen", "ArmyCamoDesert", "ArmyInstructor", "ZSArmySpecialOps", "BWOMilitaryOfficer"}
     local witnessList = BanditZombie.GetAllB()
     local wasLegal = false
@@ -201,6 +201,7 @@ local checkHostility = function(bandit, attacker)
     if not attacker then return end
 
     local player = getSpecificPlayer(0)
+    if not player then return end
 
     -- attacking zombies is ok!
     local brain = BanditBrain.Get(bandit)
@@ -330,6 +331,8 @@ local onZombieDead = function(zombie)
     if not zombie:getVariableBoolean("Bandit") then return end
 
     local player = getSpecificPlayer(0)
+    if not player then return end
+
     local bandit = zombie
 
     Bandit.Say(bandit, "DEAD", true)
@@ -343,7 +346,7 @@ local onZombieDead = function(zombie)
 
     -- register dead body
     local args = {x=bandit:getX(), y=bandit:getY(), z=bandit:getZ()}
-    sendClientCommand(getSpecificPlayer(0), 'Commands', 'DeadBodyAdd', args)
+    sendClientCommand(player, 'Commands', 'DeadBodyAdd', args)
 
     local params ={}
     params.x = bandit:getX()
@@ -410,7 +413,7 @@ local onZombieDead = function(zombie)
 
     args = {}
     args.id = brain.id
-    sendClientCommand(getSpecificPlayer(0), 'Commands', 'BanditRemove', args)
+    sendClientCommand(player, 'Commands', 'BanditRemove', args)
     BanditBrain.Remove(bandit)
 end
 
@@ -852,7 +855,7 @@ local function onPlayerDeath(player)
     local civList = BanditZombie.GetAllB()
     for id, civ in pairs(civList) do
         if civ.brain.clan == 0 and civ.brain.hostile then
-            local actor = BanditZombie.GetInstanceById(civ.id)
+            local actor = BanditZombie.GetInstanceById(civ.brain.id)
             if actor then
                 Bandit.SetHostile(actor, false)
             end
@@ -884,7 +887,7 @@ end
 -- sleep detector to init dreams
 local everyHours = function()
 	local player = getSpecificPlayer(0)
-    if player:isAsleep() then
+    if player and player:isAsleep() then
         BWOPlayer.wasSleeping = true
     end
 end
@@ -895,6 +898,7 @@ local everyOneMinute = function()
     if not BWOScheduler.Anarchy.Transactions then return end
 
     local player = getSpecificPlayer(0)
+    if not player then return end
     if player:isAsleep() then return end 
 
     local gametime = getGameTime()
@@ -963,10 +967,11 @@ local function onExitVehicle(character)
     local cy = character:getY()
 
     local player = getSpecificPlayer(0)
+    if not player then return end
     local px = player:getX()
     local py = player:getY()
 
-    -- stupid trugger doesnt even have vehicle the player is exiting from
+    -- stupid trigger doesnt even have vehicle the player is exiting from
     -- need to look for it
     for x = cx - 5, cx + 5 do
         for y = cy - 5, cy + 5 do
@@ -989,12 +994,6 @@ local function onExitVehicle(character)
                                         newy = part:getY()
                                     end
 
-                                    gmdBrain.bornCoords.x = newx
-                                    gmdBrain.bornCoords.y = newy
-                                    gmdBrain.bornCoords.z = 0
-                                    gmdBrain.inVehicle = false
-                                    sendClientCommand(player, 'Commands', 'SpawnRestore', gmdBrain)
-                                    
                                     local seat = vehicle:getSeat(passenger)
                                     vehicle:clearPassenger(seat)
                                     passenger:setVehicle(nil)
@@ -1014,6 +1013,12 @@ local function onExitVehicle(character)
                                             door:setOpen(false)
                                         end
                                     end
+
+                                    gmdBrain.bornCoords.x = newx
+                                    gmdBrain.bornCoords.y = newy
+                                    gmdBrain.bornCoords.z = 0
+                                    gmdBrain.inVehicle = false
+                                    sendClientCommand(player, 'Commands', 'SpawnRestore', gmdBrain)
 
                                     return
                                 end

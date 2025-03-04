@@ -67,7 +67,6 @@ end
 BWOObjects.Find = function (bandit, def, objName, mode)
 
     local cell = getCell()
-    local player = getSpecificPlayer(0)
     local bid = BanditUtils.GetZombieID(bandit)
     local bx, by, bz = bandit:getX(), bandit:getY(), bandit:getZ()
 

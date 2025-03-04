@@ -377,34 +377,8 @@ local shouldPlace = function(x, y, density, seed)
     return hash(x, y, seed) < threshold
 end
 
-
--- setups player vicinity area upon game start
-BWOSquareLoader.SetupWorld = function()
-    local player = getSpecificPlayer(0)
-    local hours = player:getHoursSurvived()
-    if hours > 0.2 then return end
-
-    local cell = getCell()
-    local px, py = player:getX(), player:getY()
-
-    BWOScheduler.World.ObjectRemover = true
-    BWOScheduler.World.DeadBodyRemover = true
-    BWOScheduler.World.GlobalObjectAdder = true
-
-    for z=0, 2 do
-        for y=-150, 150 do
-            for x=-150, 150 do
-                local square = cell:getGridSquare(px + x, py + y, z)
-                if square then
-                    BWOSquareLoader.OnLoad(square)
-                end
-            end
-        end
-    end
-end
-
 -- updates square to implement prepandemic world and manage add/remove objects
-BWOSquareLoader.OnLoad = function(square)
+local processSquare = function(square)
     local map = BWOSquareLoader.map
     local remove = BWOSquareLoader.remove
     local spriteMap = BWOSquareLoader.spriteMap
@@ -548,10 +522,10 @@ BWOSquareLoader.OnLoad = function(square)
                 end
                 density = density * multiplier
 
-                if not square:isOutside() then density = density * 8 end
+                if not square:isOutside() then density = density * 5 end
 
                 if density > 0 and shouldPlace(x, y, density, seed) then
-                    local outfit = BanditUtils.Choice({"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "Generic05", "Classy", "IT", "Student", "Teacher", "Police", "Young"})
+                    local outfit = BanditUtils.Choice({"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "Generic05", "Classy", "IT", "Student", "Teacher", "Police", "Young", "Bandit", "Tourist", "Naked"})
                     local zombieList = BanditCompatibility.AddZombiesInOutfit(x, y, z, outfit, 50, false, false, false, false, false, false, 2)
                     for i=0, zombieList:size()-1 do
                         -- print ("place body at x:" .. x .. " y:" .. y)
@@ -638,8 +612,35 @@ BWOSquareLoader.OnLoad = function(square)
     end
 end
 
+-- setups player vicinity area upon game start
+local setupWorld = function()
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
+    local hours = player:getHoursSurvived()
+    if hours > 0.2 then return end
+
+    local cell = getCell()
+    local px, py = player:getX(), player:getY()
+
+    BWOScheduler.World.ObjectRemover = true
+    BWOScheduler.World.DeadBodyRemover = true
+    BWOScheduler.World.GlobalObjectAdder = true
+
+    for z=0, 2 do
+        for y=-150, 150 do
+            for x=-150, 150 do
+                local square = cell:getGridSquare(px + x, py + y, z)
+                if square then
+                    processSquare(square)
+                end
+            end
+        end
+    end
+end
+
 -- spawns location events when player is near
-BWOSquareLoader.LocationEvents = function(ticks)
+local processLocationEvents = function(ticks)
     if ticks % 10 > 0 then return end
 
     local gmd = GetBWOModData()
@@ -647,6 +648,8 @@ BWOSquareLoader.LocationEvents = function(ticks)
 
     -- local tab = BWOSquareLoader.events
     local player = getSpecificPlayer(0)
+    if not player then return end
+
     local cell = getCell()
     for i, event in pairs(tab) do
         local square = cell:getGridSquare(event.x, event.y, event.z)
@@ -655,7 +658,7 @@ BWOSquareLoader.LocationEvents = function(ticks)
                 if BWOEventsPlace[event.phase] then
                     BWOEventsPlace[event.phase](event)
                 end
-                BWOServer.Commands.PlaceEventRemove(getSpecificPlayer(0), event)
+                BWOServer.Commands.PlaceEventRemove(player, event)
                 break
             end
         end
@@ -664,7 +667,7 @@ end
 
 -- removes burnt / smashed vehicles
 -- apparently vehicle loading is deffered relative to square load, so this needs to be handled separately
-BWOSquareLoader.VehicleFixOrRemove = function()
+local processVehicles = function()
     if not BWOScheduler.World.VehicleFixer then return end
 
     local vehicleList = getCell():getVehicles()
@@ -727,7 +730,7 @@ BWOSquareLoader.VehicleFixOrRemove = function()
     end
 end
 
-BWOSquareLoader.OnNewFire = function(fire)
+local processFire = function(fire)
     local params ={}
     params.x = fire:getX()
     params.y = fire:getY()
@@ -739,8 +742,8 @@ BWOSquareLoader.OnNewFire = function(fire)
     sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectAdd', args)
 end
 
-Events.LoadGridsquare.Add(BWOSquareLoader.OnLoad)
-Events.OnTick.Add(BWOSquareLoader.LocationEvents)
-Events.EveryOneMinute.Add(BWOSquareLoader.VehicleFixOrRemove)
-Events.OnNewFire.Add(BWOSquareLoader.OnNewFire)
-Events.OnGameStart.Add(BWOSquareLoader.SetupWorld)
+Events.LoadGridsquare.Add(processSquare)
+Events.OnTick.Add(processLocationEvents)
+Events.EveryOneMinute.Add(processVehicles)
+Events.OnNewFire.Add(processFire)
+Events.OnGameStart.Add(setupWorld)

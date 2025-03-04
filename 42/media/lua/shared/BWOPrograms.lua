@@ -136,6 +136,9 @@ end
 BanditPrograms.Events = function(bandit)
     local tasks = {}
 
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
     if not BWOScheduler.NPC.ReactProtests then return tasks end
 
     local cell = bandit:getCell()
@@ -236,7 +239,7 @@ BanditPrograms.Events = function(bandit)
                     return tasks
                 else
                     local args = {x=target.x, y=target.y, z=target.z, otype="preacher"}
-                    sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectRemove', args)
+                    sendClientCommand(player, 'Commands', 'ObjectRemove', args)
                 end
             end
         end
@@ -264,7 +267,7 @@ BanditPrograms.Events = function(bandit)
                     return tasks
                 else
                     local args = {x=target.x, y=target.y, z=target.z, otype="entertainer"}
-                    sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectRemove', args)
+                    sendClientCommand(geplayer, 'Commands', 'ObjectRemove', args)
                 end
             end
         end
@@ -554,6 +557,10 @@ BanditPrograms.FollowRoad = function(bandit, walkType)
     end
 
     local tasks = {}
+
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
     local cell = bandit:getCell()
     local bx = bandit:getX()
     local by = bandit:getY()
@@ -568,7 +575,7 @@ BanditPrograms.FollowRoad = function(bandit, walkType)
         end
     end
 
-    local playerVehicle = getSpecificPlayer(0):getVehicle()
+    local playerVehicle = player:getVehicle()
     if playerVehicle and not playerVehicle:isStopped() then
         vehicleList[playerVehicle:getId()] = playerVehicle
     end

@@ -390,8 +390,9 @@ end
 
 function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
 
+    local player = getSpecificPlayer(0)
+    if not player then return end
 
-    local player = getSpecificPlayer(playerID)
     local profession = player:getDescriptor():getProfession()
     -- print ("DIR: " .. player:getDirectionAngle())
 
@@ -440,6 +441,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         -- player:playSound("197ddd73-7662-41d5-81e0-63b83a58ab60")
         local eventsOption = context:addOption("BWO Event")
         local eventsMenu = context:getNew(context)
+
         context:addSubMenu(eventsOption, eventsMenu)
 
         eventsMenu:addOption("Army", player, BWOMenu.EventArmy)

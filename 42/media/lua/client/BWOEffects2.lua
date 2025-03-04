@@ -69,7 +69,6 @@ BWOEffects2.Process = function()
                                 end
                             end
                         end
-                        local player = getSpecificPlayer(0)
                         local immune = false
                         local mask = player:getWornItem("MaskEyes")
                         if mask then

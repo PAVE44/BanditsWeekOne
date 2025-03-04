@@ -380,6 +380,9 @@ local AddVehicles = function()
 
     if BWOScheduler.WorldAge > 168 then return end
     
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
     local gametime = getGameTime()
     local hour = gametime:getHour()
     local minute = gametime:getMinutes()
@@ -401,16 +404,18 @@ local AddVehicles = function()
     end
     
     if cnt < max then
-        BWOVehicles.FindSpawnPoint(getSpecificPlayer(0))
+        BWOVehicles.FindSpawnPoint(player)
     end
 end
 
 local ManageVehicles = function(ticks)
     -- if true then return end
     if ticks % 6 > 0 then return end
-    
-    local dirMap = BWOVehicles.dirMap
+
     local player = getSpecificPlayer(0)
+    if not player then return end
+
+    local dirMap = BWOVehicles.dirMap
     local vehicleList = BWOVehicles.tab
     for id, vehicle in pairs(vehicleList) do
         local controller = vehicle:getController()

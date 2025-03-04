@@ -188,7 +188,7 @@ ZombiePrograms.Police.Main = function(bandit)
         -- fixme change to patrol program so its not affected by walkder typical behavior like protersts
         Bandit.ClearTasks(bandit)
         Bandit.SetHostile(bandit, false)
-        Bandit.SetProgram(bandit, "Walker", {})
+        Bandit.SetProgram(bandit, "Patrol", {})
         local syncData = {}
         syncData.id = brain.id
         syncData.hostile = brain.hostile

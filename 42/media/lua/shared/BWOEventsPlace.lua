@@ -44,6 +44,9 @@ local spawnVehicle = function(x, y, dir, vtype)
 end
 
 function BWOEventsPlace.ArmyGuards(params)
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
     config = {}
     config.clanId = 0
     config.hasRifleChance = 100
@@ -75,7 +78,7 @@ function BWOEventsPlace.ArmyGuards(params)
         for i=1, intensity do
             table.insert(event.bandits, bandit)
         end
-        sendClientCommand(getSpecificPlayer(0), 'Commands', 'SpawnGroup', event)
+        sendClientCommand(player, 'Commands', 'SpawnGroup', event)
     end
 
     if SandboxVars.Bandits.General_ArrivalIcon then
@@ -86,6 +89,9 @@ function BWOEventsPlace.ArmyGuards(params)
 end
 
 function BWOEventsPlace.GunshopGuard(params)
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
     config = {}
     config.clanId = 0
     config.hasRifleChance = 100
@@ -116,11 +122,14 @@ function BWOEventsPlace.GunshopGuard(params)
         for i=1, intensity do
             table.insert(event.bandits, bandit)
         end
-        sendClientCommand(getSpecificPlayer(0), 'Commands', 'SpawnGroup', event)
+        sendClientCommand(player, 'Commands', 'SpawnGroup', event)
     end
 end
 
 function BWOEventsPlace.BaseDefenders(params)
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
     config = {}
     config.clanId = 15
     config.hasRifleChance = 100
@@ -146,7 +155,7 @@ function BWOEventsPlace.BaseDefenders(params)
         for i=1, intensity do
             table.insert(event.bandits, bandit)
         end
-        sendClientCommand(getSpecificPlayer(0), 'Commands', 'SpawnGroup', event)
+        sendClientCommand(player, 'Commands', 'SpawnGroup', event)
     end
 
     if SandboxVars.Bandits.General_ArrivalIcon then

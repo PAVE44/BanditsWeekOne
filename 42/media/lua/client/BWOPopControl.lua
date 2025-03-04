@@ -81,6 +81,8 @@ end
 -- npc on streets spawner
 BWOPopControl.StreetsSpawn = function(cnt)
     local player = getSpecificPlayer(0)
+    if not player then return end
+
     local cell = player:getCell()
     local cm = getWorld():getClimateManager()
     local rainIntensity = cm:getRainIntensity()
@@ -191,6 +193,8 @@ end
 -- npc on streets despawner
 BWOPopControl.StreetsDespawn = function(cnt)
     local player = getSpecificPlayer(0)
+    if not player then return end
+
     local cell = player:getCell()
     local px = player:getX()
     local py = player:getY()
@@ -221,15 +225,16 @@ BWOPopControl.InhabitantsSpawn = function(cnt)
 
     local ts = getTimestampMs()
 
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
     local event = {}
     event.hostile = false
     event.occured = false
     event.program = {}
     event.program.name = "Inhabitant"
     event.program.stage = "Prepare"
-    
 
-    local player = getSpecificPlayer(0)
     local cell = player:getCell()
     local px, py = player:getX(), player:getY()
     local rooms = cell:getRoomList()
@@ -316,6 +321,8 @@ end
 -- npcs in buildings despawner
 BWOPopControl.InhabitantsDespawn = function(cnt)
     local player = getSpecificPlayer(0)
+    if not player then return end
+
     local cell = player:getCell()
     local px = player:getX()
     local py = player:getY()
@@ -344,6 +351,7 @@ end
 BWOPopControl.SurvivorsSpawn = function(missing)
 
     local player = getSpecificPlayer(0)
+    if not player then return end
 
     config = {}
     config.clanId = 0
@@ -378,6 +386,8 @@ end
 -- survivors despawner
 BWOPopControl.SurvivorsDespawn = function(cnt)
     local player = getSpecificPlayer(0)
+    if not player then return end
+
     local cell = player:getCell()
     local px = player:getX()
     local py = player:getY()
@@ -438,7 +448,10 @@ BWOPopControl.UpdateCivs = function()
     end
 
     local ts = getTimestampMs()
+
     local player = getSpecificPlayer(0)
+    if not player then return end
+
     local px = player:getX()
     local py = player:getY()
 

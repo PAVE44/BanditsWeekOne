@@ -672,6 +672,7 @@ table.insert(data, {query={"pussy"}, res="The fuck did you say to me little bitc
 table.insert(data, {query={"undress"}, res="Leave me the fuck alone pervert!", action="HOSTILE"})
 table.insert(data, {query={"bitch"}, res="Fuck you!", action="HOSTILE"})
 table.insert(data, {query={"asshole"}, res="Fuck you!", action="HOSTILE"})
+table.insert(data, {query={"xhornx"}, res="Stop beeping!", action="HOSTILE"}) -- special command when player uses horn
 table.insert(data, {query={"mod", "jank"}, res="Fuck you!", action="HOSTILE"})
 table.insert(data, {query={"mod", "janky"}, res="Fuck you!", action="HOSTILE"})
 table.insert(data, {query={"game", "jank"}, res="Fuck you!", action="HOSTILE"})
@@ -1020,7 +1021,7 @@ table.insert(data, {query={"test"}, res="test!"})
 
 BWOChat = {}
 
-BWOChat.Say = function(chatMessage)
+BWOChat.Say = function(chatMessage, quiet)
 
     local getName = function(brain)
         local name = "I'm "
@@ -1099,22 +1100,34 @@ BWOChat.Say = function(chatMessage)
     end
 
     local player = getSpecificPlayer(0)
+    if not player then return end
+
     local color = player:getSpeakColour()
-    player:addLineChatElement(chatMessage, color:getR(), color:getG(), color:getB())
+    if not quiet then
+        player:addLineChatElement(chatMessage, color:getR(), color:getG(), color:getB())
+    end
+
+    local cm = chatMessage:lower()
+    local cm2 = ""
+    for word in cm:gmatch("%S+") do
+        local word2 = Lemmats.EN[word]
+        if word2 then
+            cm2 = cm2 .. word2 .. " "
+        end
+    end
 
 	for k, v in pairs(data) do
         local query = v.query
 
         local allMatch = true
         for _, word in pairs(v.query) do
-            if not chatMessage:lower():hasword(word) then
+            if not cm:hasword(word) and not cm2:hasword(word) then
                 allMatch = false
                 break
             end
         end
 
         if allMatch then
-            local player = getSpecificPlayer(0)
             local target = BanditUtils.GetClosestBanditLocationProgram(player, {"Walker", "Runner", "Inhabitant", "Active", "Babe"})
             if target.dist < 8 then
                 local bandit = BanditZombie.GetInstanceById(target.id)
@@ -1208,6 +1221,15 @@ local function onKeyPressed(keynum)
         local ui = BWOChatPanel:new(0, 0, 300, 200, getSpecificPlayer(0))
         ui:initialise()
         ui:addToUIManager()
+    elseif keynum == Keyboard.KEY_Q then
+        local player = getSpecificPlayer(0)
+        if player then
+            if player:getVehicle() then
+                BWOChat.Say("xhornx", true)
+            else
+                BWOChat.Say("Hey!", true)
+            end
+        end
     end
 end
 

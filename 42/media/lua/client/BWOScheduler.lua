@@ -390,9 +390,6 @@ function BWOScheduler.RestoreRepeatingPlaceEvents()
     -- LV strip club
     addPlaceEvent({phase="BuildingParty", x=12320, y=1279, z=0, intensity=10, roomName="stripclub"})
 
-    -- GUNSHOP GUARDS
-    addPlaceEvent({phase="GunshopGuard", x=12065, y=6762, z=0})
-
     -- alarm emitters (only if nukes are active)
     local gmd = GetBWOModData()
     local ncnt = 0
@@ -496,6 +493,8 @@ function BWOScheduler.MasterControl()
     end
 
     local player = getSpecificPlayer(0)
+    if not player then return end
+
     local gametime = getGameTime()
     -- local ts = getTimestampMs()
 
@@ -746,6 +745,8 @@ end
 -- event processor
 function BWOScheduler.CheckEvents()
     local player = getSpecificPlayer(0)
+    if not player then return end
+
     local ct = BanditUtils.GetTime()
     for i, event in pairs(BWOScheduler.Events) do
         if event.start < ct then

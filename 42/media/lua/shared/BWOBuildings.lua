@@ -132,6 +132,8 @@ end
 
 BWOBuildings.FindBuildingWithRoom = function(bsearch)
     local player = getSpecificPlayer(0)
+    if not player then return end
+
     local cell = player:getCell()
     local rooms = cell:getRoomList()
     local buildings = {}

@@ -12,7 +12,7 @@ BWOTex.Blast = function()
     if BWOTex.alpha == 0 then return end
 
     local player = getSpecificPlayer(0)
-    if player == nil then return end
+    if not player then return end
 
     -- if not player:isOutside() then return end
 
