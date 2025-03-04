@@ -548,10 +548,10 @@ BWOSquareLoader.OnLoad = function(square)
                 end
                 density = density * multiplier
 
-                if not square:isOutside() then density = density * 8 end
+                if not square:isOutside() then density = density * 5 end
 
                 if density > 0 and shouldPlace(x, y, density, seed) then
-                    local outfit = BanditUtils.Choice({"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "Generic05", "Classy", "IT", "Student", "Teacher", "Police", "Young"})
+                    local outfit = BanditUtils.Choice({"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "Generic05", "Classy", "IT", "Student", "Teacher", "Police", "Young", "Bandit", "Tourist", "Naked"})
                     local zombieList = BanditCompatibility.AddZombiesInOutfit(x, y, z, outfit, 50, false, false, false, false, false, false, 2)
                     for i=0, zombieList:size()-1 do
                         -- print ("place body at x:" .. x .. " y:" .. y)
