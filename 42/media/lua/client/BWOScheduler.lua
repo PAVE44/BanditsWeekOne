@@ -390,9 +390,6 @@ function BWOScheduler.RestoreRepeatingPlaceEvents()
     -- LV strip club
     addPlaceEvent({phase="BuildingParty", x=12320, y=1279, z=0, intensity=10, roomName="stripclub"})
 
-    -- GUNSHOP GUARDS
-    addPlaceEvent({phase="GunshopGuard", x=12065, y=6762, z=0})
-
     -- alarm emitters (only if nukes are active)
     local gmd = GetBWOModData()
     local ncnt = 0

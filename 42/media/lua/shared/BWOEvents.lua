@@ -989,6 +989,9 @@ BWOEvents.SetupPlaceEvents = function(params)
     addPlaceEvent({phase="ArmyGuards", x=12165, y=7182, z=0})
     addPlaceEvent({phase="ArmyGuards", x=12166, y=6899, z=0})
 
+    -- GUNSHOP GUARDS
+    addPlaceEvent({phase="GunshopGuard", x=12065, y=6762, z=0})
+
     -- riverside
     -- fixme - we need other cities too
 
