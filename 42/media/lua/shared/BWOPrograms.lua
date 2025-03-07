@@ -267,7 +267,7 @@ BanditPrograms.Events = function(bandit)
                     return tasks
                 else
                     local args = {x=target.x, y=target.y, z=target.z, otype="entertainer"}
-                    sendClientCommand(geplayer, 'Commands', 'ObjectRemove', args)
+                    sendClientCommand(player, 'Commands', 'ObjectRemove', args)
                 end
             end
         end

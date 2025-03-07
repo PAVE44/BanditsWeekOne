@@ -298,7 +298,7 @@ local generateSchedule = function()
     tab[164][24] = {"BombRun", {intensity=20}}
     tab[164][49] = {"BombRun", {intensity=18}}
     tab[165][2]  = {"ChopperFliers", {}}
-    tab[167][4]  = {"HammerBrothers", {intensity=2}}
+    tab[167][4]  = {"HammerBrothers", {intensity=1}}
 
     -- DAY 8 09.00
     tab[168][0]  = {"StartDay", {day="friday"}}
@@ -308,6 +308,7 @@ local generateSchedule = function()
 
     -- late hazmat suit bandits will spawn only in fallout scenario
     tab[176][25] = {"Scientists", {intensity=2}}
+    tab[177][25] = {"HammerBrothers", {intensity=2}}
     tab[189][12] = {"Scientists", {intensity=3}}
     tab[211][44] = {"Scientists", {intensity=4}}
     tab[235][3]  = {"Scientists", {intensity=3}}

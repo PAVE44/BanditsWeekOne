@@ -390,7 +390,7 @@ end
 
 function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
 
-    local player = getSpecificPlayer(0)
+    local player = getSpecificPlayer(playerID)
     if not player then return end
 
     local profession = player:getDescriptor():getProfession()
