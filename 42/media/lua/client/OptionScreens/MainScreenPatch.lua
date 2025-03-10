@@ -22,12 +22,16 @@ function MainScreen:prerender()
     end
 
     local sm = getSoundManager()
+    local emitter = getSoundManager():getUIEmitter()
     if musicIdx == 1 then
         if BWOIntro.CustomMusic then
             sm:stopUISound(BWOIntro.CustomMusic)
             BWOIntro.CustomMusic = nil
         end
-        sm:stopUISound(133824517)
+        emitter:stopSoundByName("UIBWOMusic1")
+        emitter:stopSoundByName("UIBWOMusic2")
+        emitter:stopSoundByName("UIBWOMusic3")
+        -- sm:stopUISound(133824517)
     elseif musicIdx == 2 then
         local r = 3 + ZombRand(musicCnt)
         local i = 1
@@ -58,7 +62,7 @@ function MainScreen:prerender()
             -- MainScreenState.preloadBackgroundTextures()
             -- local ms = MainScreenState.getInstance()
             -- ms:renderBackground()
-            
+            emitter:setPos(0, 0, 0)
             BWOIntro.CustomMusic = sm:playUISound(soundName)
         end
     end

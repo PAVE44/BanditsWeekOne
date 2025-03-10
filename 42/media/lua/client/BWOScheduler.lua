@@ -239,9 +239,9 @@ local generateSchedule = function()
 
     tab[155][5]  = {"JetFighterRun", {intensity=1}}
     tab[155][15] = {"JetFighterRun", {intensity=1}}
-    tab[153][16] = {"Bandits", {intensity=3}}
-    tab[153][17] = {"Bandits", {intensity=3}}
-    tab[153][18] = {"Bandits", {intensity=3}}
+    tab[155][16] = {"Bandits", {intensity=3}}
+    tab[155][17] = {"Bandits", {intensity=3}}
+    tab[155][18] = {"Bandits", {intensity=3}}
     tab[155][25] = {"JetFighterRun", {intensity=1}}
     tab[155][26] = {"Army", {intensity=10}}
 
@@ -253,7 +253,7 @@ local generateSchedule = function()
 
     tab[158][0]  = {"Siren", {}}
     tab[158][8]  = {"BombRun", {intensity=4}}
-    tab[156][9]  = {"Bandits", {intensity=9}}
+    tab[158][9]  = {"Bandits", {intensity=9}}
     tab[158][24] = {"BombRun", {intensity=20}}
     tab[158][49] = {"BombRun", {intensity=18}}
     tab[158][51] = {"SetHydroPower", {on=false}}
@@ -298,7 +298,7 @@ local generateSchedule = function()
     tab[164][24] = {"BombRun", {intensity=20}}
     tab[164][49] = {"BombRun", {intensity=18}}
     tab[165][2]  = {"ChopperFliers", {}}
-    tab[167][4]  = {"HammerBrothers", {intensity=1}}
+    tab[167][4]  = {"HammerBrothers", {intensity=2}}
 
     -- DAY 8 09.00
     tab[168][0]  = {"StartDay", {day="friday"}}

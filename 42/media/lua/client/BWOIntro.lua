@@ -21,6 +21,10 @@ end
 
 local function onGameStart()
     local sm = getSoundManager()
+    local emitter = sm:getUIEmitter()
+    emitter:stopSoundByName("UIBWOMusic1")
+    emitter:stopSoundByName("UIBWOMusic2")
+    emitter:stopSoundByName("UIBWOMusic3")
     sm:stopUISound(133824517)
 end
 

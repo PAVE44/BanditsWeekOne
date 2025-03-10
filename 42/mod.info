@@ -4,5 +4,5 @@ id=BanditsWeekOne
 description=Immerses you in the first week before the apocalypse
 author=Slayer
 require=\Bandits
-incompatible=\BanditsDayOne
+incompatible=\BanditsDayOne,\BetterFPS_B42,\TrueCrawlStealth,\TrueCrawl
 pack=effects

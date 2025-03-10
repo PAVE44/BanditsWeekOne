@@ -2454,7 +2454,7 @@ BWOEvents.HammerBrothers = function(params)
     event.program.name = "Bandit"
     event.program.stage = "Prepare"
 
-    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(60, 75))
+    local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(55, 65))
     if spawnPoint then
         event.x = spawnPoint.x
         event.y = spawnPoint.y
