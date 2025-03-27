@@ -740,7 +740,7 @@ local onPlayerUpdate = function(player)
 
     -- intercepting player aiming
     if BWOScheduler.Anarchy.IllegalMinorCrime and (BWOPlayer.tick == 0 or BWOPlayer.tick == 16) then
-        if player:IsAiming() and not BanditPlayer.IsGhost(player)  then 
+        if player:isAiming() and not BanditPlayer.IsGhost(player)  then 
             local primaryItem = player:getPrimaryHandItem()
 
             local max
