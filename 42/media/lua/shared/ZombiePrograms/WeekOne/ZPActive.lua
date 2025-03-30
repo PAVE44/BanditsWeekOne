@@ -24,7 +24,6 @@ end
 ZombiePrograms.Active.Prepare = function(bandit)
     local tasks = {}
     local world = getWorld()
-    local cell = getCell()
     local cm = world:getClimateManager()
     local dls = cm:getDayLightStrength()
 
@@ -64,7 +63,6 @@ ZombiePrograms.Active.Main = function(bandit)
     -- if true then return {status=true, next="Main", tasks=tasks} end
     local id = BanditUtils.GetCharacterID(bandit)
     local world = getWorld()
-    local cell = getCell()
     local cm = world:getClimateManager()
     local dls = cm:getDayLightStrength()
     local outOfAmmo = Bandit.IsOutOfAmmo(bandit)
@@ -99,14 +97,7 @@ ZombiePrograms.Active.Main = function(bandit)
     end
 
     local endurance = 0 -- -0.02
-    local secondary
     if dls < 0.3 then
-        if SandboxVars.Bandits.General_CarryTorches then
-            if hands == "barehand" or hands == "onehanded" or hands == "handgun" then
-                secondary = "Base.HandTorch"
-            end
-        end
-
         if SandboxVars.Bandits.General_SneakAtNight then
             if Bandit.IsDNA(bandit, "sneak") then
                 walkType = "SneakWalk"
@@ -121,8 +112,6 @@ ZombiePrograms.Active.Main = function(bandit)
         endurance = 0
     end 
  
-    local handweapon = bandit:getVariableString("BanditWeapon") 
-    
     local target = {}
     local enemy
 
