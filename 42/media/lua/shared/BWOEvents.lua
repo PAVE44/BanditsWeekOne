@@ -713,6 +713,7 @@ BWOEvents.Start = function(params)
             bid = "40b9340b-3310-40e9-b8a2-e925912590b6", -- fixme
             program = "Babe",
             permanent = 1,
+            occupation = "Babe",
             x = player:getX() + 1,
             y = player:getY() + 1,
             z = player:getZ()
@@ -1362,7 +1363,7 @@ BWOEvents.Entertainer = function(params)
     if not player then return end
 
     local args = {
-        program = "Entertainer"
+        program = "Entertainer",
     }
 
     local spawnPoint = generateSpawnPoint(player:getX(), player:getY(), player:getZ(), ZombRand(28, 35), 1)
@@ -1613,7 +1614,7 @@ BWOEvents.BuildingParty = function(params)
 
     -- inhabitants
     local args = {
-        cid = "c167d1e0-c077-4ee5-b353-88b374de193d", -- civilians
+        cid = "c167d1e0-c077-4ee5-b353-88b374de193d", -- fixme to party
         program = "Inhabitant"
     }
 
