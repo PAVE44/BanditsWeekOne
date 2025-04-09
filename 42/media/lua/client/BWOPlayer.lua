@@ -74,7 +74,7 @@ BWOPlayer.ActivateTargets = function(character, min, severity)
     for id, witness in pairs(witnessList) do
         local dist = math.sqrt(math.pow(character:getX() - witness.x, 2) + math.pow(character:getY() - witness.y, 2))
         if dist < min then
-            if (witness.brain.clan > 0 and witness.brain.hostile) or witness.brain.program.name == "Thief" or witness.brain.program.name == "Vandal" then
+            if (witness.brain.clan ~= 0 and witness.brain.hostile) or witness.brain.program.name == "Thief" or witness.brain.program.name == "Vandal" then
                 wasLegal = true
             else
                 local actor = BanditZombie.GetInstanceById(witness.id)
@@ -205,10 +205,10 @@ local checkHostility = function(bandit, attacker)
 
     -- attacking zombies is ok!
     local brain = BanditBrain.Get(bandit)
-    if not bandit:getVariableBoolean("Bandit") then return end
+    if not bandit:getVariableBoolean("Bandit") or not brain then return end
 
     -- killing bandits is ok!
-    if brain.clan > 0 or brain.program.name == "Thief" or brain.program.name == "Vandal" then 
+    if brain.clan ~= 0 or brain.program.name == "Thief" or brain.program.name == "Vandal" then 
         if instanceof(attacker, "IsoPlayer") and not attacker:isNPC() then
             local profession = player:getDescriptor():getProfession()
             if BWOScheduler.Anarchy.Transactions and profession == "policeofficer" then
@@ -740,7 +740,7 @@ local onPlayerUpdate = function(player)
 
     -- intercepting player aiming
     if BWOScheduler.Anarchy.IllegalMinorCrime and (BWOPlayer.tick == 0 or BWOPlayer.tick == 16) then
-        if player:IsAiming() and not BanditPlayer.IsGhost(player)  then 
+        if player:isAiming() and not BanditPlayer.IsGhost(player)  then 
             local primaryItem = player:getPrimaryHandItem()
 
             local max

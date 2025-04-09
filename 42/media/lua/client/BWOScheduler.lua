@@ -42,9 +42,9 @@ local generateSchedule = function()
     tab[0][4]   = {"SetupNukes", {}}
     tab[0][5]   = {"SetupPlaceEvents", {}}
     
-    tab[2][22]  = {"ArmyPatrol", {intensity=9}}
+    tab[2][22]  = {"SpawnGroup", {name="Army", cid="d2860ee6-7e18-4132-ad42-8fb3a34ea499", program="Patrol", d=30, intensity=9}}
     tab[4][15]  = {"Entertainer", {}}
-    tab[5][44]  = {"ArmyPatrol", {intensity=9}}
+    tab[5][44]  = {"SpawnGroup", {name="Army", cid="d2860ee6-7e18-4132-ad42-8fb3a34ea499", program="Patrol", d=40, intensity=9}}
     tab[6][35]  = {"Entertainer", {}}
     tab[7][15]  = {"Entertainer", {}}
     tab[8][5]   = {"Defenders", {profession="policeofficer"}}
@@ -58,18 +58,18 @@ local generateSchedule = function()
     tab[15][25] = {"BuildingParty", {roomName="bedroom", intensity=8}}
     tab[16][58] = {"BuildingParty", {roomName="bedroom", intensity=8}}
     tab[19][42] = {"BuildingHome", {addRadio=false}}
-    tab[19][43] = {"Thieves", {intensity=3}}
+    -- tab[19][43] = {"Thieves", {intensity=3}}
     
     -- DAY 2 09.00
     tab[24][0]  = {"StartDay", {day="saturday"}}
     tab[24][15] = {"Entertainer", {}}
-    tab[25][44] = {"ArmyPatrol", {intensity=12}}
+    tab[25][44] = {"SpawnGroup", {name="Army", cid="d2860ee6-7e18-4132-ad42-8fb3a34ea499", program="Patrol", d=40, intensity=12}}
     tab[26][20] = {"Entertainer", {}}
     tab[26][21] = {"SetHydroPower", {on=false}}
     tab[26][22] = {"SetHydroPower", {on=true}}
-    tab[27][8]  = {"ArmyPatrol", {intensity=12}}
+    tab[27][8]  = {"SpawnGroup", {name="Army", cid="d2860ee6-7e18-4132-ad42-8fb3a34ea499", program="Patrol", d=40, intensity=12}}
     tab[28][33] = {"Entertainer", {}}
-    tab[30][33] = {"ArmyPatrol", {intensity=9}}
+    tab[30][33] = {"SpawnGroup", {name="Army", cid="d2860ee6-7e18-4132-ad42-8fb3a34ea499", program="Patrol", d=40, intensity=9}}
     tab[35][20] = {"BuildingParty", {roomName="bedroom", intensity=8}}
     tab[36][10] = {"BuildingParty", {roomName="bedroom", intensity=8}}
     tab[37][5]  = {"BuildingParty", {roomName="bedroom", intensity=8}}
@@ -78,24 +78,24 @@ local generateSchedule = function()
     tab[39][14] = {"Defenders", {profession="policeofficer"}}
     tab[39][14] = {"Arson", {profession="fireofficer"}}
     tab[42][6]  = {"BuildingHome", {addRadio=false}}
-    tab[42][7]  = {"Thieves", {intensity=4}}
+    -- tab[42][7]  = {"Thieves", {intensity=4}}
 
     -- DAY 3 09.00
     tab[48][0]  = {"StartDay", {day="sunday"}}
     tab[51][9]  = {"ChopperAlert", {sound="BWOChopper"}}
     tab[52][5]  = {"ChopperAlert", {sound="BWOChopper"}}
-    tab[52][11] = {"Criminals", {intensity=2}}
+    tab[52][11] = {"SpawnGroup", {name="Criminals", cid="8736f2bd-3b08-4ae3-b5f2-1d6a3225e892", program="Bandit", d=75, intensity=2}}
     tab[53][1]  = {"ChopperAlert", {sound="BWOChopper"}}
     tab[54][28] = {"ChopperAlert", {sound="BWOChopper"}}
     tab[54][30] = {"Arson", {}}
-    tab[55][11] = {"Criminals", {intensity=2}}
-    tab[58][33] = {"Criminals", {intensity=3}}
+    tab[55][11] = {"SpawnGroup", {name="Criminals", cid="eacda00e-6f8f-4afa-a813-f847d54720d8", program="Bandit", d=74, intensity=2}}
+    tab[58][33] = {"SpawnGroup", {name="Criminals", cid="eacda00e-6f8f-4afa-a813-f847d54720d8", program="Bandit", d=73, intensity=3}}
     tab[59][44] = {"BuildingParty", {roomName="bedroom", intensity=8}}
     tab[59][55] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[59][56] = {"Shahids", {intensity=2}}
-    tab[63][30] = {"Criminals", {intensity=4}}
-    tab[66][39] = {"Criminals", {intensity=3}}
-    tab[66][41] = {"Criminals", {intensity=3}}
+    tab[59][56] = {"SpawnGroup", {name="Suicide Bomber", cid="", program="Shahid", 45, intensity=2}}
+    tab[63][30] = {"SpawnGroup", {name="Criminals", cid="8736f2bd-3b08-4ae3-b5f2-1d6a3225e892", program="Bandit", d=72, intensity=4}}
+    tab[66][39] = {"SpawnGroup", {name="Criminals", cid="8736f2bd-3b08-4ae3-b5f2-1d6a3225e892", program="Bandit", d=71, intensity=3}}
+    tab[66][41] = {"SpawnGroup", {name="Criminals", cid="8736f2bd-3b08-4ae3-b5f2-1d6a3225e892", program="Bandit", d=70, intensity=3}}
     tab[69][14] = {"Defenders", {}}
     tab[71][21] = {"Defenders", {}}
 
@@ -104,65 +104,65 @@ local generateSchedule = function()
     tab[72][2]  = {"Defenders", {}}
     tab[76][7]  = {"Defenders", {}}
     tab[76][57] = {"Defenders", {}}
-    tab[77][22] = {"Shahids", {intensity=1}}
-    tab[77][33] = {"Criminals", {intensity=4}}
-    tab[77][39] = {"Criminals", {intensity=4}}
+    tab[77][22] = {"SpawnGroup", {name="Suicide Bomber", cid="", program="Shahid", 41, intensity=2}}
+    tab[77][33] = {"SpawnGroup", {name="Criminals", cid="eacda00e-6f8f-4afa-a813-f847d54720d8", program="Bandit", d=69, intensity=4}}
+    tab[77][39] = {"SpawnGroup", {name="Criminals", cid="eacda00e-6f8f-4afa-a813-f847d54720d8", program="Bandit", d=68, intensity=4}}
     tab[78][51] = {"Defenders", {}}
-    tab[79][14] = {"Criminals", {intensity=3}}
-    tab[79][15] = {"Criminals", {intensity=3}}
+    tab[79][14] = {"SpawnGroup", {name="Criminals", cid="d6c3c644-42e7-466a-8ce4-c002ad29dd50", program="Bandit", d=67, intensity=3}}
+    tab[79][15] = {"SpawnGroup", {name="Criminals", cid="d6c3c644-42e7-466a-8ce4-c002ad29dd50", program="Bandit", d=66, intensity=3}}
     tab[79][55] = {"Arson", {}}
     tab[80][41] = {"Defenders", {}}
     tab[83][35] = {"BuildingHome", {addRadio=false}}
-    tab[83][36] = {"Thieves", {intensity=4}}
+    -- tab[83][36] = {"Thieves", {intensity=4}}
     tab[83][2]  = {"ChopperAlert", {sound="BWOChopper"}}
     tab[83][33] = {"ChopperAlert", {sound="BWOChopper"}}
     tab[87][27] = {"Arson", {}}
-    tab[87][33] = {"Criminals", {intensity=4}}
-    tab[87][50] = {"Criminals", {intensity=5}}
-    tab[88][44] = {"Criminals", {intensity=6}}
-    tab[88][46] = {"Criminals", {intensity=7}}
-    tab[88][47] = {"Criminals", {intensity=6}}
+    tab[87][33] = {"SpawnGroup", {name="Criminals", cid="d6c3c644-42e7-466a-8ce4-c002ad29dd50", program="Bandit", d=65, intensity=4}}
+    tab[87][50] = {"SpawnGroup", {name="Criminals", cid="d6c3c644-42e7-466a-8ce4-c002ad29dd50", program="Bandit", d=64, intensity=5}}
+    tab[88][44] = {"SpawnGroup", {name="Criminals", cid="8736f2bd-3b08-4ae3-b5f2-1d6a3225e892", program="Bandit", d=63, intensity=6}}
+    tab[88][46] = {"SpawnGroup", {name="Criminals", cid="8736f2bd-3b08-4ae3-b5f2-1d6a3225e892", program="Bandit", d=62, intensity=7}}
+    tab[88][47] = {"SpawnGroup", {name="Criminals", cid="8736f2bd-3b08-4ae3-b5f2-1d6a3225e892", program="Bandit", d=61, intensity=6}}
     tab[89][35] = {"Defenders", {}}
     tab[89][52] = {"Arson", {}}
     tab[89][58] = {"BuildingHome", {addRadio=false}}
-    tab[89][59] = {"Thieves", {intensity=5}}
+    -- tab[89][59] = {"Thieves", {intensity=5}}
     tab[90][6]  = {"Defenders", {}}
     tab[91][4]  = {"Arson", {}}
-    tab[91][23] = {"Bandits", {intensity=4}}
+    tab[91][23] = {"SpawnGroup",{name="Bandits", cid="72fbcd15-a81b-476a-8c25-1b2caea694de", program="Bandit", d=65, intensity=4}}
     tab[94][31] = {"Defenders", {}}
-    tab[94][33] = {"Criminals", {intensity=5}}
-    tab[94][37] = {"Criminals", {intensity=6}}
-    tab[95][22] = {"Bandits", {intensity=4}}
-    tab[95][33] = {"Criminals", {intensity=5}}
-    tab[95][37] = {"Criminals", {intensity=4}}
+    tab[94][33] = {"SpawnGroup", {name="Criminals", cid="eacda00e-6f8f-4afa-a813-f847d54720d8", program="Bandit", d=60, intensity=5}}
+    tab[94][37] = {"SpawnGroup", {name="Criminals", cid="eacda00e-6f8f-4afa-a813-f847d54720d8", program="Bandit", d=59, intensity=6}}
+    tab[95][22] = {"SpawnGroup", {name="Bandits", cid="72fbcd15-a81b-476a-8c25-1b2caea694de", program="Bandit", d=65, intensity=4}}
+    tab[95][33] = {"SpawnGroup", {name="Criminals", cid="8736f2bd-3b08-4ae3-b5f2-1d6a3225e892", program="Bandit", d=58, intensity=5}}
+    tab[95][37] = {"SpawnGroup", {name="Criminals", cid="8736f2bd-3b08-4ae3-b5f2-1d6a3225e892", program="Bandit", d=57, intensity=4}}
 
     -- DAY 5 09.00
     tab[96][0]  = {"StartDay", {day="tuesday"}}
-    tab[96][15] = {"Army", {intensity=8}}
+    tab[96][15] = {"SpawnGroup", {name="Army", cid="d2860ee6-7e18-4132-ad42-8fb3a34ea499", program="Police", d=45, intensity=10}}
     tab[97][2]  = {"Defenders", {}}
-    tab[97][3]  = {"Bikers", {intensity=12}}
+    tab[97][3]  = {"SpawnGroup", {name="Biker Gang", cid="f3ad89be-9368-4df7-a63b-0c315a96f23b", program="Bandit", d=60, intensity=14}}
     tab[98][10] = {"Defenders", {}}
     tab[103][10] = {"Defenders", {}}
     tab[105][52] = {"Defenders", {}}
     tab[112][0]  = {"Arson", {}}
     tab[112][11] = {"Arson", {}}
-    tab[112][12] = {"Bandits", {intensity=6}}
+    tab[112][12] = {"SpawnGroup", {name="Bandits", cid="72fbcd15-a81b-476a-8c25-1b2caea694de", program="Bandit", d=64, intensity=6}}
     tab[112][44] = {"Arson", {}}
-    tab[112][45] = {"Bandits", {intensity=6}}
+    tab[112][45] = {"SpawnGroup", {name="Bandits", cid="72fbcd15-a81b-476a-8c25-1b2caea694de", program="Bandit", d=63, intensity=6}}
     tab[112][55] = {"Defenders", {}}
-    tab[112][56] = {"Bikers", {intensity=9}}
+    tab[112][56] = {"SpawnGroup", {name="Biker Gang", cid="f3ad89be-9368-4df7-a63b-0c315a96f23b", program="Bandit", d=60, intensity=14}}
     tab[113][31] = {"Defenders", {}}
     tab[113][22] = {"Arson", {}}
-    tab[113][33] = {"Criminals", {intensity=4}}
-    tab[113][35] = {"Criminals", {intensity=5}}
-    tab[113][36] = {"Bandits", {intensity=6}}
-    tab[113][37] = {"Criminals", {intensity=5}}
-    tab[113][38] = {"Bandits", {intensity=5}}
-    tab[113][39] = {"Bandits", {intensity=2}}
+    tab[113][33] = {"SpawnGroup", {name="Criminals", cid="8736f2bd-3b08-4ae3-b5f2-1d6a3225e892", program="Bandit", d=57, intensity=4}}
+    tab[113][35] = {"SpawnGroup", {name="Criminals", cid="8736f2bd-3b08-4ae3-b5f2-1d6a3225e892", program="Bandit", d=56, intensity=5}}
+    tab[113][36] = {"SpawnGroup", {name="Bandits", cid="72fbcd15-a81b-476a-8c25-1b2caea694de", program="Bandit", d=61, intensity=6}}
+    tab[113][37] = {"SpawnGroup", {name="Criminals", cid="eacda00e-6f8f-4afa-a813-f847d54720d8", program="Bandit", d=55, intensity=5}}
+    tab[113][38] = {"SpawnGroup", {name="Bandits", cid="72fbcd15-a81b-476a-8c25-1b2caea694de", program="Bandit", d=60, intensity=5}}
+    tab[113][39] = {"SpawnGroup", {name="Bandits", cid="72fbcd15-a81b-476a-8c25-1b2caea694de", program="Bandit", d=59, intensity=2}}
     tab[116][15] = {"Defenders", {}}
     tab[116][16] = {"BuildingHome", {addRadio=false}}
-    tab[116][17] = {"Thieves", {intensity=6}}
-    tab[117][15] = {"Thieves", {intensity=6}}
+    -- tab[116][17] = {"Thieves", {intensity=6}}
+    -- tab[117][15] = {"Thieves", {intensity=6}}
 
     -- DAY 6 09.00
     tab[120][0]  = {"StartDay", {day="wednesday"}}
@@ -171,21 +171,21 @@ local generateSchedule = function()
     tab[121][16] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
     tab[121][45] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
     tab[122][0]  = {"Siren", {}}
-    tab[122][11] = {"PoliceRiot", {intensity=12, hostile=true}}
+    tab[122][11] = {"SpawnGroup", {name="Riot Police", cid="526e57b9-52cf-42a8-a17b-50e32e4d33f3", program="PoliceRiot", intensity=12}}
     tab[122][12] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
-    tab[122][15] = {"PoliceRiot", {intensity=12, hostile=true}}
+    tab[122][15] = {"SpawnGroup", {name="Riot Police", cid="526e57b9-52cf-42a8-a17b-50e32e4d33f3", program="PoliceRiot", intensity=12}}
     tab[122][16] = {"Shahids", {intensity=1}}
-    tab[122][17] = {"PoliceRiot", {intensity=12, hostile=true}}
+    tab[122][17] = {"SpawnGroup", {name="Riot Police", cid="526e57b9-52cf-42a8-a17b-50e32e4d33f3", program="PoliceRiot", intensity=12}}
     tab[122][44] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
     tab[123][27] = {"Arson", {}}
-    tab[123][33] = {"Criminals", {intensity=4}}
-    tab[123][39] = {"Criminals", {intensity=4}}
+    tab[123][33] = {"SpawnGroup", {name="Criminals", cid="d6c3c644-42e7-466a-8ce4-c002ad29dd50", program="Bandit", d=54, intensity=4}}
+    tab[123][39] = {"SpawnGroup", {name="Criminals", cid="d6c3c644-42e7-466a-8ce4-c002ad29dd50", program="Bandit", d=53, intensity=4}}
     tab[123][41] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
-    tab[123][45] = {"PoliceRiot", {intensity=12, hostile=true}}
+    tab[123][45] = {"SpawnGroup", {name="Riot Police", cid="526e57b9-52cf-42a8-a17b-50e32e4d33f3", program="PoliceRiot", intensity=12}}
 
     tab[124][1]  = {"ChopperFliers", {}}
     tab[125][2]  = {"Arson", {}}
-    tab[125][3]  = {"Asylum", {intensity=12}}
+    tab[125][3]  = {"SpawnGroup", {name="Asylum Escapes", cid="", program="Bandit", intensity=16}}
     tab[125][5]  = {"Arson", {}}
     tab[128][16] = {"Arson", {}}
     tab[128][27] = {"Arson", {}}
@@ -194,66 +194,67 @@ local generateSchedule = function()
     tab[132][0]  = {"Siren", {}}
     
     tab[133][6]  = {"Reanimate", {r=80, chance=100}}
-    tab[134][40] = {"Army", {intensity=12}}
-    tab[135][0]  = {"Bandits", {intensity=4}}
+    tab[134][40] = {"SpawnGroup", {name="Army", cid="ce526bd8-a230-4d21-a1f8-5e30790b366f", program="Police", d=46, intensity=12}}
+    tab[135][0]  = {"SpawnGroup", {name="Bandits", cid="72fbcd15-a81b-476a-8c25-1b2caea694de", program="Bandit", d=58, intensity=4}}
     tab[135][1]  = {"SetHydroPower", {on=false}}
     tab[135][2]  = {"SetHydroPower", {on=true}}
     tab[135][8]  = {"SetHydroPower", {on=false}}
-    tab[135][10] = {"Bandits", {intensity=4}}
-    tab[135][20] = {"Bandits", {intensity=4}}
-    tab[135][30] = {"Bandits", {intensity=4}}
+    tab[135][10] = {"SpawnGroup", {name="Bandits", cid="72fbcd15-a81b-476a-8c25-1b2caea694de", program="Bandit", d=57, intensity=4}}
+    tab[135][20] = {"SpawnGroup", {name="Bandits", cid="72fbcd15-a81b-476a-8c25-1b2caea694de", program="Bandit", d=56, intensity=4}}
+    tab[135][30] = {"SpawnGroup", {name="Bandits", cid="72fbcd15-a81b-476a-8c25-1b2caea694de", program="Bandit", d=55, intensity=4}}
     tab[135][32] = {"SetHydroPower", {on=true}}
-    tab[135][40] = {"Bandits", {intensity=4}}
-    tab[135][50] = {"Bandits", {intensity=4}}
-    tab[136][12] = {"Army", {intensity=10}}
-    tab[136][14] = {"Army", {intensity=10}}
-    tab[138][2]  = {"Bandits", {intensity=3}}
+    tab[135][40] = {"SpawnGroup", {name="Bandits", cid="72fbcd15-a81b-476a-8c25-1b2caea694de", program="Bandit", d=54, intensity=4}}
+    tab[135][50] = {"SpawnGroup", {name="Bandits", cid="72fbcd15-a81b-476a-8c25-1b2caea694de", program="Bandit", d=53, intensity=4}}
+    tab[136][12] = {"SpawnGroup", {name="Veterans", cid="c4878ebb-c8e5-4932-8850-370ee9c77d61", program="Police", d=47, intensity=10}}
+    tab[136][14] = {"SpawnGroup", {name="Army", cid="ce526bd8-a230-4d21-a1f8-5e30790b366f", program="Police", d=48, intensity=10}}
+    tab[138][2]  = {"SpawnGroup", {name="Bandits", cid="72fbcd15-a81b-476a-8c25-1b2caea694de", program="Bandit", d=52, intensity=3}}
 
     -- DAY 7 09.00
     tab[144][0]  = {"StartDay", {day="thursday"}}
-    tab[145][6] = {"Army", {intensity=5}}
-    tab[145][17] = {"Army", {intensity=5}}
+    tab[145][6]  = {"SpawnGroup", {name="Army", cid="ce526bd8-a230-4d21-a1f8-5e30790b366f", program="Police", d=49, intensity=5}}
+    tab[145][17] = {"SpawnGroup", {name="Army", cid="ce526bd8-a230-4d21-a1f8-5e30790b366f", program="Police", d=50, intensity=5}}
     tab[146][0]  = {"Siren", {}}
     tab[146][5]  = {"JetFighterRun", {intensity=1}}
     tab[146][25] = {"JetFighterRun", {intensity=1}}
     tab[146][45] = {"JetFighterRun", {intensity=1}}
     tab[147][8]  = {"JetFighterRun", {intensity=1}}
     tab[147][24] = {"JetFighterRun", {intensity=1}}
-    tab[147][28] = {"Army", {intensity=5}}
+    tab[147][28] = {"SpawnGroup", {name="Army", cid="ce526bd8-a230-4d21-a1f8-5e30790b366f", program="Police", d=51, intensity=5}}
     tab[147][49] = {"JetFighterRun", {intensity=1}}
     tab[150][8]  = {"JetFighterRun", {intensity=1}}
-    tab[150][9]  = {"Army", {intensity=10}}
-    tab[150][50] = {"Bandits", {intensity=5}}
+    tab[150][9]  = {"SpawnGroup", {name="Army", cid="ce526bd8-a230-4d21-a1f8-5e30790b366f", program="Police", d=52, intensity=10}}
+    tab[150][50] = {"SpawnGroup", {name="Bandits", cid="bbe0c8c9-1135-4ced-abd2-73807e166a1e", program="Bandit", d=51, intensity=5}}
     tab[150][24] = {"JetFighterRun", {intensity=1}}
     tab[150][49] = {"JetFighterRun", {intensity=1}}
     tab[152][8]  = {"Defenders", {}}
     tab[152][12] = {"JetFighterRun", {intensity=1}}
     tab[152][24] = {"JetFighterRun", {intensity=1}}
-    tab[153][44] = {"Army", {intensity=5}}
-    tab[153][45] = {"Bandits", {intensity=5}}
-    tab[153][46] = {"Army", {intensity=1}}
+    tab[153][44] = {"SpawnGroup", {name="Army", cid="ce526bd8-a230-4d21-a1f8-5e30790b366f", program="Police", d=53, intensity=5}}
+    tab[153][45] = {"SpawnGroup", {name="Bandits", cid="bbe0c8c9-1135-4ced-abd2-73807e166a1e", program="Bandit", d=50, intensity=5}}
+    tab[153][46] = {"SpawnGroup", {name="Army", cid="ce526bd8-a230-4d21-a1f8-5e30790b366f", program="Police", d=54, intensity=2}}
     tab[153][50] = {"JetFighterRun", {intensity=1}}
 
-    tab[154][25] = {"Army", {intensity=2}}
-    tab[154][26] = {"Inmates", {intensity = 14}}
+    tab[154][25] = {"SpawnGroup", {name="Army", cid="ce526bd8-a230-4d21-a1f8-5e30790b366f", program="Police", d=55, intensity=4}}
+    tab[154][26] = {"SpawnGroup", {name="Inmates", cid="c15cc316-41f9-4c2c-b71a-3a3fb58c247d", program="Police", d=55, intensity=14}}
+    tab[154][27] = {"SpawnGroup", {name="Inmates", cid="c15cc316-41f9-4c2c-b71a-3a3fb58c247d", program="Police", d=59, intensity=13}}
 
     tab[155][5]  = {"JetFighterRun", {intensity=1}}
     tab[155][15] = {"JetFighterRun", {intensity=1}}
-    tab[155][16] = {"Bandits", {intensity=3}}
-    tab[155][17] = {"Bandits", {intensity=3}}
-    tab[155][18] = {"Bandits", {intensity=3}}
+    tab[155][16] = {"SpawnGroup", {name="Bandits", cid="bbe0c8c9-1135-4ced-abd2-73807e166a1e", program="Bandit", d=49, intensity=3}}
+    tab[155][17] = {"SpawnGroup", {name="Bandits", cid="bbe0c8c9-1135-4ced-abd2-73807e166a1e", program="Bandit", d=48, intensity=3}}
+    tab[155][18] = {"SpawnGroup", {name="Bandits", cid="bbe0c8c9-1135-4ced-abd2-73807e166a1e", program="Bandit", d=47, intensity=3}}
     tab[155][25] = {"JetFighterRun", {intensity=1}}
-    tab[155][26] = {"Army", {intensity=10}}
+    tab[155][26] = {"SpawnGroup", {name="Army", cid="ce526bd8-a230-4d21-a1f8-5e30790b366f", program="Police", d=56, intensity=10}}
 
     tab[156][5]  = {"JetFighterRun", {intensity=1}}
-    tab[156][10] = {"Bandits", {intensity=12}}
+    tab[156][10] = {"SpawnGroup", {name="Bandits", cid="bbe0c8c9-1135-4ced-abd2-73807e166a1e", program="Bandit", d=46, intensity=12}}
     tab[156][15] = {"JetFighterRun", {intensity=1}}
     tab[156][25] = {"JetFighterRun", {intensity=1}}
-    tab[156][26] = {"Army", {intensity=10}}
+    tab[156][26] = {"SpawnGroup", {name="Army", cid="ce526bd8-a230-4d21-a1f8-5e30790b366f", program="Police", d=57, intensity=10}}
 
     tab[158][0]  = {"Siren", {}}
     tab[158][8]  = {"BombRun", {intensity=4}}
-    tab[158][9]  = {"Bandits", {intensity=9}}
+    tab[158][9]  = {"SpawnGroup", {name="Bandits", cid="bbe0c8c9-1135-4ced-abd2-73807e166a1e", program="Bandit", d=45, intensity=9}}
     tab[158][24] = {"BombRun", {intensity=20}}
     tab[158][49] = {"BombRun", {intensity=18}}
     tab[158][51] = {"SetHydroPower", {on=false}}
@@ -268,7 +269,7 @@ local generateSchedule = function()
     tab[159][49] = {"BombRun", {intensity=18}}
 
     tab[160][8]  = {"BombRun", {intensity=6}}
-    tab[160][9]  = {"Bandits", {intensity=9}}
+    tab[160][9]  = {"SpawnGroup", {name="Bandits", cid="bbe0c8c9-1135-4ced-abd2-73807e166a1e", program="Bandit", d=45, intensity=9}}
     tab[160][24] = {"BombRun", {intensity=20}}
     tab[160][25] = {"SetHydroPower", {on=false}}
     tab[160][26] = {"SetHydroPower", {on=true}}
@@ -289,7 +290,7 @@ local generateSchedule = function()
     tab[162][50] = {"SetHydroPower", {on=false}}
     tab[162][51] = {"SetHydroPower", {on=true}}
     tab[163][8]  = {"BombRun", {intensity=6}}
-    tab[163][15] = {"Bandits", {intensity=5}}
+    tab[163][15] = {"SpawnGroup", {name="Bandits", cid="bbe0c8c9-1135-4ced-abd2-73807e166a1e", program="Bandit", d=45, intensity=5}}
     tab[163][24] = {"BombRun", {intensity=20}}
     tab[163][49] = {"BombRun", {intensity=18}}
     tab[164][8]  = {"BombRun", {intensity=6}}
@@ -298,7 +299,7 @@ local generateSchedule = function()
     tab[164][24] = {"BombRun", {intensity=20}}
     tab[164][49] = {"BombRun", {intensity=18}}
     tab[165][2]  = {"ChopperFliers", {}}
-    tab[167][4]  = {"HammerBrothers", {intensity=2}}
+    tab[167][4]  = {"SpawnGroup", {name="Hammer Brothers", cid="", program="Bandit", d=50, intensity=3}}
 
     -- DAY 8 09.00
     tab[168][0]  = {"StartDay", {day="friday"}}
@@ -307,18 +308,18 @@ local generateSchedule = function()
     tab[168][34] = {"SetHydroPower", {on=false}}
 
     -- late hazmat suit bandits will spawn only in fallout scenario
-    tab[176][25] = {"Scientists", {intensity=2}}
-    tab[177][25] = {"HammerBrothers", {intensity=2}}
-    tab[189][12] = {"Scientists", {intensity=3}}
-    tab[211][44] = {"Scientists", {intensity=4}}
-    tab[235][3]  = {"Scientists", {intensity=3}}
-    tab[236][12] = {"Scientists", {intensity=3}}
-    tab[253][42] = {"Scientists", {intensity=7}}
-    tab[315][30] = {"Scientists", {intensity=3}}
-    tab[315][11] = {"Scientists", {intensity=4}}
-    tab[333][4]  = {"Scientists", {intensity=8}}
-    tab[376][4]  = {"Scientists", {intensity=8}}
-    tab[400][32] = {"Scientists", {intensity=12}}
+    tab[176][25] = {"SpawnGroup", {name="Sweeper Squad", cid="", program="Bandit", d=60, intensity=2}}
+    tab[177][25] = {"SpawnGroup", {name="Hammer Brothers", cid="", program="Bandit", d=30, intensity=3}}
+    tab[189][12] = {"SpawnGroup", {name="Sweeper Squad", cid="", program="Bandit", d=60, intensity=3}}
+    tab[211][44] = {"SpawnGroup", {name="Sweeper Squad", cid="", program="Bandit", d=60, intensity=4}}
+    tab[235][3]  = {"SpawnGroup", {name="Sweeper Squad", cid="", program="Bandit", d=60, intensity=3}}
+    tab[236][12] = {"SpawnGroup", {name="Sweeper Squad", cid="", program="Bandit", d=60, intensity=3}}
+    tab[253][42] = {"SpawnGroup", {name="Sweeper Squad", cid="", program="Bandit", d=60, intensity=7}}
+    tab[315][30] = {"SpawnGroup", {name="Sweeper Squad", cid="", program="Bandit", d=60, intensity=3}}
+    tab[315][11] = {"SpawnGroup", {name="Sweeper Squad", cid="", program="Bandit", d=60, intensity=4}}
+    tab[333][4]  = {"SpawnGroup", {name="Sweeper Squad", cid="", program="Bandit", d=60, intensity=8}}
+    tab[376][4]  = {"SpawnGroup", {name="Sweeper Squad", cid="", program="Bandit", d=60, intensity=8}}
+    tab[400][32] = {"SpawnGroup", {name="Sweeper Squad", cid="", program="Bandit", d=60, intensity=12}}
 
     return tab
 end

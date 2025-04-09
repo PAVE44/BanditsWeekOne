@@ -23,48 +23,21 @@ end
 
 ZombiePrograms.Police.Prepare = function(bandit)
     local tasks = {}
-    local world = getWorld()
-    local cell = getCell()
-    local cm = world:getClimateManager()
-    local dls = cm:getDayLightStrength()
-
-    local weapons = Bandit.GetWeapons(bandit)
-    local primary = Bandit.GetBestWeapon(bandit)
 
     Bandit.ForceStationary(bandit, false)
-    Bandit.SetWeapons(bandit, weapons)
-
-    local secondary
-    if SandboxVars.Bandits.General_CarryTorches and dls < 0.3 then
-        secondary = "Base.HandTorch"
-    end
-
-    if weapons.primary.name and weapons.secondary.name then
-        local task1 = {action="Unequip", time=100, itemPrimary=weapons.secondary.name}
-        table.insert(tasks, task1)
-    end
-
-    local task2 = {action="Equip", itemPrimary=primary, itemSecondary=secondary}
-    table.insert(tasks, task2)
-
+  
     return {status=true, next="Main", tasks=tasks}
 end
 
 ZombiePrograms.Police.Main = function(bandit)
     local tasks = {}
-    local weapons = Bandit.GetWeapons(bandit)
-
-    -- update walk type
-    local world = getWorld()
+    local id = BanditUtils.GetCharacterID(bandit)
     local cell = getCell()
-    local weapons = Bandit.GetWeapons(bandit)
     local outOfAmmo = Bandit.IsOutOfAmmo(bandit)
-    local hands = bandit:getVariableString("BanditPrimaryType")
-    local brain = BanditBrain.Get(bandit)
-
+    local outfit = bandit:getOutfitName()
     local walkType = "Run"
     local endurance = -0.06
-    local secondary
+    local brain = BanditBrain.Get(bandit)
 
     if bandit:isInARoom() then
         if outOfAmmo then
@@ -79,23 +52,21 @@ ZombiePrograms.Police.Main = function(bandit)
         walkType = "Limp"
         endurance = 0
     end 
- 
-    local handweapon = bandit:getVariableString("BanditWeapon") 
     
     local healthMin = 0.7
-    if Bandit.IsDNA(bandit, "coward") then
-        healthMin = 1.7
-    end
-
     if SandboxVars.Bandits.General_RunAway and health < healthMin then
         return {status=true, next="Escape", tasks=tasks}
     end
+
+    local config = {}
+    config.mustSee = false
+    config.hearDist = 20
 
     local target = {}
 
     local closestZombie = BanditUtils.GetClosestZombieLocation(bandit)
     local closestBandit = BanditUtils.GetClosestEnemyBanditLocation(bandit)
-    local closestPlayer = BanditUtils.GetClosestPlayerLocation(bandit, false)
+    local closestPlayer = BanditUtils.GetClosestPlayerLocation(bandit, config)
 
     if Bandit.IsHostile(bandit) then
         local age = getGameTime():getWorldAgeHours() - brain.born
@@ -134,56 +105,37 @@ ZombiePrograms.Police.Main = function(bandit)
         end
     end
 
+    -- engage with target
     if target.x and target.y and target.z then
         local targetSquare = cell:getGridSquare(target.x, target.y, target.z)
-        local banditSquare = bandit:getSquare()
-        if targetSquare and banditSquare then
-            local targetBuilding = targetSquare:getBuilding()
-            local banditBuilding = banditSquare:getBuilding()
+        if targetSquare then
+            Bandit.SayLocation(bandit, targetSquare)
+        end
 
-            if targetBuilding and not banditBuilding then
-                Bandit.Say(bandit, "INSIDE")
-            end
-            if not targetBuilding and banditBuilding then
-                Bandit.Say(bandit, "OUTSIDE")
-            end
-            if targetBuilding and banditBuilding then
-                if bandit:getZ() < target.z then
-                    Bandit.Say(bandit, "UPSTAIRS")
-                else
-                    local room = targetSquare:getRoom()
-                    if room then
-                        local roomName = room:getName()
-                        if roomName == "kitchen" then
-                            Bandit.Say(bandit, "ROOM_KITCHEN")
-                        end
-                        if roomName == "bathroom" then
-                            Bandit.Say(bandit, "ROOM_BATHROOM")
-                        end
-                    end
+        local tx, ty, tz = target.x, target.y, target.z
+        
+        local closeSlow = true
+        local engageUpfront = false
+        if enemy then
+            local weapon = enemy:getPrimaryHandItem()
+            if weapon and weapon:IsWeapon() then
+                local weaponType = WeaponType.getWeaponType(weapon)
+                if weaponType == WeaponType.firearm or weaponType == WeaponType.handgun then
+                    closeSlow = false
                 end
             end
+
+            if target.fx and target.fy and (enemy:isRunning()  or enemy:isSprinting()) then
+                engageUpfront = true
+            end
+        end
+        
+        if engageUpfront then
+            tx, ty = target.fx, target.fy
         end
 
-        -- out of ammo, get close
-        local minDist = 2
-        if outOfAmmo then
-            minDist = 0.5
-        end
-
-        if target.dist > minDist then
-
-            -- must be deterministic, not random (same for all clients)
-            local id = BanditUtils.GetCharacterID(bandit)
-
-            local dx = 0
-            local dy = 0
-            local dxf = ((math.abs(id) % 10) - 5) / 10
-            local dyf = ((math.abs(id) % 11) - 5) / 10
-
-            table.insert(tasks, BanditUtils.GetMoveTask(endurance, target.x+dx+dxf, target.y+dy+dyf, target.z, walkType, target.dist, closeSlow))
-            return {status=true, next="Main", tasks=tasks}
-        end
+        table.insert(tasks, BanditUtils.GetMoveTask(endurance, tx, ty, tz, walkType, target.dist, closeSlow))
+        return {status=true, next="Main", tasks=tasks}
     else
         -- fixme change to patrol program so its not affected by walkder typical behavior like protersts
         Bandit.ClearTasks(bandit)
@@ -222,6 +174,10 @@ ZombiePrograms.Police.Escape = function(bandit)
     end
 
     local handweapon = bandit:getVariableString("BanditWeapon")
+
+    local config = {}
+    config.mustSee = false
+    config.hearDist = 40
 
     local closestPlayer = BanditUtils.GetClosestPlayerLocation(bandit)
 

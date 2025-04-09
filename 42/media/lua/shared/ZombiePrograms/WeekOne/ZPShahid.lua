@@ -101,6 +101,10 @@ ZombiePrograms.Shahid.Main = function(bandit)
         
     end
 
+    local config = {}
+    config.mustSee = false
+    config.hearDist = 40
+
     local closestPlayer = BanditUtils.GetClosestPlayerLocation(bandit)
 
     if closestPlayer.x and closestPlayer.y and closestPlayer.z then

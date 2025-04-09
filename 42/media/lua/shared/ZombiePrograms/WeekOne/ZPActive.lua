@@ -23,60 +23,36 @@ end
 
 ZombiePrograms.Active.Prepare = function(bandit)
     local tasks = {}
-    local world = getWorld()
-    local cell = getCell()
-    local cm = world:getClimateManager()
-    local dls = cm:getDayLightStrength()
-
-    local weapons = Bandit.GetWeapons(bandit)
-    local primary = Bandit.GetBestWeapon(bandit)
 
     Bandit.ForceStationary(bandit, false)
-    Bandit.SetWeapons(bandit, weapons)
-
-    -- bandit:setPrimaryHandItem(nil)
-    -- bandit:setSecondaryHandItem(nil)
-
-    local secondary
-    if SandboxVars.Bandits.General_CarryTorches and dls < 0.3 then
-        secondary = "Base.HandTorch"
-    end
-
-    if weapons.primary.name and weapons.secondary.name then
-        local task1 = {action="Unequip", time=100, itemPrimary=weapons.secondary.name}
-        table.insert(tasks, task1)
-    end
-
+  
     local player = getSpecificPlayer(0)
     local px, py = player:getX(), player:getY()
     local anim = BanditUtils.Choice({"Spooked1", "Spooked2"})
     local task2 = {action="TimeFace", anim=anim, x=px, y=py, time=100}
     table.insert(tasks, task2)
     
-    local task3 = {action="Equip", itemPrimary=primary, itemSecondary=secondary}
-    table.insert(tasks, task3)
-
     return {status=true, next="Main", tasks=tasks}
 end
 
 ZombiePrograms.Active.Main = function(bandit)
     local tasks = {}
-    -- if true then return {status=true, next="Main", tasks=tasks} end
     local id = BanditUtils.GetCharacterID(bandit)
-    local world = getWorld()
     local cell = getCell()
-    local cm = world:getClimateManager()
-    local dls = cm:getDayLightStrength()
     local outOfAmmo = Bandit.IsOutOfAmmo(bandit)
-    local hands = bandit:getVariableString("BanditPrimaryType")
     local outfit = bandit:getOutfitName()
- 
     local walkType = "Run"
-    if hands == "rifle" or hands =="handgun" then
-        walkType = "WalkAim"
+    local endurance = -0.06
+
+    if bandit:isInARoom() then
+        if outOfAmmo then
+            walkType = "Run"
+        else
+            walkType = "WalkAim"
+        end
     end
 
-    local coward = Bandit.IsDNA(bandit, "coward")
+    local coward = math.abs(id) % 2 == 0
     if SandboxVars.Bandits.General_RunAway and coward then
         return {status=true, next="Escape", tasks=tasks}
     end
@@ -99,21 +75,6 @@ ZombiePrograms.Active.Main = function(bandit)
     end
 
     local endurance = 0 -- -0.02
-    local secondary
-    if dls < 0.3 then
-        if SandboxVars.Bandits.General_CarryTorches then
-            if hands == "barehand" or hands == "onehanded" or hands == "handgun" then
-                secondary = "Base.HandTorch"
-            end
-        end
-
-        if SandboxVars.Bandits.General_SneakAtNight then
-            if Bandit.IsDNA(bandit, "sneak") then
-                walkType = "SneakWalk"
-                endurance = 0
-            end
-        end
-    end
 
     local health = bandit:getHealth()
     if health < 0.8 then
@@ -121,14 +82,16 @@ ZombiePrograms.Active.Main = function(bandit)
         endurance = 0
     end 
  
-    local handweapon = bandit:getVariableString("BanditWeapon") 
-    
     local target = {}
     local enemy
 
+    local config = {}
+    config.mustSee = false
+    config.hearDist = 20
+
     local closestZombie = BanditUtils.GetClosestZombieLocation(bandit)
     local closestBandit = BanditUtils.GetClosestEnemyBanditLocation(bandit)
-    local closestPlayer = BanditUtils.GetClosestPlayerLocation(bandit, true)
+    local closestPlayer = BanditUtils.GetClosestPlayerLocation(bandit, config)
 
     target = closestZombie
     if closestBandit.dist < closestZombie.dist then
@@ -257,7 +220,11 @@ ZombiePrograms.Active.Escape = function(bandit)
         if BWOScheduler.SymptomLevel >= 4 then walkType = "Run" end
     end
 
-    local closestPlayer = BanditUtils.GetClosestPlayerLocation(bandit)
+    local config = {}
+    config.mustSee = false
+    config.hearDist = 40
+
+    local closestPlayer = BanditUtils.GetClosestPlayerLocation(bandit, config)
 
     if closestPlayer.dist > 30 then
         if bandit:isOutside() then

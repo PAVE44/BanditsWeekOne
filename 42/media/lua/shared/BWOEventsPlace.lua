@@ -84,7 +84,7 @@ function BWOEventsPlace.ArmyGuards(params)
     if SandboxVars.Bandits.General_ArrivalIcon then
         local icon = "media/ui/raid.png"
         local color = {r=0, g=1, b=0} -- green
-        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, event.x, event.y, color)
     end
 end
 
@@ -161,7 +161,7 @@ function BWOEventsPlace.BaseDefenders(params)
     if SandboxVars.Bandits.General_ArrivalIcon then
         local icon = "media/ui/raid.png"
         local color = {r=1, g=0, b=0} -- red
-        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, event.x, event.y, color)
     end
 end
 

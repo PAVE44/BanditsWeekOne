@@ -202,6 +202,7 @@ BWOPopControl.StreetsDespawn = function(cnt)
     local removePrg = {"Walker", "Runner", "Postal", "Entertainer", "Janitor", "Medic", "Gardener", "Vandal"}
     local zombieList = BanditUtils.GetAllBanditByProgram(removePrg)
 
+    local i = 0
     for k, zombie in pairs(zombieList) do
         local zx = zombie.x
         local zy = zombie.y
@@ -329,6 +330,8 @@ BWOPopControl.InhabitantsDespawn = function(cnt)
 
     local removePrg = {"Inhabitant", "Medic", "Janitor", "Entertainer"}
     local zombieList = BanditUtils.GetAllBanditByProgram(removePrg)
+
+    local i = 0
     for k, zombie in pairs(zombieList) do
         local zx = zombie.x
         local zy = zombie.y
@@ -394,6 +397,8 @@ BWOPopControl.SurvivorsDespawn = function(cnt)
 
     local removePrg = {"Survivor"}
     local zombieList = BanditUtils.GetAllBanditByProgram(removePrg)
+
+    local i = 0
     for k, zombie in pairs(zombieList) do
         local zx = zombie.x
         local zy = zombie.y

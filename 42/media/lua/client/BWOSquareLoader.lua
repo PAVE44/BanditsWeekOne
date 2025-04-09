@@ -151,6 +151,10 @@ addBarricadeEast(12478, 12491, 5823)
 BWOSquareLoader.remove["12072-6759-0"] = {}
 BWOSquareLoader.remove["12072-6760-0"] = {}
 
+-- now Stendo's
+BWOSquareLoader.remove["12095-6789-0"] = {}
+BWOSquareLoader.remove["12096-6789-0"] = {}
+
 -- remove fence in brandenburg gunshop
 BWOSquareLoader.remove["2048-5832-0"] = {}
 BWOSquareLoader.remove["2048-5833-0"] = {}

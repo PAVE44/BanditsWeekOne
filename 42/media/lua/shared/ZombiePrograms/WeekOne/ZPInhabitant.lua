@@ -448,11 +448,15 @@ ZombiePrograms.Inhabitant.Defend = function(bandit)
  
     local handweapon = bandit:getVariableString("BanditWeapon") 
     
+    local config = {}
+    config.mustSee = true
+    config.hearDist = 20
+
     local target = {}
     local enemy
     local closestZombie = BanditUtils.GetClosestZombieLocation(bandit)
     local closestBandit = BanditUtils.GetClosestEnemyBanditLocation(bandit)
-    local closestPlayer = BanditUtils.GetClosestPlayerLocation(bandit, true)
+    local closestPlayer = BanditUtils.GetClosestPlayerLocation(bandit, config)
 
     target = closestZombie
     if closestBandit.dist < closestZombie.dist then

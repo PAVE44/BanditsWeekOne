@@ -92,7 +92,11 @@ ZombiePrograms.Survivor.Main = function(bandit)
     end 
  
     local handweapon = bandit:getVariableString("BanditWeapon") 
-    
+
+    local config = {}
+    config.mustSee = true
+    config.hearDist = 20
+
     local target = {}
     local enemy
     local closestZombie = BanditUtils.GetClosestZombieLocation(bandit)

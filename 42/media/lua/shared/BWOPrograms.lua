@@ -471,8 +471,12 @@ BanditPrograms.Talk = function(bandit)
 
     if not BWOScheduler.NPC.Talk then return tasks end
 
+    local config = {}
+    config.mustSee = false
+    config.hearDist = 40
+
     local neighborBandit = BanditUtils.GetClosestBanditLocation(bandit)
-    local neighborPlayer = BanditUtils.GetClosestPlayerLocation(bandit, true)
+    local neighborPlayer = BanditUtils.GetClosestPlayerLocation(bandit, config)
 
     local neighbor = neighborBandit
     local minDist = 3

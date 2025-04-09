@@ -108,7 +108,7 @@ BWOObjects.Find = function (bandit, def, objName, mode)
     end
 
     -- Search for the closest object
-    local foundDist, foundObj, foundX, foundY = math.huge
+    local foundDist, foundObj = math.huge, nil
     for x = x1, x2 do
         for y = y1, y2 do
             local square = cell:getGridSquare(x, y, z)
@@ -118,7 +118,7 @@ BWOObjects.Find = function (bandit, def, objName, mode)
                     local dx, dy = x - bx, y - by
                     local dist = dx * dx + dy * dy  -- Squared distance for efficiency
                     if dist < foundDist then
-                        foundObj, foundDist, foundX, foundY = obj, dist, x, y
+                        foundObj, foundDist = obj, dist
                         cache[dir][query].empty = false
                         cache[dir][query].result = { x = x, y = y, z = z }
                     end

@@ -399,7 +399,7 @@ BWOEvents.Start = function(params)
 
             local icon = "media/ui/defend.png"
             local color = {r=0.5, g=1, b=0.5} -- GREEN
-            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, (x + x2) / 2, (y + y2) / 2, color)
+            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 604800, (x + x2) / 2, (y + y2) / 2, color)
         end
     end
 
@@ -444,7 +444,7 @@ BWOEvents.Arson = function(params)
                 if SandboxVars.Bandits.General_ArrivalIcon then
                     local icon = "media/ui/arson.png"
                     local color = {r=1, g=0, b=0} -- red
-                    BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, square:getX(), square:getY(), color)
+                    BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, square:getX(), square:getY(), color)
                 end
             end
         end
@@ -761,7 +761,7 @@ BWOEvents.Protest = function(params)
     if SandboxVars.Bandits.General_ArrivalIcon then
         local icon = "media/ui/protests.png"
         local color = {r=0, g=1, b=0} -- red
-        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, params.x, params.y, color)
+        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 28800, params.x, params.y, color)
     end
 end
 
@@ -855,7 +855,7 @@ BWOEvents.Entertainer = function(params)
 
         if SandboxVars.Bandits.General_ArrivalIcon then
             local color = {r=1, g=0.7, b=0.8} -- pink
-            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, event.x, event.y, color)
         end
     end
 end
@@ -1004,7 +1004,7 @@ BWOEvents.BuildingParty = function(params)
     if SandboxVars.Bandits.General_ArrivalIcon then
         local icon = "media/ui/defend.png"
         local color = {r=1, g=0.7, b=0.8} -- PINK
-        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, (bx + bx2) / 2, (by + by2) / 2, color)
+        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, (bx + bx2) / 2, (by + by2) / 2, color)
     end
 end
 
@@ -1061,7 +1061,7 @@ BWOEvents.CallCops = function(params)
         else
             color = {r=0, g=1, b=0} -- green
         end
-        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, params.x, params.y, color)
+        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, params.x, params.y, color)
     end
 
     BWOPopControl.Police.Cooldown = 30
@@ -1163,7 +1163,7 @@ BWOEvents.CallMedics = function(params)
     if SandboxVars.Bandits.General_ArrivalIcon then
         local icon = "media/ui/medics.png"
         local color = {r=0, g=1, b=0} -- green
-        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, params.x, params.y, color)
+        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, params.x, params.y, color)
     end
 
     BWOPopControl.Medics.Cooldown = 45
@@ -1257,7 +1257,7 @@ BWOEvents.CallFireman = function(params)
     if SandboxVars.Bandits.General_ArrivalIcon then
         local icon = "media/ui/crew.png"
         local color = {r=1, g=0, b=0} -- red
-        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, x, y, color)
+        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, x, y, color)
     end
 
     BWOPopControl.Fireman.Cooldown = 25
@@ -1310,7 +1310,7 @@ BWOEvents.Thieves = function(params)
         if SandboxVars.Bandits.General_ArrivalIcon then
             local icon = "media/ui/thief.png"
             local color = {r=1, g=1, b=0.5} -- yellow
-            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, event.x, event.y, color)
         end
 
         if SandboxVars.Bandits.General_ArrivalWakeUp then
@@ -1357,7 +1357,7 @@ BWOEvents.PoliceRiot = function(params)
         if SandboxVars.Bandits.General_ArrivalIcon then
             local icon = "media/ui/sheriff.png"
             local color = {r=1, g=0, b=0} -- orange
-            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, event.x, event.y, color)
         end
     end
 end
@@ -1398,7 +1398,7 @@ BWOEvents.Criminals = function(params)
         if SandboxVars.Bandits.General_ArrivalIcon then
             local icon = "media/ui/raid.png"
             local color = {r=1, g=0.5, b=0} -- orange
-            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, event.x, event.y, color)
         end
     end
 end
@@ -1439,7 +1439,7 @@ BWOEvents.Bandits = function(params)
         if SandboxVars.Bandits.General_ArrivalIcon then
             local icon = "media/ui/loot.png"
             local color = {r=1, g=0.5, b=0} -- orange
-            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, event.x, event.y, color)
         end
     end
 end
@@ -1480,7 +1480,7 @@ BWOEvents.Bikers = function(params)
         if SandboxVars.Bandits.General_ArrivalIcon then
             local icon = "media/ui/loot.png"
             local color = {r=1, g=0.5, b=0} -- orange
-            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, event.x, event.y, color)
         end
     end
 end
@@ -1521,7 +1521,7 @@ BWOEvents.Inmates = function(params)
         if SandboxVars.Bandits.General_ArrivalIcon then
             local icon = "media/ui/loot.png"
             local color = {r=1, g=0.5, b=0} -- orange
-            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, event.x, event.y, color)
         end
     end
 end
@@ -1562,7 +1562,7 @@ BWOEvents.Asylum = function(params)
         if SandboxVars.Bandits.General_ArrivalIcon then
             local icon = "media/ui/loot.png"
             local color = {r=1, g=0.5, b=0} -- orange
-            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, event.x, event.y, color)
         end
     end
 end
@@ -1603,7 +1603,7 @@ BWOEvents.Army = function(params)
         if SandboxVars.Bandits.General_ArrivalIcon then
             local icon = "media/ui/raid.png"
             local color = {r=0, g=1, b=0} -- green
-            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, event.x, event.y, color)
         end
     end
 end
@@ -1651,7 +1651,7 @@ BWOEvents.ArmyPatrol = function(params)
         if SandboxVars.Bandits.General_ArrivalIcon then
             local icon = "media/ui/raid.png"
             local color = {r=0, g=1, b=0} -- green
-            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 10, event.x, event.y, color)
+            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, event.x, event.y, color)
         end
     end
 end

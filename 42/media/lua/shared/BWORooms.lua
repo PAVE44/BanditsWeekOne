@@ -1247,15 +1247,6 @@ BWORooms.tab = {
         income = 1
     }, 
 
-    policegunstorage = {
-        isStorage = true,
-        occupations = {"policeofficer"},
-        outfits = {"Police"},
-        hasPistolChance = 100,
-        pistolMagCount = 3,
-        melee = {"Base.Nightstick"}
-    },
-
     policestorage = {
         isStorage = true,
         occupations = {"policeofficer"},

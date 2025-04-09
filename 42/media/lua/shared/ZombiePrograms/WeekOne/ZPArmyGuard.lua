@@ -58,7 +58,12 @@ ZombiePrograms.ArmyGuard.Main = function(bandit)
     if Bandit.IsHostile(bandit) then
         mindist = 50
     end
-    local closestPlayer = BanditUtils.GetClosestPlayerLocation(bandit, false)
+
+    local config = {}
+    config.mustSee = false
+    config.hearDist = 20
+
+    local closestPlayer = BanditUtils.GetClosestPlayerLocation(bandit, config)
     if closestPlayer.dist < mindist then
         Bandit.Say(bandit, "SPOTTED")
         Bandit.ClearTasks(bandit)
