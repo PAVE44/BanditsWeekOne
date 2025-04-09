@@ -82,6 +82,7 @@ ZombiePrograms.Active.Main = function(bandit)
         endurance = 0
     end 
  
+ 
     local target = {}
     local enemy
 
