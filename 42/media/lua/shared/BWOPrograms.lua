@@ -426,7 +426,7 @@ end
 
 BanditPrograms.FallbackAction = function(bandit)
     local tasks = {}
-    local action = ZombRand(50)
+    local action = ZombRand(10)
 
     if action == 0 then
         local task = {action="Time", anim="ShiftWeight", time=200}
@@ -460,6 +460,9 @@ BanditPrograms.FallbackAction = function(bandit)
         end
         local anim = BanditUtils.Choice({"Talk1", "Talk2", "Talk3", "Talk4", "Talk5"})
         local task = {action="Time", anim=anim, time=200}
+        table.insert(tasks, task)
+    else
+        local task = {action="Time", anim="ChewNails", time=200}
         table.insert(tasks, task)
     end
 

@@ -88,6 +88,10 @@ BWOPopControl.StreetsSpawn = function(cnt)
     local rainIntensity = cm:getRainIntensity()
     local px, py = player:getX(), player:getY()
 
+    local args = {
+        size = 1
+    }
+
     for i = 1, cnt do
         local x = 35 + ZombRand(25)
         local y = 35 + ZombRand(25)
@@ -98,93 +102,45 @@ BWOPopControl.StreetsSpawn = function(cnt)
         local square = cell:getGridSquare(px + x, py + y, 0)
         if square then
             if square:isOutside() and not BWOSquareLoader.IsInExclusion(square:getX(), square:getY()) then
-                local groundType = BanditUtils.GetGroundType(square) 
-                if true or groundType == "street" then
-                    config = {}
-                    config.clanId = 0
-                    config.hasRifleChance = 0
-                    config.hasPistolChance = SandboxVars.BanditsWeekOne.StreetsPistolChance
-                    config.rifleMagCount = 0
-                    config.pistolMagCount = 1
                 
-                    local event = {}
-                    event.x = square:getX()
-                    event.y = square:getY()
-                    event.hostile = false
-                    event.occured = false
-                    event.program = {}
-                    event.program.name = "Walker"
-                    event.program.stage = "Prepare"
-                    event.bandits = {}
-                
-                    local bandit
+                args.x = square:getX()
+                args.y = square:getY()
+                args.z = square:getZ()
 
-                    local zombieType = ItemPickerJava.getSquareZombiesType(square)
-                    if zombieType and zombieType == "Army" then
-                        config.hasRifleChance = 100
-                        config.hasPistolChance = 100
-                        config.rifleMagCount = 4 + ZombRand(3)
-                        config.pistolMagCount = 2 + ZombRand(2)
-                        bandit = BanditCreator.MakeFromWave(config)
-                        bandit.weapons.melee = "Base.HuntingKnife"
-                        bandit.outfit = BanditUtils.Choice({"ArmyCamoGreen", "ArmyInstructor", "ArmyCamoDesert"})
-                        bandit.femaleChance = 0
-                        event.program.name = "Patrol"
-                        event.program.stage = "Prepare"
-                    else
-                        
-                        local rnd = ZombRand(100)
-                        if rnd < 4 then
-                            bandit = BanditCreator.MakeFromWave(config)
-                            bandit.weapons.melee = "Base.BareHands"
-                            bandit.outfit = BanditUtils.Choice({"StreetSports"})
-                            event.program.name = "Runner"
-                            event.program.stage = "Prepare"
-                        elseif rnd < 8 then 
-                            bandit = BanditCreator.MakeFromWave(config)
-                            bandit.weapons.melee = "Base.BareHands"
-                            bandit.outfit = BanditUtils.Choice({"Postal"})
-                            event.program.name = "Postal"
-                            event.program.stage = "Prepare"
-                        elseif rnd < 13 then 
-                            bandit = BanditCreator.MakeFromWave(config)
-                            bandit.weapons.melee = "Base.BareHands"
-                            bandit.outfit = BanditUtils.Choice({"Farmer"})
-                            event.program.name = "Gardener"
-                            event.program.stage = "Prepare"
-                        elseif rnd < 16 then 
-                            bandit = BanditCreator.MakeFromWave(config)
-                            bandit.weapons.melee = "Base.BareHands"
-                            bandit.outfit = BanditUtils.Choice({"Sanitation"})
-                            bandit.weapons.melee = "Base.Broom"
-                            event.program.name = "Janitor"
-                            event.program.stage = "Prepare"
-                        elseif rnd < 17 then 
-                            -- config.clanId = 0
-                            bandit = BanditCreator.MakeFromWave(config)
-                            bandit.weapons.melee = "Base.BareHands"
-                            bandit.outfit = BanditUtils.Choice({"Bandit"})
-                            bandit.weapons.melee = "Base.Crowbar"
-                            event.program.name = "Vandal"
-                            event.program.stage = "Prepare"
-                        else
-                            bandit = BanditCreator.MakeFromWave(config)
-                            bandit.weapons.melee = "Base.BareHands"
-                            if rainIntensity > 0.02 then
-                                bandit.outfit = BanditUtils.Choice({"BWORainGeneric01", "BWORainGeneric02", "BWORainGeneric03"})
-                            else
-                                bandit.outfit = BanditUtils.Choice({"Generic05", "Generic04", "Generic03", "Generic02", "Generic01",
-                                                                    "BWOCow", "BWOYoung", "BWOLeather", "BWOFormal"})
-                            end
-
-                            event.program.name = "Walker"
-                            event.program.stage = "Prepare"
-                        end
-                    end
+                local zombieType = ItemPickerJava.getSquareZombiesType(square)
+                if zombieType and zombieType == "Army" then
+                    args.cid = "d2860ee6-7e18-4132-ad42-8fb3a34ea499" -- army green
+                    args.program = "Patrol"
+                else
                     
-                    table.insert(event.bandits, bandit)
-                    sendClientCommand(player, 'Commands', 'SpawnGroup', event)
+                    local rnd = ZombRand(100)
+                    if rnd < 4 then
+                        args.cid = "bd53300c-f715-4cf7-a91f-1836a2282944"
+                        args.program = "Runner"
+                    elseif rnd < 8 then 
+                        args.cid = "e216b4ea-e57f-4b15-8cd8-140b82e7b5ea"
+                        args.program = "Postal"
+                    elseif rnd < 13 then 
+                        args.cid = "76e0eb48-ee72-45ac-9b1b-56a66f597235"
+                        args.program = "Gardener"
+                    elseif rnd < 16 then 
+                        args.cid = "e195497c-9a14-4c1f-b15a-b8227d15a682" 
+                        args.program = "Janitor"
+                    elseif rnd < 17 then
+                        args.cid = "72fbcd15-a81b-476a-8c25-1b2caea694de"
+                        args.program = "Vandal"
+                    else
+                        if rainIntensity > 0.02 then
+                            args.cid = "c167d1e0-c077-4ee5-b353-88b374de193d" -- walker rain fixme 
+                        else
+                            args.cid = "c167d1e0-c077-4ee5-b353-88b374de193d" -- walker fixme 
+                        end
+
+                        args.program = "Walker"
+                    end
                 end
+
+                sendClientCommand(player, 'Spawner', 'Clan', args)
             end
         end
     end
@@ -590,7 +546,7 @@ BWOPopControl.UpdateCivs = function()
     -- ts = getTimestampMs()
     local missing = BWOPopControl.StreetsMax - BWOPopControl.StreetsCnt
     if missing > 20 then missing = 20 end
-    if missing > 0 then
+    if missing >= 1 then
         BWOPopControl.StreetsSpawn(missing)
     elseif missing < 0 then
         local surplus = -missing
@@ -611,7 +567,7 @@ BWOPopControl.UpdateCivs = function()
     --ts = getTimestampMs()
     local missing = BWOPopControl.InhabitantsMax - BWOPopControl.InhabitantsCnt
     if missing > 20 then missing = 20 end
-    if missing > 0 then
+    if missing >= 1 then
         BWOPopControl.InhabitantsSpawn(missing)
     elseif missing < 0 then
         local surplus = -missing
@@ -631,7 +587,7 @@ BWOPopControl.UpdateCivs = function()
     --ts = getTimestampMs()
     local missing = BWOPopControl.SurvivorsMax - BWOPopControl.SurvivorsCnt
     if missing > 4 then missing = 4 end
-    if missing > 0 then
+    if missing >= 1 then
         BWOPopControl.SurvivorsSpawn(missing)
     elseif missing < 0 then
         local surplus = -missing

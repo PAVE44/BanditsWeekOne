@@ -3046,7 +3046,7 @@
 	weapons: primary = Base.VarmintRifle
 	weapons: secondary = Base.Pistol2
 	weapons: melee = Base.FightingKnife
-	ammo: primary = 4
+	ammo: primary = 3
 	ammo: secondary = 2
 	bag: name = Base.Bag_RifleCaseClothCamo
 
@@ -3814,6 +3814,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	clothing: Hat = Base.Hat_BaseballCap_FireDept
 	clothing: Tshirt = Base.Tshirt_Profession_FiremanBlue
 	clothing: Jacket = Base.Jacket_Fireman
 	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Brown
@@ -4439,8 +4440,8 @@
 
 [919fcb27-4867-4f37-9346-d911aeb694f9]
 	general: modid = BanditsWeekOne
-	general: cid = c167d1e0-c077-4ee5-b353-88b374de193d
-	general: name = Civ_24
+	general: cid = bd53300c-f715-4cf7-a91f-1836a2282944
+	general: name = Runner_14
 	general: female = false
 	general: skin = 2
 	general: hairType = 15
@@ -4485,7 +4486,7 @@
 
 [3e6d3a03-e966-41e3-87ad-f9838de3b0be]
 	general: modid = BanditsWeekOne
-	general: cid = c167d1e0-c077-4ee5-b353-88b374de193d
+	general: cid = 76e0eb48-ee72-45ac-9b1b-56a66f597235
 	general: name = Civ_19
 	general: female = false
 	general: skin = 3
@@ -4532,7 +4533,7 @@
 
 [e28657c4-196c-4aed-a434-42b596e4d3ba]
 	general: modid = BanditsWeekOne
-	general: cid = c167d1e0-c077-4ee5-b353-88b374de193d
+	general: cid = 76e0eb48-ee72-45ac-9b1b-56a66f597235
 	general: name = Civ_20
 	general: female = false
 	general: skin = 3
@@ -4554,8 +4555,8 @@
 
 [8c92de5a-568b-41ca-9079-cedde1cdd80c]
 	general: modid = BanditsWeekOne
-	general: cid = c167d1e0-c077-4ee5-b353-88b374de193d
-	general: name = Civ_25
+	general: cid = bd53300c-f715-4cf7-a91f-1836a2282944
+	general: name = Runner_15
 	general: female = false
 	general: skin = 2
 	general: hairType = 10
@@ -4575,13 +4576,13 @@
 
 [0995a3e2-1eee-4cc4-9f02-367991832a48]
 	general: modid = BanditsWeekOne
-	general: cid = c167d1e0-c077-4ee5-b353-88b374de193d
-	general: name = Civ_26
+	general: cid = bd53300c-f715-4cf7-a91f-1836a2282944
+	general: name = Runner_16
 	general: female = true
-	general: skin = 2
+	general: skin = 5
 	general: hairType = 36
 	general: beardType = 1
-	general: hairColor = 1
+	general: hairColor = 12
 	general: health = 5
 	general: strength = 5
 	general: endurance = 5
@@ -4596,8 +4597,8 @@
 
 [08c17bc1-2b48-457d-a8e4-ca70c81a2a6b]
 	general: modid = BanditsWeekOne
-	general: cid = c167d1e0-c077-4ee5-b353-88b374de193d
-	general: name = Civ_40
+	general: cid = f8c5c06b-2fd7-482d-8150-2be03d446927
+	general: name = Medic_01
 	general: female = false
 	general: skin = 1
 	general: hairType = 17
@@ -4607,20 +4608,21 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 8
 	general: exp2 = 0
 	general: exp3 = 0
-	clothing: Hat = Base.Hat_SurgicalCap
+	clothing: Eyes = Base.Glasses_Normal
 	clothing: Tshirt = Base.Tshirt_Scrubs
 	clothing: Hands = Base.Gloves_Surgical
 	clothing: Pants = Base.Trousers_Scrubs
 	clothing: Shoes = Base.Shoes_Brown
 	weapons: melee = Base.Scalpel
+	bag: name = Base.Bag_MedicalBag
 
 [c79b57fb-c329-48b0-aa83-a2d40b2b80d5]
 	general: modid = BanditsWeekOne
-	general: cid = c167d1e0-c077-4ee5-b353-88b374de193d
-	general: name = Civ_41
+	general: cid = f8c5c06b-2fd7-482d-8150-2be03d446927
+	general: name = Medic_05
 	general: female = true
 	general: skin = 1
 	general: hairType = 34
@@ -4630,7 +4632,7 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 8
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: Tshirt = Base.Tshirt_Scrubs
@@ -4668,8 +4670,8 @@
 
 [774b044c-e951-47a0-a38b-2a0fcbe0bd25]
 	general: modid = BanditsWeekOne
-	general: cid = c167d1e0-c077-4ee5-b353-88b374de193d
-	general: name = Civ_27
+	general: cid = bd53300c-f715-4cf7-a91f-1836a2282944
+	general: name = Runner_17
 	general: female = true
 	general: skin = 2
 	general: hairType = 36
@@ -4689,8 +4691,8 @@
 
 [34ce55e8-c6eb-4143-8ee8-bcd06808c0f0]
 	general: modid = BanditsWeekOne
-	general: cid = c167d1e0-c077-4ee5-b353-88b374de193d
-	general: name = Civ_28
+	general: cid = bd53300c-f715-4cf7-a91f-1836a2282944
+	general: name = Runner_18
 	general: female = false
 	general: skin = 2
 	general: hairType = 36
@@ -4711,7 +4713,7 @@
 
 [a42e0a79-87ec-4b18-aebc-481427fa75d1]
 	general: modid = BanditsWeekOne
-	general: cid = c167d1e0-c077-4ee5-b353-88b374de193d
+	general: cid = 76e0eb48-ee72-45ac-9b1b-56a66f597235
 	general: name = Civ_21
 	general: female = true
 	general: skin = 3
@@ -4733,7 +4735,7 @@
 
 [140a117b-4052-4207-889b-4b910a588f0f]
 	general: modid = BanditsWeekOne
-	general: cid = c167d1e0-c077-4ee5-b353-88b374de193d
+	general: cid = 76e0eb48-ee72-45ac-9b1b-56a66f597235
 	general: name = Civ_22
 	general: female = true
 	general: skin = 4
@@ -4755,7 +4757,7 @@
 
 [7061705e-692f-43f7-9b49-7eb4b8d67f58]
 	general: modid = BanditsWeekOne
-	general: cid = c167d1e0-c077-4ee5-b353-88b374de193d
+	general: cid = 76e0eb48-ee72-45ac-9b1b-56a66f597235
 	general: name = Civ_23
 	general: female = true
 	general: skin = 3
@@ -4777,8 +4779,8 @@
 
 [58520256-c128-48bd-bb5e-a7b76c17f887]
 	general: modid = BanditsWeekOne
-	general: cid = c167d1e0-c077-4ee5-b353-88b374de193d
-	general: name = Civ_29
+	general: cid = bd53300c-f715-4cf7-a91f-1836a2282944
+	general: name = Runner_19
 	general: female = false
 	general: skin = 2
 	general: hairType = 34
@@ -5866,4 +5868,770 @@
 	clothing: UnderwearExtra1 = Base.TightsFishnets
 	clothing: Skirt = Base.Skirt_Mini
 	clothing: Shoes = Base.Shoes_RidingBoots
+
+[e25ac528-7482-4e64-9ee1-b72f68972ce1]
+	general: modid = BanditsWeekOne
+	general: cid = bd53300c-f715-4cf7-a91f-1836a2282944
+	general: name = Runner_01
+	general: female = false
+	general: skin = 1
+	general: hairType = 15
+	general: beardType = 1
+	general: hairColor = 3
+	general: health = 5
+	general: strength = 5
+	general: endurance = 6
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: ShortsShort = Base.Shorts_ShortSport
+	clothing: Shoes = Base.Shoes_RedTrainers
+	clothing: Socks = Base.Socks_Ankle_White
+	weapons: melee = Base.BareHands
+
+[91a0e2a4-c8ad-451c-95c0-9e8510782a0e]
+	general: modid = BanditsWeekOne
+	general: cid = bd53300c-f715-4cf7-a91f-1836a2282944
+	general: name = Runner_02
+	general: female = false
+	general: skin = 1
+	general: hairType = 17
+	general: beardType = 1
+	general: hairColor = 8
+	general: health = 5
+	general: strength = 5
+	general: endurance = 6
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Eyes = Base.Glasses_Shooting
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: ShortsShort = Base.Shorts_ShortSport
+	clothing: Shoes = Base.Shoes_BlueTrainers
+	clothing: Socks = Base.Socks_Ankle_White
+	weapons: melee = Base.BareHands
+
+[1db49cf1-561d-4944-9df3-1ac98b368aa4]
+	general: modid = BanditsWeekOne
+	general: cid = bd53300c-f715-4cf7-a91f-1836a2282944
+	general: name = Runner_03
+	general: female = false
+	general: skin = 2
+	general: hairType = 33
+	general: beardType = 1
+	general: hairColor = 1
+	general: health = 5
+	general: strength = 5
+	general: endurance = 6
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Hat = Base.Hat_Sweatband
+	clothing: TankTop = Base.Vest_DefaultTEXTURE_TINT
+	clothing: ShortsShort = Base.Shorts_ShortSport
+	clothing: Shoes = Base.Shoes_TrainerTINT
+	clothing: Socks = Base.Socks_Ankle_White
+	weapons: melee = Base.BareHands
+
+[50a8bb85-e1ce-40d5-b41e-8621ca251fee]
+	general: modid = BanditsWeekOne
+	general: cid = bd53300c-f715-4cf7-a91f-1836a2282944
+	general: name = Runner_04
+	general: female = false
+	general: skin = 2
+	general: hairType = 29
+	general: beardType = 8
+	general: hairColor = 2
+	general: health = 5
+	general: strength = 5
+	general: endurance = 6
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: TankTop = Base.Vest_DefaultTEXTURE_TINT
+	clothing: ShortsShort = Base.Shorts_ShortSport
+	clothing: Shoes = Base.Shoes_TrainerTINT
+	clothing: Socks = Base.Socks_Ankle_White
+	weapons: melee = Base.BareHands
+
+[047cc2d8-eb00-41df-bcf6-2d3e85bf30fa]
+	general: modid = BanditsWeekOne
+	general: cid = bd53300c-f715-4cf7-a91f-1836a2282944
+	general: name = Runner_05
+	general: female = false
+	general: skin = 2
+	general: hairType = 2
+	general: beardType = 4
+	general: hairColor = 13
+	general: health = 5
+	general: strength = 5
+	general: endurance = 6
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Eyes = Base.Glasses_Aviators
+	clothing: TankTop = Base.Vest_DefaultTEXTURE_TINT
+	clothing: ShortsShort = Base.Shorts_ShortSport
+	clothing: Shoes = Base.Shoes_TrainerTINT
+	clothing: Socks = Base.Socks_Ankle_White
+	weapons: melee = Base.BareHands
+
+[60ed3c66-e6b4-46cc-adb1-19af20995d4d]
+	general: modid = BanditsWeekOne
+	general: cid = bd53300c-f715-4cf7-a91f-1836a2282944
+	general: name = Runner_06
+	general: female = false
+	general: skin = 4
+	general: hairType = 14
+	general: beardType = 1
+	general: hairColor = 12
+	general: health = 5
+	general: strength = 5
+	general: endurance = 6
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: ShortsShort = Base.Shorts_ShortSport
+	clothing: Shoes = Base.Shoes_RedTrainers
+	clothing: Socks = Base.Socks_Ankle_White
+	weapons: melee = Base.BareHands
+
+[364ffd11-0b22-42ed-b087-055d527dbcc7]
+	general: modid = BanditsWeekOne
+	general: cid = bd53300c-f715-4cf7-a91f-1836a2282944
+	general: name = Runner_07
+	general: female = false
+	general: skin = 5
+	general: hairType = 36
+	general: beardType = 1
+	general: hairColor = 12
+	general: health = 5
+	general: strength = 5
+	general: endurance = 6
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Eyes = Base.Glasses_CatsEye_Sun
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: ShortsShort = Base.Shorts_ShortSport
+	clothing: Shoes = Base.Shoes_RedTrainers
+	clothing: Socks = Base.Socks_Ankle_White
+	weapons: melee = Base.BareHands
+
+[f169fe35-ba2d-4d26-a2b9-e927f84e5088]
+	general: modid = BanditsWeekOne
+	general: cid = bd53300c-f715-4cf7-a91f-1836a2282944
+	general: name = Runner_08
+	general: female = true
+	general: skin = 2
+	general: hairType = 36
+	general: beardType = 1
+	general: hairColor = 3
+	general: health = 5
+	general: strength = 5
+	general: endurance = 6
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Eyes = Base.Glasses_CatsEye_Sun
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: ShortsShort = Base.Shorts_ShortSport
+	clothing: Shoes = Base.Shoes_RedTrainers
+	clothing: Socks = Base.Socks_Ankle_White
+	weapons: melee = Base.BareHands
+
+[65e4ff1f-cbef-494d-9f03-dc50d244bf78]
+	general: modid = BanditsWeekOne
+	general: cid = bd53300c-f715-4cf7-a91f-1836a2282944
+	general: name = Runner_09
+	general: female = true
+	general: skin = 2
+	general: hairType = 36
+	general: beardType = 1
+	general: hairColor = 3
+	general: health = 5
+	general: strength = 5
+	general: endurance = 6
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Hat = Base.Hat_Bandana
+	clothing: Eyes = Base.Glasses_CatsEye_Sun
+	clothing: Tshirt = Base.BoobTubeSmall
+	clothing: ShortsShort = Base.Shorts_ShortSport
+	clothing: Shoes = Base.Shoes_BlueTrainers
+	clothing: Socks = Base.Socks_Ankle_White
+	weapons: melee = Base.BareHands
+
+[c71c4e3f-74ab-4f6b-ba23-851464de537b]
+	general: modid = BanditsWeekOne
+	general: cid = bd53300c-f715-4cf7-a91f-1836a2282944
+	general: name = Runner_10
+	general: female = true
+	general: skin = 2
+	general: hairType = 38
+	general: beardType = 1
+	general: hairColor = 1
+	general: health = 5
+	general: strength = 5
+	general: endurance = 6
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Eyes = Base.Glasses_Aviators
+	clothing: Tshirt = Base.BoobTube
+	clothing: ShortsShort = Base.Shorts_ShortSport
+	clothing: Shoes = Base.Shoes_BlueTrainers
+	clothing: Socks = Base.Socks_Ankle_White
+	weapons: melee = Base.BareHands
+
+[8068ac13-8c39-44cf-974a-71c2dc51861a]
+	general: modid = BanditsWeekOne
+	general: cid = bd53300c-f715-4cf7-a91f-1836a2282944
+	general: name = Runner_11
+	general: female = true
+	general: skin = 3
+	general: hairType = 6
+	general: beardType = 1
+	general: hairColor = 2
+	general: health = 5
+	general: strength = 5
+	general: endurance = 6
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Tshirt = Base.Tshirt_LongSleeve_SuperColor
+	clothing: ShortsShort = Base.Shorts_ShortFormal
+	clothing: Shoes = Base.Shoes_BlueTrainers
+	clothing: Socks = Base.Socks_Ankle_White
+	weapons: melee = Base.BareHands
+
+[7e52e902-cd66-4b7c-99df-9a5a3e61b85c]
+	general: modid = BanditsWeekOne
+	general: cid = bd53300c-f715-4cf7-a91f-1836a2282944
+	general: name = Runner_13
+	general: female = true
+	general: skin = 3
+	general: hairType = 36
+	general: beardType = 1
+	general: hairColor = 3
+	general: health = 5
+	general: strength = 5
+	general: endurance = 6
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Tshirt = Base.Tshirt_SuperColor
+	clothing: ShortPants = Base.Shorts_LongSport_Red
+	clothing: Shoes = Base.Shoes_RedTrainers
+	clothing: Socks = Base.Socks_Ankle_White
+	weapons: melee = Base.BareHands
+
+[76b45146-7888-41f9-affc-cc94e2f566e4]
+	general: modid = BanditsWeekOne
+	general: cid = bd53300c-f715-4cf7-a91f-1836a2282944
+	general: name = Runner_07
+	general: female = false
+	general: skin = 4
+	general: hairType = 14
+	general: beardType = 1
+	general: hairColor = 12
+	general: health = 5
+	general: strength = 5
+	general: endurance = 6
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Hat = Base.Hat_Sweatband
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: ShortsShort = Base.Shorts_ShortSport
+	clothing: Shoes = Base.Shoes_RedTrainers
+	clothing: Socks = Base.Socks_Ankle_White
+	weapons: melee = Base.BareHands
+
+[d14f2faa-066f-494b-b01d-c14de763434d]
+	general: modid = BanditsWeekOne
+	general: cid = 76e0eb48-ee72-45ac-9b1b-56a66f597235
+	general: name = Gardener_01
+	general: female = false
+	general: skin = 1
+	general: hairType = 1
+	general: beardType = 1
+	general: hairColor = 1
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+
+[298585b9-7060-410d-8750-5d3440a5e7cf]
+	general: modid = BanditsWeekOne
+	general: cid = e216b4ea-e57f-4b15-8cd8-140b82e7b5ea
+	general: name = Postal_01
+	general: female = false
+	general: skin = 1
+	general: hairType = 10
+	general: beardType = 1
+	general: hairColor = 1
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Hat = Base.Hat_BaseballCap
+	clothing: Neck = Base.Tie_Worn
+	clothing: Shirt = Base.Shirt_FormalWhite
+	clothing: ShortsShort = Base.Shorts_ShortFormal
+	clothing: Shoes = Base.Shoes_Black
+	clothing: Socks = Base.Socks_Long
+	weapons: melee = Base.BareHands
+	bag: name = Base.Bag_Satchel_Mail
+
+[4bb85470-5f14-4f6b-bfd2-4af2312e6dd8]
+	general: modid = BanditsWeekOne
+	general: cid = e216b4ea-e57f-4b15-8cd8-140b82e7b5ea
+	general: name = Postal_02
+	general: female = true
+	general: skin = 2
+	general: hairType = 10
+	general: beardType = 1
+	general: hairColor = 1
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Hat = Base.Hat_BaseballCap
+	clothing: Neck = Base.Tie_Worn
+	clothing: Shirt = Base.Shirt_FormalWhite
+	clothing: ShortsShort = Base.Shorts_ShortFormal
+	clothing: Shoes = Base.Shoes_Black
+	clothing: Socks = Base.Socks_Long
+	weapons: melee = Base.BareHands
+	bag: name = Base.Bag_Satchel_Mail
+
+[2fa73084-1715-4a4f-aa29-9a8683521940]
+	general: modid = BanditsWeekOne
+	general: cid = e216b4ea-e57f-4b15-8cd8-140b82e7b5ea
+	general: name = Postal_02
+	general: female = false
+	general: skin = 4
+	general: hairType = 10
+	general: beardType = 8
+	general: hairColor = 12
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Hat = Base.Hat_BaseballCap
+	clothing: Neck = Base.Tie_Worn
+	clothing: Shirt = Base.Shirt_FormalWhite
+	clothing: ShortsShort = Base.Shorts_ShortFormal
+	clothing: Shoes = Base.Shoes_Black
+	clothing: Socks = Base.Socks_Long
+	weapons: melee = Base.BareHands
+	bag: name = Base.Bag_Satchel_Mail
+
+[8cfecee6-c3c0-4059-81b8-c05a1ee38456]
+	general: modid = BanditsWeekOne
+	general: cid = e216b4ea-e57f-4b15-8cd8-140b82e7b5ea
+	general: name = Postal_03
+	general: female = true
+	general: skin = 3
+	general: hairType = 6
+	general: beardType = 1
+	general: hairColor = 11
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Hat = Base.Hat_BaseballCap
+	clothing: Neck = Base.Tie_Worn
+	clothing: Shirt = Base.Shirt_FormalWhite
+	clothing: ShortsShort = Base.Shorts_ShortFormal
+	clothing: Shoes = Base.Shoes_Black
+	clothing: Socks = Base.Socks_Long
+	weapons: melee = Base.BareHands
+	bag: name = Base.Bag_Satchel_Mail
+
+[81dc5220-a9fb-4348-af8f-39411c3d1d05]
+	general: modid = BanditsWeekOne
+	general: cid = e195497c-9a14-4c1f-b15a-b8227d15a682
+	general: name = Janitor_01
+	general: female = false
+	general: skin = 3
+	general: hairType = 29
+	general: beardType = 10
+	general: hairColor = 13
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Boilersuit = Base.Boilersuit_BlueRed
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: UnderwearBottom = Base.Briefs_White
+	clothing: Hands = Base.Gloves_Dish
+	clothing: Shoes = Base.Shoes_WorkBoots
+	clothing: Socks = Base.Socks_Ankle
+	weapons: melee = Base.Broom
+
+[c4103168-af0a-4d5d-977e-0a10b9f986ce]
+	general: modid = BanditsWeekOne
+	general: cid = e195497c-9a14-4c1f-b15a-b8227d15a682
+	general: name = Janitor_02
+	general: female = false
+	general: skin = 2
+	general: hairType = 29
+	general: beardType = 8
+	general: hairColor = 2
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Boilersuit = Base.Boilersuit_BlueRed
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: UnderwearBottom = Base.Briefs_White
+	clothing: Hands = Base.Gloves_Dish
+	clothing: Shoes = Base.Shoes_WorkBoots
+	clothing: Socks = Base.Socks_Ankle
+	weapons: melee = Base.Broom
+
+[f15080d1-ff36-4538-89ed-a6ba2e8b33a6]
+	general: modid = BanditsWeekOne
+	general: cid = e195497c-9a14-4c1f-b15a-b8227d15a682
+	general: name = Janitor_03
+	general: female = false
+	general: skin = 5
+	general: hairType = 1
+	general: beardType = 8
+	general: hairColor = 12
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Hat = Base.Hat_Beany
+	clothing: Boilersuit = Base.Boilersuit_BlueRed
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: TorsoExtraVest = Base.Vest_HighViz
+	clothing: UnderwearBottom = Base.Briefs_White
+	clothing: Hands = Base.Gloves_Dish
+	clothing: Shoes = Base.Shoes_WorkBoots
+	clothing: Socks = Base.Socks_Ankle
+	weapons: melee = Base.Broom
+
+[da9171d2-b732-4092-822c-8dfb4db94fae]
+	general: modid = BanditsWeekOne
+	general: cid = e195497c-9a14-4c1f-b15a-b8227d15a682
+	general: name = Janitor_04
+	general: female = false
+	general: skin = 3
+	general: hairType = 21
+	general: beardType = 1
+	general: hairColor = 12
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Boilersuit = Base.Boilersuit_BlueRed
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: TorsoExtraVest = Base.Vest_HighViz
+	clothing: UnderwearBottom = Base.Briefs_White
+	clothing: Hands = Base.Gloves_Dish
+	clothing: Shoes = Base.Shoes_WorkBoots
+	clothing: Socks = Base.Socks_Ankle
+	weapons: melee = Base.Broom
+
+[bffc7d86-5f56-4ad1-a60d-372bcb3abada]
+	general: modid = BanditsWeekOne
+	general: cid = e195497c-9a14-4c1f-b15a-b8227d15a682
+	general: name = Janitor_05
+	general: female = false
+	general: skin = 4
+	general: hairType = 36
+	general: beardType = 10
+	general: hairColor = 13
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Boilersuit = Base.Boilersuit_BlueRed
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: UnderwearBottom = Base.Briefs_White
+	clothing: Hands = Base.Gloves_Dish
+	clothing: Shoes = Base.Shoes_WorkBoots
+	clothing: Socks = Base.Socks_Ankle
+	weapons: melee = Base.Broom
+
+[89c66411-ca2b-4efc-a2c7-1a2cedcfe425]
+	general: modid = BanditsWeekOne
+	general: cid = e195497c-9a14-4c1f-b15a-b8227d15a682
+	general: name = Janitor_06
+	general: female = false
+	general: skin = 5
+	general: hairType = 36
+	general: beardType = 1
+	general: hairColor = 12
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Boilersuit = Base.Boilersuit_BlueRed
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: UnderwearBottom = Base.Briefs_White
+	clothing: Hands = Base.Gloves_Dish
+	clothing: Shoes = Base.Shoes_WorkBoots
+	clothing: Socks = Base.Socks_Ankle
+	weapons: melee = Base.Broom
+
+[f03baf3d-45a0-4e48-a22e-0de3422f6dca]
+	general: modid = BanditsWeekOne
+	general: cid = f8c5c06b-2fd7-482d-8150-2be03d446927
+	general: name = Medic_02
+	general: female = false
+	general: skin = 2
+	general: hairType = 17
+	general: beardType = 4
+	general: hairColor = 12
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 8
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Tshirt = Base.Tshirt_Scrubs
+	clothing: Hands = Base.Gloves_Surgical
+	clothing: Pants = Base.Trousers_Scrubs
+	clothing: Shoes = Base.Shoes_Brown
+	weapons: melee = Base.Scalpel
+
+[2d813e04-15e8-4a74-b2ab-55afba1a696b]
+	general: modid = BanditsWeekOne
+	general: cid = f8c5c06b-2fd7-482d-8150-2be03d446927
+	general: name = Medic_03
+	general: female = false
+	general: skin = 3
+	general: hairType = 34
+	general: beardType = 8
+	general: hairColor = 7
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 8
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Eyes = Base.Glasses_Round_Normal
+	clothing: Tshirt = Base.Tshirt_Scrubs
+	clothing: JacketSuit = Base.JacketLong_Doctor
+	clothing: Hands = Base.Gloves_Surgical
+	clothing: Pants = Base.Trousers_SuitWhite_White
+	clothing: Shoes = Base.Shoes_Black
+	weapons: melee = Base.Scalpel
+
+[1c966f5a-42aa-4f61-9242-b5fd7ed98fa3]
+	general: modid = BanditsWeekOne
+	general: cid = f8c5c06b-2fd7-482d-8150-2be03d446927
+	general: name = Medic_06
+	general: female = true
+	general: skin = 1
+	general: hairType = 17
+	general: beardType = 1
+	general: hairColor = 8
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 8
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Eyes = Base.Glasses_Cosmetic_Normal_HornRimmed
+	clothing: Tshirt = Base.Tshirt_Scrubs
+	clothing: JacketSuit = Base.JacketLong_Doctor
+	clothing: Pants = Base.Trousers_SuitWhite_White
+	clothing: Shoes = Base.Shoes_Black
+	weapons: melee = Base.Scalpel
+	bag: name = Base.Bag_Satchel_Medical
+
+[3ee8a1c2-4bd7-429b-be5c-307f0fdc8669]
+	general: modid = BanditsWeekOne
+	general: cid = f8c5c06b-2fd7-482d-8150-2be03d446927
+	general: name = Medic_04
+	general: female = false
+	general: skin = 2
+	general: hairType = 29
+	general: beardType = 5
+	general: hairColor = 13
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 8
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Eyes = Base.Glasses_Cosmetic_Round_Normal
+	clothing: Tshirt = Base.Tshirt_Scrubs
+	clothing: Hands = Base.Gloves_Surgical
+	clothing: Pants = Base.Trousers_Scrubs
+	clothing: Shoes = Base.Shoes_Brown
+	weapons: melee = Base.Scalpel
+	bag: name = Base.Bag_Satchel_Medical
+
+[5c76c7bf-eedb-48b1-ba95-202d44056931]
+	general: modid = BanditsWeekOne
+	general: cid = cfccfa27-f256-47a0-bd7c-b2d12b369c6d
+	general: name = MedicH_01
+	general: female = false
+	general: skin = 1
+	general: hairType = 4
+	general: beardType = 4
+	general: hairColor = 4
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 8
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: FullSuitHead = Base.HazmatSuit
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: UnderwearBottom = Base.Briefs_White
+	clothing: Shoes = Base.Shoes_WorkBoots
+	clothing: Socks = Base.Socks_Ankle
+	weapons: melee = Base.BareHands
+
+[a8504c48-c815-46de-9902-61d419a0e0f0]
+	general: modid = BanditsWeekOne
+	general: cid = cfccfa27-f256-47a0-bd7c-b2d12b369c6d
+	general: name = MedicH_02
+	general: female = false
+	general: skin = 3
+	general: hairType = 6
+	general: beardType = 2
+	general: hairColor = 4
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 8
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: FullSuitHead = Base.HazmatSuit
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: UnderwearBottom = Base.Briefs_White
+	clothing: Shoes = Base.Shoes_WorkBoots
+	clothing: Socks = Base.Socks_Ankle
+	weapons: melee = Base.BareHands
+
+[c8eecaf4-422a-466f-87db-ae7ab8ee85b2]
+	general: modid = BanditsWeekOne
+	general: cid = cfccfa27-f256-47a0-bd7c-b2d12b369c6d
+	general: name = MedicH_03
+	general: female = true
+	general: skin = 1
+	general: hairType = 2
+	general: beardType = 4
+	general: hairColor = 2
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 8
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: FullSuitHead = Base.HazmatSuit
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: UnderwearBottom = Base.Briefs_White
+	clothing: Shoes = Base.Shoes_WorkBoots
+	clothing: Socks = Base.Socks_Ankle
+	weapons: melee = Base.BareHands
+
+[7df751ff-a9a6-475b-bc35-e4cc8bbb1d08]
+	general: modid = BanditsWeekOne
+	general: cid = 42364b66-ab03-4c38-b374-5575a0c24868
+	general: name = Party_02
+	general: female = true
+	general: skin = 1
+	general: hairType = 20
+	general: beardType = 1
+	general: hairColor = 12
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Eyes = Base.Glasses_Prescription_Shooting
+	clothing: Tshirt = Base.Shirt_CropTopNoArmTINT
+	clothing: UnderwearBottom = Base.FrillyUnderpants_Red
+	clothing: UnderwearTop = Base.Bra_Strapless_FrillyRed
+	clothing: UnderwearExtra1 = Base.StockingsWhite
+	clothing: Skirt = Base.Skirt_Mini
+	clothing: Shoes = Base.Shoes_RidingBoots
+
+[46fc3b4a-588f-4a5e-9bd6-a9e5849a3040]
+	general: modid = BanditsWeekOne
+	general: cid = 42364b66-ab03-4c38-b374-5575a0c24868
+	general: name = Party_03
+	general: female = true
+	general: skin = 1
+	general: hairType = 39
+	general: beardType = 1
+	general: hairColor = 1
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: UnderwearBottom = Base.Briefs_AnimalPrints
+	clothing: UnderwearTop = Base.Bra_Strapless_AnimalPrint
+	clothing: Shoes = Base.Shoes_CowboyBoots_SnakeSkin
 

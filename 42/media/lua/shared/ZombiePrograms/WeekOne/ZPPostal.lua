@@ -1,35 +1,12 @@
 ZombiePrograms = ZombiePrograms or {}
 
 ZombiePrograms.Postal = {}
-ZombiePrograms.Postal.Stages = {}
-
-ZombiePrograms.Postal.Init = function(bandit)
-end
-
-ZombiePrograms.Postal.GetCapabilities = function()
-    -- capabilities are program decided
-    local capabilities = {}
-    capabilities.melee = false
-    capabilities.shoot = false
-    capabilities.smashWindow = not BWOPopControl.Police.On
-    capabilities.openDoor = true
-    capabilities.breakDoor = not BWOPopControl.Police.On
-    capabilities.breakObjects = not BWOPopControl.Police.On
-    capabilities.unbarricade = false
-    capabilities.disableGenerators = false
-    capabilities.sabotageCars = false
-    return capabilities
-end
 
 ZombiePrograms.Postal.Prepare = function(bandit)
     local tasks = {}
-    local world = getWorld()
-    local cell = getCell()
-    local cm = world:getClimateManager()
-    local dls = cm:getDayLightStrength()
 
     Bandit.ForceStationary(bandit, false)
-
+  
     return {status=true, next="Main", tasks=tasks}
 end
 
@@ -42,7 +19,8 @@ ZombiePrograms.Postal.Main = function(bandit)
     local tasks = {}
 
     local cell = bandit:getCell()
-    local id = BanditUtils.GetCharacterID(bandit)
+    local brain = BanditBrain.Get(bandit)
+    local id = brain.id
     local bx = bandit:getX()
     local by = bandit:getY()
     local bz = bandit:getZ()

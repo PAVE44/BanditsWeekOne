@@ -1614,7 +1614,7 @@ BWOEvents.BuildingParty = function(params)
 
     -- inhabitants
     local args = {
-        cid = "c167d1e0-c077-4ee5-b353-88b374de193d", -- fixme to party
+        cid = "42364b66-ab03-4c38-b374-5575a0c24868",
         program = "Inhabitant"
     }
 
@@ -1682,7 +1682,8 @@ BWOEvents.CallCops = function(params)
         cid = BanditUtils.Choice(cids),
         size = 2,
         program = "Police",
-        hostile = params.hostile,
+        occupation = "Police", 
+        hostileP = params.hostile,
         x = x + 6,
         y = y + 6,
         z = z
@@ -1731,7 +1732,8 @@ BWOEvents.CallSWAT = function(params)
         cid = "b6c61446-ad6c-4529-9bac-751b9b64843f", -- swat
         size = 6,
         program = "Police",
-        hostile = params.hostile,
+        occupation = "Police", 
+        hostileP = params.hostile,
         x = x + 6,
         y = y + 6,
         z = z
@@ -1777,9 +1779,10 @@ BWOEvents.CallMedics = function(params)
     end
   
     local args = {
-        cid = "b6c61446-ad6c-4529-9bac-751b9b64843f", -- fixme
+        cid = "f8c5c06b-2fd7-482d-8150-2be03d446927", 
         size = 2,
         program = "Medic",
+        occupation = "Medic", 
         hostile = false,
         x = x + 6,
         y = y + 6,
@@ -1821,10 +1824,11 @@ BWOEvents.CallHazmats = function(params)
     end
 
     local args = {
-        cid = "b6c61446-ad6c-4529-9bac-751b9b64843f", -- fixme
+        cid = "cfccfa27-f256-47a0-bd7c-b2d12b369c6d",
         size = 3,
         program = "Medic",
-        hostile = false,
+        occupation = "Medic", 
+        hostileP = false,
         x = x + 6,
         y = y + 6,
         z = z
@@ -1898,15 +1902,18 @@ BWOEvents.SpawnGroup = function(params)
     local density = BWOBuildings.GetDensityScore(player, 120) / 6000
     if density > 1.5 then density = 1.5 end
 
+    local occupation = "None"
     local intensity = math.floor(params.intensity * density * SandboxVars.BanditsWeekOne.BanditsPopMultiplier + 0.4)
     if params.name == "Army" then
         intensity = math.floor(params.intensity * density * SandboxVars.BanditsWeekOne.ArmyPopMultiplier + 0.4)
+        occupation = "Army"
     end
     if intensity < 1 then return end
 
     local args = {
         cid = params.cid, -- fixme
         size = intensity,
+        occupation = occupation, 
         program = params.program
     }
 
@@ -1926,7 +1933,7 @@ BWOEvents.SpawnGroup = function(params)
         local color = {r=1, g=0, b=0} -- red
 
         if params.name == "Army" then
-            local color = {r=0, g=1, b=0} -- green
+            color = {r=0, g=1, b=0} -- green
         end
 
         BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, sp.x, sp.y, color, desc)

@@ -1157,16 +1157,16 @@ BWOChat.Say = function(chatMessage, quiet)
                 if v.action then
                     if v.action == "HOSTILE" then
                         Bandit.SetProgram(bandit, "Active", {})
-                        Bandit.SetHostile(bandit, true)
+                        Bandit.SetHostileP(bandit, true)
                         colors = {r=1, g=0, b=0}
                     elseif v.action == "JOIN" then
                         Bandit.SetProgram(bandit, "Babe", {})
-                        Bandit.SetHostile(bandit, false)
+                        Bandit.SetHostileP(bandit, false)
                         brain.permanent = true
                         colors = {r=0, g=1, b=0}
                     elseif v.action == "RELAX" and brain.program.name == "Active" then
                         Bandit.SetProgram(bandit, "Walker", {})
-                        Bandit.SetHostile(bandit, false)
+                        Bandit.SetHostileP(bandit, false)
                         colors = {r=0, g=1, b=0}
                     elseif v.action == "LEAVE" and brain.program.name == "Babe" then
                         Bandit.SetProgram(bandit, "Walker", {})

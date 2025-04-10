@@ -1,58 +1,18 @@
 ZombiePrograms = ZombiePrograms or {}
 
 ZombiePrograms.Shahid = {}
-ZombiePrograms.Shahid.Stages = {}
-
-ZombiePrograms.Shahid.Init = function(bandit)
-end
-
-ZombiePrograms.Shahid.GetCapabilities = function()
-    -- capabilities are program decided
-    local capabilities = {}
-    capabilities.melee = true
-    capabilities.shoot = true
-    capabilities.smashWindow = true
-    capabilities.openDoor = true
-    capabilities.breakDoor = true
-    capabilities.breakObjects = true
-    capabilities.unbarricade = true
-    capabilities.disableGenerators = false
-    capabilities.sabotageCars = false
-    return capabilities
-end
 
 ZombiePrograms.Shahid.Prepare = function(bandit)
     local tasks = {}
-    local world = getWorld()
-    local cell = getCell()
-    local cm = world:getClimateManager()
-    local dls = cm:getDayLightStrength()
-    local id = BanditUtils.GetCharacterID(bandit)
-    local weapons = Bandit.GetWeapons(bandit)
-
-    if math.abs(id) % 13 == 0 and not bandit:isFemale() then
-        local brain = BanditBrain.Get(bandit)
-        brain.bag = "Briefcase"
-        local fakeItem = BanditCompatibility.InstanceItem("Base.Briefcase")
-        --local fakeItem = BanditCompatibility.InstanceItem("Base.Briefcase")
-        --local fakeItem = BanditCompatibility.InstanceItem("Base.Flightcase")
-        --local fakeItem = BanditCompatibility.InstanceItem("Base.Cooler")
-        bandit:setPrimaryHandItem(fakeItem)
-    elseif math.abs(id) % 5 == 0 and bandit:isFemale() then
-        weapons.melee = "Base.PurseWeapon"
-        local task = {action="Equip", itemPrimary=weapons.melee}
-        table.insert(tasks, task)
-    end
 
     Bandit.ForceStationary(bandit, false)
-
+  
     return {status=true, next="Main", tasks=tasks}
 end
 
 ZombiePrograms.Shahid.Main = function(bandit)
     local tasks = {}
     local health = bandit:getHealth()
-
     local endurance = 0
     local walkType = "Run"
 

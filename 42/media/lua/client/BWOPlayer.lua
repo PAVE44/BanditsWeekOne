@@ -11,7 +11,7 @@ BWOPlayer.wasSleeping = false
 -- make npcs react to actual crime
 BWOPlayer.ActivateWitness = function(character, min)
     local activatePrograms = {"Patrol", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal", "Medic", "Fireman"}
-    local braveList = {"Police", "MallSecurity", "ArmyCamoGreen", "ArmyCamoDesert", "ArmyInstructor", "ZSArmySpecialOps", "BWOMilitaryOfficer"}
+    local braveList = {"Police", "Security", "Army"}
     local witnessList = BanditZombie.GetAllB()
     for id, witness in pairs(witnessList) do
         if witness.brain.clan == 0 then
@@ -25,17 +25,16 @@ BWOPlayer.ActivateWitness = function(character, min)
                     for _, prg in pairs(activatePrograms) do
                         if witness.brain.program.name == prg then
                             Bandit.ClearTasks(actor)
-                            local outfit = actor:getOutfitName()
                             local brave = false
                             for _, v in pairs(braveList) do
-                                if v == outfit then
+                                if v == witness.brain.occupation then
                                     brave = true
                                     break
                                 end
                             end
                             if brave then
                                 Bandit.SetProgram(actor, "Police", {})
-                                Bandit.SetHostile(actor, true)
+                                Bandit.SetHostileP(actor, true)
                                 Bandit.Say(actor, "SPOTTED")
                             else
                                 local r = 4
@@ -43,18 +42,9 @@ BWOPlayer.ActivateWitness = function(character, min)
 
                                 Bandit.SetProgram(actor, "Active", {})
                                 if ZombRand(r) == 0 then
-                                    Bandit.SetHostile(actor, true)
+                                    Bandit.SetHostileP(actor, true)
                                 end
                                 Bandit.Say(actor, "REACTCRIME")
-                            end
-
-                            local brain = BanditBrain.Get(actor)
-                            if brain then
-                                local syncData = {}
-                                syncData.id = brain.id
-                                syncData.hostile = brain.hostile
-                                syncData.program = brain.program
-                                Bandit.ForceSyncPart(actor, syncData)
                             end
                         end
                     end
@@ -67,10 +57,9 @@ end
 -- make npcs react to threat possibility (player aiming or swinging weapon)
 BWOPlayer.ActivateTargets = function(character, min, severity)
     local activatePrograms = {"Patrol", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal", "Medic", "Fireman"}
-    local braveList = {"Police", "MallSecurity", "ArmyCamoGreen", "ArmyCamoDesert", "ArmyInstructor", "ZSArmySpecialOps", "BWOMilitaryOfficer"}
+    local braveList = {"Police", "Security", "Army"}
     local witnessList = BanditZombie.GetAllB()
     local wasLegal = false
-    local activateList = {}
     for id, witness in pairs(witnessList) do
         local dist = math.sqrt(math.pow(character:getX() - witness.x, 2) + math.pow(character:getY() - witness.y, 2))
         if dist < min then
@@ -83,51 +72,37 @@ BWOPlayer.ActivateTargets = function(character, min, severity)
                 if canSee1 and canSee2 then
                     for _, prg in pairs(activatePrograms) do
                         if witness.brain.program.name == prg then
-                            table.insert(activateList, actor)
+                            Bandit.ClearTasks(actor)
+                            local brave = false
+                            for _, v in pairs(braveList) do
+                                if v == witness.brain.occupation then
+                                    brave = true
+                                    break
+                                end
+                            end
+                            if brave then
+                                Bandit.SetProgram(actor, "Police", {})
+                                if not wasLegal then
+                                    if severity == 2 then
+                                        Bandit.SetHostileP(actor, true)
+                                    end
+                                    Bandit.Say(actor, "SPOTTED")
+                                end
+                            else
+                                Bandit.SetProgram(actor, "Active", {})
+                                if not wasLegal then
+                                    local r = 4
+                                    if actor:isFemale() then r = 9 end
+                                    if ZombRand(r) == 0 and severity == 2 then
+                                        Bandit.SetHostileP(actor, true)
+                                    end
+                                    Bandit.Say(actor, "REACTCRIME")
+                                end
+                            end
                         end
                     end
                 end
             end
-        end
-    end
-
-    for _, actor in pairs(activateList) do
-        Bandit.ClearTasks(actor)
-        local outfit = actor:getOutfitName()
-        local brave = false
-        for _, v in pairs(braveList) do
-            if v == outfit then
-                brave = true
-                break
-            end
-        end
-        if brave then
-            Bandit.SetProgram(actor, "Police", {})
-            if not wasLegal then
-                if severity == 2 then
-                    Bandit.SetHostile(actor, true)
-                end
-                Bandit.Say(actor, "SPOTTED")
-            end
-        else
-            Bandit.SetProgram(actor, "Active", {})
-            if not wasLegal then
-                local r = 4
-                if actor:isFemale() then r = 9 end
-                if ZombRand(r) == 0 and severity == 2 then
-                    Bandit.SetHostile(actor, true)
-                end
-                Bandit.Say(actor, "REACTCRIME")
-            end
-        end
-
-        local brain = BanditBrain.Get(actor)
-        if brain then
-            local syncData = {}
-            syncData.id = brain.id
-            syncData.hostile = brain.hostile
-            syncData.program = brain.program
-            Bandit.ForceSyncPart(actor, syncData)
         end
     end
 end
@@ -196,7 +171,7 @@ BWOPlayer.Pay = function(character, cnt)
 end
 
 -- controls npc reaction to player violence
-local checkHostility = function(bandit, attacker)
+BWOPlayer.CheckFriendlyFire = function(bandit, attacker)
 
     if not attacker then return end
 
@@ -208,7 +183,7 @@ local checkHostility = function(bandit, attacker)
     if not bandit:getVariableBoolean("Bandit") or not brain then return end
 
     -- killing bandits is ok!
-    if brain.clan ~= 0 or brain.program.name == "Thief" or brain.program.name == "Vandal" then 
+    if brain.program.name == "Vandal" then 
         if instanceof(attacker, "IsoPlayer") and not attacker:isNPC() then
             local profession = player:getDescriptor():getProfession()
             if BWOScheduler.Anarchy.Transactions and profession == "policeofficer" then
@@ -229,7 +204,7 @@ local checkHostility = function(bandit, attacker)
     -- who saw this changes program
     local witnessList = BanditZombie.GetAllB()
     for id, witness in pairs(witnessList) do
-        if not witness.brain.hostile and witness.brain.clan == 0 then
+        if not witness.brain.hostileP then
             local dist = math.sqrt(math.pow(bandit:getX() - witness.x, 2) + math.pow(bandit:getY() - witness.y, 2))
             if dist < 15 then
                 local actor = BanditZombie.GetInstanceById(witness.id)
@@ -241,11 +216,10 @@ local checkHostility = function(bandit, attacker)
                     params.z = bandit:getZ()
 
                     local wasPlayerFault = false
-                    if instanceof(attacker, "IsoPlayer") and not attacker:isNPC() and brain.clan == 0 and brain.program.name ~= "Thief" and brain.program.name ~= "Vandal" then
+                    if instanceof(attacker, "IsoPlayer") and not attacker:isNPC() then
                         wasPlayerFault = true
                         if brain.id ~= id then
-                            local outfit = bandit:getOutfitName()
-                            if outfit == "Police" then
+                            if brain.occupation == "Police" then
                                 if BWOPopControl.SWAT.On then
                                     params.hostile = true
                                     BWOScheduler.Add("CallSWAT", params, 19500)
@@ -276,31 +250,21 @@ local checkHostility = function(bandit, attacker)
                     local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal"}
                     for _, prg in pairs(activatePrograms) do
                         if witness.brain.program.name == prg then 
-                            local outfit = actor:getOutfitName()
-                            if outfit == "Police" or outfit == "Security" or outfit == "MallSecurity" or outfit == "ZSArmySpecialOps" or outfit == "ArmyCamoGreen"  then
+                            if witness.brain.occupation == "Police" or witness.brain.occupation == "Security" or witness.brain.occupation == "Army" then
                                 Bandit.ClearTasks(actor)
                                 Bandit.SetProgram(actor, "Police", {})
                                 if wasPlayerFault then
-                                    Bandit.SetHostile(actor, true)
+                                    Bandit.SetHostileP(actor, true)
                                 end
                             else
                                 if ZombRand(4) > 0 then
                                     Bandit.ClearTasks(actor)
                                     Bandit.SetProgram(actor, "Active", {})
                                     if wasPlayerFault and ZombRand(2) == 0 then
-                                        Bandit.SetHostile(actor, true)
+                                        Bandit.SetHostileP(actor, true)
                                     end
                                     Bandit.Say(actor, "REACTCRIME")
                                 end
-                            end
-
-                            local brain = BanditBrain.Get(actor)
-                            if brain then
-                                local syncData = {}
-                                syncData.id = brain.id
-                                syncData.hostile = brain.hostile
-                                syncData.program = brain.program
-                                Bandit.ForceSyncPart(actor, syncData)
                             end
                         end
                     end
@@ -310,11 +274,11 @@ local checkHostility = function(bandit, attacker)
     end
 end
 
+-- force overwrite Bandits logic
+BanditPlayer.CheckFriendlyFire = BWOPlayer.CheckFriendlyFire
+
 -- detecting crime based on who got killed by player
 local onHitZombie = function(zombie, attacker, bodyPartType, handWeapon)
-    BWOPlayer.aimTime = -25
-    checkHostility(zombie, attacker)
-
     local brain = BanditBrain.Get(zombie)
     if brain and brain.program.name == "Shahid" then
         zombie:Kill(nil)
@@ -328,93 +292,11 @@ local onZombieDead = function(zombie)
 
     BWOPlayer.aimTime = -25
 
-    if not zombie:getVariableBoolean("Bandit") then return end
-
-    local player = getSpecificPlayer(0)
-    if not player then return end
-
-    local bandit = zombie
-
-    Bandit.Say(bandit, "DEAD", true)
-
-    local attacker = bandit:getAttackedBy()
-    if not attacker then
-        attacker = bandit:getTarget()
-    end
-
-    checkHostility(bandit, attacker)
-
     -- register dead body
-    local args = {x=bandit:getX(), y=bandit:getY(), z=bandit:getZ()}
+    local player = getSpecificPlayer(0)
+    local args = {x=zombie:getX(), y=zombie:getY(), z=zombie:getZ()}
     sendClientCommand(player, 'Commands', 'DeadBodyAdd', args)
 
-    local params ={}
-    params.x = bandit:getX()
-    params.y = bandit:getY()
-    params.z = bandit:getZ()
-    params.hostile = false
-
-    -- deprovision bandit (bandit main function is no longer doing that for clan 0)
-
-    bandit:setUseless(false)
-    bandit:setReanim(false)
-    bandit:setVariable("Bandit", false)
-    bandit:setPrimaryHandItem(nil)
-    bandit:clearAttachedItems()
-    bandit:resetEquippedHandsModels()
-    -- bandit:getInventory():clear()
-    local brain = BanditBrain.Get(zombie)
-    if brain.bag then
-        if brain.bag == "Briefcase" then
-            local bag = BanditCompatibility.InstanceItem("Base.Briefcase")
-            local bagContainer = bag:getItemContainer()
-            if bagContainer then
-                local rn = ZombRand(3)
-                if rn == 0 then
-                    for i = 1, 1000 do
-                        local money = instanceItem("Base.Money")
-                        bagContainer:AddItem(money)
-                    end
-                elseif rn == 1 then
-                    local c1 = BanditCompatibility.InstanceItem("Base.Corset_Black")
-                    local c2 = BanditCompatibility.InstanceItem("Base.StockingsBlack")
-                    local c3 = BanditCompatibility.InstanceItem("Base.Hat_PeakedCapArmy")
-                    bagContainer:AddItem(c1)
-                    bagContainer:AddItem(c2)
-                    bagContainer:AddItem(c3)
-                elseif rn == 2 then
-                    local c1 = BanditCompatibility.InstanceItem("Base.Machete")
-                    bagContainer:AddItem(c1)
-                    if BanditCompatibility.GetGameVersion() >= 42 then
-                        local c2 = BanditCompatibility.InstanceItem("Base.Hat_HalloweenMaskVampire")
-                        local c3 = BanditCompatibility.InstanceItem("Base.BlackRobe")
-                        bagContainer:AddItem(c2)
-                        bagContainer:AddItem(c3)
-                    end
-                end
-                bandit:getSquare():AddWorldInventoryItem(bag, ZombRandFloat(0.2, 0.8), ZombRandFloat(0.2, 0.8), 0)
-            end
-        end
-    end
-
-    if brain.key and ZombRand(3) == 1 then
-        local item = BanditCompatibility.InstanceItem("Base.Key1")
-        item:setKeyId(brain.key)
-        item:setName("Building Key")
-        bandit:getInventory():AddItem(item)
-        Bandit.UpdateItemsToSpawnAtDeath(bandit)
-    end
-
-    --[[ wont work because of clan=1
-    if brain.program.name == "Babe" then
-        local color = player:getSpeakColour()
-        player:addLineChatElement("Babe! No!", color:getR(), color:getG(), color:getB())
-    end]]
-
-    args = {}
-    args.id = brain.id
-    sendClientCommand(player, 'Commands', 'BanditRemove', args)
-    BanditBrain.Remove(bandit)
 end
 
 --INTERCEPTORS
@@ -857,7 +739,7 @@ local function onPlayerDeath(player)
         if civ.brain.clan == 0 and civ.brain.hostile then
             local actor = BanditZombie.GetInstanceById(civ.brain.id)
             if actor then
-                Bandit.SetHostile(actor, false)
+                Bandit.SetHostileP(actor, false)
             end
         end
     end

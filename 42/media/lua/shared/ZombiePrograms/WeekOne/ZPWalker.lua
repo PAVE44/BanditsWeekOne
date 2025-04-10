@@ -1,34 +1,15 @@
 ZombiePrograms = ZombiePrograms or {}
 
 ZombiePrograms.Walker = {}
-ZombiePrograms.Walker.Stages = {}
 
-ZombiePrograms.Walker.Init = function(bandit)
-end
-
-ZombiePrograms.Walker.GetCapabilities = function()
-    -- capabilities are program decided
-    local capabilities = {}
-    capabilities.melee = false
-    capabilities.shoot = false
-    capabilities.smashWindow = not BWOPopControl.Police.On
-    capabilities.openDoor = true
-    capabilities.breakDoor = not BWOPopControl.Police.On
-    capabilities.breakObjects = not BWOPopControl.Police.On
-    capabilities.unbarricade = false
-    capabilities.disableGenerators = false
-    capabilities.sabotageCars = false
-    return capabilities
-end
 
 ZombiePrograms.Walker.Prepare = function(bandit)
     local tasks = {}
-    local world = getWorld()
-    local cell = getCell()
-    local cm = world:getClimateManager()
-    local dls = cm:getDayLightStrength()
-    local id = BanditUtils.GetCharacterID(bandit)
-    local weapons = Bandit.GetWeapons(bandit)
+
+    Bandit.ForceStationary(bandit, false)
+
+    local brain = BanditBrain.Get(bandit)
+    local id = brain.id
 
     if math.abs(id) % 13 == 0 and not bandit:isFemale() then
         local brain = BanditBrain.Get(bandit)
@@ -38,24 +19,16 @@ ZombiePrograms.Walker.Prepare = function(bandit)
         --local fakeItem = BanditCompatibility.InstanceItem("Base.Flightcase")
         --local fakeItem = BanditCompatibility.InstanceItem("Base.Cooler")
         bandit:setPrimaryHandItem(fakeItem)
-    elseif math.abs(id) % 5 == 0 and bandit:isFemale() then
-        weapons.melee = "Base.PurseWeapon"
-        local task = {action="Equip", itemPrimary=weapons.melee}
-        table.insert(tasks, task)
     end
-
-    Bandit.ForceStationary(bandit, false)
 
     return {status=true, next="Main", tasks=tasks}
 end
 
 ZombiePrograms.Walker.Main = function(bandit)
-    local ts = getTimestampMs()
-
     local tasks = {}
-
     local cell = bandit:getCell()
-    local id = BanditUtils.GetCharacterID(bandit)
+    local brain = BanditBrain.Get(bandit)
+    local id = brain.id
     local bx = bandit:getX()
     local by = bandit:getY()
     local bz = bandit:getZ()
@@ -88,33 +61,7 @@ ZombiePrograms.Walker.Main = function(bandit)
         Bandit.ForceSyncPart(bandit, syncData)
         return {status=true, next="Main", tasks=tasks}
     end
-    -- print ("WALKER 1: " .. (getTimestampMs() - ts))
-
-    -- if has a specifit outfit change program
-    --[[
-    local outfit = bandit:getOutfitName()
-    if outfit == "Postal" then
-        Bandit.ClearTasks(bandit)
-        Bandit.SetProgram(bandit, "Postal", {})
-
-        local brain = BanditBrain.Get(bandit)
-        local syncData = {}
-        syncData.id = brain.id
-        syncData.program = brain.program
-        Bandit.ForceSyncPart(bandit, syncData)
-        return {status=true, next="Main", tasks=tasks}
-    elseif outfit == "Farmer" then
-        Bandit.ClearTasks(bandit)
-        Bandit.SetProgram(bandit, "Gardener", {})
-
-        local brain = BanditBrain.Get(bandit)
-        local syncData = {}
-        syncData.id = brain.id
-        syncData.program = brain.program
-        Bandit.ForceSyncPart(bandit, syncData)
-        return {status=true, next="Main", tasks=tasks}
-    end]]
-    
+   
     -- symptoms
     if math.abs(id) % 4 > 0 then
         if BWOScheduler.SymptomLevel == 3 then
@@ -134,8 +81,7 @@ ZombiePrograms.Walker.Main = function(bandit)
     else
         if BWOScheduler.SymptomLevel >= 4 then walkType = "Run" end
     end
-    -- print ("WALKER 2: " .. (getTimestampMs() - ts))
-    
+  
     -- react to events
     if BWOScheduler.SymptomLevel < 4 then
         local subTasks = BanditPrograms.Events(bandit)
@@ -146,8 +92,6 @@ ZombiePrograms.Walker.Main = function(bandit)
             return {status=true, next="Main", tasks=tasks}
         end
     end
-    -- print ("WALKER 3: " .. (getTimestampMs() - ts))
-
 
     -- atm
     if BWOScheduler.SymptomLevel < 4 then
@@ -159,7 +103,6 @@ ZombiePrograms.Walker.Main = function(bandit)
             return {status=true, next="Main", tasks=tasks}
         end
     end
-    -- print ("WALKER 4: " .. (getTimestampMs() - ts))
 
     -- grill time
     if BWOScheduler.SymptomLevel < 3 and ((hour >= 12 and hour < 15) or (hour >= 18 and hour < 23)) then
@@ -206,7 +149,6 @@ ZombiePrograms.Walker.Main = function(bandit)
                                 local dist = math.sqrt(math.pow(bandit:getX() - (square:getX() + 0.5), 2) + math.pow(bandit:getY() - (square:getY() + 0.5), 2))
                                 if dist > 1.20 then
                                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
-                                    print ("WALKER 7: " .. (getTimestampMs() - ts))
                                     return {status=true, next="Main", tasks=tasks}
                                 else
                                     local task = {action="BarbecueLit", anim="Loot", x=object:getX(), y=object:getY(), z=object:getZ(), time=100}
@@ -220,7 +162,6 @@ ZombiePrograms.Walker.Main = function(bandit)
             end
         end
     end
-    -- print ("WALKER 8: " .. (getTimestampMs() - ts))
 
     -- chair/bench rest
     if BWOScheduler.SymptomLevel < 4 then 
@@ -232,7 +173,6 @@ ZombiePrograms.Walker.Main = function(bandit)
             return {status=true, next="Main", tasks=tasks}
         end
     end
-    -- print ("WALKER 9: " .. (getTimestampMs() - ts))
 
     -- interact with players and other npcs
     -- dont do it on the street tho
@@ -248,7 +188,6 @@ ZombiePrograms.Walker.Main = function(bandit)
             end
         --end
     end
-    -- print ("WALKER 10: " .. (getTimestampMs() - ts))
 
     -- most pedestrian will follow the street / road, some will just "gosomwhere" for variability
     --
@@ -261,7 +200,6 @@ ZombiePrograms.Walker.Main = function(bandit)
             return {status=true, next="Main", tasks=tasks}
         end
     end
-    -- print ("WALKER 11: " .. (getTimestampMs() - ts))
     -- go somewhere if no road is found
 
     local subTasks = BanditPrograms.GoSomewhere(bandit, walkType)
@@ -271,7 +209,6 @@ ZombiePrograms.Walker.Main = function(bandit)
         end
         return {status=true, next="Main", tasks=tasks}
     end
-    -- print ("WALKER 12: " .. (getTimestampMs() - ts))
 
     -- fallback
     local subTasks = BanditPrograms.FallbackAction(bandit)
@@ -281,6 +218,5 @@ ZombiePrograms.Walker.Main = function(bandit)
         end
     end
 
-    -- print ("WALKER 13: " .. (getTimestampMs() - ts))
     return {status=true, next="Main", tasks=tasks}
 end

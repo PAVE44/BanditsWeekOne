@@ -167,7 +167,7 @@
 	spawn: roadblock = false
 
 [c167d1e0-c077-4ee5-b353-88b374de193d]
-	general: name = Civilians
+	general: name = Walkers
 	spawn: wave = 0
 	spawn: zone = 0
 	spawn: friendly = true
@@ -202,6 +202,42 @@
 	spawn: wanderer = true
 	spawn: roadblock = false
 
+[bd53300c-f715-4cf7-a91f-1836a2282944]
+	general: name = Runners
+	spawn: wave = 0
+	spawn: zone = 0
+	spawn: friendly = true
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+
+[76e0eb48-ee72-45ac-9b1b-56a66f597235]
+	general: name = Gardeners
+	spawn: wave = 0
+	spawn: zone = 0
+	spawn: friendly = false
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+
+[f8c5c06b-2fd7-482d-8150-2be03d446927]
+	general: name = Medics
+	spawn: wave = 0
+	spawn: zone = 0
+	spawn: friendly = false
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+
 [ce526bd8-a230-4d21-a1f8-5e30790b366f]
 	general: name = ArmyGreenMask
 	spawn: wave = 0
@@ -231,6 +267,42 @@
 	spawn: wave = 0
 	spawn: zone = 0
 	spawn: friendly = true
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+
+[e216b4ea-e57f-4b15-8cd8-140b82e7b5ea]
+	general: name = Postal
+	spawn: wave = 0
+	spawn: zone = 0
+	spawn: friendly = true
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+
+[e195497c-9a14-4c1f-b15a-b8227d15a682]
+	general: name = Janitors
+	spawn: wave = 0
+	spawn: zone = 0
+	spawn: friendly = false
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+
+[cfccfa27-f256-47a0-bd7c-b2d12b369c6d]
+	general: name = MedicHazmats
+	spawn: wave = 0
+	spawn: zone = 0
+	spawn: friendly = false
 	spawn: companion = false
 	spawn: defenders = false
 	spawn: campers = false

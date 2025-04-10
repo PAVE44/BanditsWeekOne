@@ -86,7 +86,7 @@ ZombiePrograms.Active.Main = function(bandit)
     return {status=true, next="Main", tasks=tasks}
 end
 
-ZombiePrograms.Bandit.Escape = function(bandit)
+ZombiePrograms.Active.Escape = function(bandit)
     local tasks = {}
     local id = BanditUtils.GetCharacterID(bandit)
     local endurance = 0

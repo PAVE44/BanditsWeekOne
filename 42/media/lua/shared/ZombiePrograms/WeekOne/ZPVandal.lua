@@ -1,35 +1,12 @@
 ZombiePrograms = ZombiePrograms or {}
 
 ZombiePrograms.Vandal = {}
-ZombiePrograms.Vandal.Stages = {}
-
-ZombiePrograms.Vandal.Init = function(bandit)
-end
-
-ZombiePrograms.Vandal.GetCapabilities = function()
-    -- capabilities are program decided
-    local capabilities = {}
-    capabilities.melee = false
-    capabilities.shoot = false
-    capabilities.smashWindow = not BWOPopControl.Police.On
-    capabilities.openDoor = true
-    capabilities.breakDoor = not BWOPopControl.Police.On
-    capabilities.breakObjects = not BWOPopControl.Police.On
-    capabilities.unbarricade = false
-    capabilities.disableGenerators = false
-    capabilities.sabotageCars = false
-    return capabilities
-end
 
 ZombiePrograms.Vandal.Prepare = function(bandit)
     local tasks = {}
-    local world = getWorld()
-    local cell = getCell()
-    local cm = world:getClimateManager()
-    local dls = cm:getDayLightStrength()
 
     Bandit.ForceStationary(bandit, false)
-
+  
     return {status=true, next="Main", tasks=tasks}
 end
 
@@ -71,13 +48,13 @@ ZombiePrograms.Vandal.Main = function(bandit)
     end
 
     local tasks = {}
-
-    local id = BanditUtils.GetCharacterID(bandit)
+    local brain = BanditBrain.Get(bandit)
+    local id = brain.id
     local bx = bandit:getX()
     local by = bandit:getY()
     local bz = bandit:getZ()
     local walkType = "Run"
-    local endurance = 0 -- runners are fit!
+    local endurance = 0 
     local cell = bandit:getCell()
 
     -- too sick to run
