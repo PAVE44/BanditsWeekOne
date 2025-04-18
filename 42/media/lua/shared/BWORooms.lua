@@ -4,6 +4,8 @@ BWORooms.tab = {
 
     aesthetic = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Classy", "Young", "DressShort"},
         femaleChance = 100
     },
@@ -17,6 +19,7 @@ BWORooms.tab = {
     arenakitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
@@ -33,6 +36,7 @@ BWORooms.tab = {
 
     armyhanger = {
         isStorage = true,
+        cids = {Bandit.clanMap.ArmyGreen},
         occupations = {"veteran"},
         outfits = {"ArmyCamoGreen"},
         hairStyles = {"Bald", "Fresh", "Demi", "FlatTop", "MohawkShort"},
@@ -46,6 +50,7 @@ BWORooms.tab = {
 
     armystorage = {
         isStorage = true,
+        cids = {Bandit.clanMap.ArmyGreen},
         occupations = {"veteran"},
         outfits = {"ArmyCamoGreen"},
         hairStyles = {"Bald", "Fresh", "Demi", "FlatTop", "MohawkShort"},
@@ -63,6 +68,7 @@ BWORooms.tab = {
 
     armytent = {
         isStorage = true,
+        cids = {Bandit.clanMap.ArmyGreen},
         occupations = {"veteran"},
         outfits = {"ArmyCamoGreen"},
         hairStyles = {"Bald", "Fresh", "Demi", "FlatTop", "MohawkShort"},
@@ -76,12 +82,16 @@ BWORooms.tab = {
 
     artstore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Classy", "Generic02", "MallSecurity", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
 
     bakery = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Kitchen},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
@@ -89,6 +99,7 @@ BWORooms.tab = {
     bakerykitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan"},
@@ -99,6 +110,7 @@ BWORooms.tab = {
     bandkitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan"},
@@ -116,6 +128,8 @@ BWORooms.tab = {
 
     bank = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Security, Bandit.clanMap.Security},
         occupations = {"securityguard"},
         outfits = {"Classy", "Generic02", "Generic03", "Generic04", "Generic05", "Security", "OfficeWorkerSkirt"},
         femaleChance = 50
@@ -133,16 +147,20 @@ BWORooms.tab = {
 
     bar = {
         isRestaurant = true,
+        cids = {Bandit.clanMap.Walker},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "Biker", "Punk"},
     },
 
     barcountertwiggy = {
         isRestaurant = true,
+        cids = {Bandit.clanMap.ShopAssistant},
         outfits = {"Waiter_Classy"}
     },
 
     barbecuestore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
@@ -150,6 +168,7 @@ BWORooms.tab = {
     barkitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         income = 1
     },
@@ -188,12 +207,15 @@ BWORooms.tab = {
 
     beergarden = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05"},
         femaleChance = 50
     },
 
     bookstore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"IT", "Student", "Teacher", "Generic04", "Generic05"},
         femaleChance = 45
     },
@@ -217,6 +239,7 @@ BWORooms.tab = {
     burgerkitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
@@ -233,7 +256,8 @@ BWORooms.tab = {
     },
 
     butcher = {
-        isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Kitchen},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
@@ -248,6 +272,7 @@ BWORooms.tab = {
 
     cafe = {
         isRestaurant = true,
+        cids = {Bandit.clanMap.Walker},
         outfits = {"Generic02", "Generic03", "Classy", "Young", "Waiter_Restaurant"},
         femaleChance = 50
     },
@@ -255,6 +280,7 @@ BWORooms.tab = {
     cafekitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan"},
@@ -264,6 +290,7 @@ BWORooms.tab = {
 
     cafeteria = {
         isRestaurant = true,
+        cids = {Bandit.clanMap.Walker},
         outfits = {"Generic02", "Generic03", "Classy", "Young", "Waiter_Restaurant"},
         femaleChance = 50
     },
@@ -271,6 +298,7 @@ BWORooms.tab = {
     cafeteriakitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
@@ -280,12 +308,16 @@ BWORooms.tab = {
 
     camerastore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
 
     camping = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
@@ -300,12 +332,16 @@ BWORooms.tab = {
 
     candystore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
 
     carsupply = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "Mechanic", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
@@ -313,6 +349,7 @@ BWORooms.tab = {
     catfish_kitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
@@ -322,12 +359,15 @@ BWORooms.tab = {
 
     catfish_dining = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Waiter, Bandit.clanMap.Waiter},
         isRestaurant = true,
         outfits = {"Generic02", "Generic03", "Classy", "Young", "Waiter_Dining"},
         femaleChance = 50
     },
 
     cell = {
+        cids = {Bandit.clanMap.Inmate},
         occupations = {"securityguard", "policeofficer"},
         outfits = {"Inmate"},
         femaleChance = 0
@@ -340,6 +380,7 @@ BWORooms.tab = {
     chinesekitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
@@ -349,6 +390,8 @@ BWORooms.tab = {
 
     chineserestaurant = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Waiter, Bandit.clanMap.Waiter},
         isRestaurant = true,
         outfits = {"Generic02", "Generic03", "Classy", "Young", "Waiter_Dining"},
         femaleChance = 50
@@ -368,6 +411,8 @@ BWORooms.tab = {
 
     clinic = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Medics, Bandit.clanMap.Medics},
         isMedical = true,
         outfits = {"Nurse", "Doctor", "HospitalPatient"},
         income = 1
@@ -375,6 +420,8 @@ BWORooms.tab = {
 
     clothesstore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"OfficeWorkerSkirt", "DressShort", "DressNormal", "DressLong"},
         femaleChance = 100
     },
@@ -393,6 +440,8 @@ BWORooms.tab = {
 
     clothingstore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"OfficeWorkerSkirt", "DressShort", "DressNormal", "DressLong"},
         femaleChance = 100
     },
@@ -411,12 +460,16 @@ BWORooms.tab = {
 
     conveniencestore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
 
     cornerstore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
@@ -435,6 +488,7 @@ BWORooms.tab = {
     deepfry_kitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
@@ -453,11 +507,14 @@ BWORooms.tab = {
 
     departmentstore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant, Bandit.clanMap.Security},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
 
     detectiveoffice = {
+        cids = {Bandit.clanMap.Police},
         outfits = {"Detective"},
         occupations = {"policeofficer"},
         hasPistolChance = 100,
@@ -467,6 +524,8 @@ BWORooms.tab = {
 
     diner = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Waiter, Bandit.clanMap.Waiter},
         isRestaurant = true,
         outfits = {"Generic02", "Generic03", "Classy", "Young", "Waiter_Dining"},
         femaleChance = 50
@@ -479,6 +538,7 @@ BWORooms.tab = {
     dinercounter = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
@@ -489,6 +549,7 @@ BWORooms.tab = {
     dinerkitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
@@ -498,6 +559,8 @@ BWORooms.tab = {
 
     dining = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Waiter, Bandit.clanMap.Waiter},
         isRestaurant = true,
         outfits = {"Generic02", "Generic03", "Classy", "Young", "Waiter_Dining"},
         femaleChance = 50
@@ -505,12 +568,15 @@ BWORooms.tab = {
 
     dining_crepe = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Waiter, Bandit.clanMap.Waiter},
         isRestaurant = true,
         outfits = {"Generic02", "Generic03", "Classy", "Young", "Waiter_Dining"},
         femaleChance = 50
     },
 
     diningroom = {
+        cids = {Bandit.clanMap.Resident},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04"},
         melee = {"Base.SmashedBottle", "Base.Fork"},
     },
@@ -529,6 +595,8 @@ BWORooms.tab = {
 
     donut_dining = {
         isRestaurant = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Waiter, Bandit.clanMap.Waiter},
         outfits = {"Generic02", "Generic03", "Classy", "Young", "Waiter_Dining"},
         femaleChance = 50
     },
@@ -536,6 +604,7 @@ BWORooms.tab = {
     donut_kitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
@@ -570,6 +639,8 @@ BWORooms.tab = {
 
     electronicsstore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
@@ -605,6 +676,7 @@ BWORooms.tab = {
 
     firestorage = {
         isStorage = true,
+        cids = {Bandit.clanMap.Fireman},
         outfits = {"FiremanFullSuit", "Fireman"},
         melee = {"Base.BareHands", "Base.Axe"},
         femaleChance = 0,
@@ -615,6 +687,7 @@ BWORooms.tab = {
     fishchipskitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
@@ -624,11 +697,15 @@ BWORooms.tab = {
 
     fishingstorage = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Fisherman},
         occupations = {"fisherman"}
     },
 
     fossoil = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Fossoil},
         twentyfour = true,
         outfits = {"Fossoil"}
     },
@@ -645,6 +722,8 @@ BWORooms.tab = {
 
     furniturestore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "OfficeWorkerSkirt"},
         femaleChance = 50,
         income = 2
@@ -664,12 +743,17 @@ BWORooms.tab = {
 
     gardenstore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
 
     gas2go = {
-        outfits = {"Gas2Go"}
+        isShop = true,
+        outfits = {"Gas2Go"},
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Gas2Go},
     },
 
     gasstorage = {
@@ -685,6 +769,8 @@ BWORooms.tab = {
 
     generalstore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant, Bandit.clanMap.Security},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
@@ -701,18 +787,23 @@ BWORooms.tab = {
 
     giftstore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"OfficeWorkerSkirt", "DressShort", "DressNormal", "DressLong"},
         femaleChance = 100
     },
 
     gigamart = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant, Bandit.clanMap.ShopAssistant, Bandit.clanMap.Security, Bandit.clanMap.Security},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "Waiter_Market", "MallSecurity", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
 
     gigamartkitchen = {
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
@@ -722,6 +813,8 @@ BWORooms.tab = {
 
     grocery = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "OfficeWorkerSkirt"},
         femaleChance = 50,
     },
@@ -732,6 +825,8 @@ BWORooms.tab = {
 
     gunstore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Veteran},
         occupations = {"veteran"},
         outfits = {"Veteran", "PrivateMilitia", "Generic03", "Thug", "Redneck"},
         femaleChance = 0,
@@ -765,6 +860,8 @@ BWORooms.tab = {
 
     housewarestore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
@@ -791,6 +888,8 @@ BWORooms.tab = {
 
     icecream = {
         isRestaurant = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Generic02", "Generic03", "Classy", "Young", "Waiter_Dining"},
         femaleChance = 50
     },
@@ -798,6 +897,7 @@ BWORooms.tab = {
     icecreamkitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife"},
@@ -808,6 +908,7 @@ BWORooms.tab = {
     italiankitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
@@ -816,6 +917,7 @@ BWORooms.tab = {
     },
 
     interrogationroom = {
+        cids = {Bandit.clanMap.Police},
         occupations = {"policeofficer"},
         outfits = {"Police", "Detective"},
         hasPistolChance = 100,
@@ -826,6 +928,8 @@ BWORooms.tab = {
 
     italianrestaurant = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Waiter, Bandit.clanMap.Waiter},
         isRestaurant = true,
         outfits = {"Generic02", "Generic03", "Classy", "Young", "Waiter_Classy"},
         femaleChance = 50
@@ -837,6 +941,8 @@ BWORooms.tab = {
 
     jayschicken_dining = {
         isRestaurant = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Waiter, Bandit.clanMap.Waiter},
         outfits = {"Generic02", "Generic03", "Classy", "Young", "Waiter_Jays"},
         femaleChance = 50
     },
@@ -844,6 +950,7 @@ BWORooms.tab = {
     jayschicken_kitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
@@ -857,6 +964,8 @@ BWORooms.tab = {
 
     jewelrystore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant, Bandit.clanMap.Security},
         outfits = {"Classy", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
@@ -867,6 +976,7 @@ BWORooms.tab = {
 
     kitchen = {
         isKitchen = true,
+        cids = {Bandit.clanMap.Resident},
         outfits = {"Generic01", "Generic02", "Generic05"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
         femaleChance = 80
@@ -874,6 +984,7 @@ BWORooms.tab = {
 
     kitchenstorage = {
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         isStorage = true,
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
@@ -883,6 +994,7 @@ BWORooms.tab = {
     kitchen_crepe = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan"},
@@ -892,6 +1004,8 @@ BWORooms.tab = {
 
     kitchenwares = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
@@ -922,6 +1036,8 @@ BWORooms.tab = {
 
     leatherclothesstore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Biker", "Generic02", "Generic03", "Thug", "Biker", "MallSecurity", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
@@ -933,17 +1049,22 @@ BWORooms.tab = {
 
     lingeriestore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"OfficeWorkerSkirt", "DressShort", "DressNormal", "DressLong", "Naked"},
         femaleChance = 100
     },
 
     liquorstore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Redneck", "Generic01", "Generic02", "Punk"},
         melee = {"Base.SmashedBottle"}
     },
 
     livingroom = {
+        cids = {Bandit.clanMap.Resident},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04"},
         melee = {"Base.SmashedBottle", "Base.Fork"},
     },
@@ -984,6 +1105,8 @@ BWORooms.tab = {
 
     mechanic = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Mechanic, Bandit.clanMap.Mechanic, Bandit.clanMap.Mechanic},
         occupations = {"mechanic"},
         outfits = {"Mechanic"},
         femaleChance = 0,
@@ -993,6 +1116,8 @@ BWORooms.tab = {
 
     medclinic = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Medics},
         isMedical = true,
         occupations = {"doctor", "nurse"},
         outfits = {"Nurse", "Doctor", "HospitalPatient"},
@@ -1001,6 +1126,8 @@ BWORooms.tab = {
 
     medical = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Medics},
         isMedical = true,
         occupations = {"doctor", "nurse"},
         outfits = {"Nurse", "Doctor", "HospitalPatient"},
@@ -1009,6 +1136,8 @@ BWORooms.tab = {
 
     medicaloffice = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Medics},
         isMedical = true,
         occupations = {"doctor", "nurse"},
         outfits = {"Nurse", "Doctor", "HospitalPatient"},
@@ -1017,6 +1146,8 @@ BWORooms.tab = {
 
     medicalclinic = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Medics},
         isMedical = true,
         occupations = {"doctor", "nurse"},
         outfits = {"Nurse", "Doctor", "HospitalPatient"},
@@ -1051,6 +1182,7 @@ BWORooms.tab = {
     mexicankitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.Pan", "Base.GridlePan", "Base.MeatCleaver"},
@@ -1059,10 +1191,12 @@ BWORooms.tab = {
     },
 
     motelroom = {
+        cids = {Bandit.clanMap.Resident},
         outfits = {"Naked", "Bedroom", "Bedroom", "Bedroom", "Bedroom", "Bedroom", "StripperBlack", "StripperNaked", "StripperPink"}
     },
 
     motelroomoccupied = {
+        cids = {Bandit.clanMap.Resident, Bandit.clanMap.Party},
         outfits = {"Naked", "Bedroom", "Bedroom", "Bedroom", "Bedroom", "Bedroom", "StripperBlack", "StripperNaked", "StripperPink"}
     },
 
@@ -1072,18 +1206,24 @@ BWORooms.tab = {
 
     movierental = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
 
     movierentalxxx = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Thug"},
         femaleChance = 0
     },
 
     musicstore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
@@ -1102,11 +1242,13 @@ BWORooms.tab = {
 
     office = {
         outfits = {"OfficeWorkerSkirt"},
+        cids = {Bandit.clanMap.Office},
         femaleChance = 100
     },
 
     officestorage = {
         isStorage = true,
+        cids = {Bandit.clanMap.Office},
         outfits = {"OfficeWorker"},
         femaleChance = 0
     },
@@ -1121,6 +1263,8 @@ BWORooms.tab = {
 
     pawnshop = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant, Bandit.clanMap.Security},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
@@ -1140,6 +1284,8 @@ BWORooms.tab = {
     pharmacy = {
         isShop = true,
         isMedical = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Medics},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "Pharmacist"},
         femaleChance = 50
     },
@@ -1161,6 +1307,8 @@ BWORooms.tab = {
 
     pileocrepe = {
         isRestaurant = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Waiter, Bandit.clanMap.Waiter},
         outfits = {"Generic02", "Generic03", "Classy", "Young", "Waiter_PileOCrepe"},
         femaleChance = 50
     },
@@ -1168,6 +1316,7 @@ BWORooms.tab = {
     pizzakitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.RollingPin", "Base.RollingPin", "Base.RollingPin"},
@@ -1177,12 +1326,15 @@ BWORooms.tab = {
 
     pizzawhirled = {
         isRestaurant = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Waiter, Bandit.clanMap.Waiter},
         outfits = {"Generic02", "Generic03", "Classy", "Young", "Waiter_PizzaWhirled"},
         femaleChance = 50
     },
 
     pizzawhirledcounter = {
         isRestaurant = true,
+        cidSpecial = {Bandit.clanMap.Kitchen},
         outfits = {"Waiter_PizzaWhirled"},
         femaleChance = 50
     },
@@ -1193,6 +1345,7 @@ BWORooms.tab = {
 
     policearchive = {
         isStorage = true,
+        cids = {Bandit.clanMap.Police},
         occupations = {"policeofficer"},
         outfits = {"Police", "Detective"},
         hasPistolChance = 100,
@@ -1203,6 +1356,7 @@ BWORooms.tab = {
 
     policegarage = {
         isStorage = true,
+        cids = {Bandit.clanMap.Police},
         occupations = {"policeofficer"},
         outfits = {"Police", "Detective"},
         hasPistolChance = 100,
@@ -1212,6 +1366,7 @@ BWORooms.tab = {
 
     policegunstorage = {
         isStorage = true,
+        cids = {Bandit.clanMap.SWAT},
         occupations = {"policeofficer"},
         outfits = {"Police"},
         hasRifleChance = 70,
@@ -1222,6 +1377,7 @@ BWORooms.tab = {
     },
 
     policehall = {
+        cids = {Bandit.clanMap.Police},
         occupations = {"policeofficer"},
         outfits = {"Police"},
         hasPistolChance = 100,
@@ -1231,6 +1387,7 @@ BWORooms.tab = {
 
     policelocker = {
         isStorage = true,
+        cids = {Bandit.clanMap.Police},
         occupations = {"policeofficer"},
         outfits = {"Police"},
         hasPistolChance = 100,
@@ -1239,6 +1396,7 @@ BWORooms.tab = {
     }, 
 
     policeoffice = {
+        cids = {Bandit.clanMap.Police},
         occupations = {"policeofficer"},
         outfits = {"Police", "Detective"},
         hasPistolChance = 100,
@@ -1249,6 +1407,7 @@ BWORooms.tab = {
 
     policestorage = {
         isStorage = true,
+        cids = {Bandit.clanMap.Police},
         occupations = {"policeofficer"},
         outfits = {"Police"},
         hasPistolChance = 100,
@@ -1276,12 +1435,14 @@ BWORooms.tab = {
     },
 
     prisoncells = {
+        cids = {Bandit.clanMap.Inmate},
         occupations = {"securityguard", "policeofficer"},
         outfits = {"Inmate"},
         income = 1
     },
 
     prisoncell = {
+        cids = {Bandit.clanMap.Inmate},
         occupations = {"securityguard", "policeofficer"},
         outfits = {"Inmate"},
         income = 1
@@ -1314,18 +1475,24 @@ BWORooms.tab = {
 
     restaurant = {
         isRestaurant = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Waiter, Bandit.clanMap.Waiter},
         outfits = {"Generic02", "Generic03", "Classy", "Young", "Waiter_Classy"},
         femaleChance = 50
     },
 
     restaurant_dining = {
         isRestaurant = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Waiter, Bandit.clanMap.Waiter},
         outfits = {"Generic02", "Generic03", "Classy", "Young", "Waiter_Classy"},
         femaleChance = 50
     },
 
     restaurantdining = {
         isRestaurant = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Waiter, Bandit.clanMap.Waiter},
         outfits = {"Generic02", "Generic03", "Classy", "Young", "Waiter_Classy"},
         femaleChance = 50
     },
@@ -1333,6 +1500,7 @@ BWORooms.tab = {
     restaurantkitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.RollingPin", "Base.RollingPin", "Base.RollingPin"},
@@ -1357,6 +1525,7 @@ BWORooms.tab = {
     seafoodkitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.RollingPin", "Base.RollingPin", "Base.RollingPin"},
@@ -1370,6 +1539,7 @@ BWORooms.tab = {
     
     security = {
         isStorage = true,
+        cids = {Bandit.clanMap.Security},
         occupations = {"securityguard", "policeofficer"},
         outfits = {"Security"},
         hasPistolChance = 100,
@@ -1384,6 +1554,8 @@ BWORooms.tab = {
 
     sewingstore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"OfficeWorkerSkirt", "DressShort", "DressNormal", "DressLong"},
         femaleChance = 100
     },
@@ -1394,6 +1566,8 @@ BWORooms.tab = {
 
     shoestore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"OfficeWorkerSkirt", "DressShort", "DressNormal", "DressLong"},
         femaleChance = 100
     },
@@ -1410,12 +1584,16 @@ BWORooms.tab = {
 
     spifforestaurant = {
         isRestaurant = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Waiter, Bandit.clanMap.Waiter},
         outfits = {"Generic02", "Generic03", "Spiffo", "Young", "Waiter_Spiffo"},
         femaleChance = 50
     },
 
     spiffo_dining = {
         isRestaurant = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Waiter, Bandit.clanMap.Waiter},
         outfits = {"Generic02", "Generic03", "Spiffo", "Young", "Waiter_Spiffo"},
         femaleChance = 50
     },
@@ -1423,6 +1601,7 @@ BWORooms.tab = {
     spiffoskitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.RollingPin", "Base.RollingPin", "Base.RollingPin"},
@@ -1437,12 +1616,16 @@ BWORooms.tab = {
 
     sportstorage = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker, Bandit.clanMap.Runner},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"SportsFan", "StreetSports"},
         occupations = {"fitnessInstructor"}, -- yes, "I" should be capitalized
     },
 
     sportstore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker, Bandit.clanMap.Runner},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"SportsFan", "StreetSports"},
     },
 
@@ -1460,17 +1643,21 @@ BWORooms.tab = {
     },
 
     stripclub = {
+        cids = {Bandit.clanMap.Walker, Bandit.clanMap.Party},
         outfits = {"Generic02", "Generic03", "Classy", "Young", "StripperBlack", "StripperNaked", "StripperPink", "PoliceStripper", "FiremanStripper", "BWOAnimal"},
         femaleChance = 40
     },
 
     stripclubvip = {
+        cids = {Bandit.clanMap.Walker, Bandit.clanMap.Party},
         outfits = {"Generic02", "Generic03", "Classy", "Young", "StripperBlack", "StripperNaked", "StripperPink", "PoliceStripper", "FiremanStripper", "BWOAnimal"},
         femaleChance = 40
     },
 
     sushidining = {
         isRestaurant = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Waiter, Bandit.clanMap.Waiter},
         outfits = {"Generic02", "Generic03", "Classy", "Young", "Waiter_Classy"},
         femaleChance = 50
     },
@@ -1478,6 +1665,7 @@ BWORooms.tab = {
     sushikitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.RollingPin", "Base.RollingPin", "Base.RollingPin"},
@@ -1488,6 +1676,7 @@ BWORooms.tab = {
     tacokitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.RollingPin", "Base.RollingPin", "Base.RollingPin"},
@@ -1502,6 +1691,7 @@ BWORooms.tab = {
     theatrekitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.RollingPin", "Base.RollingPin", "Base.RollingPin"},
@@ -1527,12 +1717,16 @@ BWORooms.tab = {
 
     toolstore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "OfficeWorkerSkirt"},
         femaleChance = 20
     },
 
     toystore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "OfficeWorkerSkirt"},
         femaleChance = 70
     },
@@ -1543,6 +1737,8 @@ BWORooms.tab = {
 
     walletshop = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
@@ -1555,6 +1751,7 @@ BWORooms.tab = {
     westernkitchen = {
         isRestaurant = true,
         isKitchen = true,
+        cids = {Bandit.clanMap.Kitchen},
         occupations = {"chef", "burgerflipper"},
         outfits = {"Cook_Generic", "Chef"},
         melee = {"Base.BareHands", "Base.RollingPin", "Base.KitchenKnife", "Base.BreadKnife", "Base.ButterKnife", "Base.RollingPin", "Base.RollingPin", "Base.RollingPin"},
@@ -1579,6 +1776,8 @@ BWORooms.tab = {
 
     zippeestore = {
         isShop = true,
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "OfficeWorkerSkirt"},
         femaleChance = 50
     },
@@ -1805,28 +2004,30 @@ BWORooms.GetRoomCurrPop = function(room)
     local ry1 = roomDef:getY()
     local ry2 = roomDef:getY2()
 
-    --[[local squareList = room:getSquares()
-    for i=0, squareList:size()-1 do
-        local square = squareList:get(i)
-
-    end]]
-
+    local tab = {}
     local banditList = BanditZombie.GetAllB()
-    local cnt = 0
     for id, bandit in pairs(banditList) do
         if bandit.x >= rx1 and bandit.x <= rx2 and bandit.y >= ry1 and bandit.y <= ry2 then
-            cnt = cnt + 1
+            local cid = bandit.brain.cid
+            if cid then
+                if tab[cid] then
+                    tab[cid] = tab[cid] + 1
+                else
+                    tab[cid] = 1
+                end
+            end
         end
     end
-    return cnt
+    return tab
 end
 
 BWORooms.GetRoomMaxPop = function(room)
     local size = BWORooms.GetRoomSize(room)
-    if size < 12 then
+    size = size * BWORooms.GetRoomPopMod(room)
+    if size < 20 then
         return 1
     else
-        return math.floor(size / 12)
+        return math.floor(size / 20)
     end
 end
 
@@ -1840,24 +2041,15 @@ BWORooms.GetRoomPopMod = function(room)
     
     if BWOBuildings.IsResidential(building) then 
         if hour < 6 then
-            popMod = 1.7
+            popMod = 0.9
         elseif hour < 17 then
-            popMod = 0.4
+            popMod = 0.5
         elseif hour < 19 then
-            popMod = 0.65
+            popMod = 0.6
         elseif hour < 21 then
-            popMod = 1.0
+            popMod = 0.7
         else
-            popMod = 1.4
-        end
-        if BWOScheduler.SymptomLevel == 1 then
-            popMod = 1.2
-        elseif BWOScheduler.SymptomLevel == 2 then
-            popMod = 1.7
-        elseif BWOScheduler.SymptomLevel == 3 then
-            popMod = 2
-        elseif BWOScheduler.SymptomLevel == 4 then
-            popMod = 1.8
+            popMod = 0.8
         end
     elseif BWORooms.IsStorage(room) then
         popMod = 0.5
@@ -1867,20 +2059,11 @@ BWORooms.GetRoomPopMod = function(room)
         elseif hour < 10 then
             popMod = 1.5
         elseif hour < 19 then
-            popMod = 3.5
+            popMod = 2.0
         elseif hour < 20 then
             popMod = 1.75
         else
             popMod = 0
-        end
-        if BWOScheduler.SymptomLevel == 1 then
-            popMod = popMod * 1.3
-        elseif BWOScheduler.SymptomLevel == 2 then
-            popMod = popMod * 2
-        elseif BWOScheduler.SymptomLevel == 3 then
-            popMod = popMod * 3
-        elseif BWOScheduler.SymptomLevel == 4 then
-            popMod = popMod * 0.8
         end
 
     elseif BWORooms.IsRestaurant(room) then

@@ -661,7 +661,7 @@ BWOEvents.Start = function(params)
             local icon = "media/ui/defend.png"
             local color = {r=0.5, g=1, b=0.5} -- GREEN
             local desc = "Home"
-            BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 604800, (x + x2) / 2, (y + y2) / 2, color, desc)
+            BanditEventMarkerHandler.set(getRandomUUID(), icon, 604800, (x + x2) / 2, (y + y2) / 2, color, desc)
         end
     end
 
@@ -710,16 +710,22 @@ BWOEvents.Start = function(params)
     if SandboxVars.BanditsWeekOne.StartBabe then
 
         local args = {
-            bid = "40b9340b-3310-40e9-b8a2-e925912590b6", -- fixme
+            cid = "a3bd90b9-aa08-44b2-8be3-a6dfcf15f9e1", 
             program = "Babe",
             permanent = 1,
+            loyal = true,
             occupation = "Babe",
+            size = 1,
             x = player:getX() + 1,
             y = player:getY() + 1,
             z = player:getZ()
         }
+
+        if player:isFemale() then
+            args.cid = "303cd279-a36a-4e4a-b448-ac1ef1c83b7d"
+        end
                 
-        sendClientCommand(player, 'Spawner', 'Individual', args)
+        sendClientCommand(player, 'Spawner', 'Clan', args)
     end
 
     -- spawn vehicle if there is a spot
@@ -871,7 +877,7 @@ BWOEvents.Arson = function(params)
         local icon = "media/ui/arson.png"
         local color = {r=1, g=0, b=0} -- red
         local desc = "Arson"
-        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, square:getX(), square:getY(), color, desc)
+        BanditEventMarkerHandler.set(getRandomUUID(), icon, 3600, square:getX(), square:getY(), color, desc)
     end
 end
 
@@ -1353,7 +1359,7 @@ BWOEvents.Protest = function(params)
         local icon = "media/ui/protests.png"
         local color = {r=0, g=1, b=0} -- red
         local desc = "Protests"
-        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 28800, params.x, params.y, color, desc)
+        BanditEventMarkerHandler.set(getRandomUUID(), icon, 28800, params.x, params.y, color, desc)
     end
 end
 
@@ -1419,7 +1425,7 @@ BWOEvents.Entertainer = function(params)
     sendClientCommand(player, 'Spawner', 'Individual', args)
 
     if SandboxVars.Bandits.General_ArrivalIcon then
-        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, args.x, args.y, color, desc)
+        BanditEventMarkerHandler.set(getRandomUUID(), icon, 3600, args.x, args.y, color, desc)
     end
 end
 
@@ -1614,7 +1620,7 @@ BWOEvents.BuildingParty = function(params)
 
     -- inhabitants
     local args = {
-        cid = "42364b66-ab03-4c38-b374-5575a0c24868",
+        cid = Bandit.clanMap.Party,
         program = "Inhabitant"
     }
 
@@ -1643,7 +1649,7 @@ BWOEvents.BuildingParty = function(params)
         local icon = "media/ui/defend.png"
         local color = {r=1, g=0.7, b=0.8} -- PINK
         local desc = "Entertainment"
-        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, (bx + bx2) / 2, (by + by2) / 2, color, desc)
+        BanditEventMarkerHandler.set(getRandomUUID(), icon, 3600, (bx + bx2) / 2, (by + by2) / 2, color, desc)
     end
 end
 
@@ -1674,8 +1680,8 @@ BWOEvents.CallCops = function(params)
     end
 
     local cids = {
-        "c4e24888-70f9-43ea-80f8-1bb2f6b9bd88", -- policeblue
-        "33894253-b965-4eb3-94e1-4d642cadac88", -- policegray
+        Bandit.clanMap.PoliceBlue,
+        Bandit.clanMap.PoliceGray
     }
 
     local args = {
@@ -1700,7 +1706,7 @@ BWOEvents.CallCops = function(params)
             color = {r=0, g=1, b=0} -- green
         end
         local desc = "Cops"
-        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, x, y, color, desc)
+        BanditEventMarkerHandler.set(getRandomUUID(), icon, 3600, x, y, color, desc)
     end
 
     BWOPopControl.Police.Cooldown = SandboxVars.BanditsWeekOne.PoliceCooldown -- 30
@@ -1729,7 +1735,7 @@ BWOEvents.CallSWAT = function(params)
     end
     
     local args = {
-        cid = "b6c61446-ad6c-4529-9bac-751b9b64843f", -- swat
+        cid = Bandit.clanMap.SWAT,
         size = 6,
         program = "Police",
         occupation = "Police", 
@@ -1750,7 +1756,7 @@ BWOEvents.CallSWAT = function(params)
             color = {r=0, g=1, b=0} -- green
         end
         local desc = "SWAT"
-        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, x, y, color, desc)
+        BanditEventMarkerHandler.set(getRandomUUID(), icon, 3600, x, y, color, desc)
     end
 
     BWOPopControl.SWAT.Cooldown = SandboxVars.BanditsWeekOne.SWATCooldown -- 120
@@ -1779,7 +1785,7 @@ BWOEvents.CallMedics = function(params)
     end
   
     local args = {
-        cid = "f8c5c06b-2fd7-482d-8150-2be03d446927", 
+        cid = Bandit.clanMap.Medic,
         size = 2,
         program = "Medic",
         occupation = "Medic", 
@@ -1795,7 +1801,7 @@ BWOEvents.CallMedics = function(params)
         local icon = "media/ui/medics.png"
         local color = {r=0, g=1, b=0} -- green
         local desc = "Paramedics"
-        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, x, y, color, desc)
+        BanditEventMarkerHandler.set(getRandomUUID(), icon, 3600, x, y, color, desc)
     end
 
     BWOPopControl.Medics.Cooldown = SandboxVars.BanditsWeekOne.MedicsCooldown -- 45
@@ -1824,7 +1830,7 @@ BWOEvents.CallHazmats = function(params)
     end
 
     local args = {
-        cid = "cfccfa27-f256-47a0-bd7c-b2d12b369c6d",
+        cid = Bandit.clanMap.MedicHazmat,
         size = 3,
         program = "Medic",
         occupation = "Medic", 
@@ -1862,7 +1868,7 @@ BWOEvents.CallFireman = function(params)
     end
 
     local args = {
-        cid = "989f4faf-53f2-4f8f-9603-496fb3efcb6a", -- fixme
+        cid = Bandit.clanMap.Fireman,
         size = 6,
         program = "Fireman",
         hostile = false,
@@ -1877,7 +1883,7 @@ BWOEvents.CallFireman = function(params)
         local icon = "media/ui/crew.png"
         local color = {r=1, g=0, b=0} -- red
         local desc = "Firemen"
-        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, x, y, color, desc)
+        BanditEventMarkerHandler.set(getRandomUUID(), icon, 3600, x, y, color, desc)
     end
 
     BWOPopControl.Fireman.Cooldown = SandboxVars.BanditsWeekOne.FiremanCooldown -- 25
@@ -1911,7 +1917,7 @@ BWOEvents.SpawnGroup = function(params)
     if intensity < 1 then return end
 
     local args = {
-        cid = params.cid, -- fixme
+        cid = params.cid,
         size = intensity,
         occupation = occupation, 
         program = params.program
@@ -1936,6 +1942,6 @@ BWOEvents.SpawnGroup = function(params)
             color = {r=0, g=1, b=0} -- green
         end
 
-        BanditEventMarkerHandler.setOrUpdate(getRandomUUID(), icon, 3600, sp.x, sp.y, color, desc)
+        BanditEventMarkerHandler.set(getRandomUUID(), icon, 3600, sp.x, sp.y, color, desc)
     end
 end

@@ -221,7 +221,6 @@ BWORoomPrograms.kitchen = function(bandit, def)
     local gameTime = getGameTime()
     local hour = gameTime:getHour()
     local minute = gameTime:getMinutes()
-    local outfit = bandit:getOutfitName()
     local m = (math.abs(id) % 3) * 2
     
     local radio = BWOObjects.Find(bandit, def, "Radio")
@@ -326,7 +325,6 @@ BWORoomPrograms.restaurantkitchen = function(bandit, def)
     local gameTime = getGameTime()
     local hour = gameTime:getHour()
     local minute = gameTime:getMinutes()
-    local outfit = bandit:getOutfitName()
     local m = (math.abs(id) % 3) * 2
     
     if (minute >= m and minute < m+3) or (minute >= m+20 and minute < m+23) or (minute >= m+40 and minute < m+43) then
@@ -409,6 +407,7 @@ BWORoomPrograms.jayschicken_kitchen = BWORoomPrograms.restaurantkitchen
 BWORoomPrograms.gigamartkitchen = BWORoomPrograms.restaurantkitchen
 BWORoomPrograms.cafeteriakitchen = BWORoomPrograms.restaurantkitchen
 BWORoomPrograms.dinerkitchen = BWORoomPrograms.restaurantkitchen
+BWORoomPrograms.dinercounter = BWORoomPrograms.restaurantkitchen
 BWORoomPrograms.kitchen_crepe = BWORoomPrograms.restaurantkitchen
 BWORoomPrograms.burgerkitchen = BWORoomPrograms.restaurantkitchen
 
@@ -418,7 +417,6 @@ BWORoomPrograms.barcountertwiggy = function(bandit, def)
     local gameTime = getGameTime()
     local hour = gameTime:getHour()
     local minute = gameTime:getMinutes()
-    local outfit = bandit:getOutfitName()
     local m = (math.abs(id) % 3) * 2
     
     if (minute >= m and minute < m+3) or (minute >= m+20 and minute < m+23) or (minute >= m+40 and minute < m+43) then
@@ -504,9 +502,9 @@ BWORoomPrograms.church = function(bandit, def)
     local gameTime = getGameTime()
     local hour = gameTime:getHour()
     local minute = gameTime:getMinutes()
-    local outfit = bandit:getOutfitName()
+    local brain = BanditBrain.Get(bandit)
 
-    if outfit == "Priest" then
+    if brain.cid == Bandit.clanMap.Priest then
         local altar = BWOObjects.Find(bandit, def, "Altar")
         if altar then
             local facing = altar:getSprite():getProperties():Val("Facing")
@@ -634,10 +632,9 @@ BWORoomPrograms.bookstore = function(bandit, def)
     local gameTime = getGameTime()
     local hour = gameTime:getHour()
     local minute = gameTime:getMinutes()
-    
-    local outfit = bandit:getOutfitName()
+    local brain = BanditBrain.Get(bandit)    
 
-    if outfit == "OfficeWorkerSkirt" then
+    if brain.cid == Bandit.clanMap.ShopAssistant then
         local register = BWOObjects.Find(bandit, def, "Register")
         if register then
             local facing = register:getSprite():getProperties():Val("Facing")
@@ -695,10 +692,12 @@ BWORoomPrograms.zippeestore = function(bandit, def)
     local gameTime = getGameTime()
     local hour = gameTime:getHour()
     local minute = gameTime:getMinutes()
-    
-    local outfit = bandit:getOutfitName()
+    local brain = BanditBrain.Get(bandit)    
 
-    if outfit == "OfficeWorkerSkirt" or outfit == "Gas2Go" or outfit == "Thug" or outfit == "Pharmacist" then
+    if brain.cid == Bandit.clanMap.ShopAssistant or 
+       brain.cid == Bandit.clanMap.Fossoil or 
+       brain.cid == Bandit.clanMap.Gas2Go then
+
         local register = BWOObjects.Find(bandit, def, "Register")
         if register then
             local facing = register:getSprite():getProperties():Val("Facing")
@@ -719,7 +718,7 @@ BWORoomPrograms.zippeestore = function(bandit, def)
                 end
             end
         end
-    elseif outfit == "MallSecurity" then
+    elseif brain.cid == Bandit.clanMap.Security then
         local anim = BanditUtils.Choice({"ShiftWeight", "ChewNails", "PullAtCollar", "WipeBrow", "WipeHead"})
         local task = {action="Time", anim=anim, time=100}
         table.insert(tasks, task)
@@ -797,6 +796,8 @@ BWORoomPrograms.grocery = BWORoomPrograms.zippeestore
 BWORoomPrograms.pharmacy = BWORoomPrograms.zippeestore
 BWORoomPrograms.pharmacystorage = BWORoomPrograms.pharmacy
 BWORoomPrograms.gasstore = BWORoomPrograms.zippeestore
+BWORoomPrograms.gas2go = BWORoomPrograms.zippeestore
+BWORoomPrograms.fossoil = BWORoomPrograms.zippeestore
 BWORoomPrograms.movierental = BWORoomPrograms.zippeestore
 BWORoomPrograms.gigamart = BWORoomPrograms.zippeestore
 BWORoomPrograms.liquorstore = BWORoomPrograms.zippeestore
@@ -812,24 +813,25 @@ BWORoomPrograms.departmentstore = BWORoomPrograms.zippeestore
 BWORoomPrograms.electronicsstore = BWORoomPrograms.zippeestore
 BWORoomPrograms.furniturestore = BWORoomPrograms.zippeestore
 BWORoomPrograms.gardenstore = BWORoomPrograms.zippeestore
-BWORoomPrograms.gasstore = BWORoomPrograms.zippeestore
 BWORoomPrograms.giftstore = BWORoomPrograms.zippeestore
 BWORoomPrograms.gunstore = BWORoomPrograms.zippeestore
 BWORoomPrograms.musicstore = BWORoomPrograms.zippeestore
 BWORoomPrograms.carsupply = BWORoomPrograms.zippeestore
+
 
 BWORoomPrograms.medical = function(bandit, def)
     local tasks = {}
     local gameTime = getGameTime()
     local hour = gameTime:getHour()
     local minute = gameTime:getMinutes()
-    local outfit = bandit:getOutfitName()
+    local brain = BanditBrain.Get(bandit)    
     
     local sittable
-    if outfit == "Nurse"  then
+    if brain.cid == Bandit.clanMap.Medic then
         sittable = BWOObjects.Find(bandit, def, "Chair")
-    elseif outfit == "Doctor" then
-        sittable = BWOObjects.Find(bandit, def, "Medical Stool")
+        if not sittable then
+            sittable = BWOObjects.Find(bandit, def, "Medical Stool")
+        end
     else
         sittable = BWOObjects.Find(bandit, def, "Chairs")
     end
@@ -885,10 +887,9 @@ BWORoomPrograms.restaurant = function(bandit, def)
     local gameTime = getGameTime()
     local hour = gameTime:getHour()
     local minute = gameTime:getMinutes()
-    
-    local outfit = bandit:getOutfitName()
+    local brain = BanditBrain.Get(bandit)  
 
-    if outfit == "Waiter_Classy" or outfit == "Waiter_Spiffo" or outfit == "Waiter_Market" or outfit == "Waiter_PizzaWhirled" or outfit == "Waiter_PizzaWhirled" or outfit == "Teacher" then
+    if brain.cid == Bandit.clanMap.Waiter then
 
         local register = BWOObjects.Find(bandit, def, "Register")
         if register and math.abs(id) % 2 == 0 then
@@ -1063,7 +1064,7 @@ BWORoomPrograms.restaurant = function(bandit, def)
         table.insert(tasks, task)
         return tasks
 
-    elseif outfit == "Spiffo" then
+    elseif brain.cid == Bandit.clanMap.Spiffo then
         local anim = BanditUtils.Choice({"DanceHipHop3", "DanceRaiseTheRoof"})
         local task = {action="Time", anim=anim, time=500}
         table.insert(tasks, task)
@@ -1089,7 +1090,7 @@ BWORoomPrograms.restaurant = function(bandit, def)
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
                 local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
-                if dist > 1.20 then
+                if dist > 1.50 then
                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                     return tasks
                 else
@@ -1149,6 +1150,7 @@ BWORoomPrograms.icecream = BWORoomPrograms.restaurant
 BWORoomPrograms.pileocrepe = BWORoomPrograms.restaurant
 BWORoomPrograms.restaurant_dining = BWORoomPrograms.restaurant
 BWORoomPrograms.restaurantdining = BWORoomPrograms.restaurant
+BWORoomPrograms.diner = BWORoomPrograms.restaurant
 
 BWORoomPrograms.classroom = function(bandit, def)
     local tasks = {}
@@ -1157,10 +1159,9 @@ BWORoomPrograms.classroom = function(bandit, def)
     local gameTime = getGameTime()
     local hour = gameTime:getHour()
     local minute = gameTime:getMinutes()
-    
-    local outfit = bandit:getOutfitName()
+    local brain = BanditBrain.Get(bandit)
 
-    if outfit == "Teacher"  then
+    if brain.cid == Bandit.clanMap.Teacher then
 
         local task = {action="Time", anim="Yes", time=100}
         table.insert(tasks, task)
@@ -1226,11 +1227,9 @@ BWORoomPrograms.bar = function(bandit, def)
     local gameTime = getGameTime()
     local hour = gameTime:getHour()
     local minute = gameTime:getMinutes()
-    
-    local outfit = bandit:getOutfitName()
+    local brain = BanditBrain.Get(bandit)
 
-    if outfit == "Waiter_Classy" or outfit == "Waiter_Spiffo" or outfit == "Waiter_PizzaWhirled" or outfit == "Waiter_PizzaWhirled" or outfit == "Teacher" then
-
+    if brain.cid == Bandit.clanMap.Waiter then
         local register = BWOObjects.Find(bandit, def, "Register")
         if register and math.abs(id) % 2 == 0 then
             local facing = register:getSprite():getProperties():Val("Facing")
@@ -1257,7 +1256,7 @@ BWORoomPrograms.bar = function(bandit, def)
         table.insert(tasks, task)
         return tasks
 
-    elseif outfit == "Biker" then
+    elseif brain.cid == Bandit.clanMap.Biker then
         local rnd = ZombRand(2)
         if rnd == 0 then
             local task = {action="Smoke", anim="Smoke", item="Bandits.Cigarette", left=true, time=100}
@@ -1336,10 +1335,6 @@ BWORoomPrograms.mechanic = function(bandit, def)
     local gameTime = getGameTime()
     local hour = gameTime:getHour()
     local minute = gameTime:getMinutes()
-    
-    local outfit = bandit:getOutfitName()
-
-
     local shelves = BWOObjects.Find(bandit, def, "Shelves")
 
     if shelves then
@@ -1368,8 +1363,6 @@ BWORoomPrograms.gym = function(bandit, def)
     local gameTime = getGameTime()
     local hour = gameTime:getHour()
     local minute = gameTime:getMinutes()
-    
-    local outfit = bandit:getOutfitName()
 
     local task1 = {action="PushUp", time=2000}
     table.insert(tasks, task1)
@@ -1391,15 +1384,13 @@ BWORoomPrograms.aesthetic = function(bandit, def)
     local gameTime = getGameTime()
     local hour = gameTime:getHour()
     local minute = gameTime:getMinutes()
-    
-    local outfit = bandit:getOutfitName()
+    local brain = BanditBrain.Get(bandit)
 
-    if outfit == "DressShort" then
+    if brain.cid == Bandit.clanMap.ShopAssistant then
 
         local task = {action="Time", anim="Yes", time=100}
         table.insert(tasks, task)
         return tasks
-
 
     else
         local sittable
@@ -1451,16 +1442,11 @@ BWORoomPrograms.breakroom = BWORoomPrograms.livingroom
 BWORoomPrograms.stripclub = function(bandit, def)
     local tasks = {}
     local id = BanditUtils.GetCharacterID(bandit)
-    local outfit = bandit:getOutfitName()
-
-    local dancePrograms = {"StripperBlack", "StripperNaked", "StripperPink", "PoliceStripper", "FiremanStripper", "BWOAnimal"}
+    local brain = BanditBrain.Get(bandit)
     local isDance = false
     
-    for _, dp in pairs(dancePrograms) do
-        if outfit == dp then
-            isDance = true
-            break
-        end
+    if brain.cid == Bandit.clanMap.Party then
+        isDance = true
     end
 
     if isDance then

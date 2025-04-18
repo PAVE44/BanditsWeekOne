@@ -2,6 +2,7 @@ ZombieActions = ZombieActions or {}
 
 ZombieActions.SitInChair = {}
 ZombieActions.SitInChair.onStart = function(zombie, task)
+    -- print ("X:" .. zombie:getX() .. "Y:" .. zombie:getY())
     if task.item then
         local fakeItem = BanditCompatibility.InstanceItem(task.item)
         if not task.left then

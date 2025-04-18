@@ -54,80 +54,45 @@ BWOMenu.SpawnRoom = function(player, square, prgName)
 end
 
 BWOMenu.SpawnWave = function(player, square, prgName)
-    config = {}
-    config.clanId = 0
-
-    config.hasRifleChance = 0
-    config.hasPistolChance = 0
-    config.rifleMagCount = 0
-    config.pistolMagCount = 0
+    local args = {
+        size = 1,
+        program = prgName,
+        x = square:getX(),
+        y = square:getY(),
+        z = square:getZ()
+    }
 
     if prgName == "Babe" then
-        config.clanId = 1
-        config.hasRifleChance = 100
-        config.hasPistolChance = 100
-        config.rifleMagCount = 3
-        config.pistolMagCount = 3
-    elseif prgName == "Shahid" then
-        config.clanId = 11
+        args.permanent = true
+        args.loyal = true
     end
-
-    local event = {}
-    event.hostile = false
-    event.occured = false
-    event.program = {}
-    event.program.name = prgName
-    event.program.stage = "Prepare"
-    event.x = square:getX()
-    event.y = square:getY()
-    event.bandits = {}
-   
-    local bandit = BanditCreator.MakeFromWave(config)
 
     if prgName == "Walker" then
-        bandit.outfit = BanditUtils.Choice({"BWORainGeneric01", "BWORainGeneric02", "BWORainGeneric03"})
-        bandit.femaleChance = 50
+        args.cid = Bandit.clanMap.Walker
     elseif prgName == "Fireman" then
-        bandit.outfit = BanditUtils.Choice({"FiremanFullSuit"})
-        bandit.weapons.melee = "Base.Axe"
+        args.cid = Bandit.clanMap.Fireman
     elseif prgName == "Gardener" then
-        bandit.outfit = BanditUtils.Choice({"Farmer"})
+        args.cid = Bandit.clanMap.Gardener
     elseif prgName == "Janitor" then
-        bandit.outfit = BanditUtils.Choice({"Sanitation"})
-        bandit.weapons.melee = "Base.Broom"
+        args.cid = Bandit.clanMap.Janitor
     elseif prgName == "Medic" then
-        bandit.outfit = BanditUtils.Choice({"Doctor"})
-        bandit.weapons.melee = "Base.Scalpel"
+        args.cid = Bandit.clanMap.Medic
     elseif prgName == "Postal" then
-        bandit.outfit = BanditUtils.Choice({"Postal"})
+        args.cid = Bandit.clanMap.Postal
     elseif prgName == "Runner" then
-        bandit.outfit = BanditUtils.Choice({"StreetSports", "AuthenticJogger", "AuthenticFitnessInstructor"})
+        args.cid = Bandit.clanMap.Runner
     elseif prgName == "Vandal" then
-        bandit.outfit = BanditUtils.Choice({"Bandit"})
+        args.cid = Bandit.clanMap.Vandal
     elseif prgName == "Shahid" then
-        event.hostile = true
-        bandit.femaleChance = 0
-        bandit.skinTexture = "MaleBody03a"
-        bandit.hairStyle = "Fabian"
-        bandit.hairColor = {r=0, g=0, b=0}
-        bandit.beardStyle = "Long"
-        bandit.beardColor = {r=0, g=0, b=0}
-
-        bandit.outfit = BanditUtils.Choice({"BWOBomber"})
+        args.cid = Bandit.clanMap.SuicideBomber
     elseif prgName == "Babe" then
-        bandit.permanent = true
-        bandit.outfit = BanditUtils.Choice({"BWOYoung", "BWOCow", "BWOLeather"})
-        bandit.accuracyBoost = 2
-        bandit.femaleChance = 92
         if player:isFemale() then
-            bandit.femaleChance = 8
+            args.cid = Bandit.clanMap.BabeMale
+        else
+            args.cid = Bandit.clanMap.BabeFemale
         end
-        bandit.health = 8
-        bandit.weapons.melee = "Base.BareHands"
     end
-    table.insert(event.bandits, bandit)
-
-    sendClientCommand(player, 'Commands', 'SpawnGroup', event)
+    sendClientCommand(player, 'Spawner', 'Clan', args)
 end
 
 BWOMenu.FlushDeadbodies = function(player)
@@ -515,14 +480,14 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
             local bid = room:getBuilding():getID()
             local roomName = room:getName()
             local def = room:getRoomDef()
-            local occupantsCnt = BWORooms.GetRoomCurrPop(room)
-            local occupantsMax = BWORooms.GetRoomMaxPop(room)
             local roomSize = BWORooms.GetRoomSize(room)
             local popMod = BWORooms.GetRoomPopMod(room)
+            local popMax = BWORooms.GetRoomMaxPop(room)
             print ("ROOM: " .. roomName)
             print ("SIZE: " .. roomSize)
+            print ("POPMOD: " .. popMod)
+            print ("POPMAX: " .. popMax)
             print ("HOME: " .. tostring(BWOBuildings.IsEventBuilding(room:getBuilding(), "home")))
-            print ("POP: " .. occupantsCnt .. "/" .. occupantsMax .. " (" .. popMod .. ")")
 
         end
     end

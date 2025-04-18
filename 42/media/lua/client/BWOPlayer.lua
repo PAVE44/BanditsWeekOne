@@ -14,38 +14,36 @@ BWOPlayer.ActivateWitness = function(character, min)
     local braveList = {"Police", "Security", "Army"}
     local witnessList = BanditZombie.GetAllB()
     for id, witness in pairs(witnessList) do
-        if witness.brain.clan == 0 then
-            local dist = math.sqrt(math.pow(character:getX() - witness.x, 2) + math.pow(character:getY() - witness.y, 2))
-            if dist < min then
-                local actor = BanditZombie.GetInstanceById(witness.id)
-                local canSee = actor:CanSee(character)
-                if canSee or dist < 3 then
-                    -- witnessing civilians need to change peaceful behavior to active
+        local dist = math.sqrt(math.pow(character:getX() - witness.x, 2) + math.pow(character:getY() - witness.y, 2))
+        if dist < min then
+            local actor = BanditZombie.GetInstanceById(witness.id)
+            local canSee = actor:CanSee(character)
+            if canSee or dist < 3 then
+                -- witnessing civilians need to change peaceful behavior to active
 
-                    for _, prg in pairs(activatePrograms) do
-                        if witness.brain.program.name == prg then
-                            Bandit.ClearTasks(actor)
-                            local brave = false
-                            for _, v in pairs(braveList) do
-                                if v == witness.brain.occupation then
-                                    brave = true
-                                    break
-                                end
+                for _, prg in pairs(activatePrograms) do
+                    if witness.brain.program.name == prg then
+                        Bandit.ClearTasks(actor)
+                        local brave = false
+                        for _, v in pairs(braveList) do
+                            if v == witness.brain.occupation then
+                                brave = true
+                                break
                             end
-                            if brave then
-                                Bandit.SetProgram(actor, "Police", {})
+                        end
+                        if brave then
+                            Bandit.SetProgram(actor, "Police", {})
+                            Bandit.SetHostileP(actor, true)
+                            Bandit.Say(actor, "SPOTTED")
+                        else
+                            local r = 4
+                            if actor:isFemale() then r = 10 end
+
+                            Bandit.SetProgram(actor, "Active", {})
+                            if ZombRand(r) == 0 then
                                 Bandit.SetHostileP(actor, true)
-                                Bandit.Say(actor, "SPOTTED")
-                            else
-                                local r = 4
-                                if actor:isFemale() then r = 10 end
-
-                                Bandit.SetProgram(actor, "Active", {})
-                                if ZombRand(r) == 0 then
-                                    Bandit.SetHostileP(actor, true)
-                                end
-                                Bandit.Say(actor, "REACTCRIME")
                             end
+                            Bandit.Say(actor, "REACTCRIME")
                         end
                     end
                 end
@@ -112,20 +110,18 @@ BWOPlayer.ActivateExcercise = function(character, min)
     local witnessList = BanditZombie.GetAllB()
     local cnt = 0
     for id, witness in pairs(witnessList) do
-        if witness.brain.clan == 0 then
-            local dist = math.sqrt(math.pow(character:getX() - witness.x, 2) + math.pow(character:getY() - witness.y, 2))
-            if dist < min then
-                local actor = BanditZombie.GetInstanceById(witness.id)
-                local canSee = actor:CanSee(character)
-                if canSee or dist < 3 then
-                    for _, prg in pairs(activatePrograms) do
-                        if witness.brain.program.name == prg then
-                            if not Bandit.HasTaskType(actor, "PushUp") then
-                                Bandit.ClearTasks(actor)
-                                local task = {action="PushUp", time=2000}
-                                Bandit.AddTask(actor, task)
-                                cnt = cnt + 1
-                            end
+        local dist = math.sqrt(math.pow(character:getX() - witness.x, 2) + math.pow(character:getY() - witness.y, 2))
+        if dist < min then
+            local actor = BanditZombie.GetInstanceById(witness.id)
+            local canSee = actor:CanSee(character)
+            if canSee or dist < 3 then
+                for _, prg in pairs(activatePrograms) do
+                    if witness.brain.program.name == prg then
+                        if not Bandit.HasTaskType(actor, "PushUp") then
+                            Bandit.ClearTasks(actor)
+                            local task = {action="PushUp", time=2000}
+                            Bandit.AddTask(actor, task)
+                            cnt = cnt + 1
                         end
                     end
                 end
@@ -736,7 +732,7 @@ end
 local function onPlayerDeath(player)
     local civList = BanditZombie.GetAllB()
     for id, civ in pairs(civList) do
-        if civ.brain.clan == 0 and civ.brain.hostile then
+        if civ.brain.hostileP then
             local actor = BanditZombie.GetInstanceById(civ.brain.id)
             if actor then
                 Bandit.SetHostileP(actor, false)

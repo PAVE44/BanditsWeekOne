@@ -1,3 +1,15 @@
+[bbe0c8c9-1135-4ced-abd2-73807e166a1e]
+	general: name = BanditsStrong
+	spawn: wave = 0
+	spawn: zone = 0
+	spawn: friendly = false
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+
 [d6c3c644-42e7-466a-8ce4-c002ad29dd50]
 	general: name = CriminalsClassy
 	spawn: wave = 4
@@ -21,18 +33,6 @@
 	spawn: assault = true
 	spawn: wanderer = true
 	spawn: roadblock = true
-
-[bbe0c8c9-1135-4ced-abd2-73807e166a1e]
-	general: name = BanditsStrong
-	spawn: wave = 0
-	spawn: zone = 0
-	spawn: friendly = false
-	spawn: companion = false
-	spawn: defenders = false
-	spawn: campers = false
-	spawn: assault = false
-	spawn: wanderer = false
-	spawn: roadblock = false
 
 [3a424953-fa5b-418f-8f11-462e52bfd574]
 	general: name = Rangers
@@ -71,7 +71,7 @@
 	spawn: roadblock = false
 
 [9bf4882b-0622-4e77-82c1-feee90b566b4]
-	general: name = Hazmats
+	general: name = Sweepers
 	spawn: wave = 0
 	spawn: zone = 0
 	spawn: friendly = false
@@ -110,7 +110,7 @@
 	general: name = PoliceRiot
 	spawn: wave = 0
 	spawn: zone = 0
-	spawn: friendly = true
+	spawn: friendly = false
 	spawn: companion = false
 	spawn: defenders = false
 	spawn: campers = false
@@ -218,7 +218,7 @@
 	general: name = Gardeners
 	spawn: wave = 0
 	spawn: zone = 0
-	spawn: friendly = false
+	spawn: friendly = true
 	spawn: companion = false
 	spawn: defenders = false
 	spawn: campers = false
@@ -230,7 +230,7 @@
 	general: name = Medics
 	spawn: wave = 0
 	spawn: zone = 0
-	spawn: friendly = false
+	spawn: friendly = true
 	spawn: companion = false
 	spawn: defenders = false
 	spawn: campers = false
@@ -290,7 +290,7 @@
 	general: name = Janitors
 	spawn: wave = 0
 	spawn: zone = 0
-	spawn: friendly = false
+	spawn: friendly = true
 	spawn: companion = false
 	spawn: defenders = false
 	spawn: campers = false
@@ -302,6 +302,66 @@
 	general: name = MedicHazmats
 	spawn: wave = 0
 	spawn: zone = 0
+	spawn: friendly = true
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+
+[dcc2a5e9-2670-42f9-8ac2-65566e8f2537]
+	general: name = Security
+	spawn: wave = 0
+	spawn: zone = 0
+	spawn: friendly = true
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+
+[affef50f-660a-4231-bc6d-e0054fcf3afd]
+	general: name = Office
+	spawn: wave = 0
+	spawn: zone = 0
+	spawn: friendly = true
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+
+[544f827c-cdb3-47d0-a895-3767b67a72c0]
+	general: name = Kitchen
+	spawn: wave = 0
+	spawn: zone = 0
+	spawn: friendly = true
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+
+[f52b03f4-c5b1-4bbb-a110-b74038312fe2]
+	general: name = Residents
+	spawn: wave = 0
+	spawn: zone = 0
+	spawn: friendly = true
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+
+[9699d022-eebb-4c80-9b39-f48f392f2823]
+	general: name = Shahids
+	spawn: wave = 0
+	spawn: zone = 0
 	spawn: friendly = false
 	spawn: companion = false
 	spawn: defenders = false
@@ -309,4 +369,84 @@
 	spawn: assault = false
 	spawn: wanderer = false
 	spawn: roadblock = false
+
+[a3048300-2bca-4140-b256-b249da951b60]
+	general: name = HammerBrothers
+	spawn: wave = 0
+	spawn: zone = 0
+	spawn: friendly = false
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+
+[473e2db3-c751-4a09-9a1d-d780e148b6a1]
+	general: name = ShopAssistant
+	spawn: wave = 0
+	spawn: zone = 0
+	spawn: friendly = true
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+
+[25f86d1a-03f6-461a-ac46-a936587930d0]
+	general: name = Fossoil
+	spawn: wave = 0
+	spawn: zone = 0
+	spawn: friendly = true
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+
+[31e340cf-c773-4b1c-9e27-8317db82823f]
+	general: name = Gas2Go
+	spawn: wave = 0
+	spawn: zone = 0
+	spawn: friendly = true
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+
+[a3bd90b9-aa08-44b2-8be3-a6dfcf15f9e1]
+	general: name = BabeFemale
+	spawn: friendly = true
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+	spawn: dayStart = 0
+	spawn: dayEnd = 10000
+	spawn: spawnChance = 0
+	spawn: groupMin = 1
+	spawn: groupMax = 1
+	spawn: zone = 0
+
+[303cd279-a36a-4e4a-b448-ac1ef1c83b7d]
+	general: name = BabeMale
+	spawn: friendly = true
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+	spawn: dayStart = 0
+	spawn: dayEnd = 10000
+	spawn: spawnChance = 0
+	spawn: groupMin = 1
+	spawn: groupMax = 1
+	spawn: zone = 0
 
