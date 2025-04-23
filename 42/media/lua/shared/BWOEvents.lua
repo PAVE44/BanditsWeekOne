@@ -1043,7 +1043,8 @@ BWOEvents.SetupPlaceEvents = function(params)
     addPlaceEvent({phase="ArmyGuards", x=12166, y=6899, z=0})
 
     -- GUNSHOP GUARDS
-    addPlaceEvent({phase="GunshopGuard", x=12085, y=6782, z=0})
+    addPlaceEvent({phase="GunshopGuard", x=12085, y=6785, z=0})
+    addPlaceEvent({phase="GunshopGuard", x=12088, y=6782, z=0})
 
     -- riverside
     -- fixme - we need other cities too
@@ -1511,7 +1512,7 @@ BWOEvents.BuildingParty = function(params)
     local house = BWOBuildings.FindBuildingWithRoom(params.roomName)
     if not house then return end
 
-    local cell = player:getCell()
+    local cell = getCell()
     local def = house:getDef()
     local id = def:getKeyId()
 
@@ -1524,6 +1525,11 @@ BWOEvents.BuildingParty = function(params)
     local bx2 = def:getX2()
     local by = def:getY()
     local by2 = def:getY2()
+
+    local x1 = player:getX() - bx
+    local x2 = player:getX() - bx2
+    local y1 = player:getY() - by
+    local y2 = player:getY() - by2
     for x=bx, bx2 do
         for y=by, by2 do
             local square = cell:getGridSquare(x, y, 0)
@@ -1938,7 +1944,7 @@ BWOEvents.SpawnGroup = function(params)
         local icon = "media/ui/raid.png"
         local color = {r=1, g=0, b=0} -- red
 
-        if params.name == "Army" then
+        if params.name == "Army" or params.name == "Veterans" then
             color = {r=0, g=1, b=0} -- green
         end
 

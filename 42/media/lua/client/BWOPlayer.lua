@@ -11,9 +11,19 @@ BWOPlayer.wasSleeping = false
 -- make npcs react to actual crime
 BWOPlayer.ActivateWitness = function(character, min)
     local activatePrograms = {"Patrol", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal", "Medic", "Fireman"}
-    local braveList = {"Police", "Security", "Army"}
+    local braveList = {
+        Bandit.clanMap.PoliceBlue,
+        Bandit.clanMap.PoliceGray,
+        Bandit.clanMap.PoliceRiot,
+        Bandit.clanMap.SWAT,
+        Bandit.clanMap.SecretLab,
+        Bandit.clanMap.ArmyGreen,
+        Bandit.clanMap.ArmyGreenMask,
+        Bandit.clanMap.Security
+    }
+
     local witnessList = BanditZombie.GetAllB()
-    for id, witness in pairs(witnessList) do
+    for id, witness in pairs(witnessList) do 
         local dist = math.sqrt(math.pow(character:getX() - witness.x, 2) + math.pow(character:getY() - witness.y, 2))
         if dist < min then
             local actor = BanditZombie.GetInstanceById(witness.id)
@@ -26,7 +36,7 @@ BWOPlayer.ActivateWitness = function(character, min)
                         Bandit.ClearTasks(actor)
                         local brave = false
                         for _, v in pairs(braveList) do
-                            if v == witness.brain.occupation then
+                            if v == witness.brain.cid then
                                 brave = true
                                 break
                             end
@@ -55,13 +65,23 @@ end
 -- make npcs react to threat possibility (player aiming or swinging weapon)
 BWOPlayer.ActivateTargets = function(character, min, severity)
     local activatePrograms = {"Patrol", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal", "Medic", "Fireman"}
-    local braveList = {"Police", "Security", "Army"}
+    local braveList = {
+        Bandit.clanMap.PoliceBlue,
+        Bandit.clanMap.PoliceGray,
+        Bandit.clanMap.PoliceRiot,
+        Bandit.clanMap.SWAT,
+        Bandit.clanMap.SecretLab,
+        Bandit.clanMap.ArmyGreen,
+        Bandit.clanMap.ArmyGreenMask,
+        Bandit.clanMap.Security
+    }
+
     local witnessList = BanditZombie.GetAllB()
     local wasLegal = false
     for id, witness in pairs(witnessList) do
         local dist = math.sqrt(math.pow(character:getX() - witness.x, 2) + math.pow(character:getY() - witness.y, 2))
         if dist < min then
-            if (witness.brain.clan ~= 0 and witness.brain.hostile) or witness.brain.program.name == "Thief" or witness.brain.program.name == "Vandal" then
+            if witness.brain.hostile or witness.brain.program.name == "Vandal" then
                 wasLegal = true
             else
                 local actor = BanditZombie.GetInstanceById(witness.id)
@@ -73,7 +93,7 @@ BWOPlayer.ActivateTargets = function(character, min, severity)
                             Bandit.ClearTasks(actor)
                             local brave = false
                             for _, v in pairs(braveList) do
-                                if v == witness.brain.occupation then
+                                if v == witness.brain.cid then
                                     brave = true
                                     break
                                 end
@@ -280,7 +300,6 @@ local onHitZombie = function(zombie, attacker, bodyPartType, handWeapon)
         zombie:Kill(nil)
         BWOEvents.Explode(zombie:getX(), zombie:getY())
     end
-
 end
 
 -- detecting crime based on who got hit by player
@@ -292,7 +311,6 @@ local onZombieDead = function(zombie)
     local player = getSpecificPlayer(0)
     local args = {x=zombie:getX(), y=zombie:getY(), z=zombie:getZ()}
     sendClientCommand(player, 'Commands', 'DeadBodyAdd', args)
-
 end
 
 --INTERCEPTORS

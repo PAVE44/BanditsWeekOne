@@ -52,6 +52,7 @@ BWOBuildings.OpenHours.church.close = 24
 
 BWOBuildings.IsResidential = function(building)
 
+    -- if true then return false end
     -- this gives false positives when the building is large and there are apparments and offices in the same building
     --[[
     if building:containsRoom("bedroom") and building:containsRoom("bathroom") then -- and building:containsRoom("kitchen")
@@ -62,6 +63,9 @@ BWOBuildings.IsResidential = function(building)
     local player = getSpecificPlayer(0)
     local def = building:getDef()
     local roomDefs = def:getRooms() -- returns roomDefs!
+
+    if roomDefs:size() > 30 then return false end
+
     local hasBedroom = false
     local hasBathroom = false
     local hasKitchen = false
@@ -143,8 +147,8 @@ BWOBuildings.FindBuildingWithRoom = function(bsearch)
         local building = room:getBuilding()
         if building and building:containsRoom(bsearch) and not BWOBuildings.IsEventBuilding(building, "home") then
             local def = building:getDef()
-            if math.abs(def:getX() - player:getX()) < 100 and math.abs(def:getX2() - player:getX()) < 100 and 
-               math.abs(def:getY() - player:getY()) < 100 and math.abs(def:getY2() - player:getY()) < 100 then
+            if math.abs(def:getX() - player:getX()) < 70 and math.abs(def:getX2() - player:getX()) < 70 and 
+               math.abs(def:getY() - player:getY()) < 70 and math.abs(def:getY2() - player:getY()) < 70 then
                 local key = def:getKeyId()
 
                 if not buildings[key] then

@@ -33,11 +33,15 @@ Bandit.clanMap.Vandal = "72fbcd15-a81b-476a-8c25-1b2caea694de"
 Bandit.clanMap.Walker = "c167d1e0-c077-4ee5-b353-88b374de193d"
 Bandit.clanMap.WalkerRain = "c167d1e0-c077-4ee5-b353-88b374de193d"
 Bandit.clanMap.Party = "42364b66-ab03-4c38-b374-5575a0c24868"
+Bandit.clanMap.Security = "dcc2a5e9-2670-42f9-8ac2-65566e8f2537"
 Bandit.clanMap.ArmyGreen = "d2860ee6-7e18-4132-ad42-8fb3a34ea499"
 Bandit.clanMap.ArmyGreenMask = "ce526bd8-a230-4d21-a1f8-5e30790b366f"
 Bandit.clanMap.Veteran = "c4878ebb-c8e5-4932-8850-370ee9c77d61"
+Bandit.clanMap.SecretLab = "f89205ff-7f90-4360-8f84-1d8faa3650e7"
+Bandit.clanMap.Survivor = "65218e00-bdf0-4d67-bcc1-75bcc86cb2c9"
 
--- babse
+
+-- babes
 Bandit.clanMap.BabeFemale = "a3bd90b9-aa08-44b2-8be3-a6dfcf15f9e1"
 Bandit.clanMap.BabeMale = "303cd279-a36a-4e4a-b448-ac1ef1c83b7d"
 
@@ -53,7 +57,7 @@ Bandit.clanMap.Priest = ""
 Bandit.clanMap.Teacher = ""
 Bandit.clanMap.Spiffo = ""
 
--- government
+-- government call services
 Bandit.clanMap.PoliceBlue = "c4e24888-70f9-43ea-80f8-1bb2f6b9bd88"
 Bandit.clanMap.PoliceGray = "33894253-b965-4eb3-94e1-4d642cadac88"
 Bandit.clanMap.PoliceRiot = "526e57b9-52cf-42a8-a17b-50e32e4d33f3"

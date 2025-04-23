@@ -23,7 +23,7 @@ ZombiePrograms.ArmyGuard.Main = function(bandit)
         return {status=true, next="Prepare", tasks=tasks}
     end
 
-    local mindist = 2.5
+    local mindist = 1.9
     if Bandit.IsHostile(bandit) then
         mindist = 50
     end

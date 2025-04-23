@@ -300,7 +300,7 @@ BWOPopControl.InhabitantsSpawn = function(max)
         end
     end
 
-    -- print ("--------------- IS: " .. getTimestampMs() - ts)
+    print ("--------------- IS: CURSOR" .. cursor .. " time: ".. getTimestampMs() - ts)
 end
 
 -- npcs in buildings despawner
@@ -335,37 +335,39 @@ BWOPopControl.InhabitantsDespawn = function(cnt)
 end
 
 -- survivors spawner
-BWOPopControl.SurvivorsSpawn = function(missing)
+BWOPopControl.SurvivorsSpawn = function(cnt)
 
     local player = getSpecificPlayer(0)
     if not player then return end
 
-    config = {}
-    config.clanId = 0
-    config.hasRifleChance = 0
-    config.hasPistolChance = 30
-    config.rifleMagCount = 0
-    config.pistolMagCount = 2
+    local cell = player:getCell()
+    local px = player:getX()
+    local py = player:getY()
 
-    local event = {}
-    event.hostile = false
-    event.occured = false
-    event.program = {}
-    event.program.name = "Survivor"
-    event.program.stage = "Prepare"
+    local args = {
+        cid = Bandit.clanMap.Survivor,
+        size = 1,
+        program = "Survivor"
+    }
 
-    for i=1, missing do
-        local spawnPoint = BanditScheduler.GenerateSpawnPoint(player, ZombRand(35,50))
-        if spawnPoint then
-            event.x = spawnPoint.x
-            event.y = spawnPoint.y
-            event.bandits = {}
+    for i = 1, cnt do
+        local x = 35 + ZombRand(25)
+        local y = 35 + ZombRand(25)
+        
+        if ZombRand(2) == 1 then x = -x end
+        if ZombRand(2) == 1 then y = -y end
+
+        local square = cell:getGridSquare(px + x, py + y, 0)
+        if square then
+            if square:isOutside() and not BWOSquareLoader.IsInExclusion(square:getX(), square:getY()) then
+                
+                args.x = square:getX()
+                args.y = square:getY()
+                args.z = square:getZ()
+                
+                sendClientCommand(player, 'Spawner', 'Clan', args)
             
-            local bandit = BanditCreator.MakeFromWave(config)
-            table.insert(event.bandits, bandit)
-            
-            sendClientCommand(player, 'Commands', 'SpawnGroup', event)
-
+            end
         end
     end
 end

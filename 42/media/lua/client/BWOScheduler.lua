@@ -14,7 +14,7 @@ BWOScheduler.World = {}
 BWOScheduler.NPC = {}
 BWOScheduler.Anarchy = {}
 
--- world age time shift depending on sandbox tart date
+-- world age time shift depending on sandbox start date
 waShiftMap = {}
 table.insert(waShiftMap, 0) -- week before
 table.insert(waShiftMap, 168) -- 2 weeks before
@@ -42,9 +42,9 @@ local generateSchedule = function()
     tab[0][4]   = {"SetupNukes", {}}
     tab[0][5]   = {"SetupPlaceEvents", {}}
     
-    tab[2][22]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=30, intensity=9}}
+    tab[2][22]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=30, intensity=8}}
     tab[4][15]  = {"Entertainer", {}}
-    tab[5][44]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=9}}
+    tab[5][44]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}}
     tab[6][35]  = {"Entertainer", {}}
     tab[7][15]  = {"Entertainer", {}}
     tab[8][5]   = {"Defenders", {profession="policeofficer"}}
@@ -63,13 +63,13 @@ local generateSchedule = function()
     -- DAY 2 09.00
     tab[24][0]  = {"StartDay", {day="saturday"}}
     tab[24][15] = {"Entertainer", {}}
-    tab[25][44] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=12}}
+    tab[25][44] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}}
     tab[26][20] = {"Entertainer", {}}
     tab[26][21] = {"SetHydroPower", {on=false}}
     tab[26][22] = {"SetHydroPower", {on=true}}
-    tab[27][8]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=12}}
+    tab[27][8]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}}
     tab[28][33] = {"Entertainer", {}}
-    tab[30][33] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=9}}
+    tab[30][33] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}}
     tab[35][20] = {"BuildingParty", {roomName="bedroom", intensity=8}}
     tab[36][10] = {"BuildingParty", {roomName="bedroom", intensity=8}}
     tab[37][5]  = {"BuildingParty", {roomName="bedroom", intensity=8}}
@@ -171,21 +171,21 @@ local generateSchedule = function()
     tab[121][16] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
     tab[121][45] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
     tab[122][0]  = {"Siren", {}}
-    tab[122][11] = {"SpawnGroup", {name="Riot Police", cid=Bandit.clanMap.PoliceRiot, program="PoliceRiot", intensity=12}}
+    tab[122][11] = {"SpawnGroup", {name="Riot Police", cid=Bandit.clanMap.PoliceRiot, program="RiotPolice", d=30, intensity=12}}
     tab[122][12] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
-    tab[122][15] = {"SpawnGroup", {name="Riot Police", cid=Bandit.clanMap.PoliceRiot, program="PoliceRiot", intensity=12}}
+    tab[122][15] = {"SpawnGroup", {name="Riot Police", cid=Bandit.clanMap.PoliceRiot, program="RiotPolice", d=30, intensity=12}}
     tab[122][16] = {"Shahids", {intensity=1}}
-    tab[122][17] = {"SpawnGroup", {name="Riot Police", cid=Bandit.clanMap.PoliceRiot, program="PoliceRiot", intensity=12}}
+    tab[122][17] = {"SpawnGroup", {name="Riot Police", cid=Bandit.clanMap.PoliceRiot, program="RiotPolice", d=30, intensity=12}}
     tab[122][44] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
     tab[123][27] = {"Arson", {}}
     tab[123][33] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=54, intensity=4}}
     tab[123][39] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=53, intensity=4}}
     tab[123][41] = {"ChopperAlert", {sound="BWOChopperDisperse"}}
-    tab[123][45] = {"SpawnGroup", {name="Riot Police", cid=Bandit.clanMap.PoliceRiot, program="PoliceRiot", intensity=12}}
+    tab[123][45] = {"SpawnGroup", {name="Riot Police", cid=Bandit.clanMap.PoliceRiot, program="RiotPolice", d=30, intensity=12}}
 
     tab[124][1]  = {"ChopperFliers", {}}
     tab[125][2]  = {"Arson", {}}
-    tab[125][3]  = {"SpawnGroup", {name="Asylum Escapes", cid=Bandit.clanMap.Mental, program="Bandit", intensity=16}}
+    tab[125][3]  = {"SpawnGroup", {name="Asylum Escapes", cid=Bandit.clanMap.Mental, program="Bandit", d=34, intensity=16}}
     tab[125][5]  = {"Arson", {}}
     tab[128][16] = {"Arson", {}}
     tab[128][27] = {"Arson", {}}
@@ -527,7 +527,7 @@ function BWOScheduler.MasterControl()
     end 
 
     -- debug to jump to a certain hour
-    -- worldAge = worldAge + 151
+    -- worldAge = 131
 
     BWOScheduler.WorldAge = worldAge
     
@@ -762,31 +762,6 @@ function BWOScheduler.CheckEvents()
             break
         end
     end
-end
-
--- this patches original bandits scheduler to shift days of bandit occurances by 7 days
-function BanditScheduler.GetWaveDataAll()
-    local waveCnt = 16
-    local waveData = {}
-    for i=1, waveCnt do
-        local wave = {}
-
-        wave.enabled = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_WaveEnabled"]
-        wave.enemyBehaviour = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_EnemyBehaviour"]
-        wave.firstDay = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_FirstDay"] + 67
-        wave.lastDay = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_LastDay"] + 67
-        wave.spawnDistance = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_SpawnDistance"]
-        wave.spawnHourlyChance = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_SpawnHourlyChance"]
-        wave.groupSize = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_GroupSize"]
-        wave.clanId = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_GroupName"]
-        wave.hasPistolChance = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_HasPistolChance"]
-        wave.pistolMagCount = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_PistolMagCount"]
-        wave.hasRifleChance = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_HasRifleChance"]
-        wave.rifleMagCount = SandboxVars.Bandits["Clan_" .. tostring(i) .. "_RifleMagCount"]
-
-        table.insert(waveData, wave)
-    end
-    return waveData
 end
 
 Events.OnTick.Add(BWOScheduler.CheckEvents)

@@ -590,3 +590,35 @@
 	spawn: groupMax = 1
 	spawn: zone = 0
 
+[f89205ff-7f90-4360-8f84-1d8faa3650e7]
+	general: name = SecretLab
+	spawn: friendly = false
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = true
+	spawn: wanderer = false
+	spawn: roadblock = false
+	spawn: dayStart = 0
+	spawn: dayEnd = 10000
+	spawn: spawnChance = 0
+	spawn: groupMin = 4
+	spawn: groupMax = 4
+	spawn: zone = 0
+
+[65218e00-bdf0-4d67-bcc1-75bcc86cb2c9]
+	general: name = Survivors
+	spawn: friendly = true
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+	spawn: dayStart = 0
+	spawn: dayEnd = 10000
+	spawn: spawnChance = 0
+	spawn: groupMin = 1
+	spawn: groupMax = 1
+	spawn: zone = 0
+

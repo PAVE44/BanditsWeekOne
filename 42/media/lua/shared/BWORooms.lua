@@ -412,7 +412,7 @@ BWORooms.tab = {
     clinic = {
         isShop = true,
         cids = {Bandit.clanMap.Walker},
-        cidSpecial = {Bandit.clanMap.Medics, Bandit.clanMap.Medics},
+        cidSpecial = {Bandit.clanMap.Medic, Bandit.clanMap.Medic},
         isMedical = true,
         outfits = {"Nurse", "Doctor", "HospitalPatient"},
         income = 1
@@ -514,7 +514,7 @@ BWORooms.tab = {
     },
 
     detectiveoffice = {
-        cids = {Bandit.clanMap.Police},
+        cids = {Bandit.clanMap.PoliceBlue},
         outfits = {"Detective"},
         occupations = {"policeofficer"},
         hasPistolChance = 100,
@@ -917,7 +917,7 @@ BWORooms.tab = {
     },
 
     interrogationroom = {
-        cids = {Bandit.clanMap.Police},
+        cids = {Bandit.clanMap.PoliceBlue},
         occupations = {"policeofficer"},
         outfits = {"Police", "Detective"},
         hasPistolChance = 100,
@@ -1117,7 +1117,7 @@ BWORooms.tab = {
     medclinic = {
         isShop = true,
         cids = {Bandit.clanMap.Walker},
-        cidSpecial = {Bandit.clanMap.Medics},
+        cidSpecial = {Bandit.clanMap.Medic},
         isMedical = true,
         occupations = {"doctor", "nurse"},
         outfits = {"Nurse", "Doctor", "HospitalPatient"},
@@ -1127,7 +1127,7 @@ BWORooms.tab = {
     medical = {
         isShop = true,
         cids = {Bandit.clanMap.Walker},
-        cidSpecial = {Bandit.clanMap.Medics},
+        cidSpecial = {Bandit.clanMap.Medic},
         isMedical = true,
         occupations = {"doctor", "nurse"},
         outfits = {"Nurse", "Doctor", "HospitalPatient"},
@@ -1137,7 +1137,7 @@ BWORooms.tab = {
     medicaloffice = {
         isShop = true,
         cids = {Bandit.clanMap.Walker},
-        cidSpecial = {Bandit.clanMap.Medics},
+        cidSpecial = {Bandit.clanMap.Medic},
         isMedical = true,
         occupations = {"doctor", "nurse"},
         outfits = {"Nurse", "Doctor", "HospitalPatient"},
@@ -1147,7 +1147,7 @@ BWORooms.tab = {
     medicalclinic = {
         isShop = true,
         cids = {Bandit.clanMap.Walker},
-        cidSpecial = {Bandit.clanMap.Medics},
+        cidSpecial = {Bandit.clanMap.Medic},
         isMedical = true,
         occupations = {"doctor", "nurse"},
         outfits = {"Nurse", "Doctor", "HospitalPatient"},
@@ -1285,7 +1285,7 @@ BWORooms.tab = {
         isShop = true,
         isMedical = true,
         cids = {Bandit.clanMap.Walker},
-        cidSpecial = {Bandit.clanMap.Medics},
+        cidSpecial = {Bandit.clanMap.Medic},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "Pharmacist"},
         femaleChance = 50
     },
@@ -1345,7 +1345,7 @@ BWORooms.tab = {
 
     policearchive = {
         isStorage = true,
-        cids = {Bandit.clanMap.Police},
+        cids = {Bandit.clanMap.PoliceBlue},
         occupations = {"policeofficer"},
         outfits = {"Police", "Detective"},
         hasPistolChance = 100,
@@ -1356,7 +1356,7 @@ BWORooms.tab = {
 
     policegarage = {
         isStorage = true,
-        cids = {Bandit.clanMap.Police},
+        cids = {Bandit.clanMap.PoliceBlue},
         occupations = {"policeofficer"},
         outfits = {"Police", "Detective"},
         hasPistolChance = 100,
@@ -1377,7 +1377,7 @@ BWORooms.tab = {
     },
 
     policehall = {
-        cids = {Bandit.clanMap.Police},
+        cids = {Bandit.clanMap.PoliceBlue},
         occupations = {"policeofficer"},
         outfits = {"Police"},
         hasPistolChance = 100,
@@ -1387,7 +1387,7 @@ BWORooms.tab = {
 
     policelocker = {
         isStorage = true,
-        cids = {Bandit.clanMap.Police},
+        cids = {Bandit.clanMap.PoliceBlue},
         occupations = {"policeofficer"},
         outfits = {"Police"},
         hasPistolChance = 100,
@@ -1396,7 +1396,7 @@ BWORooms.tab = {
     }, 
 
     policeoffice = {
-        cids = {Bandit.clanMap.Police},
+        cids = {Bandit.clanMap.PoliceBlue},
         occupations = {"policeofficer"},
         outfits = {"Police", "Detective"},
         hasPistolChance = 100,
@@ -1407,7 +1407,7 @@ BWORooms.tab = {
 
     policestorage = {
         isStorage = true,
-        cids = {Bandit.clanMap.Police},
+        cids = {Bandit.clanMap.PoliceBlue},
         occupations = {"policeofficer"},
         outfits = {"Police"},
         hasPistolChance = 100,

@@ -154,6 +154,7 @@ BWOSquareLoader.remove["12072-6760-0"] = {}
 -- now Stendo's
 BWOSquareLoader.remove["12095-6789-0"] = {}
 BWOSquareLoader.remove["12096-6789-0"] = {}
+BWOSquareLoader.remove["12090-6796-0"] = {}
 
 -- remove fence in brandenburg gunshop
 BWOSquareLoader.remove["2048-5832-0"] = {}
@@ -740,7 +741,10 @@ local processFire = function(fire)
     params.y = fire:getY()
     params.z = fire:getZ()
     params.hostile = true
-    BWOScheduler.Add("CallFireman", params, 4800)
+
+    if BWOPopControl.Fireman.On and BWOPopControl.Fireman.Cooldown <= 0 then
+        BWOScheduler.Add("CallFireman", params, 4800)
+    end
 
     local args = {x=params.x, y=params.y, z=params.z, otype="fire", ttl=BanditUtils.GetTime()+25000}
     sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectAdd', args)

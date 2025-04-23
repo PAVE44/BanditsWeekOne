@@ -47,122 +47,48 @@ function BWOEventsPlace.ArmyGuards(params)
     local player = getSpecificPlayer(0)
     if not player then return end
 
-    config = {}
-    config.clanId = 0
-    config.hasRifleChance = 100
-    config.hasPistolChance = 100
-    config.rifleMagCount = 6
-    config.pistolMagCount = 3
+    local args = {
+        cid = Bandit.clanMap.ArmyGreen,
+        size = 3,
+        program = "ArmyGuard",
+        x = params.x,
+        y = params.y,
+        z = params.z
+    }
 
-    local event = {}
-    event.hostile = false
-    event.occured = false
-    event.program = {}
-    event.program.name = "ArmyGuard"
-    event.program.stage = "Prepare"
-
-    event.x = params.x
-    event.y = params.y
-    event.bandits = {}
-    
-    local bandit = BanditCreator.MakeFromWave(config)
-    bandit.hairStyle = BanditUtils.Choice({"Bald", "Fresh", "Demi", "FlatTop", "MohawkShort"})
-    bandit.accuracyBoost = 1.6
-    bandit.femaleChance = 0
-    bandit.health = 2.7
-    bandit.outfit = "ZSArmySpecialOps"
-    bandit.weapons.melee = "Base.HuntingKnife"
-
-    local intensity = 4
-    if intensity > 0 then
-        for i=1, intensity do
-            table.insert(event.bandits, bandit)
-        end
-        sendClientCommand(player, 'Commands', 'SpawnGroup', event)
-    end
-
-    if SandboxVars.Bandits.General_ArrivalIcon then
-        local icon = "media/ui/raid.png"
-        local color = {r=0, g=1, b=0} -- green
-        BanditEventMarkerHandler.set(getRandomUUID(), icon, 3600, event.x, event.y, color)
-    end
+    sendClientCommand(player, 'Spawner', 'Clan', args)
 end
 
 function BWOEventsPlace.GunshopGuard(params)
     local player = getSpecificPlayer(0)
     if not player then return end
+        
+    local args = {
+        cid = Bandit.clanMap.Veteran,
+        size = 1,
+        program = "ArmyGuard",
+        x = params.x,
+        y = params.y,
+        z = params.z
+    }
 
-    config = {}
-    config.clanId = 0
-    config.hasRifleChance = 100
-    config.hasPistolChance = 100
-    config.rifleMagCount = 6
-    config.pistolMagCount = 3
-
-    local event = {}
-    event.hostile = false
-    event.occured = false
-    event.program = {}
-    event.program.name = "ArmyGuard"
-    event.program.stage = "Prepare"
-
-    event.x = params.x
-    event.y = params.y
-    event.bandits = {}
-    
-    local bandit = BanditCreator.MakeFromWave(config)
-    bandit.accuracyBoost = 1.6
-    bandit.femaleChance = 0
-    bandit.health = 3.1
-    bandit.outfit = "Veteran"
-    bandit.weapons.melee = "Base.HuntingKnife"
-
-    local intensity = 2
-    if intensity > 0 then
-        for i=1, intensity do
-            table.insert(event.bandits, bandit)
-        end
-        sendClientCommand(player, 'Commands', 'SpawnGroup', event)
-    end
+    sendClientCommand(player, 'Spawner', 'Clan', args)
 end
 
 function BWOEventsPlace.BaseDefenders(params)
     local player = getSpecificPlayer(0)
     if not player then return end
+        
+    local args = {
+        cid = Bandit.clanMap.SecretLab,
+        size = 4,
+        program = "ArmyGuard",
+        x = params.x,
+        y = params.y,
+        z = params.z
+    }
 
-    config = {}
-    config.clanId = 15
-    config.hasRifleChance = 100
-    config.hasPistolChance = 100
-    config.rifleMagCount = 6
-    config.pistolMagCount = 3
-
-    local event = {}
-    event.hostile = true
-    event.occured = false
-    event.program = {}
-    event.program.name = "ArmyGuard"
-    event.program.stage = "Prepare"
-
-    event.x = params.x
-    event.y = params.y
-    event.bandits = {}
-    
-    local bandit = BanditCreator.MakeFromWave(config)
-
-    local intensity = 4
-    if intensity > 0 then
-        for i=1, intensity do
-            table.insert(event.bandits, bandit)
-        end
-        sendClientCommand(player, 'Commands', 'SpawnGroup', event)
-    end
-
-    if SandboxVars.Bandits.General_ArrivalIcon then
-        local icon = "media/ui/raid.png"
-        local color = {r=1, g=0, b=0} -- red
-        BanditEventMarkerHandler.set(getRandomUUID(), icon, 3600, event.x, event.y, color)
-    end
+    sendClientCommand(player, 'Spawner', 'Clan', args)
 end
 
 function BWOEventsPlace.CarMechanic(params)
