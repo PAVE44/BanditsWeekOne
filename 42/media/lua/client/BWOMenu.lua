@@ -397,6 +397,15 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
 
     if isDebugEnabled() or isAdmin() then
 
+        local objects = square:getObjects()
+        for i=0, objects:size()-1 do
+            local object = objects:get(i)
+            if instanceof(object, "IsoRadio") then
+                local dd = object:getDeviceData()
+                BWORadio.PlaySound(object, "197ddd73-7662-41d5-81e0-63b83a58ab60")
+            end
+        end
+
         -- local density = BanditScheduler.GetDensityScore(player, 120) * 1.4
         -- print ("DENSITY: " .. density)
 

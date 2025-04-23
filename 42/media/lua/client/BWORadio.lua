@@ -108,7 +108,8 @@ local getEmitter = function(device)
                
     if not emitter then
         local x, y, z = device:getX(), device:getY(), device:getZ()
-        emitter = world:getFreeEmitter(x, y, z)
+        -- emitter = world:getFreeEmitter(x, y, z)
+        emitter = deviceData:getEmitter()
         id = x .. "-" .. y .. "-" .. z
     end
 
