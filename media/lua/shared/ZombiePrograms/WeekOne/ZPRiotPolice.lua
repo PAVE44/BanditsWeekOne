@@ -1,56 +1,24 @@
 ZombiePrograms = ZombiePrograms or {}
 
 ZombiePrograms.RiotPolice = {}
-ZombiePrograms.RiotPolice.Stages = {}
-
-ZombiePrograms.RiotPolice.Init = function(bandit)
-end
-
-ZombiePrograms.RiotPolice.GetCapabilities = function()
-    -- capabilities are program decided
-    local capabilities = {}
-    capabilities.melee = true
-    capabilities.shoot = false
-    capabilities.smashWindow = true
-    capabilities.openDoor = true
-    capabilities.breakDoor = true
-    capabilities.breakObjects = true
-    capabilities.unbarricade = false
-    capabilities.disableGenerators = false
-    capabilities.sabotageCars = false
-    return capabilities
-end
 
 ZombiePrograms.RiotPolice.Prepare = function(bandit)
     local tasks = {}
 
-    local weapons = Bandit.GetWeapons(bandit)
-    local primary = Bandit.GetBestWeapon(bandit)
-
-    Bandit.ForceStationary(bandit, true)
-    Bandit.SetWeapons(bandit, weapons)
-
-    if weapons.primary.name and weapons.secondary.name then
-        local task1 = {action="Unequip", time=100, itemPrimary=weapons.secondary.name}
-        table.insert(tasks, task1)
-    end
-
-    local task2 = {action="Equip", itemPrimary=primary, itemSecondary=secondary}
-    table.insert(tasks, task2)
-
+    Bandit.ForceStationary(bandit, false)
+  
     return {status=true, next="Main", tasks=tasks}
 end
 
 ZombiePrograms.RiotPolice.Main = function(bandit)
     local tasks = {}
 
-    local id = BanditUtils.GetCharacterID(bandit)
+    local brain = BanditBrain.Get(bandit)
+    local id = brain.id
     local world = getWorld()
     local cell = getCell()
- 
-    local walkType = "WalkAim"
+     local walkType = "WalkAim"
     local closeSlow = false
-
     local endurance = 0
 
     local health = bandit:getHealth()
@@ -82,8 +50,13 @@ ZombiePrograms.RiotPolice.Main = function(bandit)
         return {status=true, next="Main", tasks=tasks}
     end
     
-    local task = {action="Time", anim="Shrug", time=200}
-    table.insert(tasks, task)
+    -- fallback
+    local subTasks = BanditPrograms.FallbackAction(bandit)
+    if #subTasks > 0 then
+        for _, subTask in pairs(subTasks) do
+            table.insert(tasks, subTask)
+        end
+    end
 
     return {status=true, next="Main", tasks=tasks}
 end

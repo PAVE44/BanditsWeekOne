@@ -2,7 +2,7 @@ ZombieActions = ZombieActions or {}
 
 ZombieActions.Smoke = {}
 ZombieActions.Smoke.onStart = function(zombie, task)
-    local fakeItem = InventoryItemFactory.CreateItem("Bandits.Cigarette")
+    local fakeItem = BanditCompatibility.InstanceItem("Bandits.Cigarette")
     zombie:setSecondaryHandItem(fakeItem)
 
     return true
@@ -16,19 +16,13 @@ ZombieActions.Smoke.onWorking = function(zombie, task)
         effect.x = zombie:getX()
         effect.y = zombie:getY()
         effect.z = zombie:getZ()
-        effect.offset = 300
+        effect.size = 600
         effect.name = "mist"
         effect.frameCnt = 60
-        effect.frameRnd = false
         effect.repCnt = 2
-        effect.r = 0.6
-        effect.g = 0.6
-        effect.b = 0.6
-        if isClient() then
-            sendClientCommand(getPlayer(), 'Commands', 'AddEffect', effect)
-        else
-            table.insert(BanditEffects.tab, effect)
-        end
+        effect.colors = {r=0.9, g=0.9, b=1.0, a=0.2}
+
+        table.insert(BWOEffects2.tab, effect)
     else
         local bumpType = zombie:getBumpType()
         if bumpType ~= task.anim then 

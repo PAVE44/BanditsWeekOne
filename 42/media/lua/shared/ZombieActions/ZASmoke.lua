@@ -16,13 +16,13 @@ ZombieActions.Smoke.onWorking = function(zombie, task)
         effect.x = zombie:getX()
         effect.y = zombie:getY()
         effect.z = zombie:getZ()
-        effect.offset = 300
-        effect.name = "mist_01"
+        effect.size = 600
+        effect.name = "mist"
         effect.frameCnt = 60
-        effect.frameRnd = false
         effect.repCnt = 2
-        effect.colors = {r=0.1, g=0.7, b=0.2, a=0.2}
-        table.insert(BanditEffects.tab, effect)
+        effect.colors = {r=0.9, g=0.9, b=1.0, a=0.2}
+
+        table.insert(BWOEffects2.tab, effect)
     else
         local bumpType = zombie:getBumpType()
         if bumpType ~= task.anim then 

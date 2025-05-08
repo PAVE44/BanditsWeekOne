@@ -1,35 +1,12 @@
 ZombiePrograms = ZombiePrograms or {}
 
 ZombiePrograms.Gardener = {}
-ZombiePrograms.Gardener.Stages = {}
-
-ZombiePrograms.Gardener.Init = function(bandit)
-end
-
-ZombiePrograms.Gardener.GetCapabilities = function()
-    -- capabilities are program decided
-    local capabilities = {}
-    capabilities.melee = false
-    capabilities.shoot = false
-    capabilities.smashWindow = false
-    capabilities.openDoor = true
-    capabilities.breakDoor = false
-    capabilities.breakObjects = false
-    capabilities.unbarricade = false
-    capabilities.disableGenerators = false
-    capabilities.sabotageCars = false
-    return capabilities
-end
 
 ZombiePrograms.Gardener.Prepare = function(bandit)
     local tasks = {}
-    local world = getWorld()
-    local cell = getCell()
-    local cm = world:getClimateManager()
-    local dls = cm:getDayLightStrength()
 
     Bandit.ForceStationary(bandit, false)
-
+  
     return {status=true, next="Main", tasks=tasks}
 end
 
@@ -40,9 +17,10 @@ ZombiePrograms.Gardener.Main = function(bandit)
     end
 
     local tasks = {}
-
+    -- if true then return {status=true, next="Main", tasks=tasks} end
     local cell = bandit:getCell()
-    local id = BanditUtils.GetCharacterID(bandit)
+    local brain = BanditBrain.Get(bandit)
+    local id = brain.id
     local bx = bandit:getX()
     local by = bandit:getY()
     local bz = bandit:getZ()
@@ -82,7 +60,7 @@ ZombiePrograms.Gardener.Main = function(bandit)
     inventory:getAllEvalRecurse(predicateWateringCan, npiList)
     local npiCnt = npiList:size()
     if npiCnt == 0 then
-        local item = InventoryItemFactory.CreateItem("Bandits.WateringCan")
+        local item = BanditCompatibility.InstanceItem("Bandits.WateringCan")
         inventory:AddItem(item)
         Bandit.UpdateItemsToSpawnAtDeath(bandit)
     end

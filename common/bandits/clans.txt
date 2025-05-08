@@ -362,8 +362,8 @@
 	spawn: dayStart = 0
 	spawn: dayEnd = 10000
 	spawn: spawnChance = 0
-	spawn: groupMin = 1
-	spawn: groupMax = 4
+	spawn: groupMin = 10
+	spawn: groupMax = 40
 	spawn: zone = 0
 
 [e216b4ea-e57f-4b15-8cd8-140b82e7b5ea]

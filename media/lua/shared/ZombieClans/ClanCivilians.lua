@@ -12,7 +12,7 @@ BanditClan.Civilians.name = "Civilians"
 BanditClan.Civilians.femaleChance = 40
 
 -- health ranges from 1 - 14. Higher values may produce unexpected results,
-BanditClan.Civilians.health = 2
+BanditClan.Civilians.health = 1.2
 
 -- if the bandit will eat player's body after death
 BanditClan.Civilians.eatBody = false
@@ -59,18 +59,16 @@ table.insert(BanditClan.Civilians.Melee, "Base.Pan")
 table.insert(BanditClan.Civilians.Melee, "Base.RollingPin")
 table.insert(BanditClan.Civilians.Melee, "Base.SmashedBottle")
 table.insert(BanditClan.Civilians.Melee, "Base.HandScythe")
-table.insert(BanditClan.Civilians.Melee, "Base.WoodenLance")
+table.insert(BanditClan.Civilians.Melee, "Base.SpearShort")
 table.insert(BanditClan.Civilians.Melee, "Base.Banjo")
 table.insert(BanditClan.Civilians.Melee, "Base.ChairLeg")
 table.insert(BanditClan.Civilians.Melee, "Base.GardenFork")
 table.insert(BanditClan.Civilians.Melee, "Base.GridlePan")
 table.insert(BanditClan.Civilians.Melee, "Base.Hammer")
-table.insert(BanditClan.Civilians.Melee, "Base.HockeyStick")
 table.insert(BanditClan.Civilians.Melee, "Base.IceHockeyStick")
 table.insert(BanditClan.Civilians.Melee, "Base.MetalPipe")
 table.insert(BanditClan.Civilians.Melee, "Base.PipeWrench")
 table.insert(BanditClan.Civilians.Melee, "Base.Plunger")
-table.insert(BanditClan.Civilians.Melee, "Base.GuitarElectricRed")
 table.insert(BanditClan.Civilians.Melee, "Base.Saucepan")
 table.insert(BanditClan.Civilians.Melee, "Base.TableLeg")
 table.insert(BanditClan.Civilians.Melee, "Base.Wrench")
@@ -92,7 +90,7 @@ for i=1, 80 do
     table.insert(BanditClan.Civilians.Loot, BanditLoot.MakeItem("Base.Money", 22))
 end
 
-table.insert(BanditClan.Civilians.Loot, BanditLoot.MakeItem("Base.WaterBottleFull", 30))
+table.insert(BanditClan.Civilians.Loot, BanditLoot.MakeItem("Base.WaterBottle", 30))
 table.insert(BanditClan.Civilians.Loot, BanditLoot.MakeItem("Base.Gum", 5))
 table.insert(BanditClan.Civilians.Loot, BanditLoot.MakeItem("Base.Peppermint", 2))
 table.insert(BanditClan.Civilians.Loot, BanditLoot.MakeItem("Base.GummyWorms", 1))

@@ -42,7 +42,7 @@ ZombieActions.Barricade.onStart = function(zombie, task)
                         z = object:getSquare():getZ(),
                         index = object:getObjectIndex()
                     }
-                    sendClientCommand(getPlayer(), 'Commands', 'CloseDoor', args)
+                    sendClientCommand(getSpecificPlayer(0), 'Commands', 'CloseDoor', args)
                 end
 
                 break
@@ -71,8 +71,17 @@ ZombieActions.Barricade.onWorking = function(zombie, task)
         local bumpType = zombie:getBumpType()
         if bumpType ~= task.anim then 
             zombie:setBumpType(task.anim)
+
+            if task.sound then
+                local emitter = zombie:getEmitter()
+                if not emitter:isPlaying(task.sound) then
+                    emitter:playSound(task.sound)
+                end
+            end
+            
         end
     end
+    return false
 end
 
 ZombieActions.Barricade.onComplete = function(zombie, task)
@@ -94,7 +103,7 @@ ZombieActions.Barricade.onComplete = function(zombie, task)
                         z = object:getSquare():getZ(),
                         index = object:getObjectIndex()
                     }
-                    sendClientCommand(getPlayer(), 'Commands', 'ToggleDoor', args)
+                    sendClientCommand(getSpecificPlayer(0), 'Commands', 'ToggleDoor', args)
 
                 elseif instanceof(object, "IsoDoor") or instanceof(object, "IsoWindow") then
                     if BanditUtils.IsController(zombie) then
@@ -111,7 +120,12 @@ ZombieActions.Barricade.onComplete = function(zombie, task)
 
                         if numPlanks < 4 then
                             local args = {x=task.x, y=task.y, z=task.z, index=task.idx, condition=100}
-                            sendClientCommand(getPlayer(), 'Commands', 'Barricade', args)
+
+                            if isClient() then
+                                sendClientCommand(getSpecificPlayer(0), 'Commands', 'Barricade', args)
+                            else
+                                BanditServer.Commands.Barricade(getSpecificPlayer(0), args)
+                            end
                         end
                     end
                 end

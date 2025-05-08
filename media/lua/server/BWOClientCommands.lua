@@ -21,6 +21,40 @@ BWOServer.Commands.ObjectRemove = function(player, args)
     gmd.Objects[args.otype][id] = nil
 end
 
+BWOServer.Commands.NukeAdd = function(player, args)
+    local gmd = GetBWOModData()
+    if not (args.x and args.y and args.r) then return end
+
+    local id = math.floor(args.x) .. "-" .. math.floor(args.y)
+
+    gmd.Nukes[id] = args
+end
+
+BWOServer.Commands.NukesDisable = function(player, args)
+    local gmd = GetBWOModData()
+    if args.confirm then
+        gmd.Nukes = {}
+    end
+end
+
+BWOServer.Commands.PlaceEventAdd = function(player, args)
+    local gmd = GetBWOModData()
+    if not (args.x and args.y and args.z) then return end
+
+    local id = math.floor(args.x) .. "-" .. math.floor(args.y) .. "-" .. math.floor(args.z)
+
+    gmd.PlaceEvents[id] = args
+end
+
+BWOServer.Commands.PlaceEventRemove = function(player, args)
+    local gmd = GetBWOModData()
+    if not (args.x and args.y and args.z) then return end
+
+    local id = math.floor(args.x) .. "-" .. math.floor(args.y) .. "-" ..args.z
+
+    gmd.PlaceEvents[id] = nil
+end
+
 BWOServer.Commands.EventBuildingAdd = function(player, args)
     local gmd = GetBWOModData()
     if not (args.id and args.event) then return end
@@ -55,7 +89,7 @@ BWOServer.Commands.AddEffect = function(player, args)
 end
 
 BWOServer.Commands.Nuke = function(player, args)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
     local cell = player:getCell()
     local px = args.x
     local py = args.y

@@ -6,12 +6,9 @@ ZombieActions.TimeFace.onStart = function(zombie, task)
 end
 
 ZombieActions.TimeFace.onWorking = function(zombie, task)
-    zombie:faceLocation(task.x, task.y)
-    local bumpType = zombie:getBumpType()
-    if bumpType ~= task.anim then
-        return true
-    end
-
+    zombie:faceLocationF(task.x, task.y)
+    if zombie:getBumpType() ~= task.anim then return true end
+    return false
 end
 
 ZombieActions.TimeFace.onComplete = function(zombie, task)

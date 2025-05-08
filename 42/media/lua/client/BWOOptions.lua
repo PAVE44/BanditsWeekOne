@@ -13,6 +13,7 @@ BWOOptions.IntroMusic["Random"] = "Random"
 BWOOptions.IntroMusic["UIBWOMusic1"] = "Calm Before The Storm (Zach Beever)"
 BWOOptions.IntroMusic["UIBWOMusic2"] = "Alone (Zach Beever)"
 BWOOptions.IntroMusic["UIBWOMusic3"] = "Barricading (Zach Beever)"
+BWOOptions.IntroMusic["UIBWOMusic4"] = "Inevitable (Slayer)"
 
 BWOOptions.IntroMusicDefault = 2
 

@@ -5,11 +5,11 @@ ZombieActions.TimeEvent.onStart = function(zombie, task)
     local gmd = GetBWOModData()
     if task.event then
         local args = {x=math.floor(task.x), y=math.floor(task.y), z=task.z, otype=task.event, ttl=BanditUtils.GetTime()+100000}
-        sendClientCommand(getPlayer(), 'Commands', 'ObjectAdd', args)
+        BWOServer.Commands.ObjectAdd(getSpecificPlayer(0), args)
     end
 
     if task.item then
-        local fakeItem = InventoryItemFactory.CreateItem(task.item)
+        local fakeItem = BanditCompatibility.InstanceItem(task.item)
         if not task.left then
             zombie:setPrimaryHandItem(fakeItem)
         end
@@ -55,7 +55,7 @@ end
 ZombieActions.TimeEvent.onComplete = function(zombie, task)
     if task.event then
         local args = {x=math.floor(task.x + 0.5), y=math.floor(task.y + 0.5), z=task.z, otype=task.event}
-        sendClientCommand(getPlayer(), 'Commands', 'ObjectRemove', args)
+        BWOServer.Commands.ObjectRemove(getSpecificPlayer(0), args)
     end
 
     if task.item then

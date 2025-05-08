@@ -64,4 +64,5 @@ module Tsarcraft
         DisplayName      = Cassette Bandit Breakdance 01,
         WorldStaticModel = Tsarcraft.TCTape6,
     }
+    
 }

@@ -50,255 +50,44 @@ BWOBuildings.OpenHours.church = {}
 BWOBuildings.OpenHours.church.open = 0
 BWOBuildings.OpenHours.church.close = 24
 
--- Hmap defines buidling population intensity modifier based on the game hour
-BWOBuildings.Hmap = {}
-
-BWOBuildings.Hmap.unknown = {}
-BWOBuildings.Hmap.unknown[0] = 0
-BWOBuildings.Hmap.unknown[1] = 0
-BWOBuildings.Hmap.unknown[2] = 0
-BWOBuildings.Hmap.unknown[3] = 0
-BWOBuildings.Hmap.unknown[4] = 0
-BWOBuildings.Hmap.unknown[5] = 0
-BWOBuildings.Hmap.unknown[6] = 0
-BWOBuildings.Hmap.unknown[7] = 0
-BWOBuildings.Hmap.unknown[8] = 0
-BWOBuildings.Hmap.unknown[9] = 0
-BWOBuildings.Hmap.unknown[10] = 0
-BWOBuildings.Hmap.unknown[11] = 0
-BWOBuildings.Hmap.unknown[12] = 0
-BWOBuildings.Hmap.unknown[13] = 0
-BWOBuildings.Hmap.unknown[14] = 0
-BWOBuildings.Hmap.unknown[15] = 0
-BWOBuildings.Hmap.unknown[16] = 0
-BWOBuildings.Hmap.unknown[17] = 0
-BWOBuildings.Hmap.unknown[18] = 0
-BWOBuildings.Hmap.unknown[19] = 0
-BWOBuildings.Hmap.unknown[20] = 0
-BWOBuildings.Hmap.unknown[21] = 0
-BWOBuildings.Hmap.unknown[22] = 0
-BWOBuildings.Hmap.unknown[23] = 0
-
-BWOBuildings.Hmap.commercial = {}
-BWOBuildings.Hmap.commercial[0] = 0
-BWOBuildings.Hmap.commercial[1] = 0
-BWOBuildings.Hmap.commercial[2] = 0
-BWOBuildings.Hmap.commercial[3] = 0
-BWOBuildings.Hmap.commercial[4] = 0
-BWOBuildings.Hmap.commercial[5] = 0
-BWOBuildings.Hmap.commercial[6] = 0
-BWOBuildings.Hmap.commercial[7] = 0
-BWOBuildings.Hmap.commercial[8] = 0.7
-BWOBuildings.Hmap.commercial[9] = 1.0
-BWOBuildings.Hmap.commercial[10] = 0.7
-BWOBuildings.Hmap.commercial[11] = 0.3
-BWOBuildings.Hmap.commercial[12] = 0.3
-BWOBuildings.Hmap.commercial[13] = 0.3
-BWOBuildings.Hmap.commercial[14] = 0.3
-BWOBuildings.Hmap.commercial[15] = 0.5
-BWOBuildings.Hmap.commercial[16] = 0.9
-BWOBuildings.Hmap.commercial[17] = 1.0
-BWOBuildings.Hmap.commercial[18] = 1.0
-BWOBuildings.Hmap.commercial[19] = 0.7
-BWOBuildings.Hmap.commercial[20] = 0
-BWOBuildings.Hmap.commercial[21] = 0
-BWOBuildings.Hmap.commercial[22] = 0
-BWOBuildings.Hmap.commercial[23] = 0
-BWOBuildings.Hmap.bank = BWOBuildings.Hmap.commercial
-BWOBuildings.Hmap.mechanic = BWOBuildings.Hmap.commercial
-BWOBuildings.Hmap.industrial = BWOBuildings.Hmap.commercial
-BWOBuildings.Hmap.gunstore = BWOBuildings.Hmap.commercial
-BWOBuildings.Hmap.office = BWOBuildings.Hmap.commercial
-
-BWOBuildings.Hmap.residential = {}
-BWOBuildings.Hmap.residential[0] = 1.5
-BWOBuildings.Hmap.residential[1] = 1.5
-BWOBuildings.Hmap.residential[2] = 1.5
-BWOBuildings.Hmap.residential[3] = 1.5
-BWOBuildings.Hmap.residential[4] = 1.5
-BWOBuildings.Hmap.residential[5] = 1.5
-BWOBuildings.Hmap.residential[6] = 1.4
-BWOBuildings.Hmap.residential[7] = 1.3
-BWOBuildings.Hmap.residential[8] = 1.1
-BWOBuildings.Hmap.residential[9] = 1
-BWOBuildings.Hmap.residential[10] = 0.9
-BWOBuildings.Hmap.residential[11] = 0.6
-BWOBuildings.Hmap.residential[12] = 0.6
-BWOBuildings.Hmap.residential[13] = 0.6
-BWOBuildings.Hmap.residential[14] = 0.6
-BWOBuildings.Hmap.residential[15] = 0.7
-BWOBuildings.Hmap.residential[16] = 0.8
-BWOBuildings.Hmap.residential[17] = 0.9
-BWOBuildings.Hmap.residential[18] = 1
-BWOBuildings.Hmap.residential[19] = 1.1
-BWOBuildings.Hmap.residential[20] = 1.2
-BWOBuildings.Hmap.residential[21] = 1.3
-BWOBuildings.Hmap.residential[22] = 1.4
-BWOBuildings.Hmap.residential[23] = 1.5
-BWOBuildings.Hmap.motel = BWOBuildings.Hmap.residential
-
-BWOBuildings.Hmap.dining = {}
-BWOBuildings.Hmap.dining[0] = 0
-BWOBuildings.Hmap.dining[1] = 0
-BWOBuildings.Hmap.dining[2] = 0
-BWOBuildings.Hmap.dining[3] = 0
-BWOBuildings.Hmap.dining[4] = 0
-BWOBuildings.Hmap.dining[5] = 0
-BWOBuildings.Hmap.dining[6] = 0
-BWOBuildings.Hmap.dining[7] = 0
-BWOBuildings.Hmap.dining[8] = 0
-BWOBuildings.Hmap.dining[9] = 0
-BWOBuildings.Hmap.dining[10] = 0
-BWOBuildings.Hmap.dining[11] = 0.3
-BWOBuildings.Hmap.dining[12] = 1
-BWOBuildings.Hmap.dining[13] = 1
-BWOBuildings.Hmap.dining[14] = 0.5
-BWOBuildings.Hmap.dining[15] = 0.2
-BWOBuildings.Hmap.dining[16] = 0.2
-BWOBuildings.Hmap.dining[17] = 0.3
-BWOBuildings.Hmap.dining[18] = 0.8
-BWOBuildings.Hmap.dining[19] = 0.9
-BWOBuildings.Hmap.dining[20] = 1
-BWOBuildings.Hmap.dining[21] = 1
-BWOBuildings.Hmap.dining[22] = 1
-BWOBuildings.Hmap.dining[23] = 1
-
-BWOBuildings.Hmap.gasstation = {}
-BWOBuildings.Hmap.gasstation[0] = 0.4
-BWOBuildings.Hmap.gasstation[1] = 0.3
-BWOBuildings.Hmap.gasstation[2] = 0.2
-BWOBuildings.Hmap.gasstation[3] = 0.1
-BWOBuildings.Hmap.gasstation[4] = 0.1
-BWOBuildings.Hmap.gasstation[5] = 0.3
-BWOBuildings.Hmap.gasstation[6] = 0.6
-BWOBuildings.Hmap.gasstation[7] = 0.7
-BWOBuildings.Hmap.gasstation[8] = 0.8
-BWOBuildings.Hmap.gasstation[9] = 1
-BWOBuildings.Hmap.gasstation[10] = 1
-BWOBuildings.Hmap.gasstation[11] = 1
-BWOBuildings.Hmap.gasstation[12] = 1
-BWOBuildings.Hmap.gasstation[13] = 1
-BWOBuildings.Hmap.gasstation[14] = 1
-BWOBuildings.Hmap.gasstation[15] = 1
-BWOBuildings.Hmap.gasstation[16] = 1
-BWOBuildings.Hmap.gasstation[17] = 1
-BWOBuildings.Hmap.gasstation[18] = 1
-BWOBuildings.Hmap.gasstation[19] = 1
-BWOBuildings.Hmap.gasstation[20] = 1
-BWOBuildings.Hmap.gasstation[21] = 1
-BWOBuildings.Hmap.gasstation[22] = 0.7
-BWOBuildings.Hmap.gasstation[23] = 0.5
-
-BWOBuildings.Hmap.education = {}
-BWOBuildings.Hmap.education[0] = 0
-BWOBuildings.Hmap.education[1] = 0
-BWOBuildings.Hmap.education[2] = 0
-BWOBuildings.Hmap.education[3] = 0
-BWOBuildings.Hmap.education[4] = 0
-BWOBuildings.Hmap.education[5] = 0
-BWOBuildings.Hmap.education[6] = 0
-BWOBuildings.Hmap.education[7] = 0.3
-BWOBuildings.Hmap.education[8] = 1
-BWOBuildings.Hmap.education[9] = 1
-BWOBuildings.Hmap.education[10] = 1
-BWOBuildings.Hmap.education[11] = 1
-BWOBuildings.Hmap.education[12] = 1
-BWOBuildings.Hmap.education[13] = 1
-BWOBuildings.Hmap.education[14] = 0.9
-BWOBuildings.Hmap.education[15] = 0.5
-BWOBuildings.Hmap.education[16] = 0.2
-BWOBuildings.Hmap.education[17] = 0
-BWOBuildings.Hmap.education[18] = 0
-BWOBuildings.Hmap.education[19] = 0
-BWOBuildings.Hmap.education[20] = 0
-BWOBuildings.Hmap.education[21] = 0
-BWOBuildings.Hmap.education[22] = 0
-BWOBuildings.Hmap.education[23] = 0
-
-BWOBuildings.Hmap.church = {}
-BWOBuildings.Hmap.church[0] = 0
-BWOBuildings.Hmap.church[1] = 0
-BWOBuildings.Hmap.church[2] = 0
-BWOBuildings.Hmap.church[3] = 0
-BWOBuildings.Hmap.church[4] = 0
-BWOBuildings.Hmap.church[5] = 0.1
-BWOBuildings.Hmap.church[6] = 1 -- mass
-BWOBuildings.Hmap.church[7] = 0.1
-BWOBuildings.Hmap.church[8] = 0.1
-BWOBuildings.Hmap.church[9] = 0.1
-BWOBuildings.Hmap.church[10] = 1 -- mass
-BWOBuildings.Hmap.church[11] = 0.1
-BWOBuildings.Hmap.church[12] = 1 -- mass
-BWOBuildings.Hmap.church[13] = 0.1
-BWOBuildings.Hmap.church[14] = 0.1
-BWOBuildings.Hmap.church[15] = 0.1
-BWOBuildings.Hmap.church[16] = 0.1
-BWOBuildings.Hmap.church[17] = 0.1
-BWOBuildings.Hmap.church[18] = 1 -- mass
-BWOBuildings.Hmap.church[19] = 0.1
-BWOBuildings.Hmap.church[20] = 0
-BWOBuildings.Hmap.church[21] = 0
-BWOBuildings.Hmap.church[22] = 0
-BWOBuildings.Hmap.church[23] = 0
-
-BWOBuildings.Hmap.police = {}
-BWOBuildings.Hmap.police[0] = 0.5
-BWOBuildings.Hmap.police[1] = 0.5
-BWOBuildings.Hmap.police[2] = 0.5
-BWOBuildings.Hmap.police[3] = 0.5
-BWOBuildings.Hmap.police[4] = 0.5
-BWOBuildings.Hmap.police[5] = 0.5
-BWOBuildings.Hmap.police[6] = 0.8
-BWOBuildings.Hmap.police[7] = 1
-BWOBuildings.Hmap.police[8] = 1
-BWOBuildings.Hmap.police[9] = 1
-BWOBuildings.Hmap.police[10] = 1
-BWOBuildings.Hmap.police[11] = 0.9
-BWOBuildings.Hmap.police[12] = 0.7
-BWOBuildings.Hmap.police[13] = 0.8
-BWOBuildings.Hmap.police[14] = 1
-BWOBuildings.Hmap.police[15] = 1
-BWOBuildings.Hmap.police[16] = 1
-BWOBuildings.Hmap.police[17] = 1
-BWOBuildings.Hmap.police[18] = 0.8 
-BWOBuildings.Hmap.police[19] = 0.6
-BWOBuildings.Hmap.police[20] = 0.5
-BWOBuildings.Hmap.police[21] = 0.5
-BWOBuildings.Hmap.police[22] = 0.5
-BWOBuildings.Hmap.police[23] = 0.5
-BWOBuildings.Hmap.firestation = BWOBuildings.Hmap.police
-BWOBuildings.Hmap.prison = BWOBuildings.Hmap.police
-
-BWOBuildings.Hmap.medical = {}
-BWOBuildings.Hmap.medical[0] = 0.5
-BWOBuildings.Hmap.medical[1] = 0.5
-BWOBuildings.Hmap.medical[2] = 0.5
-BWOBuildings.Hmap.medical[3] = 0.5
-BWOBuildings.Hmap.medical[4] = 0.5
-BWOBuildings.Hmap.medical[5] = 0.5
-BWOBuildings.Hmap.medical[6] = 1
-BWOBuildings.Hmap.medical[7] = 1
-BWOBuildings.Hmap.medical[8] = 1
-BWOBuildings.Hmap.medical[9] = 1
-BWOBuildings.Hmap.medical[10] = 1
-BWOBuildings.Hmap.medical[11] = 1
-BWOBuildings.Hmap.medical[12] = 1
-BWOBuildings.Hmap.medical[13] = 1
-BWOBuildings.Hmap.medical[14] = 1
-BWOBuildings.Hmap.medical[15] = 1
-BWOBuildings.Hmap.medical[16] = 1
-BWOBuildings.Hmap.medical[17] = 1
-BWOBuildings.Hmap.medical[18] = 0.8 
-BWOBuildings.Hmap.medical[19] = 0.6
-BWOBuildings.Hmap.medical[20] = 0.5
-BWOBuildings.Hmap.medical[21] = 0.5
-BWOBuildings.Hmap.medical[22] = 0.5
-BWOBuildings.Hmap.medical[23] = 0.5
-
 BWOBuildings.IsResidential = function(building)
+
+    -- if true then return false end
+    -- this gives false positives when the building is large and there are apparments and offices in the same building
+    --[[
     if building:containsRoom("bedroom") and building:containsRoom("bathroom") then -- and building:containsRoom("kitchen")
         return true
     end
+    ]]
+
+    local player = getSpecificPlayer(0)
+    local def = building:getDef()
+    local roomDefs = def:getRooms() -- returns roomDefs!
+
+    if roomDefs:size() > 30 then return false end
+
+    local hasBedroom = false
+    local hasBathroom = false
+    local hasKitchen = false
+    for i = 0, roomDefs:size() - 1 do
+        local roomDef = roomDefs:get(i)
+        local room = roomDef:getIsoRoom()
+        local name = BWORooms.GetRealRoomName(room)
+        if roomDef:getZ() == player:getZ() then
+            if name == "bedroom" then
+                hasBedroom = true
+            elseif name == "bathroom" then
+                hasBathroom = true
+            elseif name == "kitchen" then
+                hasKitchen = true
+            end
+        end
+    end
+
+    if (hasBedroom or hasKitchen) and hasBathroom then
+        return true
+    end
+
     return false
 end
 
@@ -320,8 +109,35 @@ BWOBuildings.IsEventBuilding = function(building, event)
     return false
 end
 
+BWOBuildings.GetEventBuildingCoords = function(event)
+    local gmd = GetBWOModData()
+    for key, eb in pairs(gmd.EventBuildings) do
+        if eb.event == event then
+            return {x=eb.x, y=eb.y}
+        end
+    end
+    return false
+end
+
+BWOBuildings.IsRecentlyVisited = function(building)
+    local buildingDef = building:getDef()
+    local bid = BanditUtils.GetBuildingID(buildingDef)
+    local gmd = GetBanditModData()
+    if gmd.VisitedBuildings and gmd.VisitedBuildings[bid] then
+        local now = getGameTime():getWorldAgeHours()
+        local lastVisit = gmd.VisitedBuildings[bid]
+        local coolDown = 4 * 24
+        if now - coolDown < lastVisit then
+            return true
+        end
+    end
+    return false
+end
+
 BWOBuildings.FindBuildingWithRoom = function(bsearch)
-    local player = getPlayer()
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
     local cell = player:getCell()
     local rooms = cell:getRoomList()
     local buildings = {}
@@ -329,10 +145,10 @@ BWOBuildings.FindBuildingWithRoom = function(bsearch)
         local room = rooms:get(i)
 
         local building = room:getBuilding()
-        if building and building:containsRoom(bsearch) then
+        if building and building:containsRoom(bsearch) and not BWOBuildings.IsEventBuilding(building, "home") then
             local def = building:getDef()
-            if math.abs(def:getX() - player:getX()) < 100 and math.abs(def:getX2() - player:getX()) < 100 and 
-               math.abs(def:getY() - player:getY()) < 100 and math.abs(def:getY2() - player:getY()) < 100 then
+            if math.abs(def:getX() - player:getX()) < 70 and math.abs(def:getX2() - player:getX()) < 70 and 
+               math.abs(def:getY() - player:getY()) < 70 and math.abs(def:getY2() - player:getY()) < 70 then
                 local key = def:getKeyId()
 
                 if not buildings[key] then
@@ -391,3 +207,38 @@ BWOBuildings.FindBuildingDist = function(character, min, max)
     end
 end
 
+BWOBuildings.DensityScoreCache = {}
+
+BWOBuildings.GetDensityScore = function(character, radius)
+    -- local ts = getTimestampMs()
+    local px, py = character:getX(), character:getY()
+
+    local sx = math.floor(px / 25)
+    local sy = math.floor(py / 25)
+    local id = sx .. "-" .. sy
+    local cache = BWOBuildings.DensityScoreCache
+    if cache[id] then return cache[id] end
+
+    local cell = character:getCell()
+    local rooms = cell:getRoomList()
+    -- local buildings = cell:getBuildings():size()
+    local total = 0
+    print ("rooms: " .. rooms:size())
+
+    for i = 0, rooms:size() - 1 do
+        local room = rooms:get(i)
+        local roomDef = room:getRoomDef()
+        local x1, y1, x2, y2 = roomDef:getX(), roomDef:getY(), roomDef:getX2(), roomDef:getY2()
+
+        local cx = (x1 + x2) / 2
+        local cy = (y1 + y2) / 2
+        
+        if math.abs(px - cx) + math.abs(py - cy) <= radius then
+            local size = (x2 - x1) * (y2 - y1)
+            total = total + size
+        end
+    end
+    BWOBuildings.DensityScoreCache[id] = total
+    -- print ("GetDensityScore: " .. (getTimestampMs() - ts))
+    return total
+end

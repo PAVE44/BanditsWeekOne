@@ -6,17 +6,14 @@ ZombieActions.PlaceItem.onStart = function(zombie, task)
 end
 
 ZombieActions.PlaceItem.onWorking = function(zombie, task)
-    zombie:faceLocation(task.x, task.y)
-    if not zombie:getVariableString("BumpAnimFinished") then
-        return false
-    else
-        return true
-    end
+    zombie:faceLocationF(task.x, task.y)
+    if zombie:getBumpType() ~= task.anim then return true end
+    return false
 end
 
 ZombieActions.PlaceItem.onComplete = function(zombie, task)
     if task.item and BanditUtils.IsController(zombie) then
-        local item = InventoryItemFactory.CreateItem(task.item)
+        local item = BanditCompatibility.InstanceItem(task.item)
         if item then
             local square = getCell():getGridSquare(task.x, task.y, task.z)
             if square then

@@ -1102,7 +1102,9 @@ BWOEvents.FinalSolution = function(params2)
     end
 
     if cnt > 0 then
-        player:playSound("BWOInstrumentOrgan")
+        getSoundManager():setMusicVolume(0)
+        player:playSound("BWOMusicOutro")
+
         local ct = 100
         for _, nuke in pairs(nukes) do
 

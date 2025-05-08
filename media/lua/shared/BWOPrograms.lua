@@ -10,9 +10,7 @@ BanditPrograms.Symptoms = function(bandit)
     local hour = gameTime:getHour()
     local minute = gameTime:getMinutes()
 
-    local combined = math.abs(id) + (hour * 60) + minute
-    if combined > 1000000000 then combined = math.floor(combined / 100) end
-    local pseudoRandom = (combined * 137) % 60
+    local pseudoRandom = ZombRand(100)
 
     if BWOScheduler.SymptomLevel == 1 then
 
@@ -36,7 +34,7 @@ BanditPrograms.Symptoms = function(bandit)
         end
     elseif BWOScheduler.SymptomLevel == 2 then
         if pseudoRandom < 11 then
-            local rn = ZombRand(10)
+            local rn = ZombRand(11)
             if rn < 7 then
                 local sound
                 if bandit:isFemale() then
@@ -59,6 +57,10 @@ BanditPrograms.Symptoms = function(bandit)
                 local task = {action="Time", anim="PainStomach2", time=100}
                 table.insert(tasks, task)
                 return tasks
+            elseif rn == 10 then
+                local sound = "ZSVomit" .. (1 + ZombRand(4))
+                local task = {action="Vomit", anim="Vomit", sound=sound, time=100}
+                table.insert(tasks, task)
             end
         end
     elseif BWOScheduler.SymptomLevel == 3 then
@@ -90,10 +92,13 @@ BanditPrograms.Symptoms = function(bandit)
                 local task = {action="Time", anim="FeelFeint", time=100}
                 table.insert(tasks, task)
                 return tasks
+            elseif rn == 17 then
+                Bandit.UpdateInfection(bandit, 200)
             else
                 local sound = "ZSVomit" .. (1 + ZombRand(4))
                 local task = {action="Vomit", anim="Vomit", sound=sound, time=100}
                 table.insert(tasks, task)
+
                 return tasks
             end
         end
@@ -131,6 +136,9 @@ end
 BanditPrograms.Events = function(bandit)
     local tasks = {}
 
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
     if not BWOScheduler.NPC.ReactProtests then return tasks end
 
     local cell = bandit:getCell()
@@ -146,7 +154,7 @@ BanditPrograms.Events = function(bandit)
                 return tasks
             elseif target.dist < 9 then
                 -- Bandit.Say(bandit, "ADMIRE")
-                local rnd = math.abs(id) % 3
+                local rnd = math.abs(id) % 4
 
                 local anim
                 local sound
@@ -155,9 +163,14 @@ BanditPrograms.Events = function(bandit)
                     anim = "Protest1"
                 elseif rnd == 1 then
                     anim = "Protest2"
+                    item = "Base.PaperSign"
                 elseif rnd == 2 then
                     anim = "Protest3"
-                    item = "AuthenticZClothing.Stop_Sign"
+                    item = "Base.StopSign"
+                elseif rnd == 3 then
+                    anim = "Protest1"
+                    -- anim = "Protest3"
+                    -- item = "Base.TruthSign"
                 else
                     anim = "Clap"
                 end
@@ -172,7 +185,7 @@ BanditPrograms.Events = function(bandit)
                     end
                 end
 
-                local task = {action="TimeItem", sound=sound, soundDistMax=12, anim=anim, item=item, x=target.x, y=target.y, z=target.z, time=200}
+                local task = {action="TimeItem", sound=sound, soundDistMax=12, anim=anim, left=true, item=item, x=target.x, y=target.y, z=target.z, time=200}
                 table.insert(tasks, task)
                 return tasks
             end
@@ -226,7 +239,7 @@ BanditPrograms.Events = function(bandit)
                     return tasks
                 else
                     local args = {x=target.x, y=target.y, z=target.z, otype="preacher"}
-                    sendClientCommand(getPlayer(), 'Commands', 'ObjectRemove', args)
+                    sendClientCommand(player, 'Commands', 'ObjectRemove', args)
                 end
             end
         end
@@ -249,12 +262,12 @@ BanditPrograms.Events = function(bandit)
                     Bandit.Say(bandit, "ADMIRE")
                     local anim = "Clap"
                     local sound = "BWOClap" .. tostring(1 + ZombRand(13))
-                    local task = {action="TimeEvent", sound=sound, soundDistMax=12, anim=anim, x=target.x, y=target.y, z=target.z, time=400}
+                    local task = {action="TimeEvent", sound=sound, soundDistMax=12, anim=anim, x=target.x, y=target.y, z=target.z, time=200}
                     table.insert(tasks, task)
                     return tasks
                 else
                     local args = {x=target.x, y=target.y, z=target.z, otype="entertainer"}
-                    sendClientCommand(getPlayer(), 'Commands', 'ObjectRemove', args)
+                    sendClientCommand(player, 'Commands', 'ObjectRemove', args)
                 end
             end
         end
@@ -265,7 +278,7 @@ end
 BanditPrograms.Bench = function(bandit)
     local tasks = {}
 
-    if not BWOScheduler.SitBench then return tasks end
+    if not BWOScheduler.NPC.SitBench then return tasks end
 
     local id = BanditUtils.GetCharacterID(bandit)
     local gameTime = getGameTime()
@@ -273,7 +286,7 @@ BanditPrograms.Bench = function(bandit)
     local cell = bandit:getCell()
 
     local target = BWOObjects.FindGMD(bandit, "sittable")
-    if target.x and target.y and target.z and target.dist < 10 then
+    if target.x and target.y and target.z and target.dist < 14 then
         local square = cell:getGridSquare(target.x, target.y, target.z)
         if square and square:isOutside() and BanditUtils.LineClear(bandit, square) then
             local id = BanditUtils.GetCharacterID(bandit)
@@ -299,50 +312,52 @@ BanditPrograms.Bench = function(bandit)
                 end
 
                 if bench then
-                    local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), square:getX() + 0.5, square:getY() + 0.5)
-                    if dist > 1.6 then
-                        table.insert(tasks, BanditUtils.GetMoveTask(0, square:getX() + 0.5, square:getY() + 0.5, square:getZ(), "Walk", dist, false))
-                        return tasks
-                    else
-                        local anim
-                        local sound
-                        local item
-                        local smoke = false
-                        local time = 200
-                        local right = false
-                        local left = false
-                        local r = math.floor(math.abs(id) / hour) % 7
-                        if r == 0 then
-                            anim = "SitInChair1"
-                        elseif r == 1 then
-                            anim = "SitInChair2"
-                        elseif r == 2 then
-                            anim = "SitInChairTalk"
-                        elseif r == 3 then
-                            anim = "SitInChairDrink"
-                            item = "Bandits.BeerBottle"
-                            sound = "DrinkingFromBottle"
-                            right = true
-                        elseif r == 4 then
-                            anim = "SitInChairEat"
-                            item = "Base.Fork"
-                            right = true
-                        elseif r == 5 then
-                            anim = "SitInChairSmoke"
-                            sound = "Smoke"
-                            smoke = true
-                            time = 400
-                        elseif r == 6 then
-                            anim = "SitInChairRead"
-                            sound = "PageFlipBook"
-                            item = "Bandits.Book"
-                            left = true
-                            time = 600
-                        end
+                    local asquare = AdjacentFreeTileFinder.Find(square, bandit)
+                    if asquare then
+                        local dist = BanditUtils.DistTo(bandit:getX(), bandit:getY(), asquare:getX() + 0.5, asquare:getY() + 0.5)
+                        if dist > 1.6 then
+                            table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX() + 0.5, asquare:getY() + 0.5, asquare:getZ(), "Walk", dist, false))
+                            return tasks
+                        else
+                            local anim
+                            local sound
+                            local item
+                            local smoke = false
+                            local time = 200
+                            local right = false
+                            local left = false
+                            local r = math.floor(math.abs(id) / hour) % 7
+                            if r == 0 then
+                                anim = "SitInChair1"
+                            elseif r == 1 then
+                                anim = "SitInChair2"
+                            elseif r == 2 then
+                                anim = "SitInChairTalk"
+                            elseif r == 3 then
+                                anim = "SitInChairDrink"
+                                item = "Bandits.BeerBottle"
+                                sound = "DrinkingFromBottle"
+                                right = true
+                            elseif r == 4 then
+                                anim = "SitInChairEat"
+                                right = true
+                            elseif r == 5 then
+                                anim = "SitInChairSmoke"
+                                sound = "Smoke"
+                                smoke = true
+                                time = 400
+                            elseif r == 6 then
+                                anim = "SitInChairRead"
+                                sound = "PageFlipBook"
+                                item = "Bandits.Book"
+                                left = true
+                                time = 600
+                            end
 
-                        local task = {action="SitInChair", anim=anim, sound=sound, item=item, left=left, right=right, x=square:getX(), y=square:getY(), z=square:getZ(), facing=facing, time=100}
-                        table.insert(tasks, task)
-                        return tasks
+                            local task = {action="SitInChair", anim=anim, sound=sound, item=item, left=left, right=right, x=square:getX(), y=square:getY(), z=square:getZ(), facing=facing, time=100}
+                            table.insert(tasks, task)
+                            return tasks
+                        end
                     end
                 end
             end
@@ -409,27 +424,91 @@ BanditPrograms.ATM = function(bandit)
     return tasks
 end
 
+BanditPrograms.FallbackAction = function(bandit)
+    local tasks = {}
+    local action = ZombRand(10)
+
+    if action == 0 then
+        local task = {action="Time", anim="ShiftWeight", time=200}
+        table.insert(tasks, task)
+    elseif action == 1 then
+        local task = {action="Time", anim="ChewNails", time=200}
+        table.insert(tasks, task)
+    elseif action == 2 then
+        local task = {action="Time", anim="Smoke", time=200}
+        table.insert(tasks, task)
+        table.insert(tasks, task)
+        table.insert(tasks, task)
+    elseif action == 3 then
+        local task = {action="Time", anim="PullAtCollar", time=200}
+        table.insert(tasks, task)
+    elseif action == 4 then
+        local task = {action="Time", anim="Sneeze", time=200}
+        table.insert(tasks, task)
+        addSound(getPlayer(), bandit:getX(), bandit:getY(), bandit:getZ(), 7, 60)
+    elseif action == 5 then
+        local task = {action="Time", anim="WipeBrow", time=200}
+        table.insert(tasks, task)
+    elseif action == 6 then
+        local task = {action="Time", anim="WipeHead", time=200}
+        table.insert(tasks, task)
+    elseif action == 7 then
+        if BWOScheduler.WorldAge < 34 then
+            Bandit.Say(bandit, "STREETCHAT1")
+        else
+            Bandit.Say(bandit, "STREETCHAT2")
+        end
+        local anim = BanditUtils.Choice({"Talk1", "Talk2", "Talk3", "Talk4", "Talk5"})
+        local task = {action="Time", anim=anim, time=200}
+        table.insert(tasks, task)
+    else
+        local task = {action="Time", anim="ChewNails", time=200}
+        table.insert(tasks, task)
+    end
+
+    return tasks
+end
+
 BanditPrograms.Talk = function(bandit)
     local tasks = {}
 
     if not BWOScheduler.NPC.Talk then return tasks end
 
+    local config = {}
+    config.mustSee = false
+    config.hearDist = 40
+
     local neighborBandit = BanditUtils.GetClosestBanditLocation(bandit)
-    local neighborPlayer = BanditUtils.GetClosestPlayerLocation(bandit, true)
+    local neighborPlayer = BanditUtils.GetClosestPlayerLocation(bandit, config)
 
     local neighbor = neighborBandit
+    local minDist = 3
+    local blood
+    local health
     if neighborPlayer.dist < neighborBandit.dist then
         neighbor = neighborPlayer
+        minDist = 5
+        local player = BanditPlayer.GetPlayerById(neighbor.id)
+        local bodyDamage = player:getBodyDamage()
+        blood = player:getTotalBlood()
+        health = bodyDamage:getOverallBodyHealth()
+
     end
 
-    if neighbor.dist < 3 then
+    if neighbor.dist < minDist then
         local square = getCell():getGridSquare(neighbor.x, neighbor.y, neighbor.z)
         if square and BanditUtils.LineClear(bandit, square) then
             if ZombRand(2) == 0 then
-                if BWOScheduler.WorldAge < 34 then
-                    Bandit.Say(bandit, "STREETCHAT1")
+                if health and health < 50 then
+                    Bandit.Say(bandit, "STREETCHATHEALTH")
+                elseif blood and blood > 0 then
+                    Bandit.Say(bandit, "STREETCHATBLOOD")
                 else
-                    Bandit.Say(bandit, "STREETCHAT2")
+                    if BWOScheduler.WorldAge < 34 then
+                        Bandit.Say(bandit, "STREETCHAT1")
+                    else
+                        Bandit.Say(bandit, "STREETCHAT2")
+                    end
                 end
 
                 local anim = BanditUtils.Choice({"WaveHi", "Yes", "No", "Talk1", "Talk2", "Talk3", "Talk4", "Talk5"})
@@ -485,6 +564,10 @@ BanditPrograms.FollowRoad = function(bandit, walkType)
     end
 
     local tasks = {}
+
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
     local cell = bandit:getCell()
     local bx = bandit:getX()
     local by = bandit:getY()
@@ -499,7 +582,7 @@ BanditPrograms.FollowRoad = function(bandit, walkType)
         end
     end
 
-    local playerVehicle = getPlayer():getVehicle()
+    local playerVehicle = player:getVehicle()
     if playerVehicle and not playerVehicle:isStopped() then
         vehicleList[playerVehicle:getId()] = playerVehicle
     end

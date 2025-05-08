@@ -1,3 +1,35 @@
+[48b1d4b0-ca4e-4b02-ab56-e1fff39afe48]
+	general: name = 09_Leather
+	spawn: friendly = false
+	spawn: companion = false
+	spawn: defenders = true
+	spawn: campers = false
+	spawn: assault = true
+	spawn: wanderer = true
+	spawn: roadblock = true
+	spawn: dayStart = 56
+	spawn: dayEnd = 76
+	spawn: spawnChance = 1.7
+	spawn: groupMin = 5
+	spawn: groupMax = 6
+	spawn: zone = 0
+
+[6e319aac-4480-4367-aa9a-5d4bf2ced9d1]
+	general: name = 08_Hikers
+	spawn: friendly = false
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = true
+	spawn: assault = false
+	spawn: wanderer = true
+	spawn: roadblock = false
+	spawn: dayStart = 49
+	spawn: dayEnd = 69
+	spawn: spawnChance = 2
+	spawn: groupMin = 4
+	spawn: groupMax = 6
+	spawn: zone = 2
+
 [bbe0c8c9-1135-4ced-abd2-73807e166a1e]
 	general: name = BanditsStrong
 	spawn: friendly = false

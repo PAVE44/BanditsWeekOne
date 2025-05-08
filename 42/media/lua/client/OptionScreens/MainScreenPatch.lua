@@ -31,6 +31,7 @@ function MainScreen:prerender()
         emitter:stopSoundByName("UIBWOMusic1")
         emitter:stopSoundByName("UIBWOMusic2")
         emitter:stopSoundByName("UIBWOMusic3")
+        emitter:stopSoundByName("UIBWOMusic4")
         -- sm:stopUISound(133824517)
     elseif musicIdx == 2 then
         local r = 3 + ZombRand(musicCnt)

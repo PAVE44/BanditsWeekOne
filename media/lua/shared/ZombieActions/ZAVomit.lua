@@ -12,11 +12,8 @@ ZombieActions.Vomit.onWorking = function(zombie, task)
         zombie:getChunk():addBloodSplat(bx, by, 0, ZombRand(20))
     end
 
-    if not zombie:getVariableString("BumpAnimFinished") then
-        return false
-    else
-        return true
-    end
+    if zombie:getBumpType() ~= task.anim then return true end
+    return false
 end
 
 ZombieActions.Vomit.onComplete = function(zombie, task)

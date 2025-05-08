@@ -1,43 +1,20 @@
 ZombiePrograms = ZombiePrograms or {}
 
 ZombiePrograms.Inhabitant = {}
-ZombiePrograms.Inhabitant.Stages = {}
-
-ZombiePrograms.Inhabitant.Init = function(bandit)
-end
-
-ZombiePrograms.Inhabitant.GetCapabilities = function()
-    -- capabilities are program decided
-    local capabilities = {}
-    capabilities.melee = true
-    capabilities.shoot = true
-    capabilities.smashWindow = not BWOPopControl.Police.On
-    capabilities.openDoor = true
-    capabilities.breakDoor = not BWOPopControl.Police.On
-    capabilities.breakObjects = not BWOPopControl.Police.On
-    capabilities.unbarricade = false
-    capabilities.disableGenerators = false
-    capabilities.sabotageCars = false
-    return capabilities
-end
 
 ZombiePrograms.Inhabitant.Prepare = function(bandit)
     local tasks = {}
-    local world = getWorld()
-    local cell = getCell()
-    local cm = world:getClimateManager()
-    local dls = cm:getDayLightStrength()
 
     Bandit.ForceStationary(bandit, false)
-
+  
     return {status=true, next="Main", tasks=tasks}
 end
 
 ZombiePrograms.Inhabitant.Main = function(bandit)
     local ts = getTimestampMs()
     local tasks = {}
-    
-    local id = BanditUtils.GetCharacterID(bandit)
+    local brain = BanditBrain.Get(bandit)
+    local id = brain.id
     local bx = bandit:getX()
     local by = bandit:getY()
     local bz = bandit:getZ()
@@ -75,7 +52,23 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
     end
     -- print ("INHABITANT 1: " .. (getTimestampMs() - ts))
     
+    --[[local subTasks = BanditPrograms.FallbackAction(bandit)
+    if #subTasks > 0 then
+        for _, subTask in pairs(subTasks) do
+            table.insert(tasks, subTask)
+        end
+    end
+    if true then return {status=true, next="Main", tasks=tasks} end]]
+    
     if room then
+
+        -- leave player house
+        local base = BanditPlayerBase.GetBase(bandit)
+        if base then
+            table.insert(tasks, BanditUtils.GetMoveTask(endurance, bandit:getX()-10, bandit:getY()-10, 0, "Run", 12, false))
+            return {status=true, next="Defend", tasks=tasks}
+        end
+        
         local def = room:getRoomDef()
         local roomName = room:getName()
 
@@ -99,6 +92,7 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
         end
 
         -- instrusion
+        ts = getTimestampMs()
         if BWOScheduler.SymptomLevel < 3 then
             local playerList = BanditPlayer.GetPlayers()
             for i=0, playerList:size()-1 do
@@ -109,22 +103,17 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                     if room then
                         local roomName = room:getName()
 
-                        if BWORooms.IsIntrusion(room) and bandit:CanSee(player) and not player:isOutside() then
-                            Bandit.Say(bandit, "DEFENDER_SPOTTED")
-                            -- BWOScheduler.Add("CallCopsHostile", 1000)
+                        if not player:isOutside() then
+                            local dist = math.abs(bx - player:getX()) + math.abs(by - player:getY())
+                            if dist < 30 and bandit:CanSee(player) and BWORooms.IsIntrusion(room) then
+                                Bandit.Say(bandit, "DEFENDER_SPOTTED")
+                                -- BWOScheduler.Add("CallCopsHostile", 1000)
 
-                            if math.abs(id) % 2 == 0 then
-                                Bandit.SetHostile(bandit, true)
-                                Bandit.SetProgramStage(bandit, "Arm")
-
-                                local brain = BanditBrain.Get(bandit)
-                                local syncData = {}
-                                syncData.id = brain.id
-                                syncData.hostile = brain.hostile
-                                syncData.program = brain.program
-                                Bandit.ForceSyncPart(bandit, syncData)
-
-                                return {status=true, next="Arm", tasks=tasks}
+                                if math.abs(id) % 2 == 0 then
+                                    Bandit.SetHostileP(bandit, true)
+                                    Bandit.SetProgramStage(bandit, "Defend")
+                                    return {status=true, next="Defend", tasks=tasks}
+                                end
                             end
                         end
                     end
@@ -132,7 +121,7 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
             end
         end
 
-        -- print ("INHABITANT 2: " .. (getTimestampMs() - ts))
+        -- print ("INHABITANT INTRUSION: " .. (getTimestampMs() - ts))
 
         -- react to events
         local subTasks = BanditPrograms.Events(bandit)
@@ -159,17 +148,24 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
         if BWOScheduler.SymptomLevel < 3 then
             if BWOBuildings.IsEventBuilding(building, "party") then
 
-                local boombox = BWOObjects.Find(bandit, def, "Boombox")
+                -- true music version
+                -- local boombox = BWOObjects.Find(bandit, def, "Boombox")
+
+                -- vanilla
+                local boombox = BWOObjects.Find(bandit, def, "Radio")
+
                 if boombox then
 
-                    
-                    if hour >= 19 or hour < 5 then 
+                    if hour >= 19 or hour < 7 then 
                         partyOn = true
                     end
 
                     if partyOn then
                         local dd = boombox:getDeviceData()
-                        if not dd:getIsTurnedOn() or not boombox:getModData().tcmusic.isPlaying then
+                        local ch = dd:getChannel()
+                        local isPlaying = BWORadio.IsPlaying(boombox)
+
+                        if not dd:getIsTurnedOn() or dd:getChannel() ~= 98600 or not isPlaying then -- true music version: or not boombox:getModData().tcmusic.isPlaying then
                             local square = boombox:getSquare()
                             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
                             if asquare then
@@ -178,14 +174,28 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                                     table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                                     return {status=true, next="Main", tasks=tasks}
                                 else
-                                    local task = {action="BoomboxToggle", on=true, anim="Loot", x=square:getX(), y=square:getY(), z=square:getZ(), time=100}
+                                    -- true music version
+                                    -- local task = {action="BoomboxToggle", on=true, anim="Loot", x=square:getX(), y=square:getY(), z=square:getZ(), time=100}
+
+                                    -- vanilla version
+
+                                    local music = BanditUtils.Choice({"3fee99ec-c8b6-4ebc-9f2f-116043153195", 
+                                                                      "0bc71c8a-f954-4dbf-aa09-ff09b015d6e2", 
+                                                                      "a08b44db-b3cb-46a1-b04c-633e8e5b2a37", 
+                                                                      "38fe9b5a-e932-477c-a6b5-96b9e7ea84da", 
+                                                                      "2a379a08-4428-42b0-ae3d-0fb41c34f74c", 
+                                                                      "2cc1e0e2-75ab-4ac3-9238-635813babc18", 
+                                                                      "c688d4c8-dd7b-4d93-8e0f-c6cb5f488db2", 
+                                                                      "22b4a025-6455-4c8d-b341-fd4f0f18836a"})
+
+                                    local task = {action="TelevisionToggle", on=true, channel=98600, volume=0.7, music=music, anim="Loot", x=square:getX(), y=square:getY(), z=square:getZ(), time=100}
                                     table.insert(tasks, task)
                                     return {status=true, next="Main", tasks=tasks}
                                 end
                             end
                         end
 
-                        local rnd = ZombRand(5)
+                        local rnd = ZombRand(10)
                         if rnd == 0 then
                             local task = {action="Smoke", anim="Smoke", item="Bandits.Cigarette", left=true, time=100}
                             table.insert(tasks, task)
@@ -195,7 +205,16 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                             table.insert(tasks, task)
                             return {status=true, next="Main", tasks=tasks}
                         else
-                            local anim = BanditUtils.Choice({"DanceHipHop3", "DanceLocking", "DanceShuffling", "DanceArmsHipHop", "DanceGandy", "DanceHouseDancing", "DanceRaiseTheRoof", "DanceRobotOne", "DanceRobotTwo", "DanceSnake"})
+                            -- local anim = BanditUtils.Choice({"DanceHipHop3", "DanceLocking", "DanceShuffling", "DanceArmsHipHop", "DanceGandy", "DanceHouseDancing", "DanceRaiseTheRoof", "DanceRobotOne", "DanceRobotTwo", "DanceSnake"})
+                            -- local anim = BanditUtils.Choice({"DanceHipHop1", "DanceHipHop2", "DanceHipHop3", "DanceRaiseTheRoof", "DanceBoogaloo", "DanceBodyWave", "DanceRibPops", "DanceShimmy"})
+                            -- local anim = BanditUtils.Choice({"DanceHipHop3", "DanceRaiseTheRoof"})
+                            local anim
+                            if BanditCompatibility.GetGameVersion() >= 42 then
+                                anim = BanditUtils.Choice({"DanceHipHop3", "DanceRaiseTheRoof", "Dance1", "Dance2", "Dance3", "Dance4"})
+                            else
+                                anim = BanditUtils.Choice({"DanceGandy", "DanceHouseDancing", "DanceShuffling", "DanceRaiseTheRoof", "Dance1", "Dance2", "Dance3", "Dance4"})
+                            end
+
                             local task = {action="Time", anim=anim, time=500}
                             table.insert(tasks, task)
                             return {status=true, next="Main", tasks=tasks}
@@ -204,16 +223,21 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                 end
             end
         end
-        -- print ("INHABITANT 5: " .. (getTimestampMs() - ts))
+        --  ("INHABITANT 5: " .. (getTimestampMs() - ts))
 
         -- light switch
+        -- ts = getTimestampMs()
         if world:isHydroPowerOn() then
-            local ls = BWOObjects.FindLightSwitch(bandit, def)
+            local ls = BWOObjects.FindLightSwitch(bandit, room)
             if ls then
 
                 local active = true
                 --if (hour >= 6 and hour <= 8) or (hour >= 18 and hour <= 22) then
                 if (hour < 6 or hour > 22) and roomName == "bedroom" then
+                    active = false
+                end
+
+                if partyOn then
                     active = false
                 end
 
@@ -237,8 +261,9 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                 end
             end
         end
-        -- print ("INHABITANT 6: " .. (getTimestampMs() - ts))
+        --print ("INHABITANT LS: " .. (getTimestampMs() - ts))
 
+        --ts = getTimestampMs()
         local door = BWOObjects.FindExteriorDoor(bandit, def)
         if door then
 
@@ -286,9 +311,11 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                 end
             end
         end
+        --print ("INHABITANT EXT-DOOR: " .. (getTimestampMs() - ts))
         -- print ("INHABITANT 7: " .. (getTimestampMs() - ts))
 
         -- barricade
+        --ts = getTimestampMs()
         if BWOScheduler.NPC.Barricade and BWOBuildings.IsResidential(building) then
             local barricadable = BWOObjects.FindBarricadable(bandit, def)
             if barricadable then
@@ -324,128 +351,50 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                 return {status=true, next="Main", tasks=tasks}
             end
         end
+        --print ("INHABITANT RTYPE: " .. (getTimestampMs() - ts))
     end
     -- print ("INHABITANT 9: " .. (getTimestampMs() - ts))
     
     -- fallback
-    local task = {action="Time", anim="Shrug", time=200}
-    table.insert(tasks, task)
+    local subTasks = BanditPrograms.FallbackAction(bandit)
+    if #subTasks > 0 then
+        for _, subTask in pairs(subTasks) do
+            table.insert(tasks, subTask)
+        end
+    end
 
     return {status=true, next="Main", tasks=tasks}
 end
 
-ZombiePrograms.Inhabitant.Arm = function(bandit)
-    local tasks = {}
-    local world = getWorld()
-    local cell = getCell()
-    local cm = world:getClimateManager()
-    local dls = cm:getDayLightStrength()
-
-    local weapons = Bandit.GetWeapons(bandit)
-    local primary = Bandit.GetBestWeapon(bandit)
-
-    Bandit.ForceStationary(bandit, false)
-    Bandit.SetWeapons(bandit, weapons)
-
-    if weapons.primary.name and weapons.secondary.name then
-        local task1 = {action="Unequip", time=100, itemPrimary=weapons.secondary.name}
-        table.insert(tasks, task1)
-    end
-
-    local task2 = {action="Equip", itemPrimary=primary}
-    table.insert(tasks, task2)
-
-    return {status=true, next="Defend", tasks=tasks}
-end
-
 ZombiePrograms.Inhabitant.Defend = function(bandit)
     local tasks = {}
-    local weapons = Bandit.GetWeapons(bandit)
-
-    -- update walk type
-    local world = getWorld()
     local cell = getCell()
-    local weapons = Bandit.GetWeapons(bandit)
-    local outOfAmmo = Bandit.IsOutOfAmmo(bandit)
-    local hands = bandit:getVariableString("BanditPrimaryType")
+    local bx, by, bz = bandit:getX(), bandit:getY(), bandit:getZ()
+    local endurance = 0.00
  
-    local walkType = "Run"
-    if hands == "rifle" or hands =="handgun" then
-        walkType = "WalkAim"
-    end
+    local config = {}
+    config.mustSee = true
+    config.hearDist = 5
 
-    local endurance = 0 -- -0.02
-
-    local health = bandit:getHealth()
-    if health < 0.8 then
-        walkType = "Limp"
-        endurance = 0
-    end 
- 
-    local handweapon = bandit:getVariableString("BanditWeapon") 
+    local target, enemy = BanditUtils.GetTarget(bandit, config)
     
-    local target = {}
-    local enemy
-    local closestZombie = BanditUtils.GetClosestZombieLocation(bandit)
-    local closestBandit = BanditUtils.GetClosestEnemyBanditLocation(bandit)
-    local closestPlayer = BanditUtils.GetClosestPlayerLocation(bandit, true)
-
-    target = closestZombie
-    if closestBandit.dist < closestZombie.dist then
-        target = closestBandit
-        enemy = BanditZombie.GetInstanceById(target.id)
-    end
-
-    if Bandit.IsHostile(bandit) and closestPlayer.dist < closestBandit.dist and closestPlayer.dist < closestZombie.dist then
-        target = closestPlayer
-        enemy = BanditPlayer.GetPlayerById(target.id)
-    end
-
-    local closeSlow = true
-    if enemy then
-        local weapon = enemy:getPrimaryHandItem()
-        if weapon and weapon:IsWeapon() then
-            local weaponType = WeaponType.getWeaponType(weapon)
-            if weaponType == WeaponType.firearm or weaponType == WeaponType.handgun then
-                closeSlow = false
+    -- engage with target
+    if target.x and target.y and target.z then
+        local tx, ty, tz = target.x, target.y, target.z
+    
+        if enemy then
+            if target.fx and target.fy and (enemy:isRunning()  or enemy:isSprinting()) then
+                tx, ty = target.fx, target.fy
             end
         end
-    end
 
-    if target.x and target.y and target.z then
-        
-        local targetSquare = cell:getGridSquare(target.x, target.y, target.z)
+        local walkType = Bandit.GetCombatWalktype(bandit, enemy, target.dist)
 
-        -- out of ammo, get close
-        local minDist = 2
-        if outOfAmmo then
-            minDist = 0.5
-        end
-
-        if target.dist > minDist and not targetSquare:isOutside() then
-
-            -- must be deterministic, not random (same for all clients)
-            local id = BanditUtils.GetCharacterID(bandit)
-
-            local dx = 0
-            local dy = 0
-            local dxf = ((math.abs(id) % 10) - 5) / 10
-            local dyf = ((math.abs(id) % 11) - 5) / 10
-
-            table.insert(tasks, BanditUtils.GetMoveTask(endurance, target.x+dx+dxf, target.y+dy+dyf, target.z, walkType, target.dist, closeSlow))
-            return {status=true, next="Defend", tasks=tasks}
-        end
+        table.insert(tasks, BanditUtils.GetMoveTask(endurance, tx, ty, tz, walkType, target.dist))
+        return {status=true, next="Defend", tasks=tasks}
     else
-        Bandit.SetHostile(bandit, false)
+        Bandit.SetHostileP(bandit, false)
         Bandit.SetProgramStage(bandit, "Main")
-
-        local brain = BanditBrain.Get(bandit)
-        local syncData = {}
-        syncData.id = brain.id
-        syncData.hostile = brain.hostile
-        syncData.program = brain.program
-        Bandit.ForceSyncPart(bandit, syncData)
-        
         return {status=true, next="Main", tasks=tasks}
     end
 

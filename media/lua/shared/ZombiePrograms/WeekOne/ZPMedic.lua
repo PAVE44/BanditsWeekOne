@@ -1,43 +1,20 @@
 ZombiePrograms = ZombiePrograms or {}
 
 ZombiePrograms.Medic = {}
-ZombiePrograms.Medic.Stages = {}
-
-ZombiePrograms.Medic.Init = function(bandit)
-end
-
-ZombiePrograms.Medic.GetCapabilities = function()
-    -- capabilities are program decided
-    local capabilities = {}
-    capabilities.melee = false
-    capabilities.shoot = false
-    capabilities.smashWindow = not BWOPopControl.Police.On
-    capabilities.openDoor = true
-    capabilities.breakDoor = not BWOPopControl.Police.On
-    capabilities.breakObjects = not BWOPopControl.Police.On
-    capabilities.unbarricade = false
-    capabilities.disableGenerators = false
-    capabilities.sabotageCars = false
-    return capabilities
-end
 
 ZombiePrograms.Medic.Prepare = function(bandit)
     local tasks = {}
-    local world = getWorld()
-    local cell = getCell()
-    local cm = world:getClimateManager()
-    local dls = cm:getDayLightStrength()
 
     Bandit.ForceStationary(bandit, false)
-
+  
     return {status=true, next="Main", tasks=tasks}
 end
 
 ZombiePrograms.Medic.Main = function(bandit)
     local tasks = {}
-
     local cell = bandit:getCell()
-    local id = BanditUtils.GetCharacterID(bandit)
+    local brain = BanditBrain.Get(bandit)
+    local id = brain.id
     local bx = bandit:getX()
     local by = bandit:getY()
     local bz = bandit:getZ()
@@ -84,8 +61,12 @@ ZombiePrograms.Medic.Main = function(bandit)
     end
     
     -- fallback
-    local task = {action="Time", anim="Shrug", time=200}
-    table.insert(tasks, task)
+    local subTasks = BanditPrograms.FallbackAction(bandit)
+    if #subTasks > 0 then
+        for _, subTask in pairs(subTasks) do
+            table.insert(tasks, subTask)
+        end
+    end
 
     return {status=true, next="Main", tasks=tasks}
 end

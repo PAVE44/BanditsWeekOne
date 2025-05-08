@@ -3,7 +3,7 @@ ZombieActions = ZombieActions or {}
 ZombieActions.Extinguish = {}
 ZombieActions.Extinguish.onStart = function(zombie, task)
     if task.item then
-        local fakeItem = InventoryItemFactory.CreateItem(task.item)
+        local fakeItem = BanditCompatibility.InstanceItem(task.item)
         if not task.left then
             zombie:setPrimaryHandItem(fakeItem)
         end
@@ -16,19 +16,15 @@ ZombieActions.Extinguish.onStart = function(zombie, task)
     effect.x = task.x
     effect.y = task.y
     effect.z = task.z
-    effect.offset = 300
+    effect.size = 600
     effect.name = "mist"
     effect.frameCnt = 60
-    effect.frameRnd = false
     effect.repCnt = 2
-    effect.r = 0.82
-    effect.g = 0.94
-    effect.b = 0.97
-    if isClient() then
-        sendClientCommand(getPlayer(), 'Schedule', 'AddEffect', effect)
-    else
-        table.insert(BanditEffects.tab, effect)
-    end
+    effect.colors = {r=0.9, g=0.9, b=1.0, a=0.2}
+
+    table.insert(BWOEffects2.tab, effect)
+
+    
 
     --[[
     local effect2 = {}
@@ -45,7 +41,7 @@ ZombieActions.Extinguish.onStart = function(zombie, task)
     effect2.b = 0.97
 
     if isClient() then
-        sendClientCommand(getPlayer(), 'Schedule', 'AddEffect', effect2)
+        sendClientCommand(getSpecificPlayer(0), 'Schedule', 'AddEffect', effect2)
     else
         table.insert(BanditEffects.tab, effect2)
     end]]
@@ -54,6 +50,13 @@ ZombieActions.Extinguish.onStart = function(zombie, task)
 end
 
 ZombieActions.Extinguish.onWorking = function(zombie, task)
+
+    local cell = getCell()
+    local square = cell:getGridSquare(task.x, task.y, task.z)
+    if not square:haveFire() then
+        return true
+    end
+
     zombie:faceLocation(task.x, task.y)
     if task.time <= 0 then
         return true
@@ -71,18 +74,22 @@ ZombieActions.Extinguish.onWorking = function(zombie, task)
             
         end
     end
+    return false
 end
 
 ZombieActions.Extinguish.onComplete = function(zombie, task)
-    if ZombRand(2) == 0 then
-        local cell = getCell()
-        local square = cell:getGridSquare(task.x, task.y, task.z)
-        if square then
-            square:stopFire()
-            local args = {x=task.x, y=task.y, z=task.z, otype="fire"}
-            -- bugged dunno why
-            -- sendClientCommand(getPlayer(), 'Commands', 'ObjectRemove', args)
-            BWOServer.Commands.ObjectRemove(getPlayer(), args)
+    local cell = getCell()
+    local square = cell:getGridSquare(task.x, task.y, task.z)
+    if square then
+        square:stopFire()
+        local args = {x=task.x, y=task.y, z=task.z, otype="fire"}
+        -- bugged dunno why
+        -- sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectRemove', args)
+        BWOServer.Commands.ObjectRemove(getSpecificPlayer(0), args)
+
+        if BWOScheduler.Anarchy.Transactions then
+            BWOPlayer.Earn(zombie, 20)
+            Bandit.UpdateItemsToSpawnAtDeath(zombie)
         end
     end
     if task.item then

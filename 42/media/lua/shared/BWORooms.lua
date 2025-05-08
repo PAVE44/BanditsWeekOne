@@ -1,3 +1,4 @@
+require "BWOBandit"
 BWORooms = BWORooms or {}
 
 BWORooms.tab = {

@@ -199,7 +199,7 @@ BWOPlayer.CheckFriendlyFire = function(bandit, attacker)
     if not bandit:getVariableBoolean("Bandit") or not brain then return end
 
     -- killing bandits is ok!
-    if brain.program.name == "Vandal" then 
+    if brain.program.name == "Vandal" or brain.hostile then 
         if instanceof(attacker, "IsoPlayer") and not attacker:isNPC() then
             local profession = player:getDescriptor():getProfession()
             if BWOScheduler.Anarchy.Transactions and profession == "policeofficer" then

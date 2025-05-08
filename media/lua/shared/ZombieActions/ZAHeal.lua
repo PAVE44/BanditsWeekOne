@@ -14,7 +14,7 @@ ZombieActions.Heal.onWorking = function(zombie, task)
             zombie:setBumpType("CPRStart")
         elseif task.stage < 20 then
             zombie:setBumpType("CPRLoop")
-            zombie:addLineChatElement(tostring(task.stage - 1), 0, 1, 0)
+            -- zombie:addLineChatElement(tostring(task.stage - 1), 0, 1, 0)
         else
             zombie:setBumpType("CPREnd")
         end
@@ -43,7 +43,8 @@ ZombieActions.Heal.onComplete = function(zombie, task)
             
             -- unregister dead body
             local args = {x=corpse:getX(), y=corpse:getY(), z=corpse:getZ()}
-            sendClientCommand(getPlayer(), 'Commands', 'DeadBodyRemove', args)
+            -- sendClientCommand(getSpecificPlayer(0), 'Commands', 'DeadBodyRemove', args)
+            BWOServer.Commands.DeadBodyRemove(getSpecificPlayer(0), args)
         end
     end
     return true

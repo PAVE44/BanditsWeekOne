@@ -35,20 +35,27 @@ ZombieActions.RemoveObject.onComplete = function(zombie, task)
             if props:Is("CustomName") then
                 local customName = props:Val("CustomName")
                 if customName == task.customName then
-                    if task.otype then
-                        local args = {x=task.x, y=task.y, z=task.z, otype=task.otype}
-                        sendClientCommand(getPlayer(), 'Commands', 'ObjectRemove', args)
-                    end
                     
                     if isClient() then
                         sledgeDestroy(object)
                     else
                         square:transmitRemoveItemFromSquare(object)
                     end
+
+                    if BWOScheduler.Anarchy.Transactions then
+                        BWOPlayer.Earn(zombie, 1)
+                        Bandit.UpdateItemsToSpawnAtDeath(zombie)
+                    end
+
                     break
                 end
             end
         end
+    end
+
+    if task.otype then
+        local args = {x=task.x, y=task.y, z=task.z, otype=task.otype}
+        BWOServer.Commands.ObjectRemove(getSpecificPlayer(0), args)
     end
 
     return true
