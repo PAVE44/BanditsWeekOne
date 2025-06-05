@@ -1038,8 +1038,18 @@ BWOChat.Say = function(chatMessage, quiet)
         return name
     end
 
-    local getMood = function()
-        if BWOScheduler.SymptomLevel == 0 then
+    local getMood = function(bandit)
+        if bandit:isCrawler() then
+            local opts = {"I can't feel my legs!",
+                          "How does it look? My spine is broken!",
+                          "Help me get up, please!"}
+            return BanditUtils.Choice(opts)
+        elseif bandit:getHealth() < 0.4 then
+            local opts = {"I think I'm going to die!",
+                          "This may be it!",
+                          "I need help!"}
+            return BanditUtils.Choice(opts)
+        elseif BWOScheduler.SymptomLevel == 0 then
             local opts = {"I'm great! Maybe a little stressed lately...",
                           "I'm good, thanks! But some people around behave strangly...",
                           "Excellent, how are you?"}
@@ -1142,7 +1152,7 @@ BWOChat.Say = function(chatMessage, quiet)
                 local snow = cm:isSnowing() and "It's snowing" or "It's not snowing"
                 local intrusion = isIntrusion(bandit) and "NOT welcome" or "very welcome"
                 local temperature = math.floor(cm:getTemperature())
-                local mood = getMood()
+                local mood = getMood(bandit)
                 local weapons = getWeapons(bandit)
 
                 Bandit.ClearTasks(bandit)
