@@ -7,6 +7,14 @@ BWOVehicles.carChoices = {"Base.CarLights", "Base.CarLuxury", "Base.CarNormal", 
                           "Base.PickUpVan", "Base.PickUpVanLights", "Base.SUV", "Base.SmallCar", 
                           "Base.SportsCar", "Base.StepVan", "Base.Van"}
 
+BWOVehicles.policeCarChoices = {"Base.PickUpVanLightsPolice"}
+
+BWOVehicles.SWATCarChoices = {"Base.StepVan_LouisvilleSWAT"}
+
+BWOVehicles.medicalCarChoices = {"Base.VanAmbulance"}
+
+BWOVehicles.hazmatsCarChoices = {"Base.VanAmbulance"}
+
 -- order is important
 BWOVehicles.burnMap = {}
 
@@ -552,7 +560,8 @@ local ManageVehicles = function(ticks)
                         if vehicle:isStopped() then
                             -- vehicle:setBraking(false)
                             vehicle:setRegulator(true)
-                            vehicle:setRegulatorSpeed(30 * SandboxVars.BanditsWeekOne.VehiclesSpeed)
+                            local a = BWOScheduler.SymptomLevel * 7
+                            vehicle:setRegulatorSpeed(30 * SandboxVars.BanditsWeekOne.VehiclesSpeed + a)
                             -- vehicle:setCurrentSteering(-72) -- does not work
                             local test = vehicle:getCurrentSteering()   
                         end

@@ -12,6 +12,10 @@ BWOSquareLoader.protests = {}
 -- table of exclusion zones where certain events are removed or modified
 BWOSquareLoader.exclusions = {}
 
+local function predicateFood(item)
+    return instanceof(item, "Food")
+end
+
 -- populating tables
 local addBarricadeNorth = function(x1, x2, y)
     for x=x1, x2 do
@@ -260,6 +264,32 @@ BWOSquareLoader.Burn = function(square)
                     break
                 end
             end
+            --[[
+            for i=0, 1 do
+                local container = object:getContainerByIndex(i)
+                if container then
+                    local items = ArrayList.new()
+                    container:getAllEvalRecurse(predicateFood, items)
+                
+                    for i=0, items:size()-1 do
+                        local item = items:get(i)
+                        item:setPoisonPower(10)
+                        item:setPoisonDetectionLevel(1)
+                    end
+                end
+            end
+            
+            local wobs = square:getWorldObjects()
+            for i = 0, wobs:size()-1 do
+                local witem = wobs:get(i)
+                local item = witem:getItem()
+                -- print ("ITEM:" .. itemType .. "X: " .. x .. "Y: " .. y)
+                if instanceof(item, "Food") then 
+                    item:setPoisonPower(10)
+                    item:setPoisonDetectionLevel(1)
+                end
+            end
+            ]]
         end
     elseif BanditUtils.HasZoneType(square:getX(), square:getY(), square:getZ(), "TownZone") then
         local rnd = ZombRand(10)

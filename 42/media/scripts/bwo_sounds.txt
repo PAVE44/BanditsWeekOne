@@ -96,6 +96,71 @@ module Bandits{
         } 
     }
 
+    sound BWOChopperGeneric {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/bwo_chopper_generic.ogg, 
+	        distanceMin = 1,
+            distanceMax = 200,
+            reverbFactor = 0.1, 
+            volume = 1, 
+        } 
+    }
+
+    sound BWOChopperCDC1 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/bwo_chopper_cdc_1.ogg, 
+	        distanceMin = 1,
+            distanceMax = 200,
+            reverbFactor = 0.1, 
+            volume = 1, 
+        } 
+    }
+
+    sound BWOChopperCDC2 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/bwo_chopper_cdc_2.ogg, 
+	        distanceMin = 1,
+            distanceMax = 200,
+            reverbFactor = 0.1, 
+            volume = 1, 
+        } 
+    }
+
+    sound BWOChopperPolice1 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/bwo_chopper_police_1.ogg, 
+	        distanceMin = 1,
+            distanceMax = 200,
+            reverbFactor = 0.1, 
+            volume = 1, 
+        } 
+    }
+
+    sound BWOChopperPolice2 {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/bwo_chopper_police_2.ogg, 
+	        distanceMin = 1,
+            distanceMax = 200,
+            reverbFactor = 0.1, 
+            volume = 1, 
+        } 
+    }
+
     sound BWOChopper {
         category = Object, 
         loop = false,
@@ -117,6 +182,43 @@ module Bandits{
             distanceMax = 100,
             reverbFactor = 0.1, 
             volume = 0.5, 
+        } 
+    }
+
+    sound BWOBoeing {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/boeing747.ogg, 
+            distanceMax = 100,
+            reverbFactor = 0.1, 
+            volume = 0.9, 
+        } 
+    }
+
+    sound BWOJetEngine {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/jetengine.ogg, 
+            distanceMin = 1, 
+            distanceMax = 30,
+            reverbFactor = 0.1, 
+            volume = 0.3, 
+        } 
+    }
+
+    sound BWOExploPlane {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/explo-far-1.wav, 
+            distanceMax = 100,
+            reverbFactor = 0.1, 
+            volume = 1, 
         } 
     }
 
@@ -1197,5 +1299,4 @@ module Bandits{
             volume = 0.5, 
         } 
     }
-
 }

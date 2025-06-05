@@ -124,14 +124,17 @@ BWOMenu.AddEffect = function(player, square)
     ]]
 
     local effect = {}
-    effect.x = square:getX()
-    effect.y = square:getY()
-    effect.z = square:getZ()
-    effect.size = 640
-    effect.colors = {r=0.1, g=0.7, b=0.2, a=0.2}
-    effect.name = "explobig"
-    effect.frameCnt = 17
-    table.insert(BWOEffects2.tab, effect)
+    effect.width = 1243
+    effect.height = 760
+    effect.speed = 0.8
+    effect.alpha = 1
+    effect.name = BanditUtils.Choice({"heli", "heli2"})
+    effect.sound = BanditUtils.Choice({"BWOChopperPolice1", "BWOChopperPolice2"})
+    effect.dir = BanditUtils.Choice({0, 180, 90, -90})
+    effect.speed = ZombRandFloat(0.5, 3.5)
+    effect.frameCnt = 3
+    effect.cycles = 200
+    table.insert(BWOFlyingObject.tab, effect)
 end
 
 BWOMenu.EventArmy = function(player)
@@ -192,6 +195,15 @@ BWOMenu.EventBombRun = function(player)
     BWOScheduler.Add("BombRun", params, 100)
 end
 
+BWOMenu.EventChopperAlert = function(player)
+    local params = {}
+    params.name = BanditUtils.Choice({"heli", "heli2"})
+    params.sound = BanditUtils.Choice({"BWOChopperPolice1", "BWOChopperPolice2"})
+    params.dir = BanditUtils.Choice({0, 180, 90, -90})
+    params.speed = ZombRandFloat(1.5, 1.5)
+    BWOScheduler.Add("ChopperAlert", params, 100)
+end
+
 BWOMenu.EventNuke = function(player)
     local params = {}
     params.x = player:getX()
@@ -228,11 +240,28 @@ BWOMenu.EventHome = function (player)
     BWOScheduler.Add("BuildingHome", params, 100)
 end
 
+BWOMenu.EventHeliCrash = function (player)
+    local params = {}
+    params.x = -70
+    params.y = 0
+    params.vtype = "pzkHeli350PoliceWreck"
+    BWOScheduler.Add("HeliCrash", params, 100)
+end
+
 BWOMenu.EventParty = function (player)
     local params = {}
     params.roomName = "bedroom"
     params.intensity = 8
     BWOScheduler.Add("BuildingParty", params, 100)
+end
+
+BWOMenu.EventJetEngine = function (player)
+    local params = {}
+    params.x = player:getX()
+    params.y = player:getY()
+    params.z = player:getZ()
+    params.dir = -90
+    BWOScheduler.Add("JetEngine", params, 100)
 end
 
 BWOMenu.EventJetFighter = function (player)
@@ -294,7 +323,7 @@ BWOMenu.EventPlaneCrash = function(player)
     params.x = player:getX()
     params.y = player:getY()
     params.z = player:getZ()
-    BWOScheduler.Add("PlaneCrash", params, 100)
+    BWOScheduler.Add("PlaneCrashSequence", params, 100)
 end
 
 BWOMenu.EventPower = function(player, on)
@@ -350,8 +379,6 @@ BWOMenu.EventStorm = function(player)
     params.len = 1440
     BWOScheduler.Add("WeatherStorm", params, 1000)
 end
-
-
 
 function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
 
@@ -425,6 +452,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         eventsMenu:addOption("Bikers", player, BWOMenu.EventBikers)
         eventsMenu:addOption("Bomb Drop", player, BWOMenu.EventBombDrop)
         eventsMenu:addOption("Bomb Run", player, BWOMenu.EventBombRun)
+        eventsMenu:addOption("Chopper Alert", player, BWOMenu.EventChopperAlert)
         eventsMenu:addOption("Criminals", player, BWOMenu.EventCriminals)
         eventsMenu:addOption("Dream", player, BWOMenu.EventDream)
 
@@ -445,8 +473,10 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         eventsMenu:addOption("Gas Drop", player, BWOMenu.EventGasDrop)
         eventsMenu:addOption("Gas Run", player, BWOMenu.EventGasRun)
         eventsMenu:addOption("Hammer Brothers", player, BWOMenu.EventHammerBrothers)
+        eventsMenu:addOption("Heli Crash", player, BWOMenu.EventHeliCrash)
         eventsMenu:addOption("House Register", player, BWOMenu.EventHome)
         eventsMenu:addOption("House Party", player, BWOMenu.EventParty)
+        eventsMenu:addOption("Jetengine", player, BWOMenu.EventJetEngine)
         eventsMenu:addOption("Jetfighter", player, BWOMenu.EventJetFighter)
         eventsMenu:addOption("Jetfighter Run", player, BWOMenu.EventJetFighterRun)
         eventsMenu:addOption("Nuke", player, BWOMenu.EventNuke)

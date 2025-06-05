@@ -55,7 +55,8 @@ ZombiePrograms.Shahid.Main = function(bandit)
             table.insert(tasks, BanditUtils.GetMoveTask(endurance, x, y, 0, walkType, 12, false))
             return {status=true, next="Main", tasks=tasks}
         else
-            BWOEvents.Explode(bandit:getX(), bandit:getY())
+            local params = {x = bandit:getX(), y = bandit:getY()}
+            BWOEvents.Explode(params)
             return {status=true, next="Main", tasks=tasks}
         end
         
@@ -65,7 +66,7 @@ ZombiePrograms.Shahid.Main = function(bandit)
     config.mustSee = false
     config.hearDist = 40
 
-    local closestPlayer = BanditUtils.GetClosestPlayerLocation(bandit)
+    local closestPlayer = BanditUtils.GetClosestPlayerLocation(bandit, config)
 
     if closestPlayer.x and closestPlayer.y and closestPlayer.z then
         

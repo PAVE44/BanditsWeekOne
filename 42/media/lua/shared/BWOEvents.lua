@@ -186,15 +186,30 @@ local explode = function(x, y)
     effect.frameCnt = 17
     table.insert(BWOEffects.tab, effect)]]
 
+    -- explosion effect
     local effect = {}
     effect.x = square:getX()
     effect.y = square:getY()
     effect.z = square:getZ()
     effect.size = 640
-    effect.colors = {r=0.1, g=0.7, b=0.2, a=0.2}
     effect.name = "explobig"
     effect.frameCnt = 17
     table.insert(BWOEffects2.tab, effect)
+
+    -- smoke effect
+    for i = 1, 2 do
+        local effect2 = {}
+        effect2.x = square:getX() + ZombRandFloat(-4.5, 4.5)
+        effect2.y = square:getY() + ZombRandFloat(-4.5, 4.5)
+        effect2.z = square:getZ()
+        effect2.size = 1200
+        effect2.poison = false
+        effect2.name = "smoke"
+        effect2.frameCnt = 60
+        effect2.frameRnd = true
+        effect2.repCnt = 17 + ZombRand(3)
+        table.insert(BWOEffects2.tab, effect2)
+    end
     
     -- light blast
     local colors = {r=1.0, g=0.5, b=0.5}
@@ -341,12 +356,12 @@ local arrivalSound = function(x, y, sound)
     emitter:playSound(sound)
 end
 
-local spawnVehicle = function(x, y, vtype)
+local spawnVehicle = function(x, y, z, vtype)
     local cell = getCell()
     local square = getCell():getGridSquare(x, y, 0)
     if not square then return end
 
-    local vehicle = BWOCompatibility.AddVehicle(vtype, IsoDirections.S, square)
+    local vehicle = BWOCompatibility.AddVehicle(vtype, IsoDirections.E, square)
     if not vehicle then return end
 
     for i = 0, vehicle:getPartCount() - 1 do
@@ -426,9 +441,9 @@ BWOEvents.VehiclesUpdate = function(params)
     end
 end
 
--- fixme
-BWOEvents.Explode = function(x, y)
-    explode(x, y)
+-- params: x, y
+BWOEvents.Explode = function(params)
+    explode(params.x, params.y)
 end
 
 
@@ -448,6 +463,8 @@ BWOEvents.Siren = function(params)
     emitter:playAmbientSound("DOSiren2")
     emitter:setVolumeAll(0.9)
     addSound(player, params.x, params.y, params.z, 150, 100)
+
+    BanditPlayer.WakeEveryone()
 end
 
 -- params: [on]
@@ -566,10 +583,18 @@ BWOEvents.ChopperAlert = function(params)
     if not player then return end
 
     BanditPlayer.WakeEveryone()
-    local emitter = getWorld():getFreeEmitter(params.x, params.y, 0)
-    emitter:playAmbientSound(params.sound)
-    emitter:setVolumeAll(0.9)
-    addSound(player, params.x, params.y, params.z, 150, 100)
+
+    local effect = {}
+    effect.width = 1243
+    effect.height = 760
+    effect.alpha = 1
+    effect.speed = params.speed
+    effect.name = params.name
+    effect.dir = params.dir
+    effect.sound = params.sound
+    effect.frameCnt = 3
+    effect.cycles = 200
+    table.insert(BWOFlyingObject.tab, effect)
 end
 
 -- params: [x, y, sound]
@@ -579,15 +604,24 @@ BWOEvents.ChopperFliers = function(params)
 
     local player = getSpecificPlayer(0)
     if not player then return end
+    local px, py = player:getX(), player:getY()
 
-    BanditPlayer.WakeEveryone()
-    local emitter = getWorld():getFreeEmitter(params.x, params.y, 0)
-    emitter:playAmbientSound("ZSAttack_Chopper_1")
-    emitter:setVolumeAll(0.9)
-    addSound(player, params.x, params.y, params.z, 150, 100)
-    BWOScheduler.Add("ChopperFliersStage2", params, 10000)
-    BWOScheduler.Add("ChopperFliersStage2", params, 12000)
-    BWOScheduler.Add("ChopperFliersStage2", params, 13600)
+    local effect = {}
+    effect.width = 1243
+    effect.height = 760
+    effect.alpha = 1
+    effect.speed = 1
+    effect.name = "heli2"
+    effect.dir = 90
+    effect.sound = "BWOChopperCDC2"
+    effect.frameCnt = 3
+    effect.cycles = 200
+    table.insert(BWOFlyingObject.tab, effect)
+
+    local params = {x=px, y=py}
+    BWOScheduler.Add("ChopperFliersStage2", params, 9000)
+    BWOScheduler.Add("ChopperFliersStage2", params, 11000)
+    BWOScheduler.Add("ChopperFliersStage2", params, 12600)
 end
 
 BWOEvents.ChopperFliersStage2 = function(params)
@@ -795,7 +829,7 @@ BWOEvents.Start = function(params)
                     carType = "SportsCar"
                 end
 
-                vehicle = spawnVehicle(sx, sy, BWOCompatibility.GetCarType(carType))
+                vehicle = spawnVehicle(sx, sy, 0, BWOCompatibility.GetCarType(carType))
                 if vehicle then
                     if dir == "S" then
                         vehicle:setAngles(0, 0, 0)
@@ -1074,6 +1108,15 @@ BWOEvents.SetupPlaceEvents = function(params)
     addPlaceEvent({phase="BaseDefenders", x=5833, y=12490, z=0, intensity = 2}) -- booth
     addPlaceEvent({phase="BaseDefenders", x=5831, y=12484, z=0, intensity = 4}) -- szlaban
     addPlaceEvent({phase="BaseDefenders", x=5530, y=12489, z=0, intensity = 5}) -- back
+
+    addPlaceEvent({phase="BaseDefenders", x=5543, y=12466, z=-4, intensity = 1}) -- staircase
+    addPlaceEvent({phase="BaseDefenders", x=5542, y=12475, z=-13, intensity = 5}) -- monitoring room -13
+    addPlaceEvent({phase="BaseDefenders", x=5572, y=12493, z=-13, intensity = 2}) -- corridor
+    addPlaceEvent({phase="BaseDefenders", x=5545, y=12481, z=-15, intensity = 3}) -- billard room
+    addPlaceEvent({phase="BaseDefenders", x=5557, y=12447, z=-16, intensity = 3}) -- control room
+    addPlaceEvent({phase="BaseDefenders", x=5562, y=12446, z=-16, intensity = 6}) -- control room
+
+    
     -- addPlaceEvent({phase="BaseDefenders", x=5558, y=12447, z=-16, intensity = 3}) -- underground armory
 
 end
@@ -1296,29 +1339,18 @@ BWOEvents.GasDrop = function(params)
     table.insert(svec, {x=1, y=3})
 
     for _, v in pairs(svec) do
-        --[[local effect = {}
-        effect.x = x + v.x
-        effect.y = y + v.y
-        effect.z = 0
-        effect.offset = 300
-        effect.poison = true
-        effect.colors = {r=0.1, g=0.7, b=0.2, a=0.2}
-        effect.name = "mist_01"
-        effect.frameCnt = 60
-        effect.frameRnd = true
-        effect.repCnt = 10
-        table.insert(BWOEffects.tab, effect)]]
 
         local effect = {}
         effect.x = x + v.x
         effect.y = y + v.y
         effect.z = 0
-        effect.size = 600
+        effect.size = 600 + ZombRand(600)
         effect.poison = true
         effect.colors = {r=0.1, g=0.7, b=0.2, a=0.2}
-        effect.name = "mist"
+        effect.name = "gas"
         effect.frameCnt = 60
-        effect.repCnt = 9
+        effect.frameRnd = true
+        effect.repCnt = 16
         table.insert(BWOEffects2.tab, effect)
     end
 
@@ -1329,16 +1361,6 @@ BWOEvents.GasDrop = function(params)
     local emitter = getWorld():getFreeEmitter(x, y, 0)
     emitter:playSound("DOGas")
     emitter:setVolumeAll(0.25)
-end
-
--- params: [x, y, z]
-BWOEvents.PlaneCrash = function(params)
-    BWOScheduler.Add("PlaneCrashStage", {x=params.x, y=params.y, z=params.z, stageName="AddCockpit"}, 100)
-end
-
--- params: [x, y, z, stageName]
-BWOEvents.PlaneCrashStage = function(params)
-    PPPlane[params.stageName](params.x, params.y, -1)
 end
 
 -- params: []
@@ -1679,7 +1701,8 @@ BWOEvents.CallCops = function(params)
 
     local vehicleCount = player:getCell():getVehicles():size()
     if vehicleCount < 8 then
-        spawnVehicle (x, y, BWOCompatibility.GetCarType("Base.PickUpVanLightsPolice"))
+        local vtype = BWOCompatibility.GetCarType(BanditUtils.Choice(BWOVehicles.policeCarChoices))
+        spawnVehicle (x, y, 0, vtype)
         arrivalSound (x, y, "ZSPoliceCar1")
 
         local vparams = {}
@@ -1734,7 +1757,8 @@ BWOEvents.CallSWAT = function(params)
 
     local vehicleCount = player:getCell():getVehicles():size()
     if vehicleCount < 8 then
-        spawnVehicle (x, y, BWOCompatibility.GetCarType("Base.StepVan_LouisvilleSWAT"))
+        local vtype = BWOCompatibility.GetCarType(BanditUtils.Choice(BWOVehicles.SWATCarChoices))
+        spawnVehicle (x, y, 0, vtype)
         arrivalSound(x, y, "ZSPoliceCar1")
 
         local vparams = {}
@@ -1784,7 +1808,8 @@ BWOEvents.CallMedics = function(params)
 
     local vehicleCount = player:getCell():getVehicles():size()
     if vehicleCount < 8 then
-        spawnVehicle (x, y, BWOCompatibility.GetCarType("Base.VanAmbulance"))
+        local vtype = BWOCompatibility.GetCarType(BanditUtils.Choice(BWOVehicles.medicalCarChoices))
+        spawnVehicle (x, y, 0, vtype)
         arrivalSound(x, y, "ZSPoliceCar1")
 
         local vparams = {}
@@ -1829,7 +1854,8 @@ BWOEvents.CallHazmats = function(params)
 
     local vehicleCount = player:getCell():getVehicles():size()
     if vehicleCount < 8 then
-        spawnVehicle (x, y, BWOCompatibility.GetCarType("Base.VanAmbulance"))
+        local vtype = BWOCompatibility.GetCarType(BanditUtils.Choice(BWOVehicles.hazmatsCarChoices))
+        spawnVehicle (x, y, 0, vtype)
         arrivalSound(x, y, "ZSPoliceCar1")
 
         local vparams = {}
@@ -1867,7 +1893,7 @@ BWOEvents.CallFireman = function(params)
 
     local vehicleCount = player:getCell():getVehicles():size()
     if vehicleCount < 8 then
-        spawnVehicle (x, y, BWOCompatibility.GetCarType("Base.PickUpTruckLightsFire"))
+        spawnVehicle (x, y, 0, BWOCompatibility.GetCarType("Base.PickUpTruckLightsFire"))
         arrivalSound(x, y, "ZSPoliceCar1")
 
         local vparams = {}
@@ -1952,4 +1978,286 @@ BWOEvents.SpawnGroup = function(params)
 
         BanditEventMarkerHandler.set(getRandomUUID(), icon, 3600, sp.x, sp.y, color, desc)
     end
+end
+
+-- params: x, y
+BWOEvents.Delete = function(params)
+    BanditBaseGroupPlacements.ClearSpace (params.x-2, params.y-2, params.z, 5, 5)
+
+end
+
+-- params: x, y, itemType
+BWOEvents.AddItems = function(params)
+    local cell = getCell()
+    local itemInsideChoices = {
+        "Base.Toothbrush", "Base.Toothpaste", "Base.Socks_Ankle", "Base.Socks_Ankle", "Base.Socks_Long",
+        "Base.Briefs", "Base.Shirt_Denim", "Base.Tshirt_WhiteTINT", "Base.Tshirt_WhiteTINT", "Base.Underpants_White",
+        "Base.Trousers", "Base.Trousers", "Base.Dress_Short", "Base.Dress_Long", "Base.Dress_Normal",
+        "Base.Tshirt_WhiteLongSleeveTINT", "Base.Shirt_HawaiianTINT", "Base.Shirt_HawaiianTINT", "Base.Shirt_HawaiianTINT", "Base.Hat_SummerHat",
+        "Base.Brandy", "Base.CigarBox", "Base.Boxers_White", "Base.AntibioticsBox", "Base.Book",
+    }
+    for i = 1, params.cnt do
+        local ix, iy = params.x, params.y - 20 + ZombRand(41)
+        local square = cell:getGridSquare(ix, iy, 0)
+        if square then
+            local itemType = BanditUtils.Choice(params.itemTab)
+            local item = BanditCompatibility.InstanceItem(itemType)
+            if item then
+                if instanceof(item, "InventoryContainer") then
+                    local container = item:getItemContainer()
+                    if container then
+                        for i=1, 5 + ZombRand(10) do
+                            local itemInside = BanditCompatibility.InstanceItem(BanditUtils.Choice(itemInsideChoices))
+                            container:AddItem(itemInside)
+                        end
+                    end
+                end
+                item:setWorldZRotation(ZombRand(360))
+                square:AddWorldInventoryItem(item, ZombRandFloat(0.1, 0.9), ZombRandFloat(0.1, 0.9), 0)
+            end
+        end    
+    end
+    
+end
+
+BWOEvents.PlaneCrashPartEnd = function(params)
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
+    for i=1, params.civs do
+        local args = {}
+        args.cid = Bandit.clanMap.Resident
+        args.program = "Walker"
+        args.size = 1
+        args.x = params.x + ZombRandFloat(-5, 5)
+        args.y = params.y + ZombRandFloat(-5, 5)
+        args.z = params.z
+        args.crawler = true
+        BanditServer.Spawner.Clan(player, args)
+    end
+    -- sendClientCommand(player, 'Spawner', 'Clan', args)
+
+    local vehicle = spawnVehicle(params.x, params.y, params.z, params.vtype)
+    if vehicle then
+        local dir = -86 + ZombRand(9)
+        vehicle:setAngles(0, dir, 0)
+
+        if params.engine then
+            params.dir = dir
+            BWOJetEngine.Add(params)
+        end
+    else
+        print ("plane error")
+    end
+
+    if params.engine then
+
+    end
+    BanditBaseGroupPlacements.Junk (params.x-7, params.y-7, 0, 14, 14, 33)
+    
+end
+
+BWOEvents.JetEngine = function(params)
+    local vehicle = spawnVehicle(params.x, params.y, params.z, "Base.pzkPlaneEngine")
+    if vehicle then
+        vehicle:setAngles(0, params.dir, 0)
+        BWOJetEngine.Add(params)
+    end
+end
+
+BWOEvents.PlaneCrashPartSequence = function(params)
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
+    local emitter = player:getEmitter()
+    if emitter:isPlaying("BWOBoeing") then
+        emitter:stopSoundByName("BWOBoeing")
+    end
+
+    local px, py = player:getX(), player:getY()
+
+    params.x = px + params.x
+    params.y = py + params.y
+
+    local bags = {"Base.Suitcase", "Base.Suitcase", "Base.Suitcase", "Base.Suitcase", "Base.Suitcase", "Base.Briefcase", 
+                  "Base.Bag_DuffelBag", "Base.Purse", "Base.RippedSheets", "Base.RippedSheetsDirty", 
+                  "Base.SheetMetal", "Base.SmallSheetMetal", "Base.ScrapMetal", "Base.MetalPipe"}
+
+    local seats = {"Base.NormalCarSeat2"}
+
+    local delay = 1
+    for i = -24, 0 do
+        local x, y = params.x + (i*2), params.y
+        BWOScheduler.Add("Explode", {x=x, y=y}, delay)
+        BWOScheduler.Add("Delete", {x=x, y=y, r=2, z=-i}, delay)
+
+        if params.bags then
+            BWOScheduler.Add("AddItems", {x=x, y=y, itemTab=bags, cnt=params.bags}, delay)
+        end
+        if params.seats then
+            BWOScheduler.Add("AddItems", {x=x, y=y, itemTab=seats, cnt=params.seats}, delay)
+        end
+
+        delay = delay + 70
+
+    end
+
+    BWOScheduler.Add("PlaneCrashPartEnd", params, delay)
+
+end
+
+BWOEvents.PlaneCrashSequence = function(params)
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
+    BanditPlayer.WakeEveryone()
+
+    local start = 17600
+    -- stage 1: init plane flyby sound 
+    local emitter = player:getEmitter()
+    local id = emitter:playSound("BWOBoeing")
+    getSoundManager():setMusicVolume(0)
+    player:playSound("BWOMusicOutro")
+
+    -- stage 2: play two plane explosions while the plane is still in the air
+    local params = {x=player:getX(), y=player:getY(), sound="BWOExploPlane"}
+    BWOScheduler.Add("Sound", params, start)
+    BWOScheduler.Add("Sound", params, start + 600)
+
+    -- step 3: place plane parts on ground
+    local partMap = {
+        {
+            vtype = "Base.pzkPlaneSection1",
+            x = 30,
+            y = 11,
+            z = 0,
+            delay = start + 2500,
+            civs = 2,
+            bags = 0,
+            seats = 0
+        },
+        {
+            vtype = "Base.pzkPlaneSection2",
+            x = -20,
+            y = -10,
+            z = 0,
+            delay = start + 3500,
+            civs = 12,
+            bags = 2,
+            seats = 2
+        },
+        {
+            vtype = "Base.pzkPlaneSection3",
+            x = -11,
+            y = 4,
+            z = 0,
+            delay = start + 4500,
+            civs = 25,
+            bags = 22,
+            seats = 3
+        },
+        {
+            vtype = "Base.pzkPlaneSection2",
+            x = -25,
+            y = -21,
+            z = 0,
+            delay = start + 4700,
+            civs = 12,
+            bags = 2,
+            seats = 2
+        },
+        {
+            vtype = "Base.pzkPlaneSection4",
+            x = -45,
+            y = 7,
+            z = 0,
+            delay = start + 5100,
+            civs = 18,
+            bags = 12,
+            seats = 2
+        },
+        {
+            vtype = "Base.pzkPlaneWingL2",
+            x = 2,
+            y = -23,
+            z = 0,
+            delay = start + 5900,
+            civs = 0,
+            bags = 0,
+            seats = 0
+        },
+        {
+            vtype = "Base.pzkPlaneWingL1",
+            x = -12,
+            y = -31,
+            z = 0,
+            delay = start + 6600,
+            civs = 0,
+            bags = 0,
+            seats = 0
+        },
+        {
+            vtype = "Base.pzkPlaneEngine",
+            x = -8,
+            y = -23,
+            z = 0,
+            delay = start + 7300,
+            civs = 1,
+            bags = 0,
+            seats = 0,
+            engine = 1
+        },
+        {
+            vtype = "Base.pzkPlaneWingR2",
+            x = 12,
+            y = 37,
+            z = 0,
+            delay = start + 7800,
+            civs = 0,
+            bags = 0,
+            seats = 0
+        },
+        {
+            vtype = "Base.pzkPlaneWingR1",
+            x = 0-2,
+            y = 31,
+            z = 0,
+            delay = start + 8800,
+            civs = 0,
+            bags = 0,
+            seats = 0
+        },
+        {
+            vtype = "Base.pzkPlaneEngine",
+            x = -6,
+            y = 0,
+            z = 0,
+            delay = start + 10000,
+            civs = 0,
+            bags = 0,
+            seats = 0,
+            engine = 1
+        },
+    }
+
+    for _, part in pairs(partMap) do
+        BWOScheduler.Add("PlaneCrashPartSequence", part, part.delay)
+    end
+    
+end
+
+BWOEvents.HeliCrash = function(params)
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
+    local cx = player:getX() + params.x
+    local cy = player:getY() + params.y
+
+    BanditBaseGroupPlacements.ClearSpace (cx-3, cy-3, params.z, 7, 7)
+    explode(cx, cy)
+    local vparams = {}
+    vparams.alarm = true
+    BWOScheduler.Add("VehiclesUpdate", vparams, 500)
+
+    vehicle = spawnVehicle(cx, cy, 0, params.vtype)
 end

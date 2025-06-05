@@ -1570,7 +1570,7 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 7
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: FullSuitHead = Base.HazmatSuit
@@ -1592,7 +1592,7 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 2
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: FullSuitHead = Base.HazmatSuit
@@ -1614,7 +1614,7 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 12
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: FullSuitHead = Base.HazmatSuit
@@ -2634,6 +2634,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = c0a566b2-b522-4ff3-b5a7-3a3cd2473b7b
 	clothing: Hat = Base.Hat_Police_Grey
 	clothing: Eyes = Base.Glasses_Aviators
 	clothing: Tshirt = Base.Tshirt_PoliceGrey
@@ -3144,6 +3145,7 @@
 	general: exp1 = 9
 	general: exp2 = 12
 	general: exp3 = 0
+	general: bid = ddb7a9be-53dd-48fa-9281-991b62b4d37a
 	clothing: Hat = Base.Hat_BonnieHat_CamoGreen
 	clothing: Necklace = Base.Necklace_DogTag_Male
 	clothing: Tshirt = Base.Tshirt_ArmyGreen
@@ -3177,6 +3179,7 @@
 	general: exp1 = 8
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 4bf1a41e-6e10-4499-8fd1-91c687aef686
 	clothing: Hat = Base.Hat_Army
 	clothing: Eyes = Base.Glasses_SafetyGoggles
 	clothing: Necklace = Base.Necklace_DogTag_Female
@@ -3248,6 +3251,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = ce60c38b-b059-429b-938a-cf43f79ff01e
 	clothing: Hat = Base.Hat_BaseballCapArmy
 	clothing: Necklace = Base.Necklace_DogTag_Male
 	clothing: Shirt = Base.Shirt_CamoGreen
@@ -3656,6 +3660,7 @@
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: Hat = Base.Hat_Fireman
+	clothing: MaskEyes = Base.Hat_GasMask
 	clothing: Tshirt = Base.Tshirt_Profession_FiremanBlue
 	clothing: Jacket = Base.Jacket_Fireman
 	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Brown
@@ -3681,6 +3686,7 @@
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: Hat = Base.Hat_Fireman
+	clothing: MaskEyes = Base.Hat_GasMask
 	clothing: Tshirt = Base.Tshirt_Profession_FiremanRed
 	clothing: Jacket = Base.Jacket_Fireman
 	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Brown
@@ -3706,6 +3712,7 @@
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: Hat = Base.Hat_Fireman
+	clothing: MaskEyes = Base.Hat_GasMask
 	clothing: Tshirt = Base.Tshirt_Profession_FiremanBlue
 	clothing: Jacket = Base.Jacket_Fireman
 	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Brown
@@ -3731,6 +3738,7 @@
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: Hat = Base.Hat_Fireman
+	clothing: MaskEyes = Base.Hat_GasMask
 	clothing: Tshirt = Base.Tshirt_Profession_FiremanRed02
 	clothing: Jacket = Base.Jacket_Fireman
 	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Brown
@@ -3756,6 +3764,7 @@
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: Hat = Base.Hat_Fireman
+	clothing: MaskEyes = Base.Hat_GasMask
 	clothing: Tshirt = Base.Tshirt_Profession_FiremanWhite
 	clothing: Jacket = Base.Jacket_Fireman
 	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Brown
@@ -3780,6 +3789,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	clothing: MaskEyes = Base.Hat_GasMask
 	clothing: Tshirt = Base.Tshirt_Profession_FiremanBlue
 	clothing: Jacket = Base.Jacket_Fireman
 	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Brown
@@ -3806,6 +3816,7 @@
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: Hat = Base.Hat_Fireman
+	clothing: MaskEyes = Base.Hat_GasMask
 	clothing: Tshirt = Base.Tshirt_Profession_FiremanWhite
 	clothing: Jacket = Base.Jacket_Fireman
 	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Brown
@@ -3831,6 +3842,7 @@
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: Hat = Base.Hat_BaseballCap_FireDept
+	clothing: MaskEyes = Base.Hat_GasMask
 	clothing: Tshirt = Base.Tshirt_Profession_FiremanBlue
 	clothing: Jacket = Base.Jacket_Fireman
 	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Brown
@@ -3852,7 +3864,7 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 10
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: FullSuitHead = Base.HazmatSuit
@@ -3874,7 +3886,7 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 3
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: FullSuitHead = Base.HazmatSuit
@@ -3962,7 +3974,7 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 6
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: LongDress = Base.HospitalGown
@@ -3982,12 +3994,12 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 6
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: LongDress = Base.HospitalGown
 	clothing: Shoes = Base.Shoes_Sandals
-	weapons: melee = Base.Broom
+	weapons: melee = Base.Axe
 
 [e0db7428-c36e-4d42-a017-3aa531b7aa93]
 	general: modid = BanditsWeekOne
@@ -4002,19 +4014,19 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 6
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: LongDress = Base.HospitalGown
 	clothing: Shoes = Base.Shoes_Sandals
-	weapons: melee = Base.Broom
+	weapons: melee = Base.FieldHockeyStick
 
 [ea2f8487-ce73-465f-a3cc-8d199e2aa995]
 	general: modid = BanditsWeekOne
 	general: cid = 51a68231-8870-4508-8c09-bd906b4411d2
 	general: name = Mental_04
 	general: female = false
-	general: skin = 1
+	general: skin = 2
 	general: hairType = 1
 	general: beardType = 1
 	general: hairColor = 1
@@ -4022,12 +4034,12 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 6
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: LongDress = Base.HospitalGown
 	clothing: Shoes = Base.Shoes_Sandals
-	weapons: melee = Base.Broom
+	weapons: melee = Base.BallPeenHammer
 
 [6541f108-1a6d-41cc-8805-4d84626a7e58]
 	general: modid = BanditsWeekOne
@@ -4042,7 +4054,7 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 6
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: LongDress = Base.HospitalGown
@@ -4054,7 +4066,7 @@
 	general: cid = 51a68231-8870-4508-8c09-bd906b4411d2
 	general: name = Mental_06
 	general: female = false
-	general: skin = 1
+	general: skin = 5
 	general: hairType = 1
 	general: beardType = 1
 	general: hairColor = 1
@@ -4062,7 +4074,7 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 6
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: LongDress = Base.HospitalGown
@@ -4082,7 +4094,7 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 6
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: LongDress = Base.HospitalGown
@@ -4094,7 +4106,7 @@
 	general: cid = 51a68231-8870-4508-8c09-bd906b4411d2
 	general: name = Mental_07
 	general: female = false
-	general: skin = 1
+	general: skin = 2
 	general: hairType = 1
 	general: beardType = 1
 	general: hairColor = 1
@@ -4102,12 +4114,12 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 6
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: LongDress = Base.HospitalGown
 	clothing: Shoes = Base.Shoes_Sandals
-	weapons: melee = Base.Broom
+	weapons: melee = Base.TireIron
 
 [832975e9-06dd-4f23-9d6c-715ed7127c0a]
 	general: modid = BanditsWeekOne
@@ -4442,6 +4454,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 18409db5-1ab3-4ba4-b05a-56f3c3a7922c
 	clothing: Hat = Base.Hat_Sheriff
 	clothing: Shirt = Base.Shirt_Sheriff
 	clothing: Jacket = Base.Jacket_Sheriff
@@ -4629,6 +4642,7 @@
 	general: exp1 = 8
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 08c17bc1-2b48-457d-a8e4-ca70c81a2a6b
 	clothing: Eyes = Base.Glasses_Normal
 	clothing: Tshirt = Base.Tshirt_Scrubs
 	clothing: Hands = Base.Gloves_Surgical
@@ -4880,6 +4894,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 399dd51d-239f-4087-9d07-caef2f803ea3
 	clothing: Tshirt = Base.Tshirt_Rock2
 	clothing: ShortPants = Base.Shorts_LongDenim_Punk
 	clothing: Shoes = Base.Shoes_Black
@@ -4924,6 +4939,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = c2e81f54-e9f2-467e-a740-8c7259d3045b
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: Jacket_Bulky = Base.Jacket_Shellsuit_TINT
 	clothing: Pants = Base.Trousers_Shellsuit_TINT
@@ -6221,6 +6237,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 298585b9-7060-410d-8750-5d3440a5e7cf
 	clothing: Hat = Base.Hat_BaseballCap
 	clothing: Neck = Base.Tie_Worn
 	clothing: Shirt = Base.Shirt_FormalWhite
@@ -6491,6 +6508,7 @@
 	general: exp1 = 8
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 2d813e04-15e8-4a74-b2ab-55afba1a696b
 	clothing: Eyes = Base.Glasses_Round_Normal
 	clothing: Tshirt = Base.Tshirt_Scrubs
 	clothing: JacketSuit = Base.JacketLong_Doctor
@@ -7749,6 +7767,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = ced61156-6071-4a2b-9842-bf3279a3ce9d
 	clothing: BathRobe = Base.LongCoat_Bathrobe
 	clothing: Shoes = Base.Shoes_FlipFlop
 	weapons: melee = Base.BareHands
@@ -7769,6 +7788,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 7d6936da-f4a9-4da3-bf84-1be6933460f9
 	clothing: BathRobe = Base.LongCoat_Bathrobe
 	clothing: Shoes = Base.Shoes_FlipFlop
 	weapons: melee = Base.BareHands
@@ -7982,6 +8002,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 109d65cb-49d1-400d-8c16-c6e1ad2cbe21
 	clothing: Eyes = Base.Glasses_Cosmetic_Round_Normal
 	clothing: TankTop = Base.Vest_DefaultTEXTURE_TINT
 	clothing: UnderwearBottom = Base.Boxers_RedStripes
@@ -8092,6 +8113,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = b6330353-47f1-4213-b3c7-9f0def561913
 	clothing: Tshirt = Base.Tshirt_BluesCountry
 	clothing: UnderwearBottom = Base.Underpants_AnimalPrint
 	clothing: UnderwearTop = Base.Bra_Straps_AnimalPrint
@@ -8355,6 +8377,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = a609e359-8a73-4941-a923-f9ab97ec27f1
 	clothing: Tshirt = Base.Tshirt_DefaultDECAL
 	clothing: UnderwearBottom = Base.Underpants_AnimalPrint
 	clothing: UnderwearTop = Base.Bra_Straps_Black
@@ -8517,6 +8540,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 16e21716-370a-4c1c-af4d-689e9b2be05a
 	clothing: Ears = Base.Earring_LoopSmall_Gold_Both
 	clothing: Tshirt = Base.BoobTube
 	clothing: UnderwearExtra1 = Base.TightsBlackTrans
@@ -8584,6 +8608,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 96ded347-dcc0-4730-bd34-9f90eb350682
 	clothing: Eyes = Base.Glasses_Normal
 	clothing: Shirt = Base.Shirt_FormalWhite
 	clothing: Pants = Base.Trousers
@@ -8627,6 +8652,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 35a8e6c2-517c-438a-82b0-522e3c9a45bd
 	clothing: Tshirt = Base.Tshirt_PoloTINT
 	clothing: ShortsShort = Base.Shorts_ShortDenim
 	clothing: Shoes = Base.Shoes_Strapped
@@ -8785,41 +8811,6 @@
 	clothing: Pants = Base.Trousers_JeanBaggy
 	clothing: Shoes = Base.Shoes_Slippers
 	weapons: melee = Base.BareHands
-
-[558cf525-def3-4fd4-bc28-5ed80752fff7]
-	general: modid = BanditsWeekOne
-	general: cid = d2860ee6-7e18-4132-ad42-8fb3a34ea499
-	general: name = ArmyGreen_Assault_02
-	general: female = false
-	general: skin = 2
-	general: hairType = 5
-	general: beardType = 8
-	general: hairColor = 7
-	general: health = 7
-	general: strength = 6
-	general: endurance = 5
-	general: sight = 7
-	general: exp1 = 2
-	general: exp2 = 3
-	general: exp3 = 0
-	clothing: Hat = Base.Hat_Army
-	clothing: Necklace = Base.Necklace_DogTag_Male
-	clothing: Tshirt = Base.Tshirt_CamoGreen
-	clothing: Jacket = Base.Jacket_ArmyCamoGreen
-	clothing: TorsoExtraVestBullet = Base.Vest_BulletArmy
-	clothing: Hands = Base.Gloves_LeatherGlovesBlack
-	clothing: LeftWrist = Base.WristWatch_Left_ClassicMilitary
-	clothing: BeltExtra = Base.HolsterSimple_Black
-	clothing: Pants = Base.Trousers_CamoGreen
-	clothing: Socks = Base.Socks_Long_Black
-	clothing: Shoes = Base.Shoes_ArmyBoots
-	clothing: MakeUp_Eyes = Base.MakeUp_CamoEyes1
-	weapons: primary = Base.AssaultRifle
-	weapons: secondary = Base.Pistol2
-	weapons: melee = Base.Machete
-	ammo: primary = 4
-	ammo: secondary = 2
-	bag: name = Base.Bag_ALICEpack_Army
 
 [cac22f64-7af0-4b90-a59f-97e5a7e143af]
 	general: modid = BanditsWeekOne
@@ -8997,6 +8988,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 20a14add-88f4-4149-bdd2-cbda6b09e7ec
 	clothing: Ears = Base.Earring_LoopLrg_Gold
 	clothing: Eyes = Base.Glasses_Cosmetic_CatsEye
 	clothing: Neck = Base.Necklace_Choker_Amber
@@ -9028,6 +9020,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = f59ca26e-d5c3-4b86-9ff4-cd65e98af868
 	clothing: Hat = Base.Hat_BunnyEarsWhite
 	clothing: Eyes = Base.Glasses_Cosmetic_70s_Gold
 	clothing: Neck = Base.Necklace_Choker_Amber
@@ -9087,6 +9080,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 690c7361-d76e-46b8-9fdf-0d83868f3d12
 	clothing: Hat = Base.Hat_PeakedCapArmy
 	clothing: Eyes = Base.Glasses_Aviators
 	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Black
@@ -9157,11 +9151,11 @@
 	general: hairType = 21
 	general: beardType = 1
 	general: hairColor = 16
-	general: health = 5
-	general: strength = 5
+	general: health = 9
+	general: strength = 9
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 12
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: FullHat = Base.Hat_MetalHelmet
@@ -9188,11 +9182,11 @@
 	general: hairType = 21
 	general: beardType = 1
 	general: hairColor = 16
-	general: health = 5
+	general: health = 9
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 12
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: FullHat = Base.Hat_MetalHelmet
@@ -9220,11 +9214,11 @@
 	general: hairType = 21
 	general: beardType = 1
 	general: hairColor = 16
-	general: health = 5
+	general: health = 9
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 12
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: FullHat = Base.Hat_MetalHelmet
@@ -10041,7 +10035,7 @@
 	general: strength = 6
 	general: endurance = 6
 	general: sight = 7
-	general: exp1 = 12
+	general: exp1 = 2
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: Hat = Base.Hat_BeretArmy
@@ -10881,6 +10875,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 88c60345-7d16-4f7e-b301-478f3d75a458
 	clothing: Hat = Base.Hat_BaseballCapBlue_Reverse
 	clothing: Tshirt = Base.Tshirt_PoloTINT
 	clothing: PantsExtra = Base.Dungarees
@@ -11040,7 +11035,7 @@
 	general: strength = 6
 	general: endurance = 6
 	general: sight = 7
-	general: exp1 = 12
+	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: Hat = Base.Hat_BeretArmy
@@ -11092,4 +11087,70 @@
 	weapons: melee = Base.LargeKnife
 	ammo: primary = 2
 	ammo: secondary = 1
+
+[a77416ef-1360-45d2-b791-8abf1e60c2c1]
+	general: modid = BanditsWeekOne
+	general: cid = 65218e00-bdf0-4d67-bcc1-75bcc86cb2c9
+	general: name = Survivor_17
+	general: female = false
+	general: skin = 2
+	general: hairType = 5
+	general: beardType = 4
+	general: hairColor = 11
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Hat = Base.Hat_BandanaTiedTINT
+	clothing: Eyes = Base.Glasses_Aviators
+	clothing: Hands = Base.Gloves_FingerlessGloves
+	clothing: AmmoStrap = Base.AmmoStrap_Bullets_308
+	clothing: Pants = Base.Trousers_CamoGreen
+	clothing: Socks = Base.Socks_Ankle_Black
+	clothing: Shoes = Base.Shoes_ArmyBoots
+	tint: Hat = 13369344
+	tint: Hands = 1710618
+	weapons: primary = Base.AssaultRifle2
+	weapons: secondary = Base.Pistol
+	weapons: melee = Base.LargeKnife
+	ammo: primary = 1
+	ammo: secondary = 1
+
+[e5741396-43c7-4229-8e9f-e143fb851351]
+	general: modid = BanditsWeekOne
+	general: cid = d2860ee6-7e18-4132-ad42-8fb3a34ea499
+	general: name = ArmyGreen_Assault_03
+	general: female = false
+	general: skin = 2
+	general: hairType = 5
+	general: beardType = 8
+	general: hairColor = 7
+	general: health = 7
+	general: strength = 6
+	general: endurance = 5
+	general: sight = 7
+	general: exp1 = 2
+	general: exp2 = 3
+	general: exp3 = 0
+	clothing: Hat = Base.Hat_Army
+	clothing: Necklace = Base.Necklace_DogTag_Male
+	clothing: Tshirt = Base.Tshirt_CamoGreen
+	clothing: Jacket = Base.Jacket_ArmyCamoGreen
+	clothing: TorsoExtraVestBullet = Base.Vest_BulletArmy
+	clothing: Hands = Base.Gloves_LeatherGlovesBlack
+	clothing: LeftWrist = Base.WristWatch_Left_ClassicMilitary
+	clothing: BeltExtra = Base.HolsterSimple_Black
+	clothing: Pants = Base.Trousers_CamoGreen
+	clothing: Socks = Base.Socks_Long_Black
+	clothing: Shoes = Base.Shoes_ArmyBoots
+	clothing: MakeUp_Eyes = Base.MakeUp_CamoEyes1
+	weapons: primary = Base.AssaultRifle
+	weapons: secondary = Base.Pistol2
+	weapons: melee = Base.Machete
+	ammo: primary = 4
+	ammo: secondary = 2
+	bag: name = Base.Bag_ALICEpack_Army
 

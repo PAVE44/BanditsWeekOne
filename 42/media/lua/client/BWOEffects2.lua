@@ -3,6 +3,12 @@ BWOEffects2 = BWOEffects2 or {}
 BWOEffects2.tab = {}
 BWOEffects2.tick = 0
 
+BWOEffects2.immuneList = {
+    "cfccfa27-f256-47a0-bd7c-b2d12b369c6d", -- medic with hazmats
+    "9bf4882b-0622-4e77-82c1-feee90b566b4", -- sweepers with hazmats
+    "ce526bd8-a230-4d21-a1f8-5e30790b366f", -- army with gas masks
+}
+
 BWOEffects2.Add = function(effect)
     table.insert(BWOEffects2.tab, effect)
 end
@@ -15,6 +21,7 @@ BWOEffects2.Process = function()
     if player == nil then return end
     local playerNum = player:getPlayerNum()
     local zoom = getCore():getZoom(playerNum)
+    local immuneList = BWOEffects2.immuneList
 
     local cell = getCell()
     for i, effect in pairs(BWOEffects2.tab) do
@@ -46,9 +53,11 @@ BWOEffects2.Process = function()
                     effect.frame = 1
                 end
 
+                local alpha = (1 + effect.repCnt - effect.rep) / effect.repCnt
+
                 local frameStr = string.format("%03d", effect.frame)
                 local tex = getTexture("media/textures/FX/" .. effect.name .. "/" .. frameStr .. ".png")
-                UIManager.DrawTexture(tex, tx, ty, size, size, 0.7)
+                UIManager.DrawTexture(tex, tx, ty, size, size, alpha)
 
                 if effect.colors then
                     -- .object:setCustomColor(effect.colors.r, effect.colors.g, effect.colors.b, effect.colors.a)
@@ -63,8 +72,17 @@ BWOEffects2.Process = function()
                             local dist = math.sqrt(math.pow(actor.x - effect.x, 2) + math.pow(actor.y - effect.y, 2))
                             if dist < 3 then
                                 local character = BanditZombie.GetInstanceById(actor.id)
-                                local outfit = character:getOutfitName()
-                                if outfit ~= "ZSArmySpecialOps" then
+                                local immune = false
+                                local brain = BanditBrain.Get(character)
+                                if brain then
+                                    for _, cid in pairs(immuneList) do
+                                        if brain.cid == cid then
+                                            immune = true
+                                            break
+                                        end
+                                    end
+                                end
+                                if not immune then
                                     character:setHealth(character:getHealth() - 0.12)
                                 end
                             end
@@ -73,6 +91,12 @@ BWOEffects2.Process = function()
                         local mask = player:getWornItem("MaskEyes")
                         if mask then
                             if mask:getFullType() == "Base.Hat_GasMask" then 
+                                immune = true 
+                            end
+                        end
+                        local suit = player:getWornItem("FullSuitHead")
+                        if suit then
+                            if suit:getFullType() == "Base.HazmatSuit" then 
                                 immune = true 
                             end
                         end

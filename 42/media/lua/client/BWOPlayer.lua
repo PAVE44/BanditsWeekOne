@@ -298,7 +298,8 @@ local onHitZombie = function(zombie, attacker, bodyPartType, handWeapon)
     local brain = BanditBrain.Get(zombie)
     if brain and brain.program.name == "Shahid" then
         zombie:Kill(nil)
-        BWOEvents.Explode(zombie:getX(), zombie:getY())
+        local params = {x = zombie:getX(), y = zombie:getY()}
+        BWOEvents.Explode(params)
     end
 end
 
