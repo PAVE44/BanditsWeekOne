@@ -96,6 +96,19 @@ module Bandits{
         } 
     }
 
+    sound BWOThunderbolt {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/bwo_thunderbolt.ogg, 
+	        distanceMin = 1,
+            distanceMax = 200,
+            reverbFactor = 0.1, 
+            volume = 1, 
+        } 
+    }
+
     sound BWOChopperGeneric {
         category = Object, 
         loop = false,

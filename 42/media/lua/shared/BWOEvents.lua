@@ -592,6 +592,8 @@ BWOEvents.ChopperAlert = function(params)
     effect.name = params.name
     effect.dir = params.dir
     effect.sound = params.sound
+    effect.rotors = true
+    effect.lights = true
     effect.frameCnt = 3
     effect.cycles = 200
     table.insert(BWOFlyingObject.tab, effect)
@@ -868,23 +870,6 @@ BWOEvents.StartDay = function(params)
     BWOTex.alpha = 2.4
 end
 
--- params: [x, y]
-BWOEvents.Jets = function(params)
-    local sound = "DOJet"
-
-    local jet1 = {}
-    jet1.x = params.x - 8
-    jet1.y = params.y + 8
-    jet1.sound = sound
-    BWOScheduler.Add("Sound", jet1, 1)
-
-    local jet2 = {}
-    jet2.x = params.x + 8
-    jet2.y = params.y - 8
-    jet2.sound = sound
-    BWOScheduler.Add("Sound", jet2, 300)
-end
-
 -- params: []
 BWOEvents.Arson = function(params)
     local player = getSpecificPlayer(0)
@@ -917,91 +902,27 @@ end
 
 -- params: [x, y, outside]
 BWOEvents.BombDrop = function(params)
-    local affectedZones = {}
-    affectedZones.Forest = false
-    affectedZones.DeepForest = false
-    affectedZones.Nav = true
-    affectedZones.Vegitation = false
-    affectedZones.TownZone = true
-    affectedZones.Ranch = false
-    affectedZones.Farm = true
-    affectedZones.TrailerPark = true
-    affectedZones.ZombiesType = false
-    affectedZones.FarmLand = false
-    affectedZones.LootZone = true
-    affectedZones.ZoneStory = true
 
-    local function isAffectedZone(zoneType)
-        for zt, zv in pairs(affectedZones) do
-            if zoneType == zt and zv then return true end
-        end
+    explode(params.x, params.y)
 
-        return false
-    end
+    -- junk placement
+    BanditBaseGroupPlacements.Junk (params.x-4, params.y-4, 0, 6, 8, 3)
 
-    if BWOSquareLoader.IsInExclusion(params.x, params.y) then return end
-
-    -- where it hits
-    local x, y = findBombSpot(params.x, params.y, params.outside)
-    -- local x, y = params.x, params.y
-    -- strike only in urban area
-    local zone = getWorld():getMetaGrid():getZoneAt(x, y, 0)
-    if zone then
-        local zoneType = zone:getType()
-        if isAffectedZone(zoneType) then
-
-            explode(x, y)
-
-            -- junk placement
-            BanditBaseGroupPlacements.Junk (x-4, y-4, 0, 6, 8, 3)
-
-            -- damage to zombies, players are safe
-            local fakeItem = BanditCompatibility.InstanceItem("Base.RollingPin")
-            local cell = getCell()
-            for dx=x-3, x+5 do
-                for dy=y-3, y+4 do
-                    local square = cell:getGridSquare(dx, dy, 0)
-                    if square then
-                        if ZombRand(4) == 1 then
-                            BanditBasePlacements.IsoObject("floors_burnt_01_1", dx, dy, 0)
-                        end
-                        local zombie = square:getZombie()
-                        if zombie then
-                            zombie:Hit(fakeItem, cell:getFakeZombieForHit(), 50, false, 1, false)
-                        end
-                    end
+    -- damage to zombies, players are safe
+    local fakeItem = BanditCompatibility.InstanceItem("Base.RollingPin")
+    local cell = getCell()
+    for dx=params.x-3, params.x+5 do
+        for dy=params.y-3, params.y+4 do
+            local square = cell:getGridSquare(dx, dy, 0)
+            if square then
+                if ZombRand(4) == 1 then
+                    BanditBasePlacements.IsoObject("floors_burnt_01_1", dx, dy, 0)
+                end
+                local zombie = square:getZombie()
+                if zombie then
+                    zombie:Hit(fakeItem, cell:getFakeZombieForHit(), 50, false, 1, false)
                 end
             end
-        end
-    end
-end
-
--- params: [x, y, intensity, outside]
-BWOEvents.BombRun = function(params)
-    local jets = {}
-
-    if BWOSquareLoader.IsInExclusion(params.x, params.y) then return end
-
-    jets.x = params.x
-    jets.y = params.y
-    BWOScheduler.Add("Jets", jets, 1)
-
-    if not params.intensity then params.intensity = 4 end
-
-    local d = 15000
-    for i = 0, params.intensity do
-        local bomb = {}
-        bomb.x = params.x
-        bomb.y = params.y
-        bomb.outside = params.outside
-
-        d = d + 77 + ZombRand(254)
-        BWOScheduler.Add("BombDrop", bomb, d)
-
-        if i == 0 then
-            local vparams = {}
-            vparams.alarm = true
-            BWOScheduler.Add("VehiclesUpdate", vparams, d + 10)
         end
     end
 end
@@ -1221,57 +1142,91 @@ BWOEvents.NukeDist = function(params)
 end
 
 -- params: [x, y, outside]
-BWOEvents.JetFighter = function(params)
+BWOEvents.JetFighterStage1 = function(params)
+    local player = getSpecificPlayer(0)
+    if not player then return end
 
-    if BWOSquareLoader.IsInExclusion(params.x, params.y) then return end
+    local effect = {}
+    effect.offsety = 25
+    effect.width = 1024
+    effect.height = 586
+    effect.alpha = 1
+    effect.speed = 4
+    effect.name = "a10"
+    effect.dir = params.dir
+    effect.frameCnt = 3
+    effect.cycles = 200
+    table.insert(BWOFlyingObject.tab, effect)
+end
+
+-- params: [x, y, outside]
+BWOEvents.JetFighterStage2 = function(params)
 
     local player = getSpecificPlayer(0)
     if not player then return end
 
-    local zombieList = BanditZombie.GetAll()
-    for by=-1, 1 do
-        for bx=-1, 1 do
-            local y1 = params.y + by * 20 - 10
-            local y2 = params.y + by * 20 + 10
-            local x1 = params.x + bx * 20 - 10
-            local x2 = params.x + bx * 20 + 10
-            
-            local cnt = 0
-            local killList = {}
-            for id, zombie in pairs(zombieList) do
-                if zombie.x > x1 and zombie.x < x2 and zombie.y > y1 and zombie.y < y2 then
-                    -- the strike is counting zombies only, but if threshold is reached all in the area will be affected
-                    if not zombie.isBandit then
-                        cnt = cnt + 1
-                    end
-                    killList[zombie.id] = zombie
+    local px, py = player:getX(), player:getY()
+
+    if params.arm == "mg" then
+        local fakeItem = BanditCompatibility.InstanceItem("Base.AssaultRifle")
+        local fakeZombie = getCell():getFakeZombieForHit()
+
+        local sound = "DOA10"
+        local emitter = getWorld():getFreeEmitter((params.x1 + params.x2) / 2, (params.y1 + params.y2) / 2, 0)
+        emitter:playSound(sound)
+        emitter:setVolumeAll(0.9)
+
+        if px >= params.x1 and px < params.x2 and py >= params.y1 and py < params.y2 then
+            player:Hit(fakeItem, fakeZombie, 0.8, false, 1, false)
+        end
+
+        local zombieList = BanditZombie.GetAll()
+        for id, zombie in pairs(zombieList) do
+            if zombie.x >= params.x1 and zombie.x < params.x2 and zombie.y >= params.y1 and zombie.y < params.y2 then
+                local character = BanditZombie.GetInstanceById(id)
+                if character and character:isOutside() then
+                    character:Hit(fakeItem, fakeZombie, BanditUtils.Choice({1, 20, 20, 20, 20}), false, 1, false)
                 end
             end
+        end
+    else
 
-            if cnt >= 10 then
-                local fakeItem = BanditCompatibility.InstanceItem("Base.AssaultRifle")
-                local fakeZombie = getCell():getFakeZombieForHit()
-                for id, zombie in pairs(killList) do
-                    local character = BanditZombie.GetInstanceById(id)
-                    if character and character:isOutside() then
-                        character:Hit(fakeItem, fakeZombie, 1 + ZombRand(20), false, 1, false)
-                        -- SwipeStatePlayer.splash(character, fakeItem, fakeZombie)
-                    end
+        local step
+        local dropEvent
+        if params.arm == "gas" then
+            dropEvent = "GasDrop"
+            step = 10
+        elseif params.arm == "bomb" then
+            dropEvent = "BombDrop"
+            step = 15
+        end
+
+        if dropEvent then
+            d = 100
+            if params.dir == 0 then
+                local y = (params.y1 + params.y2) / 2
+                for x=params.x1, params.x2, step do
+                    BWOScheduler.Add(dropEvent, {x=x, y=y}, d)
+                    d = d + 200
                 end
-
-                if outside and params.x > x1 and params.x < x2 and params.y > y1 and params.y < y2 then
-                    if ZombRand(4) == 0 then
-                        player:Hit(fakeItem, fakeZombie, 0.8, false, 1, false)
-                        -- SwipeStatePlayer.splash(player, fakeItem, fakeZombie)
-                    end
+            elseif params.dir == 180 then
+                local y = (params.y1 + params.y2) / 2
+                for x=params.x2, params.x1, -step do
+                    BWOScheduler.Add(dropEvent, {x=x, y=y}, d)
+                    d = d + 200
                 end
-
-                local sound = "DOA10"
-                local emitter = getWorld():getFreeEmitter(x1+10, y1+10, 0)
-                emitter:playSound(sound)
-                emitter:setVolumeAll(0.9)
-                addSound(player, x1+10, y1+10, 0, 120, 100)
-                return
+            elseif params.dir == 90 then
+                local x = (params.x1 + params.x2) / 2
+                for y=params.y1, params.y2, step do
+                    BWOScheduler.Add(dropEvent, {x=x, y=y}, d)
+                    d = d + 200
+                end
+            elseif params.dir == -90 then
+                local x = (params.x1 + params.x2) / 2
+                for y=params.y1, params.y2, -step do
+                    BWOScheduler.Add(dropEvent, {x=x, y=y}, d)
+                    d = d + 200
+                end
             end
         end
     end
@@ -1282,56 +1237,80 @@ BWOEvents.JetFighterRun = function(params)
 
     if BWOSquareLoader.IsInExclusion(params.x, params.y) then return end
 
-    local jets = {}
-    jets.x = params.x
-    jets.y = params.y
-    BWOScheduler.Add("Jets", jets, 1)
+    local player = getSpecificPlayer(0)
+    if not player then return end
 
-    if not params.intensity then params.intensity = 1 end
+    -- stage 0 play incoming sound
+    player:playSound("DOJet")
 
-    local d = 14000
-    for i = 0, params.intensity do
-        local bomb = {}
-        bomb.x = params.x
-        bomb.y = params.y
-        bomb.outside = params.outside
+    -- find optimal strafing line
+    local chunk = {arm=params.arm}
+    local best = 0
+    local zombieList = BanditZombie.GetAll()
 
-        d = d + 77 + ZombRand(254)
-        BWOScheduler.Add("JetFighter", bomb, d)
+    -- NS lines
+    for bx=-4, 4 do
+        local y1 = params.y - 80
+        local y2 = params.y + 80
+        local x1 = params.x + bx * 10 - 5
+        local x2 = params.x + bx * 10 + 5
+
+        local cnt = 0
+        for id, zombie in pairs(zombieList) do
+            if zombie.x >= x1 and zombie.x < x2 and zombie.y >= y1 and zombie.y < y2 then
+                cnt = cnt + 1
+            end
+        end
+
+        if cnt > best then
+            chunk.x1 = x1
+            chunk.x2 = x2
+            chunk.y1 = y1
+            chunk.y2 = y2
+            chunk.dir = BanditUtils.Choice({-90, 90})
+            chunk.offsetx = bx * 5
+            best = cnt
+        end
     end
-end
 
--- params: [x, y, intensity, outside]
-BWOEvents.GasRun = function(params)
+    -- EW lines
+    for by=-4, 4 do
+        local y1 = params.y + by * 10 - 5
+        local y2 = params.y + by * 10 + 5
+        local x1 = params.x - 80
+        local x2 = params.x + 80
 
-    if BWOSquareLoader.IsInExclusion(params.x, params.y) then return end
+        local cnt = 0
+        for id, zombie in pairs(zombieList) do
+            if zombie.x >= x1 and zombie.x < x2 and zombie.y >= y1 and zombie.y < y2 then
+                cnt = cnt + 1
+            end
+        end
 
-    local jets = {}
-    jets.x = params.x
-    jets.y = params.y
-    BWOScheduler.Add("Jets", jets, 1)
-
-    if not params.intensity then params.intensity = 1 end
-
-    local d = 14000
-    for i = 0, params.intensity do
-        local bomb = {}
-        bomb.x = params.x
-        bomb.y = params.y
-        bomb.outside = params.outside
-
-        d = d + 79 + ZombRand(239)
-        BWOScheduler.Add("GasDrop", bomb, d)
+        if cnt > best then
+            chunk.x1 = x1
+            chunk.x2 = x2
+            chunk.y1 = y1
+            chunk.y2 = y2
+            chunk.dir = BanditUtils.Choice({0, 180})
+            chunk.offsety = by * 5
+            best = cnt
+            
+        end
     end
+
+    -- stage 1 display flying object
+    BWOScheduler.Add("JetFighterStage1", chunk, 10000)
+
+    -- stage 2 strike
+    if best > 0 then
+        BWOScheduler.Add("JetFighterStage2", chunk, 11200)
+    end
+
 end
 
 -- params: [x, y, outside]
 BWOEvents.GasDrop = function(params)
-
-    if BWOSquareLoader.IsInExclusion(params.x, params.y) then return end
-
-    local x, y = findBombSpot(params.x, params.y, params.outside)
-    -- local x, y = params.x, params.y
     local svec = {}
     table.insert(svec, {x=-3, y=-1})
     table.insert(svec, {x=3, y=1})
@@ -1341,8 +1320,8 @@ BWOEvents.GasDrop = function(params)
     for _, v in pairs(svec) do
 
         local effect = {}
-        effect.x = x + v.x
-        effect.y = y + v.y
+        effect.x = params.x + v.x
+        effect.y = params.y + v.y
         effect.z = 0
         effect.size = 600 + ZombRand(600)
         effect.poison = true
@@ -1355,10 +1334,10 @@ BWOEvents.GasDrop = function(params)
     end
 
     local colors = {r=0.2, g=1.0, b=0.3}
-    local lightSource = IsoLightSource.new(x, y, 0, colors.r, colors.g, colors.b, 60, 10)
+    local lightSource = IsoLightSource.new(params.x, params.y, 0, colors.r, colors.g, colors.b, 60, 10)
     getCell():addLamppost(lightSource)
 
-    local emitter = getWorld():getFreeEmitter(x, y, 0)
+    local emitter = getWorld():getFreeEmitter(params.x, params.y, 0)
     emitter:playSound("DOGas")
     emitter:setVolumeAll(0.25)
 end

@@ -201,6 +201,8 @@ BWOMenu.EventChopperAlert = function(player)
     params.sound = BanditUtils.Choice({"BWOChopperPolice1", "BWOChopperPolice2"})
     params.dir = BanditUtils.Choice({0, 180, 90, -90})
     params.speed = ZombRandFloat(1.5, 1.5)
+    params.lights = true
+    params.rotors = true
     BWOScheduler.Add("ChopperAlert", params, 100)
 end
 
@@ -279,6 +281,7 @@ BWOMenu.EventJetFighterRun = function (player)
     params.y = player:getY()
     params.z = player:getZ()
     params.outside = player:isOutside()
+    params.arm = "bomb"
     BWOScheduler.Add("JetFighterRun", params, 100)
 end
 

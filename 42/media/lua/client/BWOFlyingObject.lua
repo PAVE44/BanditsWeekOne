@@ -45,44 +45,54 @@ BWOFlyingObject.Process = function()
         if not effect.frame then 
             effect.frame = 1
             -- init pos
+
+            if not effect.offsetx then effect.offsetx = 0 end
+            if not effect.offsety then effect.offsety = 0 end
+
             local odir = oppositeAngle(effect.dir)
             local theta = odir * 0.0174533
-            effect.x = px + (BWOFlyingObject.initDist * math.cos(theta))
-            effect.y = py + (BWOFlyingObject.initDist * math.sin(theta))
+            effect.x = px + (BWOFlyingObject.initDist * math.cos(theta)) + effect.offsetx
+            effect.y = py + (BWOFlyingObject.initDist * math.sin(theta)) + effect.offsety
             effect.z = 0
             effect.dist = math.sqrt(((effect.x - px) * (effect.x - px)) + ((effect.y - py) * (effect.y - py)))
 
             -- init sound
-            local emitter = getWorld():getFreeEmitter(effect.x, effect.y, effect.z)
-            local sid = emitter:playSound(effect.sound)
-            local sdiff = effect.speed / BWOFlyingObject.dopplerCoeff
-            local pitch = 1 + sdiff
-            emitter:setPitch(sid, pitch)
-            emitter:setVolumeAll(1)
-            effect.emitter = emitter
-            effect.sid = sid
+            if effect.sound then
+                local emitter = getWorld():getFreeEmitter(effect.x, effect.y, effect.z)
+                local sid = emitter:playSound(effect.sound)
+                local sdiff = effect.speed / BWOFlyingObject.dopplerCoeff
+                local pitch = 1 + sdiff
+                emitter:setPitch(sid, pitch)
+                emitter:setVolumeAll(1)
+                effect.emitter = emitter
+                effect.sid = sid
+            end
         end
 
         if effect.frame > effect.frameCnt and effect.rep >= effect.cycles then
             BWOFlyingObject.tab[i] = nil
-            effect.emitter:stopSoundByName(effect.sound)
+            if effect.sound then
+                effect.emitter:stopSoundByName(effect.sound)
+            end
         else
             if effect.frame > effect.frameCnt then
                 effect.rep = effect.rep + 1
                 effect.frame = 1
             end
+            
+            if effect.sound then
+                -- doppler effect
+                local dist = math.sqrt(((effect.x - px) * (effect.x - px)) + ((effect.y - py) * (effect.y - py)))
+                if dist > effect.dist and not effect.passed then
+                    local sdiff = effect.speed / BWOFlyingObject.dopplerCoeff
+                    local pitch = 1 - sdiff
+                    effect.emitter:setPitch(effect.sid, pitch)
+                    effect.passed = true
+                end
+                effect.dist = dist
 
-            -- doppler effect
-            local dist = math.sqrt(((effect.x - px) * (effect.x - px)) + ((effect.y - py) * (effect.y - py)))
-            if dist > effect.dist and not effect.passed then
-                local sdiff = effect.speed / BWOFlyingObject.dopplerCoeff
-                local pitch = 1 - sdiff
-                effect.emitter:setPitch(effect.sid, pitch)
-                effect.passed = true
+                effect.emitter:setPos(effect.x, effect.y, effect.z)
             end
-            effect.dist = dist
-
-            effect.emitter:setPos(effect.x, effect.y, effect.z)
             
             -- visual
             if player:getSquare():isOutside() then
@@ -109,29 +119,31 @@ BWOFlyingObject.Process = function()
                 end
                 UIManager.DrawTexture(effect.tex1Mask, tx, ty, width, height, alpha)
 
-                -- rotor object texture
-                if not effect.tex2 then
-                    effect.tex2 = {}
+                if effect.rotors then
+                    -- rotor object texture
+                    if not effect.tex2 then
+                        effect.tex2 = {}
+                    end
+
+                    if not effect.tex2[effect.frame] then
+                        local frameStr = string.format("%03d", effect.frame)
+                        effect.tex2[effect.frame] = getTexture("media/textures/FO/" .. effect.name .. "/" .. effect.dir .. "/" .. frameStr .. ".png")
+                    end
+                    UIManager.DrawTexture(effect.tex2[effect.frame], tx, ty, width, height, 1)
+
+                    -- rotor darkening mask
+                    if not effect.tex2Mask then
+                        effect.tex2Mask = {}
+                    end
+
+                    if not effect.tex2Mask[effect.frame] then
+                        local frameStr = string.format("%03d", effect.frame)
+                        effect.tex2Mask[effect.frame] = getTexture("media/textures/FO/" .. effect.name .. "/" .. effect.dir .. "/mask/" .. frameStr .. ".png")
+                    end
+                    UIManager.DrawTexture(effect.tex2Mask[effect.frame], tx, ty, width, height, alpha)
                 end
 
-                if not effect.tex2[effect.frame] then
-                    local frameStr = string.format("%03d", effect.frame)
-                    effect.tex2[effect.frame] = getTexture("media/textures/FO/" .. effect.name .. "/" .. effect.dir .. "/" .. frameStr .. ".png")
-                end
-                UIManager.DrawTexture(effect.tex2[effect.frame], tx, ty, width, height, 1)
-
-                -- rotor darkening mask
-                if not effect.tex2Mask then
-                    effect.tex2Mask = {}
-                end
-
-                if not effect.tex2Mask[effect.frame] then
-                    local frameStr = string.format("%03d", effect.frame)
-                    effect.tex2Mask[effect.frame] = getTexture("media/textures/FO/" .. effect.name .. "/" .. effect.dir .. "/mask/" .. frameStr .. ".png")
-                end
-                UIManager.DrawTexture(effect.tex2Mask[effect.frame], tx, ty, width, height, alpha)
-
-                if dls < 0.8 then
+                if effect.lights and dls < 0.8 then
                     --lights
                     local theta = effect.dir * 0.0174533
                     local lx = effect.x + (16 * math.cos(theta))
