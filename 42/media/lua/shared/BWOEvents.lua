@@ -1235,25 +1235,25 @@ end
 -- params: [x, y, intensity, outside]
 BWOEvents.JetFighterRun = function(params)
 
-    if BWOSquareLoader.IsInExclusion(params.x, params.y) then return end
-
     local player = getSpecificPlayer(0)
     if not player then return end
+
+    local px, py = player:getX(), player:getY()
 
     -- stage 0 play incoming sound
     player:playSound("DOJet")
 
-    -- find optimal strafing line
+    -- find optimal strafing rectangle 80x10
     local chunk = {arm=params.arm}
     local best = 0
     local zombieList = BanditZombie.GetAll()
 
     -- NS lines
     for bx=-4, 4 do
-        local y1 = params.y - 80
-        local y2 = params.y + 80
-        local x1 = params.x + bx * 10 - 5
-        local x2 = params.x + bx * 10 + 5
+        local y1 = py - 80
+        local y2 = py + 80
+        local x1 = px + bx * 10 - 5
+        local x2 = px + bx * 10 + 5
 
         local cnt = 0
         for id, zombie in pairs(zombieList) do
@@ -1268,17 +1268,17 @@ BWOEvents.JetFighterRun = function(params)
             chunk.y1 = y1
             chunk.y2 = y2
             chunk.dir = BanditUtils.Choice({-90, 90})
-            chunk.offsetx = bx * 5
+            chunk.offsetx = (x1 + x2) / 2
             best = cnt
         end
     end
 
     -- EW lines
     for by=-4, 4 do
-        local y1 = params.y + by * 10 - 5
-        local y2 = params.y + by * 10 + 5
-        local x1 = params.x - 80
-        local x2 = params.x + 80
+        local y1 = py + by * 10 - 5
+        local y2 = py + by * 10 + 5
+        local x1 = px - 80
+        local x2 = px + 80
 
         local cnt = 0
         for id, zombie in pairs(zombieList) do
@@ -1293,10 +1293,17 @@ BWOEvents.JetFighterRun = function(params)
             chunk.y1 = y1
             chunk.y2 = y2
             chunk.dir = BanditUtils.Choice({0, 180})
-            chunk.offsety = by * 5
+            chunk.offsety = (y1 + y2) / 2
             best = cnt
             
         end
+    end
+
+    local d = 0
+    if params.arm == "mg" then
+        d = 1200
+    else
+        d = 2200
     end
 
     -- stage 1 display flying object
@@ -1304,7 +1311,7 @@ BWOEvents.JetFighterRun = function(params)
 
     -- stage 2 strike
     if best > 0 then
-        BWOScheduler.Add("JetFighterStage2", chunk, 11200)
+        BWOScheduler.Add("JetFighterStage2", chunk, 10000 + d)
     end
 
 end

@@ -33,7 +33,7 @@ local generateSchedule = function()
             tab[wa][m] = {}
         end
     end
-    
+
     -- {eventName, {params}}
     -- DAY 1 09.00
     -- tab[0][1]   = {"Start", {}}
@@ -41,7 +41,7 @@ local generateSchedule = function()
     tab[0][3]   = {"BuildingHome", {addRadio=true}}
     tab[0][4]   = {"SetupNukes", {}}
     tab[0][5]   = {"SetupPlaceEvents", {}}
-    
+
     tab[2][22]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=30, intensity=8}}
     -- tab[4][15]  = {"Entertainer", {}}
     tab[5][44]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}}
@@ -59,7 +59,7 @@ local generateSchedule = function()
     tab[16][58] = {"BuildingParty", {roomName="bedroom", intensity=8}}
     tab[19][42] = {"BuildingHome", {addRadio=false}}
     -- tab[19][43] = {"Thieves", {intensity=3}}
-    
+
     -- DAY 2 09.00
     tab[24][0]  = {"StartDay", {day="saturday"}}
     -- tab[24][15] = {"Entertainer", {}}
@@ -174,7 +174,7 @@ local generateSchedule = function()
 
     -- DAY 6 09.00
     tab[120][0]  = {"StartDay", {day="wednesday"}}
-    
+
     tab[121][2]  = {"ProtestAll", {}}
     tab[121][16] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = -90, speed=0.6}}
     tab[121][45] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = 90, speed=0.6}}
@@ -200,7 +200,7 @@ local generateSchedule = function()
     tab[130][0]  = {"Siren", {}}
 
     tab[132][0]  = {"Siren", {}}
-    
+
     tab[133][6]  = {"Reanimate", {r=80, chance=100}}
     tab[133][54]  = {"Siren", {}}
     tab[133][56]  = {"PlaneCrashSequence", {}}
@@ -225,95 +225,95 @@ local generateSchedule = function()
     tab[145][17] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=50, intensity=5}}
     tab[146][0]  = {"Siren", {}}
     tab[146][0]  = {"Reanimate", {r=80, chance=100}}
-    tab[146][5]  = {"JetFighterRun", {intensity=1}}
-    tab[146][25] = {"JetFighterRun", {intensity=1}}
-    tab[146][45] = {"JetFighterRun", {intensity=1}}
-    tab[147][8]  = {"JetFighterRun", {intensity=1}}
-    tab[147][24] = {"JetFighterRun", {intensity=1}}
+    tab[146][5]  = {"JetFighterRun", {arm="mg"}}
+    tab[146][25] = {"JetFighterRun", {arm="mg"}}
+    tab[146][45] = {"JetFighterRun", {arm="mg"}}
+    tab[147][8]  = {"JetFighterRun", {arm="mg"}}
+    tab[147][24] = {"JetFighterRun", {arm="mg"}}
     tab[147][28] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=51, intensity=5}}
-    tab[147][49] = {"JetFighterRun", {intensity=1}}
-    tab[150][8]  = {"JetFighterRun", {intensity=1}}
+    tab[147][49] = {"JetFighterRun", {arm="mg"}}
+    tab[150][8]  = {"JetFighterRun", {arm="mg"}}
     tab[150][9]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=52, intensity=10}}
     tab[150][50] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=51, intensity=5}}
-    tab[150][24] = {"JetFighterRun", {intensity=1}}
-    tab[150][49] = {"JetFighterRun", {intensity=1}}
+    tab[150][24] = {"JetFighterRun", {arm="mg"}}
+    tab[150][49] = {"JetFighterRun", {arm="mg"}}
     tab[152][8]  = {"Defenders", {}}
-    tab[152][12] = {"JetFighterRun", {intensity=1}}
-    tab[152][24] = {"JetFighterRun", {intensity=1}}
+    tab[152][12] = {"JetFighterRun", {arm="mg"}}
+    tab[152][24] = {"JetFighterRun", {arm="mg"}}
     tab[153][44] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=53, intensity=5}}
     tab[153][45] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=50, intensity=5}}
     tab[153][46] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=54, intensity=2}}
-    tab[153][50] = {"JetFighterRun", {intensity=1}}
+    tab[153][50] = {"JetFighterRun", {arm="mg"}}
 
     tab[154][25] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=55, intensity=4}}
     tab[154][26] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.Inmate, program="Police", d=55, intensity=14}}
     tab[154][27] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.Inmate, program="Police", d=59, intensity=13}}
 
-    tab[155][5]  = {"JetFighterRun", {intensity=1}}
-    tab[155][15] = {"JetFighterRun", {intensity=1}}
+    tab[155][5]  = {"JetFighterRun", {arm="mg"}}
+    tab[155][15] = {"JetFighterRun", {arm="mg"}}
     tab[155][16] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=49, intensity=3}}
     tab[155][17] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=48, intensity=3}}
     tab[155][18] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=47, intensity=3}}
-    tab[155][25] = {"JetFighterRun", {intensity=1}}
+    tab[155][25] = {"JetFighterRun", {arm="mg"}}
     tab[155][26] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=56, intensity=10}}
 
-    tab[156][5]  = {"JetFighterRun", {intensity=1}}
+    tab[156][5]  = {"JetFighterRun", {arm="mg"}}
     tab[156][10] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=46, intensity=12}}
-    tab[156][15] = {"JetFighterRun", {intensity=1}}
-    tab[156][25] = {"JetFighterRun", {intensity=1}}
+    tab[156][15] = {"JetFighterRun", {arm="mg"}}
+    tab[156][25] = {"JetFighterRun", {arm="mg"}}
     tab[156][26] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=57, intensity=10}}
 
     tab[158][0]  = {"Siren", {}}
-    tab[158][8]  = {"BombRun", {intensity=4}}
+    tab[158][8]  = {"JetFighterRun", {arm="gas"}}
     tab[158][9]  = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.Mental, program="Bandit", d=45, intensity=12}}
-    tab[158][24] = {"BombRun", {intensity=20}}
-    tab[158][31] = {"GasRun", {intensity=20}}
-    tab[158][49] = {"BombRun", {intensity=18}}
+    tab[158][24] = {"JetFighterRun", {arm="mg"}}
+    tab[158][31] = {"JetFighterRun", {arm="gas"}}
+    tab[158][49] = {"JetFighterRun", {arm="gas"}}
     tab[158][51] = {"SetHydroPower", {on=false}}
     tab[158][52] = {"SetHydroPower", {on=true}}
 
-    tab[159][8]  = {"BombRun", {intensity=6}}
+    tab[159][8]  = {"JetFighterRun", {arm="bomb"}}
     tab[159][9]  = {"SetHydroPower", {on=false}}
-    tab[159][10] = {"GasRun", {intensity=20}}
+    tab[159][10] = {"JetFighterRun", {arm="mg"}}
     tab[159][11] = {"SetHydroPower", {on=true}}
-    tab[159][24] = {"BombRun", {intensity=20}}
+    tab[159][24] = {"JetFighterRun", {arm="bomb"}}
     tab[159][25] = {"SetHydroPower", {on=false}}
     tab[159][27] = {"SetHydroPower", {on=true}}
-    tab[159][49] = {"BombRun", {intensity=18}}
+    tab[159][49] = {"JetFighterRun", {arm="bomb"}}
 
-    tab[160][8]  = {"BombRun", {intensity=6}}
+    tab[160][8]  = {"JetFighterRun", {arm="bomb"}}
     tab[160][9]  = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=45, intensity=9}}
-    tab[160][24] = {"BombRun", {intensity=20}}
+    tab[160][24] = {"JetFighterRun", {arm="mg"}}
     tab[160][25] = {"SetHydroPower", {on=false}}
     tab[160][26] = {"SetHydroPower", {on=true}}
-    tab[160][49] = {"BombRun", {intensity=18}}
+    tab[160][49] = {"JetFighterRun", {arm="bomb"}}
     tab[160][51] = {"SetHydroPower", {on=false}}
     tab[160][53] = {"SetHydroPower", {on=true}}
 
-    tab[161][8]  = {"BombRun", {intensity=6}}
-    tab[161][24] = {"BombRun", {intensity=20}}
-    tab[161][49] = {"BombRun", {intensity=18}}
+    tab[161][8]  = {"JetFighterRun", {arm="gas"}}
+    tab[161][24] = {"JetFighterRun", {arm="mg"}}
+    tab[161][49] = {"JetFighterRun", {arm="gas"}}
     tab[161][51] = {"SetHydroPower", {on=false}}
     tab[161][58] = {"SetHydroPower", {on=true}}
 
-    tab[162][8]  = {"JetFighterRun", {intensity=1}}
-    tab[162][24] = {"BombRun", {intensity=20}}
-    tab[162][49] = {"BombRun", {intensity=18}}
-    tab[162][68] = {"JetFighterRun", {intensity=1}}
+    tab[162][8]  = {"JetFighterRun", {arm="mg"}}
+    tab[162][24] = {"JetFighterRun", {arm="bomb"}}
+    tab[162][49] = {"JetFighterRun", {arm="bomb"}}
+    tab[162][68] = {"JetFighterRun", {arm="mg"}}
     tab[162][50] = {"SetHydroPower", {on=false}}
     tab[162][51] = {"SetHydroPower", {on=true}}
-    tab[163][8]  = {"BombRun", {intensity=6}}
+    tab[163][8]  = {"JetFighterRun", {arm="bomb"}}
     tab[163][15] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=45, intensity=5}}
-    tab[163][24] = {"BombRun", {intensity=20}}
-    tab[163][30] = {"GasRun", {intensity=20}}
-    tab[163][43] = {"GasRun", {intensity=26}}
-    tab[163][45] = {"JetFighterRun", {intensity=1}}
-    tab[163][49] = {"BombRun", {intensity=18}}
-    tab[164][8]  = {"BombRun", {intensity=6}}
+    tab[163][24] = {"JetFighterRun", {arm="bomb"}}
+    tab[163][30] = {"JetFighterRun", {arm="gas"}}
+    tab[163][43] = {"JetFighterRun", {arm="gas"}}
+    tab[163][45] = {"JetFighterRun", {arm="mg"}}
+    tab[163][49] = {"JetFighterRun", {arm="bomb"}}
+    tab[164][8]  = {"JetFighterRun", {arm="bomb"}}
     tab[164][10] = {"SetHydroPower", {on=false}}
     tab[164][13] = {"SetHydroPower", {on=true}}
-    tab[164][24] = {"BombRun", {intensity=20}}
-    tab[164][49] = {"BombRun", {intensity=18}}
+    tab[164][24] = {"JetFighterRun", {arm="bomb"}}
+    tab[164][49] = {"JetFighterRun", {arm="bomb"}}
     tab[165][2]  = {"ChopperFliers", {}}
     tab[165][18] = {"HeliCrash", {x=2, y=70, vtype="pzkHeli350MedWreck"}}
     tab[166][4]  = {"SpawnGroup", {name="Hammer Brothers", cid=Bandit.clanMap.HammerBrothers, program="Bandit", d=50, intensity=3}}
@@ -343,6 +343,11 @@ end
 
 BWOScheduler.Schedule = generateSchedule()
 
+function BWOScheduler.OverwriteSettings()
+    getCore():setOptionUIRenderFPS(30)
+    getCore():setOptionJumpScareVolume(0)
+end
+
 function BWOScheduler.StoreSandboxVars()
     local gmd = GetBWOModData()
     local orig = gmd.Sandbox
@@ -352,7 +357,7 @@ function BWOScheduler.StoreSandboxVars()
                  "OtherLootNew", "ClothingLootNew", "ContainerLootNew", "MementoLootNew", "MediaLootNew",
                  "CookwareLootNew", "MaterialLootNew", "FarmingLootNew", "ToolLootNew", "MaximumRatIndex",
                  "SurvivorHouseChance", "VehicleStoryChance", "MetaEvent", "LockedHouses", "ZoneStoryChance", "AnnotatedMapChance",
-                 "MaxFogIntensity", "TrafficJam", "CarSpawnRate", "Helicopter", "FireSpread"}
+                 "MaxFogIntensity", "TrafficJam", "CarSpawnRate", "Helicopter", "FireSpread", "ZombieConfig.PopulationStartMultiplier"}
 
     for _, k in pairs(storeVars) do
         gmd.Sandbox[k] = gmd.Sandbox[k] or SandboxVars[k]
@@ -482,6 +487,8 @@ function BWOScheduler.MasterControl()
             adjustSandboxVar("CarSpawnRate", 5)
             adjustSandboxVar("Helicopter", 1)
             adjustSandboxVar("FireSpread", false)
+            adjustSandboxVar("ZombieConfig.PopulationStartMultiplier", "0.1")
+            
             
             -- lerp
             if BanditCompatibility.GetGameVersion() >= 42 then
@@ -504,6 +511,7 @@ function BWOScheduler.MasterControl()
             adjustSandboxVar("CarSpawnRate", gmd.Sandbox["CarSpawnRate"])
             adjustSandboxVar("Helicopter", gmd.Sandbox["Helicopter"])
             adjustSandboxVar("FireSpread", gmd.Sandbox["FireSpread"])
+            adjustSandboxVar("ZombieConfig.PopulationStartMultiplier", gmd.Sandbox["ZombieConfig.PopulationStartMultiplier"])
         end
         
         getSandboxOptions():applySettings()
@@ -785,3 +793,4 @@ Events.OnTick.Add(BWOScheduler.CheckEvents)
 Events.EveryOneMinute.Add(BWOScheduler.MasterControl)
 Events.OnGameStart.Add(BWOScheduler.StoreSandboxVars)
 Events.OnGameStart.Add(BWOScheduler.RestoreRepeatingPlaceEvents)
+Events.OnGameStart.Add(BWOScheduler.OverwriteSettings)

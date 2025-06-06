@@ -1,14 +1,10 @@
 BanditUtils = BanditUtils or {}
 
 BanditUtils.GetTime = function()
-    local world = getWorld()
-    local gamemode = world:getGameMode()
-    if gamemode == "Multiplayer" then
-        --return GameTime:getServerTimeMills()
-        return getGameTime():getWorldAgeHours() * 2500000 / 24
-    else
-        return getGameTime():getWorldAgeHours() * 2500000 / 24
-    end
+    local m = getSandboxOptions():getDayLengthMinutes()
+    local coeff = 60 / m
+
+    return getGameTime():getWorldAgeHours() * 2500000 * coeff / 24
 end
 
 function BanditUtils.In(needle, haystack)
@@ -40,7 +36,7 @@ function BanditUtils.GetClosestBanditLocationProgram(character, programs)
     result.y = false
     result.z = false
     result.id = false
-    
+
     local cx, cy = character:getX(), character:getY()
 
     local zombieList = BanditZombie.GetAllB()
@@ -72,7 +68,7 @@ function BanditUtils.GetClosestBanditVehicle(vehicle)
     result.y = false
     result.z = false
     result.id = false
-    
+
     local vx, vy = vehicle:getX(), vehicle:getY()
 
     local zombieList = BanditZombie.GetAllB()
