@@ -560,6 +560,9 @@ local processSquare = function(square)
                 if not square:isOutside() then density = density * 5 end
 
                 if density > 0 and shouldPlace(x, y, density, seed) then
+                    -- local age = getGameTime():getWorldAgeHours()
+                    local fakeItem = BanditCompatibility.InstanceItem("Base.AssaultRifle")
+                    local fakeZombie = getCell():getFakeZombieForHit()
                     local outfit = BanditUtils.Choice({"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "Generic05", "Classy", "IT", "Student", "Teacher", "Police", "Young", "Bandit", "Tourist", "Naked"})
                     local zombieList = BanditCompatibility.AddZombiesInOutfit(x, y, z, outfit, 50, false, false, false, false, false, false, 2)
                     for i=0, zombieList:size()-1 do
@@ -573,7 +576,10 @@ local processSquare = function(square)
                         else
                             banditVisuals:setSkinTextureName("MaleBody0" .. tostring(r))
                         end
-                        zombie:Kill(nil)
+                        -- zombie:setForceFakeDead(true)
+                        BanditCompatibility.Splash(zombie, fakeItem, fakeZombie)
+                        zombie:Hit(fakeItem, fakeZombie, 50, false, 1, false)
+
                     end
                 end
             end

@@ -23,13 +23,13 @@ ZombieActions.BarbecueLit.onComplete = function(zombie, task)
                         -- local args = {x=object:getX(), y=object:getY(), z=object:getZ()}
                         -- sendClientCommand(getSpecificPlayer(0), 'bbq', 'toggle', args)
                         object:toggle()
-                        object:sendObjectChange('state')
+                        -- object:sendObjectChange('state')
                     else
                         -- local args = {x=object:getX(), y=object:getY(), z=object:getZ(), fuelAmt = 40}
                         -- sendClientCommand(getSpecificPlayer(0), 'bbq', 'light', args)
                         object:addFuel(40)
                         object:setLit(true)
-                        object:sendObjectChange('state')
+                        -- object:sendObjectChange('state')
                         zombie:playSound("BBQRegularLight")
                     end
                 end

@@ -1039,7 +1039,7 @@ BWOChat.Say = function(chatMessage, quiet)
     end
 
     local getMood = function(bandit)
-        if bandit:isCrawler() then
+        if bandit:isCrawling() then
             local opts = {"I can't feel my legs!",
                           "How does it look? My spine is broken!",
                           "Help me get up, please!"}

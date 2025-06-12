@@ -9,11 +9,20 @@ BWOVehicles.carChoices = {"Base.CarLights", "Base.CarLuxury", "Base.CarNormal", 
 
 BWOVehicles.policeCarChoices = {"Base.PickUpVanLightsPolice"}
 
+BWOVehicles.firemanCarChoices = {"Base.PickUpTruckLightsFire"}
+
 BWOVehicles.SWATCarChoices = {"Base.StepVan_LouisvilleSWAT"}
 
 BWOVehicles.medicalCarChoices = {"Base.VanAmbulance"}
 
 BWOVehicles.hazmatsCarChoices = {"Base.VanAmbulance"}
+
+BWOVehicles.playerCarChoicesDefault = {"Base.SmallCar"}
+
+BWOVehicles.playerCarChoicesOccupation = {}
+BWOVehicles.playerCarChoicesOccupation["fireofficer"] = {"Base.PickUpTruckLightsFire"}
+BWOVehicles.playerCarChoicesOccupation["policeofficer"] = {"Base.PickUpVanLightsPolice"}
+BWOVehicles.playerCarChoicesOccupation["mechanics"] = {"Base.SportsCar"}
 
 -- order is important
 BWOVehicles.burnMap = {}

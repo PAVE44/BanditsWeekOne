@@ -167,12 +167,17 @@ local explode = function(x, y)
     local square = getCell():getGridSquare(x, y, 0)
     if not square then return end
 
+    local item = instanceItem("Base.PipeBomb")
+	local trap = IsoTrap.new(item, getCell(), square)
+    square:explosion(trap)
+    
+    --[[
     if isClient() then
         local args = {x=x, y=y, z=0}
         sendClientCommand('object', 'addExplosionOnSquare', args)
     else
         IsoFireManager.explode(getCell(), square, 100)
-    end
+    end]]
     
     -- blast tex
 
@@ -256,7 +261,7 @@ local explode = function(x, y)
     BanditBaseGroupPlacements.Junk (x-4, y-4, 0, 6, 8, 3)
 
     -- damage to zombies, players are safe
-    local fakeItem = BanditCompatibility.InstanceItem("Base.RollingPin")
+    local fakeItem = BanditCompatibility.InstanceItem("Base.PipeBomb")
     local cell = getCell()
     for dx=x-3, x+5 do
         for dy=y-3, y+4 do
@@ -581,10 +586,14 @@ end
 BWOEvents.ChopperAlert = function(params)
     local player = getSpecificPlayer(0)
     if not player then return end
-
+    
+    getCore():setOptionUIRenderFPS(120)
     BanditPlayer.WakeEveryone()
 
     local effect = {}
+    effect.cx = player:getX() - 3 + ZombRand(4)
+    effect.cy = player:getY() - 3 + ZombRand(4)
+    effect.initDist = 200
     effect.width = 1243
     effect.height = 760
     effect.alpha = 1
@@ -595,7 +604,7 @@ BWOEvents.ChopperAlert = function(params)
     effect.rotors = true
     effect.lights = true
     effect.frameCnt = 3
-    effect.cycles = 200
+    effect.cycles = 600
     table.insert(BWOFlyingObject.tab, effect)
 end
 
@@ -603,21 +612,27 @@ end
 BWOEvents.ChopperFliers = function(params)
     
     if not SandboxVars.BanditsWeekOne.EventFinalSolution then return end
+    getCore():setOptionUIRenderFPS(120)
 
     local player = getSpecificPlayer(0)
     if not player then return end
     local px, py = player:getX(), player:getY()
 
     local effect = {}
+    effect.cx = px
+    effect.cy = py
+    effect.initDist = 200
     effect.width = 1243
     effect.height = 760
     effect.alpha = 1
     effect.speed = 1
     effect.name = "heli2"
     effect.dir = 90
+    effect.rotors = true
+    effect.lights = true
     effect.sound = "BWOChopperCDC2"
     effect.frameCnt = 3
-    effect.cycles = 200
+    effect.cycles = 600
     table.insert(BWOFlyingObject.tab, effect)
 
     local params = {x=px, y=py}
@@ -822,13 +837,11 @@ BWOEvents.Start = function(params)
                     dir = "S"
                 end
                 
-                local carType = "Base.SmallCar"
-                if profession == "fireofficer" then
-                    carType = "PickUpTruckLightsFire"
-                elseif profession == "policeofficer" then
-                    carType = "PickUpVanLightsPolice"
-                elseif profession == "mechanics" then
-                    carType = "SportsCar"
+                local carType
+                if BWOVehicles.playerCarChoicesOccupation[profession] then
+                    carType = BWOCompatibility.GetCarType(BanditUtils.Choice(BWOVehicles.playerCarChoicesOccupation[profession]))
+                else
+                    carType = BWOCompatibility.GetCarType(BanditUtils.Choice(BWOVehicles.playerCarChoicesDefault))
                 end
 
                 vehicle = spawnVehicle(sx, sy, 0, BWOCompatibility.GetCarType(carType))
@@ -909,7 +922,7 @@ BWOEvents.BombDrop = function(params)
     BanditBaseGroupPlacements.Junk (params.x-4, params.y-4, 0, 6, 8, 3)
 
     -- damage to zombies, players are safe
-    local fakeItem = BanditCompatibility.InstanceItem("Base.RollingPin")
+    local fakeItem = BanditCompatibility.InstanceItem("Base.PipeBomb")
     local cell = getCell()
     for dx=params.x-3, params.x+5 do
         for dy=params.y-3, params.y+4 do
@@ -1146,16 +1159,20 @@ BWOEvents.JetFighterStage1 = function(params)
     local player = getSpecificPlayer(0)
     if not player then return end
 
+    getCore():setOptionUIRenderFPS(120)
+
     local effect = {}
-    effect.offsety = 25
+    effect.cx = params.cx
+    effect.cy = params.cy
+    effect.initDist = 200
     effect.width = 1024
     effect.height = 586
     effect.alpha = 1
-    effect.speed = 4
+    effect.speed = 12
     effect.name = "a10"
     effect.dir = params.dir
     effect.frameCnt = 3
-    effect.cycles = 200
+    effect.cycles = 600
     table.insert(BWOFlyingObject.tab, effect)
 end
 
@@ -1176,7 +1193,7 @@ BWOEvents.JetFighterStage2 = function(params)
         emitter:playSound(sound)
         emitter:setVolumeAll(0.9)
 
-        if px >= params.x1 and px < params.x2 and py >= params.y1 and py < params.y2 then
+        if px >= params.x1 and px < params.x2 and py >= params.y1 and py < params.y2 and player:isOutside() then
             player:Hit(fakeItem, fakeZombie, 0.8, false, 1, false)
         end
 
@@ -1198,7 +1215,7 @@ BWOEvents.JetFighterStage2 = function(params)
             step = 10
         elseif params.arm == "bomb" then
             dropEvent = "BombDrop"
-            step = 15
+            step = 12
         end
 
         if dropEvent then
@@ -1223,7 +1240,7 @@ BWOEvents.JetFighterStage2 = function(params)
                 end
             elseif params.dir == -90 then
                 local x = (params.x1 + params.x2) / 2
-                for y=params.y1, params.y2, -step do
+                for y=params.y2, params.y1, -step do
                     BWOScheduler.Add(dropEvent, {x=x, y=y}, d)
                     d = d + 200
                 end
@@ -1268,7 +1285,8 @@ BWOEvents.JetFighterRun = function(params)
             chunk.y1 = y1
             chunk.y2 = y2
             chunk.dir = BanditUtils.Choice({-90, 90})
-            chunk.offsetx = (x1 + x2) / 2
+            chunk.cx = (x1 + x2) / 2
+            chunk.cy = py
             best = cnt
         end
     end
@@ -1293,17 +1311,17 @@ BWOEvents.JetFighterRun = function(params)
             chunk.y1 = y1
             chunk.y2 = y2
             chunk.dir = BanditUtils.Choice({0, 180})
-            chunk.offsety = (y1 + y2) / 2
+            chunk.cx = px
+            chunk.cy = (y1 + y2) / 2
             best = cnt
-            
         end
     end
 
     local d = 0
     if params.arm == "mg" then
-        d = 1200
+        d = 900
     else
-        d = 2200
+        d = 1700
     end
 
     -- stage 1 display flying object
@@ -1336,7 +1354,7 @@ BWOEvents.GasDrop = function(params)
         effect.name = "gas"
         effect.frameCnt = 60
         effect.frameRnd = true
-        effect.repCnt = 16
+        effect.repCnt = 24
         table.insert(BWOEffects2.tab, effect)
     end
 
@@ -1381,6 +1399,7 @@ BWOEvents.Entertainer = function(params)
 
     local args = {
         program = "Entertainer",
+        size = 1
     }
 
     local spawnPoint = generateSpawnPoint(player:getX(), player:getY(), player:getZ(), ZombRand(28, 35), 1)
@@ -1405,9 +1424,11 @@ BWOEvents.Entertainer = function(params)
         end
     end
 
+    rnd = 0
+
     -- rnd = 9
     if rnd == 0 then
-        args.bid = "40b9340b-3310-40e9-b8a2-e925912590b6" -- fixme
+        args.cid = Bandit.clanMap.Priest
         args.occupation = "Priest"
         icon = "media/ui/cross.png"
         desc = "Preacher"
@@ -1423,8 +1444,6 @@ BWOEvents.Entertainer = function(params)
     elseif rnd == 4 then
         args.bid = "40b9340b-3310-40e9-b8a2-e925912590b6" -- fixme
         args.occupation = "Breakdancer"
-        local cassette = "Tsarcraft.CassetteBanditBreakdance01"
-        addBoomBox(args.x, args.y, args.z, cassette)
     elseif rnd == 5 then
         args.bid = "40b9340b-3310-40e9-b8a2-e925912590b6" -- fixme
         args.occupation = "Clown"
@@ -1433,7 +1452,7 @@ BWOEvents.Entertainer = function(params)
         args.occupation = "ClownObese"
     end
 
-    sendClientCommand(player, 'Spawner', 'Individual', args)
+    sendClientCommand(player, 'Spawner', 'Clan', args)
 
     if SandboxVars.Bandits.General_ArrivalIcon then
         BanditEventMarkerHandler.set(getRandomUUID(), icon, 3600, args.x, args.y, color, desc)
@@ -1879,7 +1898,8 @@ BWOEvents.CallFireman = function(params)
 
     local vehicleCount = player:getCell():getVehicles():size()
     if vehicleCount < 8 then
-        spawnVehicle (x, y, 0, BWOCompatibility.GetCarType("Base.PickUpTruckLightsFire"))
+        local vtype = BWOCompatibility.GetCarType(BanditUtils.Choice(BWOVehicles.firemanCarChoices))
+        spawnVehicle (x, y, 0, vtype)
         arrivalSound(x, y, "ZSPoliceCar1")
 
         local vparams = {}
@@ -2098,6 +2118,8 @@ BWOEvents.PlaneCrashSequence = function(params)
 
     BanditPlayer.WakeEveryone()
 
+    getCore():setOptionUIRenderFPS(120)
+
     local start = 17600
     -- stage 1: init plane flyby sound 
     local emitter = player:getEmitter()
@@ -2232,18 +2254,23 @@ BWOEvents.PlaneCrashSequence = function(params)
     
 end
 
-BWOEvents.HeliCrash = function(params)
+BWOEvents.VehicleCrash = function(params)
     local player = getSpecificPlayer(0)
     if not player then return end
 
     local cx = player:getX() + params.x
     local cy = player:getY() + params.y
 
-    BanditBaseGroupPlacements.ClearSpace (cx-3, cy-3, params.z, 7, 7)
+    BanditBaseGroupPlacements.ClearSpace (cx-4, cy-4, params.z, 8, 8)
     explode(cx, cy)
     local vparams = {}
     vparams.alarm = true
     BWOScheduler.Add("VehiclesUpdate", vparams, 500)
 
-    vehicle = spawnVehicle(cx, cy, 0, params.vtype)
+    local vehicle = spawnVehicle(cx, cy, 0, params.vtype)
+    vehicle:setGeneralPartCondition(0.1, 100)
+    vehicle:setBloodIntensity("Front", 1)
+    vehicle:setBloodIntensity("Rear", 1)
+    vehicle:setBloodIntensity("Left", 1)
+    vehicle:setBloodIntensity("Right", 1)
 end

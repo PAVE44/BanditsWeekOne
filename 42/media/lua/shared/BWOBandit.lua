@@ -40,6 +40,8 @@ Bandit.clanMap.Veteran = "c4878ebb-c8e5-4932-8850-370ee9c77d61"
 Bandit.clanMap.SecretLab = "f89205ff-7f90-4360-8f84-1d8faa3650e7"
 Bandit.clanMap.Survivor = "65218e00-bdf0-4d67-bcc1-75bcc86cb2c9"
 
+-- street performers
+Bandit.clanMap.Priest = "cfecc181-508e-4c5b-85ce-7a0d21ce8537"
 
 -- babes
 Bandit.clanMap.BabeFemale = "a3bd90b9-aa08-44b2-8be3-a6dfcf15f9e1"
@@ -53,7 +55,6 @@ Bandit.clanMap.Fossoil = "25f86d1a-03f6-461a-ac46-a936587930d0"
 Bandit.clanMap.Gas2Go = "31e340cf-c773-4b1c-9e27-8317db82823f"
 Bandit.clanMap.Waiter = ""
 Bandit.clanMap.Mechanic = ""
-Bandit.clanMap.Priest = ""
 Bandit.clanMap.Teacher = ""
 Bandit.clanMap.Spiffo = ""
 

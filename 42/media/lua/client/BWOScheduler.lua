@@ -82,25 +82,25 @@ local generateSchedule = function()
 
     -- DAY 3 09.00
     tab[48][0]  = {"StartDay", {day="sunday"}}
-    tab[48][11] = {"ChopperAlert", {name="heli2", sound="BWOChopperGeneric", dir = 90, speed=1.7}}
-    tab[51][9]  = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 0, speed=0.8}}
-    tab[51][11] = {"ChopperAlert", {name="heli2", sound="BWOChopperGeneric", dir = -90, speed=1.7}}
-    tab[52][5]  = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 180, speed=0.8}}
+    tab[48][11] = {"ChopperAlert", {name="heli2", sound="BWOChopperGeneric", dir = 90, speed=2.7}}
+    tab[51][9]  = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 0, speed=2.2}}
+    tab[51][11] = {"ChopperAlert", {name="heli2", sound="BWOChopperGeneric", dir = -90, speed=2.3}}
+    tab[52][5]  = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 180, speed=1.8}}
     tab[52][11] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=75, intensity=2}}
-    tab[53][1]  = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = -90, speed=0.8}}
-    tab[54][28] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 90, speed=0.8}}
+    tab[53][1]  = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = -90, speed=2.2}}
+    tab[54][28] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 90, speed=1.8}}
     tab[54][30] = {"Arson", {}}
     tab[55][11] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=74, intensity=2}}
     tab[58][33] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=73, intensity=3}}
     tab[59][44] = {"BuildingParty", {roomName="bedroom", intensity=8}}
     tab[59][55] = {"BuildingParty", {roomName="bedroom", intensity=8}}
     tab[59][56] = {"SpawnGroup", {name="Suicide Bomber", cid=Bandit.clanMap.SuicideBomber, program="Shahid", d=45, intensity=2}}
-    tab[62][55] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 180, speed=1.1}}
+    tab[62][55] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 180, speed=1.7}}
     tab[63][30] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=72, intensity=4}}
     tab[66][39] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=71, intensity=3}}
-    tab[66][40] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 0, speed=1.1}}
+    tab[66][40] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 0, speed=1.8}}
     tab[66][41] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=70, intensity=3}}
-    tab[67][13] = {"ChopperAlert", {name="heli2", sound="BWOChopperGeneric", dir = 0, speed=1.7}}
+    tab[67][13] = {"ChopperAlert", {name="heli2", sound="BWOChopperGeneric", dir = 0, speed=2.9}}
     tab[69][14] = {"Defenders", {}}
     tab[71][21] = {"Defenders", {}}
 
@@ -117,12 +117,12 @@ local generateSchedule = function()
     tab[79][15] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=66, intensity=3}}
     tab[79][55] = {"Arson", {}}
     tab[80][41] = {"Defenders", {}}
-    tab[82][31] = {"ChopperAlert", {name="heli2", sound="BWOChopperCDC1", dir = 0, speed=0.9}}
-    tab[82][42] = {"ChopperAlert", {name="heli2", sound="BWOChopperCDC1", dir = 180, speed=0.9}}
+    tab[82][31] = {"ChopperAlert", {name="heli2", sound="BWOChopperCDC1", dir = 0, speed=1.8}}
+    tab[82][42] = {"ChopperAlert", {name="heli2", sound="BWOChopperCDC1", dir = 180, speed=2.1}}
     tab[83][35] = {"BuildingHome", {addRadio=false}}
     -- tab[83][36] = {"Thieves", {intensity=4}}
-    tab[85][33] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = -90, speed=0.9}}
-    tab[86][40] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 90, speed=0.9}}
+    tab[85][33] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = -90, speed=1.7}}
+    tab[86][40] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 90, speed=1.7}}
     tab[87][27] = {"Arson", {}}
     tab[87][33] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=65, intensity=4}}
     tab[87][50] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=64, intensity=5}}
@@ -160,7 +160,7 @@ local generateSchedule = function()
     tab[112][56] = {"SpawnGroup", {name="Biker Gang", cid=Bandit.clanMap.Biker, program="Bandit", d=60, intensity=14}}
     tab[113][31] = {"Defenders", {}}
     tab[113][22] = {"Arson", {}}
-    tab[113][23] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 0, speed=1.5}}
+    tab[113][23] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 0, speed=1.9}}
     tab[113][33] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=57, intensity=4}}
     tab[113][35] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=56, intensity=5}}
     tab[113][36] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=61, intensity=6}}
@@ -176,21 +176,21 @@ local generateSchedule = function()
     tab[120][0]  = {"StartDay", {day="wednesday"}}
 
     tab[121][2]  = {"ProtestAll", {}}
-    tab[121][16] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = -90, speed=0.6}}
-    tab[121][45] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = 90, speed=0.6}}
+    tab[121][16] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = -90, speed=1.6}}
+    tab[121][45] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = 90, speed=1.7}}
     tab[122][0]  = {"Siren", {}}
     tab[122][11] = {"SpawnGroup", {name="Riot Police", cid=Bandit.clanMap.PoliceRiot, program="RiotPolice", d=30, intensity=12}}
-    tab[122][12] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = -90, speed=0.6}}
+    tab[122][12] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = -90, speed=1.8}}
     tab[122][15] = {"SpawnGroup", {name="Riot Police", cid=Bandit.clanMap.PoliceRiot, program="RiotPolice", d=30, intensity=12}}
     tab[122][16] = {"Shahids", {intensity=1}}
     tab[122][17] = {"SpawnGroup", {name="Riot Police", cid=Bandit.clanMap.PoliceRiot, program="RiotPolice", d=30, intensity=12}}
-    tab[122][44] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = 90, speed=0.6}}
+    tab[122][44] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = 90, speed=1.6}}
     tab[123][27] = {"Arson", {}}
     tab[123][33] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=54, intensity=4}}
     tab[123][39] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=53, intensity=4}}
-    tab[123][41] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = 180, speed=1.1}}
+    tab[123][41] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = 180, speed=2.7}}
     tab[123][45] = {"SpawnGroup", {name="Riot Police", cid=Bandit.clanMap.PoliceRiot, program="RiotPolice", d=30, intensity=12}}
-    tab[123][56] = {"HeliCrash", {x=-70, y=0, vtype="pzkHeli350PoliceWreck"}}
+    tab[123][56] = {"VehicleCrash", {x=-70, y=0, vtype="pzkHeli350PoliceWreck"}}
     tab[124][1]  = {"ChopperFliers", {}}
     tab[125][2]  = {"Arson", {}}
     tab[125][3]  = {"SpawnGroup", {name="Asylum Escapes", cid=Bandit.clanMap.Mental, program="Bandit", d=34, intensity=16}}
@@ -232,11 +232,15 @@ local generateSchedule = function()
     tab[147][24] = {"JetFighterRun", {arm="mg"}}
     tab[147][28] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=51, intensity=5}}
     tab[147][49] = {"JetFighterRun", {arm="mg"}}
-    tab[150][8]  = {"JetFighterRun", {arm="mg"}}
+    tab[147][50] = {"JetFighterRun", {arm="mg"}}
+    tab[147][51] = {"JetFighterRun", {arm="mg"}}
     tab[150][9]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=52, intensity=10}}
     tab[150][50] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=51, intensity=5}}
     tab[150][24] = {"JetFighterRun", {arm="mg"}}
+    tab[150][25] = {"JetFighterRun", {arm="mg"}}
+    tab[150][26] = {"JetFighterRun", {arm="mg"}}
     tab[150][49] = {"JetFighterRun", {arm="mg"}}
+    tab[150][50] = {"JetFighterRun", {arm="mg"}}
     tab[152][8]  = {"Defenders", {}}
     tab[152][12] = {"JetFighterRun", {arm="mg"}}
     tab[152][24] = {"JetFighterRun", {arm="mg"}}
@@ -310,21 +314,34 @@ local generateSchedule = function()
     tab[163][45] = {"JetFighterRun", {arm="mg"}}
     tab[163][49] = {"JetFighterRun", {arm="bomb"}}
     tab[164][8]  = {"JetFighterRun", {arm="bomb"}}
+    tab[164][10] = {"VehicleCrash", {x=22, y=-70, vtype="pzkA10wreck"}}
     tab[164][10] = {"SetHydroPower", {on=false}}
     tab[164][13] = {"SetHydroPower", {on=true}}
     tab[164][24] = {"JetFighterRun", {arm="bomb"}}
     tab[164][49] = {"JetFighterRun", {arm="bomb"}}
+    tab[164][51] = {"VehicleCrash", {x=-32, y=60, vtype="pzkA10wreck"}}
     tab[165][2]  = {"ChopperFliers", {}}
-    tab[165][18] = {"HeliCrash", {x=2, y=70, vtype="pzkHeli350MedWreck"}}
+    tab[165][18] = {"VehicleCrash", {x=2, y=70, vtype="pzkHeli350MedWreck"}}
     tab[166][4]  = {"SpawnGroup", {name="Hammer Brothers", cid=Bandit.clanMap.HammerBrothers, program="Bandit", d=50, intensity=3}}
+    tab[166][14]  = {"Reanimate", {r=80, chance=11}}
+    tab[167][22]  = {"Reanimate", {r=80, chance=10}}
+    tab[167][41]  = {"Reanimate", {r=80, chance=5}}
 
     -- DAY 8 09.00
     tab[168][0]  = {"StartDay", {day="friday"}}
+    tab[168][6]  = {"Reanimate", {r=80, chance=5}}
     tab[168][4]  = {"Siren", {}}
     tab[168][30] = {"FinalSolution", {}}
     tab[168][34] = {"SetHydroPower", {on=false}}
+    tab[169][22]  = {"Reanimate", {r=80, chance=5}}
+    tab[169][33]  = {"Reanimate", {r=80, chance=5}}
 
     -- late hazmat suit bandits will spawn only in fallout scenario
+    tab[170][11]  = {"Reanimate", {r=80, chance=5}}
+    tab[171][22]  = {"Reanimate", {r=80, chance=5}}
+    tab[173][41]  = {"Reanimate", {r=80, chance=5}}
+    tab[175][4]  = {"Reanimate", {r=80, chance=5}}
+    tab[175][44]  = {"Reanimate", {r=80, chance=5}}
     tab[176][25] = {"SpawnGroup", {name="Sweeper Squad", cid=Bandit.clanMap.Sweepers, program="Bandit", d=60, intensity=2}}
     tab[177][25] = {"SpawnGroup", {name="Hammer Brothers", cid=Bandit.clanMap.HammerBrothers, program="Bandit", d=30, intensity=3}}
     tab[189][12] = {"SpawnGroup", {name="Sweeper Squad", cid=Bandit.clanMap.Sweepers, program="Bandit", d=60, intensity=3}}
@@ -487,7 +504,7 @@ function BWOScheduler.MasterControl()
             adjustSandboxVar("CarSpawnRate", 5)
             adjustSandboxVar("Helicopter", 1)
             adjustSandboxVar("FireSpread", false)
-            adjustSandboxVar("ZombieConfig.PopulationStartMultiplier", "0.1")
+            -- adjustSandboxVar("ZombieConfig.PopulationStartMultiplier", "0.1")
             
             
             -- lerp
@@ -511,7 +528,7 @@ function BWOScheduler.MasterControl()
             adjustSandboxVar("CarSpawnRate", gmd.Sandbox["CarSpawnRate"])
             adjustSandboxVar("Helicopter", gmd.Sandbox["Helicopter"])
             adjustSandboxVar("FireSpread", gmd.Sandbox["FireSpread"])
-            adjustSandboxVar("ZombieConfig.PopulationStartMultiplier", gmd.Sandbox["ZombieConfig.PopulationStartMultiplier"])
+            -- adjustSandboxVar("ZombieConfig.PopulationStartMultiplier", gmd.Sandbox["ZombieConfig.PopulationStartMultiplier"])
         end
         
         getSandboxOptions():applySettings()
@@ -585,13 +602,13 @@ function BWOScheduler.MasterControl()
     elseif BWOScheduler.WorldAge >= 1200 then
         BWOScheduler.World.DeadBodyAdderDensity = 0.01
     elseif BWOScheduler.WorldAge >= 170 then
-        BWOScheduler.World.DeadBodyAdderDensity = 0.021
+        BWOScheduler.World.DeadBodyAdderDensity = 0.019
     elseif BWOScheduler.WorldAge >= 150 then
-        BWOScheduler.World.DeadBodyAdderDensity = 0.018
+        BWOScheduler.World.DeadBodyAdderDensity = 0.016
     elseif BWOScheduler.WorldAge >= 130 then
-        BWOScheduler.World.DeadBodyAdderDensity = 0.014
+        BWOScheduler.World.DeadBodyAdderDensity = 0.012
     elseif BWOScheduler.WorldAge >= 110 then
-        BWOScheduler.World.DeadBodyAdderDensity = 0.005
+        BWOScheduler.World.DeadBodyAdderDensity = 0.004
     end
 
     BWOScheduler.World.Bombing = 0
@@ -780,6 +797,7 @@ function BWOScheduler.CheckEvents()
             if BWOEvents[event.phase] then
                 local profession = player:getDescriptor():getProfession()
                 if not event.params.profession or event.params.profession == profession then
+                    print ("INIT EVENT" .. event.phase)
                     BWOEvents[event.phase](event.params)
                 end
             end

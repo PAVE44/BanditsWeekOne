@@ -622,3 +622,19 @@
 	spawn: groupMax = 1
 	spawn: zone = 0
 
+[cfecc181-508e-4c5b-85ce-7a0d21ce8537]
+	general: name = Priest
+	spawn: friendly = true
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+	spawn: dayStart = 1
+	spawn: dayEnd = 10000
+	spawn: spawnChance = 0
+	spawn: groupMin = 1
+	spawn: groupMax = 1
+	spawn: zone = 0
+

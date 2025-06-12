@@ -4,7 +4,7 @@ BanditUtils.GetTime = function()
     local m = getSandboxOptions():getDayLengthMinutes()
     local coeff = 60 / m
 
-    return getGameTime():getWorldAgeHours() * 2500000 * coeff / 24
+    return getGameTime():getWorldAgeHours() * 2500000  / 24 / coeff
 end
 
 function BanditUtils.In(needle, haystack)

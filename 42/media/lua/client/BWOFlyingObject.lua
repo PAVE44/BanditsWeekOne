@@ -4,8 +4,7 @@ BWOFlyingObject.tab = {}
 BWOFlyingObject.tick = 0
 
 -- const
-BWOFlyingObject.dopplerCoeff = 26.66667
-BWOFlyingObject.initDist = 200
+BWOFlyingObject.dopplerCoeff = 46.66667
 
 function oppositeAngle(angle)
     local result = angle + 180
@@ -34,7 +33,7 @@ BWOFlyingObject.Process = function()
     local py = player:getY() -- 10821
     local playerNum = player:getPlayerNum()
     local zoom = getCore():getZoom(playerNum)
-
+    local fr = 1 / (getCore():getOptionUIRenderFPS() / 20)
     local cell = getCell()
     for i, effect in pairs(BWOFlyingObject.tab) do
 
@@ -46,13 +45,10 @@ BWOFlyingObject.Process = function()
             effect.frame = 1
             -- init pos
 
-            if not effect.offsetx then effect.offsetx = 0 end
-            if not effect.offsety then effect.offsety = 0 end
-
             local odir = oppositeAngle(effect.dir)
             local theta = odir * 0.0174533
-            effect.x = px + (BWOFlyingObject.initDist * math.cos(theta)) + effect.offsetx
-            effect.y = py + (BWOFlyingObject.initDist * math.sin(theta)) + effect.offsety
+            effect.x = effect.cx + (effect.initDist * math.cos(theta))
+            effect.y = effect.cy + (effect.initDist * math.sin(theta))
             effect.z = 0
             effect.dist = math.sqrt(((effect.x - px) * (effect.x - px)) + ((effect.y - py) * (effect.y - py)))
 
@@ -163,8 +159,8 @@ BWOFlyingObject.Process = function()
 
             -- pos update
             local theta = effect.dir * 0.0174533
-            effect.x = effect.x + (effect.speed * math.cos(theta))
-            effect.y = effect.y + (effect.speed * math.sin(theta))
+            effect.x = effect.x + (effect.speed * fr * math.cos(theta))
+            effect.y = effect.y + (effect.speed * fr * math.sin(theta))
             -- print ("x: " .. effect.x .. " y:" .. effect.y)
             effect.frame = effect.frame + 1
         end

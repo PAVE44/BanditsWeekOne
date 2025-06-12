@@ -122,19 +122,12 @@ BWOMenu.AddEffect = function(player, square)
     effect.repCnt = 2
     table.insert(BWOEffects2.tab, effect)
     ]]
-
-    local effect = {}
-    effect.width = 1243
-    effect.height = 760
-    effect.speed = 0.8
-    effect.alpha = 1
-    effect.name = BanditUtils.Choice({"heli", "heli2"})
-    effect.sound = BanditUtils.Choice({"BWOChopperPolice1", "BWOChopperPolice2"})
-    effect.dir = BanditUtils.Choice({0, 180, 90, -90})
-    effect.speed = ZombRandFloat(0.5, 3.5)
-    effect.frameCnt = 3
-    effect.cycles = 200
-    table.insert(BWOFlyingObject.tab, effect)
+ 
+    local item = instanceItem("Base.PipeBomb")
+	local trap = IsoTrap.new(item, getCell(), square)
+    local er = trap:getExplosionRange()
+    trap:triggerExplosion(false)
+    --square:explosion(trap)
 end
 
 BWOMenu.EventArmy = function(player)
@@ -157,50 +150,27 @@ BWOMenu.EventArson = function(player)
     BWOScheduler.Add("Arson", params, 100)
 end
 
-BWOMenu.EventGasDrop = function(player)
-    local params = {}
-    params.x = player:getX()
-    params.y = player:getY()
-    params.z = player:getZ()
-    params.outside = player:isOutside()
-    BWOScheduler.Add("GasDrop", params, 100)
-end
-
 BWOMenu.EventGasRun = function(player)
     local params = {}
-    params.x = player:getX()
-    params.y = player:getY()
-    params.z = player:getZ()
-    params.outside = player:isOutside()
-    params.intensity = 10
-    BWOScheduler.Add("GasRun", params, 100)
-end
-
-BWOMenu.EventBombDrop = function(player)
-    local params = {}
-    params.x = player:getX()
-    params.y = player:getY()
-    params.z = player:getZ()
-    params.outside = player:isOutside()
-    BWOScheduler.Add("BombDrop", params, 100)
+    params.arm = "gas"
+    BWOScheduler.Add("JetFighterRun", params, 100)
 end
 
 BWOMenu.EventBombRun = function(player)
     local params = {}
-    params.x = player:getX()
-    params.y = player:getY()
-    params.z = player:getZ()
-    params.intensity = 20
-    params.outside = player:isOutside()
-    BWOScheduler.Add("BombRun", params, 100)
+    params.arm = "bomb"
+    BWOScheduler.Add("JetFighterRun", params, 100)
 end
 
 BWOMenu.EventChopperAlert = function(player)
     local params = {}
+    
+    params.cx = player:getX()
+    params.cy = player:getY()
     params.name = BanditUtils.Choice({"heli", "heli2"})
     params.sound = BanditUtils.Choice({"BWOChopperPolice1", "BWOChopperPolice2"})
     params.dir = BanditUtils.Choice({0, 180, 90, -90})
-    params.speed = ZombRandFloat(1.5, 1.5)
+    params.speed = 2
     params.lights = true
     params.rotors = true
     BWOScheduler.Add("ChopperAlert", params, 100)
@@ -244,10 +214,10 @@ end
 
 BWOMenu.EventHeliCrash = function (player)
     local params = {}
-    params.x = -70
+    params.x = -20
     params.y = 0
     params.vtype = "pzkHeli350PoliceWreck"
-    BWOScheduler.Add("HeliCrash", params, 100)
+    BWOScheduler.Add("VehicleCrash", params, 100)
 end
 
 BWOMenu.EventParty = function (player)
@@ -266,22 +236,9 @@ BWOMenu.EventJetEngine = function (player)
     BWOScheduler.Add("JetEngine", params, 100)
 end
 
-BWOMenu.EventJetFighter = function (player)
-    local params = {}
-    params.x = player:getX()
-    params.y = player:getY()
-    params.z = player:getZ()
-    params.outside = player:isOutside()
-    BWOScheduler.Add("JetFighter", params, 100)
-end
-
 BWOMenu.EventJetFighterRun = function (player)
     local params = {}
-    params.x = player:getX()
-    params.y = player:getY()
-    params.z = player:getZ()
-    params.outside = player:isOutside()
-    params.arm = "bomb"
+    params.arm = "mg"
     BWOScheduler.Add("JetFighterRun", params, 100)
 end
 
@@ -453,8 +410,6 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         eventsMenu:addOption("Arson", player, BWOMenu.EventArson)
         eventsMenu:addOption("Bandits", player, BWOMenu.EventBandits)
         eventsMenu:addOption("Bikers", player, BWOMenu.EventBikers)
-        eventsMenu:addOption("Bomb Drop", player, BWOMenu.EventBombDrop)
-        eventsMenu:addOption("Bomb Run", player, BWOMenu.EventBombRun)
         eventsMenu:addOption("Chopper Alert", player, BWOMenu.EventChopperAlert)
         eventsMenu:addOption("Criminals", player, BWOMenu.EventCriminals)
         eventsMenu:addOption("Dream", player, BWOMenu.EventDream)
@@ -473,15 +428,14 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
 
         eventsMenu:addOption("Final Solution", player, BWOMenu.EventFinalSolution)
         eventsMenu:addOption("Fliers", player, BWOMenu.EventFliers)
-        eventsMenu:addOption("Gas Drop", player, BWOMenu.EventGasDrop)
-        eventsMenu:addOption("Gas Run", player, BWOMenu.EventGasRun)
         eventsMenu:addOption("Hammer Brothers", player, BWOMenu.EventHammerBrothers)
         eventsMenu:addOption("Heli Crash", player, BWOMenu.EventHeliCrash)
         eventsMenu:addOption("House Register", player, BWOMenu.EventHome)
         eventsMenu:addOption("House Party", player, BWOMenu.EventParty)
         eventsMenu:addOption("Jetengine", player, BWOMenu.EventJetEngine)
-        eventsMenu:addOption("Jetfighter", player, BWOMenu.EventJetFighter)
-        eventsMenu:addOption("Jetfighter Run", player, BWOMenu.EventJetFighterRun)
+        eventsMenu:addOption("Jetfighter MG", player, BWOMenu.EventJetFighterRun)
+        eventsMenu:addOption("Jetfighter Bomb", player, BWOMenu.EventBombRun)
+        eventsMenu:addOption("Jetfighter Gas", player, BWOMenu.EventGasRun)
         eventsMenu:addOption("Nuke", player, BWOMenu.EventNuke)
         eventsMenu:addOption("Rolice Riot", player, BWOMenu.EventPoliceRiot)
         eventsMenu:addOption("Plane Crash", player, BWOMenu.EventPlaneCrash, true)

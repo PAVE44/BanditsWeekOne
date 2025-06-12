@@ -18,6 +18,7 @@ ZombiePrograms.Entertainer.Main = function(bandit)
     local bz = bandit:getZ()
     local gameTime = getGameTime()
     local hour = gameTime:getHour()
+    local minute = gameTime:getMinutes()
 
     local walkType = "Walk"
     local endurance = 0
@@ -52,7 +53,7 @@ ZombiePrograms.Entertainer.Main = function(bandit)
     local musicianTab = {}
     musicianTab.BassPlayer             = {item="Base.GuitarElectric", anim="InstrumentGuitarBass",     sound="BWOInstrumentBassGuitar1"}
     musicianTab.ViolinPlayer           = {item="Base.Violin",                  anim="InstrumentViolin",         sound="BWOInstrumentViolinPaganini"}
-    musicianTab.SaxPlayer           = {item="Base.Saxophone",               anim="InstrumentSaxophone",      sound="BWOInstrumentSax" .. tostring((math.abs(id) % 3) + 1)}
+    musicianTab.SaxPlayer           = {item="Base.Saxophone",               anim="InstrumentSaxophone",      sound="BWOInstrumentSax" .. tostring((math.abs(brain.id) % 3) + 1)}
     -- musicianTab.FlutePlayer           = {item="Base.Flute",                   anim="InstrumentFlute",          sound=nil}
     -- musicianTab.GuitarPlayer = {item="Base.GuitarElectricRed",       anim="InstrumentGuitarElectric", sound=nil}
     -- musicianTab.Dean           = {item="Base.GuitarElectric", anim="InstrumentGuitarBass",     sound="BWOInstrumentBassGuitar1"}

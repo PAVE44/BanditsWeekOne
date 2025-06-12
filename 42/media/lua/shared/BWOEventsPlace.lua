@@ -144,7 +144,8 @@ function BWOEventsPlace.CarMechanic(params)
     BWOVehicles.Repair(vehicle)
     vehicle:setColor(0, 0, 0)
     vehicle:setGeneralPartCondition(100, 100)
-    vehicle:putKeyInIgnition(vehicle:createVehicleKey())
+    local key = vehicle:createVehicleKey()
+    vehicle:putKeyInIgnition(key, 1)
 
     for i = 1, 21 do
         md.BWO.parts[i] = 100
