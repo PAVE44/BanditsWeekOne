@@ -3,42 +3,45 @@ BWOAmbience = BWOAmbience or {}
 BWOAmbience.sounds = {}
 BWOAmbience.tick = 0
 
-radiation = {}
-radiation.name = "BWOAmbientRadiation"
-radiation.mode = "Radial"
-radiation.fadeIn = 400
-radiation.fadeOut = 400
-radiation.fadeTo = 1
-radiation.radius = 10
-radiation.status = false
+-- Radiation sound
+local radiation = {
+    name = "BWOAmbientRadiation",
+    mode = "Radial",
+    fadeIn = 400,
+    fadeOut = 400,
+    fadeTo = 1,
+    radius = 10,
+    status = false
+}
 BWOAmbience.sounds.radiation = radiation
 
-gunfight = {}
-gunfight.name = "BWOAmbientGunsFar"
-gunfight.mode = "Fixed"
-gunfight.fadeIn = 100
-gunfight.fadeOut = 100
-gunfight.fadeTo = 1
-gunfight.status = false
+-- Gunfight sound
+local gunfight = {
+    name = "BWOAmbientGunsFar",
+    mode = "Fixed",
+    fadeIn = 100,
+    fadeOut = 100,
+    fadeTo = 1,
+    status = false
+}
 BWOAmbience.sounds.gunfight = gunfight
 
--- effect: name - name of the soundfile
--- fadeInTime: number of tick to fade in
--- fadeOutTime: number of ticks to fade out
--- fadeTo: peak volume
-BWOAmbience.Enable = function(name)
+-- Enable a sound effect
+function BWOAmbience.Enable(name)
     if BWOAmbience.sounds[name] then
         BWOAmbience.sounds[name].status = true
     end
 end
 
-BWOAmbience.Disable = function(name)
+-- Disable a sound effect
+function BWOAmbience.Disable(name)
     if BWOAmbience.sounds[name] then
         BWOAmbience.sounds[name].status = false
     end
 end
 
-BWOAmbience.SetPos = function(name, x, y, z)
+-- Set position for Fixed mode
+function BWOAmbience.SetPos(name, x, y, z)
     if BWOAmbience.sounds[name] then
         BWOAmbience.sounds[name].x = x
         BWOAmbience.sounds[name].y = y
@@ -46,27 +49,20 @@ BWOAmbience.SetPos = function(name, x, y, z)
     end
 end
 
-BWOAmbience.Process = function(player)
-
+-- Main update function
+function BWOAmbience.Process(player)
     if isServer() then return end
 
     local world = getWorld()
     local px, py, pz = player:getX(), player:getY(), player:getZ()
 
     for _, sound in pairs(BWOAmbience.sounds) do
-
-        if not sound.volume then
-            sound.volume = 0
-        end
+        sound.volume = sound.volume or 0
 
         if sound.mode == "Radial" then
-
-            -- regiter emitter pair for deep stereo ambience
             local radius = sound.radius
-            local lx = px - radius
-            local ly = py + radius
-            local rx = px + radius
-            local ry = py - radius
+            local lx, ly = px - radius, py + radius
+            local rx, ry = px + radius, py - radius
             local left = sound.name .. "Left"
             local right = sound.name .. "Right"
 
@@ -74,39 +70,21 @@ BWOAmbience.Process = function(player)
                 if not sound.emitter1 then
                     sound.emitter1 = world:getFreeEmitter(lx, ly, pz)
                 end
-
                 if not sound.emitter2 then
                     sound.emitter2 = world:getFreeEmitter(rx, ry, pz)
                 end
-
-                if sound.volume < sound.fadeTo then
-                    local step = sound.fadeTo / sound.fadeIn
-                    sound.volume = sound.volume + step
-
-                    if sound.volume > sound.fadeTo then
-                        sound.volume = sound.fadeTo
-                    end
-                end
+                local step = sound.fadeTo / sound.fadeIn
+                sound.volume = math.min(sound.volume + step, sound.fadeTo)
             else
-                if sound.volume > 0 then
-                    local step = sound.fadeTo / sound.fadeOut
-                    sound.volume = sound.volume - step
-
-                    if sound.volume < 0 then
-                        sound.volume = 0
-                    end
-
-                    if sound.volume == 0 then
-                        sound.emitter1:stopAll()
-                        sound.emitter2:stopAll()
-                        sound.emitter1 = nil
-                        sound.emitter2 = nil
-                    end
+                local step = sound.fadeTo / sound.fadeOut
+                sound.volume = math.max(sound.volume - step, 0)
+                if sound.volume == 0 then
+                    if sound.emitter1 then sound.emitter1:stopAll(); sound.emitter1 = nil end
+                    if sound.emitter2 then sound.emitter2:stopAll(); sound.emitter2 = nil end
                 end
             end
 
             if sound.emitter1 and sound.emitter2 then
-
                 sound.emitter1:setPos(lx, ly, pz)
                 sound.emitter2:setPos(rx, ry, pz)
 
@@ -116,7 +94,6 @@ BWOAmbience.Process = function(player)
                 if not sound.emitter1:isPlaying(left) then
                     sound.emitter1:playAmbientSound(left)
                 end
-
                 if not sound.emitter2:isPlaying(right) then
                     sound.emitter2:playAmbientSound(right)
                 end
@@ -124,35 +101,20 @@ BWOAmbience.Process = function(player)
                 sound.emitter1:tick()
                 sound.emitter2:tick()
             end
-        end
 
-        if sound.mode == "Fixed" then
+        elseif sound.mode == "Fixed" then
             if sound.status then
                 if not sound.emitter then
-                    sound.emitter = world:getFreeEmitter(sound.x, sound.y, sound.z)
+                    sound.emitter = world:getFreeEmitter(sound.x or px, sound.y or py, sound.z or pz)
                 end
-
-                if sound.volume < sound.fadeTo then
-                    local step = sound.fadeTo / sound.fadeIn
-                    sound.volume = sound.volume + step
-
-                    if sound.volume > sound.fadeTo then
-                        sound.volume = sound.fadeTo
-                    end
-                end
+                local step = sound.fadeTo / sound.fadeIn
+                sound.volume = math.min(sound.volume + step, sound.fadeTo)
             else
-                if sound.volume > 0 then
-                    local step = sound.fadeTo / sound.fadeOut
-                    sound.volume = sound.volume - step
-
-                    if sound.volume < 0 then
-                        sound.volume = 0
-                    end
-
-                    if sound.volume == 0 then
-                        sound.emitter:stopAll()
-                        sound.emitter = nil
-                    end
+                local step = sound.fadeTo / sound.fadeOut
+                sound.volume = math.max(sound.volume - step, 0)
+                if sound.volume == 0 and sound.emitter then
+                    sound.emitter:stopAll()
+                    sound.emitter = nil
                 end
             end
 
@@ -160,7 +122,7 @@ BWOAmbience.Process = function(player)
                 sound.emitter:setVolumeAll(sound.volume)
 
                 if not sound.emitter:isPlaying(sound.name) then
-                    sound.emitter1:playAmbientSound(sound.name)
+                    sound.emitter:playAmbientSound(sound.name)
                 end
 
                 sound.emitter:tick()

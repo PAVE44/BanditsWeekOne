@@ -60,7 +60,7 @@ BWOVehicles.parts = {}
 BWOVehicles.parts[1] = "HeadlightLeft"
 BWOVehicles.parts[2] = "HeadlightRight"
 BWOVehicles.parts[3] = "HeadlightRearLeft"
-BWOVehicles.parts[4] = "HeadlightRight"
+BWOVehicles.parts[4] = "HeadlightRearRight"
 BWOVehicles.parts[5] = "Windshield"
 BWOVehicles.parts[6] = "WindshieldRear"
 BWOVehicles.parts[7] = "WindowFrontRight"
@@ -622,54 +622,6 @@ local ManageVehicles = function(ticks)
         end
     end
 end
-
---[[
-    local x = vehicle:getX()
-    local y = vehicle:getY()
-    local a = vehicle:getAngleY() - 90
-    -- print ("VEH DEBUG: ID: " .. id .. " X: " .. x .. " Y: " .. y .. " A:" .. a)
-
-    if a < -180 then a = a + 180 end
-
-    local angle = a * math.pi * 0.00555555
-
-    --- print ("VX: " .. vx .. " VY:" .. vy)
-
-    local step = 0.2
-    for i = 0, 14 do
-        for j=-1, 1, 2 do
-            local newangle = angle + (i * j * step)
-            if newangle > 6.283185304 then newangle = newangle - 6.283185304 end
-
-            local vx = x + math.floor(5 * math.cos(newangle) + 0.5)
-            local vy = y + math.floor(5 * math.sin(newangle) + 0.5)
-            local vz = 0
-
-            local square = cell:getGridSquare(vx, vy, vz)
-            if square then
-                local groundType = BanditUtils.GetGroundType(square)
-                if groundType == "street" then
-                    local new = math.deg(newangle) + 90
-                    if new > 180 then
-                        new = new - 360
-                    elseif new < -180 then
-                        new = new + 360
-                    end
-                    if ticks % 200 == 0 then
-                        -- print ("VX: " .. math.floor(vx) .. " VY:" .. math.floor(vy))
-                        print ("A:" .. new)
-                        vehicle:setAngles(vehicle:getAngleX(), new, vehicle:getAngleZ())
-                    end
-                    
-                    return
-                end
-            end
-        end
-    end
-
-    
-
-]]
 
 Events.OnTick.Add(ManageVehicles)
 Events.EveryOneMinute.Add(AddVehicles)
