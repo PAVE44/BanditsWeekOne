@@ -50,14 +50,14 @@ local generateSchedule = function()
     tab[8][5]   = {"Defenders", {profession="policeofficer"}}
     tab[8][5]   = {"Arson", {profession="fireofficer"}}
 
-    tab[11][12] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[12][30] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[13][5]  = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[13][25] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[15][5]  = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[15][25] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[16][58] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[19][42] = {"BuildingHome", {addRadio=false}}
+    -- tab[11][12] = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    -- tab[12][30] = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    -- tab[13][5]  = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    -- tab[13][25] = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    -- tab[15][5]  = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    -- tab[15][25] = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    -- tab[16][58] = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    -- tab[19][42] = {"BuildingHome", {addRadio=false}}
     -- tab[19][43] = {"Thieves", {intensity=3}}
 
     -- DAY 2 09.00
@@ -70,11 +70,11 @@ local generateSchedule = function()
     tab[27][8]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}}
     -- tab[28][33] = {"Entertainer", {}}
     tab[30][33] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}}
-    tab[35][20] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[36][10] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[37][5]  = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[37][25] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[39][2]  = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    -- tab[35][20] = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    -- tab[36][10] = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    -- tab[37][5]  = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    -- tab[37][25] = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    -- tab[39][2]  = {"BuildingParty", {roomName="bedroom", intensity=8}}
     tab[39][14] = {"Defenders", {profession="policeofficer"}}
     tab[39][14] = {"Arson", {profession="fireofficer"}}
     tab[42][6]  = {"BuildingHome", {addRadio=false}}
@@ -92,8 +92,8 @@ local generateSchedule = function()
     tab[54][30] = {"Arson", {}}
     tab[55][11] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=74, intensity=2}}
     tab[58][33] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=73, intensity=3}}
-    tab[59][44] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[59][55] = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    -- tab[59][44] = {"BuildingParty", {roomName="bedroom", intensity=8}}
+    -- tab[59][55] = {"BuildingParty", {roomName="bedroom", intensity=8}}
     tab[59][56] = {"SpawnGroup", {name="Suicide Bomber", cid=Bandit.clanMap.SuicideBomber, program="Shahid", d=45, intensity=2}}
     tab[62][55] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 180, speed=1.7}}
     tab[63][30] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=72, intensity=4}}

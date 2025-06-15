@@ -7,7 +7,6 @@ local function getGUID(codes)
 end
 
 local function getEmitter(device)
-    local world = getWorld()
     local deviceData = device:getDeviceData()
 
     local emitter, vehicle, id
@@ -23,9 +22,13 @@ local function getEmitter(device)
     end
 
     if not emitter then
+
         local x, y, z = device:getX(), device:getY(), device:getZ()
         emitter = deviceData:getEmitter()
+        -- emitter = getWorld():getFreeEmitter(x, y, z)
         id = x .. "-" .. y .. "-" .. z
+
+
     end
 
     return emitter, vehicle, id
@@ -64,6 +67,7 @@ local function onDeviceText(guid, codes, x, y, z, text, device)
 end
 
 local function onTick()
+
     BWORadio.tick = (BWORadio.tick + 1) % 4
     if BWORadio.tick > 0 then return end
 
@@ -120,7 +124,7 @@ local function onTick()
 
             local volume = deviceData:getIsTurnedOn() and (deviceData:getDeviceVolume() / 3) or 0
             v.emitter:setVolumeAll(volume)
-            v.emitter:tick()
+            -- v.emitter:tick()
 
             local x, y, z
             if v.vehicle then
