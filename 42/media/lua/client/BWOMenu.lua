@@ -16,6 +16,35 @@ BWOMenu.DisableLaunchSequence = function(player, square)
     end
 end
 
+--
+BWOMenu.PlayMusic = function(player, square)
+    local objects = square:getObjects()
+    for i=0, objects:size()-1 do
+        local object = objects:get(i)
+        if instanceof(object, "IsoTelevision") or instanceof(object, "IsoRadio") then
+            local dd = object:getDeviceData()
+
+            dd:setIsTurnedOn(true)
+
+                local isPlaying = BWORadio.IsPlaying(object)
+
+                if not isPlaying then
+
+                local music = BanditUtils.Choice({"3fee99ec-c8b6-4ebc-9f2f-116043153195", 
+                                                "0bc71c8a-f954-4dbf-aa09-ff09b015d6e2", 
+                                                "a08b44db-b3cb-46a1-b04c-633e8e5b2a37", 
+                                                "38fe9b5a-e932-477c-a6b5-96b9e7ea84da", 
+                                                "2a379a08-4428-42b0-ae3d-0fb41c34f74c", 
+                                                "2cc1e0e2-75ab-4ac3-9238-635813babc18", 
+                                                "c688d4c8-dd7b-4d93-8e0f-c6cb5f488db2", 
+                                                "22b4a025-6455-4c8d-b341-fd4f0f18836a"})
+
+                BWORadio.PlaySound(object, music)
+            end
+        end
+    end
+end
+
 BWOMenu.SpawnRoom = function(player, square, prgName)
 
     config = {}
@@ -163,16 +192,9 @@ BWOMenu.EventBombRun = function(player)
 end
 
 BWOMenu.EventChopperAlert = function(player)
-    local params = {}
-    
-    params.cx = player:getX()
-    params.cy = player:getY()
-    params.name = BanditUtils.Choice({"heli", "heli2"})
-    params.sound = BanditUtils.Choice({"BWOChopperPolice1", "BWOChopperPolice2"})
-    params.dir = BanditUtils.Choice({0, 180, 90, -90})
-    params.speed = 2
-    params.lights = true
-    params.rotors = true
+
+    local params = {name="heli2", sound="BWOChopperGeneric", dir = 90, speed=1.8}
+
     BWOScheduler.Add("ChopperAlert", params, 100)
 end
 
@@ -384,15 +406,6 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
 
     if isDebugEnabled() or isAdmin() then
 
-        local objects = square:getObjects()
-        for i=0, objects:size()-1 do
-            local object = objects:get(i)
-            if instanceof(object, "IsoRadio") then
-                local dd = object:getDeviceData()
-                BWORadio.PlaySound(object, "197ddd73-7662-41d5-81e0-63b83a58ab60")
-            end
-        end
-
         -- local density = BanditScheduler.GetDensityScore(player, 120) * 1.4
         -- print ("DENSITY: " .. density)
 
@@ -470,6 +483,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         context:addOption("BWO Ambience On", player, BWOMenu.Ambience, true)
         context:addOption("BWO Ambience Off", player, BWOMenu.Ambience, false)
         context:addOption("BWO Add Effect", player, BWOMenu.AddEffect, square)
+        context:addOption("BWO Play Music", player, BWOMenu.PlayMusic, square)
         
         local room = square:getRoom()
         if room then

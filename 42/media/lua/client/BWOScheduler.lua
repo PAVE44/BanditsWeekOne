@@ -43,7 +43,7 @@ local generateSchedule = function()
     tab[0][5]   = {"SetupPlaceEvents", {}}
 
     tab[2][22]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=30, intensity=8}}
-    -- tab[4][15]  = {"Entertainer", {}}
+    tab[4][15]  = {"Entertainer", {}}
     tab[5][44]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}}
     -- tab[6][35]  = {"Entertainer", {}}
     -- tab[7][15]  = {"Entertainer", {}}
@@ -68,7 +68,7 @@ local generateSchedule = function()
     tab[26][21] = {"SetHydroPower", {on=false}}
     tab[26][22] = {"SetHydroPower", {on=true}}
     tab[27][8]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}}
-    -- tab[28][33] = {"Entertainer", {}}
+    tab[28][33] = {"Entertainer", {}}
     tab[30][33] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}}
     -- tab[35][20] = {"BuildingParty", {roomName="bedroom", intensity=8}}
     -- tab[36][10] = {"BuildingParty", {roomName="bedroom", intensity=8}}
@@ -361,7 +361,7 @@ end
 BWOScheduler.Schedule = generateSchedule()
 
 function BWOScheduler.OverwriteSettings()
-    getCore():setOptionUIRenderFPS(30)
+    getCore():setOptionUIRenderFPS(60)
     getCore():setOptionJumpScareVolume(0)
 end
 
@@ -374,7 +374,7 @@ function BWOScheduler.StoreSandboxVars()
                  "OtherLootNew", "ClothingLootNew", "ContainerLootNew", "MementoLootNew", "MediaLootNew",
                  "CookwareLootNew", "MaterialLootNew", "FarmingLootNew", "ToolLootNew", "MaximumRatIndex",
                  "SurvivorHouseChance", "VehicleStoryChance", "MetaEvent", "LockedHouses", "ZoneStoryChance", "AnnotatedMapChance",
-                 "MaxFogIntensity", "TrafficJam", "CarSpawnRate", "Helicopter", "FireSpread", "ZombieConfig.PopulationStartMultiplier"}
+                 "MaxFogIntensity", "TrafficJam", "CarSpawnRate", "Helicopter", "FireSpread", "ZombieConfig.PopulationMultiplier"}
 
     for _, k in pairs(storeVars) do
         gmd.Sandbox[k] = gmd.Sandbox[k] or SandboxVars[k]
@@ -504,7 +504,7 @@ function BWOScheduler.MasterControl()
             adjustSandboxVar("CarSpawnRate", 5)
             adjustSandboxVar("Helicopter", 1)
             adjustSandboxVar("FireSpread", false)
-            -- adjustSandboxVar("ZombieConfig.PopulationStartMultiplier", "0.1")
+            
             
             
             -- lerp
@@ -528,8 +528,26 @@ function BWOScheduler.MasterControl()
             adjustSandboxVar("CarSpawnRate", gmd.Sandbox["CarSpawnRate"])
             adjustSandboxVar("Helicopter", gmd.Sandbox["Helicopter"])
             adjustSandboxVar("FireSpread", gmd.Sandbox["FireSpread"])
-            -- adjustSandboxVar("ZombieConfig.PopulationStartMultiplier", gmd.Sandbox["ZombieConfig.PopulationStartMultiplier"])
+            
         end
+
+        --[[
+        if BWOScheduler.WorldAge < 132 then
+            adjustSandboxVar("ZombieConfig.PopulationMultiplier", 0)
+            adjustSandboxVar("ZombieConfig.PopulationStartMultiplier", 0)
+        elseif BWOScheduler.WorldAge == 132 then
+            adjustSandboxVar("ZombieConfig.PopulationMultiplier", 0.15)
+            adjustSandboxVar("ZombieConfig.PopulationStartMultiplier", 0.5)
+        elseif BWOScheduler.WorldAge < 168 then
+            adjustSandboxVar("ZombieConfig.PopulationMultiplier", 1.5)
+            adjustSandboxVar("ZombieConfig.PopulationStartMultiplier", 1.5)
+        else
+            local r1 = gmd.Sandbox["ZombieConfig.PopulationMultiplier"] and gmd.Sandbox["ZombieConfig.PopulationMultiplier"] or 0.75
+            adjustSandboxVar("ZombieConfig.PopulationMultiplier", r1)
+
+            local r2 = gmd.Sandbox["ZombieConfig.PopulationStartMultiplier"] and gmd.Sandbox["ZombieConfig.PopulationMultiplier"] or 1
+            adjustSandboxVar("ZombieConfig.PopulationStartMultiplier", r2)
+        end]]
         
         getSandboxOptions():applySettings()
         --IsoWorld.parseDistributions()
@@ -569,7 +587,7 @@ function BWOScheduler.MasterControl()
     end 
 
     -- debug to jump to a certain hour
-    -- worldAge = worldAge - 54 + 27
+    -- worldAge = 134
 
     BWOScheduler.WorldAge = worldAge
     

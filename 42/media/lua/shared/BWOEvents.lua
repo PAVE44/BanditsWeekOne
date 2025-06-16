@@ -171,26 +171,6 @@ local explode = function(x, y)
 	local trap = IsoTrap.new(item, getCell(), square)
     square:explosion(trap)
     
-    --[[
-    if isClient() then
-        local args = {x=x, y=y, z=0}
-        sendClientCommand('object', 'addExplosionOnSquare', args)
-    else
-        IsoFireManager.explode(getCell(), square, 100)
-    end]]
-    
-    -- blast tex
-
-    --[[
-    local effect = {}
-    effect.x = square:getX()
-    effect.y = square:getY()
-    effect.z = square:getZ()
-    effect.offset = 320
-    effect.name = "explo_big_01"
-    effect.frameCnt = 17
-    table.insert(BWOEffects.tab, effect)]]
-
     -- explosion effect
     local effect = {}
     effect.x = square:getX()
@@ -451,7 +431,6 @@ BWOEvents.Explode = function(params)
     explode(params.x, params.y)
 end
 
-
 -- params: [x, y, sound]
 BWOEvents.Sound = function(params)
     local emitter = getWorld():getFreeEmitter(params.x, params.y, 0)
@@ -587,7 +566,7 @@ BWOEvents.ChopperAlert = function(params)
     local player = getSpecificPlayer(0)
     if not player then return end
     
-    getCore():setOptionUIRenderFPS(120)
+    getCore():setOptionUIRenderFPS(60)
     BanditPlayer.WakeEveryone()
 
     local effect = {}
@@ -604,7 +583,7 @@ BWOEvents.ChopperAlert = function(params)
     effect.rotors = true
     effect.lights = true
     effect.frameCnt = 3
-    effect.cycles = 600
+    effect.cycles = 400
     table.insert(BWOFlyingObject.tab, effect)
 end
 
@@ -612,7 +591,7 @@ end
 BWOEvents.ChopperFliers = function(params)
     
     if not SandboxVars.BanditsWeekOne.EventFinalSolution then return end
-    getCore():setOptionUIRenderFPS(120)
+    getCore():setOptionUIRenderFPS(60)
 
     local player = getSpecificPlayer(0)
     if not player then return end
@@ -632,7 +611,7 @@ BWOEvents.ChopperFliers = function(params)
     effect.lights = true
     effect.sound = "BWOChopperCDC2"
     effect.frameCnt = 3
-    effect.cycles = 600
+    effect.cycles = 400
     table.insert(BWOFlyingObject.tab, effect)
 
     local params = {x=px, y=py}
@@ -684,6 +663,18 @@ end
 BWOEvents.Start = function(params)
     local player = getSpecificPlayer(0)
     if not player then return end
+
+    -- clear initial zeds before sandbox adjustment kicks in
+    local zombieList = BanditZombie.CacheLightZ
+    for id, z in pairs(zombieList) do
+        local zombie = BanditZombie.GetInstanceById(z.id)
+        -- local id = BanditUtils.GetCharacterID(zombie)
+        if zombie and zombie:isAlive() then
+            -- fixme: zombie:canBeDeletedUnnoticed(float)
+            zombie:removeFromSquare()
+            zombie:removeFromWorld()
+        end
+    end
 
     local profession = player:getDescriptor():getProfession()
     local cell = getCell()
@@ -1159,7 +1150,7 @@ BWOEvents.JetFighterStage1 = function(params)
     local player = getSpecificPlayer(0)
     if not player then return end
 
-    getCore():setOptionUIRenderFPS(120)
+    getCore():setOptionUIRenderFPS(60)
 
     local effect = {}
     effect.cx = params.cx
@@ -1172,7 +1163,7 @@ BWOEvents.JetFighterStage1 = function(params)
     effect.name = "a10"
     effect.dir = params.dir
     effect.frameCnt = 3
-    effect.cycles = 600
+    effect.cycles = 400
     table.insert(BWOFlyingObject.tab, effect)
 end
 
@@ -2118,7 +2109,7 @@ BWOEvents.PlaneCrashSequence = function(params)
 
     BanditPlayer.WakeEveryone()
 
-    getCore():setOptionUIRenderFPS(120)
+    getCore():setOptionUIRenderFPS(60)
 
     local start = 17600
     -- stage 1: init plane flyby sound 

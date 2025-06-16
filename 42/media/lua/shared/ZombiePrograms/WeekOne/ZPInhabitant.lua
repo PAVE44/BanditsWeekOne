@@ -188,6 +188,8 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                                                                       "c688d4c8-dd7b-4d93-8e0f-c6cb5f488db2", 
                                                                       "22b4a025-6455-4c8d-b341-fd4f0f18836a"})
 
+                                    -- music = "FlameTrapExplode"
+
                                     local task = {action="TelevisionToggle", on=true, channel=98600, volume=0.7, music=music, anim="Loot", x=square:getX(), y=square:getY(), z=square:getZ(), time=100}
                                     table.insert(tasks, task)
                                     return {status=true, next="Main", tasks=tasks}
@@ -201,7 +203,7 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                             table.insert(tasks, task)
                             return {status=true, next="Main", tasks=tasks}
                         elseif rnd == 1 then
-                            local task = {action="TimeItem", anim="Drink", sound="DrinkingFromBottle", item="Bandits.BeerBottle", left=true, time=100}
+                            local task = {action="TimeItem", anim="Drink", item="Bandits.BeerBottle", left=true, time=100}
                             table.insert(tasks, task)
                             return {status=true, next="Main", tasks=tasks}
                         else

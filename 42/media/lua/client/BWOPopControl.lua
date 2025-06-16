@@ -46,7 +46,7 @@ BWOPopControl.Zombie = function()
     if BWOPopControl.ZombieMax >= 400 then return end
 
     local fakeZombie = getCell():getFakeZombieForHit()
-    local zombieList = BanditZombie.CacheLightZ
+    local zombieList = BanditZombie.CacheLight
     local gmd = GetBanditModData()
 
     --[[
@@ -65,11 +65,15 @@ BWOPopControl.Zombie = function()
             -- local id = BanditUtils.GetCharacterID(zombie)
             if zombie and zombie:isAlive() and not gmd.Queue[id] then
                 -- fixme: zombie:canBeDeletedUnnoticed(float)
-                zombie:removeFromSquare()
                 zombie:removeFromWorld()
-                args = {}
-                args.id = id
-                sendClientCommand(player, 'Commands', 'BanditRemove', args)
+                zombie:removeFromSquare()
+
+                if z.isBandit then
+                    local args = {}
+                    args.id = id
+                    sendClientCommand(player, 'Commands', 'BanditRemove', args)
+                end
+
             end
         else
             zcnt = zcnt + 1
@@ -95,14 +99,14 @@ BWOPopControl.StreetsSpawn = function(cnt)
     for i = 1, cnt do
         local x = 35 + ZombRand(25)
         local y = 35 + ZombRand(25)
-        
+
         if ZombRand(2) == 1 then x = -x end
         if ZombRand(2) == 1 then y = -y end
 
         local square = cell:getGridSquare(px + x, py + y, 0)
         if square then
             if square:isOutside() and not BWOSquareLoader.IsInExclusion(square:getX(), square:getY()) then
-                
+
                 args.x = square:getX()
                 args.y = square:getY()
                 args.z = square:getZ()
@@ -112,7 +116,7 @@ BWOPopControl.StreetsSpawn = function(cnt)
                     args.cid = Bandit.clanMap.ArmyGreen
                     args.program = "Patrol"
                 else
-                    
+
                     local rnd = ZombRand(100)
                     if rnd < 4 then
                         args.cid = Bandit.clanMap.Runner
@@ -159,11 +163,11 @@ BWOPopControl.StreetsDespawn = function(cnt)
     local zombieList = BanditUtils.GetAllBanditByProgram(removePrg)
 
     local i = 0
-    for k, zombie in pairs(zombieList) do
+    for _, zombie in pairs(zombieList) do
         local zx = zombie.x
         local zy = zombie.y
         local dist = BanditUtils.DistTo(px, py, zx, zy)
-        
+
         if dist > 50 then
             local zombieObj = BanditZombie.GetInstanceById(zombie.id)
             zombieObj:removeFromSquare()
@@ -205,9 +209,9 @@ BWOPopControl.InhabitantsSpawn = function(max)
             local building = room:getBuilding()
             local buildingDef = building:getDef()
             buildingDef:setAlarmed(false)
-            
+
             if not BWOBuildings.IsEventBuilding(building, "home") then --and not BWOBuildings.IsRecentlyVisited(building)
-                
+
                 if def:getZ() >=0 and math.abs(def:getX() - player:getX()) < 80 and math.abs(def:getX2() - player:getX()) < 80 and 
                 math.abs(def:getY() - player:getY()) < 80 and math.abs(def:getY2() - player:getY()) < 80 then
 
@@ -219,9 +223,9 @@ BWOPopControl.InhabitantsSpawn = function(max)
                         table.insert(roomPool, {room=room, size=roomSize, cursorStart=cursorStart, cursorEnd=cursor})
                     end
                 end
-                
+
             end
-            
+
         end
     end
 
@@ -240,31 +244,46 @@ BWOPopControl.InhabitantsSpawn = function(max)
                     -- count how many generic occupants we need
                     local occupantsMax = BWORooms.GetRoomMaxPop(rp.room)
                     if roomData.cids then
+                        local specialCount = 0
 
-                        -- count standard roles we want in this room
-                        for _, cid in pairs(roomData.cids) do
-                            req[cid] = {}
-                            req[cid].cnt = math.floor(occupantsMax / #roomData.cids)
-                        end
-
-                        -- count special roles that we require in that room
+                        -- count special roles and add to req
                         if roomData.cidSpecial then
                             for _, cid in pairs(roomData.cidSpecial) do
                                 if req[cid] then
                                     req[cid].cnt = req[cid].cnt + 1
                                 else
-                                    req[cid] = {}
-                                    req[cid].occupation = "Employee"
-                                    req[cid].cnt = 1
+                                    req[cid] = {cnt = 1, occupation = "Employee"}
+                                end
+                                specialCount = specialCount + 1
+                            end
+                        end
+
+                        local genericCount = occupantsMax - specialCount
+                        if genericCount > 0 and #roomData.cids > 0 then
+                            -- distribute the remaining population among cids
+                            for i, cid in ipairs(roomData.cids) do
+                                local share = math.floor(genericCount / #roomData.cids)
+                                -- Give any remainder to the first few
+                                if i <= (genericCount % #roomData.cids) then
+                                    share = share + 1
+                                end
+
+                                if req[cid] then
+                                    req[cid].cnt = req[cid].cnt + share
+                                else
+                                    req[cid] = {cnt = share}
                                 end
                             end
                         end
 
-                        -- substract roles that we already have in a room
+                        -- subtract already existing occupants
                         local occupants = BWORooms.GetRoomCurrPop(rp.room)
                         for cid, cnt in pairs(occupants) do
                             if req[cid] then
                                 req[cid].cnt = req[cid].cnt - cnt
+                                if req[cid].cnt <= 0 then
+                                    req[cid] = nil
+                                end
                             end
                         end
                     end
@@ -300,7 +319,7 @@ BWOPopControl.InhabitantsSpawn = function(max)
         end
     end
 
-    print ("--------------- IS: CURSOR" .. cursor .. " time: ".. getTimestampMs() - ts)
+    -- print ("--------------- IS: CURSOR" .. cursor .. " time: ".. getTimestampMs() - ts)
 end
 
 -- npcs in buildings despawner
@@ -312,7 +331,7 @@ BWOPopControl.InhabitantsDespawn = function(cnt)
     local px = player:getX()
     local py = player:getY()
 
-    local removePrg = {"Inhabitant", "Medic", "Janitor", "Entertainer"}
+    local removePrg = {"Inhabitant"}
     local zombieList = BanditUtils.GetAllBanditByProgram(removePrg)
 
     local i = 0
@@ -447,8 +466,8 @@ BWOPopControl.UpdateCivs = function()
     local py = player:getY()
 
     -- gather civ stats
-    local cell = getCell()
-    local zombieList = cell:getZombieList()
+    -- local cell = getCell()
+    -- local zombieList = cell:getZombieList()
 
     local totalb = 0 -- all civs
     local totalz = 0 -- all zeds
@@ -457,6 +476,7 @@ BWOPopControl.UpdateCivs = function()
     tab.Active = 0
     tab.ArmyGuard = 0
     tab.Bandit = 0
+    tab.Babe = 0
     tab.Entertainer = 0
     tab.Fireman = 0
     tab.Gardener = 0
@@ -468,25 +488,20 @@ BWOPopControl.UpdateCivs = function()
     tab.Postal = 0
     tab.RiotPolice = 0
     tab.Runner = 0
+    tab.Shahid = 0
     tab.Survivor = 0
     tab.Vandal = 0
     tab.Walker = 0
 
-    for i = 0, zombieList:size() - 1 do
-        local zombie = zombieList:get(i)
-        local zx = zombie:getX()
-        local zy = zombie:getY()
-        local dist = BanditUtils.DistTo(px, py, zx, zy)
-        if zombie:getVariableBoolean("Bandit") then
-            local brain = BanditBrain.Get(zombie)
-            local prg = brain.program.name
-            if tab[prg] then
-                tab[prg] = tab[prg] + 1
-            else
-                tab[prg] = 1
-            end
+    local cache = BanditZombie.CacheLightB
+    if not cache then return end
+
+    for id, b in pairs(cache) do
+        local prg = b.brain.program.name
+        if tab[prg] then
+            tab[prg] = tab[prg] + 1
         else
-            totalz = totalz + 1
+            tab[prg] = 1
         end
     end
     
@@ -506,8 +521,8 @@ BWOPopControl.UpdateCivs = function()
 
     -- ADJUST: population nominals
     BWOPopControl.ZombieMax = 0
-    BWOPopControl.StreetsNominal = 50
-    BWOPopControl.InhabitantsNominal = 80
+    BWOPopControl.StreetsNominal = 40
+    BWOPopControl.InhabitantsNominal = 65
     BWOPopControl.SurvivorsNominal = 0
 
     if BWOScheduler.WorldAge == 83 then -- occasional zombies
@@ -551,7 +566,7 @@ BWOPopControl.UpdateCivs = function()
         BWOPopControl.InhabitantsNominal = 4
         BWOPopControl.StreetsNominal = 1
         BWOPopControl.SurvivorsNominal = 6
-    elseif BWOScheduler.WorldAge >= 169 then
+    elseif BWOScheduler.WorldAge >= 170 then
         BWOPopControl.ZombieMax = 1000
         BWOPopControl.SurvivorsNominal = 0
         BWOPopControl.InhabitantsNominal = 0
@@ -632,7 +647,7 @@ BWOPopControl.UpdateCivs = function()
         print ("INHAB: " .. BWOPopControl.InhabitantsCnt .. "/" .. BWOPopControl.InhabitantsMax)
         print ("STREET: " .. BWOPopControl.StreetsCnt .. "/" .. BWOPopControl.StreetsMax)
         print ("SURVIVOR: " .. BWOPopControl.SurvivorsCnt .. "/" .. BWOPopControl.SurvivorsMax)
-        print ("ZOMBIE: " .. totalz .. "/" .. BWOPopControl.ZombieMax)
+        -- print ("ZOMBIE: " .. totalz .. "/" .. BWOPopControl.ZombieMax)
         print ("DENSITY SCORE:" .. density)
         print ("----------------------------------------")
     end
@@ -644,7 +659,6 @@ local everyOneMinute = function()
 end
 
 local onTick = function(numTicks)
-    
     if numTicks % 2 == 0 then
         BWOPopControl.Zombie()
     end

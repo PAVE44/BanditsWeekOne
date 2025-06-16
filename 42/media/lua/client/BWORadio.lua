@@ -15,8 +15,9 @@ local function getEmitter(device)
         if vehiclePart then
             vehicle = vehiclePart:getVehicle()
             if vehicle then
+                local x, y, z = vehicle:getX(), vehicle:getY(), vehicle:getZ()
+                id = x .. "-" .. y .. "-" .. z
                 emitter = vehicle:getEmitter()
-                id = vehicle:getId()
             end
         end
     end
@@ -24,22 +25,23 @@ local function getEmitter(device)
     if not emitter then
 
         local x, y, z = device:getX(), device:getY(), device:getZ()
-        emitter = deviceData:getEmitter()
-        -- emitter = getWorld():getFreeEmitter(x, y, z)
         id = x .. "-" .. y .. "-" .. z
 
+        emitter = deviceData:getEmitter()
 
     end
+    local wemitter = getWorld():getFreeEmitter()
 
-    return emitter, vehicle, id
+    return emitter, wemitter, vehicle, id
 end
 
 BWORadio.PlaySound = function(device, sound)
-    local emitter, vehicle, id = getEmitter(device)
+    local emitter, wemitter, vehicle, id = getEmitter(device)
     if emitter and id then
         BWORadio.cache[id] = {
             device = device,
             vehicle = vehicle,
+            wemitter = wemitter,
             emitter = emitter,
             sound = sound,
             ts = getTimestampMs(),
@@ -77,12 +79,14 @@ local function onTick()
 
     for id, v in pairs(cache) do
         repeat
-            if not v.emitter or not v.device then
+            if not v.wemitter or not v.device then
                 cache[id] = nil
                 break
             end
 
             if now - v.ts > 120000 then
+                v.wemitter:stopAll()
+                getWorld():returnOwnershipOfEmitter(v.wemitter)
                 cache[id] = nil
                 break
             end
@@ -95,36 +99,40 @@ local function onTick()
 
             if not v.started then
                 if timeMultiplier > 1 then
-                    if not v.emitter:isPlaying("FastForward") then
-                        v.emitter:stopAll()
-                        v.emitter:playSound("FastForward")
+                    if not v.wemitter:isPlaying("FastForward") then
+                        v.wemitter:stopAll()
+                        v.wemitter:playSound("FastForward")
                     end
                 else
-                    if v.emitter:isPlaying("FastForward") then
-                        v.emitter:stopAll()
+                    if v.wemitter:isPlaying("FastForward") then
+                        v.wemitter:stopAll()
                     end
-                    if not v.emitter:isPlaying(v.sound) then
-                        v.emitter:playSound(v.sound)
+                    if not v.wemitter:isPlaying(v.sound) then
+                        v.wemitter:stopAll()
+                        v.wemitter:playSound(v.sound)
+                        getWorld():takeOwnershipOfEmitter(v.wemitter)
                     end
                 end
                 v.started = true
             else
-                if not v.emitter:isPlaying(v.sound) then
+                if not v.wemitter:isPlaying(v.sound) then
+                    v.wemitter:stopAll()
+                    getWorld():returnOwnershipOfEmitter(v.wemitter)
                     cache[id] = nil
                     break
                 end
             end
 
             if deviceData:isInventoryDevice() then
-                v.emitter:setVolumeAll(0)
-                v.emitter:tick()
+                v.wemitter:setVolumeAll(0)
+                v.wemitter:tick()
                 cache[id] = nil
                 break
             end
 
             local volume = deviceData:getIsTurnedOn() and (deviceData:getDeviceVolume() / 3) or 0
-            v.emitter:setVolumeAll(volume)
-            -- v.emitter:tick()
+            v.wemitter:setVolumeAll(volume)
+            v.wemitter:tick()
 
             local x, y, z
             if v.vehicle then
@@ -134,7 +142,7 @@ local function onTick()
             end
 
             if x and y and z then
-                v.emitter:setPos(x, y, z)
+                v.wemitter:setPos(x, y, z)
             end
         until true
     end

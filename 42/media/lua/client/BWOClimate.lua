@@ -1,51 +1,62 @@
+-- Nuclear Winter Climate Simulation
+-- Simulates temperature drops and radioactive fallout using snow visual effects
+
+-- Fallout configuration constants
+local FALLOUT_START = 170     -- WorldAge when fallout begins
+local FALLOUT_END = 2130      -- WorldAge when fallout ends
+local TEMP_LERP = 60          -- Maximum temperature drop
+local TEMP_STEP = 0.5         -- Rate of temperature change per day
+
 function onClimateTick()
     local world = getWorld()
     local cm = world:getClimateManager()
-    local temp = cm:getClimateFloat(4)
-    local snow = cm:getClimateBool(0)
+    local temp = cm:getClimateFloat(4)  -- Temperature controller
+    local snow = cm:getClimateBool(0)   -- Snow visibility controller (used as fallout)
 
+    if not temp or not snow then return end
+
+    -- Reset to default climate behavior
     temp:setEnableOverride(false)
     snow:setEnableOverride(false)
 
     if not BWOScheduler.World.PostNuclearFallout then return end
 
     local gmd = GetBWOModData()
-    local ncnt = 0
-    for _, nuke in pairs(gmd.Nukes) do
-        ncnt = ncnt + 1
+    local hasNukes = false
+    for _, _ in pairs(gmd.Nukes) do
+        hasNukes = true
+        break
     end
-    if ncnt == 0 then return end
+    if not hasNukes then return end
 
     local wa = BWOScheduler.WorldAge
-    local start = 170
-    local ending = 2130
-    local lerp = 60
-    local step = 0.5
+    local overrideTemp
 
-    local override
-    if wa < start or wa > ending then
-        override = 0
-    elseif wa < start + (lerp / step)   then
-        override = (start - wa) * step
-    elseif wa > ending - (lerp / step)  then
-        override = (wa - ending) * step
+    -- Determine temperature override based on world age
+    if wa < FALLOUT_START or wa > FALLOUT_END then
+        overrideTemp = 0
+    elseif wa < FALLOUT_START + (TEMP_LERP / TEMP_STEP) then
+        overrideTemp = (FALLOUT_START - wa) * TEMP_STEP
+    elseif wa > FALLOUT_END - (TEMP_LERP / TEMP_STEP) then
+        overrideTemp = (wa - FALLOUT_END) * TEMP_STEP
     else
-        override = -lerp
+        overrideTemp = -TEMP_LERP
     end
 
-    if override == 0 then
-        temp:setEnableOverride(false)
-        snow:setEnableOverride(false)
-    else
-        local internalTemp = temp:getInternalValue()
-        local newTemp = internalTemp + override
-        temp:setEnableOverride(true)
-        temp:setOverride(newTemp, 1)
+    if overrideTemp == 0 then
+        return  -- No override needed
+    end
 
-        if wa < 190 or newTemp < 0 then -- should snow at wa=228
-            snow:setEnableOverride(true)
-            snow:setOverride(true)
-        end
+    -- Apply nuclear winter temperature offset
+    local internalTemp = temp:getInternalValue()
+    local newTemp = internalTemp + overrideTemp
+    temp:setEnableOverride(true)
+    temp:setOverride(newTemp, 1)
+
+    -- Show fallout dust (using snow effect)
+    if wa < 190 or newTemp < 0 then
+        snow:setEnableOverride(true)
+        snow:setOverride(true)
     end
 end
 
