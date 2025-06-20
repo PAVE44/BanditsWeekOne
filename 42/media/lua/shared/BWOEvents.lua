@@ -142,7 +142,7 @@ local generateSpawnPoint = function(px, py, pz, d, count)
     return {}
 end
 
-local explode = function(x, y)
+local explode = function(x, y, z)
     
     local sounds = {"BurnedObjectExploded", "FlameTrapExplode", "SmokeBombExplode", "PipeBombExplode", "DOExploClose1", "DOExploClose2", "DOExploClose3", "DOExploClose4", "DOExploClose5", "DOExploClose6", "DOExploClose7", "DOExploClose8"}
         
@@ -153,24 +153,61 @@ local explode = function(x, y)
     local player = getSpecificPlayer(0)
     if not player then return end
 
-    -- bomb sound
-    local sound = getSound()
-    local emitter = getWorld():getFreeEmitter(x, y, 0)
-    emitter:playSound(sound)
-    emitter:setVolumeAll(0.9)
-    addSound(player, x, y, 0, 120, 100)
+    local cell = getCell()
+    if not z then z = 0 end
 
-    -- wake up players
-    BanditPlayer.WakeEveryone()
-    
-    -- explosion and fire
-    local square = getCell():getGridSquare(x, y, 0)
+    local square = cell:getGridSquare(x, y, z)
     if not square then return end
 
+    --[[
     local item = instanceItem("Base.PipeBomb")
 	local trap = IsoTrap.new(item, getCell(), square)
     square:explosion(trap)
+    ]]
+
+    -- this triggers ragdolls
+    local attacker = cell:getFakeZombieForHit()
+    local item = BanditCompatibility.InstanceItem("Base.PipeBomb")
+    item:setAttackTargetSquare(square)
+    local mc = IsoMolotovCocktail.new(cell, square:getX(), square:getY(), square:getZ(), 0, 0, item, attacker)
     
+    IsoFireManager.explode(cell, square, 100)
+
+    -- details
+    for dy=-2, 2 do
+        for dx = -2, 2 do
+            local vsquare = cell:getGridSquare(x + dx, y + dy, 0)
+            if vsquare then
+                -- vehicle burner
+                local vehicle = vsquare:getVehicleContainer()
+                if vehicle then
+                    BWOVehicles.Burn(vehicle)
+                end
+
+                -- street destruction
+                if BanditUtils.HasZoneType(vsquare:getX(), vsquare:getY(), vsquare:getZ(), "Nav") then
+                    local objects = vsquare:getObjects()
+                    for i=0, objects:size()-1 do
+                        local object = objects:get(i)
+                        local sprite = object:getSprite()
+                        if sprite then
+                            local spriteName = sprite:getName()
+                            if spriteName and spriteName:embodies("street") then
+                                local overlaySprite = "blends_streetoverlays_01_" .. ZombRand(32)
+                                local attachments = object:getAttachedAnimSprite()
+                                if not attachments or attachments:size() == 0 then
+                                    object:setAttachedAnimSprite(ArrayList.new())
+                                end
+                                object:getAttachedAnimSprite():add(getSprite(overlaySprite):newInstance())
+                                break
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
     -- explosion effect
     local effect = {}
     effect.x = square:getX()
@@ -240,23 +277,15 @@ local explode = function(x, y)
     -- junk placement
     BanditBaseGroupPlacements.Junk (x-4, y-4, 0, 6, 8, 3)
 
-    -- damage to zombies, players are safe
-    local fakeItem = BanditCompatibility.InstanceItem("Base.PipeBomb")
-    local cell = getCell()
-    for dx=x-3, x+5 do
-        for dy=y-3, y+4 do
-            local square = cell:getGridSquare(dx, dy, 0)
-            if square then
-                if ZombRand(4) == 1 then
-                    BanditBasePlacements.IsoObject("floors_burnt_01_1", dx, dy, 0)
-                end
-                local zombie = square:getZombie()
-                if zombie then
-                    zombie:Hit(fakeItem, cell:getFakeZombieForHit(), 50, false, 1, false)
-                end
-            end
-        end
-    end
+    -- bomb sound
+    local sound = getSound()
+    local emitter = getWorld():getFreeEmitter(x, y, 0)
+    emitter:playSound(sound)
+    emitter:setVolumeAll(0.9)
+    addSound(player, x, y, 0, 120, 100)
+
+    -- wake up players
+    BanditPlayer.WakeEveryone()
 end
 
 local addBoomBox = function(x, y, z, cassette)
@@ -428,7 +457,7 @@ end
 
 -- params: x, y
 BWOEvents.Explode = function(params)
-    explode(params.x, params.y)
+    explode(params.x, params.y, params.z)
 end
 
 -- params: [x, y, sound]
@@ -891,7 +920,7 @@ BWOEvents.Arson = function(params)
     local square = room:getRandomSquare()
     if not square then return end
 
-    explode(square:getX(), square:getY())
+    explode(square:getX(), square:getY(), 0)
     local vparams = {}
     vparams.alarm = true
     BWOScheduler.Add("VehiclesUpdate", vparams, 500)
@@ -907,28 +936,13 @@ end
 -- params: [x, y, outside]
 BWOEvents.BombDrop = function(params)
 
-    explode(params.x, params.y)
+    for z=0, 20 do
+        explode(params.x, params.y, z)
+    end
 
     -- junk placement
     BanditBaseGroupPlacements.Junk (params.x-4, params.y-4, 0, 6, 8, 3)
 
-    -- damage to zombies, players are safe
-    local fakeItem = BanditCompatibility.InstanceItem("Base.PipeBomb")
-    local cell = getCell()
-    for dx=params.x-3, params.x+5 do
-        for dy=params.y-3, params.y+4 do
-            local square = cell:getGridSquare(dx, dy, 0)
-            if square then
-                if ZombRand(4) == 1 then
-                    BanditBasePlacements.IsoObject("floors_burnt_01_1", dx, dy, 0)
-                end
-                local zombie = square:getZombie()
-                if zombie then
-                    zombie:Hit(fakeItem, cell:getFakeZombieForHit(), 50, false, 1, false)
-                end
-            end
-        end
-    end
 end
 
 -- params: []
@@ -1206,7 +1220,7 @@ BWOEvents.JetFighterStage2 = function(params)
             step = 10
         elseif params.arm == "bomb" then
             dropEvent = "BombDrop"
-            step = 12
+            step = 8
         end
 
         if dropEvent then
@@ -1215,25 +1229,25 @@ BWOEvents.JetFighterStage2 = function(params)
                 local y = (params.y1 + params.y2) / 2
                 for x=params.x1, params.x2, step do
                     BWOScheduler.Add(dropEvent, {x=x, y=y}, d)
-                    d = d + 200
+                    d = d + 160
                 end
             elseif params.dir == 180 then
                 local y = (params.y1 + params.y2) / 2
                 for x=params.x2, params.x1, -step do
                     BWOScheduler.Add(dropEvent, {x=x, y=y}, d)
-                    d = d + 200
+                    d = d + 160
                 end
             elseif params.dir == 90 then
                 local x = (params.x1 + params.x2) / 2
                 for y=params.y1, params.y2, step do
                     BWOScheduler.Add(dropEvent, {x=x, y=y}, d)
-                    d = d + 200
+                    d = d + 160
                 end
             elseif params.dir == -90 then
                 local x = (params.x1 + params.x2) / 2
                 for y=params.y2, params.y1, -step do
                     BWOScheduler.Add(dropEvent, {x=x, y=y}, d)
-                    d = d + 200
+                    d = d + 160
                 end
             end
         end
@@ -1312,7 +1326,7 @@ BWOEvents.JetFighterRun = function(params)
     if params.arm == "mg" then
         d = 900
     else
-        d = 1700
+        d = 1300
     end
 
     -- stage 1 display flying object
@@ -2253,7 +2267,7 @@ BWOEvents.VehicleCrash = function(params)
     local cy = player:getY() + params.y
 
     BanditBaseGroupPlacements.ClearSpace (cx-4, cy-4, params.z, 8, 8)
-    explode(cx, cy)
+    explode(cx, cy, 0)
     local vparams = {}
     vparams.alarm = true
     BWOScheduler.Add("VehiclesUpdate", vparams, 500)

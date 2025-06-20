@@ -26,9 +26,9 @@ BWOMenu.PlayMusic = function(player, square)
 
             dd:setIsTurnedOn(true)
 
-                local isPlaying = BWORadio.IsPlaying(object)
+            local isPlaying = BWORadio.IsPlaying(object)
 
-                if not isPlaying then
+            if not isPlaying then
 
                 local music = BanditUtils.Choice({"3fee99ec-c8b6-4ebc-9f2f-116043153195", 
                                                 "0bc71c8a-f954-4dbf-aa09-ff09b015d6e2", 
@@ -151,11 +151,22 @@ BWOMenu.AddEffect = function(player, square)
     effect.repCnt = 2
     table.insert(BWOEffects2.tab, effect)
     ]]
- 
-    local item = instanceItem("Base.PipeBomb")
-	local trap = IsoTrap.new(item, getCell(), square)
-    local er = trap:getExplosionRange()
-    trap:triggerExplosion(false)
+    local cell = square:getCell()
+    local attacker = cell:getFakeZombieForHit()
+    local item = BanditCompatibility.InstanceItem("Base.PipeBomb")
+    item:setAttackTargetSquare(square)
+    local mc = IsoMolotovCocktail.new(cell, square:getX(), square:getY(), square:getZ(), 0, 0, item, attacker)
+    
+    -- local trap = IsoTrap.new(attacker, item, cell, square)
+	-- local trap = IsoTrap.new(item, getCell(), square)
+    -- local er = trap:getExplosionRange()
+    -- trap:triggerExplosion(false)
+
+
+
+        
+
+    -- square:explodeTrap()
     --square:explosion(trap)
 end
 
@@ -389,7 +400,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
     -- doctor healing
     if zombie and zombie:getVariableBoolean("Bandit") then
         local health = zombie:getHealth()
-        if (profession == "doctor" or profession == "nurse") and health < 0.8 or zombie:isCrawling() then
+        if (profession == "doctor" or profession == "nurse") and (health < 0.8 or zombie:isCrawling()) then
             context:addOption("Heal Person", player, BWOMenu.HealPerson, square, zombie)
         end
     end
