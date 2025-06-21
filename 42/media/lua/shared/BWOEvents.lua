@@ -2142,7 +2142,7 @@ BWOEvents.PlaneCrashSequence = function(params)
     BWOScheduler.Add("Sound", params, start)
     BWOScheduler.Add("Sound", params, start + 600)
 
-    BWOScheduler.Add("Music", {music="BWOMusicPlane", volume=1}, 7600)
+    BWOScheduler.Add("Music", {music="BWOMusicPlane", volume=1}, 7000)
 
     -- step 3: place plane parts on ground
     local partMap = {

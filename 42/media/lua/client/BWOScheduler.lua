@@ -815,7 +815,7 @@ function BWOScheduler.CheckEvents()
             if BWOEvents[event.phase] then
                 local profession = player:getDescriptor():getProfession()
                 if not event.params.profession or event.params.profession == profession then
-                    print ("INIT EVENT" .. event.phase)
+                    -- print ("INIT EVENT" .. event.phase)
                     BWOEvents[event.phase](event.params)
                 end
             end
