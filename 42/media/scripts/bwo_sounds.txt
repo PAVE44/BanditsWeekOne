@@ -1235,6 +1235,19 @@ module Bandits{
          } 
     }
 
+    sound BWOMusicPlane {
+        category = Object, 
+        loop = false,
+        is3D = true,
+        clip { 
+            file = media/sound/music_plane.wav, 
+            distanceMin = 1, 
+            distanceMax = 28,
+            reverbFactor = 0.1, 
+            volume = 1, 
+         } 
+    }
+
     sound BWOInstrumentPiano1 {
         category = Object, 
         loop = false,

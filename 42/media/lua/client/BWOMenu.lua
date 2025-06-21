@@ -150,20 +150,20 @@ BWOMenu.AddEffect = function(player, square)
     effect.frameCnt = 60
     effect.repCnt = 2
     table.insert(BWOEffects2.tab, effect)
-    ]]
+   
     local cell = square:getCell()
     local attacker = cell:getFakeZombieForHit()
     local item = BanditCompatibility.InstanceItem("Base.PipeBomb")
     item:setAttackTargetSquare(square)
     local mc = IsoMolotovCocktail.new(cell, square:getX(), square:getY(), square:getZ(), 0, 0, item, attacker)
-    
+     ]]
     -- local trap = IsoTrap.new(attacker, item, cell, square)
 	-- local trap = IsoTrap.new(item, getCell(), square)
     -- local er = trap:getExplosionRange()
     -- trap:triggerExplosion(false)
 
 
-
+    BWOMusic.Play("BWOMusicOutro", 1)
         
 
     -- square:explodeTrap()

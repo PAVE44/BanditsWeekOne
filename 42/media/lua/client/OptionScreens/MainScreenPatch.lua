@@ -2,6 +2,7 @@ require "MainScreen"
 
 local mainScreenPrerender = MainScreen.prerender
 
+--[[
 function MainScreen:prerender()
     mainScreenPrerender(self)
 
@@ -67,9 +68,6 @@ function MainScreen:prerender()
             BWOIntro.CustomMusic = sm:playUISound(soundName)
         end
     end
-    --[[
-    MainScreenState.preloadBackgroundTextures()
-    local ms = MainScreenState.getInstance()
-    ms:renderBackground()]]
 
 end
+--]]

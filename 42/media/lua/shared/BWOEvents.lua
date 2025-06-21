@@ -1084,8 +1084,7 @@ BWOEvents.FinalSolution = function(params2)
     end
 
     if cnt > 0 then
-        getSoundManager():setMusicVolume(0)
-        player:playSound("BWOMusicOutro")
+        BWOMusic.Play("BWOMusicOutro", 1)
 
         local ct = 100
         for _, nuke in pairs(nukes) do
@@ -2019,7 +2018,9 @@ BWOEvents.AddItems = function(params)
                     if container then
                         for i=1, 5 + ZombRand(10) do
                             local itemInside = BanditCompatibility.InstanceItem(BanditUtils.Choice(itemInsideChoices))
-                            container:AddItem(itemInside)
+                            if itemInside then
+                                container:AddItem(itemInside)
+                            end
                         end
                     end
                 end
@@ -2117,11 +2118,17 @@ BWOEvents.PlaneCrashPartSequence = function(params)
 
 end
 
+BWOEvents.Music = function(params)
+    BWOMusic.Play(params.music, params.volume)
+end
+
 BWOEvents.PlaneCrashSequence = function(params)
     local player = getSpecificPlayer(0)
     if not player then return end
 
     BanditPlayer.WakeEveryone()
+
+    BWOScheduler.Add("Say", {txt="TIP: I can see an airplane flying very low in the sky."}, 10)
 
     getCore():setOptionUIRenderFPS(60)
 
@@ -2129,13 +2136,13 @@ BWOEvents.PlaneCrashSequence = function(params)
     -- stage 1: init plane flyby sound 
     local emitter = player:getEmitter()
     local id = emitter:playSound("BWOBoeing")
-    getSoundManager():setMusicVolume(0)
-    player:playSound("BWOMusicOutro")
 
     -- stage 2: play two plane explosions while the plane is still in the air
     local params = {x=player:getX(), y=player:getY(), sound="BWOExploPlane"}
     BWOScheduler.Add("Sound", params, start)
     BWOScheduler.Add("Sound", params, start + 600)
+
+    BWOScheduler.Add("Music", {music="BWOMusicPlane", volume=1}, 7600)
 
     -- step 3: place plane parts on ground
     local partMap = {
