@@ -429,11 +429,11 @@ BWOEvents.VehiclesUpdate = function(params)
         local vehicle = vehicleList:get(i)
         if vehicle and not vehicle:getDriver() then
 
-            if params.headlights then
+            if params.headlights and vehicle:hasHeadlights() then
                 vehicle:setHeadlightsOn(true)
             end
             
-            if params.lightbar then
+            if params.lightbar and vehicle:hasLightbar() then
                 if vehicle:hasLightbar() then
                     local mode = vehicle:getLightbarLightsMode()
                     if mode == 0 then
@@ -443,7 +443,7 @@ BWOEvents.VehiclesUpdate = function(params)
                 end
             end
 
-            if params.alarm then
+            if params.alarm and vehicle:hasAlarm() then
                 if not vehicle:hasLightbar() then
                     addSound(player, vehicle:getX(), vehicle:getY(), vehicle:getZ(), 150, 100)
                     BanditPlayer.WakeEveryone()
