@@ -168,10 +168,23 @@ local explode = function(x, y, z)
     -- this triggers ragdolls
     local attacker = cell:getFakeZombieForHit()
     local item = BanditCompatibility.InstanceItem("Base.PipeBomb")
+    item:setExplosionPower(1)
     item:setAttackTargetSquare(square)
     local mc = IsoMolotovCocktail.new(cell, square:getX(), square:getY(), square:getZ(), 0, 0, item, attacker)
     
-    IsoFireManager.explode(cell, square, 100)
+    -- IsoFireManager.explode(cell, square, 100)
+
+    for dx = -7, 7 do
+        for dy = -7, 7 do
+            if isInCircle(x + dx, y + dy, x, y, 6) then
+                local square = cell:getGridSquare(x + dx, y + dy, z)
+                if square then
+                    square:BurnWalls(false)
+                    -- IsoFireManager.StartFire(cell, square, true, 1000, 100)
+                end
+            end
+        end
+    end
 
     -- details
     for dy=-2, 2 do
@@ -2148,7 +2161,7 @@ BWOEvents.PlaneCrashSequence = function(params)
     local partMap = {
         {
             vtype = "Base.pzkPlaneSection1",
-            x = 30,
+            x = 30 - ZombRand(5),
             y = 11,
             z = 0,
             delay = start + 2500,
@@ -2158,8 +2171,8 @@ BWOEvents.PlaneCrashSequence = function(params)
         },
         {
             vtype = "Base.pzkPlaneSection2",
-            x = -20,
-            y = -10,
+            x = -20 + ZombRand(3),
+            y = -10 + ZombRand(10),
             z = 0,
             delay = start + 3500,
             civs = 12,
@@ -2178,7 +2191,7 @@ BWOEvents.PlaneCrashSequence = function(params)
         },
         {
             vtype = "Base.pzkPlaneSection2",
-            x = -25,
+            x = -25 + ZombRand(6),
             y = -21,
             z = 0,
             delay = start + 4700,
@@ -2188,7 +2201,7 @@ BWOEvents.PlaneCrashSequence = function(params)
         },
         {
             vtype = "Base.pzkPlaneSection4",
-            x = -45,
+            x = -45 + ZombRand(10),
             y = 7,
             z = 0,
             delay = start + 5100,
@@ -2198,8 +2211,8 @@ BWOEvents.PlaneCrashSequence = function(params)
         },
         {
             vtype = "Base.pzkPlaneWingL2",
-            x = 2,
-            y = -23,
+            x = 12 + ZombRand(5),
+            y = 1,
             z = 0,
             delay = start + 5900,
             civs = 0,
@@ -2208,8 +2221,8 @@ BWOEvents.PlaneCrashSequence = function(params)
         },
         {
             vtype = "Base.pzkPlaneWingL1",
-            x = -12,
-            y = -31,
+            x = -12 - ZombRand(7),
+            y = 11 + ZombRand(4),
             z = 0,
             delay = start + 6600,
             civs = 0,
@@ -2239,7 +2252,7 @@ BWOEvents.PlaneCrashSequence = function(params)
         },
         {
             vtype = "Base.pzkPlaneWingR1",
-            x = 0-2,
+            x = -2,
             y = 31,
             z = 0,
             delay = start + 8800,
@@ -2257,6 +2270,16 @@ BWOEvents.PlaneCrashSequence = function(params)
             bags = 0,
             seats = 0,
             engine = 1
+        },
+        {
+            vtype = "Base.pzkPlaneSection2",
+            x = 6,
+            y = 11,
+            z = 0,
+            delay = start + 10800,
+            civs = 12,
+            bags = 2,
+            seats = 2
         },
     }
 

@@ -779,6 +779,7 @@ local processFire = function(fire)
     params.hostile = true
 
     if BWOPopControl.Fireman.On and BWOPopControl.Fireman.Cooldown <= 0 then
+        BWOPopControl.Fireman.Cooldown = 1 -- update immediately so that it won't clutter
         BWOScheduler.Add("CallFireman", params, 4800)
     end
 

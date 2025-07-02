@@ -63,7 +63,7 @@ BWOPopControl.Zombie = function()
         if cnt > BWOPopControl.ZombieMax then
             local zombie = BanditZombie.GetInstanceById(z.id)
             -- local id = BanditUtils.GetCharacterID(zombie)
-            if zombie and zombie:isAlive() and not gmd.Queue[id] then
+            if zombie and zombie:isAlive() and not zombie:isReanimatedPlayer() and not gmd.Queue[id] then
                 -- fixme: zombie:canBeDeletedUnnoticed(float)
                 zombie:removeFromWorld()
                 zombie:removeFromSquare()
@@ -521,8 +521,8 @@ BWOPopControl.UpdateCivs = function()
 
     -- ADJUST: population nominals
     BWOPopControl.ZombieMax = 0
-    BWOPopControl.StreetsNominal = 40
-    BWOPopControl.InhabitantsNominal = 65
+    BWOPopControl.StreetsNominal = 46
+    BWOPopControl.InhabitantsNominal = 66
     BWOPopControl.SurvivorsNominal = 0
 
     if BWOScheduler.WorldAge == 83 then -- occasional zombies
@@ -643,7 +643,7 @@ BWOPopControl.UpdateCivs = function()
     -- debug report:
     if isDebugEnabled() or isAdmin() then
         print ("----------- POPULATION STATS -----------")
-        print ("WORLD AGE: " .. BWOScheduler.WorldAge .. "(" .. ((BWOScheduler.WorldAge+9) * 60) .. ")" .. " SYMPTOM LVL:" .. BWOScheduler.SymptomLevel)
+        print ("WORLD AGE: " .. BWOScheduler.WorldAge .. "(" .. (getGameTime():getWorldAgeHours()) .. ")" .. " SYMPTOM LVL:" .. BWOScheduler.SymptomLevel)
         print ("INHAB: " .. BWOPopControl.InhabitantsCnt .. "/" .. BWOPopControl.InhabitantsMax)
         print ("STREET: " .. BWOPopControl.StreetsCnt .. "/" .. BWOPopControl.StreetsMax)
         print ("SURVIVOR: " .. BWOPopControl.SurvivorsCnt .. "/" .. BWOPopControl.SurvivorsMax)
@@ -664,7 +664,7 @@ local onTick = function(numTicks)
     end
 end
 
-local OnBanditUpdate = function(bandit)
+local onBanditUpdate = function(bandit)
 
     local isInCircle = function(x, y, cx, cy, r)
         local d2 = (x - cx) ^ 2 + (y - cy) ^ 2
@@ -692,6 +692,15 @@ local OnBanditUpdate = function(bandit)
     end
 end
 
+local function onDeadBodySpawn(body)
+    if SandboxVars.BanditsWeekOne.StartTime > 1 then return end
+
+    if getGameTime():getWorldAgeHours() < 135 then
+        body:setReanimateTime(135 + ZombRandFloat(0.1, 0.5)) -- now plus 6 - 30 minutes
+    end
+end
+
 Events.EveryOneMinute.Add(everyOneMinute)
 Events.OnTick.Add(onTick)
-Events.OnZombieUpdate.Add(OnBanditUpdate)
+Events.OnZombieUpdate.Add(onBanditUpdate)
+Events.OnDeadBodySpawn.Add(onDeadBodySpawn)

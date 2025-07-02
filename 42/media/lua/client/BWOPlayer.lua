@@ -8,6 +8,17 @@ BWOPlayer.aimTime = 0
 -- a flag that get set when the player is sleeping to be later used as a pseudo trigger
 BWOPlayer.wasSleeping = false
 
+-- a list of player timed actions that are recognized by NPCs are crime
+BWOPlayer.illegalActions = {
+    "ISSmashWindow",
+    "ISSmashVehicleWindow",
+    "ISHotwireVehicle",
+    "ISTakeGasolineFromVehicle",
+    "CrowbarActionAnim", -- The Best Lockpicking aka Better Lockpicking [B42]
+    "BobbyPinActionAnim", -- The Best Lockpicking aka Better Lockpicking [B42]
+    "LockpickTimedAction", -- Simple Lockpicking [B41/B42]
+}
+
 -- make npcs react to actual crime
 BWOPlayer.ActivateWitness = function(character, min)
     local activatePrograms = {"Patrol", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal", "Medic", "Fireman"}
@@ -316,6 +327,7 @@ end
 
 --INTERCEPTORS
 
+
 -- intercepting player actions
 local onTimedActionPerform = function(data)
    
@@ -328,9 +340,11 @@ local onTimedActionPerform = function(data)
     if not action then return end
 
     -- illegal actions intercepted here
-    if BWOScheduler.Anarchy.IllegalMinorCrime and action == "ISSmashWindow" or action == "ISSmashVehicleWindow" or action == "ISHotwireVehicle" or action == "ISTakeGasolineFromVehicle" then
-        BWOPlayer.ActivateWitness(character, 18)
-        return
+    for _, illegalAction in pairs(BWOPlayer.illegalActions) do
+        if action == illegalAction then
+            BWOPlayer.ActivateWitness(character, 18)
+            return
+        end
     end
 
     if not BWOScheduler.Anarchy.Transactions then return end
