@@ -8,5 +8,5 @@ description=<BR>
 description=<RED>Always make sure that you have the newest version of Bandits mod installed. Resubscribe on Steam if you have to.
 author=Slayer
 require=\Bandits2
-incompatible=\BanditsDayOne,\BetterFPS_B42,\TrueCrawlStealth,\TrueCrawl,\BanditsAddOptionsWeek1
+incompatible=\BanditsDayOne,\BetterFPS_B42,\BetterCarPhysics,\TrueCrawlStealth,\TrueCrawl,\BanditsAddOptionsWeek1
 pack=effects

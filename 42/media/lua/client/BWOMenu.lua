@@ -138,36 +138,37 @@ BWOMenu.Ambience = function(player, status)
 end
 
 BWOMenu.AddEffect = function(player, square)
-    --[[
+
     local effect = {}
     effect.x = square:getX()
     effect.y = square:getY()
     effect.z = square:getZ()
-    effect.size = 600
-    effect.poison = true
+    effect.size = 2000
     effect.colors = {r=0.1, g=0.7, b=0.2, a=0.2}
-    effect.name = "mist"
-    effect.frameCnt = 60
+    effect.name = "sprinkler"
+    effect.frameCnt = 360
     effect.repCnt = 2
     table.insert(BWOEffects2.tab, effect)
    
+    --[[
     local cell = square:getCell()
     local attacker = cell:getFakeZombieForHit()
     local item = BanditCompatibility.InstanceItem("Base.PipeBomb")
     item:setAttackTargetSquare(square)
     local mc = IsoMolotovCocktail.new(cell, square:getX(), square:getY(), square:getZ(), 0, 0, item, attacker)
-     ]]
+
     -- local trap = IsoTrap.new(attacker, item, cell, square)
 	-- local trap = IsoTrap.new(item, getCell(), square)
     -- local er = trap:getExplosionRange()
     -- trap:triggerExplosion(false)
 
 
-    BWOMusic.Play("BWOMusicOutro", 1)
+    -- BWOMusic.Play("BWOMusicOutro", 1)
         
 
     -- square:explodeTrap()
     --square:explosion(trap)
+    ]]
 end
 
 BWOMenu.EventArmy = function(player)
@@ -251,6 +252,14 @@ BWOMenu.EventHeliCrash = function (player)
     params.y = 0
     params.vtype = "pzkHeli350PoliceWreck"
     BWOScheduler.Add("VehicleCrash", params, 100)
+end
+
+BWOMenu.EventHorde = function (player)
+    local params = {}
+    params.cnt = 100
+    params.x = 45
+    params.y = 45
+    BWOScheduler.Add("Horde", params, 100)
 end
 
 BWOMenu.EventParty = function (player)
@@ -454,6 +463,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         eventsMenu:addOption("Fliers", player, BWOMenu.EventFliers)
         eventsMenu:addOption("Hammer Brothers", player, BWOMenu.EventHammerBrothers)
         eventsMenu:addOption("Heli Crash", player, BWOMenu.EventHeliCrash)
+        eventsMenu:addOption("Horde", player, BWOMenu.EventHorde)
         eventsMenu:addOption("House Register", player, BWOMenu.EventHome)
         eventsMenu:addOption("House Party", player, BWOMenu.EventParty)
         eventsMenu:addOption("Jetengine", player, BWOMenu.EventJetEngine)

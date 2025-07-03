@@ -2309,3 +2309,67 @@ BWOEvents.VehicleCrash = function(params)
     vehicle:setBloodIntensity("Left", 1)
     vehicle:setBloodIntensity("Right", 1)
 end
+
+BWOEvents.Horde = function(params)
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
+    local density = BWOBuildings.GetDensityScore(player, 120) / 6000
+    -- if density < 0.5 then return end
+
+    local zones = getZones(player:getX(), player:getY(), player:getZ())
+    local cityName
+    local zoneName
+    if zones then
+        for i=0, zones:size()-1 do
+            local zone = zones:get(i)
+            if zone:getType() == "Region" then
+                cityName = zone:getName()
+            else
+                zoneName = zone:getType()
+            end
+        end
+    end
+
+    local outfits = {}
+    local femaleChance = 51
+    if cityName and density > 0.3 then
+        if cityName == "WestPoint" then
+            outfits = {"Student", "Student", "Student", "Student", "Student", "Student", "Student", "Teacher"}
+            femaleChance = 55
+        elseif cityName == "Rosewood" then
+            outfits = {"Inmate", "Inmate", "InmateEscaped"}
+            femaleChance = 0
+        elseif cityName == "Riverside" then
+            outfits = {"Tourist"}
+        elseif cityName == "Jefferson" then
+            outfits = {"ArmyCamoGreen"}
+            femaleChance = 10
+        end
+    else
+        if zoneName:embodies("Forest") then
+            outfits = {"Survivalist"}
+            femaleChance = 33
+        elseif zoneName:embodies("Farm") then
+            outfits = {"Farmer"}
+        else
+            outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "Generic05", "Classy", "IT", "Student", "Teacher", "Police", "Young", "Bandit", "Tourist"}
+        end
+    end
+
+    local cx = player:getX()
+    local cy = player:getY()
+    local cz = player:getZ()
+
+    for i=1, params.cnt do
+        local outfit = BanditUtils.Choice(outfits)
+        local zombieList = BanditCompatibility.AddZombiesInOutfit(cx + params.x, cy + params.y, 0, outfit, femaleChance, false, false, false, false, false, false, 1)
+        for i=0, zombieList:size()-1 do
+            local zombie = zombieList:get(i)
+            zombie:spotted(player, true)
+            zombie:setTarget(player)
+            zombie:setAttackedBy(player)
+            zombie:pathToLocationF(cx, cy, cz)
+        end
+    end
+end
