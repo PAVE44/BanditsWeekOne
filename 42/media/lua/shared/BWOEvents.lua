@@ -63,7 +63,7 @@ local findBombSpot = function (px, py, outside)
                 local y2 = py + by * 6 + 3
                 local x1 = px + bx * 6 - 3
                 local x2 = px + bx * 6 + 3
-                
+
                 local cnt = 0
                 local killList = {}
                 for id, zombie in pairs(zombieList) do
@@ -106,9 +106,9 @@ local findBombSpot = function (px, py, outside)
 end
 
 local generateSpawnPoint = function(px, py, pz, d, count)
-    
+
     local cell = getCell()
- 
+
     local spawnPoints = {}
     table.insert(spawnPoints, {x=px+d, y=py+d, z=pz})
     table.insert(spawnPoints, {x=px+d, y=py-d, z=pz})
@@ -118,7 +118,7 @@ local generateSpawnPoint = function(px, py, pz, d, count)
     table.insert(spawnPoints, {x=px-d, y=py, z=pz})
     table.insert(spawnPoints, {x=px, y=py+d, z=pz})
     table.insert(spawnPoints, {x=px, y=py-d, z=pz})
- 
+
     local validSpawnPoints = {}
     for i, sp in pairs(spawnPoints) do
         local square = cell:getGridSquare(sp.x, sp.y, sp.z)
@@ -128,7 +128,7 @@ local generateSpawnPoint = function(px, py, pz, d, count)
             end
         end
     end
- 
+
     if #validSpawnPoints >= 1 then
         local p = 1 + ZombRand(#validSpawnPoints)
         local spawnPoint = validSpawnPoints[p]
@@ -138,18 +138,18 @@ local generateSpawnPoint = function(px, py, pz, d, count)
         end
         return ret
     end
- 
+
     return {}
 end
 
 local explode = function(x, y, z)
-    
+
     local sounds = {"BurnedObjectExploded", "FlameTrapExplode", "SmokeBombExplode", "PipeBombExplode", "DOExploClose1", "DOExploClose2", "DOExploClose3", "DOExploClose4", "DOExploClose5", "DOExploClose6", "DOExploClose7", "DOExploClose8"}
-        
+
     local function getSound()
         return sounds[1 + ZombRand(#sounds)]
     end
-    
+
     local player = getSpecificPlayer(0)
     if not player then return end
 
@@ -171,7 +171,7 @@ local explode = function(x, y, z)
     item:setExplosionPower(1)
     item:setAttackTargetSquare(square)
     local mc = IsoMolotovCocktail.new(cell, square:getX(), square:getY(), square:getZ(), 0, 0, item, attacker)
-    
+
     -- IsoFireManager.explode(cell, square, 100)
 
     for dx = -7, 7 do
@@ -245,12 +245,12 @@ local explode = function(x, y, z)
         effect2.repCnt = 17 + ZombRand(3)
         table.insert(BWOEffects2.tab, effect2)
     end
-    
+
     -- light blast
     local colors = {r=1.0, g=0.5, b=0.5}
     local lightSource = IsoLightSource.new(x, y, 0, colors.r, colors.g, colors.b, 60, 10)
     getCell():addLamppost(lightSource)
-                
+
     local lightLevel = square:getLightLevel(0)
     if lightLevel < 0.95 and player:isOutside() then
         local px = player:getX()
@@ -286,7 +286,7 @@ local explode = function(x, y, z)
         if alpha > 1 then alpha = 1 end
         BWOTex.alpha = alpha
     end
-    
+
     -- junk placement
     BanditBaseGroupPlacements.Junk (x-4, y-4, 0, 6, 8, 3)
 
@@ -295,7 +295,8 @@ local explode = function(x, y, z)
     local emitter = getWorld():getFreeEmitter(x, y, 0)
     emitter:playSound(sound)
     emitter:setVolumeAll(0.9)
-    addSound(player, x, y, 0, 120, 100)
+
+    addSound(player, math.floor(x), math.floor(y), 0, 100, 100)
 
     -- wake up players
     BanditPlayer.WakeEveryone()
@@ -437,7 +438,7 @@ BWOEvents.VehiclesUpdate = function(params)
     if not player then return end
 
     local vehicleList = getCell():getVehicles()
-    
+
     for i=0, vehicleList:size()-1 do
         local vehicle = vehicleList:get(i)
         if vehicle and not vehicle:getDriver() then
@@ -445,7 +446,7 @@ BWOEvents.VehiclesUpdate = function(params)
             if params.headlights and vehicle:hasHeadlights() then
                 vehicle:setHeadlightsOn(true)
             end
-            
+
             if params.lightbar and vehicle:hasLightbar() then
                 if vehicle:hasLightbar() then
                     local mode = vehicle:getLightbarLightsMode()
@@ -458,7 +459,6 @@ BWOEvents.VehiclesUpdate = function(params)
 
             if params.alarm and vehicle:hasAlarm() then
                 if not vehicle:hasLightbar() then
-                    addSound(player, vehicle:getX(), vehicle:getY(), vehicle:getZ(), 150, 100)
                     BanditPlayer.WakeEveryone()
                     vehicle:setAlarmed(true)
                     vehicle:triggerAlarm()
@@ -488,7 +488,7 @@ BWOEvents.Siren = function(params)
     local emitter = getWorld():getFreeEmitter(params.x + 10, params.y - 20, 0)
     emitter:playAmbientSound("DOSiren2")
     emitter:setVolumeAll(0.9)
-    addSound(player, params.x, params.y, params.z, 150, 100)
+    addSound(player, math.floor(params.x), math.floor(params.y), math.floor(params.z), 100, 100)
 
     BanditPlayer.WakeEveryone()
 end
@@ -1175,6 +1175,8 @@ end
 BWOEvents.JetFighterStage1 = function(params)
     local player = getSpecificPlayer(0)
     if not player then return end
+
+    BanditPlayer.WakeEveryone()
 
     getCore():setOptionUIRenderFPS(60)
 
@@ -2361,6 +2363,8 @@ BWOEvents.Horde = function(params)
     local cy = player:getY()
     local cz = player:getZ()
 
+    addSound(player, math.floor(cx), math.floor(cy), math.floor(cz), 100, 100)
+
     for i=1, params.cnt do
         local outfit = BanditUtils.Choice(outfits)
         local zombieList = BanditCompatibility.AddZombiesInOutfit(cx + params.x, cy + params.y, 0, outfit, femaleChance, false, false, false, false, false, false, 1)
@@ -2371,5 +2375,36 @@ BWOEvents.Horde = function(params)
             zombie:setAttackedBy(player)
             zombie:pathToLocationF(cx, cy, cz)
         end
+    end
+end
+
+BWOEvents.MetaSound = function(params)
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
+    if ZombRand(3) > 0 then return end
+
+    local density = BWOBuildings.GetDensityScore(player, 120) / 6000
+    if density < 0.7 then return end
+
+    local metaSounds = {
+        "MetaAssaultRifle1",
+        "MetaPistol1",
+        "MetaShotgun1",
+        "MetaPistol2",
+        "MetaPistol3",
+        "MetaShotgun1",
+    }
+
+    local px, py = player:getX(), player:getY()
+    local rx, ry = 50, 50
+    if ZombRand(2) == 0 then rx = -rx end
+    if ZombRand(2) == 0 then ry = -ry end
+    local sx = px - rx
+    local sy = py - ry
+
+    local emitter = getWorld():getFreeEmitter(sx, sy, 0)
+    if emitter then
+        local id = emitter:playSound(BanditUtils.Choice(metaSounds), true)
     end
 end

@@ -231,7 +231,8 @@ local generateSchedule = function()
     tab[147][8]  = {"JetFighterRun", {arm="mg"}}
     tab[147][24] = {"JetFighterRun", {arm="mg"}}
     tab[147][28] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=51, intensity=5}}
-    tab[147][49] = {"JetFighterRun", {arm="mg"}}
+    tab[147][47] = {"JetFighterRun", {arm="mg"}}
+    tab[147][48] = {"Horde", {cnt=100, x=45, y=45}}
     tab[147][50] = {"JetFighterRun", {arm="mg"}}
     tab[147][51] = {"JetFighterRun", {arm="mg"}}
     tab[150][9]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=52, intensity=10}}
@@ -593,7 +594,7 @@ function BWOScheduler.MasterControl()
     end 
 
     -- debug to jump to a certain hour
-    -- worldAge = 134
+    -- worldAge = 136
 
     BWOScheduler.WorldAge = worldAge
     
@@ -633,6 +634,13 @@ function BWOScheduler.MasterControl()
         BWOScheduler.World.DeadBodyAdderDensity = 0.012
     elseif BWOScheduler.WorldAge >= 110 then
         BWOScheduler.World.DeadBodyAdderDensity = 0.004
+    end
+
+    -- meta gunfight
+    if (BWOScheduler.WorldAge >= 135 and BWOScheduler.WorldAge < 138) or (BWOScheduler.WorldAge >= 146 and BWOScheduler.WorldAge < 169) then
+        for i=1, ZombRand(4) do
+            BWOScheduler.Add("MetaSound", {}, i * 100)
+        end
     end
 
     BWOScheduler.World.Bombing = 0

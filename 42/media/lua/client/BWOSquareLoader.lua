@@ -438,7 +438,7 @@ local processSquare = function(square)
             if remove[id] then
                 clearObjects(square)
                 BWOSquareLoader.remove[id] = nil
-                
+
             end
         end
         md.BWO.omod = true
@@ -460,7 +460,7 @@ local processSquare = function(square)
             square:removeBlood(false, false)
         end
     end
-    
+
     local objects = square:getObjects()
     for i=0, objects:size()-1 do
         local object = objects:get(i)
