@@ -53,9 +53,10 @@ Bandit.clanMap.ShopAssistant = "473e2db3-c751-4a09-9a1d-d780e148b6a1"
 Bandit.clanMap.Fisherman = ""
 Bandit.clanMap.Fossoil = "25f86d1a-03f6-461a-ac46-a936587930d0"
 Bandit.clanMap.Gas2Go = "31e340cf-c773-4b1c-9e27-8317db82823f"
-Bandit.clanMap.Waiter = ""
+Bandit.clanMap.Waiter = "7da39ab5-9ddc-4590-8009-f4c148bc5dd6"
 Bandit.clanMap.Mechanic = ""
-Bandit.clanMap.Teacher = ""
+Bandit.clanMap.Teacher = "784b6f20-87d5-48f7-8ac2-74466f7720ac"
+Bandit.clanMap.Student = "5ce44f42-d5f5-4036-b408-26d42fd883ef"
 Bandit.clanMap.Spiffo = ""
 
 -- government call services

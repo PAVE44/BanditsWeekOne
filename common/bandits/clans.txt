@@ -638,3 +638,51 @@
 	spawn: groupMax = 1
 	spawn: zone = 0
 
+[784b6f20-87d5-48f7-8ac2-74466f7720ac]
+	general: name = Teachers
+	spawn: friendly = true
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+	spawn: dayStart = 0
+	spawn: dayEnd = 10000
+	spawn: spawnChance = 0
+	spawn: groupMin = 1
+	spawn: groupMax = 1
+	spawn: zone = 0
+
+[5ce44f42-d5f5-4036-b408-26d42fd883ef]
+	general: name = Students
+	spawn: friendly = true
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+	spawn: dayStart = 0
+	spawn: dayEnd = 10000
+	spawn: spawnChance = 0
+	spawn: groupMin = 1
+	spawn: groupMax = 4
+	spawn: zone = 0
+
+[7da39ab5-9ddc-4590-8009-f4c148bc5dd6]
+	general: name = Waiters
+	spawn: friendly = true
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+	spawn: dayStart = 0
+	spawn: dayEnd = 10000
+	spawn: spawnChance = 0
+	spawn: groupMin = 1
+	spawn: groupMax = 1
+	spawn: zone = 0
+

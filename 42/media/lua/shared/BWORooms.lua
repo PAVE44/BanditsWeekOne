@@ -17,6 +17,11 @@ BWORooms.tab = {
         femaleChance = 100
     },
 
+    antique = {
+        isStorage = true,
+        cids = {Bandit.clanMap.HammerBrothers}
+    },
+
     arenakitchen = {
         isRestaurant = true,
         isKitchen = true,
@@ -274,6 +279,7 @@ BWORooms.tab = {
     cafe = {
         isRestaurant = true,
         cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.Waiter, Bandit.clanMap.Waiter},
         outfits = {"Generic02", "Generic03", "Classy", "Young", "Waiter_Restaurant"},
         femaleChance = 50
     },
@@ -481,6 +487,11 @@ BWORooms.tab = {
         femaleChance = 50
     },
 
+    coroneroffice = {
+        isStorage = true,
+        cids = {Bandit.clanMap.BanditStrong}
+    },
+
     daycare = {
         outfits = {"OfficeWorkerSkirt"},
         femaleChance = 100
@@ -512,6 +523,11 @@ BWORooms.tab = {
         cidSpecial = {Bandit.clanMap.ShopAssistant, Bandit.clanMap.Security},
         outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "MallSecurity", "OfficeWorkerSkirt"},
         femaleChance = 50
+    },
+
+    depositboxes = {
+        isStorage = true,
+        cids = {Bandit.clanMap.CriminalClassy}
     },
 
     detectiveoffice = {
@@ -647,7 +663,9 @@ BWORooms.tab = {
     },
 
     elementaryclassroom = {
-        outfits = {"Student", "Student", "Student", "Student", "Student", "Student", "Student", "Teacher"}
+        outfits = {"Student", "Student", "Student", "Student", "Student", "Student", "Student", "Teacher"},
+        cids = {Bandit.clanMap.Student},
+        cidSpecial = {Bandit.clanMap.Teacher},
     },
 
     empty = {
@@ -843,6 +861,7 @@ BWORooms.tab = {
 
     gym = {
         outfits = {"StreetSports"},
+        cids = {Bandit.clanMap.Runner},
     },
 
     hall = {
@@ -937,7 +956,7 @@ BWORooms.tab = {
     },
 
     janitor = {
-
+        cids = {Bandit.clanMap.Janitor},
     },
 
     jayschicken_dining = {
@@ -973,6 +992,7 @@ BWORooms.tab = {
 
     kennels = {
         isShop = true,
+        cids = {Bandit.clanMap.Sweepers}
     },
 
     kitchen = {
@@ -1024,7 +1044,8 @@ BWORooms.tab = {
     },
 
     laboratory = {
-
+        isStorage = true,
+        cids = {Bandit.clanMap.Sweepers}
     },
 
     lasertag = {
@@ -1045,6 +1066,8 @@ BWORooms.tab = {
 
     library = {
         outfits = {"IT", "Student", "Teacher", "Generic04", "Generic05"},
+        cids = {Bandit.clanMap.Walker},
+        cidSpecial = {Bandit.clanMap.ShopAssistant},
         femaleChance = 45
     },
 
@@ -1202,7 +1225,8 @@ BWORooms.tab = {
     },
 
     morgue = {
-
+        isStorage = true,
+        cids = {Bandit.clanMap.BanditStrong}
     },
 
     movierental = {
@@ -1520,7 +1544,8 @@ BWORooms.tab = {
 
     schoolstorage = {
         isStorage = true,
-        outfits = {"Student", "Student", "Student", "Student", "Student", "Student", "Student", "Teacher"}
+        outfits = {"Student", "Student", "Student", "Student", "Student", "Student", "Student", "Teacher"},
+        cids = {Bandit.clanMap.Student},
     },
 
     seafoodkitchen = {
@@ -1535,7 +1560,9 @@ BWORooms.tab = {
     },
 
     secondaryclassroom = {
-        outfits = {"Student", "Student", "Student", "Student", "Student", "Student", "Student", "Teacher"}
+        outfits = {"Student", "Student", "Student", "Student", "Student", "Student", "Student", "Teacher"},
+        cids = {Bandit.clanMap.Student},
+        cidSpecial = {Bandit.clanMap.Teacher},
     },
     
     security = {
@@ -1635,6 +1662,7 @@ BWORooms.tab = {
     },
 
     storage = {
+        cids = {Bandit.clanMap.Walker, Bandit.clanMap.Runner},
         isStorage = true
     },
 
@@ -1710,8 +1738,9 @@ BWORooms.tab = {
         outfits = {"ThunderGas"}
     },
 
-    toolstorestorage = {
+    toolstorage = {
         isStorage = true,
+        cids = {Bandit.clanMap.BanditSpike},
         occupations = {"repairman"},
         income = 1
     },
@@ -1734,6 +1763,11 @@ BWORooms.tab = {
 
     toystorestorage = {
         isStorage = true,
+    },
+
+    vault = {
+        isStorage = true,
+        cids = {Bandit.clanMap.CriminalClassy}
     },
 
     walletshop = {
@@ -1794,8 +1828,6 @@ BWORooms.GetRealRoomName = function(room)
         name = "church"
     elseif building:containsRoom("stripclub") then
         name = "stripclub"
-    elseif building:containsRoom("daycare") then
-        name = "daycare"
     elseif building:containsRoom("bar") then
         name = "bar"
     else
@@ -1809,6 +1841,7 @@ BWORooms.Get = function(room)
     local name = BWORooms.GetRealRoomName(room)
 
     local data = BWORooms.tab[name]
+    if data then data.name = name end
     return data
 end
 

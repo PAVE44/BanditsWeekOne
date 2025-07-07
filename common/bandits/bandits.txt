@@ -1195,6 +1195,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 131546c9-94aa-4fa5-adc8-bb85c2791d60
 	clothing: Mask = Base.Hat_BalaclavaFace
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: Shirt = Base.Shirt_Workman
@@ -1224,6 +1225,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = e480bfe6-a0d8-4005-b4a7-169c8079be74
 	clothing: Mask = Base.Hat_BandanaMask_Green
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: Shirt = Base.Shirt_Workman
@@ -1256,6 +1258,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 44f2b512-f6b7-4842-8d07-1fc8d587f65b
 	clothing: Mask = Base.Hat_RagBandanaMask
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: Shirt = Base.Shirt_Workman
@@ -2723,6 +2726,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = b388e02a-db7a-4831-b220-b228ae42da3b
 	clothing: Eyes = Base.Glasses_Sun
 	clothing: Tshirt = Base.Tshirt_PoliceBlue
 	clothing: Shirt = Base.Shirt_PoliceBlue
@@ -2750,6 +2754,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 343c4af5-9141-4901-ad86-bb5756536bd0
 	clothing: Hat = Base.Hat_BaseballCap_Police
 	clothing: Tshirt = Base.Tshirt_Profession_PoliceBlue
 	clothing: Jacket = Base.Jacket_Police
@@ -2804,6 +2809,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 77cdd233-819e-42ac-8e07-1ffa4da9ed87
 	clothing: Hat = Base.Hat_BaseballCap_Police
 	clothing: Eyes = Base.Glasses_Aviators
 	clothing: Tshirt = Base.Tshirt_Profession_PoliceBlue
@@ -2940,6 +2946,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 638236df-4d2f-462b-a442-3c7193f52ab6
 	clothing: Hat = Base.Hat_BaseballCap_Police
 	clothing: Tshirt = Base.Tshirt_Profession_PoliceBlue
 	clothing: Jacket = Base.Jacket_Police
@@ -2996,6 +3003,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = d8811bab-b9b9-4219-989b-e2611086981a
 	clothing: Tshirt = Base.Tshirt_Profession_PoliceWhite
 	clothing: Shirt = Base.Shirt_PoliceBlue
 	clothing: BeltExtra = Base.HolsterSimple_Black
@@ -3638,6 +3646,7 @@
 	general: exp1 = 2
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 2023f23b-0ff4-4c5a-b7c7-e78ef734217a
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: Pants = Base.TrousersMesh_DenimLight
 	clothing: Shoes = Base.Shoes_Brown
@@ -4137,6 +4146,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 832975e9-06dd-4f23-9d6c-715ed7127c0a
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: Shirt = Base.Shirt_Lumberjack
 	clothing: Pants = Base.TrousersMesh_DenimLight
@@ -4159,6 +4169,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 06eb0481-2c9f-4346-951d-6474ed5d366c
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: Shirt = Base.Shirt_Workman
 	clothing: Pants = Base.Trousers_Black
@@ -4181,6 +4192,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 5329a80e-1b40-4f73-a5c7-ce28ffc5c6e9
 	clothing: Eyes = Base.Glasses_Cosmetic_Normal
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: Shirt = Base.Shirt_Workman
@@ -4252,6 +4264,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 310101e3-2c61-441a-87c1-cc26880b4245
 	clothing: TankTop = Base.Vest_DefaultTEXTURE_TINT
 	clothing: Jacket = Base.Jacket_WhiteTINT
 	clothing: Pants = Base.Trousers
@@ -4274,6 +4287,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = dbd2deb3-6ab2-4c9c-bf12-3b3e6b544e5d
 	clothing: Tshirt = Base.Tshirt_HipHop
 	clothing: Pants = Base.Trousers_WhiteTINT
 	clothing: Shoes = Base.Shoes_TrainerTINT
@@ -4319,6 +4333,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = b31a5b9b-c2f5-4a6f-a6c6-a10623ee4594
 	clothing: Hat = Base.Hat_BandanaTied
 	clothing: TankTop = Base.Vest_DefaultTEXTURE_TINT
 	clothing: Pants = Base.Trousers_Shellsuit_Black
@@ -4387,6 +4402,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 67ee083b-b605-486a-8def-6b9a5094a815
 	clothing: Hat = Base.Hat_BaseballCap_LSU
 	clothing: Tshirt = Base.Tshirt_DefaultTEXTURE_TINT
 	clothing: Jacket = Base.Jacket_Varsity
@@ -4410,6 +4426,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 1e7e87af-6a3a-47e1-b508-b8f82c2fd0bd
 	clothing: Eyes = Base.Glasses_Cosmetic_Normal
 	clothing: Tshirt = Base.Tshirt_DefaultTEXTURE_TINT
 	clothing: Jacket = Base.Jacket_Varsity
@@ -4487,6 +4504,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 919fcb27-4867-4f37-9346-d911aeb694f9
 	clothing: Tshirt = Base.Tshirt_SportDECAL
 	clothing: ShortsShort = Base.Shorts_ShortSport
 	clothing: Shoes = Base.Shoes_TrainerTINT
@@ -4534,6 +4552,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 3e6d3a03-e966-41e3-87ad-f9838de3b0be
 	clothing: Shirt = Base.Shirt_Lumberjack
 	clothing: PantsExtra = Base.Dungarees
 	clothing: Shoes = Base.Shoes_Brown
@@ -4582,6 +4601,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = e28657c4-196c-4aed-a434-42b596e4d3ba
 	clothing: Hat = Base.Hat_BaseballCapBlue
 	clothing: Shirt = Base.Shirt_Lumberjack
 	clothing: PantsExtra = Base.Dungarees
@@ -4625,6 +4645,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 0995a3e2-1eee-4cc4-9f02-367991832a48
 	clothing: Tshirt = Base.BoobTube
 	clothing: ShortsShort = Base.Shorts_ShortSport
 	clothing: Shoes = Base.Shoes_BlueTrainers
@@ -4671,6 +4692,7 @@
 	general: exp1 = 8
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = c79b57fb-c329-48b0-aa83-a2d40b2b80d5
 	clothing: Tshirt = Base.Tshirt_Scrubs
 	clothing: JacketSuit = Base.JacketLong_Doctor
 	clothing: Hands = Base.Gloves_Surgical
@@ -4695,6 +4717,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 3ed1b6a8-4cb3-4f15-a11c-ae756e3185ec
 	clothing: Hat = Base.Hat_HardHat
 	clothing: Eyes = Base.Glasses_Cosmetic_Normal
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
@@ -4720,6 +4743,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 774b044c-e951-47a0-a38b-2a0fcbe0bd25
 	clothing: Tshirt = Base.Tshirt_Sport
 	clothing: Pants = Base.Trousers_Sport
 	clothing: Shoes = Base.Shoes_BlueTrainers
@@ -4741,6 +4765,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 34ce55e8-c6eb-4143-8ee8-bcd06808c0f0
 	clothing: Hat = Base.Hat_BandanaTied
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: Pants = Base.Trousers_Sport
@@ -4763,6 +4788,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = a42e0a79-87ec-4b18-aebc-481427fa75d1
 	clothing: Hat = Base.Hat_Cowboy
 	clothing: Shirt = Base.Shirt_Lumberjack
 	clothing: PantsExtra = Base.Dungarees
@@ -4785,6 +4811,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 140a117b-4052-4207-889b-4b910a588f0f
 	clothing: Hat = Base.Hat_Cowboy
 	clothing: Shirt = Base.Shirt_Lumberjack
 	clothing: Pants = Base.TrousersMesh_DenimLight
@@ -4807,6 +4834,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 7061705e-692f-43f7-9b49-7eb4b8d67f58
 	clothing: Hat = Base.Hat_Cowboy
 	clothing: Shirt = Base.Shirt_Lumberjack
 	clothing: ShortsShort = Base.Shorts_ShortDenim
@@ -4876,6 +4904,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 7fa5263e-5e47-49d9-a87c-4a70be721443
 	clothing: RightEye = Base.Glasses_Eyepatch_Right
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: ShortPants = Base.Shorts_CamoUrbanLong
@@ -4968,6 +4997,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 9245b6b9-91c6-44a9-bb17-a745e595aec1
 	clothing: Boilersuit = Base.Boilersuit_BlueRed
 	clothing: Shoes = Base.Shoes_Black
 	weapons: melee = Base.Wrench
@@ -4988,6 +5018,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 6cd4a8d9-3ae8-4729-98c7-9bd1a3314591
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: ShortSleeveShirt = Base.Shirt_HawaiianRed
 	clothing: Pants = Base.TrousersMesh_DenimLight
@@ -5034,6 +5065,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 1f417ffc-6479-45aa-8687-f79af0737b86
 	clothing: Neck = Base.Tie_Worn
 	clothing: Shirt = Base.Shirt_FormalWhite
 	clothing: Sweater = Base.Jumper_TankTopDiamondTINT
@@ -5129,6 +5161,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = fabc5c82-a57b-4507-95c9-2a3f97a089cd
 	clothing: Ears = Base.Earring_Dangly_Emerald
 	clothing: Eyes = Base.Glasses_Aviators
 	clothing: ShortSleeveShirt = Base.Shirt_HawaiianTINT
@@ -5932,6 +5965,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = e25ac528-7482-4e64-9ee1-b72f68972ce1
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: ShortsShort = Base.Shorts_ShortSport
 	clothing: Socks = Base.Socks_Ankle_White
@@ -5977,6 +6011,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 1db49cf1-561d-4944-9df3-1ac98b368aa4
 	clothing: Hat = Base.Hat_Sweatband
 	clothing: TankTop = Base.Vest_DefaultTEXTURE_TINT
 	clothing: ShortsShort = Base.Shorts_ShortSport
@@ -6000,6 +6035,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 50a8bb85-e1ce-40d5-b41e-8621ca251fee
 	clothing: TankTop = Base.Vest_DefaultTEXTURE_TINT
 	clothing: ShortsShort = Base.Shorts_ShortSport
 	clothing: Socks = Base.Socks_Ankle_White
@@ -6045,6 +6081,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 60ed3c66-e6b4-46cc-adb1-19af20995d4d
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: ShortsShort = Base.Shorts_ShortSport
 	clothing: Socks = Base.Socks_Ankle_White
@@ -6067,6 +6104,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 364ffd11-0b22-42ed-b087-055d527dbcc7
 	clothing: Eyes = Base.Glasses_CatsEye_Sun
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: ShortsShort = Base.Shorts_ShortSport
@@ -6090,6 +6128,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = f169fe35-ba2d-4d26-a2b9-e927f84e5088
 	clothing: Eyes = Base.Glasses_CatsEye_Sun
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: ShortsShort = Base.Shorts_ShortSport
@@ -6113,6 +6152,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 65e4ff1f-cbef-494d-9f03-dc50d244bf78
 	clothing: Hat = Base.Hat_Bandana
 	clothing: Eyes = Base.Glasses_CatsEye_Sun
 	clothing: Tshirt = Base.BoobTubeSmall
@@ -6137,6 +6177,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = c71c4e3f-74ab-4f6b-ba23-851464de537b
 	clothing: Eyes = Base.Glasses_Aviators
 	clothing: Tshirt = Base.BoobTube
 	clothing: ShortsShort = Base.Shorts_ShortSport
@@ -6160,6 +6201,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 8068ac13-8c39-44cf-974a-71c2dc51861a
 	clothing: Tshirt = Base.Tshirt_LongSleeve_SuperColor
 	clothing: ShortsShort = Base.Shorts_ShortFormal
 	clothing: Socks = Base.Socks_Ankle_White
@@ -6182,6 +6224,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 7e52e902-cd66-4b7c-99df-9a5a3e61b85c
 	clothing: Tshirt = Base.Tshirt_SuperColor
 	clothing: ShortPants = Base.Shorts_LongSport_Red
 	clothing: Socks = Base.Socks_Ankle_White
@@ -6204,6 +6247,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 76b45146-7888-41f9-affc-cc94e2f566e4
 	clothing: Hat = Base.Hat_Sweatband
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: ShortsShort = Base.Shorts_ShortSport
@@ -6227,6 +6271,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = d14f2faa-066f-494b-b01d-c14de763434d
 
 [298585b9-7060-410d-8750-5d3440a5e7cf]
 	general: modid = BanditsWeekOne
@@ -6270,6 +6315,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 4bb85470-5f14-4f6b-bfd2-4af2312e6dd8
 	clothing: Hat = Base.Hat_BaseballCap
 	clothing: Neck = Base.Tie_Worn
 	clothing: Shirt = Base.Shirt_FormalWhite
@@ -6295,6 +6341,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 2fa73084-1715-4a4f-aa29-9a8683521940
 	clothing: Hat = Base.Hat_BaseballCap
 	clothing: Neck = Base.Tie_Worn
 	clothing: Shirt = Base.Shirt_FormalWhite
@@ -6320,6 +6367,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 8cfecee6-c3c0-4059-81b8-c05a1ee38456
 	clothing: Hat = Base.Hat_BaseballCap
 	clothing: Neck = Base.Tie_Worn
 	clothing: Shirt = Base.Shirt_FormalWhite
@@ -6345,6 +6393,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 81dc5220-a9fb-4348-af8f-39411c3d1d05
 	clothing: Boilersuit = Base.Boilersuit_BlueRed
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: UnderwearBottom = Base.Briefs_White
@@ -6369,6 +6418,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = c4103168-af0a-4d5d-977e-0a10b9f986ce
 	clothing: Boilersuit = Base.Boilersuit_BlueRed
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: UnderwearBottom = Base.Briefs_White
@@ -6393,6 +6443,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = f15080d1-ff36-4538-89ed-a6ba2e8b33a6
 	clothing: Hat = Base.Hat_Beany
 	clothing: Boilersuit = Base.Boilersuit_BlueRed
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
@@ -6419,6 +6470,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = da9171d2-b732-4092-822c-8dfb4db94fae
 	clothing: Boilersuit = Base.Boilersuit_BlueRed
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: TorsoExtraVest = Base.Vest_HighViz
@@ -6444,6 +6496,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = bffc7d86-5f56-4ad1-a60d-372bcb3abada
 	clothing: Boilersuit = Base.Boilersuit_BlueRed
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: UnderwearBottom = Base.Briefs_White
@@ -6468,6 +6521,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 89c66411-ca2b-4efc-a2c7-1a2cedcfe425
 	clothing: Boilersuit = Base.Boilersuit_BlueRed
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: UnderwearBottom = Base.Briefs_White
@@ -6658,6 +6712,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 7df751ff-a9a6-475b-bc35-e4cc8bbb1d08
 	clothing: Hat = Base.Hat_GoldStar
 	clothing: Eyes = Base.Glasses_CatsEye
 	clothing: Necklace = Base.Necklace_GoldRuby
@@ -6899,6 +6954,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = ffd3004d-f87e-4633-b754-6feb202b755e
 	clothing: Eyes = Base.Glasses_Cosmetic_Normal
 	clothing: Neck = Base.Tie_Worn
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
@@ -6946,6 +7002,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = a42c9f38-3b02-4f77-b499-094c03cc26e2
 	clothing: Eyes = Base.Glasses_Normal
 	clothing: Neck = Base.Tie_Worn
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
@@ -6993,6 +7050,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 1fc72acf-9fe1-44b9-b33f-9d84879028f4
 	clothing: Eyes = Base.Glasses_Round_Normal
 	clothing: Neck = Base.Tie_Worn
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
@@ -7114,6 +7172,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = deb78ce2-954c-4c71-9293-51f77129c799
 	clothing: Neck = Base.Tie_Worn
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: Shirt = Base.Shirt_FormalTINT
@@ -7451,6 +7510,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 59c7f362-04d8-4639-b4ee-49e48b611aca
 	clothing: ShortSleeveShirt = Base.Shirt_FormalWhite_ShortSleeve
 	clothing: VestTexture = Base.Vest_Waistcoat
 	clothing: UnderwearExtra1 = Base.StockingsBlack
@@ -7753,6 +7813,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 99584472-36cf-4794-9631-fa0bfd33100f
 	clothing: Hat = Base.Hat_ShowerCap
 	clothing: BathRobe = Base.LongCoat_Bathrobe
 	clothing: Shoes = Base.Shoes_FlipFlop
@@ -7816,6 +7877,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 473898b9-404b-4204-99a6-53acdbaec14f
 	clothing: BathRobe = Base.LongCoat_Bathrobe
 	clothing: Shoes = Base.Shoes_FlipFlop
 	weapons: melee = Base.BareHands
@@ -7836,6 +7898,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 689f5f18-1707-437c-8216-1a0fb139e668
 	clothing: Eyes = Base.Glasses_MonocleLeft
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: Legs1 = Base.LongJohns_Bottoms
@@ -7858,6 +7921,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 0d70ebe6-53a0-4272-b0a1-91f9ccb8a8af
 	clothing: Necklace = Base.Necklace_Silver
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: Legs1 = Base.LongJohns_Bottoms
@@ -7880,6 +7944,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = ce41209d-b315-4b09-8bb4-2f62868573cd
 	clothing: Necklace = Base.Necklace_Silver
 	clothing: Torso1Legs1 = Base.LongJohns
 	clothing: Shoes = Base.Shoes_Slippers
@@ -7901,6 +7966,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = a3f51d22-98cd-4d73-a40d-edcefe49fb92
 	clothing: Necklace = Base.Necklace_Silver
 	clothing: Torso1Legs1 = Base.LongJohns
 	clothing: Shoes = Base.Shoes_Slippers
@@ -7922,6 +7988,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 94beb47d-f87f-4dfd-b07d-3cf0a8f56d23
 	clothing: Necklace = Base.Necklace_Silver
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: UnderwearBottom = Base.Boxers_Silk_Red
@@ -7944,6 +8011,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 54c393b8-e7bd-491a-b587-4d400c5867a8
 	clothing: Eyes = Base.Glasses_Cosmetic_Round_Normal
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: UnderwearBottom = Base.Boxers_Silk_Red
@@ -7966,6 +8034,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = f764fe36-3e8b-4442-b651-81513c395a04
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: UnderwearBottom = Base.Boxers_Hearts
 	clothing: Shoes = Base.Shoes_Slippers
@@ -7987,6 +8056,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 7515f1a5-d49b-4753-9bd0-16798efd98fb
 	clothing: Eyes = Base.Glasses_Cosmetic_Round_Normal
 	clothing: TankTop = Base.Vest_DefaultTEXTURE_TINT
 	clothing: UnderwearBottom = Base.Boxers_Hearts
@@ -8054,6 +8124,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = ece0ac39-4e17-4e8b-818e-340c23f586a6
 	clothing: TankTop = Base.Vest_DefaultTEXTURE_TINT
 	clothing: UnderwearBottom = Base.Boxers_RedStripes
 	clothing: Pants = Base.Trousers_Shellsuit_Black
@@ -8099,6 +8170,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = bc3a1954-f4f2-4fa8-86c9-ca04e9cea79d
 	clothing: TankTop = Base.Vest_DefaultTEXTURE_TINT
 	clothing: UnderwearBottom = Base.Underpants_AnimalPrint
 	clothing: Shoes = Base.Shoes_Slippers
@@ -8145,6 +8217,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 291b2e24-d032-4902-9c0e-3556632ca34e
 	clothing: UnderwearBottom = Base.Underpants_AnimalPrint
 	clothing: UnderwearTop = Base.Bra_Straps_Black
 	clothing: Pants = Base.Trousers_Shellsuit_TINT
@@ -8362,6 +8435,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 20d6672e-cfe9-4a26-96c3-cf6f58250761
 	clothing: Tshirt = Base.Tshirt_DefaultDECAL
 	clothing: UnderwearBottom = Base.Underpants_AnimalPrint
 	clothing: UnderwearTop = Base.Bra_Straps_Black
@@ -8410,6 +8484,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 4fa5ca27-0759-4f6d-bcd5-51ef40f5f09f
 	clothing: Eyes = Base.Glasses_HalfMoon
 	clothing: Tshirt = Base.Tshirt_DefaultDECAL
 	clothing: TorsoExtra = Base.Apron_White
@@ -8460,6 +8535,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = aa3475f0-9eac-4865-8d0f-788b5c4b44a8
 	clothing: Tshirt = Base.Tshirt_DefaultDECAL
 	clothing: UnderwearBottom = Base.Underpants_AnimalPrint
 	clothing: UnderwearTop = Base.Bra_Straps_Black
@@ -8483,6 +8559,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 6d291701-908c-41fd-b6eb-bca61180ff46
 	clothing: ShortSleeveShirt = Base.Shirt_FormalWhite_ShortSleeveTINT
 	clothing: LeftWrist = Base.WristWatch_Left_ClassicBrown
 	clothing: LongSkirt = Base.Skirt_Normal
@@ -8505,6 +8582,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 2e15bbba-64b9-47d7-b286-4c307d2aa6e3
 	clothing: ShortSleeveShirt = Base.Shirt_FormalWhite_ShortSleeveTINT
 	clothing: Skirt = Base.Skirt_Knees
 	clothing: Shoes = Base.Shoes_Slippers
@@ -8526,6 +8604,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = e2ca7769-1ec5-4e77-ad38-7053e9d514d9
 	clothing: Tshirt = Base.BoobTube
 	clothing: Left_MiddleFinger = Base.Ring_Left_MiddleFinger_Gold
 	clothing: Skirt = Base.Skirt_Mini
@@ -8572,6 +8651,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = a7527621-7e10-4a4a-b3be-0b126e9a2390
 	clothing: Tshirt = Base.Tshirt_HipHop
 	clothing: Pants = Base.Trousers
 	clothing: Shoes = Base.Shoes_Slippers
@@ -8639,6 +8719,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = d50f2ee0-a7c4-4201-953b-4e46ea6d3402
 	clothing: Shirt = Base.Shirt_FormalWhite
 	clothing: LongSkirt = Base.Skirt_Long
 	clothing: Shoes = Base.Shoes_Strapped
@@ -8682,6 +8763,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 7b7a351a-1afe-4f48-81b2-e29bee9decec
 	clothing: Ears = Base.Earring_LoopLrg_Gold
 	clothing: ShortSleeveShirt = Base.Shirt_FormalWhite_ShortSleeveTINT
 	clothing: LongSkirt = Base.Skirt_Long
@@ -8704,6 +8786,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 141d14be-5cf2-4e9b-9981-3b1c6dca5deb
 	clothing: Ears = Base.Earring_Dangly_Diamond
 	clothing: Eyes = Base.Glasses_Normal
 	clothing: Tshirt = Base.Tshirt_WhiteLongSleeve
@@ -8727,6 +8810,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = c69c8f5d-d743-4bda-9132-05f445a7efc4
 	clothing: ShortSleeveShirt = Base.Shirt_FormalWhite_ShortSleeveTINT
 	clothing: LeftWrist = Base.WristWatch_Left_ClassicGold
 	clothing: Pants = Base.Trousers
@@ -8749,6 +8833,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 8de08390-68ea-4f24-97e9-f06b41ab6fb9
 	clothing: ShortSleeveShirt = Base.Shirt_FormalWhite_ShortSleeveTINT
 	clothing: LeftWrist = Base.WristWatch_Left_DigitalBlack
 	clothing: Pants = Base.Trousers
@@ -8771,6 +8856,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = b9b75947-c209-4076-9df6-bd1fa3a2dbf6
 	clothing: ShortSleeveShirt = Base.Shirt_FormalWhite_ShortSleeveTINT
 	clothing: Pants = Base.Trousers
 	clothing: Shoes = Base.Shoes_Slippers
@@ -8792,6 +8878,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 0b62fceb-2200-4d84-82d7-de64507363d1
 	clothing: Tshirt = Base.Tshirt_DefaultDECAL_TINT
 	clothing: LeftWrist = Base.WristWatch_Left_DigitalBlack
 	clothing: Pants = Base.Trousers
@@ -8814,6 +8901,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = ba65bb1b-e5a7-4644-b8cb-0694a192b650
 	clothing: Tshirt = Base.Tshirt_DefaultDECAL_TINT
 	clothing: LeftWrist = Base.WristWatch_Left_DigitalBlack
 	clothing: Pants = Base.Trousers_JeanBaggy
@@ -10608,6 +10696,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = d9398e23-579e-40f9-8fad-6a514f15bb08
 	clothing: Ears = Base.Earring_Dangly_Emerald
 	clothing: Eyes = Base.Glasses_Aviators
 	clothing: ShortSleeveShirt = Base.Shirt_HawaiianTINT
@@ -10634,6 +10723,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = a5d49a13-9b88-4bf3-ae47-7dee5f644815
 	clothing: Eyes = Base.Glasses_Aviators
 	clothing: Tshirt = Base.Shirt_CropTopTINT
 	clothing: UnderwearExtra1 = Base.TightsBlackTrans
@@ -10684,6 +10774,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 93874180-9541-47ab-bc1f-a8ebd9f01aa2
 	clothing: Dress = Base.DressKnees_Straps
 	clothing: UnderwearExtra1 = Base.StockingsBlackTrans
 	clothing: Shoes = Base.Shoes_Strapped
@@ -10706,6 +10797,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 152ea047-b8e1-4090-91da-86f75c0022ca
 	clothing: Eyes = Base.Glasses_Cosmetic_Normal
 	clothing: Shirt = Base.Shirt_Workman
 	clothing: Pants = Base.Trousers_Black
@@ -10728,6 +10820,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 5aa153f5-e1b3-4efc-9c96-7df14bcca109
 	clothing: Hat = Base.Hat_Cowboy_Black
 	clothing: Shirt = Base.Shirt_FormalWhite
 	clothing: BeltExtra = Base.HolsterSimple_Black
@@ -10753,6 +10846,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 269fd684-0010-41fd-a3ee-0544e37b209f
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: ShortPants = Base.Shorts_CamoGreenLong
 	clothing: Shoes = Base.Shoes_Black
@@ -10774,6 +10868,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 71bfd0bc-be4e-484b-928a-045cdd9b5e6e
 	clothing: Eyes = Base.Glasses_Cosmetic_Normal_HornRimmed
 	clothing: Shirt = Base.Shirt_FormalWhite
 	clothing: Pants = Base.TrousersMesh_DenimLight
@@ -10818,6 +10913,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = b1c8a68d-a9dc-43c9-909c-7e2dd4ad76d4
 	clothing: Tshirt = Base.Tshirt_DefaultTEXTURE
 	clothing: Pants = Base.TrousersMesh_DenimLight
 	clothing: Socks = Base.Socks_Ankle
@@ -10840,6 +10936,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 92726287-dfc7-4e1b-944f-257fc481747f
 	clothing: Hat = Base.Hat_BaseballCapBlue
 	clothing: Tshirt = Base.Tshirt_PoloTINT
 	clothing: Pants = Base.TrousersMesh_DenimLight
@@ -10958,6 +11055,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 87ed18e1-9818-42db-8b71-846a433bf6a2
 	clothing: Tshirt = Base.Tshirt_PoloTINT
 	clothing: ShortPants = Base.Shorts_LongDenim
 	clothing: Socks = Base.Socks_Ankle
@@ -11006,6 +11104,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = a43eb831-33ff-4122-8359-48eb1bad5637
 	clothing: Eyes = Base.Glasses_Cosmetic_Normal
 	clothing: Neck = Base.Tie_Full
 	clothing: Shirt = Base.Shirt_FormalWhite
@@ -11029,6 +11128,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = dce6178b-390f-4d84-9ba1-a9ce471cb194
 	clothing: Eyes = Base.Glasses_Cosmetic_Normal
 	clothing: Neck = Base.Tie_Full
 	clothing: Shirt = Base.Shirt_FormalWhite
@@ -11185,6 +11285,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = fc39caeb-1f85-4091-be41-47760f501fcc
 	clothing: Shirt = Base.Shirt_Priest
 	clothing: Pants = Base.Trousers_Black
 	clothing: Socks = Base.Socks_Ankle_Black
@@ -11213,4 +11314,684 @@
 	clothing: Socks = Base.Socks_Ankle_Black
 	clothing: Shoes = Base.Shoes_Black
 	tint: JacketSuit = 3355443
+
+[a314d6a6-7f86-48c7-b612-b95f10c2d22b]
+	general: modid = BanditsWeekOne
+	general: cid = 784b6f20-87d5-48f7-8ac2-74466f7720ac
+	general: name = Teacher_01
+	general: female = false
+	general: skin = 2
+	general: hairType = 32
+	general: beardType = 4
+	general: hairColor = 16
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Eyes = Base.Glasses_HalfMoon
+	clothing: ShortSleeveShirt = Base.Shirt_FormalWhite_ShortSleeve
+	clothing: Pants = Base.Trousers_Suit
+	clothing: Socks = Base.Socks_Ankle_Black
+	clothing: Shoes = Base.Shoes_Black
+	weapons: melee = Base.Pencil
+
+[bec5e60b-fdb5-46da-aa35-c79bb8d4efcd]
+	general: modid = BanditsWeekOne
+	general: cid = 784b6f20-87d5-48f7-8ac2-74466f7720ac
+	general: name = Teacher_02
+	general: female = false
+	general: skin = 3
+	general: hairType = 29
+	general: beardType = 7
+	general: hairColor = 13
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Eyes = Base.Glasses_MonocleRight
+	clothing: Shirt = Base.Shirt_FormalWhite
+	clothing: Pants = Base.Trousers_Suit
+	clothing: Socks = Base.Socks_Ankle_Black
+	clothing: Shoes = Base.Shoes_Black
+	weapons: melee = Base.Pencil
+
+[6ca614f4-0440-4ad6-a508-667b293f9129]
+	general: modid = BanditsWeekOne
+	general: cid = 784b6f20-87d5-48f7-8ac2-74466f7720ac
+	general: name = Teacher_03
+	general: female = true
+	general: skin = 1
+	general: hairType = 3
+	general: beardType = 1
+	general: hairColor = 3
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Eyes = Base.Glasses_Cosmetic_Normal
+	clothing: ShortSleeveShirt = Base.Shirt_FormalWhite_ShortSleeve
+	clothing: UnderwearExtra1 = Base.StockingsBlackTrans
+	clothing: Skirt = Base.Skirt_Knees
+	clothing: Shoes = Base.Shoes_Fancy
+	weapons: melee = Base.BluePen
+
+[88735deb-aacd-4eef-8b00-093c38d52352]
+	general: modid = BanditsWeekOne
+	general: cid = 784b6f20-87d5-48f7-8ac2-74466f7720ac
+	general: name = Teacher_04
+	general: female = true
+	general: skin = 4
+	general: hairType = 5
+	general: beardType = 1
+	general: hairColor = 13
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Eyes = Base.Glasses_Cosmetic_Normal
+	clothing: ShortSleeveShirt = Base.Shirt_FormalWhite_ShortSleeve
+	clothing: Pants = Base.Trousers_Suit
+	clothing: Socks = Base.Socks_Ankle_Black
+	clothing: Shoes = Base.Shoes_Black
+	weapons: melee = Base.BluePen
+
+[0dd8caa8-e163-4db1-8472-c89357795047]
+	general: modid = BanditsWeekOne
+	general: cid = 784b6f20-87d5-48f7-8ac2-74466f7720ac
+	general: name = Teacher_05
+	general: female = true
+	general: skin = 2
+	general: hairType = 41
+	general: beardType = 1
+	general: hairColor = 12
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Eyes = Base.Glasses_Cosmetic_Normal
+	clothing: ShortSleeveShirt = Base.Shirt_FormalWhite_ShortSleeve
+	clothing: UnderwearExtra1 = Base.StockingsBlackTrans
+	clothing: LongSkirt = Base.Skirt_Normal
+	clothing: Shoes = Base.Shoes_Fancy
+	weapons: melee = Base.BluePen
+
+[a507150a-fa24-4d74-a70b-dac34609272f]
+	general: modid = BanditsWeekOne
+	general: cid = 784b6f20-87d5-48f7-8ac2-74466f7720ac
+	general: name = Teacher_06
+	general: female = true
+	general: skin = 2
+	general: hairType = 39
+	general: beardType = 1
+	general: hairColor = 6
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Eyes = Base.Glasses_70s_Gold
+	clothing: Shirt = Base.Shirt_FormalWhite
+	clothing: UnderwearExtra1 = Base.StockingsBlackTrans
+	clothing: LongSkirt = Base.Skirt_Normal
+	clothing: Shoes = Base.Shoes_Fancy
+	weapons: melee = Base.RedPen
+
+[0750e141-99a6-4134-9e43-845e007eaef6]
+	general: modid = BanditsWeekOne
+	general: cid = 784b6f20-87d5-48f7-8ac2-74466f7720ac
+	general: name = Teacher_07
+	general: female = true
+	general: skin = 5
+	general: hairType = 44
+	general: beardType = 1
+	general: hairColor = 12
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Eyes = Base.Glasses_Cosmetic_Normal
+	clothing: Shirt = Base.Shirt_FormalTINT
+	clothing: UnderwearExtra1 = Base.TightsBlack
+	clothing: LongSkirt = Base.Skirt_Normal
+	clothing: Shoes = Base.Shoes_Fancy
+	weapons: melee = Base.RedPen
+
+[5f07554b-7ab6-4903-8db2-3f03f68e1279]
+	general: modid = BanditsWeekOne
+	general: cid = 5ce44f42-d5f5-4036-b408-26d42fd883ef
+	general: name = Student_01
+	general: female = false
+	general: skin = 5
+	general: hairType = 7
+	general: beardType = 1
+	general: hairColor = 12
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Tshirt = Base.Tshirt_DefaultTEXTURE_TINT
+	clothing: Jacket = Base.Jacket_Varsity
+	clothing: ShortPants = Base.Shorts_CamoUrbanLong
+	clothing: Socks = Base.Socks_Ankle
+	clothing: Shoes = Base.Shoes_TrainerTINT
+	tint: Socks = 16777215
+	tint: Shoes = 16777215
+	bag: name = Base.Bag_Schoolbag_Travel
+
+[8b5b73e9-9826-46c6-b595-1d62861db4e7]
+	general: modid = BanditsWeekOne
+	general: cid = 5ce44f42-d5f5-4036-b408-26d42fd883ef
+	general: name = Student_02
+	general: female = false
+	general: skin = 3
+	general: hairType = 17
+	general: beardType = 1
+	general: hairColor = 12
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Tshirt = Base.Tshirt_DefaultTEXTURE_TINT
+	clothing: Jacket = Base.Jacket_Varsity
+	clothing: Pants = Base.Trousers_Denim
+	clothing: Socks = Base.Socks_Ankle
+	clothing: Shoes = Base.Shoes_TrainerTINT
+	tint: Socks = 16777215
+	tint: Shoes = 5059354
+	bag: name = Base.Bag_Schoolbag_Travel
+
+[3de177d1-f791-4c1f-86be-56e7af5bcf41]
+	general: modid = BanditsWeekOne
+	general: cid = 5ce44f42-d5f5-4036-b408-26d42fd883ef
+	general: name = Student_23
+	general: female = true
+	general: skin = 3
+	general: hairType = 30
+	general: beardType = 1
+	general: hairColor = 3
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Tshirt = Base.Tshirt_Punk
+	clothing: Jacket = Base.Jacket_Varsity
+	clothing: ShortPants = Base.Shorts_LongDenim_Punk
+	clothing: Socks = Base.Socks_Ankle
+	clothing: Shoes = Base.Shoes_ArmyBoots
+	tint: Socks = 16777215
+	weapons: melee = Base.KnifePocket
+	bag: name = Base.Bag_Schoolbag_Travel
+
+[d4e95ce9-fdb2-40b0-9142-1e18fb07c0f9]
+	general: modid = BanditsWeekOne
+	general: cid = 5ce44f42-d5f5-4036-b408-26d42fd883ef
+	general: name = Student_10
+	general: female = false
+	general: skin = 2
+	general: hairType = 5
+	general: beardType = 1
+	general: hairColor = 2
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Tshirt = Base.Tshirt_HipHop
+	clothing: Pants = Base.Trousers_Denim
+	clothing: Socks = Base.Socks_Ankle
+	clothing: Shoes = Base.Shoes_TrainerTINT
+	tint: Socks = 16777215
+	tint: Shoes = 3355456
+
+[4f3bcb71-240c-4079-aef0-87937bf792a3]
+	general: modid = BanditsWeekOne
+	general: cid = 5ce44f42-d5f5-4036-b408-26d42fd883ef
+	general: name = Student_11
+	general: female = false
+	general: skin = 2
+	general: hairType = 13
+	general: beardType = 1
+	general: hairColor = 6
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Tshirt = Base.Tshirt_Metal
+	clothing: Pants = Base.Trousers_Denim
+	clothing: Socks = Base.Socks_Ankle
+	clothing: Shoes = Base.Shoes_TrainerTINT
+	tint: Socks = 16777215
+	tint: Shoes = 3355456
+
+[8e4e6d55-61fe-434a-8ace-47712122542a]
+	general: modid = BanditsWeekOne
+	general: cid = 5ce44f42-d5f5-4036-b408-26d42fd883ef
+	general: name = Student_12
+	general: female = false
+	general: skin = 5
+	general: hairType = 13
+	general: beardType = 1
+	general: hairColor = 1
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Tshirt = Base.Tshirt_HipHop
+	clothing: ShortPants = Base.Shorts_LongDenim
+	clothing: Socks = Base.Socks_Ankle
+	clothing: Shoes = Base.Shoes_TrainerTINT
+	tint: Socks = 16777215
+	tint: Shoes = 6697856
+
+[c09b7091-fb2f-4fc1-bf75-4e0a42d48a14]
+	general: modid = BanditsWeekOne
+	general: cid = 5ce44f42-d5f5-4036-b408-26d42fd883ef
+	general: name = Student_13
+	general: female = false
+	general: skin = 5
+	general: hairType = 7
+	general: beardType = 1
+	general: hairColor = 12
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Tshirt = Base.Tshirt_HipHop
+	clothing: ShortPants = Base.Shorts_CamoUrbanLong
+	clothing: Socks = Base.Socks_Ankle
+	clothing: Shoes = Base.Shoes_TrainerTINT
+	tint: Socks = 16777215
+	tint: Shoes = 16777215
+
+[23a30ba4-25ac-48cb-a14c-2be003090a28]
+	general: modid = BanditsWeekOne
+	general: cid = 5ce44f42-d5f5-4036-b408-26d42fd883ef
+	general: name = Student_03
+	general: female = false
+	general: skin = 3
+	general: hairType = 5
+	general: beardType = 1
+	general: hairColor = 3
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Tshirt = Base.Tshirt_DefaultTEXTURE_TINT
+	clothing: Jacket = Base.Jacket_Varsity
+	clothing: Pants = Base.Trousers_Denim
+	clothing: Socks = Base.Socks_Ankle
+	clothing: Shoes = Base.Shoes_TrainerTINT
+	tint: Socks = 16777215
+	tint: Shoes = 5059354
+	bag: name = Base.Bag_Schoolbag_Travel
+
+[85b88f90-4f08-43ab-90de-944534e34e90]
+	general: modid = BanditsWeekOne
+	general: cid = 5ce44f42-d5f5-4036-b408-26d42fd883ef
+	general: name = Student_04
+	general: female = true
+	general: skin = 3
+	general: hairType = 20
+	general: beardType = 1
+	general: hairColor = 3
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Tshirt = Base.Tshirt_DefaultTEXTURE_TINT
+	clothing: Jacket = Base.Jacket_Varsity
+	clothing: Pants = Base.Trousers_Denim
+	clothing: Socks = Base.Socks_Ankle
+	clothing: Shoes = Base.Shoes_TrainerTINT
+	tint: Socks = 16777215
+	tint: Shoes = 5059354
+	bag: name = Base.Bag_Schoolbag_Travel
+
+[f38fac25-7f53-4b95-ab9b-382799cd094d]
+	general: modid = BanditsWeekOne
+	general: cid = 5ce44f42-d5f5-4036-b408-26d42fd883ef
+	general: name = Student_05
+	general: female = true
+	general: skin = 3
+	general: hairType = 18
+	general: beardType = 1
+	general: hairColor = 1
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Tshirt = Base.Tshirt_DefaultTEXTURE_TINT
+	clothing: Jacket = Base.Jacket_Varsity
+	clothing: ShortPants = Base.Shorts_LongDenim
+	clothing: Socks = Base.Socks_Ankle
+	clothing: Shoes = Base.Shoes_TrainerTINT
+	tint: Socks = 16777215
+	tint: Shoes = 5059354
+	bag: name = Base.Bag_Schoolbag_Travel
+
+[1974b5a8-fb69-4a31-a1a8-b76c5ef391f9]
+	general: modid = BanditsWeekOne
+	general: cid = 5ce44f42-d5f5-4036-b408-26d42fd883ef
+	general: name = Student_06
+	general: female = true
+	general: skin = 4
+	general: hairType = 18
+	general: beardType = 1
+	general: hairColor = 12
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Tshirt = Base.Tshirt_DefaultTEXTURE_TINT
+	clothing: Jacket = Base.Jacket_Varsity
+	clothing: Pants = Base.Trousers_Shellsuit_Black
+	clothing: Socks = Base.Socks_Ankle
+	clothing: Shoes = Base.Shoes_TrainerTINT
+	tint: Socks = 16777215
+	tint: Shoes = 5059354
+	bag: name = Base.Bag_Schoolbag_Travel
+
+[574ea3ad-c224-41e4-a905-9be159f69eac]
+	general: modid = BanditsWeekOne
+	general: cid = 5ce44f42-d5f5-4036-b408-26d42fd883ef
+	general: name = Student_14
+	general: female = true
+	general: skin = 5
+	general: hairType = 22
+	general: beardType = 1
+	general: hairColor = 12
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Tshirt = Base.Tshirt_HipHop
+	clothing: ShortPants = Base.Shorts_CamoUrbanLong
+	clothing: Socks = Base.Socks_Ankle
+	clothing: Shoes = Base.Shoes_TrainerTINT
+	tint: Socks = 16777215
+	tint: Shoes = 16777215
+
+[b5621bae-e242-4fd8-a28d-e9c5b1d45fee]
+	general: modid = BanditsWeekOne
+	general: cid = 5ce44f42-d5f5-4036-b408-26d42fd883ef
+	general: name = Student_15
+	general: female = true
+	general: skin = 2
+	general: hairType = 22
+	general: beardType = 1
+	general: hairColor = 1
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Eyes = Base.Glasses_Cosmetic_70s_Gold
+	clothing: Tshirt = Base.Tshirt_HipHop
+	clothing: Skirt = Base.Skirt_Mini
+	clothing: Socks = Base.Socks_Ankle
+	clothing: Shoes = Base.Shoes_TrainerTINT
+	tint: Skirt = 16751001
+	tint: Socks = 16777215
+	tint: Shoes = 16751001
+	bag: name = Base.Bag_Schoolbag_Kids
+
+[9fc755ac-8c62-41f7-9655-7ca1b056eb0f]
+	general: modid = BanditsWeekOne
+	general: cid = 5ce44f42-d5f5-4036-b408-26d42fd883ef
+	general: name = Student_16
+	general: female = true
+	general: skin = 3
+	general: hairType = 24
+	general: beardType = 1
+	general: hairColor = 19
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Eyes = Base.Glasses_Cosmetic_70s_Gold
+	clothing: Tshirt = Base.Tshirt_HipHop
+	clothing: UnderwearExtra1 = Base.TightsFishnets
+	clothing: Skirt = Base.Skirt_Short
+	clothing: Socks = Base.Socks_Ankle
+	clothing: Shoes = Base.Shoes_TrainerTINT
+	clothing: MakeUp_Lips = Base.MakeUp_LipsRed
+	tint: Skirt = 1710618
+	tint: Socks = 1710618
+	tint: Shoes = 1710618
+	bag: name = Base.Bag_Schoolbag_Kids
+
+[7dd4c666-96a7-475b-9b80-2cb0e1828613]
+	general: modid = BanditsWeekOne
+	general: cid = 5ce44f42-d5f5-4036-b408-26d42fd883ef
+	general: name = Student_24
+	general: female = false
+	general: skin = 1
+	general: hairType = 37
+	general: beardType = 1
+	general: hairColor = 19
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Tshirt = Base.Tshirt_Punk
+	clothing: Jacket = Base.Jacket_Varsity
+	clothing: ShortPants = Base.Shorts_LongDenim_Punk
+	clothing: Socks = Base.Socks_Ankle
+	clothing: Shoes = Base.Shoes_ArmyBoots
+	tint: Socks = 16777215
+	weapons: melee = Base.KnifePocket
+	bag: name = Base.Bag_Schoolbag_Travel
+
+[edc4729a-1c13-4bf0-86d9-065343fcef23]
+	general: modid = BanditsWeekOne
+	general: cid = 7da39ab5-9ddc-4590-8009-f4c148bc5dd6
+	general: name = Waiter_01
+	general: female = false
+	general: skin = 2
+	general: hairType = 17
+	general: beardType = 8
+	general: hairColor = 12
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Shirt = Base.Shirt_FormalWhite
+	clothing: TorsoExtra = Base.Apron_Black
+	clothing: FannyPackFront = Base.Bag_FannyPackFront
+	clothing: Pants = Base.Trousers_Black
+	clothing: Socks = Base.Socks_Ankle_Black
+	clothing: Shoes = Base.Shoes_Black
+	weapons: melee = Base.SmashedBottle
+
+[19a9618d-29f6-4454-b48a-cacd4d429836]
+	general: modid = BanditsWeekOne
+	general: cid = 7da39ab5-9ddc-4590-8009-f4c148bc5dd6
+	general: name = Waiter_02
+	general: female = false
+	general: skin = 2
+	general: hairType = 21
+	general: beardType = 5
+	general: hairColor = 3
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Shirt = Base.Shirt_FormalWhite
+	clothing: TorsoExtra = Base.Apron_Black
+	clothing: FannyPackFront = Base.Bag_FannyPackFront
+	clothing: Pants = Base.Trousers_Black
+	clothing: Socks = Base.Socks_Ankle_Black
+	clothing: Shoes = Base.Shoes_Black
+	weapons: melee = Base.SmashedBottle
+
+[be27b978-37e5-48f9-88fb-91fa619da39b]
+	general: modid = BanditsWeekOne
+	general: cid = 7da39ab5-9ddc-4590-8009-f4c148bc5dd6
+	general: name = Waiter_03
+	general: female = false
+	general: skin = 1
+	general: hairType = 34
+	general: beardType = 1
+	general: hairColor = 4
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Shirt = Base.Shirt_FormalTINT
+	clothing: TorsoExtra = Base.Apron_Black
+	clothing: LeftWrist = Base.WristWatch_Left_DigitalBlack
+	clothing: FannyPackFront = Base.Bag_FannyPackFront
+	clothing: Pants = Base.Trousers_Black
+	clothing: Socks = Base.Socks_Ankle_Black
+	clothing: Shoes = Base.Shoes_Black
+	tint: Shirt = 1710618
+	weapons: melee = Base.SmashedBottle
+
+[74649dea-f359-44e4-96dd-d941c2214f80]
+	general: modid = BanditsWeekOne
+	general: cid = 7da39ab5-9ddc-4590-8009-f4c148bc5dd6
+	general: name = Waiter_04
+	general: female = true
+	general: skin = 3
+	general: hairType = 39
+	general: beardType = 1
+	general: hairColor = 3
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Shirt = Base.Shirt_FormalTINT
+	clothing: TorsoExtra = Base.Apron_Black
+	clothing: UnderwearExtra1 = Base.TightsBlack
+	clothing: FannyPackFront = Base.Bag_FannyPackFront
+	clothing: Skirt = Base.Skirt_Mini
+	clothing: Shoes = Base.Shoes_Black
+	tint: Shirt = 1710618
+	tint: Skirt = 1710618
+	weapons: melee = Base.SmashedBottle
+
+[f787c598-c5c5-4be3-80ee-353b0dffa7cd]
+	general: modid = BanditsWeekOne
+	general: cid = 7da39ab5-9ddc-4590-8009-f4c148bc5dd6
+	general: name = Waiter_05
+	general: female = true
+	general: skin = 3
+	general: hairType = 38
+	general: beardType = 1
+	general: hairColor = 1
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Eyes = Base.Glasses_Reading
+	clothing: ShortSleeveShirt = Base.Shirt_FormalWhite_ShortSleeve
+	clothing: TorsoExtra = Base.Apron_Black
+	clothing: FannyPackFront = Base.Bag_FannyPackFront
+	clothing: Skirt = Base.Skirt_Mini
+	clothing: Shoes = Base.Shoes_Black
+	tint: Skirt = 1710618
+	weapons: melee = Base.SmashedBottle
+
+[7a05a81d-6a38-40e9-8fc7-6d2946a621c6]
+	general: modid = BanditsWeekOne
+	general: cid = 7da39ab5-9ddc-4590-8009-f4c148bc5dd6
+	general: name = Waiter_06
+	general: female = true
+	general: skin = 4
+	general: hairType = 36
+	general: beardType = 1
+	general: hairColor = 10
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: ShortSleeveShirt = Base.Shirt_FormalWhite_ShortSleeve
+	clothing: TorsoExtra = Base.Apron_Black
+	clothing: LeftWrist = Base.WristWatch_Left_ClassicGold
+	clothing: FannyPackFront = Base.Bag_FannyPackFront
+	clothing: Skirt = Base.Skirt_Mini
+	clothing: Shoes = Base.Shoes_Fancy
+	tint: Skirt = 1710618
+	weapons: melee = Base.SmashedBottle
 
