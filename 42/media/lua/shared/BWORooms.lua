@@ -489,7 +489,7 @@ BWORooms.tab = {
 
     coroneroffice = {
         isStorage = true,
-        cids = {Bandit.clanMap.BanditStrong}
+        cidBandit = {Bandit.clanMap.BanditStrong},
     },
 
     daycare = {
@@ -527,7 +527,7 @@ BWORooms.tab = {
 
     depositboxes = {
         isStorage = true,
-        cids = {Bandit.clanMap.CriminalClassy}
+        cidBandit = {Bandit.clanMap.CriminalClassy}
     },
 
     detectiveoffice = {
@@ -1226,7 +1226,7 @@ BWORooms.tab = {
 
     morgue = {
         isStorage = true,
-        cids = {Bandit.clanMap.BanditStrong}
+        cidBandit = {Bandit.clanMap.BanditStrong}
     },
 
     movierental = {
@@ -1268,6 +1268,7 @@ BWORooms.tab = {
     office = {
         outfits = {"OfficeWorkerSkirt"},
         cids = {Bandit.clanMap.Office},
+        cidBandit = {Bandit.clanMap.CriminalWhite},
         femaleChance = 100
     },
 
@@ -1663,6 +1664,7 @@ BWORooms.tab = {
 
     storage = {
         cids = {Bandit.clanMap.Walker, Bandit.clanMap.Runner},
+        cidBandit = {Bandit.clanMap.BanditStrong},
         isStorage = true
     },
 
@@ -1740,7 +1742,7 @@ BWORooms.tab = {
 
     toolstorage = {
         isStorage = true,
-        cids = {Bandit.clanMap.BanditSpike},
+        cidBandit = {Bandit.clanMap.BanditSpike},
         occupations = {"repairman"},
         income = 1
     },
@@ -1767,7 +1769,7 @@ BWORooms.tab = {
 
     vault = {
         isStorage = true,
-        cids = {Bandit.clanMap.CriminalClassy}
+        cidBandit = {Bandit.clanMap.CriminalClassy}
     },
 
     walletshop = {

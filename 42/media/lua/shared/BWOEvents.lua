@@ -2305,11 +2305,13 @@ BWOEvents.VehicleCrash = function(params)
     BWOScheduler.Add("VehiclesUpdate", vparams, 500)
 
     local vehicle = spawnVehicle(cx, cy, 0, params.vtype)
-    vehicle:setGeneralPartCondition(0.1, 100)
-    vehicle:setBloodIntensity("Front", 1)
-    vehicle:setBloodIntensity("Rear", 1)
-    vehicle:setBloodIntensity("Left", 1)
-    vehicle:setBloodIntensity("Right", 1)
+    if vehicle then
+        vehicle:setGeneralPartCondition(0.1, 100)
+        vehicle:setBloodIntensity("Front", 1)
+        vehicle:setBloodIntensity("Rear", 1)
+        vehicle:setBloodIntensity("Left", 1)
+        vehicle:setBloodIntensity("Right", 1)
+    end
 end
 
 BWOEvents.Horde = function(params)

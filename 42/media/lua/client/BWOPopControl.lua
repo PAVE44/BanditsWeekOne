@@ -192,6 +192,7 @@ BWOPopControl.InhabitantsSpawn = function(max)
     local cell = player:getCell()
     local px, py = player:getX(), player:getY()
     local rooms = cell:getRoomList()
+    local banditList = BanditZombie.CacheLightB
 
     -- the probability of spawn in a room will depend on room size and other factors
     local cursor = 0
@@ -206,122 +207,164 @@ BWOPopControl.InhabitantsSpawn = function(max)
             buildingDef:setAlarmed(false)
 
             if not BWOBuildings.IsEventBuilding(building, "home") then --and not BWOBuildings.IsRecentlyVisited(building)
+                local bx1, bx2 = def:getX(), def:getX2()
+                local by1, by2 = def:getY(), def:getY2()
+                local bz = def:getZ()
+                local sd = 15
+                local md = 90
+                
+                if (px < bx1 - sd or px > bx2 + sd) and (py < by1 - sd or py > by2 + sd) 
+                    and (px > bx1 - md or px < bx2 + md) and (py > by1 - md or py < by2 + md) then
 
-                if (def:getZ() >=0 or BWOScheduler.NPC.Run) and math.abs(def:getX() - player:getX()) < 80 and math.abs(def:getX2() - player:getX()) < 80 and 
-                math.abs(def:getY() - player:getY()) < 80 and math.abs(def:getY2() - player:getY()) < 80 then
+                    local roomData = BWORooms.Get(room)
 
-                    local roomSize = BWORooms.GetRoomSize(room)
-                    local rid = def:getIDString()
-                    local popMod = 1 -- lags: BWORooms.GetRoomPopMod(room)
-                    if popMod > 0 then
-                        local cursorStart = cursor
-                        cursor = cursor + math.floor(roomSize ^ 1.2)
-                        table.insert(roomPool, {room=room, size=roomSize, rid=rid, cursorStart=cursorStart, cursorEnd=cursor})
+                    if roomData then 
+
+                        local spawnSquare = def:getFreeSquare()
+                        if spawnSquare and not spawnSquare:getZombie() and not spawnSquare:isOutside() then -- and spawnSquare:isFree(false) and BanditCompatibility.HaveRoofFull(spawnSquare) and not BWOSquareLoader.IsInExclusion(spawnSquare:getX(), spawnSquare:getY()) then
+
+                            local rid = def:getIDString()
+                            local sx, sy, sz = spawnSquare:getX(), spawnSquare:getY(), spawnSquare:getZ()
+
+                            local occupantsRequiredGeneric = 0
+                            local occupantsRequiredSpecial = 0
+                            local occupantsRequiredBandit = 0
+
+                            if roomData.cids and bz >= 0 then
+                                local occupantsRequiredTotal = BWORooms.GetRoomMaxPop(room)
+
+                                -- count special roles and add to req
+                                if roomData.cidSpecial then
+                                    for _, _ in pairs(roomData.cidSpecial) do
+                                        occupantsRequiredSpecial = occupantsRequiredSpecial + 1
+                                    end
+                                end
+
+                                occupantsRequiredGeneric = occupantsRequiredTotal - occupantsRequiredSpecial
+
+                            end
+
+                            if roomData.cidBandit and bz < 0 and BWOScheduler.NPC.Run then
+                                occupantsRequiredBandit = BWORooms.GetRoomMaxPop(room)
+                            end
+
+                            local occupantsPresentGeneric = 0
+                            local occupantsPresentSpecial = 0
+                            local occupantsPresentBandit = 0
+
+                            if occupantsRequiredGeneric > 0 or occupantsRequiredSpecial > 0 or occupantsRequiredBandit > 0 then
+                                for _, otherBandit in pairs(banditList) do
+                                    if rid == otherBandit.rid then
+                                        if occupantsRequiredGeneric > 0 then
+                                            for _, cid in pairs(roomData.cids) do
+                                                if cid == otherBandit.brain.cid then
+                                                    occupantsPresentGeneric = occupantsPresentGeneric + 1
+                                                    break
+                                                end
+                                            end
+                                        end
+
+                                        if occupantsRequiredSpecial > 0 then
+                                            for _, cid in pairs(roomData.cidSpecial) do
+                                                if cid == otherBandit.brain.cid then
+                                                    occupantsPresentSpecial = occupantsPresentSpecial + 1
+                                                    break
+                                                end
+                                            end
+                                        end
+
+                                        if occupantsRequiredBandit > 0 then
+                                            for _, cid in pairs(roomData.cidBandit) do
+                                                if cid == otherBandit.brain.cid then
+                                                    occupantsPresentBandit = occupantsPresentBandit + 1
+                                                    break
+                                                end
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+
+                            local occupantsSpawnSpecial = occupantsRequiredSpecial - occupantsPresentSpecial
+                            if occupantsSpawnSpecial > 0 then
+                                local cid = BanditUtils.Choice(roomData.cidSpecial)
+                                local roomSize = BWORooms.GetRoomSize(room)
+                                local cursorStart = cursor
+                                cursor = cursor + math.floor(roomSize ^ 1.2)
+                                table.insert(roomPool, {room=room, x=sx, y=sy, z=sz, cid = cid, cursorStart=cursorStart, cursorEnd=cursor})
+                            end
+
+                            local occupantsSpawnGeneric = occupantsRequiredGeneric - occupantsPresentGeneric
+                            if occupantsSpawnGeneric > 0 then
+                                local cid = BanditUtils.Choice(roomData.cids)
+                                local roomSize = BWORooms.GetRoomSize(room)
+                                local cursorStart = cursor
+                                cursor = cursor + math.floor(roomSize ^ 1.2)
+                                table.insert(roomPool, {room=room, x=sx, y=sy, z=sz, cid = cid, cursorStart=cursorStart, cursorEnd=cursor})
+                            end
+
+                            local occupantsSpawnBandit = occupantsRequiredBandit - occupantsPresentBandit
+                            if occupantsSpawnBandit > 0 then
+                                local cid = BanditUtils.Choice(roomData.cidBandit)
+                                local roomSize = BWORooms.GetRoomSize(room)
+                                local cursorStart = cursor
+                                cursor = cursor + math.floor(roomSize ^ 1.2)
+                                table.insert(roomPool, {room=room, x=sx, y=sy, z=sz, cid = cid, cursorStart=cursorStart, cursorEnd=cursor})
+                            end
+                        end
                     end
                 end
-
             end
-
         end
     end
 
+    -- shuffle (Fisher-Yates)
+    for i = #roomPool, 2, -1 do
+        local j = ZombRand(i) + 1
+        roomPool[i], roomPool[j] = roomPool[j], roomPool[i]
+    end
+
     -- now spawn
+    local i = 0 
+    for _, rp in pairs(roomPool) do
+        local args = {
+            size = 1,
+            program = "Inhabitant",
+            x = rp.x,
+            y = rp.y,
+            z = rp.z,
+            cid = rp.cid
+        }
+        print ("INHAB X: " .. args.x .. "Y: " .. args.y .. " Z: " .. args.z)
+
+        BanditServer.Spawner.Clan(player, args)
+
+        i = i + 1
+        if i > max then break end
+    end
+    --[[
     local i = 0
     for r=1, max do
         local rnd = ZombRand(cursor)
         for _, rp in pairs(roomPool) do
             if rnd >= rp.cursorStart and rnd < rp.cursorEnd then
-                local roomData = BWORooms.Get(rp.room)
-                local spawnRoomDef = rp.room:getRoomDef()
 
-                if spawnRoomDef and roomData then
-                    local banditList = BanditZombie.CacheLightB
+                local args = {
+                    size = 1,
+                    program = "Inhabitant",
+                    x = rp.x,
+                    y = rp.y,
+                    z = rp.z,
+                    cid = rp.cid
+                }
+                print ("INHAB X: " .. args.x .. "Y: " .. args.y .. " Z: " .. args.z)
 
-                    local occupantsRequiredGeneric = 0
-                    local occupantsRequiredSpecial = 0
+                BanditServer.Spawner.Clan(player, args)
+                --sendClientCommand(player, 'Spawner', 'Clan', args)
 
-                    if roomData.cids then
-                        local occupantsRequiredTotal = BWORooms.GetRoomMaxPop(rp.room)
-
-                        -- count special roles and add to req
-                        if roomData.cidSpecial then
-                            for _, _ in pairs(roomData.cidSpecial) do
-                                occupantsRequiredSpecial = occupantsRequiredSpecial + 1
-                            end
-                        end
-
-                        occupantsRequiredGeneric = occupantsRequiredTotal - occupantsRequiredSpecial
-
-                    end
-
-                    local occupantsPresentGeneric = 0
-                    if occupantsRequiredGeneric > 0 then
-                        for _, otherBandit in pairs(banditList) do
-                            if rp.rid == otherBandit.rid then
-                                for _, cid in pairs(roomData.cids) do
-                                    if cid == otherBandit.brain.cid or otherBandit.z < 0 then
-                                        occupantsPresentGeneric = occupantsPresentGeneric + 1
-                                        break
-                                    end
-                                end
-                            end
-                        end
-                    end
-
-                    local occupantsPresentSpecial = 0
-                    if occupantsRequiredSpecial > 0 then
-                        for _, otherBandit in pairs(banditList) do
-                            if rp.rid == otherBandit.rid then
-                                for _, cid in pairs(roomData.cidSpecial) do
-                                    if cid == otherBandit.brain.cid then
-                                        occupantsPresentSpecial = occupantsPresentSpecial + 1
-                                        break
-                                    end
-                                end
-                            end
-                        end
-                    end
-
-                    local spawnSquare = spawnRoomDef:getFreeSquare()
-                    if spawnSquare and not spawnSquare:getZombie() and not spawnSquare:isOutside() and spawnSquare:isFree(false) and BanditCompatibility.HaveRoofFull(spawnSquare) and not BWOSquareLoader.IsInExclusion(spawnSquare:getX(), spawnSquare:getY()) then
-
-                        local args = {
-                            size = 1,
-                            program = "Inhabitant",
-                            x = spawnSquare:getX(),
-                            y = spawnSquare:getY(),
-                            z = spawnSquare:getZ(),
-                        }
-
-                        local occupantsSpawnSpecial = occupantsRequiredSpecial - occupantsPresentSpecial
-                        if occupantsSpawnSpecial > 0 then
-                            args.size = math.min(occupantsSpawnSpecial, 2)
-                            args.cid = BanditUtils.Choice(roomData.cidSpecial)
-                            sendClientCommand(player, 'Spawner', 'Clan', args)
-                            print ("INHAB SPAWN SPECIAL (" .. occupantsPresentSpecial .. "/" .. occupantsRequiredSpecial .. ")")
-                        end
-
-                        local occupantsSpawnGeneric = occupantsRequiredGeneric - occupantsPresentGeneric
-                        if occupantsSpawnGeneric > 0 then
-                            local cid = BanditUtils.Choice(roomData.cids)
-                            if spawnSquare:getZ() < 0 then
-                                if roomData.name == "storage" then
-                                    cid = Bandit.clanMap.BanditStrong
-                                elseif roomData.name == "office" then
-                                    cid = Bandit.clanMap.CriminalWhite
-                                end
-                            end
-
-                            args.size = math.min(occupantsSpawnGeneric, 2)
-                            args.cid = cid
-                            sendClientCommand(player, 'Spawner', 'Clan', args)
-                            print ("INHAB SPAWN GENERIC (" .. occupantsPresentGeneric .. "/" .. occupantsRequiredGeneric .. ")")
-                        end 
-                    end
-                end
             end
         end
-    end
+    end]]
 
     -- print ("--------------- IS: CURSOR" .. cursor .. " time: ".. getTimestampMs() - ts)
 end
@@ -586,7 +629,7 @@ BWOPopControl.UpdateCivs = function()
     local nominal = BWOPopControl.StreetsNominal
     -- local density = BanditScheduler.GetDensityScore(player, 120) * 1.4
     local density = BWOBuildings.GetDensityScore(player, 120) / 8000
-    if density > 2.5 then density = 2.5 end
+    if density > 2.2 then density = 2.2 end
     local hourmod = getHourScore()
     local pop = nominal * density * hourmod * SandboxVars.BanditsWeekOne.StreetsPopMultiplier
     BWOPopControl.StreetsMax = pop
@@ -610,7 +653,7 @@ BWOPopControl.UpdateCivs = function()
     -- count desired population of civs
     local nominal = BWOPopControl.InhabitantsNominal
     -- local density = BanditScheduler.GetDensityScore(player, 120) * 1.2
-    BWOPopControl.InhabitantsMax = nominal * SandboxVars.BanditsWeekOne.InhabitantsPopMultiplier
+    BWOPopControl.InhabitantsMax = nominal * density * SandboxVars.BanditsWeekOne.InhabitantsPopMultiplier
 
     -- count missing amount to spawn
     --ts = getTimestampMs()
