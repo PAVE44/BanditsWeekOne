@@ -59,6 +59,8 @@ BWOPlayer.ActivateWitness = function(character, min)
                         else
                             local r = 4
                             if actor:isFemale() then r = 10 end
+                            if character:HasTrait("charming") then r = r + 3 end
+                            if character:HasTrait("ugly") then r = r - 3 end
 
                             Bandit.SetProgram(actor, "Active", {})
                             if ZombRand(r) == 0 then
@@ -122,6 +124,8 @@ BWOPlayer.ActivateTargets = function(character, min, severity)
                                 if not wasLegal then
                                     local r = 4
                                     if actor:isFemale() then r = 9 end
+                                    if character:HasTrait("charming") then r = r + 3 end
+                                    if character:HasTrait("ugly") then r = r - 3 end
                                     if ZombRand(r) == 0 and severity == 2 then
                                         Bandit.SetHostileP(actor, true)
                                     end
@@ -287,7 +291,9 @@ BWOPlayer.CheckFriendlyFire = function(bandit, attacker)
                                 if ZombRand(4) > 0 then
                                     Bandit.ClearTasks(actor)
                                     Bandit.SetProgram(actor, "Active", {})
-                                    if wasPlayerFault and ZombRand(2) == 0 then
+
+                                    local c = player:HasTrait("charming") and 2 or 4
+                                    if wasPlayerFault and ZombRand(c) == 0 then
                                         Bandit.SetHostileP(actor, true)
                                     end
                                     Bandit.Say(actor, "REACTCRIME")
@@ -839,18 +845,20 @@ local everyOneMinute = function()
 
     -- room based time based income
     local square = player:getSquare()
-    local room = square:getRoom()
-    if room then
-        local name = BWORooms.GetRealRoomName(room)
-        local tab = BWORooms.tab
-        local data = BWORooms.tab[name]
-        if data then
-            if data.income then
-                if data.occupations then
-                    for _, occupation in pairs(data.occupations) do
-                        if profession == occupation then
-                            payment = data.income
-                            break
+    if square then
+        local room = square:getRoom()
+        if room then
+            local name = BWORooms.GetRealRoomName(room)
+            local tab = BWORooms.tab
+            local data = BWORooms.tab[name]
+            if data then
+                if data.income then
+                    if data.occupations then
+                        for _, occupation in pairs(data.occupations) do
+                            if profession == occupation then
+                                payment = data.income
+                                break
+                            end
                         end
                     end
                 end

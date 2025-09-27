@@ -26,350 +26,55 @@ BWOScheduler.waShiftMap = waShiftMap
 
 -- schedule 
 local generateSchedule = function()
+    --[[
     local tab = {}
-    for wa=0, 400 do
+    for wa=-24, 400 do
         tab[wa] = {}
         for m=0, 59 do
             tab[wa][m] = {}
         end
     end
+    ]]
 
-    -- {eventName, {params}}
-    -- DAY 1 09.00
-    -- tab[0][1]   = {"Start", {}}
-    tab[0][2]   = {"StartDay", {day="friday"}}
-    tab[0][3]   = {"BuildingHome", {addRadio=true}}
-    tab[0][4]   = {"SetupNukes", {}}
-    tab[0][5]   = {"SetupPlaceEvents", {}}
+    local gmd = GetBWOModData()
+    local variant = gmd.Variant
 
-    tab[2][22]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=30, intensity=8}}
-    tab[4][15]  = {"Entertainer", {}}
-    tab[5][44]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}}
-    -- tab[6][35]  = {"Entertainer", {}}
-    -- tab[7][15]  = {"Entertainer", {}}
-    -- tab[8][5]   = {"Defenders", {profession="policeofficer"}}
-    tab[8][5]   = {"Arson", {profession="fireofficer"}}
-
-    tab[11][12] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[12][30] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[13][5]  = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[13][25] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[15][5]  = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[15][25] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[16][58] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[19][42] = {"BuildingHome", {addRadio=false}}
-    -- tab[19][43] = {"Thieves", {intensity=3}}
-
-    -- DAY 2 09.00
-    tab[24][0]  = {"StartDay", {day="saturday"}}
-    -- tab[24][15] = {"Entertainer", {}}
-    tab[25][44] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}}
-    -- tab[26][20] = {"Entertainer", {}}
-    tab[26][21] = {"SetHydroPower", {on=false}}
-    tab[26][22] = {"SetHydroPower", {on=true}}
-    tab[27][8]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}}
-    tab[28][33] = {"Entertainer", {}}
-    tab[30][33] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}}
-    tab[35][20] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[36][10] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[37][5]  = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[37][25] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[39][2]  = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    -- tab[39][14] = {"Defenders", {profession="policeofficer"}}
-    tab[39][14] = {"Arson", {profession="fireofficer"}}
-    tab[42][6]  = {"BuildingHome", {addRadio=false}}
-    -- tab[42][7]  = {"Thieves", {intensity=4}}
-
-    -- DAY 3 09.00
-    tab[48][0]  = {"StartDay", {day="sunday"}}
-    tab[48][11] = {"ChopperAlert", {name="heli2", sound="BWOChopperGeneric", dir = 90, speed=2.7}}
-    tab[51][9]  = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 0, speed=2.2}}
-    tab[51][11] = {"ChopperAlert", {name="heli2", sound="BWOChopperGeneric", dir = -90, speed=2.3}}
-    tab[52][5]  = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 180, speed=1.8}}
-    tab[52][11] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=75, intensity=2}}
-    tab[53][1]  = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = -90, speed=2.2}}
-    tab[54][28] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 90, speed=1.8}}
-    tab[54][30] = {"Arson", {}}
-    tab[55][11] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=74, intensity=2}}
-    tab[58][33] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=73, intensity=3}}
-    -- tab[59][44] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    -- tab[59][55] = {"BuildingParty", {roomName="bedroom", intensity=8}}
-    tab[59][56] = {"SpawnGroup", {name="Suicide Bomber", cid=Bandit.clanMap.SuicideBomber, program="Shahid", d=45, intensity=2}}
-    tab[62][55] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 180, speed=1.7}}
-    tab[63][30] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=72, intensity=4}}
-    tab[66][39] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=71, intensity=3}}
-    tab[66][40] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 0, speed=1.8}}
-    tab[66][41] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=70, intensity=3}}
-    tab[67][13] = {"ChopperAlert", {name="heli2", sound="BWOChopperGeneric", dir = 0, speed=2.9}}
-    -- tab[69][14] = {"Defenders", {}}
-    -- tab[71][21] = {"Defenders", {}}
-
-    -- DAY 4 09.00
-    tab[72][0]  = {"StartDay", {day="monday"}}
-    -- tab[72][2]  = {"Defenders", {}}
-    -- tab[76][7]  = {"Defenders", {}}
-    -- tab[76][57] = {"Defenders", {}}
-    tab[77][22] = {"SpawnGroup", {name="Suicide Bomber", cid=Bandit.clanMap.SuicideBomber, program="Shahid", d=41, intensity=2}}
-    tab[77][33] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=69, intensity=4}}
-    tab[77][39] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=68, intensity=4}}
-    -- tab[78][51] = {"Defenders", {}}
-    tab[79][14] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=67, intensity=3}}
-    tab[79][15] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=66, intensity=3}}
-    tab[79][55] = {"Arson", {}}
-    -- tab[80][41] = {"Defenders", {}}
-    tab[82][31] = {"ChopperAlert", {name="heli2", sound="BWOChopperCDC1", dir = 0, speed=1.8}}
-    tab[82][42] = {"ChopperAlert", {name="heli2", sound="BWOChopperCDC1", dir = 180, speed=2.1}}
-    tab[83][35] = {"BuildingHome", {addRadio=false}}
-    -- tab[83][36] = {"Thieves", {intensity=4}}
-    tab[85][33] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = -90, speed=1.7}}
-    tab[86][40] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 90, speed=1.7}}
-    tab[87][27] = {"Arson", {}}
-    tab[87][33] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=65, intensity=4}}
-    tab[87][50] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=64, intensity=5}}
-    tab[88][44] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=63, intensity=6}}
-    tab[88][46] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=62, intensity=7}}
-    tab[88][47] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=61, intensity=6}}
-    -- tab[89][35] = {"Defenders", {}}
-    tab[89][52] = {"Arson", {}}
-    tab[89][58] = {"BuildingHome", {addRadio=false}}
-    -- tab[89][59] = {"Thieves", {intensity=5}}
-    -- tab[90][6]  = {"Defenders", {}}
-    tab[91][4]  = {"Arson", {}}
-    tab[91][23] = {"SpawnGroup",{name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=65, intensity=4}}
-    -- tab[94][31] = {"Defenders", {}}
-    tab[94][33] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=60, intensity=5}}
-    tab[94][37] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=59, intensity=6}}
-    tab[95][22] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=65, intensity=4}}
-    tab[95][33] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=58, intensity=5}}
-    tab[95][37] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=57, intensity=4}}
-
-    -- DAY 5 09.00
-    tab[96][0]  = {"StartDay", {day="tuesday"}}
-    tab[96][15] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Police", d=45, intensity=10}}
-    -- tab[97][2]  = {"Defenders", {}}
-    tab[97][3]  = {"SpawnGroup", {name="Biker Gang", cid=Bandit.clanMap.Biker, program="Bandit", d=60, intensity=14}}
-    -- tab[98][10] = {"Defenders", {}}
-    -- tab[103][10] = {"Defenders", {}}
-    -- tab[105][52] = {"Defenders", {}}
-    tab[112][0]  = {"Arson", {}}
-    tab[112][11] = {"Arson", {}}
-    tab[112][12] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=64, intensity=6}}
-    tab[112][44] = {"Arson", {}}
-    tab[112][45] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=63, intensity=6}}
-    -- tab[112][55] = {"Defenders", {}}
-    tab[112][56] = {"SpawnGroup", {name="Biker Gang", cid=Bandit.clanMap.Biker, program="Bandit", d=60, intensity=14}}
-    -- tab[113][31] = {"Defenders", {}}
-    tab[113][22] = {"Arson", {}}
-    tab[113][23] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 0, speed=1.9}}
-    tab[113][33] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=57, intensity=4}}
-    tab[113][35] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=56, intensity=5}}
-    tab[113][36] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=61, intensity=6}}
-    tab[113][37] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=55, intensity=5}}
-    tab[113][38] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=60, intensity=5}}
-    tab[113][39] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=59, intensity=2}}
-    -- tab[116][15] = {"Defenders", {}}
-    tab[116][16] = {"BuildingHome", {addRadio=false}}
-    -- tab[116][17] = {"Thieves", {intensity=6}}
-    -- tab[117][15] = {"Thieves", {intensity=6}}
-
-    -- DAY 6 09.00
-    tab[120][0]  = {"StartDay", {day="wednesday"}}
-
-    tab[121][2]  = {"ProtestAll", {}}
-    tab[121][16] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = -90, speed=1.6}}
-    tab[121][45] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = 90, speed=1.7}}
-    tab[122][0]  = {"Siren", {}}
-    tab[122][11] = {"SpawnGroup", {name="Riot Police", cid=Bandit.clanMap.PoliceRiot, program="RiotPolice", d=30, intensity=12}}
-    tab[122][12] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = -90, speed=1.8}}
-    tab[122][15] = {"SpawnGroup", {name="Riot Police", cid=Bandit.clanMap.PoliceRiot, program="RiotPolice", d=30, intensity=12}}
-    tab[122][16] = {"Shahids", {intensity=1}}
-    tab[122][17] = {"SpawnGroup", {name="Riot Police", cid=Bandit.clanMap.PoliceRiot, program="RiotPolice", d=30, intensity=12}}
-    tab[122][44] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = 90, speed=1.6}}
-    tab[123][27] = {"Arson", {}}
-    tab[123][33] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=54, intensity=4}}
-    tab[123][39] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=53, intensity=4}}
-    tab[123][41] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = 180, speed=2.7}}
-    tab[123][45] = {"SpawnGroup", {name="Riot Police", cid=Bandit.clanMap.PoliceRiot, program="RiotPolice", d=30, intensity=12}}
-    tab[123][56] = {"VehicleCrash", {x=-70, y=0, vtype="pzkHeli350PoliceWreck"}}
-    tab[124][1]  = {"ChopperFliers", {}}
-    tab[125][2]  = {"Arson", {}}
-    tab[125][3]  = {"SpawnGroup", {name="Asylum Escapes", cid=Bandit.clanMap.Mental, program="Bandit", d=34, intensity=16}}
-    tab[125][5]  = {"Arson", {}}
-    tab[128][16] = {"Arson", {}}
-    tab[128][27] = {"Arson", {}}
-    tab[130][0]  = {"Siren", {}}
-
-    tab[132][0]  = {"Siren", {}}
-
-    tab[133][6]  = {"Reanimate", {r=80, chance=100}}
-    tab[133][54]  = {"Siren", {}}
-    tab[133][56]  = {"PlaneCrashSequence", {}}
-    tab[134][40] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=46, intensity=12}}
-    tab[135][0]  = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=58, intensity=4}}
-    tab[135][1]  = {"SetHydroPower", {on=false}}
-    tab[135][2]  = {"SetHydroPower", {on=true}}
-    tab[135][8]  = {"SetHydroPower", {on=false}}
-    tab[135][10] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=57, intensity=4}}
-    tab[135][20] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=56, intensity=4}}
-    tab[135][30] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=55, intensity=4}}
-    tab[135][32] = {"SetHydroPower", {on=true}}
-    tab[135][40] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=54, intensity=4}}
-    tab[135][50] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=53, intensity=4}}
-    tab[136][12] = {"SpawnGroup", {name="Veterans", cid=Bandit.clanMap.Veteran, program="Police", d=47, intensity=10}}
-    tab[136][14] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=48, intensity=10}}
-    tab[138][2]  = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=52, intensity=3}}
-
-    -- DAY 7 09.00
-    tab[144][0]  = {"StartDay", {day="thursday"}}
-    tab[145][6]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=49, intensity=5}}
-    tab[145][17] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=50, intensity=5}}
-    tab[146][0]  = {"Siren", {}}
-    tab[146][0]  = {"Reanimate", {r=80, chance=100}}
-    tab[146][5]  = {"JetFighterRun", {arm="mg"}}
-    tab[146][25] = {"JetFighterRun", {arm="mg"}}
-    tab[146][45] = {"JetFighterRun", {arm="mg"}}
-    tab[147][8]  = {"JetFighterRun", {arm="mg"}}
-    tab[147][24] = {"JetFighterRun", {arm="mg"}}
-    tab[147][28] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=51, intensity=5}}
-    tab[147][47] = {"JetFighterRun", {arm="mg"}}
-    tab[147][48] = {"Horde", {cnt=100, x=45, y=45}}
-    tab[147][50] = {"JetFighterRun", {arm="mg"}}
-    tab[147][51] = {"JetFighterRun", {arm="mg"}}
-    tab[150][9]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=52, intensity=10}}
-    tab[150][50] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=51, intensity=5}}
-    tab[150][24] = {"JetFighterRun", {arm="mg"}}
-    tab[150][25] = {"JetFighterRun", {arm="mg"}}
-    tab[150][26] = {"JetFighterRun", {arm="mg"}}
-    tab[150][49] = {"JetFighterRun", {arm="mg"}}
-    tab[150][50] = {"JetFighterRun", {arm="mg"}}
-    tab[150][50] = {"Horde", {cnt=100, x=45, y=45}}
-
-    -- tab[152][8]  = {"Defenders", {}}
-    tab[152][12] = {"JetFighterRun", {arm="mg"}}
-    tab[152][24] = {"JetFighterRun", {arm="mg"}}
-    tab[153][44] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=53, intensity=5}}
-    tab[153][45] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=50, intensity=5}}
-    tab[153][46] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=54, intensity=2}}
-    tab[153][50] = {"JetFighterRun", {arm="mg"}}
-
-    tab[154][25] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=55, intensity=4}}
-    tab[154][26] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.Inmate, program="Police", d=55, intensity=14}}
-    tab[154][27] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.Inmate, program="Police", d=59, intensity=13}}
-
-    tab[155][5]  = {"JetFighterRun", {arm="mg"}}
-    tab[155][15] = {"JetFighterRun", {arm="mg"}}
-    tab[155][16] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=49, intensity=3}}
-    tab[155][17] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=48, intensity=3}}
-    tab[155][18] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=47, intensity=3}}
-    tab[155][25] = {"JetFighterRun", {arm="mg"}}
-    tab[155][26] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=56, intensity=10}}
-
-    tab[156][5]  = {"JetFighterRun", {arm="mg"}}
-    tab[156][10] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=46, intensity=12}}
-    tab[156][15] = {"JetFighterRun", {arm="mg"}}
-    tab[156][25] = {"JetFighterRun", {arm="mg"}}
-    tab[156][26] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=57, intensity=10}}
-
-    tab[158][0]  = {"Siren", {}}
-    tab[158][8]  = {"JetFighterRun", {arm="gas"}}
-    tab[158][9]  = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.Mental, program="Bandit", d=45, intensity=12}}
-    tab[158][24] = {"JetFighterRun", {arm="mg"}}
-    tab[158][31] = {"JetFighterRun", {arm="gas"}}
-    tab[158][49] = {"JetFighterRun", {arm="gas"}}
-    tab[158][51] = {"SetHydroPower", {on=false}}
-    tab[158][52] = {"SetHydroPower", {on=true}}
-    tab[158][53] = {"Horde", {cnt=100, x=45, y=45}}
-
-    tab[159][8]  = {"JetFighterRun", {arm="bomb"}}
-    tab[159][9]  = {"SetHydroPower", {on=false}}
-    tab[159][10] = {"JetFighterRun", {arm="mg"}}
-    tab[159][11] = {"SetHydroPower", {on=true}}
-    tab[159][24] = {"JetFighterRun", {arm="bomb"}}
-    tab[159][25] = {"SetHydroPower", {on=false}}
-    tab[159][27] = {"SetHydroPower", {on=true}}
-    tab[159][49] = {"JetFighterRun", {arm="bomb"}}
-
-    tab[160][8]  = {"JetFighterRun", {arm="bomb"}}
-    tab[160][9]  = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=45, intensity=9}}
-    tab[160][24] = {"JetFighterRun", {arm="mg"}}
-    tab[160][25] = {"SetHydroPower", {on=false}}
-    tab[160][26] = {"SetHydroPower", {on=true}}
-    tab[160][49] = {"JetFighterRun", {arm="bomb"}}
-    tab[160][51] = {"SetHydroPower", {on=false}}
-    tab[160][53] = {"SetHydroPower", {on=true}}
-    tab[160][54] = {"Horde", {cnt=100, x=45, y=-45}}
-
-    tab[161][8]  = {"JetFighterRun", {arm="gas"}}
-    tab[161][24] = {"JetFighterRun", {arm="mg"}}
-    tab[161][49] = {"JetFighterRun", {arm="gas"}}
-    tab[161][51] = {"SetHydroPower", {on=false}}
-    tab[161][58] = {"SetHydroPower", {on=true}}
-
-    tab[162][8]  = {"JetFighterRun", {arm="mg"}}
-    tab[162][24] = {"JetFighterRun", {arm="bomb"}}
-    tab[162][49] = {"JetFighterRun", {arm="bomb"}}
-    tab[162][68] = {"JetFighterRun", {arm="mg"}}
-    tab[162][50] = {"SetHydroPower", {on=false}}
-    tab[162][51] = {"SetHydroPower", {on=true}}
-    tab[163][8]  = {"JetFighterRun", {arm="bomb"}}
-    tab[163][15] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=45, intensity=5}}
-    tab[163][24] = {"JetFighterRun", {arm="bomb"}}
-    tab[163][30] = {"JetFighterRun", {arm="gas"}}
-    tab[163][43] = {"JetFighterRun", {arm="gas"}}
-    tab[163][45] = {"JetFighterRun", {arm="mg"}}
-    tab[163][49] = {"JetFighterRun", {arm="bomb"}}
-    tab[164][8]  = {"JetFighterRun", {arm="bomb"}}
-    tab[164][10] = {"VehicleCrash", {x=22, y=-70, vtype="pzkA10wreck"}}
-    tab[164][10] = {"SetHydroPower", {on=false}}
-    tab[164][13] = {"SetHydroPower", {on=true}}
-    tab[164][24] = {"JetFighterRun", {arm="bomb"}}
-    tab[164][49] = {"JetFighterRun", {arm="bomb"}}
-    tab[164][51] = {"VehicleCrash", {x=-32, y=60, vtype="pzkA10wreck"}}
-    tab[165][2]  = {"ChopperFliers", {}}
-    tab[165][18] = {"VehicleCrash", {x=2, y=70, vtype="pzkHeli350MedWreck"}}
-    tab[166][4]  = {"SpawnGroup", {name="Hammer Brothers", cid=Bandit.clanMap.HammerBrothers, program="Bandit", d=50, intensity=3}}
-    tab[166][14]  = {"Reanimate", {r=80, chance=11}}
-    tab[167][22]  = {"Reanimate", {r=80, chance=10}}
-    tab[167][41]  = {"Reanimate", {r=80, chance=5}}
-
-    -- DAY 8 09.00
-    tab[168][0]  = {"StartDay", {day="friday"}}
-    tab[168][6]  = {"Reanimate", {r=80, chance=5}}
-    tab[168][4]  = {"Siren", {}}
-    tab[168][30] = {"FinalSolution", {}}
-    tab[168][34] = {"SetHydroPower", {on=false}}
-    tab[168][35] = {"Horde", {cnt=100, x=-45, y=45}}
-    tab[169][22]  = {"Reanimate", {r=80, chance=5}}
-    tab[169][33]  = {"Reanimate", {r=80, chance=5}}
-
-    -- late hazmat suit bandits will spawn only in fallout scenario
-    tab[170][11]  = {"Reanimate", {r=80, chance=5}}
-    tab[171][22]  = {"Reanimate", {r=80, chance=5}}
-    tab[173][41]  = {"Reanimate", {r=80, chance=5}}
-    tab[175][4]  = {"Reanimate", {r=80, chance=5}}
-    tab[175][44]  = {"Reanimate", {r=80, chance=5}}
-    tab[176][25] = {"SpawnGroup", {name="Sweeper Squad", cid=Bandit.clanMap.Sweepers, program="Bandit", d=60, intensity=2}}
-    tab[177][25] = {"SpawnGroup", {name="Hammer Brothers", cid=Bandit.clanMap.HammerBrothers, program="Bandit", d=30, intensity=3}}
-    tab[189][12] = {"SpawnGroup", {name="Sweeper Squad", cid=Bandit.clanMap.Sweepers, program="Bandit", d=60, intensity=3}}
-    tab[192][33] = {"Horde", {cnt=100, x=45, y=-45}}
-    tab[211][44] = {"SpawnGroup", {name="Sweeper Squad", cid=Bandit.clanMap.Sweepers, program="Bandit", d=60, intensity=4}}
-    tab[235][3]  = {"SpawnGroup", {name="Sweeper Squad", cid=Bandit.clanMap.Sweepers, program="Bandit", d=60, intensity=3}}
-    tab[236][12] = {"SpawnGroup", {name="Sweeper Squad", cid=Bandit.clanMap.Sweepers, program="Bandit", d=60, intensity=3}}
-    tab[253][42] = {"SpawnGroup", {name="Sweeper Squad", cid=Bandit.clanMap.Sweepers, program="Bandit", d=60, intensity=7}}
-    tab[315][30] = {"SpawnGroup", {name="Sweeper Squad", cid=Bandit.clanMap.Sweepers, program="Bandit", d=60, intensity=3}}
-    tab[315][11] = {"SpawnGroup", {name="Sweeper Squad", cid=Bandit.clanMap.Sweepers, program="Bandit", d=60, intensity=4}}
-    tab[333][4]  = {"SpawnGroup", {name="Sweeper Squad", cid=Bandit.clanMap.Sweepers, program="Bandit", d=60, intensity=8}}
-    tab[376][4]  = {"SpawnGroup", {name="Sweeper Squad", cid=Bandit.clanMap.Sweepers, program="Bandit", d=60, intensity=8}}
-    tab[400][32] = {"SpawnGroup", {name="Sweeper Squad", cid=Bandit.clanMap.Sweepers, program="Bandit", d=60, intensity=12}}
-
-    return tab
+    return BWOVariants[variant].schedule
 end
-
-BWOScheduler.Schedule = generateSchedule()
 
 function BWOScheduler.OverwriteSettings()
     getCore():setOptionUIRenderFPS(60)
     getCore():setOptionJumpScareVolume(0)
+end
+
+function BWOScheduler.PlayerStart()
+    local gmd = GetBWOModData()
+    local player = getSpecificPlayer(0)
+    local hours = player:getHoursSurvived()
+    
+    if not gmd.Variant then gmd.Variant = 1 + ZombRand(#BWOVariants) end
+
+    if hours < 0.1 then
+        
+        local conf = BWOVariants[gmd.Variant]
+
+        getGameTime():setTimeOfDay(conf.timeOfDay)
+
+        BWOScheduler.Add("FadeOut", {time=0}, 0)
+
+        local setup = conf.setup
+        if setup then
+            setup()
+            -- BWOScheduler.Add("VariantCall", {func="setup"}, 1)
+        end
+
+        local setup2 = conf.setup2
+        if setup2 then
+            BWOScheduler.Add("VariantCall", {func="setup2"}, 500)
+        end
+        
+        BWOScheduler.Add("FadeIn", {time=4}, conf.fadeIn)
+    end
 end
 
 function BWOScheduler.StoreSandboxVars()
@@ -581,16 +286,16 @@ function BWOScheduler.MasterControl()
     -- worldAge is counter in hours
     local worldAge = calculateHourDifference(startHour, startDay, startMonth, startYear, hour, day, month, year)
 
+    if not BWOScheduler.Schedule then
+        BWOScheduler.Schedule = generateSchedule()
+    end
+
     -- adjust worldage depending on the start time
     local waShiftMap = BWOScheduler.waShiftMap
     local startTimeOption = SandboxVars.BanditsWeekOne.StartTime
     local waShift = waShiftMap[startTimeOption]
     if waShift then
         worldAge = worldAge - waShift
-
-        -- need to manually insert start at the actual start
-        BWOScheduler.Schedule[-waShift] = BWOScheduler.Schedule[-waShift] or {}
-        BWOScheduler.Schedule[-waShift][1] = {"Start", {}}
     end 
 
     -- debug to jump to a certain hour
@@ -795,6 +500,8 @@ function BWOScheduler.MasterControl()
     params.y = player:getY()
     params.z = player:getZ()
 
+    local test = BWOScheduler.Schedule
+
     if worldAge < 400 then
         if BWOScheduler.Schedule[worldAge] then
             local event = BWOScheduler.Schedule[worldAge][minute]
@@ -830,6 +537,7 @@ function BWOScheduler.CheckEvents()
                 local profession = player:getDescriptor():getProfession()
                 if not event.params.profession or event.params.profession == profession then
                     -- print ("INIT EVENT" .. event.phase)
+                    setGameSpeed(1)
                     BWOEvents[event.phase](event.params)
                 end
             end
@@ -844,3 +552,4 @@ Events.EveryOneMinute.Add(BWOScheduler.MasterControl)
 Events.OnGameStart.Add(BWOScheduler.StoreSandboxVars)
 Events.OnGameStart.Add(BWOScheduler.RestoreRepeatingPlaceEvents)
 Events.OnGameStart.Add(BWOScheduler.OverwriteSettings)
+Events.OnGameStart.Add(BWOScheduler.PlayerStart)

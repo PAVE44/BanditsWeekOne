@@ -720,6 +720,13 @@ local onBanditUpdate = function(bandit)
 
     if not bandit:getVariableBoolean("Bandit") then return end
 
+    local md = bandit:getModData()
+    local age = 72 + ZombRand(10) + ZombRandFloat(0.1, 0.8)
+    if age < getGameTime():getWorldAgeHours() then
+        age = getGameTime():getWorldAgeHours() + ZombRandFloat(0.1, 0.8)
+    end
+    md.reanimateAge = age
+
     if BWOScheduler.World.PostNuclearFallout then
         local outfit = bandit:getOutfitName()
         local gmd = GetBWOModData()
@@ -739,15 +746,6 @@ local onBanditUpdate = function(bandit)
     end
 end
 
-local function onDeadBodySpawn(body)
-    if SandboxVars.BanditsWeekOne.StartTime > 1 then return end
-
-    if getGameTime():getWorldAgeHours() < 135 then
-        body:setReanimateTime(135 + ZombRandFloat(0.1, 0.5)) -- now plus 6 - 30 minutes
-    end
-end
-
 Events.EveryOneMinute.Add(everyOneMinute)
 Events.OnTick.Add(onTick)
 Events.OnZombieUpdate.Add(onBanditUpdate)
-Events.OnDeadBodySpawn.Add(onDeadBodySpawn)

@@ -109,22 +109,25 @@ local generateSpawnPoint = function(px, py, pz, d, count)
 
     local cell = getCell()
 
-    local spawnPoints = {}
-    table.insert(spawnPoints, {x=px+d, y=py+d, z=pz})
-    table.insert(spawnPoints, {x=px+d, y=py-d, z=pz})
-    table.insert(spawnPoints, {x=px-d, y=py+d, z=pz})
-    table.insert(spawnPoints, {x=px-d, y=py-d, z=pz})
-    table.insert(spawnPoints, {x=px+d, y=py, z=pz})
-    table.insert(spawnPoints, {x=px-d, y=py, z=pz})
-    table.insert(spawnPoints, {x=px, y=py+d, z=pz})
-    table.insert(spawnPoints, {x=px, y=py-d, z=pz})
-
     local validSpawnPoints = {}
-    for i, sp in pairs(spawnPoints) do
-        local square = cell:getGridSquare(sp.x, sp.y, sp.z)
-        if square then
-            if square:isFree(false) then
-                table.insert(validSpawnPoints, sp)
+    for i=d, d+6 do
+        local spawnPoints = {}
+        table.insert(spawnPoints, {x=px+i, y=py+i, z=pz})
+        table.insert(spawnPoints, {x=px+i, y=py-i, z=pz})
+        table.insert(spawnPoints, {x=px-i, y=py+i, z=pz})
+        table.insert(spawnPoints, {x=px-i, y=py-i, z=pz})
+        table.insert(spawnPoints, {x=px+i, y=py, z=pz})
+        table.insert(spawnPoints, {x=px-i, y=py, z=pz})
+        table.insert(spawnPoints, {x=px, y=py+i, z=pz})
+        table.insert(spawnPoints, {x=px, y=py-i, z=pz})
+
+        
+        for i, sp in pairs(spawnPoints) do
+            local square = cell:getGridSquare(sp.x, sp.y, sp.z)
+            if square then
+                if square:isFree(false) then
+                    table.insert(validSpawnPoints, sp)
+                end
             end
         end
     end
@@ -180,7 +183,7 @@ local explode = function(x, y, z)
                 local square = cell:getGridSquare(x + dx, y + dy, z)
                 if square then
                     square:BurnWalls(false)
-                    -- IsoFireManager.StartFire(cell, square, true, 1000, 100)
+                    IsoFireManager.StartFire(cell, square, true, 1000, 100)
                 end
             end
         end
@@ -468,6 +471,37 @@ BWOEvents.VehiclesUpdate = function(params)
     end
 end
 
+-- params
+BWOEvents.VariantCall = function(params)
+    local gmd = GetBWOModData()
+    local func = BWOVariants[gmd.Variant][params.func]
+    func()
+end
+
+-- params: time
+BWOEvents.FadeOut = function(params)
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
+    local playerNum = player:getPlayerNum()
+    player:setBlockMovement(true)
+    player:setBannedAttacking(true)
+    UIManager.setFadeBeforeUI(playerNum, false)
+    UIManager.FadeOut(playerNum, params.time)
+end
+
+-- params: time
+BWOEvents.FadeIn = function(params)
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
+    local playerNum = player:getPlayerNum()
+    player:setBlockMovement(false)
+    player:setBannedAttacking(false)
+    UIManager.FadeIn(playerNum, params.time)
+    UIManager.setFadeBeforeUI(playerNum, false)
+end
+
 -- params: x, y
 BWOEvents.Explode = function(params)
     explode(params.x, params.y, params.z)
@@ -498,13 +532,16 @@ BWOEvents.SetHydroPower = function(params)
     local player = getSpecificPlayer(0)
     if not player then return end
 
-    local day = getSandboxOptions():getElecShutModifier()
-    if day > 0 and day < 8 then return end
-
-    getWorld():setHydroPowerOn(params.on)
-    if params.on == false then
+    local sandboxOptions = getSandboxOptions()
+    if params.on == true then
+        sandboxOptions:getOptionByName("ElecShutModifier"):setValue(2147483646)
+        sandboxOptions:toLua()
+        getWorld():setHydroPowerOn(true)
+    elseif params.on == false then
         BWOEmitter.tab = {}
-        player:playSound("WorldEventElectricityShutdown")
+        sandboxOptions:getOptionByName("ElecShutModifier"):setValue(0)
+        sandboxOptions:toLua()
+        getWorld():setHydroPowerOn(false)
     end
 end
 
@@ -577,6 +614,7 @@ end
 BWOEvents.Reanimate = function(params)
     local cell = getCell()
     local age = getGameTime():getWorldAgeHours()
+    local t = 0 
     for z = -1, 2 do
         for x = -params.r, params.r do
             for y = -params.r, params.r do
@@ -593,6 +631,11 @@ BWOEvents.Reanimate = function(params)
                                 local r = ZombRand(100)
                                 if r < params.chance then
                                     object:setReanimateTime(age + ZombRandFloat(0.1, 0.7)) -- now plus 6 - 42 minutes
+                                    t = t + 1
+                                    if t > 80 then
+                                        print ("too many respawns")
+                                        return
+                                    end
                                 end
                             end
                         end
@@ -726,8 +769,13 @@ BWOEvents.Start = function(params)
         local keyId = buildingDef:getKeyId()
 
         -- register player home
-        local args = {id=keyId, event="home", x=(buildingDef:getX() + buildingDef:getX2()) / 2, y=(buildingDef:getY() + buildingDef:getY2()) / 2}
-        sendClientCommand(player, 'Commands', 'EventBuildingAdd', args)
+        if params.party then
+            local args = {id=keyId, event="party", x=(buildingDef:getX() + buildingDef:getX2()) / 2, y=(buildingDef:getY() + buildingDef:getY2()) / 2}
+            sendClientCommand(player, 'Commands', 'EventBuildingAdd', args)
+        else
+            local args = {id=keyId, event="home", x=(buildingDef:getX() + buildingDef:getX2()) / 2, y=(buildingDef:getY() + buildingDef:getY2()) / 2}
+            sendClientCommand(player, 'Commands', 'EventBuildingAdd', args)
+        end
 
         -- generate home key
         local item = BanditCompatibility.InstanceItem("Base.Key1")
@@ -918,13 +966,21 @@ end
 
 -- params: []
 BWOEvents.Arson = function(params)
+
+    if not SandboxVars.BanditsWeekOne.EventArson then return end
+
     local player = getSpecificPlayer(0)
     if not player then return end
 
-    local density = BWOBuildings.GetDensityScore(player, 120) / 6000
-    if density < 0.3 then return end
+    local building
+    if params.home then
+        building = player:getSquare():getBuilding()
+    else
+        local density = BWOBuildings.GetDensityScore(player, 120) / 6000
+        if density < 0.3 then return end
 
-    local building = BWOBuildings.FindBuildingDist(player, 35, 50)
+        building = BWOBuildings.FindBuildingDist(player, 35, 50)
+    end
     if not building then return end
 
     local room = building:getRandomRoom()
@@ -948,6 +1004,8 @@ end
 
 -- params: [x, y, outside]
 BWOEvents.BombDrop = function(params)
+
+    if not SandboxVars.BanditsWeekOne.EventBombing then return end
 
     for z=0, 20 do
         explode(params.x, params.y, z)
@@ -1204,6 +1262,9 @@ BWOEvents.JetFighterStage2 = function(params)
     local px, py = player:getX(), player:getY()
 
     if params.arm == "mg" then
+
+        if not SandboxVars.BanditsWeekOne.EventStrafe then return end
+
         local fakeItem = BanditCompatibility.InstanceItem("Base.AssaultRifle")
         local fakeZombie = getCell():getFakeZombieForHit()
 
@@ -1355,6 +1416,9 @@ end
 
 -- params: [x, y, outside]
 BWOEvents.GasDrop = function(params)
+
+    if not SandboxVars.BanditsWeekOne.EventGas then return end
+
     local svec = {}
     table.insert(svec, {x=-3, y=-1})
     table.insert(svec, {x=3, y=1})
@@ -1494,8 +1558,10 @@ BWOEvents.BuildingHome = function(params)
     local by2 = def:getY2()
 
     -- register base
-    local args = {x=bx, y=by, x2=bx2, y2=by2}
-    sendClientCommand(player, 'Commands', 'BaseUpdate', args)
+    if not params.party then
+        local args = {x=bx, y=by, x2=bx2, y2=by2}
+        sendClientCommand(player, 'Commands', 'BaseUpdate', args)
+    end
 
     -- add radio
     local otableNames = {"Low Table", "Counter", "Oak Round Table", "Light Round Table", "Table"}
@@ -1529,6 +1595,20 @@ BWOEvents.BuildingHome = function(params)
                                 end
                             end
                         end
+
+                        if params.party and instanceof(object, "IsoLightSwitch") then
+                            -- object:setCanBeModified(true) --b42
+                            -- object:setActivated(false) --b42
+                            if object:hasLightBulb() and object:getCanBeModified() then
+                                object:setBulbItemRaw("Base.LightBulbRed")
+                                object:setPrimaryR(1)
+                                object:setPrimaryG(0)
+                                object:setPrimaryB(0)
+                                object:setActive(true)
+                            else
+                                object:setActive(false)
+                            end
+                        end
                     end
                 end
             end
@@ -1536,8 +1616,8 @@ BWOEvents.BuildingHome = function(params)
     end
 
     if counter then
+        local square = counter:getSquare()
         if not radio and params.addRadio then
-            local square = counter:getSquare()
             radio = addRadio(square:getX(), square:getY(), square:getZ())
         end
 
@@ -1547,6 +1627,33 @@ BWOEvents.BuildingHome = function(params)
                 dd:setIsTurnedOn(true)
                 dd:setChannel(98400)
                 dd:setDeviceVolume(0.7)
+            end
+
+            if params.party then
+                local args = {
+                    cid = Bandit.clanMap.Party,
+                    program = "Inhabitant"
+                }
+            
+                args.spawnPoints = {}
+                local room = square:getRoom()
+                local roomDef = room:getRoomDef()
+                local pop = 12
+                for i=1, pop do
+                    local spawnSquare = roomDef:getFreeSquare()
+                    if spawnSquare then
+                        local sp = {}
+                        sp.x = spawnSquare:getX()
+                        sp.y = spawnSquare:getY()
+                        sp.z = spawnSquare:getZ()
+                        table.insert(args.spawnPoints, sp)
+                    end
+                end
+            
+                if #args.spawnPoints > 0 then
+                    args.size = #args.spawnPoints
+                    sendClientCommand(player, 'Spawner', 'Clan', args)
+                end
             end
         end
     end
@@ -1591,14 +1698,14 @@ BWOEvents.BuildingParty = function(params)
                         if instanceof(object, "IsoLightSwitch") then
                             -- object:setCanBeModified(true) --b42
                             -- object:setActivated(false) --b42
-                            object:setActive(false)
-                            local lightList = object:getLights()
-                            if lightList:size() > 0 then
+                            if object:hasLightBulb() and object:getCanBeModified() then
                                 object:setBulbItemRaw("Base.LightBulbRed")
                                 object:setPrimaryR(1)
                                 object:setPrimaryG(0)
                                 object:setPrimaryB(0)
                                 object:setActive(true)
+                            else
+                                object:setActive(false)
                             end
                         end
                         if roomName ~= "bathroom" and roomName ~= "bedroom" then
@@ -1966,6 +2073,7 @@ BWOEvents.SpawnGroup = function(params)
 
     local density = BWOBuildings.GetDensityScore(player, 120) / 6000
     if density > 1.5 then density = 1.5 end
+    if density < 0.5 then density = 0.5 end
 
     local occupation = "None"
     local intensity = math.floor(params.intensity * density * SandboxVars.BanditsWeekOne.BanditsPopMultiplier + 0.4)
@@ -1979,7 +2087,8 @@ BWOEvents.SpawnGroup = function(params)
         cid = params.cid,
         size = intensity,
         occupation = occupation, 
-        program = params.program
+        program = params.program,
+        voice = params.voice
     }
 
     local spawnPoint = generateSpawnPoint(player:getX(), player:getY(), player:getZ(), ZombRand(params.d, params.d+10), 1)
@@ -2138,6 +2247,9 @@ BWOEvents.Music = function(params)
 end
 
 BWOEvents.PlaneCrashSequence = function(params)
+
+    if not SandboxVars.BanditsWeekOne.EventBoeing then return end
+
     local player = getSpecificPlayer(0)
     if not player then return end
 
@@ -2335,7 +2447,7 @@ BWOEvents.Horde = function(params)
         end
     end
 
-    local outfits = {}
+    local outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "Generic05", "Classy", "IT", "Student", "Teacher", "Police", "Young", "Bandit", "Tourist"}
     local femaleChance = 51
     if cityName and density > 0.3 then
         if cityName == "WestPoint" then
@@ -2350,14 +2462,12 @@ BWOEvents.Horde = function(params)
             outfits = {"ArmyCamoGreen"}
             femaleChance = 10
         end
-    else
+    elseif zoneName then
         if zoneName:embodies("Forest") then
             outfits = {"Survivalist"}
             femaleChance = 33
         elseif zoneName:embodies("Farm") then
             outfits = {"Farmer"}
-        else
-            outfits = {"Generic01", "Generic02", "Generic03", "Generic04", "Generic05", "Generic05", "Classy", "IT", "Student", "Teacher", "Police", "Young", "Bandit", "Tourist"}
         end
     end
 

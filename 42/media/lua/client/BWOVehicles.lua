@@ -22,7 +22,18 @@ BWOVehicles.playerCarChoicesDefault = {"Base.SmallCar"}
 BWOVehicles.playerCarChoicesOccupation = {}
 BWOVehicles.playerCarChoicesOccupation["fireofficer"] = {"Base.PickUpTruckLightsFire"}
 BWOVehicles.playerCarChoicesOccupation["policeofficer"] = {"Base.PickUpVanLightsPolice"}
-BWOVehicles.playerCarChoicesOccupation["mechanics"] = {"Base.SportsCar"}
+BWOVehicles.playerCarChoicesOccupation["mechanics"] = {"Base.SportsCar", "Base.StepVan_Mechanic"}
+BWOVehicles.playerCarChoicesOccupation["lumberjack"] = {"Base.PickUpVanLightsCarpenter", "Base.VanMichaels"}
+BWOVehicles.playerCarChoicesOccupation["carpenter"] = {"Base.PickUpVanLightsCarpenter", "Base.VanMichaels"}
+BWOVehicles.playerCarChoicesOccupation["constructionworker"] = {"Base.PickUpVanKimbleKonstruction", "Base.StepVan_Masonry", "Base.VanBeckmans", "Base.VanPennSHam"}
+BWOVehicles.playerCarChoicesOccupation["metalworker"] = {"Base.PickUpVanHeltonMetalWorking", "Base.PickUpVanMetalworker", "Base.PickUpVanWeldingbyCamille"}
+BWOVehicles.playerCarChoicesOccupation["farmer"] = {"Base.VanOvoFarm"}
+BWOVehicles.playerCarChoicesOccupation["lumberjack"] = {"Base.PickUpVanYingsWood"}
+BWOVehicles.playerCarChoicesOccupation["repairman"] = {"Base.StepVan_CompleteRepairShop", "Base.VanBrewsterHarbin"}
+BWOVehicles.playerCarChoicesOccupation["engineer"] = {"Base.StepVan_CompleteRepairShop", "Base.VanBrewsterHarbin"}
+BWOVehicles.playerCarChoicesOccupation["electrician"] = {"Base.VanKnoxCom", "Base.VanPluggedInElectrics"}
+BWOVehicles.playerCarChoicesOccupation["chef"] = {"Base.VanSpiffo"}
+BWOVehicles.playerCarChoicesOccupation["doctor"] = {"Base.CarLuxury"}
 
 -- order is important
 BWOVehicles.burnMap = {}
@@ -426,7 +437,7 @@ local AddVehicles = function()
 end
 
 local ManageVehicles = function(ticks)
-    -- if true then return end
+    if true then return end
     if ticks % 6 > 0 then return end
 
     local player = getSpecificPlayer(0)

@@ -280,6 +280,7 @@ table.insert(data, {query={"favorite", "animal"}, res="I like cats!"})
 table.insert(data, {query={"favorite", "song"}, res="High Hopes, Pink Floyd!"})
 table.insert(data, {query={"favorite", "band"}, res="Pink Floyd!"})
 table.insert(data, {query={"favorite", "stream"}, res="Snowbeetle!"})
+table.insert(data, {query={"best", "stream"}, res="THE REAL CAPT3N!"})
 table.insert(data, {query={"favorite", "movie"}, res="Those about zombies!"})
 table.insert(data, {query={"favorite", "sport"}, res="Chess!"})
 table.insert(data, {query={"favorite", "drink"}, res="Water!"})
@@ -840,9 +841,11 @@ BWOChat.Say = function(chatMessage, quiet)
             name = name .. "We live together."
         else
             local homeCoords = BWOBuildings.GetEventBuildingCoords("home")
-            local dist = BanditUtils.DistTo(brain.bornCoords.x, brain.bornCoords.y, homeCoords.x, homeCoords.y)
-            if dist < 45 then
-                name = name .. "I'm your neighbor."
+            if homeCoords then
+                local dist = BanditUtils.DistTo(brain.bornCoords.x, brain.bornCoords.y, homeCoords.x, homeCoords.y)
+                if dist < 45 then
+                    name = name .. "I'm your neighbor."
+                end
             end
         end
         return name
@@ -983,6 +986,9 @@ BWOChat.Say = function(chatMessage, quiet)
                         Bandit.SetProgram(bandit, "Babe", {})
                         Bandit.SetHostileP(bandit, false)
                         brain.permanent = true
+                        if player:HasTrait("magnetizing") then
+                            brain.loyal = true
+                        end
                         colors = {r=0, g=1, b=0}
                     elseif v.action == "RELAX" and brain.program.name == "Active" then
                         Bandit.SetProgram(bandit, "Walker", {})
@@ -1025,7 +1031,7 @@ BWOChat.Say = function(chatMessage, quiet)
                     bandit:addLineChatElement(res, colors.r, colors.g, colors.b)
                 end
 
-                break
+                -- break
             end
         end
     end
