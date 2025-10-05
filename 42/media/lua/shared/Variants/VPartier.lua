@@ -8,7 +8,7 @@ partier.name = "Partier"
 
 partier.name = "The Hedonist"
 partier.image = "media/textures/Variants/partier.png"
-partier.desc = "<SIZE:medium> The Hedonist <BR> "
+partier.desc = "<SIZE:large> The Hedonist <BR> "
 partier.desc = partier.desc .. "<SIZE:medium> Difficulty: Normal <BR> "
 partier.desc = partier.desc .. "<SIZE:medium>You saw the end coming and decided if the world was dying, you'd dance on its grave. "
 partier.desc = partier.desc .. "Nights blurred into music, bodies, and noise - your answer to the creeping rot outside. "
@@ -115,7 +115,7 @@ partier.schedule = {
     [48] = {
         [0]  = {"StartDay", {day="sunday"}},
         [11] = {"ChopperAlert", {name="heli2", sound="BWOChopperGeneric", dir = 90, speed=2.7}},
-        [33] = {"SpawnGroup", {name="Hooligans", cid=Bandit.clanMap.Polish, program="Bandit", d=40, intensity=14}},
+        [33] = {"SpawnGroup", {name="Hooligans", cid=Bandit.clanMap.Polish, program="Bandit", d=40, voice=101, intensity=14}},
     },
     [51] = {
         [9]  = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 0, speed=2.2}},

@@ -6,7 +6,7 @@ local drunkard = {}
 
 drunkard.name = "The Drunkard"
 drunkard.image = "media/textures/Variants/drunkard.png"
-drunkard.desc = "<SIZE:medium> The Drunkard <BR> "
+drunkard.desc = "<SIZE:large> The Drunkard <BR> "
 drunkard.desc = drunkard.desc .. "<SIZE:medium> Difficulty: Normal <BR> "
 drunkard.desc = drunkard.desc .. "<SIZE:medium>You saw the end coming, and instead of preparing, you drowned it in bottles. "
 drunkard.desc = drunkard.desc .. "Now you wake with a skull-splitting hangover, surrounded by empties and the wreckage of last night's escape. "
@@ -136,7 +136,7 @@ drunkard.schedule = {
     [48] = {
         [0]  = {"StartDay", {day="sunday"}},
         [11] = {"ChopperAlert", {name="heli2", sound="BWOChopperGeneric", dir = 90, speed=2.7}},
-        [33] = {"SpawnGroup", {name="Hooligans", cid=Bandit.clanMap.Polish, program="Bandit", d=40, intensity=14}},
+        [33] = {"SpawnGroup", {name="Hooligans", voice=101, cid=Bandit.clanMap.Polish, program="Bandit", d=40, intensity=14}},
     },
     [51] = {
         [9]  = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 0, speed=2.2}},

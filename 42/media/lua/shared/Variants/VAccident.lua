@@ -348,9 +348,9 @@ accident.schedule = {
     },
     [122] = {
         [0]  = {"Siren", {}},
-        [11] = {"SpawnGroup", {name="Hooligans", cid=Bandit.clanMap.Polish, program="Bndit", d=30, intensity=12}},
+        [11] = {"SpawnGroup", {name="Hooligans", voice=101, cid=Bandit.clanMap.Polish, program="Bandit", d=30, intensity=12}},
         [12] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = -90, speed=1.8}},
-        [15] = {"SpawnGroup", {name="Hooligans", cid=Bandit.clanMap.Polish, program="Bndit", d=30, intensity=12}},
+        [15] = {"SpawnGroup", {name="Hooligans", voice=101, cid=Bandit.clanMap.Polish, program="Bandit", d=30, intensity=12}},
         [16] = {"Shahids", {intensity=1}},
         [17] = {"SpawnGroup", {name="Riot Police", cid=Bandit.clanMap.PoliceRiot, program="RiotPolice", d=30, intensity=12}},
         [44] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = 90, speed=1.6}},

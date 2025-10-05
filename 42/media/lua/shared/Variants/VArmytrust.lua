@@ -111,7 +111,7 @@ armytrust.schedule = {
     [48] = {
         [0]  = {"StartDay", {day="sunday"}},
         [11] = {"ChopperAlert", {name="heli2", sound="BWOChopperGeneric", dir = 90, speed=2.7}},
-        [33] = {"SpawnGroup", {name="Hooligans", cid=Bandit.clanMap.Polish, program="Bandit", d=40, intensity=14}},
+        [33] = {"SpawnGroup", {name="Hooligans", voice=101, cid=Bandit.clanMap.Polish, program="Bandit", d=40, intensity=14}},
     },
     [51] = {
         [9]  = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 0, speed=2.2}},
@@ -217,10 +217,19 @@ armytrust.schedule = {
     [97] = {
         [3] = {"SpawnGroup", {name="Biker Gang", cid=Bandit.clanMap.Biker, program="Bandit", d=60, intensity=14}},
     },
+    [106] = {
+        [13] = {"JetFighterRun", {arm="mg"}}, -- DIFF
+        [16] = {"JetFighterRun", {arm="mg"}}, -- DIFF
+        [22] = {"JetFighterRun", {arm="mg"}}, -- DIFF
+        [24] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Police", d=45, intensity=10}},
+    },
     [112] = {
         [0]  = {"Arson", {}},
         [11] = {"Arson", {}},
         [12] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=64, intensity=6}},
+        [13] = {"JetFighterRun", {arm="mg"}}, -- DIFF
+        [16] = {"JetFighterRun", {arm="mg"}}, -- DIFF
+        [22] = {"JetFighterRun", {arm="mg"}}, -- DIFF
         [44] = {"Arson", {}},
         [45] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=63, intensity=6}},
         [56] = {"SpawnGroup", {name="Biker Gang", cid=Bandit.clanMap.Biker, program="Bandit", d=60, intensity=14}},
@@ -262,6 +271,9 @@ armytrust.schedule = {
         [16] = {"Shahids", {intensity=1}},
         [17] = {"SpawnGroup", {name="Riot Police", cid=Bandit.clanMap.PoliceRiot, program="RiotPolice", d=30, intensity=12}},
         [44] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = 90, speed=1.6}},
+        [55] = {"JetFighterRun", {arm="mg"}}, -- DIFF
+        [56] = {"JetFighterRun", {arm="mg"}}, -- DIFF
+        [57] = {"JetFighterRun", {arm="mg"}}, -- DIFF
     },
     [123] = {
         [27] = {"Arson", {}},
@@ -270,6 +282,8 @@ armytrust.schedule = {
         [41] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = 180, speed=2.7}},
         [45] = {"SpawnGroup", {name="Riot Police", cid=Bandit.clanMap.PoliceRiot, program="RiotPolice", d=30, intensity=12}},
         [56] = {"VehicleCrash", {x=-70, y=0, vtype="pzkHeli350PoliceWreck"}},
+        [57] = {"JetFighterRun", {arm="mg"}}, -- DIFF
+        [58] = {"JetFighterRun", {arm="mg"}}, -- DIFF
     },
     [124] = {
         [1]  = {"ChopperFliers", {}},
@@ -320,8 +334,35 @@ armytrust.schedule = {
     [138] = {
         [2]  = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=52, intensity=3}},
     },
+    [139] = {
+        [33] = {"Horde", {cnt=100, x=45, y=45}},
+        [34] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=33, intensity=12}},
+    },
+    [140] = {
+        [33] = {"Horde", {cnt=100, x=45, y=45}},
+        [34] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=33, intensity=12}},
+        [37] = {"JetFighterRun", {arm="mg"}}, -- DIFF
+        [39] = {"JetFighterRun", {arm="gas"}}, -- DIFF
+        [41] = {"JetFighterRun", {arm="mg"}}, -- DIFF
+    },
+    [142] = {
+        [22] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=37, intensity=7}},
+        [31] = {"Horde", {cnt=30, x=45, y=45}},
+        [32] = {"Horde", {cnt=30, x=-45, y=45}},
+        [33] = {"Horde", {cnt=30, x=45, y=-45}},
+        [34] = {"Horde", {cnt=30, x=-45, y=-45}},
+    },
+    [143] = {
+        [11] = {"Horde", {cnt=30, x=45, y=45}},
+        [12] = {"Horde", {cnt=30, x=-45, y=45}},
+        [13] = {"Horde", {cnt=30, x=45, y=-45}},
+        [14] = {"Horde", {cnt=30, x=-45, y=-45}},
+        [22] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=37, intensity=7}},
+    },
     [144] = {
         [0] = {"StartDay", {day="thursday"}},
+        [1] = {"WeatherStorm", {len=1440}},
+        [2] = {"GetHelicopter", {len=1440}},
     },
     [145] = {
         [6]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=49, intensity=12}},
@@ -330,7 +371,9 @@ armytrust.schedule = {
     [146] = {
         [0]  = {"Siren", {}},
         [5]  = {"JetFighterRun", {arm="mg"}},
+        [6]  = {"JetFighterRun", {arm="mg"}},
         [25] = {"JetFighterRun", {arm="gas"}}, --DIFF
+        [26] = {"JetFighterRun", {arm="gas"}}, --DIFF
         [45] = {"JetFighterRun", {arm="bomb"}}, --DIFF
         [46] = {"JetFighterRun", {arm="bomb"}}, --DIFF
         [47] = {"JetFighterRun", {arm="bomb"}}, --DIFF
@@ -346,6 +389,9 @@ armytrust.schedule = {
         [51] = {"JetFighterRun", {arm="bomb"}}, --DIFF
         [52] = {"JetFighterRun", {arm="bomb"}}, --DIFF
         [53] = {"JetFighterRun", {arm="bomb"}}, --DIFF
+    },
+    [149] = {
+        
     },
     [150] = {
         [9]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=52, intensity=10}},

@@ -170,10 +170,24 @@ local explode = function(x, y, z)
 
     -- this triggers ragdolls
     local attacker = cell:getFakeZombieForHit()
+
+    
     local item = BanditCompatibility.InstanceItem("Base.PipeBomb")
-    item:setExplosionPower(1)
+    item:setExplosionPower(10)
+    item:setTriggerExplosionTimer(0)
     item:setAttackTargetSquare(square)
-    local mc = IsoMolotovCocktail.new(cell, square:getX(), square:getY(), square:getZ(), 0, 0, item, attacker)
+    --[[
+    local mc = IsoMolotovCocktail.new(cell, square:getX(), square:getY(), square:getZ() + 0.6, 10, 10, item, attacker)
+    mc:setSquare(square)
+    mc:collideCharacter()
+    ]]
+
+    if square:getChunk() then
+        local trap = IsoTrap.new(player, item, cell, square)
+        trap:triggerExplosion(false)
+    end
+
+    -- java: new IsoMolotovCocktail(this.getCell(), this.getX(), this.getY(), this.getZ() + 0.6F, float0 * 0.4F, float1 * 0.4F, weapon, this);
 
     -- IsoFireManager.explode(cell, square, 100)
 
@@ -724,6 +738,11 @@ BWOEvents.ChopperFliersStage2 = function(params)
             end
         end
     end
+end
+
+
+BWOEvents.GetHelicopter = function(params)
+    testHelicopter()
 end
 
 -- params: [icon]
@@ -2515,6 +2534,13 @@ BWOEvents.MetaSound = function(params)
         "MetaPistol2",
         "MetaPistol3",
         "MetaShotgun1",
+        "MetaScream",
+        -- "VoiceFemaleDeathFall",
+        -- "VoiceFemaleDeathEaten",
+        -- "VoiceFemalePainFromFallHigh",
+        -- "VoiceMalePainFromFallHigh",
+        -- "VoiceMaleDeathAlone",
+        -- "VoiceMaleDeathEaten",
     }
 
     local px, py = player:getX(), player:getY()

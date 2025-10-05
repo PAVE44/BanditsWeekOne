@@ -7,7 +7,7 @@ local moneygrab = {}
 moneygrab.name = "The Cash-Out"
 moneygrab.image = "media/textures/Variants/moneygrab.png"
 
-moneygrab.desc = "<SIZE:medium> The Cash-Out <BR> "
+moneygrab.desc = "<SIZE:large> The Cash-Out <BR> "
 moneygrab.desc = moneygrab.desc .. "<SIZE:medium> Difficulty: Normal <BR> "
 moneygrab.desc = moneygrab.desc .. "<SIZE:medium>You knew the sickness would end the world, but you still trusted in paper and ink. "
 moneygrab.desc = moneygrab.desc .. "Emptying your account in the middle of the night, you headed home with a briefcase full of money, believing it will buy you safety. "
@@ -129,7 +129,7 @@ moneygrab.schedule = {
         [10] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=60, intensity=12}},
         -- DIFF
         [11] = {"ChopperAlert", {name="heli2", sound="BWOChopperGeneric", dir = 90, speed=2.7}},
-        [33] = {"SpawnGroup", {name="Hooligans", cid=Bandit.clanMap.Polish, program="Bandit", d=40, intensity=14}},
+        [33] = {"SpawnGroup", {name="Hooligans", cid=Bandit.clanMap.Polish, program="Bandit", d=40, voice=101, intensity=14}},
     },
     [51] = {
         [9]  = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 0, speed=2.2}},
