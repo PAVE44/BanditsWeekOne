@@ -1,39 +1,63 @@
+require "BWOBandit"
+
 BWOVariants = BWOVariants or {}
 
-local criminals = {}
+local drunkard = {}
 
-criminals.timeOfDay = 2.00
+drunkard.name = "The Drunkard"
+drunkard.image = "media/textures/Variants/drunkard.png"
+drunkard.desc = "<SIZE:medium> The Drunkard <BR> "
+drunkard.desc = drunkard.desc .. "<SIZE:medium> Difficulty: Normal <BR> "
+drunkard.desc = drunkard.desc .. "<SIZE:medium>You saw the end coming, and instead of preparing, you drowned it in bottles. "
+drunkard.desc = drunkard.desc .. "Now you wake with a skull-splitting hangover, surrounded by empties and the wreckage of last night's escape. "
+drunkard.desc = drunkard.desc .. "The sickness is already here, the world is collapsing, and you can barely stand. "
+drunkard.desc = drunkard.desc .. "Worse still, some remember the money you borrowed to fuel your drinking, and they're angry enough to collect. <BR> "
+drunkard.desc = drunkard.desc .. " - Begin at home with a brutal hangover and a trashed house. \n "
+drunkard.desc = drunkard.desc .. " - Supplies are scattered, broken, or wasted. \n "
+drunkard.desc = drunkard.desc .. " - People you owe money to may come looking for you. \n "
+drunkard.desc = drunkard.desc .. " - Survival won't wait for your head to clear. \n "
 
-criminals.fadeIn = 800
+drunkard.timeOfDay = 9.00
 
-criminals.setup = function()
+drunkard.fadeIn = 400
+
+drunkard.setup = function()
     local player = getSpecificPlayer(0)
     if not player then return end
 
-    local briefcase = BanditCompatibility.InstanceItem("Base.Briefcase")
-    local container = briefcase:getItemContainer()
-    for i = 1, 1000 do
-        local money = BanditCompatibility.InstanceItem("Base.Money")
-        container:AddItem(money)
-    end
+    local stats = player:getStats()
+    stats:setDrunkenness(80)
+    stats:setThirst(0.9)
 
-    player:getInventory():AddItem(briefcase)
-    player:setSecondaryHandItem(briefcase)
+    local bodyDamage = player:getBodyDamage()
+    bodyDamage:setFoodSicknessLevel(40)
 
-    BWOScheduler.Add("Say", {txt="TIP: You are rich, but some people know about it"}, 900)
+    local head = bodyDamage:getBodyPart(BodyPartType.Head)
+    head:setAdditionalPain(92)
+
+    player:clearVariable("BumpFallType")
+    player:setBumpType("stagger")
+    player:setBumpFall(true)
+    player:setBumpFallType("pushedBehind")
+
+    local x = player:getX() - 3
+    local y = player:getY() - 3
+    local w = 6
+    local h = 6
+    BanditBaseGroupPlacements.Junk(x, y, 0, w, h, 12)
+    BanditBaseGroupPlacements.Item(BanditCompatibility.GetLegacyItem("Base.BeerEmpty"), x, y, 0, w, h, 22)
+    BanditBaseGroupPlacements.Item(BanditCompatibility.GetLegacyItem("Base.BeerEmpty"), x, y, 0, w, h, 22)
+    BanditBaseGroupPlacements.Item(BanditCompatibility.GetLegacyItem("Base.BeerCanEmpty"), x, y, 0, w, h, 33)
 end
 
-criminals.schedule = {
-    [-7] = {
-        [0] = {"Start", {party=true}},
-        [1] = {"BuildingHome", {}},
-        [2] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=35, intensity=10}},
-        [3] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=45, intensity=10}},
+drunkard.schedule = {
+    [0] = {
+        [0] = {"Start", {}},
+        [1] = {"StartDay", {day="friday"}},
+        [3] = {"BuildingHome", {addRadio=true}},
         [4] = {"SetupNukes", {}},
         [5] = {"SetupPlaceEvents", {}},
-    },
-    [0] = {
-        [1] = {"StartDay", {day="friday"}},
+        [12] = {"SpawnGroup", {name="Debt Collectors", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=48, intensity=3}},
     },
     [2] = {
         [22] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=30, intensity=8}},
@@ -45,13 +69,15 @@ criminals.schedule = {
         [44] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}},
     },
     [8] = {
-        [5] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=22, intensity=10}},
+        [5] = {"Arson", {profession="fireofficer"}},
     },
     [11] = {
         [12] = {"BuildingParty", {roomName="bedroom", intensity=8}},
     },
     [12] = {
         [30] = {"BuildingParty", {roomName="bedroom", intensity=8}},
+        -- DIFF
+        [31] = {"SpawnGroup", {name="Debt Collectors", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=48, intensity=4}},
     },
     [13] = {
         [5]  = {"BuildingParty", {roomName="bedroom", intensity=8}},
@@ -69,6 +95,8 @@ criminals.schedule = {
     },
     [24] = {
         [0] = {"StartDay", {day="saturday"}},
+        -- DIFF
+        [6] = {"SpawnGroup", {name="Debt Collectors", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=48, intensity=5}},
     },
     [25] = {
         [44] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}},
@@ -90,7 +118,7 @@ criminals.schedule = {
         [20] = {"BuildingParty", {roomName="bedroom", intensity=8}},
     },
     [36] = {
-        [2] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=22, intensity=10}},
+        [10] = {"BuildingParty", {roomName="bedroom", intensity=8}},
     },
     [37] = {
         [5]  = {"BuildingParty", {roomName="bedroom", intensity=8}},
@@ -102,10 +130,13 @@ criminals.schedule = {
     },
     [42] = {
         [6] = {"BuildingHome", {addRadio=false}},
+        -- DIFF
+        [8] = {"SpawnGroup", {name="Debt Collectors", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=48, intensity=6}},
     },
     [48] = {
         [0]  = {"StartDay", {day="sunday"}},
         [11] = {"ChopperAlert", {name="heli2", sound="BWOChopperGeneric", dir = 90, speed=2.7}},
+        [33] = {"SpawnGroup", {name="Hooligans", cid=Bandit.clanMap.Polish, program="Bandit", d=40, intensity=14}},
     },
     [51] = {
         [9]  = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 0, speed=2.2}},
@@ -114,7 +145,6 @@ criminals.schedule = {
     [52] = {
         [5]  = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 180, speed=1.8}},
         [11] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=75, intensity=2}},
-        [12] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=22, intensity=10}},
     },
     [53] = {
         [1] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = -90, speed=2.2}},
@@ -128,6 +158,7 @@ criminals.schedule = {
     },
     [58] = {
         [33] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=73, intensity=3}},
+        [35] = {"PlaneCrashSequence", {}}, -- DIFF
     },
     [59] = {
         [56] = {"SpawnGroup", {name="Suicide Bomber", cid=Bandit.clanMap.SuicideBomber, program="Shahid", d=45, intensity=2}},
@@ -136,10 +167,10 @@ criminals.schedule = {
         [55] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 180, speed=1.7}},
     },
     [63] = {
-        [30] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=72, intensity=14}},
+        [30] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=72, intensity=4}},
     },
     [66] = {
-        [39] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=71, intensity=13}},
+        [39] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=71, intensity=3}},
         [40] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 0, speed=1.8}},
         [41] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=70, intensity=3}},
     },
@@ -174,8 +205,8 @@ criminals.schedule = {
     },
     [87] = {
         [27] = {"Arson", {}},
-        [33] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=65, intensity=14}},
-        [50] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=64, intensity=15}},
+        [33] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=65, intensity=4}},
+        [50] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=64, intensity=5}},
     },
     [88] = {
         [44] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=63, intensity=6}},
@@ -232,11 +263,8 @@ criminals.schedule = {
     },
     [121] = {
         [2]  = {"ProtestAll", {}},
-        [12] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=55, intensity=12}},
         [16] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = -90, speed=1.6}},
         [45] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice2", dir = 90, speed=1.7}},
-        [46] = {"Siren", {}},
-        [48] = {"PlaneCrashSequence", {}},
     },
     [122] = {
         [0]  = {"Siren", {}},
@@ -272,8 +300,12 @@ criminals.schedule = {
     [132] = {
         [0] = {"Siren", {}},
     },
+    [133] = {
+        [54] = {"Siren", {}},
+        [56] = {"PlaneCrashSequence", {}},
+    },
     [134] = {
-        [40] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=46, intensity=22}},
+        [40] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=46, intensity=12}},
     },
     [135] = {
         [0]  = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=58, intensity=4}},
@@ -337,8 +369,8 @@ criminals.schedule = {
     },
     [154] = {
         [25] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=55, intensity=4}},
-        [26] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.Inmate, program="Police", d=55, intensity=14}},
-        [27] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.Inmate, program="Police", d=59, intensity=13}},
+        [26] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.InmateFree, program="Bandit", d=55, intensity=14}},
+        [27] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.InmateFree, program="Bandit", d=59, intensity=13}},
     },
     [155] = {
         [5]  = {"JetFighterRun", {arm="mg"}},
@@ -352,15 +384,15 @@ criminals.schedule = {
     [156] = {
         [5]  = {"JetFighterRun", {arm="mg"}},
         [10] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=46, intensity=12}},
-        [15] = {"JetFighterRun", {arm="bomb"}},
-        [25] = {"JetFighterRun", {arm="bomb"}},
+        [15] = {"JetFighterRun", {arm="mg"}},
+        [25] = {"JetFighterRun", {arm="mg"}},
         [26] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=57, intensity=10}},
     },
     [158] = {
         [0]  = {"Siren", {}},
         [8]  = {"JetFighterRun", {arm="gas"}},
         [9]  = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.Mental, program="Bandit", d=45, intensity=12}},
-        [24] = {"JetFighterRun", {arm="bomb"}},
+        [24] = {"JetFighterRun", {arm="mg"}},
         [31] = {"JetFighterRun", {arm="gas"}},
         [49] = {"JetFighterRun", {arm="gas"}},
         [51] = {"SetHydroPower", {on=false}},
@@ -368,18 +400,18 @@ criminals.schedule = {
         [53] = {"Horde", {cnt=100, x=45, y=45}},
     },
     [159] = {
-        [8]  = {"JetFighterRun", {arm="gas"}},
+        [8]  = {"JetFighterRun", {arm="bomb"}},
         [9]  = {"SetHydroPower", {on=false}},
         [10] = {"JetFighterRun", {arm="mg"}},
         [11] = {"SetHydroPower", {on=true}},
-        [24] = {"JetFighterRun", {arm="gas"}},
+        [24] = {"JetFighterRun", {arm="bomb"}},
         [25] = {"SetHydroPower", {on=false}},
         [27] = {"SetHydroPower", {on=true}},
         [49] = {"JetFighterRun", {arm="bomb"}},
     },
     [160] = {
         [8]  = {"JetFighterRun", {arm="bomb"}},
-        [9]  = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=45, intensity=12}},
+        [9]  = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=45, intensity=9}},
         [24] = {"JetFighterRun", {arm="mg"}},
         [25] = {"SetHydroPower", {on=false}},
         [26] = {"SetHydroPower", {on=true}},
@@ -389,9 +421,9 @@ criminals.schedule = {
         [54] = {"Horde", {cnt=100, x=45, y=-45}},
     },
     [161] = {
-        [8]  = {"JetFighterRun", {arm="bomb"}},
-        [24] = {"JetFighterRun", {arm="bomb"}},
-        [49] = {"JetFighterRun", {arm="bomb"}},
+        [8]  = {"JetFighterRun", {arm="gas"}},
+        [24] = {"JetFighterRun", {arm="mg"}},
+        [49] = {"JetFighterRun", {arm="gas"}},
         [51] = {"SetHydroPower", {on=false}},
         [58] = {"SetHydroPower", {on=true}},
     },
@@ -405,7 +437,7 @@ criminals.schedule = {
     },
     [163] = {
         [8]  = {"JetFighterRun", {arm="bomb"}},
-        [15] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=45, intensity=12}},
+        [15] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=45, intensity=5}},
         [24] = {"JetFighterRun", {arm="bomb"}},
         [30] = {"JetFighterRun", {arm="gas"}},
         [43] = {"JetFighterRun", {arm="gas"}},
@@ -474,4 +506,4 @@ criminals.schedule = {
     },
 }
 
-table.insert(BWOVariants, criminals)
+table.insert(BWOVariants, drunkard)

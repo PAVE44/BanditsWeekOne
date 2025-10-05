@@ -8,6 +8,8 @@ BWOEffects2.immuneList = {
     "9bf4882b-0622-4e77-82c1-feee90b566b4", -- sweepers with hazmats
     "ce526bd8-a230-4d21-a1f8-5e30790b366f", -- army with gas masks
     "989f4faf-53f2-4f8f-9603-496fb3efcb6a", -- firemen
+    "ba5733bd-938d-4320-b2f8-3e9c5832200e", -- late survivors
+    "bafa6e46-bf40-4f46-a133-fae309e0dccc", -- sweepers military
 }
 
 BWOEffects2.Add = function(effect)
@@ -92,14 +94,8 @@ BWOEffects2.Process = function()
                         local immune = false
                         local mask = player:getWornItem("MaskEyes")
                         if mask then
-                            if mask:getFullType() == "Base.Hat_GasMask" then 
-                                immune = true 
-                            end
-                        end
-                        local suit = player:getWornItem("FullSuitHead")
-                        if suit then
-                            if suit:getFullType() == "Base.HazmatSuit" then 
-                                immune = true 
+                            if mask:hasTag(ItemTag.GAS_MASK) then
+                                immune = true
                             end
                         end
                         if not immune then

@@ -59,6 +59,25 @@ function BWOEventsPlace.ArmyGuards(params)
     sendClientCommand(player, 'Spawner', 'Clan', args)
 end
 
+function BWOEventsPlace.PolishHooligans(params)
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
+    local args = {
+        cid = Bandit.clanMap.Polish,
+        size = 4,
+        program = "ArmyGuard",
+        x = params.x,
+        y = params.y,
+        z = params.z,
+        voice = 101,
+        hostile = false, -- unless provoked
+        hostileP = false
+    }
+
+    sendClientCommand(player, 'Spawner', 'Clan', args)
+end
+
 function BWOEventsPlace.GunshopGuard(params)
     local player = getSpecificPlayer(0)
     if not player then return end

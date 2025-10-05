@@ -1,3 +1,5 @@
+require "BWOBandit"
+
 BWOVariants = BWOVariants or {}
 
 local getRegion = function(player)
@@ -13,6 +15,18 @@ local getRegion = function(player)
 end
 
 local hiker = {}
+
+hiker.name = "Hiker"
+hiker.image = "media/textures/Variants/hiker.png"
+hiker.desc = "<SIZE:large>The Hiker <BR> "
+hiker.desc = hiker.desc .. "<SIZE:medium> Difficulty: Normal <BR> "
+hiker.desc = hiker.desc .. "<SIZE:medium>You knew home would become a coffin, so you left before the walls closed in. "
+hiker.desc = hiker.desc .. "The sickness wasn't yet crawling through the streets, but you already knew what was coming. "
+hiker.desc = hiker.desc .. "With only a pack of essentials on your back, you chose the wild over the grave. "
+hiker.desc = hiker.desc .. "The world is ending, but you were ready to walk away. <BR> "
+hiker.desc = hiker.desc .. " - Begin as a hiker, without a house or a car, but carrying a backpack and extra supplies. \n"
+hiker.desc = hiker.desc .. " - Other hikers may cross your path and join you on your journey. \n "
+hiker.desc = hiker.desc .. " - Beware of bandits who have been tracking you—loners make easy prey. \n "
 
 hiker.timeOfDay = 6.00
 
@@ -63,10 +77,12 @@ hiker.setup = function()
         getWorld():update()
     end
 
-    local items = {"Base.Bread", "Base.Pot", "Base.Bandage", "Base.Book", 
+    local items = {"Base.Bread", "Base.Pot", "Base.Book", 
                    "Base.Pillow", "Base.KnifePocket", "Base.Sausage", "Base.WaterBottle",
                    "Base.Socks", "Base.ToiletPaper", "Base.HandTorch",
-                   "Base.HandAxe_Old", "Base.Lighter"}
+                   "Base.HandAxe_Old", "Base.Lighter", "Base.Tweezers",
+                   "Base.SutureNeedle", "Base.SutureNeedle", "Base.SutureNeedle",
+                   "Base.Bandage", "Base.Bandage", "Base.Bandage"}
 
     local bag = BanditCompatibility.InstanceItem("Base.Bag_BigHikingBag")
     local container = bag:getItemContainer()
@@ -146,6 +162,8 @@ hiker.schedule = {
     [15] = {
         [5]  = {"BuildingParty", {roomName="bedroom", intensity=8}},
         [25] = {"BuildingParty", {roomName="bedroom", intensity=8}},
+        -- DIFF
+        [26] = {"SpawnGroup", {name="Hooligans", cid=Bandit.clanMap.Polish, program="Bandit", voice=101, d=44, intensity=8}},
     },
     [16] = {
         [58] = {"BuildingParty", {roomName="bedroom", intensity=8}},
@@ -158,6 +176,8 @@ hiker.schedule = {
     },
     [25] = {
         [44] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}},
+        -- DIFF
+        [45] = {"SpawnGroup", {name="Hooligans", cid=Bandit.clanMap.Polish, program="Bandit", voice=101, d=44, intensity=8}},
     },
     [26] = {
         [21] = {"SetHydroPower", {on=false}},
@@ -192,6 +212,7 @@ hiker.schedule = {
     [48] = {
         [0]  = {"StartDay", {day="sunday"}},
         [11] = {"ChopperAlert", {name="heli2", sound="BWOChopperGeneric", dir = 90, speed=2.7}},
+        [33] = {"SpawnGroup", {name="Hooligans", cid=Bandit.clanMap.Polish, program="Bandit", d=40, intensity=14}},
     },
     [51] = {
         [9]  = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 0, speed=2.2}},
@@ -266,6 +287,7 @@ hiker.schedule = {
         [44] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=63, intensity=6}},
         [46] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=62, intensity=7}},
         [47] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=61, intensity=6}},
+        [48] = {"PlaneCrashSequence", {}}, -- DIFF
     },
     [89] = {
         [52] = {"Arson", {}},
@@ -348,12 +370,11 @@ hiker.schedule = {
     [128] = {
         [27] = {"Arson", {}},
     },
-    [129] = {
+    [130] = {
         [0] = {"Siren", {}},
     },
-    [130] = {
-        [54] = {"Siren", {}},
-        [56] = {"PlaneCrashSequence", {}},
+    [132] = {
+        [0] = {"Siren", {}},
     },
     [134] = {
         [40] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=46, intensity=12}},
@@ -420,8 +441,8 @@ hiker.schedule = {
     },
     [154] = {
         [25] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=55, intensity=4}},
-        [26] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.Inmate, program="Police", d=55, intensity=14}},
-        [27] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.Inmate, program="Police", d=59, intensity=13}},
+        [26] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.InmateFree, program="Bandit", d=55, intensity=14}},
+        [27] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.InmateFree, program="Bandit", d=59, intensity=13}},
     },
     [155] = {
         [5]  = {"JetFighterRun", {arm="mg"}},

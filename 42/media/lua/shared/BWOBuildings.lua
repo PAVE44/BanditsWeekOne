@@ -227,15 +227,19 @@ BWOBuildings.GetDensityScore = function(character, radius)
 
     for i = 0, rooms:size() - 1 do
         local room = rooms:get(i)
-        local roomDef = room:getRoomDef()
-        local x1, y1, x2, y2 = roomDef:getX(), roomDef:getY(), roomDef:getX2(), roomDef:getY2()
+        if room then
+            local roomDef = room:getRoomDef()
+            if roomDef then
+                local x1, y1, x2, y2 = roomDef:getX(), roomDef:getY(), roomDef:getX2(), roomDef:getY2()
 
-        local cx = (x1 + x2) / 2
-        local cy = (y1 + y2) / 2
-        
-        if math.abs(px - cx) + math.abs(py - cy) <= radius then
-            local size = (x2 - x1) * (y2 - y1)
-            total = total + size
+                local cx = (x1 + x2) / 2
+                local cy = (y1 + y2) / 2
+
+                if math.abs(px - cx) + math.abs(py - cy) <= radius then
+                    local size = (x2 - x1) * (y2 - y1)
+                    total = total + size
+                end
+            end
         end
     end
     BWOBuildings.DensityScoreCache[id] = total

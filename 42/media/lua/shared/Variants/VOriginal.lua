@@ -1,7 +1,21 @@
+require "BWOBandit"
+
 BWOVariants = BWOVariants or {}
 
 local original = {}
 
+original.name = "Original"
+original.image = "media/textures/Variants/original.png"
+
+original.desc = "<SIZE:large> Original <BR> "
+original.desc = original.desc .. "<SIZE:medium> Difficulty: Normal <BR> "
+original.desc = original.desc .. "<SIZE:medium>You knew what was coming, but still chose to stay. "
+original.desc = original.desc .. "The disease creeps in slowly, yet with growing insolence, and your house remains untouched, unprepared. "
+original.desc = original.desc .. "Four walls, a door, and a roof: not a fortress, but a fragile comfort. "
+original.desc = original.desc .. "The world is ending, and you decided to face it where you stand. <BR> "
+original.desc = original.desc .. " - Begin in a house within your chosen city. \n "
+original.desc = original.desc .. " - No preparations have been made — your home is vulnerable. \n "
+original.desc = original.desc .. " - Survival will depend on how quickly you can adapt as the sickness spreads. \n  "
 original.timeOfDay = 9.00
 
 original.fadeIn = 400
@@ -323,8 +337,8 @@ original.schedule = {
     },
     [154] = {
         [25] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=55, intensity=4}},
-        [26] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.Inmate, program="Police", d=55, intensity=14}},
-        [27] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.Inmate, program="Police", d=59, intensity=13}},
+        [26] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.InmateFree, program="Bandit", d=55, intensity=14}},
+        [27] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.InmateFree, program="Bandit", d=59, intensity=13}},
     },
     [155] = {
         [5]  = {"JetFighterRun", {arm="mg"}},

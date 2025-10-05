@@ -1090,6 +1090,15 @@ BWOEvents.SetupPlaceEvents = function(params)
     addPlaceEvent({phase="GunshopGuard", x=12085, y=6785, z=0})
     addPlaceEvent({phase="GunshopGuard", x=12088, y=6782, z=0})
 
+     -- POLISH HOOLIGANS GUARDS
+     addPlaceEvent({phase="PolishHooligans", x=10670, y=9995, z=0})
+     addPlaceEvent({phase="PolishHooligans", x=10995, y=9644, z=0})
+     addPlaceEvent({phase="PolishHooligans", x=11412, y=6785, z=0})
+     addPlaceEvent({phase="PolishHooligans", x=2595, y=10911, z=0})
+     addPlaceEvent({phase="PolishHooligans", x=13063, y=1646, z=0})
+     addPlaceEvent({phase="PolishHooligans", x=6521, y=5344, z=0})
+     addPlaceEvent({phase="PolishHooligans", x=13511, y=1286, z=0})
+
     -- riverside
     -- fixme - we need other cities too
 
@@ -2072,7 +2081,7 @@ BWOEvents.SpawnGroup = function(params)
     if not player then return end
 
     local density = BWOBuildings.GetDensityScore(player, 120) / 6000
-    if density > 1.5 then density = 1.5 end
+    if density > 2 then density = 2 end
     if density < 0.5 then density = 0.5 end
 
     local occupation = "None"

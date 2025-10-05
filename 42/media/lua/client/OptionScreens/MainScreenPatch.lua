@@ -1,73 +1,53 @@
 require "MainScreen"
 
-local mainScreenPrerender = MainScreen.prerender
+local mainScreenInstantiate = MainScreen.instantiate
+local mainScreenGetAllUIs = MainScreen.getAllUIs
 
---[[
-function MainScreen:prerender()
-    mainScreenPrerender(self)
+function MainScreen:instantiate()
+    mainScreenInstantiate(self)
 
-    if self.ingame then return end
+    if not self.inGame and not isDemo() then
+        self.variantMain = VariantMain:new(0, 0, self:getWidth(), self:getHeight())
+
+        self.variantMain:initialise()
+        self.variantMain:setVisible(false)
+        self.variantMain:setAnchorRight(true)
+        self.variantMain:setAnchorLeft(true)
+        self.variantMain:setAnchorBottom(true)
+        self.variantMain:setAnchorTop(true)
+        self.variantMain.backgroundColor = {r=0, g=0, b=0, a=0.8}
+        self.variantMain.borderColor = {r=1, g=1, b=1, a=0.5}
+        self:addChild(self.variantMain)
     
-    if isIngameState() then return end
+
+        local w = getCore():getScreenWidth();
+	    local h = getCore():getScreenHeight();
+
+        local uis = {
+            { self.variantMain, 0.7, 0.8 },
+        }
     
-    if getPlayer() then return end
-
-    local options = PZAPI.ModOptions:getOptions("BanditsWeekOne")
-    local musicIdx = options:getOption("INTROMUSIC"):getValue()
-
-    local soundName
-    local musicList = BWOOptions.IntroMusic
-    local musicCnt = -2 -- skip first 2 options: none and random
-    for k, v in pairs(musicList) do
-        musicCnt = musicCnt + 1
-    end
-
-    local sm = getSoundManager()
-    local emitter = getSoundManager():getUIEmitter()
-    if musicIdx == 1 then
-        if BWOIntro.CustomMusic then
-            sm:stopUISound(BWOIntro.CustomMusic)
-            BWOIntro.CustomMusic = nil
-        end
-        emitter:stopSoundByName("UIBWOMusic1")
-        emitter:stopSoundByName("UIBWOMusic2")
-        emitter:stopSoundByName("UIBWOMusic3")
-        emitter:stopSoundByName("UIBWOMusic4")
-        -- sm:stopUISound(133824517)
-    elseif musicIdx == 2 then
-        local r = 3 + ZombRand(musicCnt)
-        local i = 1
-        for k, v in pairs(musicList) do
-            if i == r then
-                soundName = k
-                break
+        for _,ui in ipairs(uis) do
+            if ui[1] and ui[1].javaObject and instanceof(ui[1].javaObject, 'UIElement') then
+                local width = w * ui[2]
+                local height = h * ui[3]
+                if w <= 1024 then
+                    width = w * 0.95
+                    height = h * 0.95
+                end
+                ui[1]:setWidth(width)
+                ui[1]:setHeight(height)
+                ui[1]:setX((w - width) / 2)
+                ui[1]:setY((h - height) / 2)
+                ui[1]:recalcSize()
             end
-            i = i + 1
         end
-    else
-        local i = 1
-        for k, v in pairs(musicList) do
-            if i == musicIdx then
-                soundName = k
-                break
-            end
-            i = i + 1
-        end
-    end
 
-    if soundName then
-        if sm:isPlayingMusic() then
-            sm:StopMusic()
-        end
-        sm:setMusicVolume(0)
-        if not BWOIntro.CustomMusic then
-            -- MainScreenState.preloadBackgroundTextures()
-            -- local ms = MainScreenState.getInstance()
-            -- ms:renderBackground()
-            emitter:setPos(0, 0, 0)
-            BWOIntro.CustomMusic = sm:playUISound(soundName)
-        end
+        self.variantMain:create()
     end
-
 end
---]]
+
+function MainScreen:getAllUIs()
+    local ret = mainScreenGetAllUIs(self)
+    table.insert(ret, self.variantMain)
+end

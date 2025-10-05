@@ -1,5 +1,61 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <fileGuidTable>
+	<files>
+		<path>media/clothing/clothingItems/Vest_BulletBlack.xml</path>
+		<guid>f2787efaa-3132-49fe-8ff5-2ec02a0bd5a0</guid>
+	</files>
+	<files>
+		<path>media/clothing/clothingItems/HazmatSuitBlack.xml</path>
+		<guid>39171c55-1c9b-4305-8947-27bd9dee661b</guid>
+	</files>
+	<files>
+		<path>media/clothing/clothingItems/HazmatSuitCamo.xml</path>
+		<guid>72208e07-ead9-4028-9518-eca0f20f6bb8</guid>
+	</files>
+	<files>
+		<path>media/clothing/clothingItems/HazmatSuitCherno.xml</path>
+		<guid>9cbc0654-8826-4bd9-ad75-29b04680e33d</guid>
+	</files>
+	<files>
+		<path>media/clothing/clothingItems/HazmatSuitGrey.xml</path>
+		<guid>cd4e3985-1ea9-4d31-9749-ca47fac8840b</guid>
+	</files>
+	<files>
+		<path>media/clothing/clothingItems/HazmatSuitMilitary.xml</path>
+		<guid>3f0c26e3-71be-4fdf-98f9-2e1add5e8bbb</guid>
+	</files>
+	<files>
+		<path>media/clothing/clothingItems/HazmatSuitOrange.xml</path>
+		<guid>4e5d4873-d979-4e42-a737-ead879d2e538</guid>
+	</files>
+	<files>
+		<path>media/clothing/clothingItems/HazmatSuitRed.xml</path>
+		<guid>86029b3d-6594-4f2d-9698-f292535d81a2</guid>
+	</files>
+	<files>
+		<path>media/clothing/clothingItems/HazmatSuitUrban.xml</path>
+		<guid>d33638c2-b321-4172-9efd-b405556d4f58</guid>
+	</files>
+	<files>
+		<path>media/clothing/clothingItems/HazmatSuitWhite.xml</path>
+		<guid>64a74f4b-f2f6-4051-b1fa-b0229130bc85</guid>
+	</files>
+	<files>
+		<path>media/clothing/clothingItems/Hat_resperator.xml</path>
+		<guid>20892685-12c0-49d3-8e94-a6f49be71a5f</guid>
+	</files>
+	<files>
+		<path>media/clothing/clothingItems/Bag_oxygon.xml</path>
+		<guid>221fd188-71b7-46d9-974d-419d78b7322b</guid>
+	</files>
+	<files>
+		<path>media/clothing/clothingItems/Tail_tube.xml</path>
+		<guid>4d4ca48e-3821-41df-a2fb-20bf6c2e6fd2</guid>
+	</files>
+	<files>
+		<path>media/clothing/clothingItems/Hat_double_resperator.xml</path>
+		<guid>3efd941a-0b55-494c-930f-0d16c2775524</guid>
+	</files>
 	<files>
 		<path>media/clothing/clothingItems/AmmoStrap_Bullets.xml</path>
 		<guid>15514b21-1567-4a0b-a171-9740ee9b7b3a</guid>

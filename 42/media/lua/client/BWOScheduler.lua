@@ -52,7 +52,7 @@ function BWOScheduler.PlayerStart()
     local player = getSpecificPlayer(0)
     local hours = player:getHoursSurvived()
     
-    if not gmd.Variant then gmd.Variant = 1 + ZombRand(#BWOVariants) end
+    if not gmd.Variant then gmd.Variant = SandboxVars.BanditsWeekOne.Variant end
 
     if hours < 0.1 then
         

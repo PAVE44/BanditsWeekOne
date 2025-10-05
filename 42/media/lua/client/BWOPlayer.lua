@@ -701,10 +701,21 @@ local onPlayerUpdate = function(player)
     if BWOScheduler.World.PostNuclearFallout and BWOPlayer.tick == 1 and player:getZ() >= 0 then
 
         local immune = false
+        local suit = player:getWornItem("Boilersuit")
+        if suit then
+            if suit:hasTag(ItemTag.HAZMAT_SUIT) then 
+                local mask = player:getWornItem("MaskEyes")
+                if mask then
+                    if mask:hasTag(ItemTag.GAS_MASK) then
+                        immune = true
+                    end
+                end
+            end
+        end
         local suit = player:getWornItem("FullSuitHead")
         if suit then
-            if suit:getFullType() == "Base.HazmatSuit" then 
-                immune = true 
+            if suit:hasTag(ItemTag.HAZMAT_SUIT) then 
+                immune = true
             end
         end
 
@@ -742,14 +753,14 @@ local onPlayerUpdate = function(player)
                 local stats = player:getStats()
                 local sick = bodyDamage:getFoodSicknessLevel()
                 local drunk = stats:getDrunkenness()
-                local incSick = 1
-                local incDrunk = 2
+                local incSick = 0.025
+                local incDrunk = 0.3
                 if player:isOutside() then
                     incSick = incSick * 2
                     incDrunk = incDrunk * 2
                 end
 
-                if sick < 170 then
+                if sick < 160 then
                     bodyDamage:setFoodSicknessLevel(sick + incSick)
                 end
 

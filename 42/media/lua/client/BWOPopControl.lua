@@ -728,16 +728,34 @@ local onBanditUpdate = function(bandit)
     md.reanimateAge = age
 
     if BWOScheduler.World.PostNuclearFallout then
-        local outfit = bandit:getOutfitName()
         local gmd = GetBWOModData()
         local nukes = gmd.Nukes
         for _, nuke in pairs(nukes) do
             if isInCircle(bandit:getX(), bandit:getY(), nuke.x, nuke.y, nuke.r) then
-                if bandit:getZ() >= 0 and outfit ~= "HazardSuit" then
-                    if bandit:isOutside() then
-                        bandit:setHealth(bandit:getHealth() - 0.0020)
-                    else
-                        bandit:setHealth(bandit:getHealth() - 0.0010)
+                if bandit:getZ() >= 0 then
+                    local hasMask = false
+                    local hasSuit = false
+                    local itemVisuals = bandit:getItemVisuals()
+                    for i=0, itemVisuals:size()-1 do
+                        local itemVisual = itemVisuals:get(i)
+                        if itemVisual then
+                            local itemType = itemVisual:getItemType()
+                            if itemType then
+                                local item = BanditCompatibility.InstanceItem(itemType)
+                                if item:hasTag(ItemTag.HAZMAT_SUIT) then
+                                    hasSuit = true
+                                elseif item:hasTag(ItemTag.GAS_MASK) then
+                                    hasMask = true
+                                end
+                            end
+                        end
+                    end
+                    if not hasMask and not hasSuit then
+                        if bandit:isOutside() then
+                            bandit:setHealth(bandit:getHealth() - 0.0020)
+                        else
+                            bandit:setHealth(bandit:getHealth() - 0.0010)
+                        end
                     end
                 end
                 break

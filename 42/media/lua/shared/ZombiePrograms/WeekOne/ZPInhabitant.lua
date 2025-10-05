@@ -239,7 +239,7 @@ ZombiePrograms.Inhabitant.Main = function(bandit)
                     active = false
                 end
 
-                if partyOn then
+                if BWOBuildings.IsEventBuilding(building, "party") or BWOBuildings.IsEventBuilding(building, "home") then
                     active = false
                 end
 

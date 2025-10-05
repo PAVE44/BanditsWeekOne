@@ -94,3 +94,28 @@ option BanditsWeekOne.EventFinalSolution = {
     type = boolean, default = true,
     page = BanditsWeekOne, translation = BanditsWeekOne.EventFinalSolution,
 }
+
+option BanditsWeekOne.EventBoeing = {
+    type = boolean, default = true,
+    page = BanditsWeekOne, translation = BanditsWeekOne.EventBoeing,
+}
+
+option BanditsWeekOne.EventStrafe = {
+    type = boolean, default = true,
+    page = BanditsWeekOne, translation = BanditsWeekOne.EventStrafe,
+}
+
+option BanditsWeekOne.EventBombing = {
+    type = boolean, default = true,
+    page = BanditsWeekOne, translation = BanditsWeekOne.EventBombing,
+}
+
+option BanditsWeekOne.EventGas = {
+    type = boolean, default = true,
+    page = BanditsWeekOne, translation = BanditsWeekOne.EventGas,
+}
+
+option BanditsWeekOne.EventArson = {
+    type = boolean, default = true,
+    page = BanditsWeekOne, translation = BanditsWeekOne.EventArson,
+}

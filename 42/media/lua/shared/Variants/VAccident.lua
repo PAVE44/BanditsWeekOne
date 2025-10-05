@@ -1,3 +1,5 @@
+require "BWOBandit"
+
 BWOVariants = BWOVariants or {}
 
 local getRegion = function(player)
@@ -13,6 +15,9 @@ local getRegion = function(player)
 end
 
 local accident = {}
+
+accident.name = "Accident"
+accident.desc = "Test description"
 
 accident.timeOfDay = 6.00
 
@@ -444,8 +449,8 @@ accident.schedule = {
     },
     [154] = {
         [25] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=55, intensity=4}},
-        [26] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.Inmate, program="Police", d=55, intensity=14}},
-        [27] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.Inmate, program="Police", d=59, intensity=13}},
+        [26] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.InmateFree, program="Bandit", d=55, intensity=14}},
+        [27] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.InmateFree, program="Bandit", d=59, intensity=13}},
     },
     [155] = {
         [5]  = {"JetFighterRun", {arm="mg"}},
@@ -581,4 +586,4 @@ accident.schedule = {
     },
 }
 
-table.insert(BWOVariants, accident)
+-- table.insert(BWOVariants, accident)

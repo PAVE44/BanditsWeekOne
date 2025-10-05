@@ -63,16 +63,16 @@
 	spawn: zone = 0
 
 [72fbcd15-a81b-476a-8c25-1b2caea694de]
-	general: name = BanditsSpike
+	general: name = Spike
 	spawn: friendly = false
 	spawn: companion = false
 	spawn: defenders = false
 	spawn: campers = false
-	spawn: assault = false
-	spawn: wanderer = true
+	spawn: assault = true
+	spawn: wanderer = false
 	spawn: roadblock = false
-	spawn: dayStart = 0
-	spawn: dayEnd = 10000
+	spawn: dayStart = 28
+	spawn: dayEnd = 41
 	spawn: spawnChance = 0
 	spawn: groupMin = 1
 	spawn: groupMax = 4
@@ -84,8 +84,8 @@
 	spawn: companion = false
 	spawn: defenders = false
 	spawn: campers = false
-	spawn: assault = false
-	spawn: wanderer = true
+	spawn: assault = true
+	spawn: wanderer = false
 	spawn: roadblock = false
 	spawn: dayStart = 0
 	spawn: dayEnd = 10000
@@ -95,19 +95,19 @@
 	spawn: zone = 0
 
 [9bf4882b-0622-4e77-82c1-feee90b566b4]
-	general: name = Sweepers
+	general: name = SweepersBlack
 	spawn: friendly = false
 	spawn: companion = false
 	spawn: defenders = false
 	spawn: campers = false
-	spawn: assault = false
+	spawn: assault = true
 	spawn: wanderer = true
 	spawn: roadblock = false
-	spawn: dayStart = 0
-	spawn: dayEnd = 10000
-	spawn: spawnChance = 0
-	spawn: groupMin = 1
-	spawn: groupMax = 4
+	spawn: dayStart = 11
+	spawn: dayEnd = 90
+	spawn: spawnChance = 1.2
+	spawn: groupMin = 5
+	spawn: groupMax = 10
 	spawn: zone = 0
 
 [c4878ebb-c8e5-4932-8850-370ee9c77d61]
@@ -144,7 +144,7 @@
 
 [526e57b9-52cf-42a8-a17b-50e32e4d33f3]
 	general: name = PoliceRiot
-	spawn: friendly = false
+	spawn: friendly = true
 	spawn: companion = false
 	spawn: defenders = false
 	spawn: campers = false
@@ -159,7 +159,7 @@
 	spawn: zone = 0
 
 [c15cc316-41f9-4c2c-b71a-3a3fb58c247d]
-	general: name = Inmates
+	general: name = InmatesFree
 	spawn: friendly = false
 	spawn: companion = false
 	spawn: defenders = false
@@ -223,13 +223,13 @@
 	spawn: zone = 0
 
 [c167d1e0-c077-4ee5-b353-88b374de193d]
-	general: name = Walkers
+	general: name = Civilians
 	spawn: friendly = true
 	spawn: companion = false
 	spawn: defenders = false
 	spawn: campers = false
 	spawn: assault = false
-	spawn: wanderer = false
+	spawn: wanderer = true
 	spawn: roadblock = false
 	spawn: dayStart = 0
 	spawn: dayEnd = 10000
@@ -245,7 +245,7 @@
 	spawn: defenders = false
 	spawn: campers = false
 	spawn: assault = false
-	spawn: wanderer = false
+	spawn: wanderer = true
 	spawn: roadblock = false
 	spawn: dayStart = 0
 	spawn: dayEnd = 10000
@@ -260,8 +260,8 @@
 	spawn: companion = false
 	spawn: defenders = false
 	spawn: campers = false
-	spawn: assault = false
-	spawn: wanderer = true
+	spawn: assault = true
+	spawn: wanderer = false
 	spawn: roadblock = false
 	spawn: dayStart = 0
 	spawn: dayEnd = 10000
@@ -684,5 +684,69 @@
 	spawn: spawnChance = 0
 	spawn: groupMin = 1
 	spawn: groupMax = 1
+	spawn: zone = 0
+
+[2e79625a-e4a5-412e-bd36-cd67d563a2d3]
+	general: name = Polish
+	spawn: friendly = false
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = true
+	spawn: wanderer = true
+	spawn: roadblock = false
+	spawn: dayStart = 1
+	spawn: dayEnd = 10000
+	spawn: spawnChance = 0
+	spawn: groupMin = 4
+	spawn: groupMax = 12
+	spawn: zone = 0
+
+[bafa6e46-bf40-4f46-a133-fae309e0dccc]
+	general: name = SweepersMilitary
+	spawn: friendly = false
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = true
+	spawn: roadblock = false
+	spawn: dayStart = 8
+	spawn: dayEnd = 80
+	spawn: spawnChance = 1.5
+	spawn: groupMin = 4
+	spawn: groupMax = 8
+	spawn: zone = 0
+
+[ba5733bd-938d-4320-b2f8-3e9c5832200e]
+	general: name = LateSurvivors
+	spawn: friendly = true
+	spawn: companion = true
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+	spawn: dayStart = 10
+	spawn: dayEnd = 90
+	spawn: spawnChance = 0.9
+	spawn: groupMin = 2
+	spawn: groupMax = 3
+	spawn: zone = 0
+
+[51f970f1-5868-4b56-ab55-4a1828ebf6bf]
+	general: name = Inmates
+	spawn: friendly = true
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = false
+	spawn: wanderer = false
+	spawn: roadblock = false
+	spawn: dayStart = 0
+	spawn: dayEnd = 10000
+	spawn: spawnChance = 0
+	spawn: groupMin = 1
+	spawn: groupMax = 32
 	spawn: zone = 0
 

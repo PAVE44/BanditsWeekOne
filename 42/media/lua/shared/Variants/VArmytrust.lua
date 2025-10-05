@@ -1,39 +1,51 @@
+require "BWOBandit"
+
 BWOVariants = BWOVariants or {}
 
-local party = {}
+local armytrust = {}
 
-party.timeOfDay = 2.0
+armytrust.name = "armytrust"
+armytrust.image = "media/textures/Variants/armytrust.png"
 
-party.fadeIn = 3500
+armytrust.name = "The Protected"
+armytrust.desc = "<SIZE:large> The Protected <BR> "
+armytrust.desc = armytrust.desc .. "<SIZE:medium> Difficulty: Insane <BR> "
+armytrust.desc = armytrust.desc .. "<SIZE:medium>You knew what's coming, but the soldiers rolled in, and for a moment, you believed safety had returned. "
+armytrust.desc = armytrust.desc .. "Convoys patrolled the streets, curfews were declared, and the promise was simple: the army would protect the people. "
+armytrust.desc = armytrust.desc .. "So you stayed, trusting the guns and uniforms to hold back the sickness.  "
+armytrust.desc = armytrust.desc .. "But protection has a price, and soon you'll learn the lesson. <BR>"
+armytrust.desc = armytrust.desc .. " - Amount of friendly military soldiers is heavily increased. \n "
+armytrust.desc = armytrust.desc .. " - Expect intensified airstrikes and bombardments as the situation escalates, endangering everyone left behind. \n "
+armytrust.timeOfDay = 9.00
 
-party.setup = function()
+armytrust.fadeIn = 400
+
+armytrust.setup = function()
     local player = getSpecificPlayer(0)
     if not player then return end
 
-    local stats = player:getStats()
-    stats:setDrunkenness(50)
-
 end
 
-party.schedule = {
-    [-7] = {
-        [0] = {"Start", {party=true}},
-        [1] = {"BuildingHome", {addRadio=true, party=true}},
+armytrust.schedule = {
+    [0] = {
+        [0] = {"Start", {}},
+        [1] = {"StartDay", {day="friday"}},
+        [3] = {"BuildingHome", {addRadio=true}},
         [4] = {"SetupNukes", {}},
         [5] = {"SetupPlaceEvents", {}},
-        [6] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=48, intensity=4}},
-    },
-    [0] = {
-        [1] = {"StartDay", {day="friday"}},
+        [10] = {"JetFighterRun", {arm="mg"}}, -- DIFF
     },
     [2] = {
-        [22] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=30, intensity=8}},
+        [22] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=30, intensity=10}},
     },
     [4] = {
         [15] = {"Entertainer", {}},
+        [20] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=10}}, -- DIFF
+        [22] = {"JetFighterRun", {arm=nil}}, -- DIFF
+        [23] = {"JetFighterRun", {arm=nil}}, -- DIFF
     },
     [5] = {
-        [44] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}},
+        [44] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=10}},
     },
     [8] = {
         [5] = {"Arson", {profession="fireofficer"}},
@@ -60,24 +72,24 @@ party.schedule = {
     },
     [24] = {
         [0] = {"StartDay", {day="saturday"}},
-        [1] = {"Siren", {}},
-        [2] = {"PlaneCrashSequence", {}},
     },
     [25] = {
-        [44] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}},
+        [44] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=10}},
+        [45] = {"JetFighterRun", {arm=nil}}, -- DIFF
+        [46] = {"JetFighterRun", {arm=nil}}, -- DIFF
     },
     [26] = {
         [21] = {"SetHydroPower", {on=false}},
         [22] = {"SetHydroPower", {on=true}},
     },
     [27] = {
-        [8] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}},
+        [8] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=10}},
     },
     [28] = {
         [33] = {"Entertainer", {}},
     },
     [30] = {
-        [33] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=8}},
+        [33] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=10}},
     },
     [35] = {
         [20] = {"BuildingParty", {roomName="bedroom", intensity=8}},
@@ -99,6 +111,7 @@ party.schedule = {
     [48] = {
         [0]  = {"StartDay", {day="sunday"}},
         [11] = {"ChopperAlert", {name="heli2", sound="BWOChopperGeneric", dir = 90, speed=2.7}},
+        [33] = {"SpawnGroup", {name="Hooligans", cid=Bandit.clanMap.Polish, program="Bandit", d=40, intensity=14}},
     },
     [51] = {
         [9]  = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 0, speed=2.2}},
@@ -116,10 +129,11 @@ party.schedule = {
         [30] = {"Arson", {}},
     },
     [55] = {
-        [11] = {"SpawnGroup", {name="Hooligans", cid=Bandit.clanMap.Polish, program="Bandit", d=44, intensity=12}},
+        [11] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=74, intensity=2}},
+        [12] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Patrol", d=40, intensity=10}}, -- DIFF
     },
     [58] = {
-        [33] = {"SpawnGroup", {name="Hooligans", cid=Bandit.clanMap.Polish, program="Bandit", d=44, intensity=12}},
+        [33] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=73, intensity=3}},
     },
     [59] = {
         [56] = {"SpawnGroup", {name="Suicide Bomber", cid=Bandit.clanMap.SuicideBomber, program="Shahid", d=45, intensity=2}},
@@ -134,6 +148,7 @@ party.schedule = {
         [39] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=71, intensity=3}},
         [40] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 0, speed=1.8}},
         [41] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=70, intensity=3}},
+        [42] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Police", d=40, intensity=10}}, -- DIFF
     },
     [67] = {
         [13] = {"ChopperAlert", {name="heli2", sound="BWOChopperGeneric", dir = 0, speed=2.9}},
@@ -149,6 +164,7 @@ party.schedule = {
     [79] = {
         [14] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=67, intensity=3}},
         [15] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalClassy, program="Bandit", d=66, intensity=3}},
+        [16] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Police", d=40, intensity=10}}, -- DIFF
         [55] = {"Arson", {}},
     },
     [82] = {
@@ -173,6 +189,7 @@ party.schedule = {
         [44] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=63, intensity=6}},
         [46] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=62, intensity=7}},
         [47] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=61, intensity=6}},
+        [48] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Police", d=40, intensity=10}}, -- DIFF
     },
     [89] = {
         [52] = {"Arson", {}},
@@ -190,6 +207,8 @@ party.schedule = {
         [22] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=65, intensity=4}},
         [33] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=58, intensity=5}},
         [37] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=57, intensity=4}},
+        [38] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Police", d=40, intensity=10}}, -- DIFF
+        [39] = {"JetFighterRun", {arm="mg"}}, -- DIFF
     },
     [96] = {
         [0]  = {"StartDay", {day="tuesday"}},
@@ -210,11 +229,19 @@ party.schedule = {
         [22] = {"Arson", {}},
         [23] = {"ChopperAlert", {name="heli", sound="BWOChopperPolice1", dir = 0, speed=1.9}},
         [33] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=57, intensity=4}},
+        [34] = {"JetFighterRun", {arm="mg"}}, -- DIFF
         [35] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalWhite, program="Bandit", d=56, intensity=5}},
         [36] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=61, intensity=6}},
         [37] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=55, intensity=5}},
         [38] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=60, intensity=5}},
         [39] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=59, intensity=2}},
+        [48] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Police", d=40, intensity=8}}, -- DIFF
+        [41] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Police", d=40, intensity=8}}, -- DIFF
+        [42] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreen, program="Police", d=40, intensity=8}}, -- DIFF
+        [43] = {"JetFighterRun", {arm="mg"}}, -- DIFF
+        [44] = {"JetFighterRun", {arm="mg"}}, -- DIFF
+        [45] = {"JetFighterRun", {arm="mg"}}, -- DIFF
+        [46] = {"JetFighterRun", {arm="mg"}}, -- DIFF
     },
     [116] = {
         [16] = {"BuildingHome", {addRadio=false}},
@@ -261,6 +288,9 @@ party.schedule = {
     [132] = {
         [0] = {"Siren", {}},
     },
+    [133] = {
+        [54] = {"Siren", {}},
+    },
     [134] = {
         [40] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=46, intensity=12}},
     },
@@ -270,11 +300,18 @@ party.schedule = {
         [2]  = {"SetHydroPower", {on=true}},
         [8]  = {"SetHydroPower", {on=false}},
         [10] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=57, intensity=4}},
+        [11] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=46, intensity=12}},
+        [12] = {"JetFighterRun", {arm="mg"}}, -- DIFF
         [20] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=56, intensity=4}},
         [30] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=55, intensity=4}},
+        [31] = {"JetFighterRun", {arm="gsa"}}, -- DIFF
         [32] = {"SetHydroPower", {on=true}},
         [40] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=54, intensity=4}},
+        [41] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=46, intensity=12}},
         [50] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="Bandit", d=53, intensity=4}},
+        [51] = {"JetFighterRun", {arm="mg"}}, -- DIFF
+        [52] = {"JetFighterRun", {arm="gas"}}, -- DIFF
+        [53] = {"JetFighterRun", {arm="mg"}}, -- DIFF
     },
     [136] = {
         [12] = {"SpawnGroup", {name="Veterans", cid=Bandit.clanMap.Veteran, program="Police", d=47, intensity=10}},
@@ -287,14 +324,17 @@ party.schedule = {
         [0] = {"StartDay", {day="thursday"}},
     },
     [145] = {
-        [6]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=49, intensity=5}},
-        [17] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=50, intensity=5}},
+        [6]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=49, intensity=12}},
+        [17] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=50, intensity=12}},
     },
     [146] = {
         [0]  = {"Siren", {}},
         [5]  = {"JetFighterRun", {arm="mg"}},
-        [25] = {"JetFighterRun", {arm="mg"}},
-        [45] = {"JetFighterRun", {arm="mg"}},
+        [25] = {"JetFighterRun", {arm="gas"}}, --DIFF
+        [45] = {"JetFighterRun", {arm="bomb"}}, --DIFF
+        [46] = {"JetFighterRun", {arm="bomb"}}, --DIFF
+        [47] = {"JetFighterRun", {arm="bomb"}}, --DIFF
+        [48] = {"PlaneCrashSequence", {}}, -- DIFF
     },
     [147] = {
         [8]  = {"JetFighterRun", {arm="mg"}},
@@ -302,36 +342,59 @@ party.schedule = {
         [28] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=51, intensity=5}},
         [47] = {"JetFighterRun", {arm="mg"}},
         [48] = {"Horde", {cnt=100, x=45, y=45}},
-        [50] = {"JetFighterRun", {arm="mg"}},
-        [51] = {"JetFighterRun", {arm="mg"}},
+        [50] = {"JetFighterRun", {arm="gas"}}, --DIFF
+        [51] = {"JetFighterRun", {arm="bomb"}}, --DIFF
+        [52] = {"JetFighterRun", {arm="bomb"}}, --DIFF
+        [53] = {"JetFighterRun", {arm="bomb"}}, --DIFF
     },
     [150] = {
         [9]  = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=52, intensity=10}},
-        [24] = {"JetFighterRun", {arm="mg"}},
-        [25] = {"JetFighterRun", {arm="mg"}},
-        [26] = {"JetFighterRun", {arm="mg"}},
+        [24] = {"JetFighterRun", {arm="bomb"}},
+        [25] = {"JetFighterRun", {arm="bomb"}},
+        [26] = {"JetFighterRun", {arm="gas"}},
+        [27] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=46, intensity=12}}, -- DIFF
         [49] = {"JetFighterRun", {arm="mg"}},
         [50] = {"Horde", {cnt=100, x=45, y=45}},
-        [58] = {"JetFighterRun", {arm="mg"}},
+        [58] = {"JetFighterRun", {arm="gas"}},
+        [59] = {"JetFighterRun", {arm="gas"}},
     },
     [152] = {
         [12] = {"JetFighterRun", {arm="mg"}},
         [24] = {"JetFighterRun", {arm="mg"}},
+        [24] = {"JetFighterRun", {arm="mg"}},
+        [36] = {"JetFighterRun", {arm="mg"}},
+        [42] = {"JetFighterRun", {arm="mg"}},
+        [55] = {"JetFighterRun", {arm="mg"}},
     },
     [153] = {
+        [43] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Companion", d=46, intensity=4}}, -- DIFF
         [44] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=53, intensity=5}},
         [45] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=50, intensity=5}},
         [46] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=54, intensity=2}},
-        [50] = {"JetFighterRun", {arm="mg"}},
+        [50] = {"JetFighterRun", {arm="gas"}},
+        [51] = {"JetFighterRun", {arm="gas"}},
+        [52] = {"JetFighterRun", {arm="gas"}},
+        [53] = {"JetFighterRun", {arm="gas"}},
+        [54] = {"JetFighterRun", {arm="gas"}},
+        [55] = {"JetFighterRun", {arm="gas"}},
     },
     [154] = {
         [25] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=55, intensity=4}},
-        [26] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.Inmate, program="Police", d=55, intensity=14}},
-        [27] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.Inmate, program="Police", d=59, intensity=13}},
+        [26] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.InmateFree, program="Bandit", d=55, intensity=14}},
+        [27] = {"SpawnGroup", {name="Inmates", cid=Bandit.clanMap.InmateFree, program="Bandit", d=59, intensity=13}},
+        [28] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=46, intensity=12}}, -- DIFF
     },
     [155] = {
         [5]  = {"JetFighterRun", {arm="mg"}},
+        [6]  = {"JetFighterRun", {arm="mg"}},
+        [7]  = {"JetFighterRun", {arm="mg"}},
+        [8]  = {"JetFighterRun", {arm="mg"}},
+        [9]  = {"JetFighterRun", {arm="mg"}},
         [15] = {"JetFighterRun", {arm="mg"}},
+        [16] = {"JetFighterRun", {arm="mg"}},
+        [17] = {"JetFighterRun", {arm="mg"}},
+        [18] = {"JetFighterRun", {arm="mg"}},
+        [19] = {"JetFighterRun", {arm="mg"}},
         [16] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=49, intensity=3}},
         [17] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=48, intensity=3}},
         [18] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=47, intensity=3}},
@@ -351,12 +414,18 @@ party.schedule = {
         [9]  = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.Mental, program="Bandit", d=45, intensity=12}},
         [24] = {"JetFighterRun", {arm="mg"}},
         [31] = {"JetFighterRun", {arm="gas"}},
+        [32] = {"JetFighterRun", {arm="gas"}},
+        [33] = {"JetFighterRun", {arm="gas"}},
+        [34] = {"JetFighterRun", {arm="gas"}},
+        [35] = {"JetFighterRun", {arm="gas"}},
         [49] = {"JetFighterRun", {arm="gas"}},
+        [50] = {"VehicleCrash", {x=-32, y=60, vtype="pzkA10wreck"}},
         [51] = {"SetHydroPower", {on=false}},
         [52] = {"SetHydroPower", {on=true}},
         [53] = {"Horde", {cnt=100, x=45, y=45}},
     },
     [159] = {
+        [7] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=46, intensity=12}}, -- DIFF
         [8]  = {"JetFighterRun", {arm="bomb"}},
         [9]  = {"SetHydroPower", {on=false}},
         [10] = {"JetFighterRun", {arm="mg"}},
@@ -367,6 +436,7 @@ party.schedule = {
         [49] = {"JetFighterRun", {arm="bomb"}},
     },
     [160] = {
+        [7] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=46, intensity=12}}, -- DIFF
         [8]  = {"JetFighterRun", {arm="bomb"}},
         [9]  = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="Bandit", d=45, intensity=9}},
         [24] = {"JetFighterRun", {arm="mg"}},
@@ -378,7 +448,15 @@ party.schedule = {
         [54] = {"Horde", {cnt=100, x=45, y=-45}},
     },
     [161] = {
+        [4] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=46, intensity=12}}, -- DIFF
         [8]  = {"JetFighterRun", {arm="gas"}},
+        [9]  = {"JetFighterRun", {arm="bomb"}},
+        [10]  = {"JetFighterRun", {arm="gas"}},
+        [11]  = {"JetFighterRun", {arm="bomb"}},
+        [12]  = {"JetFighterRun", {arm="gas"}},
+        [13]  = {"JetFighterRun", {arm="bomb"}},
+        [14]  = {"JetFighterRun", {arm="gas"}},
+        [15]  = {"JetFighterRun", {arm="bomb"}},
         [24] = {"JetFighterRun", {arm="mg"}},
         [49] = {"JetFighterRun", {arm="gas"}},
         [51] = {"SetHydroPower", {on=false}},
@@ -387,10 +465,18 @@ party.schedule = {
     [162] = {
         [8]  = {"JetFighterRun", {arm="mg"}},
         [24] = {"JetFighterRun", {arm="bomb"}},
-        [49] = {"JetFighterRun", {arm="bomb"}},
+        [25] = {"JetFighterRun", {arm="bomb"}},
+        [26] = {"JetFighterRun", {arm="bomb"}},
+        [27] = {"JetFighterRun", {arm="bomb"}},
+        [28] = {"JetFighterRun", {arm="bomb"}},
+        [29] = {"JetFighterRun", {arm="bomb"}},
+        [30] = {"JetFighterRun", {arm="bomb"}},
+        [31] = {"JetFighterRun", {arm="bomb"}},
+        [32] = {"JetFighterRun", {arm="bomb"}},
         [50] = {"SetHydroPower", {on=false}},
         [51] = {"SetHydroPower", {on=true}},
-        [68] = {"JetFighterRun", {arm="mg"}},
+        [58] = {"JetFighterRun", {arm="mg"}},
+        [59] = {"VehicleCrash", {x=-32, y=60, vtype="pzkA10wreck"}},
     },
     [163] = {
         [8]  = {"JetFighterRun", {arm="bomb"}},
@@ -400,8 +486,16 @@ party.schedule = {
         [43] = {"JetFighterRun", {arm="gas"}},
         [45] = {"JetFighterRun", {arm="mg"}},
         [49] = {"JetFighterRun", {arm="bomb"}},
+        [50] = {"JetFighterRun", {arm="bomb"}},
+        [51] = {"JetFighterRun", {arm="bomb"}},
+        [52] = {"JetFighterRun", {arm="bomb"}},
+        [53] = {"JetFighterRun", {arm="bomb"}},
+        [54] = {"JetFighterRun", {arm="bomb"}},
+        [55] = {"JetFighterRun", {arm="bomb"}},
+        [56] = {"JetFighterRun", {arm="bomb"}},
     },
     [164] = {
+        [2] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=46, intensity=4}}, -- DIFF
         [8]  = {"JetFighterRun", {arm="bomb"}},
         [9] = {"VehicleCrash", {x=22, y=-70, vtype="pzkA10wreck"}},
         [10] = {"SetHydroPower", {on=false}},
@@ -463,4 +557,4 @@ party.schedule = {
     },
 }
 
-table.insert(BWOVariants, party)
+table.insert(BWOVariants, armytrust)
