@@ -58,7 +58,14 @@ function BWOScheduler.PlayerStart()
         
         local conf = BWOVariants[gmd.Variant]
 
-        getGameTime():setTimeOfDay(conf.timeOfDay)
+        local gt = getGameTime()
+        if conf.timeOfDay then
+            gt:setTimeOfDay(conf.timeOfDay)
+        end
+
+        if conf.timeOfWeek then
+            gt:setDay(gt:getDay() + conf.timeOfWeek)
+        end
 
         BWOScheduler.Add("FadeOut", {time=0}, 0)
 

@@ -96,6 +96,10 @@ BWOPopControl.StreetsSpawn = function(cnt)
         size = 1
     }
 
+    local gmd = GetBWOModData()
+    local variant = gmd.Variant
+    if BWOVariants[variant].playerIsHostile then args.hostileP = true end
+
     for i = 1, cnt do
         local x = 35 + ZombRand(25)
         local y = 35 + ZombRand(25)
@@ -143,6 +147,8 @@ BWOPopControl.StreetsSpawn = function(cnt)
                         args.program = "Walker"
                     end
                 end
+
+                if BWOVariants[variant].playerIsHostile then args.program = "Active" end
 
                 sendClientCommand(player, 'Spawner', 'Clan', args)
             end
@@ -416,6 +422,10 @@ BWOPopControl.SurvivorsSpawn = function(cnt)
         program = "Survivor"
     }
 
+    local gmd = GetBWOModData()
+    local variant = gmd.Variant
+    if BWOVariants[variant].playerIsHostile then args.hostileP = true end
+
     for i = 1, cnt do
         local x = 35 + ZombRand(25)
         local y = 35 + ZombRand(25)
@@ -544,11 +554,13 @@ BWOPopControl.UpdateCivs = function()
     if not cache then return end
 
     for id, b in pairs(cache) do
-        local prg = b.brain.program.name
-        if tab[prg] then
-            tab[prg] = tab[prg] + 1
-        else
-            tab[prg] = 1
+        if b.brain and b.brain.program then
+            local prg = b.brain.program.name
+            if tab[prg] then
+                tab[prg] = tab[prg] + 1
+            else
+                tab[prg] = 1
+            end
         end
     end
     

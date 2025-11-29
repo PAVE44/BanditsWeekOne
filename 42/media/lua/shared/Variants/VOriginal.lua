@@ -6,7 +6,6 @@ local original = {}
 
 original.name = "Original"
 original.image = "media/textures/Variants/original.png"
-
 original.desc = "<SIZE:large> Original <BR> "
 original.desc = original.desc .. "<SIZE:medium> Difficulty: Normal <BR> "
 original.desc = original.desc .. "<SIZE:medium>You knew what was coming, but still chose to stay. "

@@ -6653,6 +6653,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 91245709-43ed-451c-99da-8d57b2868250
 	clothing: Eyes = Base.Glasses_Sun
 	clothing: Shirt = Base.Shirt_OfficerWhite
 	clothing: LeftWrist = Base.WristWatch_Left_DigitalBlack
@@ -6680,6 +6681,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 3be08c3f-e7e7-40e7-a755-16fa42f962e7
 	clothing: Neck = Base.Tie_Full
 	clothing: Shirt = Base.Shirt_OfficerWhite
 	clothing: LeftWrist = Base.WristWatch_Left_DigitalBlack
@@ -6887,6 +6889,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = f25b7f1e-48e0-4f22-a664-b9f504f5cdfa
 	clothing: Neck = Base.Tie_Worn
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: Shirt = Base.Shirt_FormalTINT
@@ -6958,6 +6961,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = ffe19191-3ac1-415d-b3b1-8967cf96ad7e
 	clothing: Eyes = Base.Glasses_Reading
 	clothing: Neck = Base.Tie_Worn
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
@@ -7106,6 +7110,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = accaad21-0735-4265-8bcb-344ce38bab77
 	clothing: Eyes = Base.Glasses_Cosmetic_CatsEye
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: Shirt = Base.Shirt_FormalWhite
@@ -7228,6 +7233,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 3f9eef9c-9a8b-48c5-86be-0664b8d92e07
 	clothing: Ears = Base.Earring_LoopMed_Silver
 	clothing: Shirt = Base.Shirt_FormalTINT
 	clothing: Left_MiddleFinger = Base.Ring_Left_MiddleFinger_GoldRuby
@@ -7442,6 +7448,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 814a1241-bd5f-4f6a-a3ca-302b1c5e8548
 	clothing: Eyes = Base.Glasses_Reading
 	clothing: Necklace = Base.Necklace_SilverCrucifix
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
@@ -10284,6 +10291,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = 1e2e4646-9d27-4d68-9177-4aff6cc71727
 	clothing: Mask = Base.Hat_BuildersRespirator
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Black
@@ -10412,6 +10420,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = a3d18ce5-f9d9-4132-aaa6-346ec823f045
 	clothing: Mask = Base.Hat_DustMask
 	clothing: TankTop = Base.Vest_DefaultTEXTURE
 	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Black
@@ -11096,6 +11105,7 @@
 	general: exp1 = 0
 	general: exp2 = 0
 	general: exp3 = 0
+	general: bid = a77416ef-1360-45d2-b791-8abf1e60c2c1
 	clothing: Hat = Base.Hat_BandanaTiedTINT
 	clothing: Mask = Base.Hat_RagBandanaMask
 	clothing: Eyes = Base.Glasses_Aviators
@@ -12945,7 +12955,7 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 12
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: Boilersuit = Base.Boilersuit_Prisoner
@@ -12965,7 +12975,7 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 12
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: Boilersuit = Base.Boilersuit_Prisoner
@@ -12986,7 +12996,7 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 12
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: Nose = Base.NoseStud_Gold
@@ -13008,7 +13018,7 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 12
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: Nose = Base.NoseStud_Gold
@@ -13030,7 +13040,7 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 12
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: RightEye = Base.Glasses_Eyepatch_Right
@@ -13052,7 +13062,7 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 12
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: Boilersuit = Base.Boilersuit_Prisoner
@@ -13094,7 +13104,7 @@
 	general: strength = 5
 	general: endurance = 5
 	general: sight = 5
-	general: exp1 = 0
+	general: exp1 = 12
 	general: exp2 = 0
 	general: exp3 = 0
 	clothing: Hat = Base.Hat_Beany
@@ -13102,4 +13112,290 @@
 	clothing: Socks = Base.Socks_Ankle_White
 	clothing: Shoes = Base.Shoes_FlipFlop
 	weapons: melee = Base.Spoon
+
+[92b6a7b3-7a38-4a4f-b3e0-8b89eff5ce55]
+	general: modid = BanditsWeekOne
+	general: cid = 9dc2c635-cd4f-45b6-9a97-b312a84d175a
+	general: name = PG_01
+	general: female = false
+	general: skin = 1
+	general: hairType = 1
+	general: beardType = 1
+	general: hairColor = 1
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 12
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: Hat = Base.Hat_Police_Grey
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: Shirt = Base.Shirt_PrisonGuard
+	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Black
+	clothing: BeltExtra = Base.HolsterSimple_Brown
+	clothing: Pants = Base.Trousers_PrisonGuard
+	clothing: Socks = Base.Socks_Ankle_Black
+	weapons: melee = Base.Nightstick
+
+[e77bd98b-4518-4f06-945e-8b6577413e7b]
+	general: modid = BanditsWeekOne
+	general: cid = 9dc2c635-cd4f-45b6-9a97-b312a84d175a
+	general: name = PG_02
+	general: female = false
+	general: skin = 1
+	general: hairType = 17
+	general: beardType = 1
+	general: hairColor = 9
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 12
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: Shirt = Base.Shirt_PrisonGuard
+	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Black
+	clothing: BeltExtra = Base.HolsterSimple_Black
+	clothing: Pants = Base.Trousers_PrisonGuard
+	clothing: Socks = Base.Socks_Ankle_Black
+	weapons: melee = Base.Nightstick
+
+[5f5c998c-4269-4825-8c53-7788a35d14e5]
+	general: modid = BanditsWeekOne
+	general: cid = 9dc2c635-cd4f-45b6-9a97-b312a84d175a
+	general: name = PG_03
+	general: female = false
+	general: skin = 4
+	general: hairType = 8
+	general: beardType = 1
+	general: hairColor = 8
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: Shirt = Base.Shirt_PrisonGuard
+	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Black
+	clothing: Pants = Base.Trousers_PrisonGuard
+	clothing: Socks = Base.Socks_Ankle_Black
+	weapons: melee = Base.Nightstick
+
+[09b16778-a4be-4c0b-9f8d-8941608f6bdb]
+	general: modid = BanditsWeekOne
+	general: cid = 9dc2c635-cd4f-45b6-9a97-b312a84d175a
+	general: name = PG_04
+	general: female = false
+	general: skin = 1
+	general: hairType = 8
+	general: beardType = 1
+	general: hairColor = 1
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: Shirt = Base.Shirt_PrisonGuard
+	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Black
+	clothing: BeltExtra = Base.HolsterSimple_Black
+	clothing: Pants = Base.Trousers_PrisonGuard
+	clothing: Socks = Base.Socks_Ankle_Black
+	weapons: melee = Base.Nightstick
+
+[8c6c09fb-c3ec-4aa4-a514-6768f157dc63]
+	general: modid = BanditsWeekOne
+	general: cid = 9dc2c635-cd4f-45b6-9a97-b312a84d175a
+	general: name = PG_05
+	general: female = false
+	general: skin = 2
+	general: hairType = 5
+	general: beardType = 1
+	general: hairColor = 5
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: Shirt = Base.Shirt_PrisonGuard
+	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Black
+	clothing: BeltExtra = Base.HolsterSimple_Black
+	clothing: Pants = Base.Trousers_PrisonGuard
+	clothing: Socks = Base.Socks_Ankle_Black
+	weapons: melee = Base.Nightstick
+
+[7771a077-0abe-48c7-8978-03bceb2d3801]
+	general: modid = BanditsWeekOne
+	general: cid = 9dc2c635-cd4f-45b6-9a97-b312a84d175a
+	general: name = PG_06
+	general: female = false
+	general: skin = 5
+	general: hairType = 8
+	general: beardType = 1
+	general: hairColor = 12
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: Shirt = Base.Shirt_PrisonGuard
+	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Black
+	clothing: Pants = Base.Trousers_PrisonGuard
+	clothing: Socks = Base.Socks_Ankle_Black
+	weapons: melee = Base.Nightstick
+
+[a1dfc412-7c2c-4fbe-af94-c6be7e6cb018]
+	general: modid = BanditsWeekOne
+	general: cid = 9dc2c635-cd4f-45b6-9a97-b312a84d175a
+	general: name = PG_07
+	general: female = false
+	general: skin = 4
+	general: hairType = 6
+	general: beardType = 1
+	general: hairColor = 10
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: Shirt = Base.Shirt_PrisonGuard
+	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Black
+	clothing: BeltExtra = Base.HolsterSimple_Black
+	clothing: Pants = Base.Trousers_PrisonGuard
+	clothing: Socks = Base.Socks_Ankle_Black
+	weapons: melee = Base.Nightstick
+
+[607dbb8d-8a36-4924-9460-b49a65c80ad6]
+	general: modid = BanditsWeekOne
+	general: cid = 9dc2c635-cd4f-45b6-9a97-b312a84d175a
+	general: name = PG_08
+	general: female = false
+	general: skin = 2
+	general: hairType = 29
+	general: beardType = 1
+	general: hairColor = 16
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: Shirt = Base.Shirt_PrisonGuard
+	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Black
+	clothing: BeltExtra = Base.HolsterSimple
+	clothing: Pants = Base.Trousers_PrisonGuard
+	clothing: Socks = Base.Socks_Ankle_Black
+	weapons: melee = Base.Nightstick
+
+[273ffba0-70f9-4768-ab40-38b2e7c71850]
+	general: modid = BanditsWeekOne
+	general: cid = 9dc2c635-cd4f-45b6-9a97-b312a84d175a
+	general: name = PG_09
+	general: female = false
+	general: skin = 2
+	general: hairType = 34
+	general: beardType = 1
+	general: hairColor = 11
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: Shirt = Base.Shirt_PrisonGuard
+	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Black
+	clothing: BeltExtra = Base.HolsterSimple_Black
+	clothing: Pants = Base.Trousers_PrisonGuard
+	clothing: Socks = Base.Socks_Ankle_Black
+	weapons: melee = Base.Nightstick
+
+[3bbe799e-5be8-4da1-b505-a1709498e052]
+	general: modid = BanditsWeekOne
+	general: cid = 9dc2c635-cd4f-45b6-9a97-b312a84d175a
+	general: name = PG_10
+	general: female = false
+	general: skin = 3
+	general: hairType = 1
+	general: beardType = 6
+	general: hairColor = 12
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: Shirt = Base.Shirt_PrisonGuard
+	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Black
+	clothing: BeltExtra = Base.HolsterSimple
+	clothing: Pants = Base.Trousers_PrisonGuard
+	clothing: Socks = Base.Socks_Ankle_Black
+	weapons: melee = Base.Nightstick
+
+[0e8fbe3f-b0b7-47f0-a887-79720c814df4]
+	general: modid = BanditsWeekOne
+	general: cid = 9dc2c635-cd4f-45b6-9a97-b312a84d175a
+	general: name = PG_11
+	general: female = false
+	general: skin = 2
+	general: hairType = 32
+	general: beardType = 8
+	general: hairColor = 2
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: Shirt = Base.Shirt_PrisonGuard
+	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Black
+	clothing: BeltExtra = Base.HolsterSimple_Black
+	clothing: Pants = Base.Trousers_PrisonGuard
+	clothing: Socks = Base.Socks_Ankle_Black
+	weapons: melee = Base.Nightstick
+
+[22c9c735-6f1d-473a-be44-99453f9c1ec8]
+	general: modid = BanditsWeekOne
+	general: cid = 9dc2c635-cd4f-45b6-9a97-b312a84d175a
+	general: name = PG_12
+	general: female = false
+	general: skin = 1
+	general: hairType = 2
+	general: beardType = 7
+	general: hairColor = 16
+	general: health = 5
+	general: strength = 5
+	general: endurance = 5
+	general: sight = 5
+	general: exp1 = 0
+	general: exp2 = 0
+	general: exp3 = 0
+	clothing: TankTop = Base.Vest_DefaultTEXTURE
+	clothing: Shirt = Base.Shirt_PrisonGuard
+	clothing: Hands = Base.Gloves_FingerlessLeatherGloves_Black
+	clothing: Pants = Base.Trousers_PrisonGuard
+	clothing: Socks = Base.Socks_Ankle_Black
+	weapons: melee = Base.Nightstick
 

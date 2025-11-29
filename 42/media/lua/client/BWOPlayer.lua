@@ -21,7 +21,7 @@ BWOPlayer.illegalActions = {
 
 -- make npcs react to actual crime
 BWOPlayer.ActivateWitness = function(character, min)
-    local activatePrograms = {"Patrol", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal", "Medic", "Fireman"}
+    local activatePrograms = {"Patrol", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal", "Medic", "Fireman", "Passenger"}
     local braveList = {
         Bandit.clanMap.PoliceBlue,
         Bandit.clanMap.PoliceGray,
@@ -77,7 +77,7 @@ end
 
 -- make npcs react to threat possibility (player aiming or swinging weapon)
 BWOPlayer.ActivateTargets = function(character, min, severity)
-    local activatePrograms = {"Patrol", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal", "Medic", "Fireman"}
+    local activatePrograms = {"Patrol", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal", "Medic", "Fireman", "Passenger"}
     local braveList = {
         Bandit.clanMap.PoliceBlue,
         Bandit.clanMap.PoliceGray,
@@ -235,7 +235,7 @@ BWOPlayer.CheckFriendlyFire = function(bandit, attacker)
     -- who saw this changes program
     local witnessList = BanditZombie.GetAllB()
     for id, witness in pairs(witnessList) do
-        if not witness.brain.hostileP then
+        if witness.brain and not witness.brain.hostileP then
             local dist = math.sqrt(math.pow(bandit:getX() - witness.x, 2) + math.pow(bandit:getY() - witness.y, 2))
             if dist < 15 then
                 local actor = BanditZombie.GetInstanceById(witness.id)
@@ -278,7 +278,7 @@ BWOPlayer.CheckFriendlyFire = function(bandit, attacker)
                     end
 
                     -- witnessing civilians need to change peaceful behavior to active
-                    local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal"}
+                    local activatePrograms = {"Patrol", "Police", "Inhabitant", "Walker", "Runner", "Postal", "Janitor", "Gardener", "Entertainer", "Vandal", "Passenger"}
                     for _, prg in pairs(activatePrograms) do
                         if witness.brain.program.name == prg then 
                             if witness.brain.occupation == "Police" or witness.brain.occupation == "Security" or witness.brain.occupation == "Army" then

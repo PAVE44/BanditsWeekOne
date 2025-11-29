@@ -45,6 +45,82 @@ BWOMenu.PlayMusic = function(player, square)
     end
 end
 
+function BWOMenu.MakeBasement(player, square)
+
+    local function getOrCreateSquare(x, y, z)
+        local cell = getCell()
+        local square = cell:getGridSquare(x, y, z)
+        if square == nil and getWorld():isValidSquare(x, y, z) then
+            square = cell:createNewGridSquare(x, y, z, true)
+            local obj = IsoObject.new(square, "floors_exterior_street_01_0", "")
+            square:AddSpecialObject(obj)
+            obj:transmitCompleteItemToServer()
+        end
+        square:setSquareChanged()
+        return square
+    end
+
+    local cell = getCell()
+    local sx, sy = square:getX(), square:getY()
+    local dx, dy = 8, 6
+    for x = sx, sx + dx do
+        for y = sy, sy + dy do
+            getOrCreateSquare(x, y, -1)
+        end
+    end
+
+    BanditBasePlacements.IsoObject ("walls_exterior_house_02_18", sx, sy, -1)
+    for x = sx + 1, sx + dx do
+        BanditBasePlacements.IsoObject ("walls_exterior_house_02_17", x, sy, -1)
+    end
+    for y = sy + 1, sy + dy do
+        BanditBasePlacements.IsoObject ("walls_exterior_house_02_16", sx, y, -1)
+    end
+
+    BanditBasePlacements.IsoObject ("walls_exterior_house_02_18", sx, sy + 1, -1)
+    BanditBasePlacements.IsoObject ("walls_exterior_house_02_17", sx + 1, sy + 1, -1)
+    BanditBasePlacements.IsoObject ("walls_exterior_house_02_17", sx + 2, sy + 1, -1)
+    BanditBasePlacements.IsoObject ("walls_exterior_house_02_17", sx + 3, sy + 1, -1)
+    BanditBasePlacements.IsoObject ("walls_exterior_house_02_27", sx + 4, sy + 1, -1)
+    BanditBasePlacements.IsoDoor ("fixtures_doors_01_57", sx + 4, sy + 1, -1)
+    BanditBasePlacements.IsoObject ("walls_exterior_house_02_17", sx + 5, sy + 1, -1)
+    BanditBasePlacements.IsoObject ("walls_exterior_house_02_17", sx + 5, sy + 1, -1)
+    BanditBasePlacements.IsoObject ("walls_exterior_house_02_18", sx + 6, sy, -1)
+    BanditBasePlacements.IsoObject ("walls_exterior_house_02_19", sx + 6, sy + 1, -1)
+
+    local stairs = {
+        [1] = {
+            x = sx,
+            y = sy,
+            spriteName = "fixtures_stairs_01_66"
+        },
+        [2] = {
+            x = sx + 1,
+            y = sy,
+            spriteName = "fixtures_stairs_01_65"
+        },
+        [3] = {
+            x = sx + 2,
+            y = sy,
+            spriteName = "fixtures_stairs_01_64"
+        }
+    }
+
+    for _, stair in pairs(stairs) do
+        local squareUp = cell:getGridSquare(stair.x, stair.y, 0)
+        local objects = squareUp:getObjects()
+        for i=objects:size()-1, 0, -1 do
+            local object = objects:get(i)
+            square:transmitRemoveItemFromSquare(object)
+        end
+        square:setSquareChanged()
+
+        BanditBasePlacements.IsoObject (stair.spriteName, stair.x, stair.y, -1)
+        square:setSquareChanged()
+    end
+
+end
+
 BWOMenu.SpawnRoom = function(player, square, prgName)
 
     config = {}
@@ -121,6 +197,11 @@ BWOMenu.SpawnWave = function(player, square, prgName)
             args.cid = Bandit.clanMap.BabeFemale
         end
     end
+
+    local gmd = GetBWOModData()
+    local variant = gmd.Variant
+    if BWOVariants[variant].playerIsHostile then args.hostileP = true end
+
     sendClientCommand(player, 'Spawner', 'Clan', args)
 end
 
@@ -143,11 +224,15 @@ BWOMenu.AddEffect = function(player, square)
     effect.x = square:getX()
     effect.y = square:getY()
     effect.z = square:getZ()
-    effect.size = 2000
-    effect.colors = {r=0.1, g=0.7, b=0.2, a=0.2}
-    effect.name = "sprinkler"
-    effect.frameCnt = 360
-    effect.repCnt = 2
+    effect.size = 10000
+    effect.name = "clouds"
+    effect.frameCnt = 1
+    effect.repCnt = 400
+    effect.movx = 0.2
+    effect.oscilateAlpha = true
+    effect.infinite = true
+    effect.colors = {r=0.9, g=0.9, b=1.0, a=0.2}
+
     table.insert(BWOEffects2.tab, effect)
    
     --[[
@@ -169,6 +254,59 @@ BWOMenu.AddEffect = function(player, square)
     -- square:explodeTrap()
     --square:explosion(trap)
     ]]
+end
+
+BWOMenu.AddFakeVehicle = function(player, square)
+
+    local vehicle = {
+        debug = false,
+        routeId = 5,
+        parts = {
+            body = {
+                itemType = "Base.CarNormal",
+                width = 1.8,
+                wheelbase = 3,
+                frontOverhang = 0.5,
+                rearOverhang = 0.5,
+                zoffset = 0.36,
+            },
+            wheel_rl = {
+                itemType = "Base.NormalTire1",
+                zoffset = 0.13,
+                xoffset = 0.60,
+                yoffset = -0.20,
+                yrot = 90,
+            },
+            wheel_rr = {
+                itemType = "Base.NormalTire1",
+                zoffset = 0.13,
+                xoffset = -0.60,
+                yoffset = -0.20,
+                yrot = 90,
+                zrot = 180
+            },
+            wheel_fl = {
+                itemType = "Base.NormalTire1",
+                zoffset = 0.13,
+                xoffset = 0.60,
+                yoffset = 2.50,
+                yrot = 90,
+                steerRot = true,
+            },
+            wheel_fr = {
+                itemType = "Base.NormalTire1",
+                zoffset = 0.13,
+                xoffset = -0.60,
+                yoffset = 2.50,
+                yrot = 90,
+                zrot = 180,
+                steerRot = true,
+            },
+
+        }
+    }
+
+    BWOFakeVehicle.Add(vehicle)
 end
 
 BWOMenu.EventArmy = function(player)
@@ -320,12 +458,25 @@ BWOMenu.EventPoliceRiot = function(player)
     BWOScheduler.Add("PoliceRiot", params, 100)
 end
 
+BWOMenu.EventOpenDoors = function(player)
+    local params = {x1=7684, y1=11818, z1=0, x2=7693, y2=11857, z2=1}
+    BWOScheduler.Add("OpenDoors", params, 100)
+end
+
 BWOMenu.EventPlaneCrash = function(player)
     local params = {}
     params.x = player:getX()
     params.y = player:getY()
     params.z = player:getZ()
     BWOScheduler.Add("PlaneCrashSequence", params, 100)
+end
+
+BWOMenu.EventDrawPlane = function(player)
+    local params = {}
+    params.x = player:getX()
+    params.y = player:getY()
+    params.z = 1
+    BWOScheduler.Add("DrawPlane", params, 100)
 end
 
 BWOMenu.EventPower = function(player, on)
@@ -382,15 +533,28 @@ BWOMenu.EventStorm = function(player)
     BWOScheduler.Add("WeatherStorm", params, 1000)
 end
 
+BWOMenu.EventVariantSetup2 = function(player)
+    local params = {}
+    params.func = "setup2"
+    BWOScheduler.Add("VariantCall", params, 100)
+end
+
+
 function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
 
     local player = getSpecificPlayer(playerID)
     if not player then return end
 
     local profession = player:getDescriptor():getProfession()
+    print (profession)
     -- print ("DIR: " .. player:getDirectionAngle())
 
+    
+
     local square = BanditCompatibility.GetClickedSquare()
+
+    local zoneType = getWorld():getMetaGrid():getZoneAt(square:getX(), square:getY(), 0):getType()
+    print ("ZONE: " .. zoneType)
 
     local zombie = square:getZombie()
     if not zombie then
@@ -425,14 +589,18 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
     end
 
     if isDebugEnabled() or isAdmin() then
+        
 
+
+        -- print ("REGION:" .. getCore():getSelectedMap())
+        print ("wa: " .. getGameTime():getWorldAgeHours())
         -- local density = BanditScheduler.GetDensityScore(player, 120) * 1.4
         -- print ("DENSITY: " .. density)
 
         -- local density2 = BWOBuildings.GetDensityScore(player, 120) / 6000
         -- print ("DENSITY2: " .. density2)
 
-        -- player:playSound("197ddd73-7662-41d5-81e0-63b83a58ab60")
+        -- player:playSound("BWOPrisonMegaphone1")
         local eventsOption = context:addOption("BWO Event")
         local eventsMenu = context:getNew(context)
 
@@ -471,8 +639,10 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         eventsMenu:addOption("Jetfighter Bomb", player, BWOMenu.EventBombRun)
         eventsMenu:addOption("Jetfighter Gas", player, BWOMenu.EventGasRun)
         eventsMenu:addOption("Nuke", player, BWOMenu.EventNuke)
+        eventsMenu:addOption("Open Doors", player, BWOMenu.EventOpenDoors)
         eventsMenu:addOption("Rolice Riot", player, BWOMenu.EventPoliceRiot)
         eventsMenu:addOption("Plane Crash", player, BWOMenu.EventPlaneCrash, true)
+        eventsMenu:addOption("Plane Draw", player, BWOMenu.EventDrawPlane)
         eventsMenu:addOption("Power On", player, BWOMenu.EventPower, true)
         eventsMenu:addOption("Power Off", player, BWOMenu.EventPower, false)
         eventsMenu:addOption("Protest", player, BWOMenu.EventProtest)
@@ -482,6 +652,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         eventsMenu:addOption("Start Day", player, BWOMenu.EventStartDay)
         eventsMenu:addOption("Storm", player, BWOMenu.EventStorm)
         eventsMenu:addOption("Thieves", player, BWOMenu.EventThieves)
+        eventsMenu:addOption("Variant Setup2", player, BWOMenu.EventVariantSetup2)
         
         local spawnOption = context:addOption("BWO Spawn")
         local spawnMenu = context:getNew(context)
@@ -504,8 +675,10 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
         context:addOption("BWO Ambience On", player, BWOMenu.Ambience, true)
         context:addOption("BWO Ambience Off", player, BWOMenu.Ambience, false)
         context:addOption("BWO Add Effect", player, BWOMenu.AddEffect, square)
+        context:addOption("BWO Fake Vehicle", player, BWOMenu.AddFakeVehicle, square)
         context:addOption("BWO Play Music", player, BWOMenu.PlayMusic, square)
-        
+        context:addOption("BWO Basement", player, BWOMenu.MakeBasement, square)
+    
         local room = square:getRoom()
         if room then
             local bid = room:getBuilding():getID()

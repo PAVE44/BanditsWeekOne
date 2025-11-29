@@ -371,6 +371,9 @@ local clearObjects = function(square)
         else
             square:transmitRemoveItemFromSquare(obj)
         end
+        square:RecalcProperties()
+        square:RecalcAllWithNeighbours(true)
+        square:setSquareChanged()
     end
 end
 
@@ -434,13 +437,13 @@ local processSquare = function(square)
         end
 
         -- remove map objects
-        if scheduler.ObjectRemover  then
+        if scheduler.ObjectRemover then
             if remove[id] then
                 clearObjects(square)
                 BWOSquareLoader.remove[id] = nil
-
             end
         end
+
         md.BWO.omod = true
     end
 
@@ -506,26 +509,30 @@ local processSquare = function(square)
 
                 -- this makes npcs disregard windows for pathfinding
                 -- unfortunately will impact zombies aswell
-                if instanceof(object, "IsoWindow") or instanceof(object, "IsoWindowFrame") then
-                    if props:Is(IsoFlagType.canPathN) then
-                        props:UnSet(IsoFlagType.canPathN)
+                if instanceof(object, "IsoWindow") then
+                    if not props:Is(IsoFlagType.makeWindowInvincible) then
+                        if props:Is(IsoFlagType.canPathN) then
+                            props:UnSet(IsoFlagType.canPathN)
+                        end
+                        if props:Is(IsoFlagType.canPathW) then
+                            props:UnSet(IsoFlagType.canPathW)
+                        end
+                        
+                        props:UnSet(IsoFlagType.WindowN)
+                        props:UnSet(IsoFlagType.WindowW)
                     end
-                    if props:Is(IsoFlagType.canPathW) then
-                        props:UnSet(IsoFlagType.canPathW)
-                    end
-                    
-                    props:UnSet(IsoFlagType.WindowN)
-                    props:UnSet(IsoFlagType.WindowW)
                 end
             else
                 -- restore window behavior
-                if instanceof(object, "IsoWindow") or instanceof(object, "IsoWindowFrame") then
-                    if props:Is(IsoFlagType.cutN) then
-                        props:Set(IsoFlagType.canPathN)
-                        props:Set(IsoFlagType.WindowN)
-                    elseif props:Is(IsoFlagType.cutW) then
-                        props:Set(IsoFlagType.canPathW)
-                        props:Set(IsoFlagType.WindowW)
+                if instanceof(object, "IsoWindow") then
+                    if not props:Is(IsoFlagType.makeWindowInvincible) then
+                        if props:Is(IsoFlagType.cutN) then
+                            props:Set(IsoFlagType.canPathN)
+                            props:Set(IsoFlagType.WindowN)
+                        elseif props:Is(IsoFlagType.cutW) then
+                            props:Set(IsoFlagType.canPathW)
+                            props:Set(IsoFlagType.WindowW)
+                        end
                     end
                 end
             end

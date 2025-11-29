@@ -1031,7 +1031,7 @@ BWOChat.Say = function(chatMessage, quiet)
                     bandit:addLineChatElement(res, colors.r, colors.g, colors.b)
                 end
 
-                -- break
+                break
             end
         end
     end

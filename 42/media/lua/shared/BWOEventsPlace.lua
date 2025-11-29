@@ -56,6 +56,10 @@ function BWOEventsPlace.ArmyGuards(params)
         z = params.z
     }
 
+    local gmd = GetBWOModData()
+    local variant = gmd.Variant
+    if BWOVariants[variant].playerIsHostile then args.hostileP = true end
+
     sendClientCommand(player, 'Spawner', 'Clan', args)
 end
 
@@ -91,6 +95,10 @@ function BWOEventsPlace.GunshopGuard(params)
         z = params.z
     }
 
+    local gmd = GetBWOModData()
+    local variant = gmd.Variant
+    if BWOVariants[variant].playerIsHostile then args.hostileP = true end
+
     sendClientCommand(player, 'Spawner', 'Clan', args)
 end
 
@@ -106,6 +114,10 @@ function BWOEventsPlace.BaseDefenders(params)
         y = params.y,
         z = params.z
     }
+
+    local gmd = GetBWOModData()
+    local variant = gmd.Variant
+    if BWOVariants[variant].playerIsHostile then args.hostileP = true end
 
     sendClientCommand(player, 'Spawner', 'Clan', args)
 end

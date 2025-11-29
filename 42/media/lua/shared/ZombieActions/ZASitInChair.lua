@@ -11,12 +11,7 @@ ZombieActions.SitInChair.onStart = function(zombie, task)
         if not task.right then
             zombie:setSecondaryHandItem(fakeItem)
         end
-
     end
-    return true
-end
-
-ZombieActions.SitInChair.onWorking = function(zombie, task)
 
     if task.x and task.y and task.z then
         local dx = 0
@@ -48,22 +43,27 @@ ZombieActions.SitInChair.onWorking = function(zombie, task)
         zombie:setZ(task.z)
         zombie:faceLocationF(task.x + fx, task.y + fy)
     end
-    
-    if task.time <= 0 then
-        return true
-    else
-        local bumpType = zombie:getBumpType()
-        if bumpType ~= task.anim then 
-            zombie:setBumpType(task.anim)
 
-            if task.sound then
-                local emitter = zombie:getEmitter()
-                if not emitter:isPlaying(task.sound) then
-                    emitter:playSound(task.sound)
-                end
-            end
+    if task.sound then
+        local emitter = zombie:getEmitter()
+        if not emitter:isPlaying(task.sound) then
+            emitter:playSound(task.sound)
         end
     end
+
+    zombie:setBumpType(task.anim)
+
+    return true
+end
+
+ZombieActions.SitInChair.onWorking = function(zombie, task)
+ 
+    local bumpType = zombie:getBumpType()
+    if bumpType ~= task.anim then
+        return true
+    end
+
+    return false
 end
 
 ZombieActions.SitInChair.onComplete = function(zombie, task)

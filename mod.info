@@ -9,5 +9,6 @@ description=<RED>This mod can only be player with B42 version of the game
 author=Slayer
 require=this,mod,is,b42,only
 incompatible=BanditsDayOne
-pack=effects
+pack=bwo
+tiledef=bwo 2282
 author=Slayer

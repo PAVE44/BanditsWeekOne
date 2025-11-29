@@ -5,8 +5,6 @@ BWOVariants = BWOVariants or {}
 local partier = {}
 
 partier.name = "Partier"
-
-partier.name = "The Hedonist"
 partier.image = "media/textures/Variants/partier.png"
 partier.desc = "<SIZE:large> The Hedonist <BR> "
 partier.desc = partier.desc .. "<SIZE:medium> Difficulty: Normal <BR> "

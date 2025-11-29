@@ -750,3 +750,19 @@
 	spawn: groupMax = 32
 	spawn: zone = 0
 
+[9dc2c635-cd4f-45b6-9a97-b312a84d175a]
+	general: name = PrisonGuard
+	spawn: friendly = false
+	spawn: companion = false
+	spawn: defenders = false
+	spawn: campers = false
+	spawn: assault = true
+	spawn: wanderer = true
+	spawn: roadblock = false
+	spawn: dayStart = 0
+	spawn: dayEnd = 10000
+	spawn: spawnChance = 0
+	spawn: groupMin = 1
+	spawn: groupMax = 12
+	spawn: zone = 0
+

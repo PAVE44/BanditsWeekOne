@@ -243,7 +243,7 @@ local explode = function(x, y, z)
     effect.x = square:getX()
     effect.y = square:getY()
     effect.z = square:getZ()
-    effect.size = 640
+    effect.size = 800
     effect.name = "explobig"
     effect.frameCnt = 17
     table.insert(BWOEffects2.tab, effect)
@@ -523,9 +523,31 @@ end
 
 -- params: [x, y, sound]
 BWOEvents.Sound = function(params)
-    local emitter = getWorld():getFreeEmitter(params.x, params.y, 0)
-    emitter:playAmbientSound(params.sound)
-    emitter:setVolumeAll(1)
+    if params.atPlayer then
+        local player = getSpecificPlayer(0)
+        if not player then return end
+        player:playSound(params.sound)
+    elseif params.x and params.y and params.z then
+        local emitter = getWorld():getFreeEmitter(params.x, params.y, params.z)
+        emitter:playSound(params.sound)
+        emitter:setVolumeAll(1)
+    end
+end
+
+BWOEvents.Emitter = function(params)
+    local effect = {}
+    effect.x = params.x
+    effect.y = params.y
+    effect.z = params.z
+    effect.len = params.len --2460
+    effect.sound = params.sound -- "ZSBuildingBaseAlert"
+    effect.light = params.light -- {r=1, g=0, b=0, t=10}
+    BWOEmitter.Add(effect)
+end
+
+BWOEvents.Effect = function(params)
+    local effect = params
+    BWOEffects2.Add(effect)
 end
 
 -- params: [x, y]
@@ -763,6 +785,79 @@ BWOEvents.RegisterBase = function(params)
     end
 end
 
+BWOEvents.ClearCorpse = function(params)
+    local cell = getCell()
+    for z = params.z1, params.z2 do
+        for y = params.y1, params.y2 do
+            for x = params.x1, params.x2 do
+                local square = cell:getGridSquare(x, y, z)
+                if square then
+                    local corpse = square:getDeadBody()
+                    if corpse then
+                        square:removeCorpse(corpse, true)
+                        if square:haveBlood() then
+                            square:removeBlood(false, false)
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+BWOEvents.OpenDoors = function(params)
+    local player = getSpecificPlayer(0)
+    if not player then return end
+    local cell = getCell()
+    player:playSound("PrisonMetalDoorOpen")
+    for z = params.z1, params.z2 do
+        for y = params.y1, params.y2 do
+            for x = params.x1, params.x2 do
+                local square = cell:getGridSquare(x, y, z)
+                if square then
+                    local door = square:getDoor(true)
+                    if not door then
+                        door = square:getDoor(false)
+                    end
+
+                    if door then
+                        if not door:IsOpen() then
+                            door:ToggleDoorSilent()
+                            square:RecalcProperties()
+                            square:RecalcAllWithNeighbours(true)
+                            square:setSquareChanged()
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+BWOEvents.ClearZombies = function(params)
+    local zombieList = BanditZombie.CacheLightZ
+    for id, z in pairs(zombieList) do
+        local zombie = BanditZombie.GetInstanceById(z.id)
+        -- local id = BanditUtils.GetCharacterID(zombie)
+        if zombie and zombie:isAlive() then
+            -- fixme: zombie:canBeDeletedUnnoticed(float)
+            zombie:removeFromSquare()
+            zombie:removeFromWorld()
+        end
+    end
+
+    local cell = getCell()
+    local zombieList = cell:getZombieList()
+    local zombieListSize = zombieList:size()
+    for i = zombieListSize - 1, 0, -1 do
+        local zombie = zombieList:get(i)
+        if zombie then
+            zombie:removeFromSquare()
+            zombie:removeFromWorld()
+        end
+    end
+end
+
 -- params: []
 BWOEvents.Start = function(params)
     local player = getSpecificPlayer(0)
@@ -981,6 +1076,59 @@ BWOEvents.StartDay = function(params)
     BWOTex.speed = 0.011
     BWOTex.mode = "center"
     BWOTex.alpha = 2.4
+end
+
+-- params: [x, y, z]
+BWOEvents.ClearObjects = function(params)
+    local cell = getCell()
+    local square = cell:getGridSquare(params.x, params.y, params.z)
+    if square then
+        local objects = square:getObjects()
+        local destroyList = {}
+
+        for i=0, objects:size()-1 do
+            local object = objects:get(i)
+            if object then
+                local sprite = object:getSprite()
+                if sprite then 
+                    local spriteProps = sprite:getProperties()
+
+                    local isSolidFloor = spriteProps:Is(IsoFlagType.solidfloor)
+                    local isAttachedFloor = spriteProps:Is(IsoFlagType.attachedFloor)
+
+                    if not isSolidFloor and not isAttachedFloor then
+                        table.insert(destroyList, object)
+                    end
+                end
+            end
+        end
+
+        for k, obj in pairs(destroyList) do
+            if isClient() then
+                sledgeDestroy(obj);
+            else
+                square:transmitRemoveItemFromSquare(obj)
+            end
+            square:RecalcProperties()
+            square:RecalcAllWithNeighbours(true)
+            square:setSquareChanged()
+        end
+    end
+end
+
+-- params: [x, y, z]
+BWOEvents.ArsonAt = function(params)
+    explode(params.x, params.y, params.z)
+    local vparams = {}
+    vparams.alarm = true
+    BWOScheduler.Add("VehiclesUpdate", vparams, 500)
+
+    if SandboxVars.Bandits.General_ArrivalIcon then
+        local icon = "media/ui/arson.png"
+        local color = {r=1, g=0, b=0} -- red
+        local desc = "Arson"
+        BanditEventMarkerHandler.set(getRandomUUID(), icon, 3600, params.z, params.y, color, desc)
+    end
 end
 
 -- params: []
@@ -1563,6 +1711,10 @@ BWOEvents.Entertainer = function(params)
         args.occupation = "ClownObese"
     end
 
+    local gmd = GetBWOModData()
+    local variant = gmd.Variant
+    if BWOVariants[variant].playerIsHostile then args.hostileP = true end
+
     sendClientCommand(player, 'Spawner', 'Clan', args)
 
     if SandboxVars.Bandits.General_ArrivalIcon then
@@ -1662,6 +1814,10 @@ BWOEvents.BuildingHome = function(params)
                     cid = Bandit.clanMap.Party,
                     program = "Inhabitant"
                 }
+
+                local gmd = GetBWOModData()
+                local variant = gmd.Variant
+                if BWOVariants[variant].playerIsHostile then args.hostileP = true end
             
                 args.spawnPoints = {}
                 local room = square:getRoom()
@@ -1813,6 +1969,10 @@ BWOEvents.BuildingParty = function(params)
         program = "Inhabitant"
     }
 
+    local gmd = GetBWOModData()
+    local variant = gmd.Variant
+    if BWOVariants[variant].playerIsHostile then args.hostileP = true end
+
     args.spawnPoints = {}
     local room = square:getRoom()
     local roomDef = room:getRoomDef()
@@ -1884,6 +2044,10 @@ BWOEvents.CallCops = function(params)
         y = y + 6,
         z = z
     }
+
+    local gmd = GetBWOModData()
+    local variant = gmd.Variant
+    if BWOVariants[variant].playerIsHostile then args.hostileP = true end
         
     sendClientCommand(player, 'Spawner', 'Clan', args)
 
@@ -1935,6 +2099,10 @@ BWOEvents.CallSWAT = function(params)
         y = y + 6,
         z = z
     }
+
+    local gmd = GetBWOModData()
+    local variant = gmd.Variant
+    if BWOVariants[variant].playerIsHostile then args.hostileP = true end
         
     sendClientCommand(player, 'Spawner', 'Clan', args)
 
@@ -1986,6 +2154,10 @@ BWOEvents.CallMedics = function(params)
         y = y + 6,
         z = z
     }
+
+    local gmd = GetBWOModData()
+    local variant = gmd.Variant
+    if BWOVariants[variant].playerIsHostile then args.hostileP = true end
         
     sendClientCommand(player, 'Spawner', 'Clan', args)
 
@@ -2032,6 +2204,10 @@ BWOEvents.CallHazmats = function(params)
         y = y + 6,
         z = z
     }
+
+    local gmd = GetBWOModData()
+    local variant = gmd.Variant
+    if BWOVariants[variant].playerIsHostile then args.hostileP = true end
         
     sendClientCommand(player, 'Spawner', 'Clan', args)
 
@@ -2070,6 +2246,10 @@ BWOEvents.CallFireman = function(params)
         y = y + 6,
         z = z
     }
+
+    local gmd = GetBWOModData()
+    local variant = gmd.Variant
+    if BWOVariants[variant].playerIsHostile then args.hostileP = true end
         
     sendClientCommand(player, 'Spawner', 'Clan', args)
 
@@ -2092,6 +2272,56 @@ BWOEvents.Defenders = function(params)
 
     -- fixme
     -- BanditScheduler.SpawnDefenders(player, 50, 70)
+end
+
+-- params: [x, y, z, size, program, cid, loyal, hostile]
+BWOEvents.SpawnGroupAt = function(params)
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
+    local args = {
+        cid = params.cid,
+        size = params.size,
+        program = params.program,
+        x = params.x,
+        y = params.y,
+        z = params.z,
+        loyal = params.loyal,
+        hostile = params.hostile
+    }
+
+    local gmd = GetBWOModData()
+    local variant = gmd.Variant
+    if BWOVariants[variant].playerIsHostile and not params.loyal then args.hostileP = true else args.hostileP = false end
+
+    sendClientCommand(player, 'Spawner', 'Clan', args)
+end
+
+BWOEvents.SpawnGroupArea = function(params)
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
+    local gmd = GetBWOModData()
+    local variant = gmd.Variant
+
+    for i = 1, params.cnt do
+        local x = params.x1 + ZombRand(params.x2 - params.x1)
+        local y = params.y1 + ZombRand(params.y2 - params.y1)
+        local args = {
+            cid = params.cid,
+            size = 1,
+            program = params.program,
+            x = x,
+            y = y,
+            z = params.z,
+            loyal = params.loyal,
+            hostile = params.hostile
+        }
+
+        if BWOVariants[variant].playerIsHostile and not params.loyal then args.hostileP = true else args.hostileP = false end
+
+        sendClientCommand(player, 'Spawner', 'Clan', args)
+    end
 end
 
 -- params: [intensity, cid, name]
@@ -2118,6 +2348,10 @@ BWOEvents.SpawnGroup = function(params)
         program = params.program,
         voice = params.voice
     }
+
+    local gmd = GetBWOModData()
+    local variant = gmd.Variant
+    if BWOVariants[variant].playerIsHostile and not params.loyal then args.hostileP = true else args.hostileP = false end
 
     local spawnPoint = generateSpawnPoint(player:getX(), player:getY(), player:getZ(), ZombRand(params.d, params.d+10), 1)
     if #spawnPoint == 0 then return end
@@ -2293,7 +2527,7 @@ BWOEvents.PlaneCrashSequence = function(params)
     local id = emitter:playSound("BWOBoeing")
 
     -- stage 2: play two plane explosions while the plane is still in the air
-    local params = {x=player:getX(), y=player:getY(), sound="BWOExploPlane"}
+    local params = {x=player:getX(), y=player:getY(), z=player:getZ(), sound="BWOExploPlane"}
     BWOScheduler.Add("Sound", params, start)
     BWOScheduler.Add("Sound", params, start + 600)
 
@@ -2454,6 +2688,23 @@ BWOEvents.VehicleCrash = function(params)
     end
 end
 
+-- params: size, x, y, z, outfit, femaleChance
+BWOEvents.HordeAt = function(params)
+    local player = getSpecificPlayer(0)
+    if not player then return end
+
+    for j=1, params.size do
+        local zombieList = BanditCompatibility.AddZombiesInOutfit(params.x, params.y, params.z, params.outfit, params.femaleChance, false, false, false, false, false, false, 1)
+        for i=0, zombieList:size()-1 do
+            local zombie = zombieList:get(i)
+            zombie:spotted(player, true)
+            zombie:setTarget(player)
+            zombie:setAttackedBy(player)
+            zombie:pathToLocationF(player:getX(), player:getY(), player:getZ())
+        end
+    end
+end
+
 BWOEvents.Horde = function(params)
     local player = getSpecificPlayer(0)
     if not player then return end
@@ -2505,7 +2756,7 @@ BWOEvents.Horde = function(params)
 
     addSound(player, math.floor(cx), math.floor(cy), math.floor(cz), 100, 100)
 
-    for i=1, params.cnt do
+    for j=1, params.cnt do
         local outfit = BanditUtils.Choice(outfits)
         local zombieList = BanditCompatibility.AddZombiesInOutfit(cx + params.x, cy + params.y, 0, outfit, femaleChance, false, false, false, false, false, false, 1)
         for i=0, zombieList:size()-1 do

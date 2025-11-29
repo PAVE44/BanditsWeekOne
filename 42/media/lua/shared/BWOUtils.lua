@@ -19,7 +19,7 @@ function BanditUtils.GetAllBanditByProgram(programs)
     local zombieList = BanditZombie.GetAllB()
     for id, zombie in pairs(zombieList) do
         for _, program in pairs(programs) do
-            if zombie.brain.program.name == program then
+            if zombie.brain and zombie.brain.program and zombie.brain.program.name == program then
                 table.insert(result, zombie)
             end
         end
