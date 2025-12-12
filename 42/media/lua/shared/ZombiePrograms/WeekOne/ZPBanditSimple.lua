@@ -43,7 +43,7 @@ ZombiePrograms.BanditSimple.Main = function(bandit)
 
         local walkType = Bandit.GetCombatWalktype(bandit, enemy, target.dist)
 
-        table.insert(tasks, BanditUtils.GetMoveTask(endurance, tx, ty, tz, walkType, target.dist))
+        table.insert(tasks, BanditUtils.GetMoveTaskTarget(endurance, tx, ty, tz, target.id, target.player, walkType, target.dist))
         return {status=true, next="Main", tasks=tasks}
     end
 

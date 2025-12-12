@@ -59,8 +59,8 @@ BWOPlayer.ActivateWitness = function(character, min)
                         else
                             local r = 4
                             if actor:isFemale() then r = 10 end
-                            if character:HasTrait("charming") then r = r + 3 end
-                            if character:HasTrait("ugly") then r = r - 3 end
+                            if character:HasTrait(BWORegistries.CharacterTraits.CHARMING) then r = r + 3 end
+                            if character:HasTrait(BWORegistries.CharacterTraits.UGLY) then r = r - 3 end
 
                             Bandit.SetProgram(actor, "Active", {})
                             if ZombRand(r) == 0 then
@@ -124,8 +124,8 @@ BWOPlayer.ActivateTargets = function(character, min, severity)
                                 if not wasLegal then
                                     local r = 4
                                     if actor:isFemale() then r = 9 end
-                                    if character:HasTrait("charming") then r = r + 3 end
-                                    if character:HasTrait("ugly") then r = r - 3 end
+                                    if character:HasTrait(BWORegistries.CharacterTraits.CHARMING) then r = r + 3 end
+                                    if character:HasTrait(BWORegistries.CharacterTraits.UGLY) then r = r - 3 end
                                     if ZombRand(r) == 0 and severity == 2 then
                                         Bandit.SetHostileP(actor, true)
                                     end
@@ -216,7 +216,7 @@ BWOPlayer.CheckFriendlyFire = function(bandit, attacker)
     -- killing bandits is ok!
     if brain.program.name == "Vandal" or brain.hostile then 
         if instanceof(attacker, "IsoPlayer") and not attacker:isNPC() then
-            local profession = player:getDescriptor():getProfession()
+            local profession = player:getDescriptor():getCharacterProfession()
             if BWOScheduler.Anarchy.Transactions and profession == "policeofficer" then
                 BWOPlayer.Earn(player, 5)
             end
@@ -292,7 +292,7 @@ BWOPlayer.CheckFriendlyFire = function(bandit, attacker)
                                     Bandit.ClearTasks(actor)
                                     Bandit.SetProgram(actor, "Active", {})
 
-                                    local c = player:HasTrait("charming") and 2 or 4
+                                    local c = player:hasTrait(BWORegistries.CharacterTraits.CHARMING) and 2 or 4
                                     if wasPlayerFault and ZombRand(c) == 0 then
                                         Bandit.SetHostileP(actor, true)
                                     end
@@ -340,7 +340,7 @@ local onTimedActionPerform = function(data)
     local character = data.character
     if not character then return end
 
-    local profession = character:getDescriptor():getProfession()
+    local profession = character:getDescriptor():getCharacterProfession()
 
     local action = data.action:getMetaType()
     if not action then return end
@@ -497,7 +497,7 @@ local onFitnessActionExeLooped = function(data)
     local character = data.character
     if not character then return end
 
-    local profession = character:getDescriptor():getProfession()
+    local profession = character:getDescriptor():getCharacterProfession()
     if profession == "fitnessInstructor" then
         BWOPlayer.ActivateExcercise(character, 5)
     end
@@ -511,7 +511,7 @@ local onInventoryTransferAction = function(data)
     local character = data.character
     if not character then return end
 
-    local profession = character:getDescriptor():getProfession()
+    local profession = character:getDescriptor():getCharacterProfession()
 
     local srcContainer = data.srcContainer
     if not srcContainer then return end
@@ -540,8 +540,8 @@ local onInventoryTransferAction = function(data)
         local sprite = object:getSprite()
         if sprite then
             local props = sprite:getProperties()
-            if props:Is("CustomName") then
-                customName = props:Val("CustomName")
+            if props:has("CustomName") then
+                customName = props:get("CustomName")
             end
         end
 
@@ -701,10 +701,10 @@ local onPlayerUpdate = function(player)
     if BWOScheduler.World.PostNuclearFallout and BWOPlayer.tick == 1 and player:getZ() >= 0 then
 
         local immune = false
-        local suit = player:getWornItem("Boilersuit")
+        local suit = player:getWornItem(ItemBodyLocation.BOILERSUIT)
         if suit then
             if suit:hasTag(ItemTag.HAZMAT_SUIT) then 
-                local mask = player:getWornItem("MaskEyes")
+                local mask = player:getWornItem(ItemBodyLocation.MASK_EYES)
                 if mask then
                     if mask:hasTag(ItemTag.GAS_MASK) then
                         immune = true
@@ -712,7 +712,7 @@ local onPlayerUpdate = function(player)
                 end
             end
         end
-        local suit = player:getWornItem("FullSuitHead")
+        local suit = player:getWornItem(ItemBodyLocation.FULL_SUIT_HEAD)
         if suit then
             if suit:hasTag(ItemTag.HAZMAT_SUIT) then 
                 immune = true
@@ -834,7 +834,7 @@ local everyOneMinute = function()
 
     if minute % 5 > 0 then return end
 
-    local profession = player:getDescriptor():getProfession()
+    local profession = player:getDescriptor():getCharacterProfession()
     local px = player:getX()
     local py = player:getY()
     local pz = player:getZ()

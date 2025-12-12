@@ -34,8 +34,8 @@ local getObj = function(square, objName)
         local sprite = object:getSprite()
         if sprite then
             local props = sprite:getProperties()
-            if props:Is("CustomName") then
-                local name = props:Val("CustomName")
+            if props:has("CustomName") then
+                local name = props:get("CustomName")
                 if name == objName then
                     return object
                 end
@@ -51,8 +51,8 @@ local geFullContainer = function(square, objName)
         local sprite = object:getSprite()
         if sprite then
             local props = sprite:getProperties()
-            if props:Is("CustomName") then
-                local name = props:Val("CustomName")
+            if props:has("CustomName") then
+                local name = props:get("CustomName")
                 if not objName or name == objName then
                     local container = object:getContainer()
                     if container and not container:isEmpty() then
@@ -150,8 +150,8 @@ BWOObjects.FindAround = function (bandit, r, objName)
                         local sprite = object:getSprite()
                         if sprite then
                             local props = sprite:getProperties()
-                            if props:Is("CustomName") then
-                                local name = props:Val("CustomName")
+                            if props:has("CustomName") then
+                                local name = props:get("CustomName")
                                 if name == objName then
                                     local dist = BanditUtils.DistTo(x, y, bx, by)
                                     if dist < foundDist then

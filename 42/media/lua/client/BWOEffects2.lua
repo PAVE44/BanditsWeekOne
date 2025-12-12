@@ -131,11 +131,21 @@ BWOEffects2.Process = function()
                             end
                             if not immune then
                                 character:setHealth(character:getHealth() - 0.12)
+
+                                local sound
+                                if character:isFemale() then
+                                    sound = "ZSCoughF" .. (1 + ZombRand(4))
+                                else
+                                    sound = "ZSCoughM" .. (1 + ZombRand(4))
+                                end
+                                if not character:getEmitter():isPlaying(sound) then
+                                    character:getEmitter():playSound(sound)
+                                end
                             end
                         end
                     end
                     local immune = false
-                    local mask = player:getWornItem("MaskEyes")
+                    local mask = player:getWornItem(ItemBodyLocation.MASK_EYES)
                     if mask then
                         if mask:hasTag(ItemTag.GAS_MASK) then
                             immune = true
@@ -144,13 +154,18 @@ BWOEffects2.Process = function()
                     if not immune then
                         local dist = math.sqrt(math.pow(player:getX() - effect.x, 2) + math.pow(player:getY() - effect.y, 2))
                         if dist < 3 then
-                            local bodyDamage = player:getBodyDamage()
-                            local sick = bodyDamage:getFoodSicknessLevel()
-                            bodyDamage:setFoodSicknessLevel(sick + 2)
-
                             local stats = player:getStats()
-                            local drunk = stats:getDrunkenness()
-                            stats:setDrunkenness(drunk + 4)
+
+                            local intoxication = stats:get(CharacterStat.INTOXICATION)
+                            stats:set(CharacterStat.INTOXICATION, intoxication + 2)
+
+                            local sickness = stats:get(CharacterStat.FOOD_SICKNESS)
+                            stats:set(CharacterStat.FOOD_SICKNESS, sickness + 1)
+
+                            local sound = player:getDescriptor():getVoicePrefix() .. "Cough"
+                            if not player:getEmitter():isPlaying(sound) then
+                                player:getEmitter():playVocals(sound)
+                            end
                         end
                     end
                 end

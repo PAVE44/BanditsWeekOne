@@ -2,31 +2,33 @@ require "BWOBandit"
 
 BWOVariants = BWOVariants or {}
 
-local barricaded = {}
+local patient = {}
 
-barricaded.name = "Barricaded"
-barricaded.image = "media/textures/Variants/barricade.png"
-barricaded.desc = "<SIZE:large>Barricaded <BR> "
+patient.name = "The Patient"
+patient.image = "media/textures/Variants/patient.png"
+patient.desc = "<SIZE:large>The Patient <BR> "
+patient.desc = patient.desc .. "<SIZE:medium> Difficulty: Pain Enthusiast <BR> "
+patient.desc = patient.desc .. "<SIZE:medium>You waited for rescue, the chopper that never came. "
+patient.desc = patient.desc .. "Standing at the top of your own Tower of Babel, you realize your pride."
+patient.desc = patient.desc .. "Now with every floor down you will descend deeper into hell. "
+patient.desc = patient.desc .. "Can you escape the vertical grave? <BR> "
+patient.desc = patient.desc .. " - Begin at the rooftop of a skyscraper where evacuation never arrived. \n"
+patient.desc = patient.desc .. " - The entire building is infested with zombies and panicked civilians. \n "
+patient.desc = patient.desc .. " - Your only escape is to fight or sneak your way down, one deadly floor at a time. \n "
+patient.desc = patient.desc .. " - Expect relentless tension and chaos, things unravel fast after the game starts. \n "
 
-barricaded.desc = barricaded.desc .. "<SIZE:medium>Difficulty: Hard<BR>"
-barricaded.desc = barricaded.desc .. "<SIZE:medium>A S.W.A.T. team was tasked with protecting the city's mayor inside Louisville City Hall. "
-barricaded.desc = barricaded.desc .. "The barricades were nearly complete when the mayor turned from a political beast into just a beast. "
-barricaded.desc = barricaded.desc .. "Now the horde is already pounding at the doors. Let the last stand begin! <BR> "
-barricaded.desc = barricaded.desc .. " - Start in Louisville City Hall, where windows have been barricaded. \n "
-barricaded.desc = barricaded.desc .. " - You are part of a S.W.A.T. unit, equipped with tactical gear. \n "
-barricaded.desc = barricaded.desc .. " - You're not alone wther officers are holding the line with you. \n "
-barricaded.desc = barricaded.desc .. " - Expect a massive horde closing in fast. \n "
+patient.timeOfWeek = 5
+patient.timeOfDay = 21.90
 
-barricaded.timeOfWeek = 5
-barricaded.timeOfDay = 23.90
+patient.fadeIn = 3000
 
-barricaded.fadeIn = 1000
+patient.fadeIn = 1000
 
-barricaded.setup = function()
+patient.setup = function()
     local player = getSpecificPlayer(0)
     if not player then return end
 
-    local sx, sy, sz = 12554, 1534, 0
+    local sx, sy, sz = 12414, 3687, 3
     player:setX(sx)
     player:setY(sy)
     player:setZ(sz)
@@ -34,206 +36,156 @@ barricaded.setup = function()
     player:setLastY(sy)
     player:setLastZ(sz)
 
+    local gown = BanditCompatibility.InstanceItem("Base.HospitalGown")
+    local gownLocation = gown:getBodyLocation()
     local inv = player:getInventory()
-    inv:clear()
-
     local wornItems = player:getWornItems()
+    inv:clear()
     wornItems:clear()
+    inv:AddItem(gown)
+    wornItems:setItem(gownLocation, gown)
+    player:setWornItems(wornItems)
 
-    local clothes = {
-        "Base.Belt2",
-        "Base.Glasses_SafetyGoggles",
-        "Base.Hat_SWAT",
-        "Base.Boilersuit_SWAT",
-        "Base.Vest_BulletSWAT",
-        "Base.Shoes_ArmyBoots",
-    }
-    for _, itemType in ipairs(clothes) do
-        local item = BanditCompatibility.InstanceItem(itemType)
-        local itemLocation = item:getBodyLocation()
-        inv:AddItem(suit)
-        wornItems:setItem(itemLocation, item)
-        player:setWornItems(wornItems)
-    end
-    
-    local m16 = BanditCompatibility.InstanceItem("Base.AssaultRifle")
-    inv:AddItem(m16)
-    player:setPrimaryHandItem(m16)
-    player:setSecondaryHandItem(m16)
+    local humanVisual = player:getHumanVisual()
+    humanVisual:setHairModel("Bald")
 
-    for i=1, 6 do
-        local clip = BanditCompatibility.InstanceItem("Base.556Clip")
-        local ammoCnt = clip:getMaxAmmo()
-        clip:setCurrentAmmoCount(ammoCnt)
-        inv:AddItem(clip)
-    end
+    local bodyDamage = player:getBodyDamage()
+    local head = bodyDamage:getBodyPart(BodyPartType.Head)
+    head:setAdditionalPain(90)
+    head:setBandaged(true, 1)
+    player:resetModel()
+
+    local scalpel = BanditCompatibility.InstanceItem("Base.Scalpel")
+    player:getInventory():AddItem(scalpel)
+    player:setPrimaryHandItem(scalpel)
 end
 
 -- delayed setup
-barricaded.setup2 = function()
-
-    BWOPopControl.ZombieMax = 1000
+patient.setup2 = function()
     local player = getSpecificPlayer(0)
     if not player then return end
 
-    local cell = getCell()
-
-    local building = player:getSquare():getBuilding()
-    local buildingDef = building:getDef()
-    local z = 0
-    for y = buildingDef:getY()-1, buildingDef:getY2()+1 do
-        for x = buildingDef:getX()-1, buildingDef:getX2()+1 do
-            local square = cell:getGridSquare(x, y, z)
-            if square then
-                local objects = square:getObjects()
-                for i=0, objects:size()-1 do
-                    local object = objects:get(i)
-                    if object then
-                        if instanceof(object, "IsoLightSwitch") then
-                            object:setActive(true)
-                        elseif instanceof(object, "IsoWindow") then
-                            local barricade = object:getBarricadeOnSameSquare()
-                            if not barricade then
-                                barricade = object:getBarricadeOnOppositeSquare()
-                            end
-
-                            if not barricade then
-                                local barricade = IsoBarricade.AddBarricadeToObject(object, player)
-                                if barricade then
-                                    for i=1, 2 + ZombRand(3) do
-                                        local plank = BanditCompatibility.InstanceItem("Base.Plank")
-                                        plank:setCondition(200)
-                                        barricade:addPlank(nil, plank)
-                                    end
-                                    barricade:transmitCompleteItemToClients()
-                                end
-                            end
-                        end
-                    end
-                end
+    local building = getCell():getGridSquare(12400, 3700, 0):getBuilding()
+    local def = building:getDef()
+    local roomDefs = def:getRooms()
+    local roomCount = roomDefs:size()
+    for i=0, roomDefs:size()-1 do
+        local roomDef = roomDefs:get(i)
+        local square = roomDef:getFreeSquare()
+        if square then
+            local rnd = ZombRand(20)
+            if rnd == 1 then
+                BWOScheduler.Add("SpawnGroupAt", {x = square:getX(), y=square:getY(), z=square:getZ(), size = 2, program="BanditSimple", cid=Bandit.clanMap.PoliceBlue}, 100)
+            elseif rnd < 6 then
+                BWOScheduler.Add("SpawnGroupAt", {x = square:getX(), y=square:getY(), z=square:getZ(), size = 1 + ZombRand(5), program="BanditSimple", cid=Bandit.clanMap.Office}, 100)
             end
+            --[[elseif rnd == 2 then
+                cid=Bandit.clanMap.SuicideBomber, program="Shahid"
+                BWOScheduler.Add("HordeAt",  {x = square:getX(), y=square:getY(), z=square:getZ(), size = 1 + ZombRand(3), outfit="OfficeWorker", femaleChance=0}, 200)
+            elseif rnd == 3 then
+                BWOScheduler.Add("HordeAt",  {x = square:getX(), y=square:getY(), z=square:getZ(), size = 1 + ZombRand(3), outfit="OfficeWorkerSkirt", femaleChance=100}, 200)
+            ]]
         end
     end
-
-    local i = 100
-    BWOScheduler.Add("ClearZombies", {}, i)
-    i = i + 1
-
-    -- BWOScheduler.Add("ClearCorpse", {x1=buildingDef:getX()-1, y1=buildingDef:getY()-1, x2=buildingDef:getX2()+1, y2=buildingDef:getY2()+1, z1=0, z2=1}, i)
-    i = i + 1
-
-    BWOScheduler.Add("SpawnGroupArea", {x1=buildingDef:getX()+10, y1=buildingDef:getY()+10, x2=buildingDef:getX2()-10, y2=buildingDef:getY2()-10, z=1, cnt=16, program="BanditSimple", hostile=false, cid=Bandit.clanMap.Office}, i)
-    i = i + 1
-    
-    BWOScheduler.Add("SpawnGroupArea", {x1=buildingDef:getX()+10, y1=buildingDef:getY()+10, x2=buildingDef:getX2()-10, y2=buildingDef:getY2()-10, z=0, cnt=9, program="BanditSimple", hostile=false, cid=Bandit.clanMap.PoliceBlue}, i)
-    i = i + 1
-
-    BWOScheduler.Add("SpawnGroupArea", {x1=buildingDef:getX()+10, y1=buildingDef:getY()+10, x2=buildingDef:getX2()-10, y2=buildingDef:getY2()-10, z=1, cnt=6, program="BanditSimple", hostile=false, cid=Bandit.clanMap.PoliceBlue}, i)
-    i = i + 1
-    
-    local sx, sy, sz = 12565, 1535, 0
-    BWOScheduler.Add("SpawnGroupAt", {x=sx, y=sy, z=sz, size=8, program="Companion", hostile=false, cid=Bandit.clanMap.SWAT}, i)
-    i = i + 1
-
-    BWOScheduler.Add("HordeAt", {x = 12582, y=1533, z=0, size = 20, outfit="Generic01", femaleChance=50}, i)
-    BWOScheduler.Add("HordeAt", {x = 12583, y=1533, z=0, size = 30, outfit="Generic02", femaleChance=50}, i)
-    BWOScheduler.Add("HordeAt", {x = 12588, y=1533, z=0, size = 50, outfit="Generic02", femaleChance=50}, i)
-
-    BWOScheduler.Add("Horde", {x = 25, y=0, cnt=35}, 200)
-    BWOScheduler.Add("Horde", {x = 25, y=10, cnt=30}, 300)
-    BWOScheduler.Add("Horde", {x = 25, y=-10, cnt=25}, 400)
-    BWOScheduler.Add("Horde", {x = -25, y=-10, cnt=20}, 500)
-    BWOScheduler.Add("Horde", {x = -25, y=0, cnt=20}, 600)
-    BWOScheduler.Add("Horde", {x = -25, y=10, cnt=20}, 700)
-    BWOScheduler.Add("Horde", {x = 30, y=15, cnt=20}, 800)
-    BWOScheduler.Add("Horde", {x = 30, y=-15, cnt=20}, 900)
 end
 
-barricaded.schedule = {
-    [134] = {
+patient.schedule = {
+    [132] = {
         [56]  = {"StartDay", {day="thursday"}},
-        [57] = {"Arson", {}},
+        [57] = {"ChopperAlert", {name="heli2", sound="BWOChopperCDC1", dir = 180, speed=1.2}},
         [58] = {"SetupNukes", {}},
         [59] = {"SetupPlaceEvents", {}},
     },
-    [135] = {
+    [133] = {
         [0] = {"Siren", {}},
         [1]  = {"Arson", {}},
-        [2]  = {"Arson", {}},
-        [3]  =  {"Horde", {x = 0, y=-30, cnt=40}},
-        [4]  =  {"Horde", {x = -30, y=-30, cnt=40}},
-        [5]  = {"Arson", {}},
-        [6]  = {"Arson", {}},
-        [7]  = {"SpawnGroup", {name="Police", cid=Bandit.clanMap.SWAT, hostile=false, program="Companion", d=30, intensity=6}},
-        [10]  = {"Horde", {x = -35, y=35, cnt=30}},
-        [11]  =  {"Horde", {x = 0, y=35, cnt=30}},
-        [12]  =  {"Horde", {x = -35, y=0, cnt=30}},
-        [13]  =  {"Horde", {x = 35, y=-35, cnt=30}},
-        [14]  =  {"Horde", {x = 35, y=0, cnt=30}},
-        [15]  =  {"Horde", {x = 0, y=-35, cnt=30}},
-        [16]  =  {"Horde", {x = -35, y=-35, cnt=30}},
-        [17]  =  {"Horde", {x = 35, y=-20, cnt=30}},
-        [18]  = {"Horde", {x = -35, y=35, cnt=30}},
-        [19]  =  {"Horde", {x = 0, y=35, cnt=30}},
-        [20]  =  {"Horde", {x = -35, y=0, cnt=30}},
-        [21]  =  {"Horde", {x = 35, y=-35, cnt=30}},
-        [22]  =  {"Horde", {x = 35, y=0, cnt=30}},
-        [23]  =  {"Horde", {x = 0, y=-35, cnt=30}},
-        [24]  =  {"Horde", {x = -35, y=-35, cnt=30}},
-        [25]  =  {"Horde", {x = 35, y=-20, cnt=30}},
-        [26]  = {"JetFighterRun", {arm="mg"}},
-        [27]  = {"JetFighterRun", {arm="mg"}},
-        [28]  = {"JetFighterRun", {arm="mg"}},
-        [29]  = {"SpawnGroup", {name="Police", cid=Bandit.clanMap.SWAT, hostile=false, program="BanditSimple", d=30, intensity=6}},
-        [30]  = {"Horde", {x = -35, y=35, cnt=30}},
-        [31]  =  {"Horde", {x = 0, y=35, cnt=30}},
-        [32]  =  {"Horde", {x = -35, y=0, cnt=30}},
-        [33]  =  {"Horde", {x = 35, y=-35, cnt=30}},
-        [34]  = {"SetHydroPower", {on=false}},
-        [35]  = {"JetFighterRun", {arm="mg"}},
-        [36]  = {"JetFighterRun", {arm="mg"}},
-        [37]  = {"JetFighterRun", {arm="mg"}},
-        [38]  = {"JetFighterRun", {arm="mg"}},
-        [39]  = {"SetHydroPower", {on=true}},
-        [40]  =  {"Horde", {x = -35, y=-35, cnt=30}},
-        [41]  =  {"Horde", {x = 35, y=-20, cnt=30}},
-        [42]  = {"Horde", {x = -35, y=35, cnt=30}},
-        [43]  =  {"Horde", {x = 0, y=35, cnt=30}},
-        [44]  =  {"Horde", {x = -35, y=0, cnt=20}},
-        [45]  =  {"Horde", {x = 35, y=-35, cnt=20}},
-        [46]  =  {"Horde", {x = 35, y=0, cnt=20}},
-        [47]  =  {"Horde", {x = 0, y=-35, cnt=20}},
-        [48]  =  {"Horde", {x = -35, y=-35, cnt=20}},
-        [49]  =  {"Horde", {x = 35, y=-20, cnt=20}},
-        [50]  = {"SetHydroPower", {on=false}},
-        [51]  = {"JetFighterRun", {arm="gas"}},
-        [52]  = {"JetFighterRun", {arm="gas"}},
-        [53]  = {"JetFighterRun", {arm="gas"}},
-        [54]  = {"JetFighterRun", {arm="gas"}},
-        [55]  = {"SetHydroPower", {on=true}},
+        [2] = {"SetHydroPower", {on=false}},
+        [4] = {"SetHydroPower", {on=true}},
+        [11]  = {"Arson", {}},
+        [12] = {"SetHydroPower", {on=false}},
+        [14] = {"SetHydroPower", {on=true}},
+        [15]  = {"Arson", {}},
+        [16]  = {"Arson", {}},
+        [21]  = {"Arson", {}},
+        [22] = {"SetHydroPower", {on=false}},
+        [29] = {"SetHydroPower", {on=true}},
+        [31]  = {"Arson", {}},
+        [32] = {"SetHydroPower", {on=false}},
+        [33] = {"SetHydroPower", {on=true}},
+        [34]  = {"Arson", {}},
+        [35]  = {"Arson", {}},
+        [36]  = {"Arson", {}},
+        [41]  = {"Arson", {}},
+        [42] = {"SetHydroPower", {on=false}},
+        [43]  = {"Arson", {}},
+        [44]  = {"Arson", {}},
+        [45]  = {"Arson", {}},
+        [46]  = {"Arson", {}},
+        [47]  = {"Arson", {}},
+        [48]  = {"Arson", {}},
+        [49]  = {"Arson", {}},
+        [50] = {"SetHydroPower", {on=true}},
+        [51]  = {"Arson", {}},
+        [52] = {"SetHydroPower", {on=false}},
+        [54] = {"SetHydroPower", {on=true}},
+        [55]  = {"Arson", {}},
     },
-    [136] = {
-        [0]  = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="BanditSimple", d=58, intensity=4}},
+    [134] = {
+        [0] = {"Siren", {}},
+        [1]  = {"Arson", {}},
+        [2] = {"SetHydroPower", {on=false}},
+        [4] = {"SetHydroPower", {on=true}},
+        [11]  = {"Arson", {}},
+        [12] = {"SetHydroPower", {on=false}},
+        [14] = {"SetHydroPower", {on=true}},
+        [15]  = {"Arson", {}},
+        [16]  = {"Arson", {}},
+        [21]  = {"Arson", {}},
+        [22] = {"SetHydroPower", {on=false}},
+        [28] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=46, intensity=12}},
+        [29] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=46, intensity=12}},
+        [30] = {"SetHydroPower", {on=true}},
+        [31]  = {"Arson", {}},
+        [32] = {"SetHydroPower", {on=false}},
+        [33] = {"SetHydroPower", {on=true}},
+        [34]  = {"Arson", {}},
+        [35]  = {"Arson", {}},
+        [36]  = {"Arson", {}},
+        [41]  = {"Arson", {}},
+        [42] = {"SetHydroPower", {on=false}},
+        [43]  = {"Arson", {}},
+        [44]  = {"Arson", {}},
+        [45]  = {"Arson", {}},
+        [46]  = {"Arson", {}},
+        [47]  = {"Arson", {}},
+        [48]  = {"Arson", {}},
+        [49]  = {"Arson", {}},
+        [51]  = {"Arson", {}},
+        [54] = {"SetHydroPower", {on=true}},
+        [55]  = {"Arson", {}},
+    },
+    [135] = {
+        [0]  = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="BanditSimple", d=58, intensity=4}},
         [1]  = {"SetHydroPower", {on=false}},
         [2]  = {"SetHydroPower", {on=true}},
         [8]  = {"SetHydroPower", {on=false}},
-        [10] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="BanditSimple", d=57, intensity=4}},
+        [10] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="BanditSimple", d=57, intensity=4}},
+        [42]  = {"JetFighterRun", {arm="gas"}},
         [42]  = {"JetFighterRun", {arm="bomb"}},
-        [42]  = {"JetFighterRun", {arm="bomb"}},
-        [42]  = {"JetFighterRun", {arm="bomb"}},
-        [20] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="BanditSimple", d=56, intensity=4}},
-        [30] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="BanditSimple", d=55, intensity=4}},
+        [42]  = {"JetFighterRun", {arm="mg"}},
+        [20] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="BanditSimple", d=56, intensity=4}},
+        [30] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="BanditSimple", d=55, intensity=4}},
         [32] = {"SetHydroPower", {on=true}},
-        [40] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="BanditSimple", d=54, intensity=4}},
+        [40] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="BanditSimple", d=54, intensity=4}},
         [42]  = {"JetFighterRun", {arm="bomb"}},
         [44]  = {"JetFighterRun", {arm="bomb"}},
         [45]  = {"JetFighterRun", {arm="bomb"}},
-        [50] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditStrong, program="BanditSimple", d=53, intensity=4}},
+        [50] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="BanditSimple", d=53, intensity=4}},
         [52]  = {"JetFighterRun", {arm="gas"}},
         [54]  = {"JetFighterRun", {arm="gas"}},
         [56]  = {"JetFighterRun", {arm="gas"}},
     },
-    [137] = {
+    [136] = {
         [0]  = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="BanditSimple", d=58, intensity=4}},
         [1]  = {"SetHydroPower", {on=false}},
         [2]  = {"SetHydroPower", {on=true}},
@@ -248,7 +200,7 @@ barricaded.schedule = {
         [40] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="BanditSimple", d=54, intensity=4}},
         [50] = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="BanditSimple", d=53, intensity=4}},
     },
-    [138] = {
+    [137] = {
         [12] = {"SpawnGroup", {name="Veterans", cid=Bandit.clanMap.Veteran, program="Police", d=47, intensity=10}},
         [14] = {"SpawnGroup", {name="Army", cid=Bandit.clanMap.ArmyGreenMask, program="Police", d=48, intensity=10}},
         [16]  = {"JetFighterRun", {arm="bomb"}},
@@ -262,7 +214,7 @@ barricaded.schedule = {
         [44]  = {"JetFighterRun", {arm="gas"}},
         [45] = {"PlaneCrashSequence", {}},
     },
-    [139] = {
+    [138] = {
         [2]  = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="BanditSimple", d=52, intensity=4}},
         [12]  = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="BanditSimple", d=52, intensity=4}},
         [22]  = {"SpawnGroup", {name="Bandits", cid=Bandit.clanMap.BanditSpike, program="BanditSimple", d=52, intensity=4}},
@@ -465,4 +417,4 @@ barricaded.schedule = {
     },
 }
 
-table.insert(BWOVariants, barricaded)
+table.insert(BWOVariants, patient)

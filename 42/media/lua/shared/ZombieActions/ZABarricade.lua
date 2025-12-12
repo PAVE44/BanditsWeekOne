@@ -13,7 +13,7 @@ ZombieActions.Barricade.onStart = function(zombie, task)
 
             if instanceof(object, "IsoWindow") then
                 task.idx = object:getObjectIndex()
-                if properties:Is(IsoFlagType.WindowN) then
+                if properties:has(IsoFlagType.WindowN) then
                     fx = square:getX()
                     fy = square:getY() + 0.25
                 else
@@ -24,7 +24,7 @@ ZombieActions.Barricade.onStart = function(zombie, task)
                 
             elseif instanceof(object, "IsoDoor") then
                 task.idx = object:getObjectIndex()
-                if properties:Is(IsoFlagType.doorN) then
+                if properties:has(IsoFlagType.doorN) then
                     fx = square:getX()
                     fy = square:getY() + 0.25
                 else

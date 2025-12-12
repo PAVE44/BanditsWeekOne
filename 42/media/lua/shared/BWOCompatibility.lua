@@ -42,7 +42,10 @@ BWOCompatibility.GetFlier = function()
         item = BanditCompatibility.InstanceItem("Base.Flier")
         item:setName("Flier: CDC URGENT PUBLIC NOTICE")
         local md = item:getModData()
-        md.printMedia = "CDC1"
+        md.printMedia.id = "CDC1"
+        md.printMedia.info = "Print_Media_CDC1_info"
+        md.printMedia.text = "Print_Text_CDC1_info"
+        md.printMedia.title = "Print_Media_CDC1_title"
     else
         local txt = "URGENT PUBLIC NOTICE\nIMMEDIATE ACTION REQUIRED\n"
         txt = txt .. "The CDC has declared an imminent contamination hazard in your area. \n\n"

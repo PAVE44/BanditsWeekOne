@@ -1,3 +1,6 @@
+-- fix me, this is handled by server side now
+--[[
+
 function Recipe.OnCreate.ScratchTicket(craftRecipeData, character)
 	local result = craftRecipeData:getAllCreatedItems():get(0);
     local mData = result:getModData();
@@ -32,4 +35,4 @@ function Recipe.OnCreate.ScratchTicket(craftRecipeData, character)
         result:setTexture(getTexture("Item_ScratchTicket_Loser"))
         result:setWorldStaticModel("ScratchTicket_Loser")
     end
-end
+end ]]

@@ -75,7 +75,7 @@ accident.setup2 = function()
     if accident.tpmap[region] then
         local car = accident.tpmap[region].car
         local square = getCell():getGridSquare(car.x, car.y, 0)
-        local profession = player:getDescriptor():getProfession()
+        local profession = player:getDescriptor():getCharacterProfession()
         local vtype = "Base.CarSmall02SmashedFront"
 
         local vehicle = BWOCompatibility.AddVehicle(vtype, IsoDirections.S, square)

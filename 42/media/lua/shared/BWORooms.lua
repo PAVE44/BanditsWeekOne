@@ -1915,7 +1915,7 @@ BWORooms.IsIntrusion = function(room)
     local player = getSpecificPlayer(0)
     if not player then return end
 
-    local profession = player:getDescriptor():getProfession()
+    local profession = player:getDescriptor():getCharacterProfession()
     local building = room:getBuilding()
 
     -- instrusions
@@ -1970,7 +1970,7 @@ BWORooms.TakeIntention = function(room, customName)
     
     local building = room:getBuilding()
     local def = room:getRoomDef()
-    local profession = player:getDescriptor():getProfession()
+    local profession = player:getDescriptor():getCharacterProfession()
 
     local canTake = false
     local shouldPay = false

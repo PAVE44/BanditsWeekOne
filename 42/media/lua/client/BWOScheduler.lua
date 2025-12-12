@@ -541,7 +541,7 @@ function BWOScheduler.CheckEvents()
     for i, event in pairs(BWOScheduler.Events) do
         if event.start < ct then
             if BWOEvents[event.phase] then
-                local profession = player:getDescriptor():getProfession()
+                local profession = player:getDescriptor():getCharacterProfession()
                 if not event.params.profession or event.params.profession == profession then
                     -- print ("INIT EVENT" .. event.phase)
                     setGameSpeed(1)

@@ -84,7 +84,7 @@ car.setup2 = function()
     if car.tpmap[region] then
         local car = car.tpmap[region].car
         local square = getCell():getGridSquare(car.x, car.y, 0)
-        local profession = player:getDescriptor():getProfession()
+        local profession = player:getDescriptor():getCharacterProfession()
         local vtype = BanditUtils.Choice(BWOVehicles.playerCarChoicesDefault)
         if BWOVehicles.playerCarChoicesOccupation[profession] then
             vtype = BanditUtils.Choice(BWOVehicles.playerCarChoicesOccupation[profession])

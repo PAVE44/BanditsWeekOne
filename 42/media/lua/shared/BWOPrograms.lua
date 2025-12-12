@@ -300,11 +300,11 @@ BanditPrograms.Bench = function(bandit)
                     local sprite = object:getSprite()
                     if sprite then
                         local props = sprite:getProperties()
-                        if props:Is("CustomName") then
-                            local customName = props:Val("CustomName")
+                        if props:has("CustomName") then
+                            local customName = props:get("CustomName")
                             if customName == "Bench" or customName == "Chair" then
                                 bench = object
-                                facing = props:Val("Facing")
+                                facing = props:get("Facing")
                                 break
                             end
                         end
@@ -540,8 +540,8 @@ BanditPrograms.FollowRoad = function(bandit, walkType)
                             break
                         elseif spriteName:embodies("street") then
                             local spriteProps = sprite:getProperties()
-                            if spriteProps:Is(IsoFlagType.attachedFloor) then
-                                local material = spriteProps:Val("FootstepMaterial")
+                            if spriteProps:has(IsoFlagType.attachedFloor) then
+                                local material = spriteProps:get("FootstepMaterial")
                                 if material == "Gravel" then
                                     -- gravel path
                                     quality = 1 -- 2

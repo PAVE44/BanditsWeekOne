@@ -32,8 +32,8 @@ ZombieActions.RemoveObject.onComplete = function(zombie, task)
         local sprite = object:getSprite()
         if sprite then
             local props = sprite:getProperties()
-            if props:Is("CustomName") then
-                local customName = props:Val("CustomName")
+            if props:has("CustomName") then
+                local customName = props:get("CustomName")
                 if customName == task.customName then
                     
                     if isClient() then

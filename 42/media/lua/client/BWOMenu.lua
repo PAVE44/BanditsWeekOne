@@ -545,7 +545,7 @@ function BWOMenu.WorldContextMenuPre(playerID, context, worldobjects, test)
     local player = getSpecificPlayer(playerID)
     if not player then return end
 
-    local profession = player:getDescriptor():getProfession()
+    local profession = player:getDescriptor():getCharacterProfession()
     print (profession)
     -- print ("DIR: " .. player:getDirectionAngle())
 

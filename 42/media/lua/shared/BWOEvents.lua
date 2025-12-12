@@ -494,6 +494,7 @@ end
 
 -- params: time
 BWOEvents.FadeOut = function(params)
+    if true then return end
     local player = getSpecificPlayer(0)
     if not player then return end
 
@@ -506,6 +507,7 @@ end
 
 -- params: time
 BWOEvents.FadeIn = function(params)
+    if true then return end
     local player = getSpecificPlayer(0)
     if not player then return end
 
@@ -875,7 +877,7 @@ BWOEvents.Start = function(params)
         end
     end
 
-    local profession = player:getDescriptor():getProfession()
+    local profession = player:getDescriptor():getCharacterProfession()
     local cell = getCell()
     local building = player:getBuilding()
     if building then
@@ -1093,8 +1095,8 @@ BWOEvents.ClearObjects = function(params)
                 if sprite then 
                     local spriteProps = sprite:getProperties()
 
-                    local isSolidFloor = spriteProps:Is(IsoFlagType.solidfloor)
-                    local isAttachedFloor = spriteProps:Is(IsoFlagType.attachedFloor)
+                    local isSolidFloor = spriteProps:has(IsoFlagType.solidfloor)
+                    local isAttachedFloor = spriteProps:has(IsoFlagType.attachedFloor)
 
                     if not isSolidFloor and not isAttachedFloor then
                         table.insert(destroyList, object)
@@ -1762,8 +1764,8 @@ BWOEvents.BuildingHome = function(params)
                             local sprite = object:getSprite()
                             if sprite then
                                 local props = sprite:getProperties()
-                                if props:Is("CustomName") then
-                                    local name = props:Val("CustomName")
+                                if props:has("CustomName") then
+                                    local name = props:get("CustomName")
                                     if name == "Radio" then
                                         radio = object
                                     end
@@ -1896,8 +1898,8 @@ BWOEvents.BuildingParty = function(params)
                             local sprite = object:getSprite()
                             if sprite then
                                 local props = sprite:getProperties()
-                                if props:Is("CustomName") then
-                                    local name = props:Val("CustomName")
+                                if props:has("CustomName") then
+                                    local name = props:get("CustomName")
                                     if name == "Radio" then
                                         boombox = object
                                     elseif name == "Low Table" then

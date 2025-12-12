@@ -28,10 +28,10 @@ ZombiePrograms.Vandal.Main = function(bandit)
             if not sprite then return false end
 
             local spriteProps = sprite:getProperties()
-            if spriteProps:Is(IsoFlagType.WallNTrans) or spriteProps:Is(IsoFlagType.WallWTrans) then return false end
-            if spriteProps:Is(IsoFlagType.WindowN) or spriteProps:Is(IsoFlagType.WindowW) then return false end
-            if spriteProps:Is(IsoFlagType.DoorWallN) or spriteProps:Is(IsoFlagType.DoorWallW) then return false end
-            if spriteProps:Is(IsoFlagType.WallSE) then return false end
+            if spriteProps:has(IsoFlagType.WallNTrans) or spriteProps:has(IsoFlagType.WallWTrans) then return false end
+            if spriteProps:has(IsoFlagType.WindowN) or spriteProps:has(IsoFlagType.WindowW) then return false end
+            if spriteProps:has(IsoFlagType.DoorWallN) or spriteProps:has(IsoFlagType.DoorWallW) then return false end
+            if spriteProps:has(IsoFlagType.WallSE) then return false end
 
             local attachments = wall:getAttachedAnimSprite()
             if attachments then

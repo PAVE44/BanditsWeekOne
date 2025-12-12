@@ -88,7 +88,7 @@ BWORoomPrograms.livingroom = function(bandit, def)
         sittable = BWOObjects.Find(bandit, def, "Chair")
     end
 
-    if sittable then
+    if sittable and sittable:getSprite():getProperties():has("Facing") then
         local square = sittable:getSquare()
         local asquare = AdjacentFreeTileFinder.Find(square, bandit)
         if asquare then
@@ -132,7 +132,7 @@ BWORoomPrograms.livingroom = function(bandit, def)
                     time = 600
                 end
 
-                local facing = sittable:getSprite():getProperties():Val("Facing")
+                local facing = sittable:getSprite():getProperties():get("Facing")
 
                 local task = {action="SitInChair", anim=anim, left=left, right=right, sound=sound, item=item, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=200}
                 table.insert(tasks, task)
@@ -154,7 +154,7 @@ BWORoomPrograms.bathroom = function(bandit, def)
 
     --[[local sittable = BWOObjects.Find(bandit, def, "Toilet")
     if sittable then
-        local facing = sittable:getSprite():getProperties():Val("Facing")
+        local facing = sittable:getSprite():getProperties():get("Facing")
         local task = {action="SitInChair", anim="SitInChair", x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=100}
         table.insert(tasks, task)
         return tasks
@@ -197,7 +197,7 @@ BWORoomPrograms.bedroom = function(bandit, def)
                 table.insert(tasks, BanditUtils.GetMoveTask(0, asquare:getX(), asquare:getY(), asquare:getZ(), "Walk", dist, false))
                 return tasks
             else
-                local facing = bed:getSprite():getProperties():Val("Facing")
+                local facing = bed:getSprite():getProperties():get("Facing")
                 local anim = "AwakeBed"
                 if hour < 6 or hour > 22 then
                     anim = "SleepBed"
@@ -507,7 +507,7 @@ BWORoomPrograms.church = function(bandit, def)
     if brain.cid == Bandit.clanMap.Priest then
         local altar = BWOObjects.Find(bandit, def, "Altar")
         if altar then
-            local facing = altar:getSprite():getProperties():Val("Facing")
+            local facing = altar:getSprite():getProperties():get("Facing")
             local square
             if facing == "S" then square = altar:getSquare():getN() end
             if facing == "N" then square = altar:getSquare():getS() end
@@ -535,7 +535,7 @@ BWORoomPrograms.church = function(bandit, def)
             sittable = BWOObjects.Find(bandit, def, "Chair")
         end
 
-        if sittable then
+        if sittable and sittable:getSprite():getProperties():has("Facing")then
             local square = sittable:getSquare()
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
@@ -557,7 +557,7 @@ BWORoomPrograms.church = function(bandit, def)
                         anim = "SitInChair2"
                     end
     
-                    local facing = sittable:getSprite():getProperties():Val("Facing")
+                    local facing = sittable:getSprite():getProperties():get("Facing")
     
                     local task = {action="SitInChair", anim=anim, left=left, right=right, sound=sound, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=200}
                     table.insert(tasks, task)
@@ -581,7 +581,7 @@ BWORoomPrograms.office = function(bandit, def)
         sittable = BWOObjects.Find(bandit, def, "Couch")
     end
 
-    if sittable then
+    if sittable and sittable:getSprite():getProperties():has("Facing") then
         local square = sittable:getSquare()
         local asquare = AdjacentFreeTileFinder.Find(square, bandit)
         if asquare then
@@ -612,7 +612,7 @@ BWORoomPrograms.office = function(bandit, def)
                     time = 600
                 end
 
-                local facing = sittable:getSprite():getProperties():Val("Facing")
+                local facing = sittable:getSprite():getProperties():get("Facing")
 
                 local task = {action="SitInChair", anim=anim, left=left, right=right, sound=sound, item=item, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=200}
                 table.insert(tasks, task)
@@ -637,7 +637,7 @@ BWORoomPrograms.bookstore = function(bandit, def)
     if brain.cid == Bandit.clanMap.ShopAssistant then
         local register = BWOObjects.Find(bandit, def, "Register")
         if register then
-            local facing = register:getSprite():getProperties():Val("Facing")
+            local facing = register:getSprite():getProperties():get("Facing")
             local square
             if facing == "S" then square = register:getSquare():getS() end
             if facing == "N" then square = register:getSquare():getN() end
@@ -700,7 +700,7 @@ BWORoomPrograms.zippeestore = function(bandit, def)
 
         local register = BWOObjects.Find(bandit, def, "Register")
         if register then
-            local facing = register:getSprite():getProperties():Val("Facing")
+            local facing = register:getSprite():getProperties():get("Facing")
             local square
             if facing == "S" then square = register:getSquare():getS() end
             if facing == "N" then square = register:getSquare():getN() end
@@ -836,7 +836,7 @@ BWORoomPrograms.medical = function(bandit, def)
         sittable = BWOObjects.Find(bandit, def, "Chairs")
     end
 
-    if sittable then
+    if sittable and sittable:getSprite():getProperties():has("Facing") then
         local square = sittable:getSquare()
         local asquare = AdjacentFreeTileFinder.Find(square, bandit)
         if asquare then
@@ -867,7 +867,7 @@ BWORoomPrograms.medical = function(bandit, def)
                     time = 600
                 end
 
-                local facing = sittable:getSprite():getProperties():Val("Facing")
+                local facing = sittable:getSprite():getProperties():get("Facing")
 
                 local task = {action="SitInChair", anim=anim, left=left, right=right, sound=sound, item=item, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=200}
                 table.insert(tasks, task)
@@ -893,7 +893,7 @@ BWORoomPrograms.restaurant = function(bandit, def)
 
         local register = BWOObjects.Find(bandit, def, "Register")
         if register and math.abs(id) % 2 == 0 then
-            local facing = register:getSprite():getProperties():Val("Facing")
+            local facing = register:getSprite():getProperties():get("Facing")
             local square
             if facing == "S" then square = register:getSquare():getS() end
             if facing == "N" then square = register:getSquare():getN() end
@@ -925,8 +925,8 @@ BWORoomPrograms.restaurant = function(bandit, def)
                         local sprite = object:getSprite()
                         if sprite then
                             local props = sprite:getProperties()
-                            if props:Is("CustomName") then
-                                local name = props:Val("CustomName")
+                            if props:has("CustomName") then
+                                local name = props:get("CustomName")
                                 if name == "Table" or name == "Light Round Table" or name == "Oak Round Table" then
                                     -- who is seated at the table
 
@@ -1085,7 +1085,7 @@ BWORoomPrograms.restaurant = function(bandit, def)
             sittable = BWOObjects.Find(bandit, def, "Picknic Table")
         end
     
-        if sittable then
+        if sittable and sittable:getSprite():getProperties():has("Facing") then
             local square = sittable:getSquare()
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
@@ -1124,7 +1124,7 @@ BWORoomPrograms.restaurant = function(bandit, def)
                         time = 400
                     end
     
-                    local facing = sittable:getSprite():getProperties():Val("Facing")
+                    local facing = sittable:getSprite():getProperties():get("Facing")
     
                     local task = {action="SitInChair", anim=anim, left=left, right=right, sound=sound, item=item, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=200}
                     table.insert(tasks, task)
@@ -1175,7 +1175,7 @@ BWORoomPrograms.classroom = function(bandit, def)
             sittable = BWOObjects.Find(bandit, def, "Chair")
         end
 
-        if sittable then
+        if sittable and sittable:getSprite():getProperties():has("Facing") then
             local square = sittable:getSquare()
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
@@ -1206,7 +1206,7 @@ BWORoomPrograms.classroom = function(bandit, def)
                         time = 600
                     end
     
-                    local facing = sittable:getSprite():getProperties():Val("Facing")
+                    local facing = sittable:getSprite():getProperties():get("Facing")
     
                     local task = {action="SitInChair", anim=anim, left=left, right=right, sound=sound, item=item, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=200}
                     table.insert(tasks, task)
@@ -1232,7 +1232,7 @@ BWORoomPrograms.bar = function(bandit, def)
     if brain.cid == Bandit.clanMap.Waiter then
         local register = BWOObjects.Find(bandit, def, "Register")
         if register and math.abs(id) % 2 == 0 then
-            local facing = register:getSprite():getProperties():Val("Facing")
+            local facing = register:getSprite():getProperties():get("Facing")
             local square
             if facing == "S" then square = register:getSquare():getS() end
             if facing == "N" then square = register:getSquare():getN() end
@@ -1279,7 +1279,7 @@ BWORoomPrograms.bar = function(bandit, def)
             sittable = BWOObjects.Find(bandit, def, "Picknic Table")
         end
     
-        if sittable then
+        if sittable and sittable:getSprite():getProperties():has("Facing") then
             local square = sittable:getSquare()
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
@@ -1317,7 +1317,7 @@ BWORoomPrograms.bar = function(bandit, def)
                         time = 400
                     end
     
-                    local facing = sittable:getSprite():getProperties():Val("Facing")
+                    local facing = sittable:getSprite():getProperties():get("Facing")
     
                     local task = {action="SitInChair", anim=anim, left=left, right=right, sound=sound, item=item, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=200}
                     table.insert(tasks, task)
@@ -1400,7 +1400,7 @@ BWORoomPrograms.aesthetic = function(bandit, def)
             sittable = BWOObjects.Find(bandit, def, "Chair")
         end
     
-        if sittable then
+        if sittable and sittable:getSprite():getProperties():has("Facing") then
             local square = sittable:getSquare()
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
@@ -1425,7 +1425,7 @@ BWORoomPrograms.aesthetic = function(bandit, def)
                         anim = "SitInChairTalk"
                     end
     
-                    local facing = sittable:getSprite():getProperties():Val("Facing")
+                    local facing = sittable:getSprite():getProperties():get("Facing")
     
                     local task = {action="SitInChair", anim=anim, left=left, right=right, sound=sound, item=item, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=200}
                     table.insert(tasks, task)
@@ -1457,7 +1457,7 @@ BWORoomPrograms.stripclub = function(bandit, def)
 
         local sittable = BWOObjects.Find(bandit, def, "Couch")
 
-        if sittable then
+        if sittable and sittable:getSprite():getProperties():has("Facing") then
             local square = sittable:getSquare()
             local asquare = AdjacentFreeTileFinder.Find(square, bandit)
             if asquare then
@@ -1482,7 +1482,7 @@ BWORoomPrograms.stripclub = function(bandit, def)
                         anim = "SitInChairTalk"
                     end
 
-                    local facing = sittable:getSprite():getProperties():Val("Facing")
+                    local facing = sittable:getSprite():getProperties():get("Facing")
 
                     local task = {action="SitInChair", anim=anim, left=left, right=right, sound=sound, item=item, x=sittable:getX(), y=sittable:getY(), z=sittable:getZ(), facing=facing, time=200}
                     table.insert(tasks, task)

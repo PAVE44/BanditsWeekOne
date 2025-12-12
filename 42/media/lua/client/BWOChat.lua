@@ -986,7 +986,7 @@ BWOChat.Say = function(chatMessage, quiet)
                         Bandit.SetProgram(bandit, "Babe", {})
                         Bandit.SetHostileP(bandit, false)
                         brain.permanent = true
-                        if player:HasTrait("magnetizing") then
+                        if player:hasTrait(BWORegistries.CharacterTraits.MAGNETIZING) then
                             brain.loyal = true
                         end
                         colors = {r=0, g=1, b=0}

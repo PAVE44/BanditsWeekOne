@@ -345,8 +345,8 @@ local clearObjects = function(square)
                 local spriteName = sprite:getName()
                 local spriteProps = sprite:getProperties()
 
-                local isSolidFloor = spriteProps:Is(IsoFlagType.solidfloor)
-                local isAttachedFloor = spriteProps:Is(IsoFlagType.attachedFloor)
+                local isSolidFloor = spriteProps:has(IsoFlagType.solidfloor)
+                local isAttachedFloor = spriteProps:has(IsoFlagType.attachedFloor)
 
                 isLegalSprite = false
                 --[[
@@ -472,66 +472,68 @@ local processSquare = function(square)
             local props = sprite:getProperties()
 
             -- register global objects
-            if scheduler.GlobalObjectAdder then
+            if props then
+                if scheduler.GlobalObjectAdder then
 
-                if instanceof(object, "IsoBarbecue") and square:isOutside() then
-                    local args = {x=x, y=y, z=z, otype="barbecue"}
-                    sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectAdd', args)
-                    break
-                end
-
-                local attachments = object:getAttachedAnimSprite()
-                if attachments then
-                    for i=0, attachments:size()-1 do
-                        local attachment = attachments:get(i)
-                        if attachment and (attachment:getName():embodies("blood") or attachment:getName():embodies("grime")) then
-                            object:clearAttachedAnimSprite()
-                            break
-                        end
-                    end
-                end
-
-                local spriteName = sprite:getName()
-                if spriteMap[spriteName] and square:isOutside() then 
-                    local args = {x=x, y=y, z=z, otype=spriteMap[spriteName]}
-                    sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectAdd', args)
-                    break
-                end
-
-                if props:Is("CustomName") then
-                    local customName = props:Val("CustomName")
-                    if customNameMap[customName] and square:isOutside() then 
-                        local args = {x=x, y=y, z=z, otype=customNameMap[customName]}
+                    if instanceof(object, "IsoBarbecue") and square:isOutside() then
+                        local args = {x=x, y=y, z=z, otype="barbecue"}
                         sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectAdd', args)
                         break
                     end
-                end
 
-                -- this makes npcs disregard windows for pathfinding
-                -- unfortunately will impact zombies aswell
-                if instanceof(object, "IsoWindow") then
-                    if not props:Is(IsoFlagType.makeWindowInvincible) then
-                        if props:Is(IsoFlagType.canPathN) then
-                            props:UnSet(IsoFlagType.canPathN)
+                    local attachments = object:getAttachedAnimSprite()
+                    if attachments then
+                        for i=0, attachments:size()-1 do
+                            local attachment = attachments:get(i)
+                            if attachment and (attachment:getName():embodies("blood") or attachment:getName():embodies("grime")) then
+                                object:clearAttachedAnimSprite()
+                                break
+                            end
                         end
-                        if props:Is(IsoFlagType.canPathW) then
-                            props:UnSet(IsoFlagType.canPathW)
-                        end
-                        
-                        props:UnSet(IsoFlagType.WindowN)
-                        props:UnSet(IsoFlagType.WindowW)
                     end
-                end
-            else
-                -- restore window behavior
-                if instanceof(object, "IsoWindow") then
-                    if not props:Is(IsoFlagType.makeWindowInvincible) then
-                        if props:Is(IsoFlagType.cutN) then
-                            props:Set(IsoFlagType.canPathN)
-                            props:Set(IsoFlagType.WindowN)
-                        elseif props:Is(IsoFlagType.cutW) then
-                            props:Set(IsoFlagType.canPathW)
-                            props:Set(IsoFlagType.WindowW)
+
+                    local spriteName = sprite:getName()
+                    if spriteMap[spriteName] and square:isOutside() then 
+                        local args = {x=x, y=y, z=z, otype=spriteMap[spriteName]}
+                        sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectAdd', args)
+                        break
+                    end
+
+                    if props:has("CustomName") then
+                        local customName = props:get("CustomName")
+                        if customNameMap[customName] and square:isOutside() then 
+                            local args = {x=x, y=y, z=z, otype=customNameMap[customName]}
+                            sendClientCommand(getSpecificPlayer(0), 'Commands', 'ObjectAdd', args)
+                            break
+                        end
+                    end
+
+                    -- this makes npcs disregard windows for pathfinding
+                    -- unfortunately will impact zombies aswell
+                    if instanceof(object, "IsoWindow") then
+                        if not props:has(IsoFlagType.makeWindowInvincible) then
+                            if props:has(IsoFlagType.canPathN) then
+                                props:unset(IsoFlagType.canPathN)
+                            end
+                            if props:has(IsoFlagType.canPathW) then
+                                props:unset(IsoFlagType.canPathW)
+                            end
+                            
+                            props:unset(IsoFlagType.WindowN)
+                            props:unset(IsoFlagType.WindowW)
+                        end
+                    end
+                else
+                    -- restore window behavior
+                    if instanceof(object, "IsoWindow") then
+                        if not props:has(IsoFlagType.makeWindowInvincible) then
+                            if props:has(IsoFlagType.cutN) then
+                                props:set(IsoFlagType.canPathN)
+                                props:set(IsoFlagType.WindowN)
+                            elseif props:has(IsoFlagType.cutW) then
+                                props:set(IsoFlagType.canPathW)
+                                props:set(IsoFlagType.WindowW)
+                            end
                         end
                     end
                 end

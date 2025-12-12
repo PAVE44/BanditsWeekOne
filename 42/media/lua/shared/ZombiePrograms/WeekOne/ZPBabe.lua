@@ -113,26 +113,24 @@ ZombiePrograms.Babe.Main = function(bandit)
 
         if closestEnemy.dist < 8 then
             walkType = "WalkAim"
-            table.insert(tasks, BanditUtils.GetMoveTask(endurance, closestEnemy.x, closestEnemy.y, closestEnemy.z, walkType, closestEnemy.dist))
+            table.insert(tasks, BanditUtils.GetMoveTaskTarget(endurance, closestEnemy.x, closestEnemy.y, closestEnemy.z, closestEnemy.id, closestEnemy.player, walkType, closestEnemy.dist))
+            --table.insert(tasks, BanditUtils.GetMoveTask(endurance, closestEnemy.x, closestEnemy.y, closestEnemy.z, walkType, closestEnemy.dist))
             return {status=true, next="Main", tasks=tasks}
         end
     end
     
     -- follow the player.
-    local id = BanditUtils.GetCharacterID(bandit)
 
-    local theta = master:getDirectionAngle() * 0.0174533
-    local lx = 5 * math.cos(theta)
-    local ly = 5 * math.sin(theta)
 
-    local dx = master:getX() + lx + ((math.abs(id) % 12) - 6) / 2
-    local dy = master:getY() + ly + ((math.abs(id) % 12) - 6) / 2
+    local dx = master:getX()
+    local dy = master:getY()
     local dz = master:getZ()
+    local did = BanditUtils.GetCharacterID(master)
 
     local distTarget = BanditUtils.DistTo(bandit:getX(), bandit:getY(), dx, dy)
 
     if distTarget > 1 then
-        table.insert(tasks, BanditUtils.GetMoveTask(endurance, dx, dy, dz, walkType, distTarget, false))
+        table.insert(tasks, BanditUtils.GetMoveTaskTarget(endurance, dx, dy, dz, did, true, walkType, distTarget))
         return {status=true, next="Main", tasks=tasks}
     else
 
