@@ -30,6 +30,7 @@ drunkard.setup = function()
     stats:set(CharacterStat.THIRST, 90)
     stats:set(CharacterStat.FOOD_SICKNESS, 25)
 
+    local bodyDamage = player:getBodyDamage()
     local head = bodyDamage:getBodyPart(BodyPartType.Head)
     head:setAdditionalPain(92)
 

@@ -494,6 +494,7 @@ end
 
 -- params: time
 BWOEvents.FadeOut = function(params)
+    if true then return end 
     local player = getSpecificPlayer(0)
     if not player then return end
 
@@ -506,6 +507,7 @@ end
 
 -- params: time
 BWOEvents.FadeIn = function(params)
+    if true then return end 
     local player = getSpecificPlayer(0)
     if not player then return end
 

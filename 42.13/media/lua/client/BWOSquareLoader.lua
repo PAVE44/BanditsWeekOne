@@ -764,7 +764,8 @@ local processVehicles = function()
                             if bandit then
                                 local inventory = bandit:getInventory()
                                 inventory:AddItem(key)
-                                Bandit.UpdateItemsToSpawnAtDeath(bandit)
+                                local brain = BanditBrain.Get(bandit)
+                                Bandit.UpdateItemsToSpawnAtDeath(bandit, brain)
                             end
                         end
                     end

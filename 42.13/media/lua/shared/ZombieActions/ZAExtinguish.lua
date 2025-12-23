@@ -89,7 +89,6 @@ ZombieActions.Extinguish.onComplete = function(zombie, task)
 
         if BWOScheduler.Anarchy.Transactions then
             BWOPlayer.Earn(zombie, 20)
-            Bandit.UpdateItemsToSpawnAtDeath(zombie)
         end
     end
     if task.item then

@@ -62,7 +62,6 @@ ZombiePrograms.Gardener.Main = function(bandit)
     if npiCnt == 0 then
         local item = BanditCompatibility.InstanceItem("Bandits.WateringCan")
         inventory:AddItem(item)
-        Bandit.UpdateItemsToSpawnAtDeath(bandit)
     end
     
     -- symptoms

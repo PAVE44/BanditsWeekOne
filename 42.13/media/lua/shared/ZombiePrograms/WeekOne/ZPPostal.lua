@@ -66,7 +66,6 @@ ZombiePrograms.Postal.Main = function(bandit)
             local item = BanditCompatibility.InstanceItem("Base.Newspaper")
             inventory:AddItem(item)
         end
-        Bandit.UpdateItemsToSpawnAtDeath(bandit)
     end
     
     -- symptoms

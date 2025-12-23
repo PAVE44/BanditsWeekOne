@@ -44,7 +44,6 @@ ZombieActions.RemoveObject.onComplete = function(zombie, task)
 
                     if BWOScheduler.Anarchy.Transactions then
                         BWOPlayer.Earn(zombie, 1)
-                        Bandit.UpdateItemsToSpawnAtDeath(zombie)
                     end
 
                     break
