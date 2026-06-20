@@ -145,7 +145,7 @@ end
 
 accident.schedule = {
     [-3] = {
-        [0] = {"Start", {}},
+        [1] = {"Start", {}},
         [4] = {"SetupNukes", {}},
         [5] = {"SetupPlaceEvents", {}},
     },

@@ -48,8 +48,8 @@ end
 
 thebandit.schedule = {
     [84] = {
-        [0] = {"Start", {}},
-        [1] = {"StartDay", {day="monday"}},
+        [1] = {"Start", {}},
+        [2] = {"StartDay", {day="monday"}},
         [3] = {"BuildingHome", {addRadio=false}},
         [4] = {"SetupNukes", {}},
         [5] = {"SetupPlaceEvents", {}},

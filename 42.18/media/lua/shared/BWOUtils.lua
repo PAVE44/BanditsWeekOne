@@ -147,3 +147,26 @@ function BanditUtils.AddPriceInflation(price)
     local day = math.floor(wa / 24)
     return math.floor(price * ((1 + SandboxVars.BanditsWeekOne.PriceInflation / 100) ^ day))
 end
+
+function BanditUtils.GetSeatPosition(vehicle, seat)
+    local ret = {}
+    if not vehicle:isSeatInstalled(seat) then
+        return false
+    end
+
+    if vehicle:isSeatOccupied(seat) then
+        return false
+    end
+
+    local posn = vehicle:getPassengerPosition(seat, "outside")
+    if not posn then return false end
+
+    local area = vehicle:getScript():getAreaById(posn:getArea())
+    if not area then return false end
+
+    local vector = vehicle:areaPositionWorld4PlayerInteract(area)
+
+    ret.x, ret.y, ret.z = vector:getX(), vector:getY(), 0
+    print ("Vehicle area: x: " .. ret.x .. " y: " .. ret.y)
+    return ret
+end

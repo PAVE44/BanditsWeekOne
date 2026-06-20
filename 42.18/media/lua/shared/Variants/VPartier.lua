@@ -32,8 +32,8 @@ end
 
 partier.schedule = {
     [-7] = {
-        [0] = {"Start", {party=true}},
-        [1] = {"BuildingHome", {addRadio=true, party=true}},
+        [1] = {"Start", {party=true}},
+        [2] = {"BuildingHome", {addRadio=true, party=true}},
         [4] = {"SetupNukes", {}},
         [5] = {"SetupPlaceEvents", {}},
         -- DIFF

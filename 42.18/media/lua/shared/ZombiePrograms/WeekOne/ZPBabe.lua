@@ -46,14 +46,20 @@ ZombiePrograms.Babe.Main = function(bandit)
    
     -- fake npc in vehicle 
     if vehicle and vehicle:isDriver(master) then
-        bandit:addLineChatElement("Wait for me!", 0, 1, 0)
-        if dist < 3.5 then
-            local brain = BanditBrain.Get(bandit)
-            
-            local seat = 1
-            if vehicle:isSeatInstalled(seat) and not vehicle:isSeatOccupied(seat) then
-                brain.inVehicle = true
+        local seat = 1
+        local pos = BanditUtils.GetSeatPosition(vehicle, seat)
+        if pos then
 
+            local bx, by, bz = bandit:getX(), bandit:getY(), bandit:getZ()
+            local dist = BanditUtils.DistTo(bx, by, pos.x, pos.y)
+
+            if dist < 1 then
+                local brain = BanditBrain.Get(bandit)
+                brain.vehicleId = vehicle:getId()
+                Bandit.ForceSyncPart(bandit, brain)
+                vehicle:getModData().passengerId = brain.id
+                bandit:addLineChatElement("I'm in!", 0, 1, 0)
+                --[[
                 local npcAesthetics = SurvivorFactory.CreateSurvivor(SurvivorType.Neutral, false)
                 npcAesthetics:setForename("Driver")
                 npcAesthetics:setSurname("Driver")
@@ -80,22 +86,16 @@ ZombiePrograms.Babe.Main = function(bandit)
                     driver:setVehicle(vehicle)
                     driver:setCollidable(false)
                 end
+                ]]
 
                 master:playSound("VehicleDoorOpen")
                 bandit:removeFromSquare()
                 bandit:removeFromWorld()
-                
+            else
+                bandit:addLineChatElement("Wait for me!", 0, 1, 0)
+                table.insert(tasks, BanditUtils.GetMoveTask(endurance, pos.x, pos.y, pos.z, walkType, dist))
+                return {status=true, next="Main", tasks=tasks}
             end
-        end
-    else
-        local bvehicle = bandit:getVehicle()
-        if bvehicle then
-            print ("EXIT VEH")
-            -- After exiting the vehicle, the companion is in the ongroundstate.
-            -- Additionally he is under the car. This is fixed in BanditUpdate loop. 
-            bandit:setVariable("BanditImmediateAnim", true)
-            bvehicle:exit(bandit)
-            bandit:playSound("VehicleDoorClose")
         end
     end
 

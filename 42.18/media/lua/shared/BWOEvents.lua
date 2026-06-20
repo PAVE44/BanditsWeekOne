@@ -183,7 +183,7 @@ local explode = function(x, y, z)
     ]]
 
     if square:getChunk() then
-        local trap = IsoTrap.new(player, item, cell, square)
+        local trap = IsoTrap.new(attacker, item, cell, square)
         trap:triggerExplosion(false)
     end
 
@@ -865,6 +865,7 @@ BWOEvents.Start = function(params)
     if not player then return end
 
     -- clear initial zeds before sandbox adjustment kicks in
+    --[[
     local zombieList = BanditZombie.CacheLightZ
     for id, z in pairs(zombieList) do
         local zombie = BanditZombie.GetInstanceById(z.id)
@@ -874,7 +875,7 @@ BWOEvents.Start = function(params)
             zombie:removeFromSquare()
             zombie:removeFromWorld()
         end
-    end
+    end]]
 
     local profession = player:getDescriptor():getCharacterProfession()
     local cell = getCell()
@@ -1941,7 +1942,7 @@ BWOEvents.BuildingParty = function(params)
     if fridge then
         local container = fridge:getContainerByType("fridge")
         if container then
-            for i=1, 20 + ZombRand(10) do
+            for i=1, 12 + ZombRand(10) do
                 local item = container:AddItem("Base.BeerBottle")
             end
         end

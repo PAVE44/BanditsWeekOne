@@ -41,12 +41,12 @@ end
 
 moneygrab.schedule = {
     [-7] = {
-        [0] = {"Start", {party=true}},
-        [1] = {"BuildingHome", {}},
-        [2] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=35, intensity=10}},
-        [3] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=45, intensity=10}},
-        [4] = {"SetupNukes", {}},
-        [5] = {"SetupPlaceEvents", {}},
+        [1] = {"Start", {party=true}},
+        [2] = {"BuildingHome", {}},
+        [3] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=35, intensity=10}},
+        [4] = {"SpawnGroup", {name="Criminals", cid=Bandit.clanMap.CriminalBlack, program="Bandit", d=45, intensity=10}},
+        [5] = {"SetupNukes", {}},
+        [6] = {"SetupPlaceEvents", {}},
     },
     [0] = {
         [1] = {"StartDay", {day="friday"}},

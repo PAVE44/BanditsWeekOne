@@ -70,16 +70,7 @@ ZombiePrograms.Shahid.Main = function(bandit)
 
     if closestPlayer.x and closestPlayer.y and closestPlayer.z then
         
-        -- calculate random escape direction
-        local deltaX = 100 + ZombRand(100)
-        local deltaY = 100 + ZombRand(100)
-
-        local rx = ZombRand(2)
-        local ry = ZombRand(2)
-        if rx == 1 then deltaX = -deltaX end
-        if ry == 1 then deltaY = -deltaY end
-
-        table.insert(tasks, BanditUtils.GetMoveTask(endurance, closestPlayer.x+deltaX, closestPlayer.y+deltaY, 0, walkType, 12, false))
+        table.insert(tasks, BanditUtils.GetMoveTask(endurance, closestPlayer.x, closestPlayer.y, closestPlayer.z, walkType, 12, false))
         return {status=true, next="Main", tasks=tasks}
     end
     return {status=true, next="Main", tasks=tasks}

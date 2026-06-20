@@ -19,9 +19,9 @@ end
 
 arson.schedule = {
     [-5] = {
-        [0]   = {"Start"},
-        [1]   = {"Arson", {home=true}},
-        [2]   = {"BuildingHome", {}},
+        [1]   = {"Start"},
+        [2]   = {"Arson", {home=true}},
+        [3]   = {"BuildingHome", {}},
     },
     [0] = {
         [1] = {"StartDay", {day="friday"}},

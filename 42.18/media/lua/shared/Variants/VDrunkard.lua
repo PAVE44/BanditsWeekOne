@@ -51,8 +51,8 @@ end
 
 drunkard.schedule = {
     [0] = {
-        [0] = {"Start", {}},
-        [1] = {"StartDay", {day="friday"}},
+        [1] = {"Start", {}},
+        [2] = {"StartDay", {day="friday"}},
         [3] = {"BuildingHome", {addRadio=true}},
         [4] = {"SetupNukes", {}},
         [5] = {"SetupPlaceEvents", {}},

@@ -381,6 +381,25 @@ local onTimedActionPerform = function(data)
         return
     end
 
+    -- npc exit vehicle
+    if action == "ISExitVehicle" then
+        local vehicle = data.vehicle
+        local passengerId = vehicle:getModData().passengerId
+        if passengerId then
+            local gmdBrain = GetBanditClusterData(passengerId)
+            if gmdBrain[passengerId] then
+                local seat = 1
+                local pos = BanditUtils.GetSeatPosition(vehicle, seat)
+                if pos then
+                    gmdBrain[passengerId].bornCoords = {x = pos.x, y = pos.y, z = pos.z}
+                    gmdBrain[passengerId].vehicleId = nil
+                    sendClientCommand(character, 'Spawner', 'Restore', gmdBrain[passengerId])
+                    vehicle:getModData().passengerId = nil
+                end
+            end
+        end
+    end
+
     -- fuel
     if action == "ISRefuelFromGasPump" then
         if data.tankStart and data.tankTarget then
@@ -886,6 +905,7 @@ local everyOneMinute = function()
 
 end 
 
+--[[
 local function onExitVehicle(character)
     if not instanceof(character, "IsoPlayer") then return end
 
@@ -963,7 +983,7 @@ local function onExitVehicle(character)
         end
     end
 end
-
+]]
 
 LuaEventManager.AddEvent("OnFitnessActionExeLooped")
 LuaEventManager.AddEvent("OnInventoryTransferActionPerform")
@@ -981,7 +1001,7 @@ Events.OnPlayerDeath.Add(onPlayerDeath)
 Events.OnWeaponSwing.Add(onWeaponSwing)
 Events.EveryHours.Add(everyHours)
 Events.EveryOneMinute.Add(everyOneMinute)
-Events.OnExitVehicle.Add(onExitVehicle)
+-- Events.OnExitVehicle.Add(onExitVehicle)
 
 
 
